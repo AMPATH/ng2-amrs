@@ -227,7 +227,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     this.loadPatientList(this.params);
   }
 
-  public goTopatientInfo(patientUuid) {
+  public goTopatientInfo(patientUuid: string) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
@@ -240,23 +240,29 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public addExtraColumns(indicators: Array<any>) {
     const extraColumns = {
-      location: "Location",
-      enrollment_date: "Enrollment Date",
-      arv_first_regimen_start_date: "ARVs Initial Start Date",
-      cur_regimen_arv_start_date: "Current ARV Regimen Start Date (edited)",
-      cur_arv_line: "Current ARV Line (edited)",
-      cur_arv_meds: "Current ARV Regimen",
-      vl_1: "Viral Load",
-      vl_1_date: "Viral Load Date",
-      has_pending_vl_test: "Pending Viral Load Test",
-      phone_number: "Phone Number",
-      last_appointment: "Latest Appointment",
-      latest_rtc_date: "Latest RTC Date",
-      latest_vl: "Latest VL",
-      latest_vl_date: "Latest VL Date",
-      previous_vl: "Previous VL",
-      previous_vl_date: "Previous VL Date",
-      nearest_center: "Nearest Center",
+      location: 'Location',
+      enrollment_date: 'Enrollment Date',
+      arv_first_regimen_start_date: 'ARVs Initial Start Date',
+      cur_regimen_arv_start_date: 'Current ARV Regimen Start Date (edited)',
+      cur_arv_line: 'Current ARV Line (edited)',
+      cur_arv_meds: 'Current ARV Regimen',
+      vl_1: 'Viral Load',
+      vl_1_date: 'Viral Load Date',
+      has_pending_vl_test: 'Pending Viral Load Test',
+      phone_number: 'Phone Number',
+      last_appointment: 'Latest Appointment',
+      latest_rtc_date: 'Latest RTC Date',
+      latest_vl: 'Latest VL',
+      latest_vl_date: 'Latest VL Date',
+      previous_vl: 'Previous VL',
+      previous_vl_date: 'Previous VL Date',
+      ipt_start_date: 'IPT Start Date',
+      ipt_completion_date: 'IPT Completion Date',
+      ipt_stop_date: 'IPT Stop Date',
+      discordant_status: 'Discordant Status',
+      tb_screening_date: 'TB Screening Date',
+      tb_screening_result: 'TB Screening Result',
+      nearest_center: 'Nearest Center'
     };
 
     // tslint:disable-next-line
