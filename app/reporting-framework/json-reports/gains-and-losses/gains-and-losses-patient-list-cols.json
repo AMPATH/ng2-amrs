@@ -47,6 +47,36 @@
         "field": "previous_vl_date"
       },
       {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
+      },
+      {
         "headerName": "Transfer Out Date",
         "width": 150,
         "field": "transfer_out_date"
@@ -114,6 +144,36 @@
         "headerName": "Previous VL Date",
         "width": 150,
         "field": "previous_vl_date"
+      },
+      {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
       },
       {
         "headerName": "Days since LTFU",
@@ -188,6 +248,36 @@
         "headerName": "Previous VL Date",
         "width": 150,
         "field": "previous_vl_date"
+      },
+      {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
       },
       {
         "headerName": "Days since LTFU",
@@ -269,6 +359,36 @@
         "field": "previous_vl_date"
       },
       {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -326,6 +446,36 @@
         "headerName": "Previous VL Date",
         "width": 150,
         "field": "previous_vl_date"
+      },
+      {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
       },
       {
         "headerName": "Days since RTC",
@@ -427,6 +577,36 @@
         "field": "previous_vl_date"
       },
       {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -486,6 +666,36 @@
         "field": "previous_vl_date"
       },
       {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
+      },
+      {
         "headerName": "Days since RTC",
         "width": 150,
         "field": "days_since_rtc"
@@ -543,6 +753,36 @@
         "headerName": "Previous VL Date",
         "width": 150,
         "field": "previous_vl_date"
+      },
+      {
+        "headerName": "IPT Start Date",
+        "width": 150,
+        "field": "ipt_start_date"
+      },
+      {
+        "headerName": "IPT Completion Date",
+        "width": 150,
+        "field": "ipt_completion_date"
+      },
+      {
+        "headerName": "IPT Stop Date",
+        "width": 150,
+        "field": "ipt_stop_date"
+      },
+      {
+        "headerName": "Discordant Status",
+        "width": 150,
+        "field": "discordant_status"
+      },
+      {
+        "headerName": "TB Screening Date",
+        "width": 150,
+        "field": "tb_screening_date"
+      },
+      {
+        "headerName": "TB Screening Result",
+        "width": 150,
+        "field": "tb_screening_result"
       },
       {
         "headerName": "Days since RTC",

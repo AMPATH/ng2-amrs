@@ -160,6 +160,120 @@
     },
     {
       "type": "simple_column",
+      "alias": "ipt_start_date",
+      "column": "date_format(fh.ipt_start_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ipt_completion_date",
+      "column": "date_format(fh.ipt_completion_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ipt_stop_date",
+      "column": "date_format(fh.ipt_stop_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "discordant_status",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.discordant_status = 1",
+            "value": "DISCORDANT COUPLE"
+          },
+          {
+            "condition": "fh.discordant_status = 2",
+            "value": "NOT A DISCORDANT COUPLE"
+          },
+          {
+            "condition": "fh.discordant_status = 3",
+            "value": "UNKNOWN"
+          },
+          {
+            "condition": "fh.discordant_status = 4",
+            "value": "NOT APPLICABLE"
+          },
+          {
+            "condition": "fh.discordant_status = 5",
+            "value": "CONCORDANT COUPLE POSITIVE"
+          },
+          {
+            "condition": "fh.discordant_status = 6",
+            "value": "CONCORDANT COUPLE NEGATIVE"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screening_date",
+      "column": "date_format(fh.tb_screening_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screening_result",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.tb_screening_result = 1107",
+            "value": "NONE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6971",
+            "value": "POSSIBLE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 1118",
+            "value": "NOT DONE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6176",
+            "value": "CURRENTLY ON TUBERCULOSIS TREATMENT"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6137",
+            "value": "CONFIRMED"
+          },
+          {
+            "condition": "fh.tb_screening_result = 656",
+            "value": "ISONIAZID"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10678",
+            "value": "NO SIGNS OR SYMPTOMS OF DISEASE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6621",
+            "value": "NOT ASSESSED"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10767",
+            "value": "ON TREATMENT FOR DISEASE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10922",
+            "value": "ISONIAZID PREVENTIVE TREATMENT PROGRAM"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10974",
+            "value": "INH PROPHYLAXIS"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
       "alias": "nearest_center",
       "column": "pa.address3"
     }
