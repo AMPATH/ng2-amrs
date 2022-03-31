@@ -45,6 +45,14 @@
     },
     {
       "type": "derived_column",
+      "alias": "appointment_today_came_early",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(appointment_today_came_early)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "scheduled_visit_today",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -334,18 +342,18 @@
     },
     {
       "type": "derived_column",
-      "alias": "ltfu_outcome_total_today",
+      "alias": "ltfu_cumulative_outcome_total_today",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "sum(ltfu_outcome_total_today)"
+        "expression": "sum(ltfu_cumulative_outcome_total_today)"
       }
     },
     {
       "type": "derived_column",
-      "alias": "ltfu_death_today",
+      "alias": "ltfu_dead_today",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "sum(ltfu_death_today)"
+        "expression": "sum(ltfu_dead_today)"
       }
     },
     {
@@ -366,10 +374,10 @@
     },
     {
       "type": "derived_column",
-      "alias": "defaulters_today",
+      "alias": "defaulters_total_today",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "sum(defaulters_today)"
+        "expression": "sum(defaulters_total_today)"
       }
     },
     {
@@ -382,18 +390,131 @@
     },
     {
       "type": "derived_column",
-      "alias": "dead_today",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "sum(dead_today)"
-      }
-    },
-    {
-      "type": "derived_column",
       "alias": "on_dc_today",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "sum(on_dc_today)"
+      }
+    },
+
+    {
+      "type": "derived_column",
+      "alias": "is_ltfu_after_sep_total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(is_ltfu_after_sep_total)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_ltfu_after_sep_not_resolved",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(is_ltfu_after_sep_not_resolved)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "missed_appnts_total_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(missed_appnts_total_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "newly_ltfu_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(newly_ltfu_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "missed_brought_back_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(missed_brought_back_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "missed_other_outcomes_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(missed_other_outcomes_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_total_outcome_cumulative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(ltfu_total_outcome_cumulative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_active_cumulative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(ltfu_active_cumulative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_transfer_out_cumulative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(ltfu_transfer_out_cumulative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_dead_cumulative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(ltfu_dead_cumulative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "med_ltfus_outcomes_cumulative",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(med_ltfus_outcomes_cumulative)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "med_ltfus_outcomes_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(med_ltfus_outcomes_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "med_missed_outcome_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(med_missed_outcome_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "med_missed_total_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(med_missed_total_today)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "is_med_ltfu_after_sep19_unresolved",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(is_med_ltfu_after_sep19_unresolved)"
       }
     }
   ],

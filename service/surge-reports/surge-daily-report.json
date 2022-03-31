@@ -22,164 +22,29 @@
         "indicator": "appointment_today"
       },
       {
+        "label": "Scheduled today came early",
+        "description": "Patients scheduled today but came early",
+        "indicator": "appointment_today_came_early"
+      },
+      {
         "label": "Honored visit",
-        "description": "scheduled patients who came for visits today",
+        "description": "Came the day they were scheduled",
         "indicator": "scheduled_visit_today"
       },
       {
         "label": "Unscheduled early",
-        "description": "Patients who came earlier than their rtc date",
+        "description": "Scheduled after today but came today",
         "indicator": "early_appointment_today"
       },
       {
         "label": "Unscheduled late",
-        "description": "Patients who came after their rtc date",
+        "description": "Missed their scheduled date but came today",
         "indicator": "late_appointment_today"
       },
       {
-        "label": "Missed appointments",
+        "label": "Has not returned",
         "description": "Patients who missed their appointments today",
         "indicator": "missed_appointment_today"
-      }
-    ]
-  },
-  {
-    "sectionTitle": "Client Disengagements",
-    "indicators": [
-      {
-        "label": "All defaulters as of today",
-        "description": "All defaulters as of today",
-        "indicator": "defaulters_today"
-      },
-      {
-        "label": "People who became LTFU today",
-        "description": "People who became LTFU today",
-        "indicator": "newly_ltfu_today"
-      },
-      {
-        "label": "Peole reported dead today",
-        "description": "Peole reported dead today",
-        "indicator": "dead_today"
-      }
-    ]
-  },
-  {
-    "sectionTitle": "LTFU Outcomes today(Surge LTFUs)",
-    "indicators": [
-      {
-        "label": "Total Otcomes",
-        "description": "surge LTFUs brought back, transfered out or those who are confirmed dead today",
-        "indicator": "ltfu_outcome_total_today"
-      },
-      {
-        "label": "Brought To Care ",
-        "description": "Surge LTFUs who were brought back to care today",
-        "indicator": "ltfu_active_today"
-      },
-      {
-        "label": "Reported transfered out",
-        "description": "Surge LTFUs that have been transfered to another clinic today",
-        "indicator": "ltfu_transfer_out_today"
-      },
-      {
-        "label": "Reported dead",
-        "description": "Surge LTFUs that are confirmed dead today",
-        "indicator": "ltfu_death_today"
-      }
-    ]
-  },
-  {
-    "sectionTitle": "Viral Load today",
-    "indicators": [
-      {
-        "label": "Active and Eligible for VL",
-        "description": "Active and Eligible for VL this week",
-        "indicator": "due_for_vl_today_active"
-      },
-      {
-        "label": "Scheduled and Eligible for VL",
-        "description": "Sheduled and Due for VL",
-        "indicator": "scheduled_today_and_due_for_vl"
-      },
-      {
-        "label": "Unsheduled and Eligible for VL",
-        "description": "Unsheduled and Due for VL",
-        "indicator": "unscheduled_today_and_due_for_vl"
-      },
-      {
-        "label": "Eligible for VL with VL order",
-        "description": "Eligible for VL with VL order",
-        "indicator": "due_for_vl_today_has_vl_order"
-      },
-      {
-        "label": "Eligible for VL without VL order",
-        "description": "Eligible for VL without VL order",
-        "indicator": "due_for_vl_today_dont_have_order"
-      },
-      {
-        "label": "VL resulted this week",
-        "description": "VL resulted this week",
-        "indicator": "has_vl_today"
-      },
-      {
-        "label": "Has VL and Suppressed cumulative (<400 copies)",
-        "description": "Has VL and Suppressed cumulative",
-        "indicator": "is_suppressed_active"
-      },
-      {
-        "label": "Has VL and Unsuppressed cumulative (>400 copies)",
-        "description": "Has VL and Unsuppressed cumulative",
-        "indicator": "is_unsuppressed_active"
-      }
-    ]
-  },
-  {
-    "sectionTitle": "Differentiated Care(DC)",
-    "indicators": [
-      {
-        "label": "Active on DC as of this week",
-        "description": "Active on DC as of this week",
-        "indicator": "on_dc_today"
-      },
-      {
-        "label": "DC eligible total (on DC and those not on DC)",
-        "description": "DC eligible as of this week",
-        "indicator": "elligible_total"
-      },
-      {
-        "label": "DC eligible and on dc",
-        "description": "DC eligible as of this week",
-        "indicator": "eligible_and_on_dc"
-      },
-      {
-        "label": "DC eligible and not dc",
-        "description": "DC eligible as of this week",
-        "indicator": "eligible_not_on_dc"
-      },
-      {
-        "label": "DC eligible and not on dc scheduled",
-        "description": "DC eligible as of this week",
-        "indicator": "eligible_not_on_dc_and_appointment_today"
-      },
-      {
-        "label": "DC eligible and not on dc unscheduled",
-        "description": "DC eligible as of this week",
-        "indicator": "eligible_not_on_dc_and_unscheduled_today"
-      },
-      {
-        "label": "DC eligible and on dc scheduled",
-        "description": "DC eligible as of this week",
-        "indicator": "eligible_and_on_dc_and_appointment_today"
-      },
-      {
-        "label": "DC eligible and on dc unscheduled",
-        "description": "DC eligible as of this week",
-        "indicator": "eligible_and_on_dc_and_unscheduled_today"
-      },
-      {
-        "label": "Enrolled to DC this week",
-        "description": "Enrolled to DC this week",
-        "indicator": "started_dc_today"
       }
     ]
   },
@@ -198,7 +63,7 @@
       },
       {
         "label": "ART revisit today",
-        "description": "ART revisit today",
+        "description": "ART revisit today (Includes second visits and normal returnees)",
         "indicator": "art_revisit_today"
       },
       {
@@ -208,7 +73,7 @@
       },
       {
         "label": "Transfer out today",
-        "description": "Transfer out today",
+        "description": "Transferred out to another facility today",
         "indicator": "transfer_out_today"
       }
     ]
@@ -244,17 +109,112 @@
     ]
   },
   {
-    "sectionTitle": "Interventions",
+    "sectionTitle": "Client Disengagements",
     "indicators": [
       {
-        "label": "Total interventions",
-        "description": "Pinterventions",
-        "indicator": "interventions"
+        "label": "Cumulative LTFUs (since October 2020) with outcomes",
+        "description": "All lost patients since october 2020 with their outcomes today (BTC, TO, Dead or still LTFU)",
+        "indicator": "is_ltfu_after_sep_total"
       },
       {
-        "label": "Intervention done today",
-        "description": "intervention done today",
-        "indicator": "intervention_done_today"
+        "label": "Target to bring back (Unresolved LTFUs as from October 2020)",
+        "description": "All LTFUs since october 2020 without outcomes",
+        "indicator": "is_ltfu_after_sep_not_resolved"
+      },
+      {
+        "label": "Medication refills LTFUs",
+        "description": "Those defaulted their medication refill date for more than 28 days",
+        "indicator": "is_med_ltfu_after_sep19_unresolved"
+      },
+      {
+        "label": "Missed appointments (0 - 28 days)",
+        "description": "Missed appointments (0 - 28 days)",
+        "indicator": "missed_appnts_total_today"
+      },
+      {
+        "label": "Graduated to LTFUs today",
+        "description": "Those defaulted their clinical tca for more than 28 days today",
+        "indicator": "newly_ltfu_today"
+      },
+      {
+        "label": "Missed appointments outcomes today (BTC)",
+        "description": "Missed appointments outcomes today brought back",
+        "indicator": "missed_brought_back_today"
+      },
+      {
+        "label": "Missed appointments outcomes (dead, transfer out)",
+        "description": "Missed appointments outcomes today TO or Dead",
+        "indicator": "missed_other_outcomes_today"
+      },
+      {
+        "label": "Medication refill missed appointments (0 - 28 days)",
+        "description": "Those defaulted their medication refill date for 0 to 28 days",
+        "indicator": "med_missed_total_today"
+      },
+      {
+        "label": "Medication refill missed appointments outcomes today",
+        "description": "Medication refill missed appointments outcomes today",
+        "indicator": "med_missed_outcome_today"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "LTFU Outcomes today(Surge LTFUs)",
+    "indicators": [
+      {
+        "label": "Total Outcomes",
+        "description": "Target to bring back either brought back, transferred out or confirmed dead today",
+        "indicator": "ltfu_cumulative_outcome_total_today"
+      },
+      {
+        "label": "Brought To Care ",
+        "description": "Target to bring back brought back today",
+        "indicator": "ltfu_active_today"
+      },
+      {
+        "label": "Reported self transferred out",
+        "description": "Target to bring back0 confirmed transferred out today",
+        "indicator": "ltfu_transfer_out_today"
+      },
+      {
+        "label": "Reported dead",
+        "description": "Target to bring back confirmed dead today",
+        "indicator": "ltfu_dead_today"
+      },
+      {
+        "label": "Medication refill LTFUs outcomes today",
+        "description": "Medication refill LTFUs outcomes today ( BTC, TO or dead)",
+        "indicator": "med_ltfus_outcomes_today"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "LTFU Outcomes Cumulative(Surge LTFUs)",
+    "indicators": [
+      {
+        "label": "Cumulative Outcomes (brought back, self transfers and dead)",
+        "description": "Cumulative LTFUs with outcomes either brought back, self transfers or dead",
+        "indicator": "ltfu_total_outcome_cumulative"
+      },
+      {
+        "label": "Brought back to care cumulative",
+        "description": "Total Cumulative LTFUs who were brought back to care",
+        "indicator": "ltfu_active_cumulative"
+      },
+      {
+        "label": "Reported self transferred cumulative",
+        "description": "Total Cumulative LTFUs that have been reported self transferred",
+        "indicator": "ltfu_transfer_out_cumulative"
+      },
+      {
+        "label": "Reported dead cumulative",
+        "description": "Total Cumulative LTFUs that have been confirmed dead",
+        "indicator": "ltfu_dead_cumulative"
+      },
+      {
+        "label": "Medication refill LTFUs Cumulative outcomes",
+        "description": "Medication refill LTFUs Cumulative outcomes",
+        "indicator": "med_ltfus_outcomes_cumulative"
       }
     ]
   }

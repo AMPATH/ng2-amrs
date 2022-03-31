@@ -2,7 +2,9 @@ const Promise = require('bluebird');
 import { BaseMysqlReport } from '../../app/reporting-framework/base-mysql.report';
 import { PatientlistMysqlReport } from '../../app/reporting-framework/patientlist-mysql.report';
 const reportSections = require('../../service/surge-reports/surge-daily-report.json');
+const patientListCols = require('./surge-report-patientlist.json');
 var helpers = require('../../etl-helpers');
+const _ = require('lodash');
 export class SurgeDailyReportService {
   getAggregateReport(reportParams) {
     if (reportParams.locationUuids) {
@@ -28,6 +30,7 @@ export class SurgeDailyReportService {
   }
 
   getPatientListReport(reportParams) {
+    const that = this;
     let indicators = reportParams.indicators
       ? reportParams.indicators.split(',')
       : [];
@@ -40,7 +43,15 @@ export class SurgeDailyReportService {
     let report = new PatientlistMysqlReport('surgeDailyReport', reportParams);
     return new Promise(function (resolve, reject) {
       Promise.join(report.generatePatientListReport(indicators), (results) => {
-        results.results.results.forEach((element) => {
+        const patientListCols = that.getIndicatorPatientList(indicators);
+        let result = results.results;
+        results['results'] = {
+          results: result,
+          patientListCols: patientListCols
+        };
+        delete results['result'];
+
+        _.each(results.results, (element) => {
           if (element.arv_first_regimen_names) {
             element.arv_first_regimen_names = helpers.getARVNames(
               element.arv_first_regimen_names
@@ -61,5 +72,16 @@ export class SurgeDailyReportService {
         reject(errors);
       });
     });
+  }
+
+  getIndicatorPatientList(indicator) {
+    let patientList = [];
+    if (patientListCols.hasOwnProperty(indicator)) {
+      patientList = patientListCols[indicator].patientListCols;
+    } else {
+      patientList = patientListCols['general'].patientListCols;
+    }
+
+    return patientList;
   }
 }

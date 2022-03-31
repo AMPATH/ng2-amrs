@@ -1,0 +1,879 @@
+{
+  "transfer_out_today": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Transfer out date",
+        "width": 75,
+        "field": "transfer_out_date"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "is_ltfu_after_sep_total": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Transfer out date",
+        "width": 75,
+        "field": "transfer_out_date"
+      },
+      {
+        "headerName": "Death Date",
+        "width": 150,
+        "field": "death_date"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "is_ltfu_after_sep_not_resolved": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Phone outcome",
+        "width": 130,
+        "field": "phone_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "phone_encounter_datetime"
+      },
+      {
+        "headerName": "Phone trace count",
+        "width": 140,
+        "field": "home_outreach_count"
+      },
+      {
+        "headerName": "Home outcome",
+        "width": 150,
+        "field": "home_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "home_encounter_datetime"
+      },
+      {
+        "headerName": "Home trace count",
+        "width": 150,
+        "field": "phone_outreach_count"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "is_med_ltfu_after_sep19_unresolved": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Phone outcome",
+        "width": 130,
+        "field": "phone_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "phone_encounter_datetime"
+      },
+      {
+        "headerName": "Phone trace count",
+        "width": 140,
+        "field": "home_outreach_count"
+      },
+      {
+        "headerName": "Home outcome",
+        "width": 150,
+        "field": "home_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "home_encounter_datetime"
+      },
+      {
+        "headerName": "Home trace count",
+        "width": 150,
+        "field": "phone_outreach_count"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "missed_appnts_total_today": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Phone outcome",
+        "width": 130,
+        "field": "phone_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "phone_encounter_datetime"
+      },
+      {
+        "headerName": "Phone trace count",
+        "width": 140,
+        "field": "home_outreach_count"
+      },
+      {
+        "headerName": "Home outcome",
+        "width": 150,
+        "field": "home_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "home_encounter_datetime"
+      },
+      {
+        "headerName": "Home trace count",
+        "width": 150,
+        "field": "phone_outreach_count"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "newly_ltfu_today": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Phone outcome",
+        "width": 130,
+        "field": "phone_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "phone_encounter_datetime"
+      },
+      {
+        "headerName": "Phone trace count",
+        "width": 140,
+        "field": "home_outreach_count"
+      },
+      {
+        "headerName": "Home outcome",
+        "width": 150,
+        "field": "home_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "home_encounter_datetime"
+      },
+      {
+        "headerName": "Home trace count",
+        "width": 150,
+        "field": "phone_outreach_count"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "med_missed_total_today": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Phone outcome",
+        "width": 130,
+        "field": "phone_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "phone_encounter_datetime"
+      },
+      {
+        "headerName": "Phone trace count",
+        "width": 140,
+        "field": "home_outreach_count"
+      },
+      {
+        "headerName": "Home outcome",
+        "width": 150,
+        "field": "home_outreach_result"
+      },
+      {
+        "headerName": "Outcome date",
+        "width": 150,
+        "field": "home_encounter_datetime"
+      },
+      {
+        "headerName": "Home trace count",
+        "width": 150,
+        "field": "phone_outreach_count"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  },
+  "general": {
+    "patientListCols": [
+      {
+        "headerName": "Phone Number",
+        "width": 150,
+        "field": "phone_number"
+      },
+      {
+        "headerName": "Enrolment Date",
+        "width": 150,
+        "field": "enrollment_date"
+      },
+      {
+        "headerName": "Last Appointment",
+        "width": 200,
+        "field": "last_appointment"
+      },
+      {
+        "headerName": "Previous RTC Date",
+        "width": 150,
+        "field": "prev_rtc_date"
+      },
+      {
+        "headerName": "Latest RTC Date",
+        "width": 150,
+        "field": "latest_rtc_date"
+      },
+      {
+        "headerName": "Days since RTC",
+        "width": 140,
+        "field": "days_since_rtc_date"
+      },
+      {
+        "headerName": "Current Status",
+        "width": 150,
+        "field": "cur_status"
+      },
+      {
+        "headerName": "ARV first regimen",
+        "width": 200,
+        "field": "arv_first_regimen_names"
+      },
+      {
+        "headerName": "First ARV start date",
+        "width": 200,
+        "field": "arv_first_regimen_start_date"
+      },
+      {
+        "headerName": "Current Regimen",
+        "width": 200,
+        "field": "cur_meds"
+      },
+      {
+        "headerName": "Current ARV Line",
+        "width": 160,
+        "field": "cur_arv_line"
+      },
+      {
+        "headerName": "ARV Start Date",
+        "width": 150,
+        "field": "arv_start_date"
+      },
+      {
+        "headerName": "Latest VL",
+        "width": 80,
+        "field": "latest_vl"
+      },
+      {
+        "headerName": "Latest VL Date",
+        "width": 150,
+        "field": "latest_vl_date"
+      },
+      {
+        "headerName": "Previous VL",
+        "width": 75,
+        "field": "previous_vl"
+      },
+      {
+        "headerName": "Previous VL Date",
+        "width": 150,
+        "field": "previous_vl_date"
+      },
+      {
+        "headerName": "Nearest Center",
+        "width": 150,
+        "field": "nearest_center"
+      }
+    ]
+  }
+}

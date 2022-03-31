@@ -1,6 +1,7 @@
 import ReportProcessorHelpersService from '../../app/reporting-framework/report-processor-helpers.service';
 import { SurgeMultiDatasetPatientlistReport } from './surge-multi-dataset-patientlist.report';
 import { PatientlistMysqlReport } from '../../app/reporting-framework/patientlist-mysql.report';
+const patientListCols = require('./surge-report-patientlist.json');
 import moment from 'moment';
 
 const helpers = require('../../etl-helpers');
@@ -81,14 +82,27 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
     );
     return new Promise(function (resolve, reject) {
       Promise.join(report.generatePatientListReport(indicators), (results) => {
-        results.results.results.forEach((element) => {
+        const patientListCols = that.getIndicatorPatientList(indicators);
+        let result = results.results;
+        results['results'] = {
+          results: result,
+          patientListCols: patientListCols
+        };
+        delete results['result'];
+
+        _.each(results.results, (element) => {
+          if (element.arv_first_regimen_names) {
+            element.arv_first_regimen_names = helpers.getARVNames(
+              element.arv_first_regimen_names
+            );
+          }
+          if (element.cur_arv_meds_names) {
+            element.cur_arv_meds_names = helpers.getARVNames(
+              element.cur_arv_meds_names
+            );
+          }
           if (element.cur_meds) {
             element.cur_meds = helpers.getARVNames(element.cur_meds);
-          }
-          if (element.arv_first_regimen) {
-            element.arv_first_regimen = helpers.getARVNames(
-              element.arv_first_regimen
-            );
           }
         });
         resolve(results);
@@ -124,6 +138,17 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
           reject(err);
         });
     });
+  }
+
+  getIndicatorPatientList(indicator) {
+    let patientList = [];
+    if (patientListCols.hasOwnProperty(indicator)) {
+      patientList = patientListCols[indicator].patientListCols;
+    } else {
+      patientList = patientListCols['general'].patientListCols;
+    }
+
+    return patientList;
   }
 
   resolveLocationUuidsToName(uuids) {

@@ -21,6 +21,16 @@
   "columns": [
     {
       "type": "simple_column",
+      "alias": "age",
+      "column": "sdr.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "sdr.gender"
+    },
+    {
+      "type": "simple_column",
       "alias": "_date",
       "column": "sdr._date"
     },
@@ -50,16 +60,21 @@
       "column": "sdr.prev_clinical_rtc_date_hiv"
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "prev_rtc_date",
-      "column": "sdr.prev_rtc_date"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(sdr.prev_rtc_date, '%Y-%m-%d')"
+      }
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "rtc_date",
-      "column": "sdr.rtc_date"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(sdr.rtc_date, '%Y-%m-%d')"
+      }
     },
-
     {
       "type": "simple_column",
       "alias": "visit_today",
@@ -69,6 +84,11 @@
       "type": "simple_column",
       "alias": "appointment_today",
       "column": "sdr.appointment_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "appointment_today_came_early",
+      "column": "sdr.appointment_today_came_early"
     },
     {
       "type": "simple_column",
@@ -236,25 +256,28 @@
       "column": "sdr.arv_first_regimen_names"
     },
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "arv_first_regimen_start_date",
-      "column": "sdr.arv_first_regimen_start_date"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(sdr.arv_first_regimen_start_date, '%Y-%m-%d')"
+      }
     },
     {
-      "type": "simple_column",
-      "alias": "days_since_starting_arvs",
-      "column": "sdr.days_since_starting_arvs"
-    },
-    {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "enrollment_date",
-      "column": "sdr.enrollment_date"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(sdr.enrollment_date, '%Y-%m-%d')"
+      }
     },
-
     {
-      "type": "simple_column",
+      "type": "derived_column",
       "alias": "arv_start_date",
-      "column": "sdr.arv_start_date"
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(sdr.arv_start_date, '%Y-%m-%d')"
+      }
     },
     {
       "type": "simple_column",
@@ -306,22 +329,6 @@
       "alias": "tb_tx_start_date",
       "column": "sdr.tb_tx_start_date"
     },
-    {
-      "type": "simple_column",
-      "alias": "months_since_tb_tx_start_date",
-      "column": "sdr.months_since_tb_tx_start_date"
-    },
-    {
-      "type": "simple_column",
-      "alias": "prev_status",
-      "column": "sdr.prev_status"
-    },
-    {
-      "type": "simple_column",
-      "alias": "cur_status",
-      "column": "sdr.cur_status"
-    },
-
     {
       "type": "simple_column",
       "alias": "location_uuid",
@@ -454,27 +461,6 @@
     },
     {
       "type": "simple_column",
-      "alias": "arv_first_regimen_start_date",
-      "column": "sdr.arv_first_regimen_start_date"
-    },
-    {
-      "type": "simple_column",
-      "alias": "days_since_starting_arvs",
-      "column": "sdr.days_since_starting_arvs"
-    },
-    {
-      "type": "simple_column",
-      "alias": "enrollment_date",
-      "column": "sdr.enrollment_date"
-    },
-
-    {
-      "type": "simple_column",
-      "alias": "arv_start_date",
-      "column": "sdr.arv_start_date"
-    },
-    {
-      "type": "simple_column",
       "alias": "cur_arv_meds_names",
       "column": "sdr.cur_arv_meds_names"
     },
@@ -523,22 +509,6 @@
       "alias": "tb_tx_start_date",
       "column": "sdr.tb_tx_start_date"
     },
-    {
-      "type": "simple_column",
-      "alias": "months_since_tb_tx_start_date",
-      "column": "sdr.months_since_tb_tx_start_date"
-    },
-    {
-      "type": "simple_column",
-      "alias": "prev_status",
-      "column": "sdr.prev_status"
-    },
-    {
-      "type": "simple_column",
-      "alias": "cur_status",
-      "column": "sdr.cur_status"
-    },
-
     {
       "type": "simple_column",
       "alias": "location_uuid",
@@ -601,13 +571,13 @@
     },
     {
       "type": "simple_column",
-      "alias": "ltfu_outcome_total_today",
-      "column": "sdr.ltfu_outcome_total_today"
+      "alias": "ltfu_cumulative_outcome_total_today",
+      "column": "sdr.ltfu_cumulative_outcome_total_today"
     },
     {
       "type": "simple_column",
-      "alias": "ltfu_death_today",
-      "column": "sdr.ltfu_death_today"
+      "alias": "ltfu_dead_today",
+      "column": "sdr.ltfu_dead_today"
     },
     {
       "type": "simple_column",
@@ -621,8 +591,8 @@
     },
     {
       "type": "simple_column",
-      "alias": "defaulters_today",
-      "column": "sdr.defaulters_today"
+      "alias": "defaulters_total_today",
+      "column": "sdr.defaulters_total_today"
     },
     {
       "type": "simple_column",
@@ -638,6 +608,114 @@
       "type": "simple_column",
       "alias": "on_dc_today",
       "column": "sdr.on_dc_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_ltfu_after_sep_total",
+      "column": "sdr.is_ltfu_after_sep_total"
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_ltfu_after_sep_not_resolved",
+      "column": "sdr.is_ltfu_after_sep_not_resolved"
+    },
+    {
+      "type": "derived_column",
+      "alias": "missed_appnts_total_today",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(missed_appnts_total_today = 1 or defaulters_total_today = 1,1,0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "newly_ltfu_today",
+      "column": "sdr.newly_ltfu_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "missed_brought_back_today",
+      "column": "sdr.missed_brought_back_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "missed_other_outcomes_today",
+      "column": "sdr.missed_other_outcomes_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ltfu_total_outcome_cumulative",
+      "column": "sdr.ltfu_total_outcome_cumulative"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ltfu_active_cumulative",
+      "column": "sdr.ltfu_active_cumulative"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ltfu_transfer_out_cumulative",
+      "column": "sdr.ltfu_transfer_out_cumulative"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ltfu_dead_cumulative",
+      "column": "sdr.ltfu_dead_cumulative"
+    },
+    {
+      "type": "simple_column",
+      "alias": "med_ltfus_outcomes_cumulative",
+      "column": "sdr.med_ltfus_outcomes_cumulative"
+    },
+    {
+      "type": "simple_column",
+      "alias": "med_ltfus_outcomes_today",
+      "column": "sdr.med_ltfus_outcomes_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "med_missed_outcome_today",
+      "column": "sdr.med_missed_outcome_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "med_missed_total_today",
+      "column": "sdr.med_missed_total_today"
+    },
+    {
+      "type": "simple_column",
+      "alias": "is_med_ltfu_after_sep19_unresolved",
+      "column": "sdr.is_med_ltfu_after_sep19_unresolved"
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_outreach_result",
+      "column": "sdr.phone_outreach_result"
+    },
+    {
+      "type": "simple_column",
+      "alias": "home_outreach_result",
+      "column": "sdr.home_outreach_result"
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_encounter_datetime",
+      "column": "sdr.phone_encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "home_encounter_datetime",
+      "column": "sdr.home_encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "home_outreach_count",
+      "column": "sdr.home_outreach_count"
+    },
+    {
+      "type": "simple_column",
+      "alias": "phone_outreach_count",
+      "column": "sdr.phone_outreach_count"
     }
   ],
   "filters": {
