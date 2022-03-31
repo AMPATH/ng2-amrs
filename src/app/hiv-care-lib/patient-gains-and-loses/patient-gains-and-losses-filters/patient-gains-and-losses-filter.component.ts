@@ -29,8 +29,10 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
   @Input() public params: any;
   @Output() public filterSet = new EventEmitter();
   @Output() public filteReset = new EventEmitter();
+  @Output() public locationsSet = new EventEmitter();
   public selectedGender: any = [];
   public locationUuids: Array<string>;
+  public selectedlocationUuids: Array<string>;
   public isLoadingReport = false;
   public reportName = 'gains-and-losses-report';
   public errorObj = {
@@ -79,7 +81,8 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
         .format('YYYY-MM-DD'),
       startingMonth: Moment(this.monthString)
         .endOf('month')
-        .format('YYYY-MM-DD')
+        .format('YYYY-MM-DD'),
+      locationUuids: ''
     };
   }
 
@@ -116,5 +119,12 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
       };
     }
     return isValid;
+  }
+  public onLocationsSelected($event: any) {
+    this.selectedlocationUuids = $event.locations.map((l: any) => {
+      return l.value;
+    });
+
+    this.locationsSet.emit(this.selectedlocationUuids);
   }
 }

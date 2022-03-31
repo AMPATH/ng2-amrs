@@ -32,6 +32,12 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
         description: '',
         url: 'moh-412-report',
         icon: 'fa'
+      },
+      {
+        title: 'Patient Gains and Losses',
+        description: '',
+        url: 'patient-gains-and-losses',
+        icon: 'fa'
       }
     ];
   }
