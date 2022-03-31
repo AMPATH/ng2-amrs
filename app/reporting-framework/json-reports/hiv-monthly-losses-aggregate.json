@@ -24,6 +24,26 @@
     },
     {
       "type": "simple_column",
+      "alias": "start_month",
+      "column": "b.start_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_month",
+      "column": "b.end_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
       "alias": "location_id",
       "column": "b.location_id"
     },
@@ -69,10 +89,42 @@
     },
     {
       "type": "derived_column",
+      "alias": "dead_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.dead_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.dead_not_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "defaulter",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "SUM(b.defaulter)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.defaulter_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.defaulter_not_on_art)"
       }
     },
     {
@@ -85,6 +137,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "ltfu_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.ltfu_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.ltfu_not_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "transfer_out",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -93,10 +161,42 @@
     },
     {
       "type": "derived_column",
+      "alias": "transfer_out_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.transfer_out_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.transfer_out_not_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "loss",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "SUM(b.loss)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.loss_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.loss_not_on_art)"
       }
     }
   ],

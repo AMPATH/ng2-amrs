@@ -6,7 +6,7 @@ const gainsLossesIndicatorDefs = require('../../app/reporting-framework/hiv/gain
 const etlHelpers = require('../../etl-helpers.js');
 const patientListCols = require('../../app/reporting-framework/json-reports/gains-and-losses/gains-and-losses-patient-list-cols.json');
 const Moment = require('moment');
-const dao = require('../../etl-dao');
+const gainsAndLossesSections = require('../../app/reporting-framework/hiv/hiv-monthly-gains-and-losses-sections.json');
 export class HIVGainsAndLossesService extends MultiDatasetPatientlistReport {
   constructor(reportName, params) {
     super(reportName, params);
@@ -58,17 +58,25 @@ export class HIVGainsAndLossesService extends MultiDatasetPatientlistReport {
                   }
                 }
 
-                const proxyRetention = this.calculateProxiRetention(
+                const resultWithCalculatedData = this.addCalculatedCols(
                   finalResult
                 );
 
                 resolve({
                   queriesAndSchemas: results,
-                  result: finalResult,
-                  proxyRetention: proxyRetention,
-                  sectionDefinitions: gainsLossesIndicatorDefs,
+                  result: resultWithCalculatedData,
+                  proxyRetention:
+                    resultWithCalculatedData[0].proxi_retention || '',
+                  sectionDefinitions: this.generateSectionDefs(
+                    gainsAndLossesSections,
+                    resultWithCalculatedData
+                  ),
                   indicatorDefinitions: [],
-                  isDraftReport: this.deterMineIfDraftReport(sourceTables)
+                  isDraftReport: this.deterMineIfDraftReport(sourceTables),
+                  gainsAndLossesSections: gainsAndLossesSections,
+                  resultTotals: this.generateTotalsColumn(
+                    resultWithCalculatedData
+                  )
                 });
               }
             })
@@ -123,23 +131,22 @@ export class HIVGainsAndLossesService extends MultiDatasetPatientlistReport {
     return patientList;
   }
 
-  calculateProxiRetention(results) {
-    let curr_tx = 0;
-    let curr_tx_expected = 0;
-    let proxi_retention = 0;
-    if (results.length > 0) {
-      const result = results[0];
-      curr_tx = result.on_art_starting;
-      curr_tx_expected =
-        result.on_art_starting +
-        result.ending_new_on_art +
-        result.return_to_care +
-        result.transferred_in -
-        result.transfer_out;
-    }
-    proxi_retention = ((curr_tx / curr_tx_expected) * 100).toFixed(2);
+  addCalculatedCols(results) {
+    return results.map((r) => {
+      const curr_tx = r.on_art_starting;
+      const curr_tx_expected =
+        r.on_art_starting +
+        r.ending_new_on_art +
+        r.return_to_care +
+        r.transferred_in -
+        r.transfer_out;
+      const net_gain_loss = r.ending_active - r.starting_active;
+      const proxi_retention = ((curr_tx / curr_tx_expected) * 100).toFixed(2);
+      r['proxi_retention'] = proxi_retention;
+      r['net_gain_loss'] = net_gain_loss;
 
-    return proxi_retention;
+      return r;
+    });
   }
   getSourceTables() {
     const self = this;
@@ -199,5 +206,47 @@ export class HIVGainsAndLossesService extends MultiDatasetPatientlistReport {
     }
 
     return isDraft;
+  }
+  generateTotalsColumn(results) {
+    let totalResults = [];
+    let resultRow = {
+      location_uuid: [],
+      location: 'Total',
+      reporting_month: ''
+    };
+    results.forEach((locationResult) => {
+      Object.entries(locationResult).forEach(([key, value]) => {
+        if (
+          typeof value === 'number' &&
+          key !== 'location_id' &&
+          key !== 'person_id'
+        ) {
+          resultRow[key] = value + (resultRow[key] ? resultRow[key] : 0);
+        } else if (key === 'location_uuid') {
+          resultRow.location_uuid.push(value);
+        } else if (key === 'reporting_month') {
+          resultRow.reporting_month = value;
+        } else {
+        }
+      });
+    });
+    totalResults.push(resultRow);
+    return totalResults;
+  }
+
+  generateSectionDefs(sectionDefs, results) {
+    const resultRow = results[0] || [];
+    const startMonth = resultRow.start_month || '';
+    const endMonth = resultRow.end_month || '';
+
+    return sectionDefs.map((page) => {
+      if (page.page === 'Starting Month') {
+        page.page = startMonth;
+      }
+      if (page.page === 'Ending Month') {
+        page.page = endMonth;
+      }
+      return page;
+    });
   }
 }

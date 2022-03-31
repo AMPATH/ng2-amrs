@@ -24,6 +24,26 @@
     },
     {
       "type": "simple_column",
+      "alias": "start_month",
+      "column": "b.start_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_month",
+      "column": "b.end_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
       "alias": "location_id",
       "column": "b.location_id"
     },
@@ -49,6 +69,22 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "COUNT(b.still_active)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "still_active_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.still_active_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "still_active_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(b.still_active_not_on_art)"
       }
     },
     {
@@ -118,10 +154,50 @@
     },
     {
       "type": "derived_column",
+      "alias": "transferred_in_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.transferred_in_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transferred_in_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.transferred_in_not_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "return_to_care",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "SUM(b.return_to_care)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.return_to_care_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.return_to_care_not_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.return_to_care_on_art)"
       }
     },
     {
@@ -134,10 +210,42 @@
     },
     {
       "type": "derived_column",
+      "alias": "gained_other_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.gained_other_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gained_other_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.gained_other_not_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "gain",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "SUM(b.gain)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.gain_on_art)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.gain_not_on_art)"
       }
     }
   ],

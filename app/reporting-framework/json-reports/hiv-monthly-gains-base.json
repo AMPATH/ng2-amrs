@@ -19,6 +19,14 @@
     },
     {
       "table": "amrs.location",
+      "alias": "cl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "c.location_id = cl.location_id"
+      }
+    },
+    {
+      "table": "amrs.location",
       "alias": "pl",
       "join": {
         "type": "LEFT",
@@ -43,7 +51,27 @@
     {
       "type": "simple_column",
       "alias": "end_date",
-      "column": "DATE(c.endDate)"
+      "column": "DATE_FORMAT(c.endDate,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "start_month",
+      "column": "DATE_FORMAT(p.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_month",
+      "column": "DATE_FORMAT(c.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "cl.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "cl.uuid"
     },
     {
       "type": "simple_column",
@@ -105,6 +133,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "still_active_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active' AND p.status = 'active' AND c.on_art_this_month = 1 AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "still_active_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active' AND p.status = 'active' AND c.on_art_this_month = 0 AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "ending_new_on_art",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -145,6 +189,22 @@
     },
     {
       "type": "derived_column",
+      "alias": "transferred_in_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CASE WHEN c.transfer_in_this_month = 1 AND c.cur_arv_meds IS NOT NULL AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.cur_arv_meds IS NOT NULL AND c.location_id != p.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transferred_in_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CASE WHEN c.transfer_in_this_month = 1 AND c.cur_arv_meds IS NULL AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.cur_arv_meds IS NULL AND c.location_id != p.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "transferred_in_location",
       "expressionType": "simple_expression",
       "expressionOptions": {
@@ -157,6 +217,22 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "IF(c.status = 'active' AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active' AND c.on_art_this_month = 1 AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "return_to_care_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active' AND c.on_art_this_month = 0 AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id, 1, NULL)"
       }
     },
     {
@@ -177,10 +253,42 @@
     },
     {
       "type": "derived_column",
+      "alias": "gained_other_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.status = 'active' AND c.on_art_this_month = 1 AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gained_other_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.status = 'active' AND c.on_art_this_month = 0 AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "gain",
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "CASE WHEN c.enrolled_this_month = 1 AND c.transfer_in_this_month = 0 then 1 WHEN c.transfer_in_this_month = 1 AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.location_id != p.location_id THEN 1 WHEN c.status = 'active' AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id THEN 1 WHEN c.status = 'active' AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.enrolled_this_month = 1 AND c.on_art_this_month = 1 AND c.transfer_in_this_month = 0 then 1 WHEN c.transfer_in_this_month = 1 AND c.cur_arv_meds IS NOT NULL AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.on_art_this_month = 1 AND c.location_id != p.location_id THEN 1 WHEN c.status = 'active' AND c.on_art_this_month = 1 AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id THEN 1 WHEN c.status = 'active' AND c.on_art_this_month = 1 AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "gain_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.enrolled_this_month = 1 AND c.on_art_this_month = 0 AND c.transfer_in_this_month = 0 then 1 WHEN c.transfer_in_this_month = 1 AND c.cur_arv_meds IS NULL AND (c.location_id != p.location_id OR p.location_id IS NULL) THEN 1 WHEN c.transfer_in_this_month = 0 AND c.on_art_this_month = 0 AND c.location_id != p.location_id THEN 1 WHEN c.status = 'active' AND c.on_art_this_month = 0 AND p.status != 'active' AND p.person_id IS NOT NULL AND c.location_id = p.location_id THEN 1 WHEN c.status = 'active' AND c.on_art_this_month = 0 AND p.status IS NULL AND c.transfer_in_this_month = 0 AND c.enrolled_this_month = 0 THEN 1 ELSE NULL END"
       }
     },
     {
@@ -202,7 +310,7 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "c.location_id in (?)",
+        "conditionExpression": "c.location_id in ?",
         "parameterName": "locations"
       },
       {
