@@ -113,7 +113,9 @@ import { EditContactTraceComponent } from "./family-testing/contact-trace/edit-c
 import { ContactListComponent } from "./family-testing/contact-list/contact-list.component";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown"; // import { ProgramVisitEncounterSearchModule } from '../program-visit-encounter-search/program-visit-encounter-search.module';
 
-import { PatientGainsFiltersComponent } from "./patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component";
+import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component';
+import { PatientGainsAndLossesDashboardViewComponent } from './patient-gains-and-loses/patient-gains-and-losses-dashboard-view/patient-gains-and-losses-dashboard-view.component';
+import { PatientGainsAndLossesTabularViewComponent } from './patient-gains-and-loses/patient-gains-and-losses-tabular-view/patient-gains-and-losses-tabular-view.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -202,6 +204,8 @@ import { PatientGainsFiltersComponent } from "./patient-gains-and-loses/patient-
     EditContactTraceComponent,
     ContactListComponent,
     PatientGainsAndLosesComponent,
+    PatientGainsAndLossesDashboardViewComponent,
+    PatientGainsAndLossesTabularViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -258,7 +262,6 @@ import { PatientGainsFiltersComponent } from "./patient-gains-and-loses/patient-
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
     HeiIndicatorsPdfViewComponent,
-    IptBaseReportComponent,
     IptReportPatientListComponent,
     PatientGainsAndLosesPatientListComponent,
     PatientGainsAndLosesComponent,
@@ -274,6 +277,10 @@ import { PatientGainsFiltersComponent } from "./patient-gains-and-loses/patient-
     PatientGainsAndLosesPatientListComponent,
     PatientGainsAndLosesComponent,
     PatientGainsFiltersComponent,
+    IptBaseReportComponent,
+    IptReportPatientListComponent,
+    PatientGainsAndLossesDashboardViewComponent,
+    PatientGainsAndLossesTabularViewComponent
   ],
   providers: [
     MOHReportService,

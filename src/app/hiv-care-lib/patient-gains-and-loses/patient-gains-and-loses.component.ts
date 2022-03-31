@@ -11,10 +11,13 @@ import { ClinicDashboardCacheService } from "./../../clinic-dashboard/services/c
 })
 export class PatientGainsAndLosesComponent implements OnInit {
   @Output() public params: any;
-  @Input() public locationUuids: "";
+  @Input() public locationUuids: '';
+  @Input() public dashboardType: string;
+  @Input() public analyticlocations = '';
   public indicators: string;
   public selectedIndicators = [];
   public patientGainAndLoseSummaryData: any = [];
+  public patientGainAndLosesData: any = [];
   public columnDefs: any = [];
   public reportName = "Patient Gains and Loses";
   public currentView = "monthly";
@@ -27,7 +30,8 @@ export class PatientGainsAndLosesComponent implements OnInit {
   public isLoadingReport = false;
   public reportHead: any;
   public pinnedBottomRowData: any = [];
-  public enabledControls = "monthControl";
+  public enabledControls = 'monthControl';
+  public totalsRow = [];
   _month: string;
   public proxyRetention = 0;
 
@@ -44,6 +48,7 @@ export class PatientGainsAndLosesComponent implements OnInit {
     .endOf("month")
     .toDate();
   public isDraftReport = false;
+  public gainsAndLossesSections: any;
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -86,48 +91,56 @@ export class PatientGainsAndLosesComponent implements OnInit {
     });
   }
 
-  public getPatientGainAndLoseReport(params) {
-    this.isLoadingReport = true;
-    this.isDraftReport = false;
-    this.patientGainLose
-      .getPatientGainAndLoseReport(params)
-      .subscribe((data) => {
-        if (data.error) {
-          this.encounteredError = true;
-          this.showInfoMessage = true;
-          this.errorMessage = `There has been an error while loading the report, please retry again`;
-          this.isLoadingReport = false;
-        } else {
-          this.isLoadingReport = false;
-          this.encounteredError = false;
-          this.showInfoMessage = false;
-          this.patientGainAndLoseSummaryData = data.result[0];
-          this.proxyRetention = data.proxyRetention;
-          this.isDraftReport = data.isDraftReport;
-          this.calculateNetGainLoss(this.patientGainAndLoseSummaryData);
-          this.patientGainAndLoseSummaryData.startingMonth = Moment(
-            this.params.startingMonth
-          ).format("MMMM");
-          this.patientGainAndLoseSummaryData.endingMonth = Moment(
-            this.params.endingMonth
-          ).format("MMMM");
-        }
-      });
+  public getPatientGainAndLoseReport(params: any) {
+    if (params.locationUuids.length > 0) {
+      this.isLoadingReport = true;
+      this.isDraftReport = false;
+      this.patientGainLose
+        .getPatientGainAndLoseReport(params)
+        .subscribe((data: any) => {
+          if (data.error) {
+            this.encounteredError = true;
+            this.showInfoMessage = true;
+            this.errorMessage = `There has been an error while loading the report, please retry again`;
+            this.isLoadingReport = false;
+          } else {
+            this.isLoadingReport = false;
+            this.encounteredError = false;
+            this.showInfoMessage = false;
+            this.patientGainAndLosesData = data.result;
+            this.totalsRow = data.resultTotals;
+            this.patientGainAndLoseSummaryData = data.result[0];
+            this.proxyRetention = data.proxyRetention;
+            this.isDraftReport = data.isDraftReport;
+            this.gainsAndLossesSections = data.gainsAndLossesSections;
+            this.calculateNetGainLoss(this.patientGainAndLoseSummaryData);
+            this.patientGainAndLoseSummaryData.startingMonth = Moment(
+              this.params.startingMonth
+            ).format('MMMM');
+            this.patientGainAndLoseSummaryData.endingMonth = Moment(
+              this.params.endingMonth
+            ).format('MMMM');
+          }
+        });
+    }
   }
-  public onIndicatorSelected(value, header) {
-    this.router.navigate(["patient-list"], {
+  public onIndicatorSelected($event: any) {
+    this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
-        indicators: value,
-        indicatorHeader: header,
+        indicators: $event.value,
+        indicatorHeader: $event.header,
         startingMonth: Moment(this.params.startingMonth)
           .endOf("month")
           .format("YYYY-MM-DD"),
         endingMonth: Moment(this.params.endingMonth)
-          .endOf("month")
-          .format("YYYY-MM-DD"),
-        locationUuids: this.params.locationUuids,
-      },
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        locationUuids:
+          $event.location.length > 0
+            ? $event.location
+            : this.params.locationUuids
+      }
     });
   }
   public filterSet($event: any) {
@@ -155,5 +168,9 @@ export class PatientGainsAndLosesComponent implements OnInit {
       this.proxyRetention = 0;
       this.isDraftReport = false;
     }
+  }
+
+  public locationsSet($event: any): void {
+    this.locationUuids = $event;
   }
 }

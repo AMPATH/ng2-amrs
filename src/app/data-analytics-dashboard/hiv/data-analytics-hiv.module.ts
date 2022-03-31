@@ -30,6 +30,7 @@ import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-da
 import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
 import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
 import { DataAnalyticsMonthlyReportComponent } from './monthly-reports-dashboard/data-analytics-monthly-reports.component';
+import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and-losses/data-analytics-hiv-gains-and-losses.component';
 
 @NgModule({
   imports: [
@@ -65,10 +66,11 @@ import { DataAnalyticsMonthlyReportComponent } from './monthly-reports-dashboard
     HivSummaryMonthlyIndicatorsComponent,
     SurgeReportComponent,
     PrepReportComponent,
-    IPTReportComponent,
     MOH412HIVDataAnalyticsComponent,
     MOH412HIVDataAnalyticsPatientListComponent,
-    DataAnalyticsMonthlyReportComponent
+    IPTReportComponent,
+    DataAnalyticsMonthlyReportComponent,
+    DataAnalyticsHivGainsAndLossesComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

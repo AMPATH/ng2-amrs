@@ -33,7 +33,8 @@ import { IPTReportComponent } from "./ipt-report/ipt-report.component";
 import { MOH412HIVDataAnalyticsComponent } from './moh-412-report/moh-412-hiv-data-analytics.component';
 import { MOH412HIVDataAnalyticsPatientListComponent } from './moh-412-report/moh-412-hiv-data-analytics-patient-list.component';
 import { ClinicFlowProviderStatsPatientListComponent } from './../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats-patient-list.component';
-
+import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and-losses/data-analytics-hiv-gains-and-losses.component';
+import { PatientGainsAndLosesPatientListComponent } from './../../hiv-care-lib/patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -186,6 +187,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: MOH412HIVDataAnalyticsPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'patient-gains-and-losses',
+        children: [
+          {
+            path: '',
+            component: DataAnalyticsHivGainsAndLossesComponent
+          },
+          {
+            path: 'patient-list',
+            component: PatientGainsAndLosesPatientListComponent
           }
         ]
       }
