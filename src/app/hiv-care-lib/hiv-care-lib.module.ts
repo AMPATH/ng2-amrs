@@ -115,6 +115,8 @@ import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/i
 import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-report-base.component';
 
 import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component';
+import { PatientGainsAndLossesDashboardViewComponent } from './patient-gains-and-loses/patient-gains-and-losses-dashboard-view/patient-gains-and-losses-dashboard-view.component';
+import { PatientGainsAndLossesTabularViewComponent } from './patient-gains-and-loses/patient-gains-and-losses-tabular-view/patient-gains-and-losses-tabular-view.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -202,7 +204,9 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     AddContactTraceComponent,
     EditContactTraceComponent,
     ContactListComponent,
-    PatientGainsAndLosesComponent
+    PatientGainsAndLosesComponent,
+    PatientGainsAndLossesDashboardViewComponent,
+    PatientGainsAndLossesTabularViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -268,7 +272,9 @@ import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-
     PatientGainsAndLosesComponent,
     PatientGainsFiltersComponent,
     IptBaseReportComponent,
-    IptReportPatientListComponent
+    IptReportPatientListComponent,
+    PatientGainsAndLossesDashboardViewComponent,
+    PatientGainsAndLossesTabularViewComponent
   ],
   providers: [
     MOHReportService,
