@@ -51,6 +51,8 @@ describe("Service: LabOrderPostService", () => {
       dateReceived: "2017-01-05",
     };
 
+    const location = 'labLocation';
+
     const result = service.postOrderToEid(location, payload);
 
     result.subscribe((results) => {

@@ -230,22 +230,29 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     }
   }
 
-  public getDnaPcrConcepts(uuid, property) {
-    if (uuid) {
-      this.conceptResourceService
-        .getConceptByUuid(uuid)
-        .pipe(take(1))
-        .subscribe(
-          (data) => {
-            if (data) {
-              this.dnaPcrData[property] = data.name.display;
-            }
-          },
-          (error) => {
-            console.error("Failed to load concepts ", error);
-          }
-        );
+  public getDnaPcrConcepts(uuid: string[], property: string) {
+    this.dnaPcrData[property] = '';
+    if (uuid.length > 0) {
+      for (let i = 0; i < uuid.length; i++) {
+        this.getDnaPcrConceptsFromAmrs(uuid[i], property);
+      }
     }
+  }
+
+  public getDnaPcrConceptsFromAmrs(uuid: string, property: string) {
+    this.conceptResourceService
+      .getConceptByUuid(uuid)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.dnaPcrData[property] += `${data.name.display} ,`;
+          }
+        },
+        (error) => {
+          console.error('Failed to load concepts ', error);
+        }
+      );
   }
 
   public postOrder() {
@@ -259,7 +266,6 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       return;
     }
     const payload = this.getPayload();
-
     const location = this.selectedLabLocation;
     this.isBusy = true;
     this.labOrderPostService

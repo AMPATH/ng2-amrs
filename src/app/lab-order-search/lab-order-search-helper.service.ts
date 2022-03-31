@@ -112,27 +112,27 @@ export class LabOrdersSearchHelperService {
     birthDate,
     dateRecieved
   ) {
-    const infantProphylaxisUuid = this.findObsValueByConceptUuid(
+    const infantProphylaxisUuid: string[] = this.findObsValueByConceptUuid(
       encounterObs,
       "a89addfe-1350-11df-a1f1-0026b9348838"
     );
 
-    const pmtctInterventionUuid = this.findObsValueByConceptUuid(
+    const pmtctInterventionUuid: string[] = this.findObsValueByConceptUuid(
       encounterObs,
       "a898bdc6-1350-11df-a1f1-0026b9348838"
     );
 
-    const feedingTypeUuid = this.findObsValueByConceptUuid(
+    const feedingTypeUuid: string[] = this.findObsValueByConceptUuid(
       encounterObs,
       "a89abee6-1350-11df-a1f1-0026b9348838"
     );
 
-    const entryPointUuid = this.findObsValueByConceptUuid(
+    const entryPointUuid: string[] = this.findObsValueByConceptUuid(
       encounterObs,
       "a8a17e48-1350-11df-a1f1-0026b9348838"
     );
 
-    const motherHivStatusUuid = this.findObsValueByConceptUuid(
+    const motherHivStatusUuid: string[] = this.findObsValueByConceptUuid(
       encounterObs,
       "a8afb80a-1350-11df-a1f1-0026b9348838"
     );
@@ -228,18 +228,28 @@ export class LabOrdersSearchHelperService {
     return momentDate.isValid() ? momentDate.format("YYYY-MM-DD") : "";
   }
 
-  public findObsValueByConceptUuid(encounterObs, conceptUuid) {
-    const obsObject = this.findObsByConceptUuid(encounterObs, conceptUuid);
-    if (obsObject && obsObject !== null && obsObject.value) {
-      if (typeof obsObject.value === "object" && obsObject.value.uuid) {
-        return obsObject.value.uuid;
+  public findObsValueByConceptUuid(
+    encounterObs,
+    conceptUuid: string
+  ): string[] {
+    const obsObjectArray = this.findObsByConceptUuid(encounterObs, conceptUuid);
+    const valueArray: string[] = [];
+    obsObjectArray.forEach((obsObject: any) => {
+      if (obsObject && obsObject !== null && obsObject.value) {
+        if (typeof obsObject.value === 'object' && obsObject.value.uuid) {
+          valueArray.push(obsObject.value.uuid);
+          return;
+        }
+        valueArray.push(obsObject.value);
+        return;
       }
-      return obsObject.value;
-    }
+    });
+
+    return valueArray;
   }
 
   // function to find the obs with given concept uuid
-  public findObsByConceptUuid(obsObject, conceptUuid) {
+  public findObsByConceptUuid(obsObject: any, conceptUuid: string) {
     if (
       !obsObject ||
       obsObject === null ||
@@ -251,9 +261,8 @@ export class LabOrdersSearchHelperService {
 
     const found: any = [];
     this.findObsByConceptUuidRecursively(obsObject, conceptUuid, found);
-
     if (found.length > 0) {
-      return found[0];
+      return _.uniq(found);
     }
   }
 
