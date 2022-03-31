@@ -2,10 +2,9 @@ import { Component, OnInit, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
-import * as _ from "lodash";
-import { SurgeResourceService } from "src/app/etl-api/surge-resource.service";
-import * as moment from "moment";
-import { Column } from "ag-grid";
+import * as _ from 'lodash';
+import { SurgeResourceService } from 'src/app/etl-api/surge-resource.service';
+import { Column, GridOptions } from 'ag-grid';
 
 @Component({
   selector: "surge-report-patientlist",
@@ -21,6 +20,39 @@ export class SurgeReportPatientListComponent implements OnInit {
   public selectedIndicator: string;
   public hasLoadedAll = false;
   public hasError = false;
+  public extraColumnsLoaded: Array<any> = [];
+  public gridOptions: GridOptions = {
+    enableColResize: true,
+    enableSorting: true,
+    enableFilter: true,
+    showToolPanel: false,
+    pagination: true,
+    paginationPageSize: 300,
+    rowSelection: 'multiple'
+  };
+  public baseColumns = [
+    {
+      headerName: 'Identifiers',
+      field: 'identifiers',
+      width: 200,
+      pinned: true,
+      cellRenderer: (column: any) => {
+        return (
+          '<a href="javascript:void(0);" title="Identifiers">' +
+          column.value +
+          '</a>'
+        );
+      }
+    },
+    {
+      headerName: 'Name',
+      field: 'person_name',
+      width: 200,
+      pinned: true
+    },
+    { headerName: 'Gender', field: 'gender', width: 70 },
+    { headerName: 'Age', field: 'age', width: 70 }
+  ];
 
   constructor(
     private router: Router,
@@ -30,7 +62,6 @@ export class SurgeReportPatientListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.addExtraColumns();
     this.route.queryParams.subscribe(
       (params) => {
         if (params) {
@@ -52,8 +83,10 @@ export class SurgeReportPatientListComponent implements OnInit {
           .getSurgeDailyReportPatientList(params)
           .subscribe((data) => {
             this.isLoading = false;
-            this.patientData = data.results.results;
+            this.patientData = data.results.results.results;
+            this.extraColumnsLoaded = data.results.patientListCols;
             this.hasLoadedAll = true;
+            this.generatePatientCols(this.extraColumnsLoaded);
           });
         break;
       case "weekly":
@@ -61,77 +94,41 @@ export class SurgeReportPatientListComponent implements OnInit {
           .getSurgeWeeklyPatientList(params)
           .subscribe((data) => {
             this.isLoading = false;
-            this.patientData = data.results.results;
+            this.patientData = data.results.results.results;
+            this.extraColumnsLoaded = data.results.patientListCols;
             this.hasLoadedAll = true;
+            this.generatePatientCols(this.extraColumnsLoaded);
           });
         break;
     }
   }
 
-  public addExtraColumns() {
-    const extraColumns = {
-      phone_number: "Phone",
-      enrollment_date: "Date Enrolled",
-      clinical_visit_num: "Encounter Number since enrollment",
-      prev_rtc_date: "Previous RTC Date",
-      encounter_date: "Encounter Date",
-      last_appointment: "Encounter Type",
-      rtc_date: "RTC Date",
-      days_since_rtc_date: "Days missed since RTC",
-      cur_status: "Current Status",
-      week_patient_became_active: "Date patient became active",
-      transfer_out_date: "Transfer out date",
-      death_date: "Death Date",
-      arv_first_regimen_start_date: "First ARV regimen start date",
-      arv_first_regimen: "AVR first regimen",
-      cur_meds: "Current Regimen",
-      cur_arv_line: "Current ARV Line",
-      latest_vl: "Latest VL",
-      latest_vl_date: "Latest VL Date",
-      previous_vl: "Previous VL",
-      previous_vl_date: "Prevoius VL Date",
-      nearest_center: "Estate/Nearest Center",
-    };
+  public generatePatientCols(extraCols) {
+    const patientCols = this.baseColumns;
+    extraCols.forEach((col: any) => {
+      patientCols.push(col);
+    });
 
-    for (const indicator in extraColumns) {
-      if (indicator) {
-        this.extraColumns.push({
-          headerName: extraColumns[indicator],
-          field: indicator,
-        });
-      }
-    }
-
-    this.overrideColumns.push(
-      {
-        field: "identifiers",
-        cellRenderer: (column) => {
-          return (
-            '<a href="javascript:void(0);" title="Identifiers">' +
-            column.value +
-            "</a>"
-          );
-        },
-      },
-      {
-        field: "clinical_visit_number",
-        width: 250,
-      },
-      {
-        field: "baseline",
-        width: 250,
-      },
-      {
-        field: "cur_meds",
-        width: 400,
-      },
-      {
-        field: "arv_first_regimen",
-        width: 400,
-      }
-    );
+    this.extraColumns = patientCols;
   }
+
   public goBack() {
     this._location.back();
+  }
+
+  public redirectTopatientInfo(patientUuid) {
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        patientUuid +
+        '/general/general/landing-page'
+    ]);
+  }
+
+  public onCellClick($event: any) {
+    const patientUuid = $event.data.patient_uuid;
+    this.redirectTopatientInfo(patientUuid);
   }
 }

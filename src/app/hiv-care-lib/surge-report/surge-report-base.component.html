@@ -7,26 +7,24 @@
 </div>
 
 <p-tabView (onChange)="onTabChanged($event)">
-  <div *ngIf="isReleased">
-    <p-tabPanel
-      header=" Daily"
-      leftIcon="fa-calendar-o "
-      [selected]="currentView === 'daily'"
-    >
-      <div *ngIf="isWeekDateLoaded">
-        <report-filters
-          *ngIf="isWeekDateLoaded"
-          [enabledControls]="enabledControls"
-          (startDateChange)="onStartDateChange($event)"
-          [startDate]="startDate"
-          [endDate]="startDate"
-          [reportName]="reportName"
-          (generateReport)="generateReport()"
-        >
-        </report-filters>
-      </div>
-    </p-tabPanel>
-  </div>
+  <p-tabPanel
+    header=" Daily"
+    leftIcon="fa-calendar-o "
+    [selected]="currentView === 'daily'"
+  >
+    <div *ngIf="isWeekDateLoaded">
+      <report-filters
+        *ngIf="isWeekDateLoaded"
+        [enabledControls]="enabledControls"
+        (startDateChange)="onStartDateChange($event)"
+        [startDate]="startDate"
+        [endDate]="startDate"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </div>
+  </p-tabPanel>
 
   <p-tabPanel
     header=" Weekly"
