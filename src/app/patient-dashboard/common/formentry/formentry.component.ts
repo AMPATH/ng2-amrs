@@ -369,7 +369,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           { queryParams: { referral: true } }
         );
         break;
-      case "covidScreening":
+      case 'covidAssessment':
         this.showSuccessDialog = false;
         this.preserveFormAsDraft = false;
         this.router.navigate([
@@ -377,7 +377,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
             this.patient.uuid +
             "/hiv/" +
             this.activeProgram +
-            "/formentry/ab0918de-baf8-4804-86fb-2ff2d7b6943c",
+            '/formentry/0a9fc16e-4c00-4842-a1e4-e4bafeb6e226'
         ]);
         break;
       case "familyHistory":
