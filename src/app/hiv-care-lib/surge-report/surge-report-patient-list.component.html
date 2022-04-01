@@ -11,12 +11,15 @@
   <b>{{ selectedIndicator }}</b> patient list
 </h3>
 <hr />
-<patient-list
-  [extraColumns]="extraColumns"
-  [overrideColumns]="overrideColumns"
-  [data]="patientData"
-></patient-list>
-
+<ag-grid-angular
+  #agGrid
+  style="min-width: 100%; height: 500px"
+  class="ag-blue"
+  [rowData]="patientData"
+  [gridOptions]="gridOptions"
+  [columnDefs]="extraColumns"
+  (cellClicked)="onCellClick($event)"
+></ag-grid-angular>
 <div *ngIf="hasLoadedAll">
   <p class="bg-info" style="padding: 4px">
     <b>

@@ -1,0 +1,685 @@
+<div class="">
+  <div class="row" *ngIf="patientGainAndLoseSummaryData?.ending_active">
+    <div class="card-item col-md-3 col-sm-3 col-lg-3 col-xs-12">
+      <a>
+        <div class="thumbnail dashboard-card" style="padding: 4px">
+          <div class="caption">
+            <span class="fa fa-1x fa-fw"
+              >{{ patientGainAndLoseSummaryData?.startingMonth }}(active)</span
+            >
+            <hr class="intro-divider dashboard-divider" />
+            <h4>
+              <a
+                (click)="onIndicatorSelected('starting_active', 'Active')"
+                class="numbers_link numbers_text"
+                >{{ patientGainAndLoseSummaryData?.starting_active }}</a
+              >
+            </h4>
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <table class="table table-striped">
+                  <th>On ART</th>
+                  <th>Not On ART</th>
+                  <tr>
+                    <td class="numbers_link">
+                      <h4>
+                        <a
+                          (click)="
+                            onIndicatorSelected('on_art_starting', 'On ART')
+                          "
+                        >
+                          {{
+                            patientGainAndLoseSummaryData?.on_art_starting
+                          }}</a
+                        >
+                      </h4>
+                    </td>
+                    <td class="numbers_link">
+                      <h4>
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'not_on_art_starting',
+                              'Not on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.not_on_art_starting
+                          }}</a
+                        >
+                      </h4>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="card-item col-md-2 col-sm-2 col-lg-2 col-xs-12">
+      <div class="thumbnail dashboard-card" style="padding: 4px">
+        <div class="caption">
+          <span class="gain-text-color">Gained</span>
+          <hr class="intro-divider dashboard-divider" />
+          <a
+            class="numbers_link"
+            (click)="onIndicatorSelected('gain', 'Gained')"
+          >
+            <h4 class="gain-text-color numbers_text">
+              +{{
+                patientGainAndLoseSummaryData?.return_to_care +
+                  patientGainAndLoseSummaryData?.transferred_in +
+                  patientGainAndLoseSummaryData?.newly_enrolled +
+                  patientGainAndLoseSummaryData?.gained_other
+              }}
+            </h4>
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <table class="table table-striped">
+                  <th>On ART</th>
+                  <th>Not On ART</th>
+                  <tr>
+                    <td class="numbers_link">
+                      <h4>
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'gain_on_art',
+                              'Gained and On ART'
+                            )
+                          "
+                        >
+                          {{ patientGainAndLoseSummaryData?.gain_on_art }}</a
+                        >
+                      </h4>
+                    </td>
+                    <td class="numbers_link">
+                      <h4>
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'gain_not_on_art',
+                              'Gained and Not on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.gain_not_on_art
+                          }}</a
+                        >
+                      </h4>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-item col-md-2 col-sm-2 col-lg-2 col-xs-12">
+      <a>
+        <div class="thumbnail dashboard-card" style="padding: 4px">
+          <div class="caption">
+            <span class="loss-text-color">Lost</span>
+            <hr class="intro-divider dashboard-divider" />
+            <a
+              class="numbers_link"
+              (click)="onIndicatorSelected('loss', 'Lost')"
+            >
+              <h4 class="loss-text-color numbers_text">
+                -{{
+                  patientGainAndLoseSummaryData?.transfer_out +
+                    patientGainAndLoseSummaryData?.dead +
+                    patientGainAndLoseSummaryData?.defaulter +
+                    patientGainAndLoseSummaryData?.ltfu
+                }}
+              </h4>
+              <div class="row">
+                <div class="col-md-12 col-lg-12">
+                  <table class="table table-striped">
+                    <th>On ART</th>
+                    <th>Not On ART</th>
+                    <tr>
+                      <td class="numbers_link">
+                        <h4>
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'loss_on_art',
+                                'Loss and On ART'
+                              )
+                            "
+                          >
+                            {{ patientGainAndLoseSummaryData?.loss_on_art }}</a
+                          >
+                        </h4>
+                      </td>
+                      <td class="numbers_link">
+                        <h4>
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'loss_not_on_art',
+                                'Loss and Not on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.loss_not_on_art
+                            }}</a
+                          >
+                        </h4>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="card-item col-md-2 col-sm-2 col-lg-2 col-xs-12">
+      <a>
+        <div class="thumbnail dashboard-card" style="padding: 4px">
+          <div class="caption">
+            <span
+              [ngClass]="{
+                'loss-text-color': netGainLoss < 0,
+                'gain-text-color': netGainLoss > 0
+              }"
+              >{{ netGainLoss > 0 ? 'Net Gain' : 'Net Loss' }}</span
+            >
+            <hr class="intro-divider dashboard-divider" />
+            <h4
+              class="numbers_text"
+              [ngClass]="{
+                'loss-text-color': netGainLoss < 0,
+                'gain-text-color': netGainLoss > 0
+              }"
+            >
+              {{
+                patientGainAndLoseSummaryData?.ending_active -
+                  patientGainAndLoseSummaryData?.starting_active
+              }}
+            </h4>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="card-item col-md-3 col-sm-3 col-lg-3 col-xs-12">
+      <a>
+        <div class="thumbnail dashboard-card" style="padding: 4px">
+          <div class="caption">
+            <span class="fa fa-1x fa-fw"
+              >{{ patientGainAndLoseSummaryData?.endingMonth }}(Active)</span
+            >
+            <hr class="intro-divider dashboard-divider" />
+            <h4>
+              <a
+                class="numbers_link numbers_text"
+                (click)="onIndicatorSelected('ending_active', 'Ending Active')"
+                >{{ patientGainAndLoseSummaryData?.ending_active }}</a
+              >
+            </h4>
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <table class="table table-striped">
+                  <th>On ART</th>
+                  <th>Not On ART</th>
+                  <tr>
+                    <td class="numbers_link">
+                      <h4>
+                        <a
+                          (click)="
+                            onIndicatorSelected('on_art_ending', 'On ART')
+                          "
+                          >{{ patientGainAndLoseSummaryData?.on_art_ending }}</a
+                        >
+                      </h4>
+                    </td>
+                    <td class="numbers_link">
+                      <h4>
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'not_on_art_ending',
+                              'Not on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.not_on_art_ending
+                          }}</a
+                        >
+                      </h4>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="row">
+      <div
+        class="col-lg-9 col-sm-9 col-md-9 col-xs-12"
+        style="padding-left: 7.5rem"
+      >
+        <div class="panel-mod panel-default panel-table">
+          <div class="panel-heading"></div>
+
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                <h3 class="analysis-title">
+                  Analysis of Gains in
+                  {{ patientGainAndLoseSummaryData?.endingMonth }}
+                  {{ patientGainAndLoseSummaryData?.end }}
+                </h3>
+                <hr class="intro-divider" />
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>On ART</th>
+                      <th>Not On Art</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="report-indicators">Enrolled in Care</td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'newly_enrolled_art',
+                              'Enrolled in Care and started ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.newly_enrolled_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'newly_enrolled_pre_art',
+                              'Enrolled in Care and Pre-ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.newly_enrolled_pre_art
+                          }}</a
+                        >
+                      </td>
+                      <td>
+                        <span class="numbers_link report-indicators"
+                          ><a
+                            (click)="
+                              onIndicatorSelected(
+                                'newly_enrolled',
+                                'New enrolled'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.newly_enrolled
+                            }}</a
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="report-indicators">Transferred in</td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'transferred_in_on_art',
+                              'ransferred in and started ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.transferred_in_on_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'transferred_in_not_on_art',
+                              'Transferred in and not on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.transferred_in_not_on_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected('transferred_in', 'Transfer In')
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.transferred_in
+                          }}</a
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="report-indicators">Returned to Care</td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'return_to_care_on_art',
+                              'Returned to Care and on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.return_to_care_on_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'return_to_care_not_on_art',
+                              'Returned to Care and not on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.return_to_care_not_on_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'return_to_care',
+                              'Returned to Care'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.return_to_care
+                          }}</a
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="report-indicators">Other</td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'gained_other_on_art',
+                              'Gained other and on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.gained_other_on_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'gained_other_not_on_art',
+                              'Gained Other and not on ART'
+                            )
+                          "
+                          >{{
+                            patientGainAndLoseSummaryData?.gained_other_not_on_art
+                          }}</a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected('gained_other', 'Others')
+                          "
+                          >{{ patientGainAndLoseSummaryData?.gained_other }}</a
+                        >
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="report-indicators"><b>Gains</b></td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'gain_on_art',
+                              'Gain and on ART'
+                            )
+                          "
+                          ><b>{{
+                            patientGainAndLoseSummaryData?.gain_on_art
+                          }}</b></a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a
+                          (click)="
+                            onIndicatorSelected(
+                              'gain_not_on_art',
+                              'Gain and not on ART'
+                            )
+                          "
+                          ><b>{{
+                            patientGainAndLoseSummaryData?.gain_not_on_art
+                          }}</b></a
+                        >
+                      </td>
+                      <td class="numbers_link report-indicators">
+                        <a (click)="onIndicatorSelected('gain', 'Gains')"
+                          ><b>{{
+                            patientGainAndLoseSummaryData?.starting_not_active
+                          }}</b></a
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                  <h3 class="analysis-title">
+                    Analysis of losses in
+                    {{ patientGainAndLoseSummaryData?.endingMonth }}
+                  </h3>
+                  <hr class="intro-divider" />
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>On ART</th>
+                        <th>Not on ART</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="report-indicators">Transferred Out</td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'transfer_out_on_art',
+                                'Transfer out and on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.transfer_out_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'transfer_out_not_on_art',
+                                'Transfer out and Not on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.transfer_out_not_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'transfer_out',
+                                'Transfer out'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.transfer_out
+                            }}</a
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="report-indicators">Dead</td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'dead_on_art',
+                                'Dead and on ART'
+                              )
+                            "
+                            >{{ patientGainAndLoseSummaryData?.dead_on_art }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'dead_not_on_art',
+                                'Dead and not on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.dead_not_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a (click)="onIndicatorSelected('dead', 'Dead')">{{
+                            patientGainAndLoseSummaryData?.dead
+                          }}</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="report-indicators">Ltfu/IIT</td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'defaulter_on_art',
+                                'LFTU/IIT and on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.defaulter_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'defaulter_not_on_art',
+                                'LFTU/IIT and not on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.defaulter_not_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected('defaulter', 'LFTU/IIT')
+                            "
+                            >{{ patientGainAndLoseSummaryData?.defaulter }}</a
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="report-indicators"><b>Still Active</b></th>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'still_active_on_art',
+                                'Still Active and on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.still_active_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected(
+                                'still_active_not_on_art',
+                                'Still Active and not on ART'
+                              )
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.still_active_not_on_art
+                            }}</a
+                          >
+                        </td>
+                        <td class="numbers_link report-indicators">
+                          <a
+                            (click)="
+                              onIndicatorSelected('still_active', 'Active')
+                            "
+                            >{{
+                              patientGainAndLoseSummaryData?.still_active
+                            }}</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>&nbsp;</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+        <div class="thumbnail dashboard-card" style="padding: 4px">
+          <div class="caption">
+            <span class="gain-text-color">Proxy Retention</span>
+            <hr class="intro-divider dashboard-divider" />
+            <h5 class="gain-text-color numbers_text">
+              {{ patientGainAndLoseSummaryData?.proxi_retention }} %
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <div class="row"></div>
+    </div>
+  </div>
+</div>

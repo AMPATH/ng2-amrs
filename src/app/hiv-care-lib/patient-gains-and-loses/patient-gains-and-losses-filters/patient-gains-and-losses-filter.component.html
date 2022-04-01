@@ -27,6 +27,16 @@
         </div>
         <div class="form-group">
           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <location-filter
+              *ngIf="dashboardType === 'data-analytics'"
+              [multiple]="true"
+              [locationUuids]="locationUuids"
+              (onLocationChange)="onLocationsSelected($event)"
+            ></location-filter>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <button class="btn btn-primary btn-search" (click)="setFilter()">
               Generate Report
             </button>
