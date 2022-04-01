@@ -1,0 +1,449 @@
+[
+  {
+    "page": "Starting Month",
+    "pageBody": [
+      {
+        "sectionTitle": "Active",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Starting month on ART",
+                "indicator": "on_art_starting"
+              }
+            ]
+          },
+          {
+            "name": "Not On ART",
+            "body": [
+              {
+                "title": "Starting month not on ART",
+                "indicator": "not_on_art_starting"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Starting month not on ART",
+                "indicator": "starting_active"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "Ending Month",
+    "pageBody": [
+      {
+        "sectionTitle": "Active",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Starting month on ART",
+                "indicator": "on_art_ending"
+              }
+            ]
+          },
+          {
+            "name": "Not On ART",
+            "body": [
+              {
+                "title": "Starting month not on ART",
+                "indicator": "not_on_art_ending"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Ending month not on ART",
+                "indicator": "ending_active"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "Gains",
+    "pageBody": [
+      {
+        "sectionTitle": "Enrolled in Care",
+        "sections": [
+          {
+            "name": "Pre ART",
+            "body": [
+              {
+                "title": "Enrolled in Care and Pre-ART",
+                "indicator": "newly_enrolled_pre_art"
+              }
+            ]
+          },
+          {
+            "name": "Started ART",
+            "body": [
+              {
+                "title": "Enrolled in Care and on ART",
+                "indicator": "newly_enrolled_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Enrolled in Care",
+                "indicator": "newly_enrolled"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Transferred In",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Transferred In and on ART",
+                "indicator": "transferred_in_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Transferred In and Not ART",
+                "indicator": "transferred_in_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Transferred In",
+                "indicator": "transferred_in"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Returned to Care",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Returned to Care and on ART",
+                "indicator": "return_to_care_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Returned to Care and Not ART",
+                "indicator": "return_to_care_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Returned to Care",
+                "indicator": "return_to_care"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Other",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Other and on ART",
+                "indicator": "gained_other_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Other and Not ART",
+                "indicator": "gained_other_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Other",
+                "indicator": "gained_other"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Total Gains",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Gain and on ART",
+                "indicator": "gain_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Gain and Not on ART",
+            "body": [
+              {
+                "title": "Gain and Not ART",
+                "indicator": "gain_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Gain",
+                "indicator": "gain"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "Losses",
+    "pageBody": [
+      {
+        "sectionTitle": "Transferred Out",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Transferred Out and on ART",
+                "indicator": "transfer_out_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Transferred Out and not on ART",
+                "indicator": "transfer_out_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Transferred Out",
+                "indicator": "transfer_out"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Dead",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Transferred Out and on ART",
+                "indicator": "dead_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Transferred Out and not on ART",
+                "indicator": "dead_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Dead",
+                "indicator": "dead"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Ltfu/IIT",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Ltfu/IIT and on ART",
+                "indicator": "defaulter_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Ltfu/IIT Out on ART",
+                "indicator": "defaulter_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Ltfu/IIT",
+                "indicator": "defaulter"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Total Losses",
+        "sections": [
+          {
+            "name": "Loss and On ART",
+            "body": [
+              {
+                "title": "Loss and on ART",
+                "indicator": "loss_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Loss and Not on ART",
+            "body": [
+              {
+                "title": "Loss and Not ART",
+                "indicator": "loss_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Loss",
+                "indicator": "loss"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "Net Loss/Gain",
+    "pageBody": [
+      {
+        "sectionTitle": "",
+        "sections": [
+          {
+            "name": "Net Gain/Loss",
+            "body": [
+              {
+                "title": "Net Gain/Loss",
+                "indicator": "net_gain_loss"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "Still Active",
+    "pageBody": [
+      {
+        "sectionTitle": "Still Active",
+        "sections": [
+          {
+            "name": "On ART",
+            "body": [
+              {
+                "title": "Still Active and on ART",
+                "indicator": "still_active_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Not on ART",
+            "body": [
+              {
+                "title": "Still Active and not on ART",
+                "indicator": "still_active_not_on_art"
+              }
+            ]
+          },
+          {
+            "name": "Total",
+            "body": [
+              {
+                "title": "Still Active",
+                "indicator": "still_active"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "Proxy Retention",
+    "pageBody": [
+      {
+        "sectionTitle": "",
+        "sections": [
+          {
+            "name": "Proxy Retention",
+            "body": [
+              {
+                "title": "Proxy Retention",
+                "indicator": "proxi_retention"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
