@@ -227,7 +227,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     this.loadPatientList(this.params);
   }
 
-  public goTopatientInfo(patientUuid) {
+  public goTopatientInfo(patientUuid: string) {
     if (patientUuid === undefined || patientUuid === null) {
       return;
     }
@@ -256,6 +256,12 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       latest_vl_date: 'Latest VL Date',
       previous_vl: 'Previous VL',
       previous_vl_date: 'Previous VL Date',
+      ipt_start_date: 'IPT Start Date',
+      ipt_completion_date: 'IPT Completion Date',
+      ipt_stop_date: 'IPT Stop Date',
+      discordant_status: 'Discordant Status',
+      tb_screening_date: 'TB Screening Date',
+      tb_screening_result: 'TB Screening Result',
       nearest_center: 'Nearest Center'
     };
 
