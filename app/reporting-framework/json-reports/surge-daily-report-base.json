@@ -6,7 +6,7 @@
   "uses": [],
   "sources": [
     {
-      "table": "etl.surge_daily_report_dataset",
+      "table": "etl.surge_daily_report_dataset_v1",
       "alias": "sdr"
     },
     {
@@ -182,56 +182,6 @@
     },
     {
       "type": "simple_column",
-      "alias": "dc_eligible_cumulative",
-      "column": "sdr.dc_eligible_cumulative"
-    },
-    {
-      "type": "simple_column",
-      "alias": "scheduled_today_and_due_for_vl",
-      "column": "sdr.scheduled_today_and_due_for_vl"
-    },
-    {
-      "type": "simple_column",
-      "alias": "unscheduled_today_and_due_for_vl",
-      "column": "sdr.unscheduled_today_and_due_for_vl"
-    },
-    {
-      "type": "simple_column",
-      "alias": "due_for_vl_today_has_vl_order",
-      "column": "sdr.due_for_vl_today_has_vl_order"
-    },
-    {
-      "type": "simple_column",
-      "alias": "due_for_vl_today_dont_have_order",
-      "column": "sdr.due_for_vl_today_dont_have_order"
-    },
-    {
-      "type": "simple_column",
-      "alias": "due_for_vl_today_active",
-      "column": "sdr.due_for_vl_today_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "overdue_for_vl_active",
-      "column": "sdr.overdue_for_vl_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "is_suppressed_active",
-      "column": "sdr.is_suppressed_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "is_unsuppressed_active",
-      "column": "sdr.is_unsuppressed_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "clinical_visit_num",
-      "column": "sdr.clinical_visit_num"
-    },
-    {
-      "type": "simple_column",
       "alias": "days_since_rtc_date",
       "column": "sdr.days_since_rtc_date"
     },
@@ -386,56 +336,6 @@
     },
     {
       "type": "simple_column",
-      "alias": "dc_eligible_cumulative",
-      "column": "sdr.dc_eligible_cumulative"
-    },
-    {
-      "type": "simple_column",
-      "alias": "scheduled_today_and_due_for_vl",
-      "column": "sdr.scheduled_today_and_due_for_vl"
-    },
-    {
-      "type": "simple_column",
-      "alias": "unscheduled_today_and_due_for_vl",
-      "column": "sdr.unscheduled_today_and_due_for_vl"
-    },
-    {
-      "type": "simple_column",
-      "alias": "due_for_vl_today_has_vl_order",
-      "column": "sdr.due_for_vl_today_has_vl_order"
-    },
-    {
-      "type": "simple_column",
-      "alias": "due_for_vl_today_dont_have_order",
-      "column": "sdr.due_for_vl_today_dont_have_order"
-    },
-    {
-      "type": "simple_column",
-      "alias": "due_for_vl_today_active",
-      "column": "sdr.due_for_vl_today_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "overdue_for_vl_active",
-      "column": "sdr.overdue_for_vl_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "is_suppressed_active",
-      "column": "sdr.is_suppressed_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "is_unsuppressed_active",
-      "column": "sdr.is_unsuppressed_active"
-    },
-    {
-      "type": "simple_column",
-      "alias": "clinical_visit_num",
-      "column": "sdr.clinical_visit_num"
-    },
-    {
-      "type": "simple_column",
       "alias": "days_since_rtc_date",
       "column": "sdr.days_since_rtc_date"
     },
@@ -521,53 +421,8 @@
     },
     {
       "type": "simple_column",
-      "alias": "eligible_and_on_dc",
-      "column": "sdr.eligible_and_on_dc"
-    },
-    {
-      "type": "simple_column",
-      "alias": "eligible_not_on_dc",
-      "column": "sdr.eligible_not_on_dc"
-    },
-    {
-      "type": "simple_column",
-      "alias": "eligible_not_on_dc_and_appointment_today",
-      "column": "sdr.eligible_not_on_dc_and_appointment_today"
-    },
-    {
-      "type": "simple_column",
-      "alias": "eligible_not_on_dc_and_unscheduled_today",
-      "column": "sdr.eligible_not_on_dc_and_unscheduled_today"
-    },
-    {
-      "type": "simple_column",
-      "alias": "eligible_and_on_dc_and_appointment_today",
-      "column": "sdr.eligible_and_on_dc_and_appointment_today"
-    },
-    {
-      "type": "simple_column",
-      "alias": "eligible_and_on_dc_and_unscheduled_today",
-      "column": "sdr.eligible_and_on_dc_and_unscheduled_today"
-    },
-    {
-      "type": "simple_column",
-      "alias": "elligible_total",
-      "column": "sdr.elligible_total"
-    },
-    {
-      "type": "simple_column",
-      "alias": "has_vl_today",
-      "column": "sdr.has_vl_today"
-    },
-    {
-      "type": "simple_column",
       "alias": "tx2_unscheduled_today",
       "column": "sdr.tx2_unscheduled_today"
-    },
-    {
-      "type": "simple_column",
-      "alias": "started_dc_today",
-      "column": "sdr.started_dc_today"
     },
     {
       "type": "simple_column",
@@ -603,11 +458,6 @@
       "type": "simple_column",
       "alias": "dead_today",
       "column": "sdr.dead_today"
-    },
-    {
-      "type": "simple_column",
-      "alias": "on_dc_today",
-      "column": "sdr.on_dc_today"
     },
     {
       "type": "simple_column",
@@ -709,12 +559,12 @@
     },
     {
       "type": "simple_column",
-      "alias": "home_outreach_count",
+      "alias": "phone_outreach_count",
       "column": "sdr.home_outreach_count"
     },
     {
       "type": "simple_column",
-      "alias": "phone_outreach_count",
+      "alias": "home_outreach_count",
       "column": "sdr.phone_outreach_count"
     }
   ],
