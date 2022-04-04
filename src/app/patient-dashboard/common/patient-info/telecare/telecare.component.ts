@@ -32,9 +32,11 @@ export class TelecareComponent implements OnInit, OnDestroy {
   }
   getClientConsent() {
     this.conceptUuid = [
-      "9d9ccb6b-73ae-48dd-83f9-12c782ce6685",
-      "a8a06fc6-1350-11df-a1f1-0026b9348838",
-      "bd3af665-2423-4beb-a383-0e823f2450d0",
+      '9d9ccb6b-73ae-48dd-83f9-12c782ce6685',
+      'a8a06fc6-1350-11df-a1f1-0026b9348838',
+      'bd3af665-2423-4beb-a383-0e823f2450d0',
+      '8873d881-6ad3-46e6-a558-b97d51d15e01',
+      '4e1a9d59-3d06-47eb-82a7-30410db249e4'
     ];
     const telecareEncounter = "5a58f6f5-f5a6-47eb-a644-626abd83f83b";
     this.subscription = this.obsService
@@ -67,7 +69,19 @@ export class TelecareComponent implements OnInit, OnDestroy {
                 ) {
                   this.clientConsent.expiryofConsent = moment(
                     element.value
-                  ).format("DD-MM-YYYY HH-mm");
+                  ).format('DD-MM-YYYY HH-mm');
+                } else if (
+                  element.concept.uuid === this.conceptUuid[3] &&
+                  element.encounter.encounterType.uuid === telecareEncounter
+                ) {
+                  this.clientConsent.sms = element.value.display;
+                } else if (
+                  element.concept.uuid === this.conceptUuid[4] &&
+                  element.encounter.encounterType.uuid === telecareEncounter
+                ) {
+                  this.clientConsent.smsTime = moment(element.value).format(
+                    'HH:mm'
+                  );
                 }
               }
             }
@@ -82,7 +96,7 @@ export class TelecareComponent implements OnInit, OnDestroy {
     this.router.navigate([
       "/patient-dashboard/patient/" +
         this.patientUuid +
-        "/general/general/formentry/734b61a1-92a6-497e-a743-17bf3c61796e",
+        '/general/general/formentry/8b196bad-6ee5-4290-b1be-101539e04290'
     ]);
   }
   ngOnDestroy(): void {

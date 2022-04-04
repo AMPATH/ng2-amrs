@@ -109,6 +109,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private visitUuid: string = null;
   private hasCallConsent = false;
   private familyTestingEncounterUuid: any;
+  private covidAssessment: any;
   private updateContacts: boolean;
 
   constructor(
@@ -372,13 +373,24 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'covidAssessment':
         this.showSuccessDialog = false;
         this.preserveFormAsDraft = false;
-        this.router.navigate([
-          "/patient-dashboard/patient/" +
-            this.patient.uuid +
-            "/hiv/" +
-            this.activeProgram +
-            '/formentry/0a9fc16e-4c00-4842-a1e4-e4bafeb6e226'
-        ]);
+        if (this.covidAssessment) {
+          const covidAssessmentFormUUID = `0a9fc16e-4c00-4842-a1e4-e4bafeb6e226`;
+          const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${covidAssessmentFormUUID}`;
+          this.router.navigate([url], {
+            queryParams: {
+              encounter: this.covidAssessment.uuid,
+              visitTypeUuid: ''
+            }
+          });
+        } else {
+          this.router.navigate([
+            '/patient-dashboard/patient/' +
+              this.patient.uuid +
+              '/hiv/' +
+              this.activeProgram +
+              '/formentry/0a9fc16e-4c00-4842-a1e4-e4bafeb6e226'
+          ]);
+        }
         break;
       case "familyHistory":
         this.showSuccessDialog = false;
@@ -1002,6 +1014,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
       if (this.familyTestingEncounterUuid) {
         this.updateContacts = true;
       }
+      // Check if covid assessment has been done
+      this.covidAssessment = this.patient.encounters.find(
+        (encounter) =>
+          encounter.encounterType.uuid ===
+          '466d6707-8429-4e61-b5a0-d63444f5ad35'
+      );
     } catch (ex) {
       // TODO Handle all form rendering errors
       console.error("An error occured while rendering form:", ex);
