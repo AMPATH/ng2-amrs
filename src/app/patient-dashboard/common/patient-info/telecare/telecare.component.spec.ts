@@ -118,7 +118,7 @@ describe('TelecareComponent', () => {
     const tdHtmlElements = fixture.debugElement.nativeElement.querySelectorAll(
       'td'
     );
-    expect(tdHtmlElements.length).toEqual(3);
+    expect(tdHtmlElements.length).toEqual(5);
     expect(noConsentWarning).toBeDefined();
   });
   it('redirect to patient info when patient uuid is present', () => {
