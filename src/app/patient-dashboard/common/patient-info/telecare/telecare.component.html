@@ -21,6 +21,14 @@
           <strong>Consent valid from : </strong>
           {{ clientConsent.dateofConsent }}
         </td>
+        <td *ngIf="clientConsent.dateofConsent">
+          <strong>SMS consent: </strong>
+          {{ clientConsent.sms }}
+        </td>
+        <td *ngIf="clientConsent.dateofConsent">
+          <strong>SMS consented time : </strong>
+          {{ clientConsent.smsTime }}
+        </td>
         <td *ngIf="clientConsent.comments">
           <strong>Comments : </strong>{{ clientConsent.comments }}
         </td>
