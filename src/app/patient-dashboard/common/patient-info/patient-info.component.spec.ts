@@ -134,7 +134,9 @@ describe('Component: PatientInfo', () => {
     expect(sectionHeaders[1].innerHTML).toMatch(/Contacts/);
     expect(sectionHeaders[2].innerHTML).toMatch(/Occupation/);
     expect(sectionHeaders[3].innerHTML).toMatch(/Highest Education Level/);
-    expect(sectionHeaders[4].innerHTML).toMatch(/Phone Consent/);
+    expect(sectionHeaders[4].innerHTML).toMatch(
+      /Home Visit \/ Phone \/ SMS Consent/
+    );
     expect(sectionHeaders[5].innerHTML).toMatch(/Address/);
     expect(sectionHeaders[6].innerHTML).toMatch(/Identifiers/);
     expect(sectionHeaders[7].innerHTML).toMatch(/Relationship/);

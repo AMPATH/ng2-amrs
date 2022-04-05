@@ -374,7 +374,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.preserveFormAsDraft = false;
         if (this.covidAssessment) {
           const covidAssessmentFormUUID = `0a9fc16e-4c00-4842-a1e4-e4bafeb6e226`;
-          console.log('Holla');
           const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${covidAssessmentFormUUID}`;
           this.router.navigate([url], {
             queryParams: {
