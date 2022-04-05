@@ -121,8 +121,8 @@
   }
 
   function getTestOrderJustification(rawPayload) {
-    var result =
-      eidOrderMap.testOrderJustification[rawPayload.vlJustificationUuid];
+    const justification = rawPayload.vlJustificationUuid[0] || '';
+    var result = eidOrderMap.testOrderJustification[justification];
     if (result) return result.eidId;
   }
 
