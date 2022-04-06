@@ -20,6 +20,15 @@
   [columnDefs]="extraColumns"
   (cellClicked)="onCellClick($event)"
 ></ag-grid-angular>
+<button
+  class="btn btn-info pull-right"
+  *ngIf="patientData?.length > 0"
+  (click)="exportPatientListToCsv()"
+  style="color: #fff"
+>
+  <i class="inline fa fa-fw fa-file-excel-o"></i>
+  <span> Export </span>
+</button>
 <div *ngIf="hasLoadedAll">
   <p class="bg-info" style="padding: 4px">
     <b>

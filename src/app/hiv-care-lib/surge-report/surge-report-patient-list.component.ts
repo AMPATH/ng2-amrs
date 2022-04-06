@@ -131,4 +131,8 @@ export class SurgeReportPatientListComponent implements OnInit {
     const patientUuid = $event.data.patient_uuid;
     this.redirectTopatientInfo(patientUuid);
   }
+
+  public exportPatientListToCsv() {
+    this.gridOptions.api.exportDataAsCsv();
+  }
 }
