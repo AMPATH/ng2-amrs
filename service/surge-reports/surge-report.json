@@ -57,23 +57,23 @@
         "indicator": "all_ltfus"
       },
       {
-        "label": "Cumulative Surge LTFUs (LTFUs as from 30th Sep 2019)",
-        "description": "All patients who became LTFUs as from 30th Sep 2019 including those who have been resolved",
+        "label": "Cumulative Surge LTFUs (LTFUs as from October 2020)",
+        "description": "All patients who became LTFUs as from October 2020 including those who have been resolved",
         "indicator": "is_ltfu_after_may_total"
       },
       {
-        "label": "Target to bring back this week (LTFUs as from 30th Sep 2019 not yet resolved)",
-        "description": "All patients who became LTFUs as from 30th Sep 2019 and have not been resolved",
+        "label": "Target to bring back this week (LTFUs as from October 2020 not yet resolved)",
+        "description": "All patients who became LTFUs as from October 2020 and have not been resolved",
         "indicator": "is_ltfu_after_may"
       },
       {
         "label": "Cumulative Medication refill LTFUs(Missed medication pickup rtc for more that 28 days)",
-        "description": "All patients who have missed their medication pickup rtc for more that 28 days as from 30th September 2019 to now, including those with outcomes already",
+        "description": "All patients who have missed their medication pickup rtc for more that 28 days as from October 2020 to now, including those with outcomes already",
         "indicator": "med_surge_ltfus_cumulative"
       },
       {
         "label": "Medication refill LTFUs not yet resolved",
-        "description": "All patients who have missed their medication pickup rtc for more that 28 days as from 30th September 2019 to now and have not been resolved yet",
+        "description": "All patients who have missed their medication pickup rtc for more that 28 days as from October 2020 to now and have not been resolved yet",
         "indicator": "med_surge_ltfu_and_med_ltfu_after_may"
       },
       {
