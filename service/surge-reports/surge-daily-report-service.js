@@ -51,15 +51,10 @@ export class SurgeDailyReportService {
         };
         delete results['result'];
 
-        _.each(results.results, (element) => {
-          if (element.arv_first_regimen_names) {
+        _.each(results.results.results.results, (element) => {
+          if (element.arv_first_regimen) {
             element.arv_first_regimen_names = helpers.getARVNames(
-              element.arv_first_regimen_names
-            );
-          }
-          if (element.cur_arv_meds_names) {
-            element.cur_arv_meds_names = helpers.getARVNames(
-              element.cur_arv_meds_names
+              element.arv_first_regimen
             );
           }
           if (element.cur_meds) {

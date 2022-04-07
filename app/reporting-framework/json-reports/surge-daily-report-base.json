@@ -206,6 +206,11 @@
       "column": "sdr.arv_first_regimen_names"
     },
     {
+      "type": "simple_column",
+      "alias": "arv_first_regimen",
+      "column": "sdr.arv_first_regimen"
+    },
+    {
       "type": "derived_column",
       "alias": "arv_first_regimen_start_date",
       "expressionType": "simple_expression",

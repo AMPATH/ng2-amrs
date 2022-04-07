@@ -127,14 +127,14 @@
         "indicator": "is_med_ltfu_after_sep19_unresolved"
       },
       {
-        "label": "Missed appointments (0 - 28 days)",
-        "description": "Missed appointments (0 - 28 days)",
-        "indicator": "missed_appnts_total_today"
-      },
-      {
         "label": "Graduated to LTFUs today",
         "description": "Those defaulted their clinical tca for more than 28 days today",
         "indicator": "newly_ltfu_today"
+      },
+      {
+        "label": "Missed appointments (0 - 28 days)",
+        "description": "Missed appointments (0 - 28 days)",
+        "indicator": "missed_appnts_total_today"
       },
       {
         "label": "Missed appointments outcomes today (BTC)",
