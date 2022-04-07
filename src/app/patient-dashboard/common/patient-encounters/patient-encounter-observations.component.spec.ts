@@ -56,6 +56,9 @@ describe('Component: PatientEncounterObservationsComponent', () => {
           concept: {
             name: {
               display: 'SKIN EXAM FINDINGS'
+            },
+            datatype: {
+              uuid: 'uuid1'
             }
           },
           value: {
@@ -67,6 +70,9 @@ describe('Component: PatientEncounterObservationsComponent', () => {
           concept: {
             name: {
               display: 'TUBERCULOSIS TREATMENT COMPLETED DATE'
+            },
+            datatype: {
+              uuid: 'uuid2'
             }
           },
           value: 120.0,
@@ -76,6 +82,9 @@ describe('Component: PatientEncounterObservationsComponent', () => {
           concept: {
             name: {
               display: 'TUBERCULOSIS TREATMENT COMPLETED DATE'
+            },
+            datatype: {
+              uuid: 'uuid3'
             }
           },
           groupMembers: [
