@@ -93,11 +93,22 @@ export class TelecareComponent implements OnInit, OnDestroy {
     if (this.patientUuid === undefined || this.patientUuid === null) {
       return;
     }
-    this.router.navigate([
-      "/patient-dashboard/patient/" +
-        this.patientUuid +
-        '/general/general/formentry/8b196bad-6ee5-4290-b1be-101539e04290'
-    ]);
+    if (this.consentExist) {
+      const consentFormUUID = '8b196bad-6ee5-4290-b1be-101539e04290';
+      const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${consentFormUUID}`;
+      this.router.navigate([url], {
+        queryParams: {
+          encounter: this.clientConsent.encounterUuid,
+          visitTypeUuid: ''
+        }
+      });
+    } else {
+      this.router.navigate([
+        '/patient-dashboard/patient/' +
+          this.patientUuid +
+          '/general/general/formentry/8b196bad-6ee5-4290-b1be-101539e04290'
+      ]);
+    }
   }
   ngOnDestroy(): void {
     if (this.subscription) {
