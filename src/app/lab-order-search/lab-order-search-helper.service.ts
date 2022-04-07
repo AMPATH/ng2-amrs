@@ -232,7 +232,9 @@ export class LabOrdersSearchHelperService {
     encounterObs,
     conceptUuid: string
   ): string[] {
-    const obsObjectArray = this.findObsByConceptUuid(encounterObs, conceptUuid);
+    const obsObjectArray = this.findObsByConceptUuid(encounterObs, conceptUuid)
+      ? this.findObsByConceptUuid(encounterObs, conceptUuid)
+      : [];
     const valueArray: string[] = [];
     obsObjectArray.forEach((obsObject: any) => {
       if (obsObject && obsObject !== null && obsObject.value) {
