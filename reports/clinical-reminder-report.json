@@ -84,8 +84,8 @@
         "sql": "$expression"
       },
       {
-        "label": "not_completed_ipt",
-        "expression": "not_completed_ipt",
+        "label": "needs_ipt_completion",
+        "expression": "needs_ipt_completion",
         "sql": "$expression"
       }
     ],

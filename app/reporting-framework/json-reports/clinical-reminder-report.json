@@ -150,7 +150,7 @@
       "alias": "qualifies_differenciated_care",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when vl_1 < 401 and (timestampdiff(year,birthdate, date('{referenceDate}')) >= 20) and (timestampdiff(month,ipt_start_date,if(ipt_completion_date,ipt_completion_date,'{referenceDate}')) >= 6 ) and (timestampdiff(month,vl_1_date,now()) <= 11 ) and (timestampdiff(month,arv_start_date, '{referenceDate}') >= 12) AND p.program_id IS NULL and t10.program_id is null and DATE(t1.prev_rtc_date) = DATE(t1.encounter_datetime) then 1 else 0 end"
+        "expression": "case when vl_1 < 401 and (timestampdiff(year,birthdate, date('{referenceDate}')) >= 20) and ((timestampdiff(month,ipt_start_date,if(ipt_completion_date is not null and (tb_prophylaxis_duration = 6 or tb_prophylaxis_duration is null),ipt_completion_date,'{referenceDate}')) >= 6) or (timestampdiff(month,ipt_start_date,if(ipt_completion_date is not null and tb_prophylaxis_duration = 3,ipt_completion_date,'{referenceDate}')) >= 3)) and (timestampdiff(month,vl_1_date,now()) <= 11 ) and (timestampdiff(month,arv_start_date, '{referenceDate}') >= 12) AND p.program_id IS NULL and t10.program_id is null and DATE(t1.prev_rtc_date) = DATE(t1.encounter_datetime) then 1 else 0 end"
       }
     },
     {
@@ -233,7 +233,7 @@
       "alias": "ipt_completion_date",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY)"
+        "expression": "case when t1.tb_prophylaxis_duration = 3 then DATE_ADD(t1.ipt_start_date, INTERVAL 90 DAY) else DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY) end"
       }
     },
     {
@@ -246,7 +246,7 @@
       "alias": "inh_treatment_days_remaining",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "DATEDIFF(DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY), now())"
+        "expression": "case when t1.tb_prophylaxis_duration = 3 then DATEDIFF(DATE_ADD(t1.ipt_start_date, INTERVAL 90 DAY), now()) else DATEDIFF(DATE_ADD(t1.ipt_start_date, INTERVAL 180 DAY), now()) end"
       }
     },
     {
@@ -307,11 +307,16 @@
     },
     {
       "type": "derived_column",
-      "alias": "not_completed_ipt",
+      "alias": "needs_ipt_completion",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when (timestampdiff(day,t1.ipt_start_date,curdate()) > 180) and t1.ipt_completion_date is null and t1.ipt_stop_date is null then 1 else 0 end"
+        "expression": "case when ((t1.tb_prophylaxis_duration = 3 and TIMESTAMPDIFF(DAY,t1.ipt_start_date,CURDATE()) > 90) or (TIMESTAMPDIFF(DAY,t1.ipt_start_date,CURDATE()) > 180)) and t1.ipt_completion_date is null and t1.ipt_stop_date is null then 1 else 0 end"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_prophylaxis_duration",
+      "column": "t1.tb_prophylaxis_duration"
     },
     {
       "type": "simple_column",
@@ -395,7 +400,7 @@
     "conditions": [
       {
         "filterType": "tableColumns",
-        "conditionExpression": "t1.uuid = ?",
+        "conditionExpression": "t1.uuid = ? and t1.is_clinical_encounter = 1",
         "parameterName": "patientUuid"
       },
       {

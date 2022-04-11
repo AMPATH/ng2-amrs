@@ -188,15 +188,34 @@ function qualifiesDifferenciatedReminders(data) {
 
 function inhReminders(data) {
   let reminders = [];
+  let months = 6;
+  let showReminder = false;
+  if (data.tb_prophylaxis_duration == 3) {
+    months = 3;
+  }
+  if (
+    data.tb_prophylaxis_duration == 3 &&
+    data.is_on_inh_treatment &&
+    data.inh_treatment_days_remaining > 0 &&
+    data.inh_treatment_days_remaining < 60
+  ) {
+    showReminder = true;
+  } else if (
+    data.tb_prophylaxis_duration != 3 &&
+    data.is_on_inh_treatment &&
+    data.inh_treatment_days_remaining > 30 &&
+    data.inh_treatment_days_remaining < 150
+  ) {
+    showReminder = true;
+  }
+  // INH Treatment Reminder - last month
   try {
-    if (
-      data.is_on_inh_treatment &&
-      data.inh_treatment_days_remaining > 30 &&
-      data.inh_treatment_days_remaining < 150
-    ) {
+    if (showReminder) {
       reminders.push({
         message:
-          'Patient started INH treatment on (' +
+          'Patient started ' +
+          months +
+          ' months INH treatment on (' +
           Moment(data.ipt_start_date).format('DD-MM-YYYY') +
           '). ' +
           'Expected to end on (' +
@@ -215,7 +234,7 @@ function inhReminders(data) {
   } catch (e) {
     console.log(e);
   }
-  // INH Treatment Reminder - last mont
+  // INH Treatment Reminder - last month
   if (
     data.is_on_inh_treatment &&
     data.inh_treatment_days_remaining <= 30 &&
@@ -223,7 +242,11 @@ function inhReminders(data) {
   ) {
     reminders.push({
       message:
-        'Patient has been on INH treatment for the last 5 months. Expected to end on (' +
+        'Patient has been on ' +
+        months +
+        ' month INH treatment since (' +
+        Moment(data.ipt_start_date).format('DD-MM-YYYY') +
+        '). Expected to end on (' +
         Moment(data.ipt_completion_date).format('DD-MM-YYYY') +
         ') ',
       title: 'INH Treatment Reminder',
@@ -489,16 +512,22 @@ function geneXpertReminders(data) {
 
 function getIptCompletionReminder(data) {
   let reminders = [];
+  let months = 6;
+  if (data.tb_prophylaxis_duration == 3) {
+    months = 3;
+  }
 
-  if (data.not_completed_ipt) {
+  if (data.needs_ipt_completion) {
     reminders.push({
       message:
-        'Patient started IPT on ' +
+        'Patient started ' +
+        months +
+        ' month IPT on ' +
         Moment(data.ipt_start_date).format('DD-MM-YYYY') +
         ' and was supposed to be completed on ' +
-        Moment(data.ipt_start_date).add(6, 'months').format('DD-MM-YYYY'),
+        Moment(data.ipt_start_date).add(months, 'months').format('DD-MM-YYYY'),
       title: 'IPT Completion Reminder',
-      type: 'warning',
+      type: 'danger',
       display: {
         banner: true,
         toast: true
