@@ -67,7 +67,7 @@
     "angular2-multiselect-dropdown": "^1.2.6",
     "angular2-select": "^1.0.0-beta.3",
     "angulartics2": "^4.0.1",
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "bardcode": "^1.0.0",
     "blob-stream": "^0.1.3",
     "bootstrap": "^3.4.1",
