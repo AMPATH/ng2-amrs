@@ -156,17 +156,19 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
                   this.hivSummary.arv_first_regimen_start_date = null;
                 }
 
-                switch (summary.tb_prophylaxis_medication) {
-                  case '607':
-                    this.iptProphylaxisMedication = '3HP';
-                    break;
-                  case '608':
-                  case '282':
-                    this.iptProphylaxisMedication = '3RH';
-                    break;
-                  default:
-                    this.iptProphylaxisMedication = 'Isoniazid';
-                    break;
+                if (summary.ipt_start_date != null) {
+                  switch (summary.tb_prophylaxis_medication) {
+                    case '607':
+                      this.iptProphylaxisMedication = '3HP';
+                      break;
+                    case '608':
+                    case '282':
+                      this.iptProphylaxisMedication = '3RH';
+                      break;
+                    default:
+                      this.iptProphylaxisMedication = 'Isoniazid';
+                      break;
+                  }
                 }
                 break;
               }
