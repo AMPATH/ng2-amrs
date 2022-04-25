@@ -4,6 +4,7 @@ const patientService = require('../service/openmrs-rest/patient.service.js');
 const programService = require('../service/openmrs-rest/program.service');
 const etlHivSummary = require('../dao/patient/etl-patient-hiv-summary-dao');
 const encounterService = require('../service/openmrs-rest/encounter');
+const dcPatientvisitEvaluator = require('../service/dc-patient-visit-evaluator');
 var _ = require('underscore');
 
 const availableKeys = {
@@ -14,7 +15,8 @@ const availableKeys = {
   hivLastEncounter: getPatientLastEncounter,
   patientEnrollment: getPatientEnrollement,
   patientEncounters: getPatientEncounters,
-  isPatientTransferredOut: checkTransferOut
+  isPatientTransferredOut: checkTransferOut,
+  dcQualifedVisits: getQualifiedDcVisits
 };
 
 const def = {
@@ -25,7 +27,8 @@ const def = {
   availableKeys: availableKeys,
   getPatientLastEncounter: getPatientLastEncounter,
   getPatientEncounters: getPatientEncounters,
-  checkTransferOut: checkTransferOut
+  checkTransferOut: checkTransferOut,
+  dcQualifedVisits: getQualifiedDcVisits
 };
 
 module.exports = def;
@@ -161,6 +164,16 @@ function getPatientEnrollement(patientUuid, params) {
       })
       .catch((error) => {
         reject(error);
+      });
+  });
+}
+
+function getQualifiedDcVisits(patientUuid) {
+  return new Promise((resolve, reject) => {
+    dcPatientvisitEvaluator
+      .getPatientQualifiedDcVisits(patientUuid)
+      .then((result) => {
+        resolve(result.result[0]);
       });
   });
 }

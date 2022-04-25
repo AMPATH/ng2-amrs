@@ -10,7 +10,9 @@ module.exports = def;
 function buildScope(dataDictionary) {
   const scope = {
     isPatientTransferredOut: false,
-    isFirstAMPATHHIVVisit: true
+    isFirstAMPATHHIVVisit: true,
+    qualifiesForStandardVisit: false,
+    qualifiesMedicationRefillVisit: false
   };
 
   if (dataDictionary.patient) {
@@ -45,11 +47,12 @@ function buildScope(dataDictionary) {
     }
   }
 
-  if (dataDictionary.hivLastEncounter) {
-    if (dataDictionary.hivLastEncounter.months_from_last_visit >= 5) {
+  if (dataDictionary.dcQualifedVisits) {
+    if (dataDictionary.dcQualifedVisits.qualifies_for_standard_visit === 1) {
       scope.qualifiesForStandardVisit = true;
-    } else {
-      scope.qualifiesForStandardVisit = false;
+    }
+    if (dataDictionary.dcQualifedVisits.qualifies_for_medication_refill === 1) {
+      scope.qualifiesMedicationRefillVisit = true;
     }
   }
 
