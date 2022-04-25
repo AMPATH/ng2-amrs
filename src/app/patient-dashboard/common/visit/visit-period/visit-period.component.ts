@@ -236,11 +236,11 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
 
   private getVisitPeriod(uuid) {
     const custom =
-      "custom:(uuid," +
-      "location:ref" +
-      ")," +
-      "visitType:(uuid,name),location:ref,startDatetime," +
-      "stopDatetime,attributes:(uuid,value))";
+      'custom:(uuid,' +
+      'location:ref' +
+      '),' +
+      'visitType:(uuid,name),location:ref,startDatetime,' +
+      'stopDatetime,attributes:(uuid,value,attributeType))';
     this.loadingVisit = true;
     this.visitSubscription = this.visitResource
       .getVisitByUuid(uuid, { v: custom })

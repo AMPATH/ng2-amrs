@@ -10,9 +10,8 @@ import {
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 
-import * as moment from "moment";
-import { isEqual } from "lodash";
-import { BsModalService, BsModalRef } from "ngx-bootstrap";
+import * as moment from 'moment';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { UserDefaultPropertiesService } from "../../../../user-default-properties/index";
 import { PatientProgramResourceService } from "../../../../etl-api/patient-program-resource.service";

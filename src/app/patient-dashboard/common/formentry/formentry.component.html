@@ -224,21 +224,6 @@
           !referralStatus &&
           !step &&
           form?.valueProcessingInfo?.formUuid !=
-            '0a9fc16e-4c00-4842-a1e4-e4bafeb6e226' &&
-          form?.valueProcessingInfo?.formUuid !=
-            '159e753d-da2d-47da-bbe5-d132b7e26c2e'
-        "
-        (click)="navigateTo('covidAssessment')"
-        type="button"
-        class="btn btn-warning"
-      >
-        <i class="fa fa-exclamation-triangle"></i> Covid Assessment
-      </button>
-      <button
-        *ngIf="
-          !referralStatus &&
-          !step &&
-          form?.valueProcessingInfo?.formUuid !=
             '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127'
         "
         (click)="navigateTo('familyHistory')"

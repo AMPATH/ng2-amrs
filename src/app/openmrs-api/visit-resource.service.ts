@@ -28,12 +28,12 @@ export class VisitResourceService {
       return null;
     }
     const custom =
-      "custom:(uuid,encounters:(uuid,encounterDatetime," +
-      "form:(uuid,name),location:ref," +
-      "encounterType:ref,encounterProviders:(uuid,display," +
-      "provider:(uuid,display))),patient:(uuid,uuid)," +
-      "visitType:(uuid,name),attributes:(uuid,display,value),location:ref,startDatetime," +
-      "stopDatetime)";
+      'custom:(uuid,encounters:(uuid,encounterDatetime,' +
+      'form:(uuid,name),location:ref,' +
+      'encounterType:ref,encounterProviders:(uuid,display,' +
+      'provider:(uuid,display))),patient:(uuid,uuid),' +
+      'visitType:(uuid,name),attributes:(uuid,display,value,attributeType),location:ref,startDatetime,' +
+      'stopDatetime)';
     const params = new HttpParams()
       .set("v", searchParams.v || custom)
       .set("patient", searchParams.patientUuid);
