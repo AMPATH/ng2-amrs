@@ -51,6 +51,7 @@ export class VisitDetailsComponent implements OnInit {
   public VIREMIA_TREATMENT_SUPPORTER_VISIT =
     '52fddd42-f9ea-4946-8733-f0e584360780';
   public HEI_TREATMENT_SUPPORTER_VISIT = '015af4d4-67cb-45a3-9929-8dbd53b1e47c';
+  public PHARMACY_VISIT = '30003687-44e5-4861-bd9c-d58e2fe81b8f';
   public ONCOLOGYVIA = '238625fc-8a25-44b2-aa5a-8bf48fa0e18d';
   public qualifiesForCovidScreenig = false;
   public hivPrograms = [
@@ -318,7 +319,8 @@ export class VisitDetailsComponent implements OnInit {
       visitTypeUuid === this.PMTCT_TREATMENT_SUPPORTER_VISIT ||
       visitTypeUuid === this.DC_TREATMENT_SUPPORTER_VISIT ||
       visitTypeUuid === this.VIREMIA_TREATMENT_SUPPORTER_VISIT ||
-      visitTypeUuid === this.HEI_TREATMENT_SUPPORTER_VISIT
+      visitTypeUuid === this.HEI_TREATMENT_SUPPORTER_VISIT ||
+      visitTypeUuid === this.PHARMACY_VISIT
     ) {
       this.isTreatmentSupprterVisit = true;
     } else {
