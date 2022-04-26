@@ -2616,7 +2616,8 @@
       "hivLastTenClinicalEncounters",
       "hivLastEncounter",
       "patientEncounters",
-      "isPatientTransferredOut"
+      "isPatientTransferredOut",
+      "dcQualifedVisits"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
@@ -2688,9 +2689,9 @@
     ],
     "visitTypes": [
       {
-        "uuid": "9bf3fadd-4938-40fa-a093-4e01bf197876",
-        "name": "Differentiated Care Facility Visit ",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && !qualifiesForStandardVisit",
+        "uuid": "0becf5b9-0522-47c8-960c-c9d660c56501",
+        "name": "Medication Refill Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && qualifiesMedicationRefillVisit",
         "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
         "encounterTypes": [
           {
@@ -2751,7 +2752,7 @@
       {
         "uuid": "380d79a7-6fb0-41bf-be3d-aa3d25da187c",
         "name": "Standard HIV Visit for Differentiated Care ",
-        "allowedIf": "age >= 10 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "allowedIf": "age >= 10 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && qualifiesForStandardVisit",
         "encounterTypes": [
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
@@ -2813,18 +2814,6 @@
           {
             "uuid": "c4efb6ba-e286-4933-8854-cd3af8e1ebef",
             "display": "YOUTHCOUNSELING"
-          }
-        ]
-      },
-      {
-        "uuid": "8c29c6af-5df1-4cf3-919f-606690652f58",
-        "name": "Differentiated Care Pharmacy Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
-        "message": "Patient has to be the same location from location he was enrolled into HIV care and treatment program and must have a prior clinical encounter",
-        "encounterTypes": [
-          {
-            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
-            "display": "DRUGPICKUP"
           }
         ]
       },
@@ -5001,6 +4990,72 @@
           {
             "uuid": "c2d4a901-8007-4e36-8f50-5b19eb293451",
             "display": "CDMMENTALHEALTHRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "8c1a3a68-d91d-488d-8663-ad572673232b": {
+    "name": "PHARMACY PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "patientEncounters",
+      "isPatientTransferredOut"
+    ],
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [
+        {
+          "qtype": "hivStatus",
+          "name": "Patient HIV status",
+          "enrollIf": "positive",
+          "value": null,
+          "answers": [
+            {
+              "value": "positive",
+              "label": "Positive"
+            },
+            {
+              "value": "negative",
+              "label": "Negative"
+            },
+            {
+              "value": "exposed",
+              "label": "Exposed"
+            }
+          ]
+        }
+      ],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "9765992c-6279-46cc-915b-452a73e7dab5",
+            "name": "AMPATH POC HIV Exit Care Form v1.1",
+            "required": true
+          }
+        ]
+      }
+    },
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "30003687-44e5-4861-bd9c-d58e2fe81b8f",
+        "name": "Pharmacy Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "message": "Patient has to be in the location he enrolled into the HIV Care and Treatment program ",
+        "encounterTypes": [
+          {
+            "uuid": "987009c6-6f24-43f7-9640-c285d6553c63",
+            "display": "DRUGPICKUP"
           }
         ]
       }
