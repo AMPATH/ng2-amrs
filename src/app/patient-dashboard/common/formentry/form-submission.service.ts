@@ -4,18 +4,26 @@ import {
   Observable,
   Subject,
   of,
-} from "rxjs";
+} from 'rxjs';
 
-import { catchError, first } from "rxjs/operators";
-import { Injectable } from "@angular/core";
-import { Form } from '@ampath-kenya/ngx-openmrs-formentry';
-import { EncounterAdapter, PersonAttribuAdapter } from '@ampath-kenya/ngx-openmrs-formentry';
-import { EncounterResourceService } from "../../../openmrs-api/encounter-resource.service";
-import { PersonResourceService } from "../../../openmrs-api/person-resource.service";
-import { FormentryHelperService } from "./formentry-helper.service";
-import { FormDataSourceService } from "./form-data-source.service";
-import { ErrorLogResourceService } from "../../../etl-api/error-log-resource.service";
-import * as _ from "lodash";
+import { catchError, first } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import {
+  EncounterAdapter,
+  PersonAttribuAdapter,
+  Form
+} from '@ampath-kenya/ngx-openmrs-formentry';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
+import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
+import { FormentryHelperService } from './formentry-helper.service';
+import { FormDataSourceService } from './form-data-source.service';
+import { ErrorLogResourceService } from '../../../etl-api/error-log-resource.service';
+import * as _ from 'lodash';
+
+interface ValidationResponse {
+  isValid: boolean;
+  errors: string;
+}
 @Injectable()
 export class FormSubmissionService {
   private payloadTypes: Array<string> = ["encounter", "personAttribute"];
@@ -90,6 +98,7 @@ export class FormSubmissionService {
             const encounterPayload: any = this.encounterAdapter.generateFormPayload(
               form
             );
+            console.log('encounterPayload', encounterPayload);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
                 this.submitEncounterPayload(form, encounterPayload).pipe(
@@ -145,6 +154,14 @@ export class FormSubmissionService {
     form: Form,
     encounterPayload: any
   ): Observable<any> {
+    const payloadStatus = this.validateEncounterPayload(encounterPayload);
+    if (!payloadStatus.isValid) {
+      return Observable.throw({
+        error: {
+          detail: payloadStatus.errors
+        }
+      });
+    }
     if (encounterPayload.uuid) {
       // editting existing form
       return this.encounterResourceService.updateEncounter(
@@ -325,5 +342,98 @@ export class FormSubmissionService {
   private setProviderUuid(form: Form, providerUuid: string): Form {
     form.valueProcessingInfo.providerUuid = providerUuid;
     return form;
+  }
+
+  private validateEncounterPayload(encounterPayLoad: any): ValidationResponse {
+    const covidScreeningUuid = '466d6707-8429-4e61-b5a0-d63444f5ad35';
+    let validityResp: ValidationResponse = {
+      isValid: true,
+      errors: ''
+    };
+    if (encounterPayLoad.encounterType === covidScreeningUuid) {
+      validityResp = this.validateForCovidScreening(encounterPayLoad);
+    } else {
+      validityResp.isValid = true;
+    }
+
+    return validityResp;
+  }
+
+  private validateForCovidScreening(encounterPayLoad: any): ValidationResponse {
+    const immunizationUuid = 'aafba364-37e1-4e1c-a2ae-3c117750949d';
+    const immunizationObsGroupUuid = 'a89c9658-1350-11df-a1f1-0026b9348838';
+    const boosterVaccineUuid = '066aab8f-4b20-4dba-8caf-14da551b9b65';
+    const boosterVaccinceObsGroupUuid = 'a8a08588-1350-11df-a1f1-0026b9348838';
+    const yesUuid = 'a899b35c-1350-11df-a1f1-0026b9348838';
+    const validityResp: ValidationResponse = {
+      isValid: true,
+      errors: ''
+    };
+    let errorMsg = '';
+    const obs = encounterPayLoad.obs ? encounterPayLoad.obs : [];
+    let errorCount = 0;
+
+    const receivedCovidVaccine = this.checkForConceptAnswer(
+      obs,
+      immunizationUuid,
+      yesUuid
+    );
+    const receivedBoosterVaccince = this.checkForConceptAnswer(
+      obs,
+      boosterVaccineUuid,
+      yesUuid
+    );
+
+    if (receivedCovidVaccine) {
+      // check if any vaccine has been entered
+      const hasVaccineDetails = this.checkForGroupMemberAnswer(
+        obs,
+        immunizationObsGroupUuid
+      );
+
+      if (!hasVaccineDetails) {
+        const message =
+          'Patient has received Covid Vaccine but no vaccine has been entered.';
+        validityResp.isValid = false;
+        errorCount++;
+        errorMsg += `${errorCount}. ${message}`;
+      }
+      validityResp.errors = errorMsg;
+    }
+
+    if (receivedBoosterVaccince) {
+      const hasBoosterDetails = this.checkForGroupMemberAnswer(
+        obs,
+        boosterVaccinceObsGroupUuid
+      );
+
+      if (!hasBoosterDetails) {
+        const message =
+          'Patient has received Booster Vaccine but no booster has been entered';
+        validityResp.isValid = false;
+        errorCount++;
+        errorMsg += `${errorCount}. ${message}`;
+      }
+      validityResp.errors = errorMsg;
+    }
+
+    return validityResp;
+  }
+
+  private checkForConceptAnswer(
+    obs: any,
+    questionUuid: string,
+    answerUuid: string
+  ): boolean {
+    return obs.some((o: any) => {
+      return o.concept === questionUuid && o.value === answerUuid;
+    });
+  }
+
+  private checkForGroupMemberAnswer(obs: any, questionUuid: string): boolean {
+    return obs.some((o: any) => {
+      const groupMembers = o.groupMembers ? o.groupMembers : [];
+      return o.concept === questionUuid && groupMembers.length > 0;
+    });
   }
 }
