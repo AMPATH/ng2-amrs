@@ -79,6 +79,16 @@
       "routes": []
     },
     {
+      "programName": "Pharmacy",
+      "programUuid": "8c1a3a68-d91d-488d-8663-ad572673232b",
+      "baseRoute": "8c1a3a68-d91d-488d-8663-ad572673232b",
+      "alias": "hiv",
+      "published": true,
+      "requiresPatientEnrollment": true,
+      "shared-routes-class": "hiv",
+      "routes": []
+    },
+    {
       "programName": "HIV Transit",
       "programUuid": "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
       "baseRoute": "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
