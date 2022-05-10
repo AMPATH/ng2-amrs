@@ -255,6 +255,34 @@
                 <span style="margin-left: -5px">CCC: Not Assigned</span>
               </span>
             </span>
+            <span
+              *ngIf="
+                searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
+              "
+            >
+              <span *ngIf="isPatientVerified">
+                <span class="id-label">UPI:</span>
+                <span>{{ searchIdentifiers?.upi }}</span>
+              </span>
+              <span
+                *ngIf="!isPatientVerified"
+                (click)="
+                  identifiers.showDialog('add', patient?._identifier, true)
+                "
+                style="
+                  color: darkorange;
+                  border: 1px solid darkorange;
+                  padding-left: 4px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-right: 0px;
+                  cursor: pointer;
+                "
+              >
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px">Verify Patient</span>
+              </span>
+            </span>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei && enrolledToHEIProgram"
