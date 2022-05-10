@@ -52,6 +52,29 @@ export class PatientIdentifierService {
       'PrEP'
     ];
   }
+  public patientVerificationIdentifierTypeFormat() {
+    return [
+      {
+        label: 'KENYAN NATIONAL ID NUMBER',
+        format: null,
+        checkdigit: null,
+        val: '58a47054-1359-11df-a1f1-0026b9348838'
+      },
+      {
+        label: 'Birth Number',
+        format: '7924e13b-131a-4da8-8efa-e294184a1b0d',
+        checkdigit: 0,
+        val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
+      },
+      {
+        label: 'Passport Number',
+        format: '',
+        checkdigit: 0,
+        val: 'ced014a1-068a-4a13-b6b3-17412f754af2'
+      }
+    ];
+  }
+
   public patientIdentifierTypeFormat() {
     return [
       {
@@ -59,6 +82,18 @@ export class PatientIdentifierService {
         format: null,
         checkdigit: null,
         val: '58a47054-1359-11df-a1f1-0026b9348838'
+      },
+      {
+        label: 'Birth Number',
+        format: '',
+        checkdigit: 0,
+        val: '7924e13b-131a-4da8-8efa-e294184a1b0d'
+      },
+      {
+        label: 'Passport Number',
+        format: '',
+        checkdigit: 0,
+        val: 'ced014a1-068a-4a13-b6b3-17412f754af2'
       },
       {
         label: 'AMRS Medical Record Number',

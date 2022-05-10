@@ -267,7 +267,7 @@
               <span
                 *ngIf="!isPatientVerified"
                 (click)="
-                  identifiers.showDialog('add', patient?._identifier, true)
+                  identifiers.showDialog('verify', patient?._identifier, true)
                 "
                 style="
                   color: darkorange;
