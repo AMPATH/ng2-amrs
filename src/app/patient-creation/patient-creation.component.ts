@@ -82,9 +82,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public patientObsGroupId: string;
 
   public address1: string;
+  public country: string;
   public address2: string;
   public address3: string;
   public cityVillage: string;
+  public ward: string;
+  public landmark: string;
   public longitude: string;
   public latitude: string;
   public stateProvince: string;
@@ -652,9 +655,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           addresses: [
             {
               address1: this.address1,
+              country: this.country,
               address2: this.address2,
               address3: this.address3,
               address7: this.address7,
+              address8: this.ward,
               cityVillage: this.cityVillage,
               latitude: this.latitude,
               longitude: this.longitude,
