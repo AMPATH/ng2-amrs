@@ -110,6 +110,11 @@ export class Patient extends BaseModel {
       const bhim = this.getIdentifierByType(identifier, 'BHIM');
       const ovcid = this.getIdentifierByType(identifier, 'OVCID');
       const prep = this.getIdentifierByType(identifier, 'PrEP');
+      const birthNumber = this.getIdentifierByType(
+        identifier,
+        'Birth Certificate Number'
+      );
+      const upi = this.getIdentifierByType(identifier, 'UPI Number');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -133,7 +138,9 @@ export class Patient extends BaseModel {
           nat: nat,
           bhim: bhim,
           ovcid: ovcid,
-          prep: prep
+          prep: prep,
+          birthNumber: birthNumber,
+          upi: upi
         };
       }
       return filteredIdentifiers;
@@ -164,6 +171,11 @@ export class Patient extends BaseModel {
       const cCC = this.getAllIdentifiersByType(identifiers, 'CCC Number');
       const ovcid = this.getIdentifierByType(identifiers, 'OVCID');
       const prep = this.getIdentifierByType(identifiers, 'PrEP');
+      const birthNumber = this.getIdentifierByType(
+        identifiers,
+        'Birth Certificate Number'
+      );
+      const upi = this.getIdentifierByType(identifiers, 'UPI Number');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -188,7 +200,11 @@ export class Patient extends BaseModel {
             ? this._fromArrayToCommaSeparatedString(ampathMrsUId)
             : ampathMrsUId,
           cCC: cCC ? this._fromArrayToCommaSeparatedString(cCC) : cCC,
-          ovcid: ovcid ? this._fromArrayToCommaSeparatedString(ovcid) : ovcid
+          ovcid: ovcid ? this._fromArrayToCommaSeparatedString(ovcid) : ovcid,
+          birthNumber: birthNumber
+            ? this._fromArrayToCommaSeparatedString(birthNumber)
+            : birthNumber,
+          upi: upi ? this._fromArrayToCommaSeparatedString(upi) : upi
         };
       }
       return filteredIdentifiers;

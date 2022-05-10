@@ -33,7 +33,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public patientChanged: any;
   public showingAddToCohort = false;
   public patient: Patient = new Patient({});
-  public searchIdentifiers: object;
+  public searchIdentifiers: any;
   public attributes: any;
   public birthdate;
   public formattedPatientAge;
@@ -43,6 +43,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationships: any = [];
   public relationship: Relationship;
   public ovcEnrollment = false;
+  public isPatientVerified = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -108,6 +109,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
               this.familyTestingEncounterUuid = _.first<any>(response.results);
             });
           this.getPatientEncounters();
+
+          if (this.searchIdentifiers.upi === undefined) {
+            this.isPatientVerified = false;
+          } else {
+            this.isPatientVerified = true;
+          }
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
