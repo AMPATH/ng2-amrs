@@ -603,6 +603,18 @@
         <div class="row">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
+              <label for="country" class="control-label">Country<span *ngIf="!country" class="required"> * </span></label>
+              <input
+                type="text"
+                id="country"
+                class="form-control"
+                [(ngModel)]="country"
+                name="country"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
               <label for="address1" class="control-label">County</label>
               <select
                 id="address1"
@@ -649,7 +661,7 @@
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address3" class="control-label">Estate</label>
+              <label for="address3" class="control-label">Estate/Village</label>
               <input
                 type="text"
                 id="address3"
@@ -668,6 +680,30 @@
                 class="form-control"
                 [(ngModel)]="cityVillage"
                 name="cityVillage"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="ward" class="control-label">Ward</label>
+              <input
+                type="text"
+                id="ward"
+                class="form-control"
+                [(ngModel)]="ward"
+                name="ward"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="cityVillage" class="control-label">Landmark</label>
+              <input
+                type="text"
+                id="landmark"
+                class="form-control"
+                [(ngModel)]="landmark"
+                name="landmark"
               />
             </div>
           </div>
@@ -780,6 +816,18 @@
             </div>
             <div class="alert alert-danger" *ngIf="!selectedLocation">
               Identifier Location is required!
+            </div>
+            <div class="alert alert-danger" *ngIf="!address3">
+              Village is required
+            </div>
+            <div class="alert alert-danger" *ngIf="!country">
+              Country is required!
+            </div>
+            <div class="alert alert-danger" *ngIf="!ward">
+              Ward is required!
+            </div>
+            <div class="alert alert-danger" *ngIf="!address1">
+              County is required!
             </div>
           </span>
         </div>
