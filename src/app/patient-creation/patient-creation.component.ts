@@ -133,6 +133,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public errorAlerts = [];
   public occupationConceptUuid = 'a8a0a00e-1350-11df-a1f1-0026b9348838';
   public occupationAttributeTypeUuid = '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0';
+  public idNumberVerified = '134eaf8a-b5aa-4187-85a6-757dec1ae72b';
   public occupations = [];
   public occupationConcept: any;
   public occupation: any;
@@ -637,6 +638,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         attributes.push({
           value: this.careGiverPhoneNumber,
           attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
+        });
+      }
+
+      if(ids.find(x => x.identifierType ==="58a47054-1359-11df-a1f1-0026b9348838")){
+        console.log("Idexists")
+        attributes.push({
+          value: true,
+          attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
         });
       }
       const payload = {
