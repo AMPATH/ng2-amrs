@@ -641,11 +641,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         });
       }
 
-      if(ids.find(x => x.identifierType ==="58a47054-1359-11df-a1f1-0026b9348838")){
-        console.log("Idexists")
+      if (
+        ids.find(
+          (x) => x.identifierType === '58a47054-1359-11df-a1f1-0026b9348838'
+        )
+      ) {
+        console.log('Idexists');
         attributes.push({
           value: true,
-          attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+          attributeType: 'ff93687c-4d22-4476-a5c8-ce49c9bd24d0'
         });
       }
       const payload = {
@@ -687,6 +691,18 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             this.loaderStatus = false;
             this.sessionStorageService.remove('person');
             this.createdPatient = success;
+            // Add logic to hit the dhp service
+            const patientResult: any = success;
+            this.patientCreationResourceService
+              .generateUPI(patientResult.person.uuid)
+              .subscribe(
+                (data) => {
+                  console.log('Success data', data);
+                },
+                (err) => {
+                  console.log('Error', err);
+                }
+              );
             if (this.createdPatient && !this.patientObsGroupId) {
               this.modalRef = this.modalService.show(this.successModal, {
                 backdrop: 'static',

@@ -49,6 +49,12 @@ export class PatientCreationResourceService {
     return this.http.post(url, user);
   }
 
+  public generateUPI(patientUuid) {
+    // TODO: Change to production url
+    const url = `http://192.168.1.104:3000/api/identifier?patientUuid=${patientUuid}`;
+    return this.http.get(url);
+  }
+
   public savePatient(payload) {
     const url = this.url();
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
