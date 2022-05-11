@@ -129,7 +129,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((res) => {
         const value = res.results.filter((a: any) => {
           return (
-            a.attributeType.uuid === 'ff93687c-4d22-4476-a5c8-ce49c9bd24d0'
+            a.attributeType.uuid === '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
           );
         });
         if (value.length > 0 && value[0].value) {

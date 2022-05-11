@@ -649,7 +649,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         console.log('Idexists');
         attributes.push({
           value: true,
-          attributeType: 'ff93687c-4d22-4476-a5c8-ce49c9bd24d0'
+          attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
         });
       }
       const payload = {
