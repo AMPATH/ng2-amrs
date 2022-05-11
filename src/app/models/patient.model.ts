@@ -115,6 +115,7 @@ export class Patient extends BaseModel {
         'Birth Certificate Number'
       );
       const upi = this.getIdentifierByType(identifier, 'UPI Number');
+      const pid = this.getIdentifierByType(identifier, 'PASSPORT NUMBER');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -140,7 +141,8 @@ export class Patient extends BaseModel {
           ovcid: ovcid,
           prep: prep,
           birthNumber: birthNumber,
-          upi: upi
+          upi: upi,
+          pid: pid
         };
       }
       return filteredIdentifiers;
@@ -176,6 +178,7 @@ export class Patient extends BaseModel {
         'Birth Certificate Number'
       );
       const upi = this.getIdentifierByType(identifiers, 'UPI Number');
+      const pid = this.getIdentifierByType(identifiers, 'PASSPORT NUMBER');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -204,7 +207,8 @@ export class Patient extends BaseModel {
           birthNumber: birthNumber
             ? this._fromArrayToCommaSeparatedString(birthNumber)
             : birthNumber,
-          upi: upi ? this._fromArrayToCommaSeparatedString(upi) : upi
+          upi: upi ? this._fromArrayToCommaSeparatedString(upi) : upi,
+          pid: pid ? this._fromArrayToCommaSeparatedString(pid) : pid
         };
       }
       return filteredIdentifiers;

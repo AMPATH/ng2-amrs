@@ -45,6 +45,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public ovcEnrollment = false;
   public isPatientVerified = false;
+  public verificationStatus = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -78,6 +79,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          this.getVerificationStatus();
           this.getOvcEnrollments(
             patient.enrolledPrograms,
             patient.person.birthdate
@@ -111,13 +113,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
               this.familyTestingEncounterUuid = _.first<any>(response.results);
             });
           this.getPatientEncounters();
-          this.getVerificationStatus();
-
-          if (this.searchIdentifiers.upi === undefined) {
-            this.isPatientVerified = false;
-          } else {
-            this.isPatientVerified = true;
-          }
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
@@ -134,11 +129,30 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((res) => {
         const value = res.results.filter((a: any) => {
           return (
-            a.attributeType.uuid === '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+            a.attributeType.uuid === 'ff93687c-4d22-4476-a5c8-ce49c9bd24d0'
           );
         });
         if (value.length > 0 && value[0].value) {
-          this.isPatientVerified = true;
+          this.verificationStatus = true;
+
+          if (this.searchIdentifiers.upi === undefined) {
+            if (
+              this.searchIdentifiers.kenyaNationalId === undefined &&
+              this.searchIdentifiers.birthNumber === undefined &&
+              this.searchIdentifiers.pid === undefined
+            ) {
+              this.isPatientVerified = false;
+            } else if (
+              this.verificationStatus &&
+              (this.searchIdentifiers.kenyaNationalId !== undefined ||
+                this.searchIdentifiers.birthNumber !== undefined ||
+                this.searchIdentifiers.pid !== undefined)
+            ) {
+              this.isPatientVerified = true;
+            }
+          } else {
+            this.isPatientVerified = true;
+          }
         }
       });
   }

@@ -312,9 +312,19 @@
               {{ searchIdentifiers?.amrsMrn }}
               &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <span *ngIf="searchIdentifiers?.kenyaNationalId">
+            <span
+              *ngIf="isPatientVerified && searchIdentifiers?.kenyaNationalId"
+            >
               <span class="id-label">NID:</span>
               {{ searchIdentifiers?.kenyaNationalId }}
+            </span>
+            <span *ngIf="isPatientVerified && searchIdentifiers?.birthNumber">
+              <span class="id-label">BID:</span>
+              {{ searchIdentifiers?.birthNumber }}
+            </span>
+            <span *ngIf="isPatientVerified && searchIdentifiers?.pid">
+              <span class="id-label">PID:</span>
+              {{ searchIdentifiers?.pid }}
             </span>
             <span *ngIf="searchIdentifiers?.nat">
               <span class="id-label">NAT:</span> {{ searchIdentifiers?.nat }}

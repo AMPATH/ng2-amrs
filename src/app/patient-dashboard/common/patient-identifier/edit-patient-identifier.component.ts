@@ -26,7 +26,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public hasError = false;
   public display = false;
   public addDialog = false;
-  public verifyDialog = false;
+  public addVerifyDialog = false;
   public patientIdentifier = '';
   public preferredIdentifier = '';
   public identifierLocation = '';
@@ -67,7 +67,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public disable = false;
   public birthDate: any;
   public birthError = '';
-  public isNumberVerified: Boolean;
   public verificationIdentifierTypes: any = [];
 
   constructor(
@@ -116,7 +115,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.addDialog = true;
       this.dialogData(id);
     } else if (param === 'verify') {
-      this.verifyDialog = true;
+      this.addVerifyDialog = true;
       this.dialogData(id, true);
     }
   }
@@ -140,13 +139,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
           ],
           _id.identifierType.uuid
         );
-        if (hasId && verify === true) {
-          _.remove(
-            this.verificationIdentifierTypes,
-            (idType: any) => idType.val === _id.identifierType.uuid
-          );
-          return;
-        } else if (hasId) {
+        if (hasId) {
           _.remove(
             this.commonIdentifierTypes,
             (idType: any) => idType.val === _id.identifierType.uuid
@@ -178,6 +171,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public dismissDialog() {
     this.display = false;
     this.addDialog = false;
+    this.addVerifyDialog = false;
     this.identifierValidity = '';
   }
 
@@ -272,10 +266,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.telNumber = telNumber;
   }
 
-  public setIsVerifiedValue(val) {
-    this.isNumberVerified = val;
-  }
-
   public setCountry(country) {
     this.country = country;
   }
@@ -317,8 +307,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
 
     attributes.push({
-      value: this.isNumberVerified,
-      attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+      value: true,
+      attributeType: 'ff93687c-4d22-4476-a5c8-ce49c9bd24d0'
     });
 
     const newId = {
@@ -357,8 +347,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (res) => {
-          this.saveIdentifier(payload.data.identifiers, this.patients.person);
-          /**TODO: Send verification request to patient registry service */
+          this.updatePatientIdentifier(true);
         },
         (err) => {
           console.log('Errors ', err);
@@ -366,7 +355,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       );
   }
 
-  public updatePatientIdentifier() {
+  public updatePatientIdentifier(isVerifyDialog?: Boolean) {
     const person = {
       uuid: this.patients.person.uuid
     };
@@ -426,7 +415,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             }
             if (hasSameIdTypeAndValue) {
               this.identifierValidity = 'This identifier is already in use!';
-              this.display = true;
+              if (isVerifyDialog) {
+                this.addVerifyDialog = true;
+              } else {
+                this.display = true;
+              }
             } else {
               if (
                 personIdentifierPayload.uuid === undefined ||
@@ -436,7 +429,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
                 delete personIdentifierPayload.uuid;
               }
               this.identifierValidity = '';
-              this.saveIdentifier(personIdentifierPayload, person);
+              this.saveIdentifier(
+                personIdentifierPayload,
+                person,
+                isVerifyDialog
+              );
             }
           });
       } else {
@@ -473,7 +470,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       );
   }
 
-  private saveIdentifier(personIdentifierPayload, person) {
+  private saveIdentifier(personIdentifierPayload, person, verify?: Boolean) {
     this.patientResourceService
       .saveUpdatePatientIdentifier(
         person.uuid,
@@ -482,7 +479,19 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       )
       .pipe(take(1))
       .subscribe(
-        (success) => {
+        (res) => {
+          if (verify) {
+            this.patientCreationResourceService
+              .generateUPI(this.patients.person.uuid)
+              .subscribe(
+                (data) => {
+                  console.log('Success data', data);
+                },
+                (err) => {
+                  console.log('Error', err);
+                }
+              );
+          }
           this.displaySuccessAlert('Identifiers saved successfully');
           this.patientIdentifier = '';
           this.identifierLocation = '';

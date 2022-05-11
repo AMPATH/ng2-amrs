@@ -157,10 +157,10 @@
   </div>
 </p-dialog>
 
-<!-- VERIFY DIALOG -->
+<!--ADD VERIFY DIALOG -->
 <p-dialog
   header="Add Patient Verification Identifiers"
-  [(visible)]="verifyDialog"
+  [(visible)]="addVerifyDialog"
   closable="true"
   styleClass="edit-identifier-dialog"
 >
@@ -291,26 +291,6 @@
             >
               {{ invalidLocationCheck }}</span
             >
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Is Verified?</label>
-          <select
-            class="form-control"
-            [ngModel]="isNumberVerified"
-            (ngModelChange)="setIsVerifiedValue($event)"
-          >
-            <option *ngFor="let c of preferOptions" [ngValue]="c.value">
-              {{ c.label }}
-            </option>
-          </select>
-          <div ng-messages="personForm.isNumberVerified.$error">
-            <div class="help-block" ng-message="required">
-              Verification status is required.
-            </div>
           </div>
         </div>
       </div>

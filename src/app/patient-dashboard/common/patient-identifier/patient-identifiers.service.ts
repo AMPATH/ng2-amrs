@@ -62,15 +62,15 @@ export class PatientIdentifierService {
       },
       {
         label: 'Birth Number',
-        format: '7924e13b-131a-4da8-8efa-e294184a1b0d',
+        format: '',
         checkdigit: 0,
-        val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
+        val: '99630a1b-265e-4cc1-bffc-2b89c99575b1'
       },
       {
         label: 'Passport Number',
         format: '',
         checkdigit: 0,
-        val: 'ced014a1-068a-4a13-b6b3-17412f754af2'
+        val: 'c3d81a43-52a7-4469-a162-4584418e732f'
       }
     ];
   }
