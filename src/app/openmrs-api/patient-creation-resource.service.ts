@@ -61,6 +61,13 @@ export class PatientCreationResourceService {
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
+  public updateExistingPatient(payload, uuid) {
+    const url =
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'person/' + uuid;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), { headers });
+  }
+
   public updatePatientContact(patientUuid: string, obsGroupUuid: string) {
     const url = this.appSettingsService.getEtlRestbaseurl().trim();
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

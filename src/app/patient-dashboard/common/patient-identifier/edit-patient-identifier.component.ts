@@ -290,8 +290,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
 
   public setVillage(village) {
     this.village = village;
-
-    this.updatePerson();
   }
 
   public updateBirthDate(birthDate) {
@@ -310,7 +308,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   }
 
   private updatePerson() {
-    const ids = [];
     const attributes = [];
     if (this.telNumber) {
       attributes.push({
@@ -324,33 +321,49 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
     });
 
-    ids.push({
+    const newId = {
       identifierType: (this.identifierType as any).val,
       identifier: this.patientIdentifier.toString(),
       location: this.newLocation,
       preferred: this.preferredIdentifier
-    });
+    };
 
     const updatePayload = {
-      person: {
-        birthdate: this.birthDate,
-        attributes: attributes,
-        addresses: [
-          {
-            country: this.country,
-            address8: this.village,
-            cityVillage: this.village,
-            stateProvince: this.subCounty
-          }
-        ]
-      },
-      identifiers: ids
+      data: {
+        person: {
+          birthdate: this.birthDate,
+          attributes: attributes,
+          addresses: [
+            {
+              country: this.country,
+              address8: this.village,
+              cityVillage: this.village,
+              stateProvince: this.subCounty
+            }
+          ]
+        },
+        identifiers: newId
+      }
     };
+
+    return updatePayload;
   }
 
   public updatePatientVerificationInfo() {
-    /**TODO: Update patient data in amrs */
-    /**TODO: Send verification request to patient registry service */
+    const payload = this.updatePerson();
+    const uuid = this.patients.person.uuid;
+    this.patientCreationResourceService
+      .updateExistingPatient(payload.data.person, uuid)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.saveIdentifier(payload.data.identifiers, this.patients.person);
+          /**TODO: Send verification request to patient registry service */
+        },
+        (err) => {
+          console.log('Errors ', err);
+        }
+      );
   }
 
   public updatePatientIdentifier() {
