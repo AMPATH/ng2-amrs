@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { isArray } from 'util';
 
+import * as moment from 'moment';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
@@ -25,6 +26,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public hasError = false;
   public display = false;
   public addDialog = false;
+  public verifyDialog = false;
   public patientIdentifier = '';
   public preferredIdentifier = '';
   public identifierLocation = '';
@@ -57,6 +59,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   private initialPatientIdentifier = '';
   public isPreferred = false;
   public isNewlocation = false;
+  public telNumber: string;
+  public country: string;
+  public county: string;
+  public subCounty: string;
+  public village: string;
+  public disable = false;
+  public birthDate: any;
+  public birthError = '';
+  public isNumberVerified: Boolean;
+  public verificationIdentifierTypes: any = [];
 
   constructor(
     private patientService: PatientService,
@@ -72,6 +84,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.getPatient();
     this.fetchLocations();
     this.commonIdentifierTypes = this.patientIdentifierService.patientIdentifierTypeFormat();
+    this.verificationIdentifierTypes = this.patientIdentifierService.patientVerificationIdentifierTypeFormat();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.identifierValidity = '';
   }
@@ -101,32 +114,45 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.initIdentifier(id);
     } else if (param === 'add') {
       this.addDialog = true;
-      if (isArray(id)) {
-        // remove types that cannot be added more that once
-        _.each(id, (_id) => {
-          const hasId = _.includes(
-            [
-              '58a4732e-1359-11df-a1f1-0026b9348838', // AMRS Universal ID
-              '58a47054-1359-11df-a1f1-0026b9348838', // KENYA NATIONAL ID NUMBER
-              'ead42a8f-203e-4b11-a942-df03a460d617', // HEI
-              'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
-              '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
-              'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e', // CCC number
-              '22ee6ad7-58fb-4382-9af2-c6a553f3d56a', // NAT ID
-              '5b91df4a-db7d-4c52-ac85-ac519420d82e', // BHIM ID
-              'ace5f7c7-c5f4-4e77-a077-5588a682a0d6', // OVCID number
-              '91099b3f-69be-4607-a309-bd358d85af46' //  PrEP
-            ],
-            _id.identifierType.uuid
+      this.dialogData(id);
+    } else if (param === 'verify') {
+      this.verifyDialog = true;
+      this.dialogData(id, true);
+    }
+  }
+
+  public dialogData(id, verify?: Boolean) {
+    if (isArray(id)) {
+      // remove types that cannot be added more that once
+      _.each(id, (_id) => {
+        const hasId = _.includes(
+          [
+            '58a4732e-1359-11df-a1f1-0026b9348838', // AMRS Universal ID
+            '58a47054-1359-11df-a1f1-0026b9348838', // KENYA NATIONAL ID NUMBER
+            'ead42a8f-203e-4b11-a942-df03a460d617', // HEI
+            'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
+            '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
+            'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e', // CCC number
+            '22ee6ad7-58fb-4382-9af2-c6a553f3d56a', // NAT ID
+            '5b91df4a-db7d-4c52-ac85-ac519420d82e', // BHIM ID
+            'ace5f7c7-c5f4-4e77-a077-5588a682a0d6', // OVCID number
+            '91099b3f-69be-4607-a309-bd358d85af46' //  PrEP
+          ],
+          _id.identifierType.uuid
+        );
+        if (hasId && verify === true) {
+          _.remove(
+            this.verificationIdentifierTypes,
+            (idType: any) => idType.val === _id.identifierType.uuid
           );
-          if (hasId) {
-            _.remove(
-              this.commonIdentifierTypes,
-              (idType: any) => idType.val === _id.identifierType.uuid
-            );
-          }
-        });
-      }
+          return;
+        } else if (hasId) {
+          _.remove(
+            this.commonIdentifierTypes,
+            (idType: any) => idType.val === _id.identifierType.uuid
+          );
+        }
+      });
     }
   }
 
@@ -240,6 +266,91 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.isPreferred = false;
       this.isNewlocation = false;
     }
+  }
+
+  public setTelNumber(telNumber) {
+    this.telNumber = telNumber;
+  }
+
+  public setIsVerifiedValue(val) {
+    this.isNumberVerified = val;
+  }
+
+  public setCountry(country) {
+    this.country = country;
+  }
+
+  public setCounty(county) {
+    this.county = county;
+  }
+
+  public setSubCounty(subCounty) {
+    this.subCounty = subCounty;
+  }
+
+  public setVillage(village) {
+    this.village = village;
+
+    this.updatePerson();
+  }
+
+  public updateBirthDate(birthDate) {
+    this.disable = true;
+    this.birthDate = birthDate;
+
+    if (moment(this.birthDate).isAfter(new Date())) {
+      this.birthError = 'Birth date cannot be in the future!';
+    } else {
+      this.birthError = '';
+    }
+
+    if (!this.birthDate) {
+      this.disable = false;
+    }
+  }
+
+  private updatePerson() {
+    const ids = [];
+    const attributes = [];
+    if (this.telNumber) {
+      attributes.push({
+        value: this.telNumber,
+        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
+      });
+    }
+
+    attributes.push({
+      value: this.isNumberVerified,
+      attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+    });
+
+    ids.push({
+      identifierType: (this.identifierType as any).val,
+      identifier: this.patientIdentifier.toString(),
+      location: this.newLocation,
+      preferred: this.preferredIdentifier
+    });
+
+    const updatePayload = {
+      person: {
+        birthdate: this.birthDate,
+        attributes: attributes,
+        addresses: [
+          {
+            country: this.country,
+            address8: this.village,
+            cityVillage: this.village,
+            stateProvince: this.subCounty
+          }
+        ]
+      },
+      identifiers: ids
+    };
+  }
+
+  public updatePatientVerificationInfo() {
+    /**TODO: Update patient data in amrs */
+    /**TODO: Send verification request to patient registry service */
   }
 
   public updatePatientIdentifier() {
