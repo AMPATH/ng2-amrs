@@ -260,7 +260,7 @@
                 searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
               "
             >
-              <span *ngIf="isPatientVerified">
+              <span *ngIf="isPatientVerified && searchIdentifiers?.upi">
                 <span class="id-label">UPI:</span>
                 <span>{{ searchIdentifiers?.upi }}</span>
               </span>
