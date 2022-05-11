@@ -1,3 +1,4 @@
+import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import {
   Component,
   OnInit,
@@ -66,7 +67,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private route: ActivatedRoute,
     private propertyLocationService: UserDefaultPropertiesService,
     private familyTestingService: FamilyTestingService,
-    private encounterResourceService: EncounterResourceService
+    private encounterResourceService: EncounterResourceService,
+    private personAttributeResourceService: PersonAttributeResourceService
   ) {}
 
   public ngOnInit() {
@@ -109,6 +111,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
               this.familyTestingEncounterUuid = _.first<any>(response.results);
             });
           this.getPatientEncounters();
+          this.getVerificationStatus();
 
           if (this.searchIdentifiers.upi === undefined) {
             this.isPatientVerified = false;
@@ -122,6 +125,22 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       }
     );
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocation();
+  }
+
+  public getVerificationStatus() {
+    const verificationStatusUuid = this.patient.uuid;
+    this.personAttributeResourceService
+      .getPersonAttributesByUuid(verificationStatusUuid)
+      .subscribe((res) => {
+        const value = res.results.filter((a: any) => {
+          return (
+            a.attributeType.uuid === '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+          );
+        });
+        if (value.length > 0 && value[0].value) {
+          this.isPatientVerified = true;
+        }
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges) {
