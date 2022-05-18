@@ -1027,10 +1027,10 @@
   },
   "96d2964e-8cec-4eca-ad05-a9c1fb29a045": {
     "mrsId": 116,
-    "mrsDisplay": "cheramei",
+    "mrsDisplay": "Cheramei HC",
     "cityVillage": "",
     "county": "",
-    "description": "Dispensary in Turbo Division",
+    "description": "Cheramei HC",
     "mflCode": "14377",
     "eidDisplay": ""
   },
@@ -1189,9 +1189,9 @@
   },
   "e05cbb83-9418-4ebc-9240-ae2512d70321": {
     "mrsId": 134,
-    "mrsDisplay": "Kapyemit",
+    "mrsDisplay": "Kapyemit Dispensary",
     "cityVillage": "",
-    "county": "",
+    "county": "Uasin Gishu",
     "description": "A dispensary in Turbo division and Uasin Gishu county",
     "mflCode": "14799",
     "eidDisplay": ""
@@ -1571,7 +1571,7 @@
     "cityVillage": null,
     "county": "Uasin Gishu",
     "description": "A health facility in Uasin Gishu",
-    "mflCode": "",
+    "mflCode": "15779",
     "eidDisplay": ""
   },
   "d332cd41-99d5-47bb-baab-0b61a59aadc2": {
@@ -2186,11 +2186,38 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
+  "8b6f450b-8a61-4051-b4bd-b1a79cb541ee": {
+    "mrsId": 325,
+    "mrsDisplay": "Moi's Bridge MCH",
+    "description": "",
+    "mflCode": "15209",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
   "8c1ac178-1eef-4195-ba45-f283f95e5775": {
     "mrsId": 330,
     "mrsDisplay": "Uasin Gishu District Hospital MCH",
     "description": "Uasin Gishu District Hospital MCH",
     "mflCode": "15758",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e467502b-ac9a-47f8-ad13-9a8e3eda889f": {
+    "mrsId": 351,
+    "mrsDisplay": "Chepkanga HC",
+    "description": "Chepkanga HC",
+    "mflCode": "14335",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "2313bdd9-54f2-4534-9193-07246f2485d6": {
+    "mrsId": 352,
+    "mrsDisplay": "Chepkanga MCH",
+    "description": "Chepkanga MCH",
+    "mflCode": "14335",
     "county": "Uasin Gishu",
     "cityVillage": "",
     "eidDisplay": ""
@@ -2294,13 +2321,103 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
-  "8b6f450b-8a61-4051-b4bd-b1a79cb541ee": {
-    "mrsId": 325,
-    "mrsDisplay": "Moi's Bridge MCH",
-    "description": "",
-    "mflCode": "15209",
+  "49fa8ba9-06f4-4072-afe7-fd3e51ed4482": {
+    "mrsId": 393,
+    "mrsDisplay": "Chepkigen HC",
+    "description": "Chepkigen HC",
+    "mflCode": "14341",
     "county": "Uasin Gishu",
     "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "81e709e6-769d-4ac0-95b9-65fffa1b87c3": {
+    "mrsId": 394,
+    "mrsDisplay": "Kipkabus HC",
+    "description": "Kipkabus HC",
+    "mflCode": "14893",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "9125a1fb-2856-49dd-91e0-aecdd85bbb99": {
+    "mrsId": 395,
+    "mrsDisplay": "Mary Immaculate Dispensary",
+    "description": "Mary Immaculate Dispensary",
+    "mflCode": "15147",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "8c7ec4f7-270c-45e9-a4f9-8589242d50d5": {
+    "mrsId": 396,
+    "mrsDisplay": "Chepkigen MCH",
+    "description": "Chepkigen MCH",
+    "mflCode": "14341",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "2b1d2083-b4df-4e5c-96fe-af88122ef75b": {
+    "mrsId": 397,
+    "mrsDisplay": "Cheramei MCH",
+    "cityVillage": "",
+    "county": "",
+    "description": "Cheramei MCH",
+    "mflCode": "14377",
+    "eidDisplay": ""
+  },
+  "a0badb53-f49f-4d0b-bd3b-a5f435cbaf66": {
+    "mrsId": 398,
+    "mrsDisplay": "West Clinic Health Centre MCH",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "West Clinic Health Centre MCH",
+    "mflCode": "15779",
+    "eidDisplay": ""
+  },
+  "de051b8a-78ab-4fa8-bb08-5364c8e87297": {
+    "mrsId": 399,
+    "mrsDisplay": "Kapyemit Dipsensary MCH",
+    "cityVillage": "",
+    "county": "Uasin Gishu",
+    "description": "A dispensary in Turbo division and Uasin Gishu county",
+    "mflCode": "14799",
+    "eidDisplay": ""
+  },
+  "09c9dbeb-9a24-4511-9ad2-9cf6601a9023": {
+    "mrsId": 401,
+    "mrsDisplay": "Kipkabus MCH",
+    "description": "Kipkabus MCH",
+    "mflCode": "14893",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "a7b5bb0a-0244-44da-93b2-4d990f2420c6": {
+    "mrsId": 402,
+    "mrsDisplay": "Mary Immaculate Dispensary MCH",
+    "description": "Mary Immaculate Dispensary MCH",
+    "mflCode": "15147",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "9ddd21c6-f668-44c7-a6c7-041ec1e836a6": {
+    "mrsId": 403,
+    "mrsDisplay": "St Mary's Kapsoya MCH",
+    "cityVillage": "Eldoret",
+    "county": "",
+    "description": "St Mary's Kapsoya MCH",
+    "mflCode": "15655",
+    "eidDisplay": ""
+  },
+  "516c889a-f9ea-4861-b89c-e39f08dfb15c": {
+    "mrsId": 404,
+    "mrsDisplay": "Kapsoya MCH",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "Kapsoya MCH",
+    "mflCode": "14769",
     "eidDisplay": ""
   }
 }
