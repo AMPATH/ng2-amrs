@@ -18,6 +18,22 @@ import { HivSummaryService } from "../patient-dashboard/hiv/hiv-summary/hiv-summ
 import { ConceptResourceService } from "../openmrs-api/concept-resource.service";
 import { LabOrderPostService } from "./lab-order-post.service";
 
+interface IdentifierType {
+  format: string;
+  formatDescription: string;
+  name: string;
+  uuid: string;
+  validator: string;
+}
+
+interface Identifier {
+  identifier: string;
+  identifierType: IdentifierType;
+  preferred: boolean;
+  uuid: string;
+  display?: string;
+}
+
 @Component({
   selector: "lab-order-search-post",
   templateUrl: "./lab-order-search-post.component.html",
@@ -75,6 +91,8 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public selectedSampleType: any;
   public dateReceived: any = Moment(new Date()).format("YYYY-MM-DD");
   public orderPostSuccessful: boolean;
+  public cccIdentifierType = 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e';
+  public heiIdentifierType = 'ead42a8f-203e-4b11-a942-df03a460d617';
 
   constructor(
     private labOrdersSearchHelperService: LabOrdersSearchHelperService,
@@ -418,10 +436,33 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public processPatientIdentifiers() {
     const identifiers = [];
     return new Promise((resolve, reject) => {
-      _.each(this.order.patient.identifiers, (identifier: any) => {
-        this.setDefaultIdentifier(identifier);
-        if (_.indexOf(identifier.display, "=") > 0) {
-          identifiers.push(identifier.display.split("=")[1].trim());
+      const patientIdentifiers: Identifier[] = this.order.patient.identifiers;
+      let allowedIdentifiers = patientIdentifiers;
+      const hasCccNo = this.hasIdentifier(
+        this.cccIdentifierType,
+        patientIdentifiers
+      );
+      const hasHeiNo = this.hasIdentifier(
+        this.heiIdentifierType,
+        patientIdentifiers
+      );
+      if (hasCccNo && !hasHeiNo) {
+        allowedIdentifiers = patientIdentifiers.filter((i: Identifier) => {
+          return i.identifierType.uuid === this.cccIdentifierType;
+        });
+      }
+      if (hasHeiNo && !hasCccNo) {
+        allowedIdentifiers = patientIdentifiers.filter((i: Identifier) => {
+          return i.identifierType.uuid === this.heiIdentifierType;
+        });
+      }
+      const defaultIdentifier: Identifier = this.selectDefaultIdentifier(
+        allowedIdentifiers
+      );
+      this.setDefaultIdentifier(defaultIdentifier);
+      _.each(allowedIdentifiers, (identifier: Identifier) => {
+        if (_.indexOf(identifier.display, '=') > 0) {
+          identifiers.push(identifier.display.split('=')[1].trim());
         } else {
           identifiers.push(identifier.identifier);
         }
@@ -436,10 +477,47 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     this.reset = true;
   }
 
-  private setDefaultIdentifier(identifier: any) {
-    if (identifier.preferred) {
-      this.selectedIdentifier = identifier.identifier;
+  public hasIdentifier(
+    identifierType: string,
+    patientIdentifiers: Identifier[]
+  ): boolean {
+    return patientIdentifiers.some((identifier: Identifier) => {
+      return identifier.identifierType.uuid === identifierType;
+    });
+  }
+
+  private selectDefaultIdentifier(identifiers: Identifier[]): Identifier {
+    let defaultIdentifier: Identifier;
+    let cccIdentifier: Identifier;
+    let heiIdentifier: Identifier;
+    let prefIdentifier: Identifier;
+
+    identifiers.forEach((i: Identifier) => {
+      if (i.identifierType.uuid === this.cccIdentifierType) {
+        cccIdentifier = i;
+      }
+      if (i.identifierType.uuid === this.heiIdentifierType) {
+        heiIdentifier = i;
+      }
+      if (i.preferred) {
+        prefIdentifier = i;
+      }
+    });
+
+    if (cccIdentifier) {
+      defaultIdentifier = cccIdentifier;
     }
+    if (heiIdentifier) {
+      defaultIdentifier = heiIdentifier;
+    }
+    if (!cccIdentifier && !heiIdentifier && prefIdentifier) {
+      defaultIdentifier = prefIdentifier;
+    }
+    return defaultIdentifier;
+  }
+
+  private setDefaultIdentifier(identifier: Identifier): void {
+    this.selectedIdentifier = identifier.identifier;
   }
 
   private setDefaultLocation() {

@@ -13,6 +13,22 @@ import { ClinicLabOrdersResourceService } from "../../../etl-api/clinic-lab-orde
 import { ObsResourceService } from "../../../openmrs-api/obs-resource.service";
 import { DatePipe } from "@angular/common";
 
+interface IdentifierType {
+  format: string;
+  formatDescription: string;
+  name: string;
+  uuid: string;
+  validator: string;
+}
+
+interface Identifier {
+  identifier: string;
+  identifierType: IdentifierType;
+  preferred: boolean;
+  uuid: string;
+  display?: string;
+}
+
 @Component({
   selector: "lab-test-orders",
   templateUrl: "./lab-test-orders.html",
@@ -53,6 +69,8 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
   public hideDateField = false;
   public disableButton = false;
   public maxDate = new Date();
+  public heiIdentifierType = 'ead42a8f-203e-4b11-a942-df03a460d617';
+  public cccIdentifierType = 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e';
   private _datePipe: DatePipe;
 
   constructor(
@@ -86,25 +104,52 @@ export class LabTestOrdersComponent implements OnInit, OnDestroy {
       (patient) => {
         if (patient) {
           this.patient = patient;
-          const amrsId = _.find(
-            this.patient.identifiers.openmrsModel,
-            (identifer: any) => {
-              if (
-                identifer.identifierType.uuid ===
-                "58a4732e-1359-11df-a1f1-0026b9348838"
-              ) {
-                return true;
-              }
-            }
+          const identifiers = this.patient.identifiers.openmrsModel
+            ? this.patient.identifiers.openmrsModel
+            : [];
+          const hasCcc = this.hasIdentifierType(
+            this.cccIdentifierType,
+            identifiers
           );
-          if (amrsId) {
-            this.patientIdentifer = amrsId.identifier;
+          const hasHeiNo = this.hasIdentifierType(
+            this.heiIdentifierType,
+            identifiers
+          );
+          if (hasCcc && !hasHeiNo) {
+            this.patientIdentifer = this.getIdentifierByTypeUuid(
+              this.cccIdentifierType,
+              identifiers
+            ).identifier;
+          }
+          if (hasHeiNo && !hasCcc) {
+            this.patientIdentifer = this.getIdentifierByTypeUuid(
+              this.heiIdentifierType,
+              identifiers
+            ).identifier;
           }
           this.getLabOrdersByPatientUuid();
           this.getPatientLabOrders();
         }
       }
     );
+  }
+
+  public hasIdentifierType(
+    identifierTypeUuid: string,
+    identifiers: Identifier[]
+  ): boolean {
+    return identifiers.some((i: Identifier) => {
+      return i.identifierType.uuid === identifierTypeUuid;
+    });
+  }
+
+  public getIdentifierByTypeUuid(
+    identifierTypeUuid: string,
+    identifiers: Identifier[]
+  ): Identifier {
+    return identifiers.find((i: Identifier) => {
+      return i.identifierType.uuid === identifierTypeUuid;
+    });
   }
 
   public getPatientLabOrders() {
