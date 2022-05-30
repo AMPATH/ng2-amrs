@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PatientProgramResourceService } from '../../../../etl-api/patient-program-resource.service';
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'edit-visit-types',
@@ -20,6 +21,7 @@ export class EditVisitTypeComponent implements OnInit {
   public visitTypes = [];
   public saving = false;
   public sharedVisitTypes = ['06eca2a8-1da9-4ac4-95c6-15afedd4de21'];
+  public retrospectiveTypeUuid = '3bb41949-6596-4ff9-a54f-d3d7883a69ed';
   public error = {
     message: '',
     display: false
@@ -34,6 +36,8 @@ export class EditVisitTypeComponent implements OnInit {
   }
 
   public getCurrentProgramEnrollmentConfig() {
+    const retrospectiveVisit = this.isVisitRestrospective(this.visit);
+    const visitDate = moment(this.visit.startDatetime).format('YYYY-MM-DD');
     this.patientProgramResourceService
       .getPatientProgramVisitTypes(
         this.visit.patient.uuid,
@@ -105,5 +109,13 @@ export class EditVisitTypeComponent implements OnInit {
       message: '',
       display: false
     };
+  }
+
+  public isVisitRestrospective(visit: any): boolean {
+    const attributes: any[] = visit.attributes;
+    return attributes.some((att: any) => {
+      const attributeType: any = att.attributeType;
+      return attributeType.uuid === this.retrospectiveTypeUuid;
+    });
   }
 }

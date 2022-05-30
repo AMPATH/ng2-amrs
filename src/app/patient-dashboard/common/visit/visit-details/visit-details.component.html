@@ -155,6 +155,15 @@
         (onEncounterEdit)="onEncounterSelected($event)"
       ></encounter-list>
       <div *ngIf="visitWithNoEncounters">Patient yet to see provider</div>
+      <div
+        class="alert alert-danger"
+        *ngIf="qualifiesForCovidScreenig"
+        style="margin-top: 10px"
+      >
+        <strong
+          >To access clinical forms kindly fill Covid 19 Assessment Form</strong
+        >
+      </div>
     </div>
   </div>
   <span style="padding: 10px"></span>

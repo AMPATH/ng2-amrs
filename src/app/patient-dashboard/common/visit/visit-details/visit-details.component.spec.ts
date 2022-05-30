@@ -19,6 +19,7 @@ import { VisitResourceService } from '../../../../openmrs-api/visit-resource.ser
 import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';
 
 class RouterStub {
   public navigateByUrl(url: string) {
@@ -29,6 +30,54 @@ class FakeRetrospectiveDataEntryService {
   public retroSettings: Observable<any> = Observable.of({ enabled: false });
 }
 
+const mockEncounters = [
+  {
+    uuid: '5ff20d5b-7bec-451a-b110-c4e0be1ab165',
+    encounterDatetime: '2022-04-22T11:26:09.000+0300',
+    patient: {
+      uuid: '1a7f77c6-34b0-4790-a59e-c4715c5c46d7'
+    },
+    form: {
+      uuid: '0a9fc16e-4c00-4842-a1e4-e4bafeb6e226',
+      name: 'AMPATH POC COVID 19 Assessment Form v1.1'
+    },
+    visit: {
+      uuid: '47224ef4-3e13-49da-9fb8-6efb455110b2',
+      display: 'RETURN HIV CLINIC VISIT @ Location Test - 22/04/2022 11:26',
+      startDatetime: '2022-04-22T11:26:04.000+0300',
+      stopDatetime: null,
+      location: {
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
+        display: 'Location Test'
+      },
+      visitType: {
+        uuid: 'd4ac2aa5-2899-42fb-b08a-d40161815b48',
+        name: 'RETURN HIV CLINIC VISIT'
+      }
+    },
+    location: {
+      uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
+      display: 'Location Test'
+    },
+    encounterType: {
+      uuid: '466d6707-8429-4e61-b5a0-d63444f5ad35',
+      display: 'COVIDSCREENING'
+    }
+  }
+];
+
+const mockPatient = {
+  uuid: 'test-uuid',
+  display: 'Test Patient'
+};
+
+class FakeEncounterResourceService {
+  public getEncountersByPatientUuid(uuid: string): Observable<any> {
+    console.log('getEncountersByPatientUuid', uuid);
+    return Observable.of(mockEncounters);
+  }
+}
+
 class FakeCacheStorageService {
   constructor(a, b) {}
 
@@ -36,6 +85,14 @@ class FakeCacheStorageService {
     return true;
   }
 }
+
+const encounterService = jasmine.createSpyObj('EncounterResourceService', [
+  'getEncountersByPatientUuid'
+]);
+
+const encounterServiceSpy = encounterService.getEncountersByPatientUuid.and.returnValue(
+  of(mockEncounters)
+);
 
 describe('VisitDetailsComponent: ', () => {
   let component: VisitDetailsComponent;
@@ -78,7 +135,14 @@ describe('VisitDetailsComponent: ', () => {
       display: 'patient 1'
     },
     startDatetime: '2017-08-03T10:45:52.000+0300',
-    stopDatetime: null
+    stopDatetime: null,
+    attributes: [
+      {
+        attributeType: {
+          uuid: 'attributeUuid'
+        }
+      }
+    ]
   };
 
   const programConfig = {
@@ -124,6 +188,10 @@ describe('VisitDetailsComponent: ', () => {
           },
           deps: []
         },
+        {
+          provide: EncounterResourceService,
+          useValue: encounterService
+        },
         DataCacheService,
         CacheService
       ],
@@ -143,7 +211,9 @@ describe('VisitDetailsComponent: ', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VisitDetailsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    const encounterResService = fixture.debugElement.injector.get<
+      EncounterResourceService
+    >(EncounterResourceService);
   });
 
   afterEach(() => {
@@ -151,13 +221,22 @@ describe('VisitDetailsComponent: ', () => {
   });
 
   it('should create', () => {
+    component.patient = {
+      uuid: 'patient-1',
+      display: 'patient 1'
+    };
+    fixture.detectChanges();
+    expect(encounterServiceSpy.calls.any()).toBe(
+      true,
+      'getEncountersByPatientUuid'
+    );
     expect(component).toBeTruthy();
   });
-
   it(
     'should determine which encounter types have been filled in order' +
       ' to exclude it from the list of available forms, given a visit object',
     () => {
+      component.patient = mockPatient;
       component.visit = exampleVisit;
       component.extractCompletedEncounterTypes();
 
@@ -170,6 +249,7 @@ describe('VisitDetailsComponent: ', () => {
   );
 
   it('should extract the allowed encounter types for a given vist given the program visit config', () => {
+    component.patient = mockPatient;
     component.visit = exampleVisit;
     component.programVisitTypesConfig = programConfig;
 
@@ -183,6 +263,7 @@ describe('VisitDetailsComponent: ', () => {
   });
 
   it('should reload the current visit when reload is called', () => {
+    component.patient = mockPatient;
     component.visit = exampleVisit;
 
     const visitClone: any = {};
@@ -207,7 +288,7 @@ describe('VisitDetailsComponent: ', () => {
       'form:(uuid,name),location:ref,' +
       'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
-      'stopDatetime,attributes:(uuid,value))';
+      'stopDatetime,attributes:(uuid,value,attributeType))';
     expect(updateVisitSpy.calls.first().args[1]).toEqual({
       v: expectedVisitVersion
     });
@@ -215,8 +296,8 @@ describe('VisitDetailsComponent: ', () => {
   });
 
   it('should end the current visit', () => {
+    component.patient = mockPatient;
     component.visit = exampleVisit;
-
     const resService: VisitResourceService = TestBed.get(VisitResourceService);
 
     const updateVisitSpy = spyOn(resService, 'updateVisit').and.callFake(() => {
@@ -244,6 +325,7 @@ describe('VisitDetailsComponent: ', () => {
   });
 
   it('should cancel the current visit', () => {
+    component.patient = mockPatient;
     component.visit = exampleVisit;
 
     const resService: VisitResourceService = TestBed.get(VisitResourceService);
@@ -272,6 +354,7 @@ describe('VisitDetailsComponent: ', () => {
   });
 
   it('should output the selected form', () => {
+    component.patient = mockPatient;
     const sampleForm = {
       uuid: 'some uuid'
     };
@@ -284,6 +367,7 @@ describe('VisitDetailsComponent: ', () => {
   });
 
   it('should output the selected encouter', () => {
+    component.patient = mockPatient;
     const sampleEncounter = {
       uuid: 'some uuid'
     };
