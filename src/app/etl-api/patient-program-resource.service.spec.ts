@@ -44,7 +44,9 @@ describe('Patient Program Resource Service Unit Tests', () => {
         patientUuid,
         'prog-uuid',
         'enroll-uuid',
-        'location-uuid'
+        'location-uuid',
+        'false',
+        '2022-06-03'
       )
       .subscribe((response) => {
         expect(response).toEqual({ uuid: 'uuid' });
@@ -54,7 +56,7 @@ describe('Patient Program Resource Service Unit Tests', () => {
       appsetting.getEtlRestbaseurl().trim() +
         'patient/79803198-2d23-49cd-a7b3-4f672bd8f659' +
         '/program/prog-uuid/enrollment/enroll-uuid' +
-        '?intendedLocationUuid=location-uuid'
+        '?intendedLocationUuid=location-uuid&retroSpective=false&visitDate=2022-06-03'
     );
     expect(req.request.method).toBe('GET');
     req.flush({ uuid: 'uuid' });
