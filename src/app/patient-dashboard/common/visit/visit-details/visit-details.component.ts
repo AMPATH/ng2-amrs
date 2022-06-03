@@ -6,7 +6,7 @@ import { VisitResourceService } from '../../../../openmrs-api/visit-resource.ser
 import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../../models/encounter.model';
 import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
-
+import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
 @Component({
   selector: 'app-visit-details',
   templateUrl: './visit-details.component.html',
@@ -29,6 +29,11 @@ export class VisitDetailsComponent implements OnInit {
     title: '',
     message: ''
   };
+  public covidScreeningUuid = '466d6707-8429-4e61-b5a0-d63444f5ad35';
+  public retrospectiveAttributeTypeUuid =
+    '3bb41949-6596-4ff9-a54f-d3d7883a69ed';
+  public qualifiesForCovidScreening = false;
+  public isRetrospectiveVisit = false;
 
   public get visitEncounters(): any[] {
     const mappedEncounters: Encounter[] = new Array<Encounter>();
@@ -73,6 +78,9 @@ export class VisitDetailsComponent implements OnInit {
   public set visit(v: any) {
     this._visit = v;
     this.extractCompletedEncounterTypes();
+    if (v != null) {
+      this.checkForRetrospectiveVisit();
+    }
   }
 
   public get isVisitEnded() {
@@ -87,21 +95,30 @@ export class VisitDetailsComponent implements OnInit {
     );
   }
 
+  public hasValidatedEncounters = false;
   private _programVisitTypesConfig: any;
   public get programVisitTypesConfig(): any {
     return this._programVisitTypesConfig;
   }
 
   @Input()
-  public set programVisitTypesConfig(v: any) {
-    this._programVisitTypesConfig = v;
-    this.extractAllowedEncounterTypesForVisit();
+  public set programVisitTypesConfig(obj: any) {
+    if (
+      obj &&
+      Object.keys(obj).length !== 0 &&
+      Object.getPrototypeOf(obj) === Object.prototype
+    ) {
+      this.hasValidatedEncounters = true;
+      this.extractAllowedEncounterTypesForVisit(obj);
+    }
+    this._programVisitTypesConfig = obj;
   }
 
   constructor(
     private visitResourceService: VisitResourceService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private encounterResService: EncounterResourceService
+    private encounterResService: EncounterResourceService,
+    private patientProgramResourceService: PatientProgramResourceService
   ) {}
 
   public ngOnInit() {
@@ -154,45 +171,73 @@ export class VisitDetailsComponent implements OnInit {
     );
   }
 
-  public extractAllowedEncounterTypesForVisit() {
+  public getCurrentProgramEnrollmentConfig(
+    patientUuid,
+    locationUuid,
+    startDatetime
+  ) {
+    this.programVisitTypesConfig = {};
+    this.patientProgramResourceService
+      .getPatientProgramVisitTypes(
+        patientUuid,
+        this.programUuid,
+        this.programEnrollmentUuid,
+        locationUuid,
+        this.isRetrospectiveVisit.toString(),
+        moment(startDatetime).format('YYYY-MM-DD')
+      )
+      .take(1)
+      .subscribe(
+        (progConfig) => {
+          this.programVisitTypesConfig = progConfig;
+          this.extractAllowedEncounterTypesForVisit(progConfig);
+        },
+        (error) => {
+          console.error('Error loading the program visit configs', error);
+        }
+      );
+  }
+
+  public extractAllowedEncounterTypesForVisit(programConfig) {
     this.allowedEncounterTypesUuids = [];
     if (
       this.visit &&
       this.visit.visitType &&
-      this.programVisitTypesConfig &&
-      Array.isArray(this.programVisitTypesConfig.visitTypes)
+      programConfig &&
+      Object.keys(programConfig).length !== 0 &&
+      Object.getPrototypeOf(programConfig) === Object.prototype
     ) {
-      let visitType: any;
-      this.programVisitTypesConfig.visitTypes.forEach((element) => {
-        if (element.uuid === this.visit.visitType.uuid) {
-          visitType = element;
-        }
-      });
+      if (this.hasValidatedEncounters) {
+        let visitType: any;
+        programConfig.visitTypes.allowed.forEach((element) => {
+          if (element.uuid === this.visit.visitType.uuid) {
+            visitType = element;
+          }
+        });
 
-      if (visitType && Array.isArray(visitType.encounterTypes)) {
-        this.allowedEncounterTypesUuids = this.validateAllowedEncounterTypes(
-          visitType,
-          this._programVisitTypesConfig.name
-        );
+        if (
+          visitType &&
+          Array.isArray(visitType.encounterTypes.disallowedEncounters)
+        ) {
+          visitType.encounterTypes.disallowedEncounters.forEach((e) => {
+            if (e.errors.covidError != null) {
+              this.qualifiesForCovidScreening = true;
+            }
+          });
+        }
+
+        if (
+          visitType &&
+          Array.isArray(visitType.encounterTypes.allowedEncounters)
+        ) {
+          this.allowedEncounterTypesUuids = visitType.encounterTypes.allowedEncounters.map(
+            (a) => {
+              return a.uuid;
+            }
+          );
+        }
       }
     }
-  }
-
-  public validateAllowedEncounterTypes(visitType, programName): Array<String> {
-    const allowedEncounters = [];
-    visitType.encounterTypes.forEach((a) => {
-      if (
-        a.uuid === '238625fc-8a25-44b2-aa5a-8bf48fa0e18d' &&
-        (this.patient.person.age < 25 ||
-          this.patient.person.age > 49 ||
-          this.patient.person.gender === 'M') &&
-        programName === 'Standard HIV TREATMENT'
-      ) {
-      } else {
-        allowedEncounters.push(a.uuid);
-      }
-    });
-    return allowedEncounters;
   }
 
   public reloadVisit() {
@@ -206,14 +251,18 @@ export class VisitDetailsComponent implements OnInit {
         'form:(uuid,name),location:ref,' +
         'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
         'visitType:(uuid,name),location:ref,startDatetime,' +
-        'stopDatetime,attributes:(uuid,value))';
+        'stopDatetime,attributes:(uuid,value,attributeType))';
       this.visitResourceService
         .getVisitByUuid(visitUuid, { v: custom })
         .subscribe(
           (visit) => {
             this.isBusy = false;
             this.visit = visit;
-            this.extractAllowedEncounterTypesForVisit();
+            this.getCurrentProgramEnrollmentConfig(
+              this.visit.patient.uuid,
+              this.visit.location.uuid,
+              this.visit.startDatetime
+            );
           },
           (error) => {
             this.isBusy = false;
@@ -384,5 +433,15 @@ export class VisitDetailsComponent implements OnInit {
       this.visit.location.uuid !== settings.location.value ||
       visitDate !== settings.visitDate
     );
+  }
+
+  public checkForRetrospectiveVisit(): void {
+    let isRetrospective = false;
+    if (this.visit.hasOwnProperty('attributes')) {
+      isRetrospective = this.visit.attributes.some((a: any) => {
+        return a.attributeType.uuid === this.retrospectiveAttributeTypeUuid;
+      });
+    }
+    this.isRetrospectiveVisit = isRetrospective;
   }
 }
