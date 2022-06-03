@@ -36,14 +36,16 @@ export class EditVisitTypeComponent implements OnInit {
   }
 
   public getCurrentProgramEnrollmentConfig() {
-    const retrospectiveVisit = this.isVisitRestrospective(this.visit);
+    const retrospectiveVisit = this.isVisitRetrospective(this.visit);
     const visitDate = moment(this.visit.startDatetime).format('YYYY-MM-DD');
     this.patientProgramResourceService
       .getPatientProgramVisitTypes(
         this.visit.patient.uuid,
         this.programUuid,
         this.programEnrollmentUuid,
-        this.visit.location.uuid
+        this.visit.location.uuid,
+        retrospectiveVisit.toString(),
+        visitDate
       )
       .subscribe(
         (progConfig) => {
@@ -111,7 +113,7 @@ export class EditVisitTypeComponent implements OnInit {
     };
   }
 
-  public isVisitRestrospective(visit: any): boolean {
+  public isVisitRetrospective(visit: any): boolean {
     const attributes: any[] = visit.attributes;
     return attributes.some((att: any) => {
       const attributeType: any = att.attributeType;

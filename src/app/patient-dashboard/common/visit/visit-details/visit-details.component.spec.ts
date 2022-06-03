@@ -47,6 +47,7 @@ describe("VisitDetailsComponent: ", () => {
       uuid: "visit-type-uuid",
       display: "visit type",
     },
+    attributes: [],
     encounters: [
       {
         uuid: "uuid 1",
@@ -82,26 +83,30 @@ describe("VisitDetailsComponent: ", () => {
   };
 
   const programConfig = {
-    uuid: "program uuid",
-    visitTypes: [
-      {
-        uuid: "visit-type-uuid",
-        encounterTypes: [
-          {
-            uuid: "encounter-type-1",
-            display: "encounter type 1",
-          },
-          {
-            uuid: "encounter-type-2",
-            display: "encounter type 2",
-          },
-        ],
-      },
-      {
-        uuid: "visit-type-two",
-        encounterTypes: [],
-      },
-    ],
+    uuid: 'program uuid',
+    visitTypes: {
+      allowed: [
+        {
+          uuid: 'visit-type-uuid',
+          encounterTypes: {
+            allowedEncounters: [
+              {
+                uuid: 'encounter-type-1',
+                display: 'encounter type 1'
+              },
+              {
+                uuid: 'encounter-type-2',
+                display: 'encounter type 2'
+              }
+            ]
+          }
+        },
+        {
+          uuid: 'visit-type-two',
+          encounterTypes: {}
+        }
+      ]
+    }
   };
 
   beforeEach(() => {
@@ -143,6 +148,7 @@ describe("VisitDetailsComponent: ", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VisitDetailsComponent);
     component = fixture.componentInstance;
+    component.isRetrospectiveVisit = false;
     fixture.detectChanges();
   });
 
@@ -169,11 +175,11 @@ describe("VisitDetailsComponent: ", () => {
     }
   );
 
-  it("should extract the allowed encounter types for a given vist given the program visit config", () => {
+  it('should extract the allowed encounter types for a given visit given the program visit config', () => {
     component.visit = exampleVisit;
     component.programVisitTypesConfig = programConfig;
 
-    component.extractAllowedEncounterTypesForVisit();
+    component.extractAllowedEncounterTypesForVisit(programConfig);
     fixture.detectChanges();
 
     expect(component.allowedEncounterTypesUuids).toEqual([
@@ -203,11 +209,11 @@ describe("VisitDetailsComponent: ", () => {
     expect(updateVisitSpy.calls.count() > 0).toBe(true);
     expect(updateVisitSpy.calls.first().args[0]).toEqual(exampleVisit.uuid);
     const expectedVisitVersion =
-      "custom:(uuid,encounters:(uuid,encounterDatetime," +
-      "form:(uuid,name),location:ref," +
-      "encounterType:ref,provider:ref),patient:(uuid,uuid)," +
-      "visitType:(uuid,name),location:ref,startDatetime," +
-      "stopDatetime,attributes:(uuid,value))";
+      'custom:(uuid,encounters:(uuid,encounterDatetime,' +
+      'form:(uuid,name),location:ref,' +
+      'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
+      'visitType:(uuid,name),location:ref,startDatetime,' +
+      'stopDatetime,attributes:(uuid,value,attributeType))';
     expect(updateVisitSpy.calls.first().args[1]).toEqual({
       v: expectedVisitVersion,
     });

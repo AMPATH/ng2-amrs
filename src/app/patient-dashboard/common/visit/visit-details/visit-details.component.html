@@ -159,7 +159,7 @@
       <div *ngIf="visitWithNoEncounters">Patient yet to see provider</div>
       <div
         class="alert alert-danger"
-        *ngIf="qualifiesForCovidScreenig"
+        *ngIf="qualifiesForCovidScreening"
         style="margin-top: 10px"
       >
         <strong
@@ -170,7 +170,7 @@
   </div>
   <span style="padding: 10px"></span>
 
-  <div>
+  <div *ngIf="hasValidatedEncounters">
     <div class="reverse-flow" (click)="formsCollapsed = !formsCollapsed">
       <i *ngIf="formsCollapsed" class="glyphicon glyphicon-chevron-down"></i>
       <i *ngIf="!formsCollapsed" class="glyphicon glyphicon-chevron-up"></i>

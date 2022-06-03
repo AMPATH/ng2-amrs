@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Observable, forkJoin } from "rxjs";
 import * as moment from "moment";
 
-import { VisitResourceService } from "../../../../openmrs-api/visit-resource.service";
-import { EncounterResourceService } from "../../../../openmrs-api/encounter-resource.service";
-import { Encounter } from "../../../../models/encounter.model";
-import { RetrospectiveDataEntryService } from "../../../../retrospective-data-entry/services/retrospective-data-entry.service";
-
+import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
+import { EncounterResourceService } from '../../../../openmrs-api/encounter-resource.service';
+import { Encounter } from '../../../../models/encounter.model';
+import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
 @Component({
   selector: "app-visit-details",
   templateUrl: "./visit-details.component.html",
@@ -30,39 +30,11 @@ export class VisitDetailsComponent implements OnInit {
     message: "",
   };
   public covidScreeningUuid = '466d6707-8429-4e61-b5a0-d63444f5ad35';
-  public screenedForCovidToday = false;
-  public isRetrospectiveVisit = false;
-  public isTreatmentSupprterVisit = false;
   public retrospectiveAttributeTypeUuid =
     '3bb41949-6596-4ff9-a54f-d3d7883a69ed';
-  public ADULT_INITIAL = '8d5b27bc-c2cc-11de-8d13-0010c6dffd0f';
-  public ADULT_RETURN = '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
-  public PEDS_RETURN = '8d5b3108-c2cc-11de-8d13-0010c6dffd0f';
-  public YOUTH_RETURN = '4e7553b4-373d-452f-bc89-3f4ad9a01ce7';
-  public YOUTH_INITIAL = 'fc8c1694-90fc-46a8-962b-73ce9a99a78f';
-  public PEDS_INITIAL = '8d5b2dde-c2cc-11de-8d13-0010c6dffd0f';
-  public DRUG_PICKUP = '987009c6-6f24-43f7-9640-c285d6553c63';
-  public LAB_ORDER = '5ef97eed-18f5-40f6-9fbf-a11b1f06484a';
-  public POC_LAB = '5544894d-8add-4521-a0ea-c124c5886c8b';
-  public TREATMENT_SUPPORTER_VISIT = 'fcc9a836-0200-45f2-81b4-b4a687a10247';
-  public PMTCT_TREATMENT_SUPPORTER_VISIT =
-    '18f59064-961e-4d51-9ccf-e950f04b4c66';
-  public DC_TREATMENT_SUPPORTER_VISIT = '0bcccab0-59ce-4a25-a158-cc722427ff3f';
-  public VIREMIA_TREATMENT_SUPPORTER_VISIT =
-    '52fddd42-f9ea-4946-8733-f0e584360780';
-  public HEI_TREATMENT_SUPPORTER_VISIT = '015af4d4-67cb-45a3-9929-8dbd53b1e47c';
-  public PHARMACY_VISIT = '30003687-44e5-4861-bd9c-d58e2fe81b8f';
-  public ONCOLOGYVIA = '238625fc-8a25-44b2-aa5a-8bf48fa0e18d';
-  public qualifiesForCovidScreenig = false;
-  public hivPrograms = [
-    'Standard HIV TREATMENT',
-    'PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV(pMTCT)',
-    'OVC PROGRAM',
-    'HIV DIFFERENTIATED CARE PROGRAM',
-    'RESISTANCE CLINIC PROGRAM',
-    'VIREMIA PROGRAM'
-  ];
-  public isHivVisit = false;
+  public qualifiesForCovidScreening = false;
+  public isRetrospectiveVisit = false;
+  public screenedForCovidToday = false;
 
   public get visitEncounters(): any[] {
     const mappedEncounters: Encounter[] = new Array<Encounter>();
@@ -107,7 +79,9 @@ export class VisitDetailsComponent implements OnInit {
   public set visit(v: any) {
     this._visit = v;
     this.extractCompletedEncounterTypes();
-    this.checkForRestrospectiveVisit();
+    if (v != null) {
+      this.checkForRetrospectiveVisit();
+    }
   }
 
   public get isVisitEnded() {
@@ -122,24 +96,33 @@ export class VisitDetailsComponent implements OnInit {
     );
   }
 
+  public hasValidatedEncounters = false;
   private _programVisitTypesConfig: any;
   public get programVisitTypesConfig(): any {
     return this._programVisitTypesConfig;
   }
 
   @Input()
-  public set programVisitTypesConfig(v: any) {
-    this._programVisitTypesConfig = v;
+  public set programVisitTypesConfig(obj: any) {
+    if (
+      obj &&
+      Object.keys(obj).length !== 0 &&
+      Object.getPrototypeOf(obj) === Object.prototype
+    ) {
+      this.hasValidatedEncounters = true;
+      this.extractAllowedEncounterTypesForVisit(obj);
+    }
+    this._programVisitTypesConfig = obj;
   }
 
   constructor(
     private visitResourceService: VisitResourceService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
-    private encounterResService: EncounterResourceService
+    private encounterResService: EncounterResourceService,
+    private patientProgramResourceService: PatientProgramResourceService
   ) {}
 
   public ngOnInit() {
-    this.getPatientEncounters();
     this.retrospectiveDataEntryService.retroSettings.subscribe(
       (retroSettings) => {
         if (retroSettings && retroSettings.enabled) {
@@ -159,16 +142,6 @@ export class VisitDetailsComponent implements OnInit {
         }
       }
     );
-  }
-
-  public getPatientEncounters(): void {
-    this.encounterResService
-      .getEncountersByPatientUuid(this.patient.uuid)
-      .subscribe((encounters: any) => {
-        this.checkForTodaysCovidAssessment(encounters);
-        this.extractAllowedEncounterTypesForVisit();
-        this.evaluateCovidScreeningQualifications();
-      });
   }
 
   public extractCompletedEncounterTypes() {
@@ -221,131 +194,75 @@ export class VisitDetailsComponent implements OnInit {
     );
   }
 
-  public extractAllowedEncounterTypesForVisit() {
+  public getCurrentProgramEnrollmentConfig(
+    patientUuid,
+    locationUuid,
+    startDatetime
+  ) {
+    this.programVisitTypesConfig = {};
+    this.patientProgramResourceService
+      .getPatientProgramVisitTypes(
+        patientUuid,
+        this.programUuid,
+        this.programEnrollmentUuid,
+        locationUuid,
+        this.isRetrospectiveVisit.toString(),
+        moment(startDatetime).format('YYYY-MM-DD')
+      )
+      .take(1)
+      .subscribe(
+        (progConfig) => {
+          this.programVisitTypesConfig = progConfig;
+          this.extractAllowedEncounterTypesForVisit(progConfig);
+        },
+        (error) => {
+          console.error('Error loading the program visit configs', error);
+        }
+      );
+  }
+
+  public extractAllowedEncounterTypesForVisit(programConfig) {
     this.allowedEncounterTypesUuids = [];
     if (
       this.visit &&
       this.visit.visitType &&
-      this.programVisitTypesConfig &&
-      Array.isArray(this.programVisitTypesConfig.visitTypes)
+      programConfig &&
+      Object.keys(programConfig).length !== 0 &&
+      Object.getPrototypeOf(programConfig) === Object.prototype
     ) {
-      let visitType: any;
-      this.programVisitTypesConfig.visitTypes.forEach((element) => {
-        if (element.uuid === this.visit.visitType.uuid) {
-          visitType = element;
-        }
-      });
+      if (this.hasValidatedEncounters) {
+        let visitType: any;
+        programConfig.visitTypes.allowed.forEach((element) => {
+          if (element.uuid === this.visit.visitType.uuid) {
+            visitType = element;
+          }
+        });
 
-      if (visitType && Array.isArray(visitType.encounterTypes)) {
-        this.allowedEncounterTypesUuids = this.validateAllowedEncounterTypes(
-          visitType,
-          this._programVisitTypesConfig.name
-        );
-      }
-    }
-  }
-
-  public validateAllowedEncounterTypes(
-    visitType: any,
-    programName: string
-  ): Array<String> {
-    const visitTypeUuid = visitType.uuid;
-    const allowedEncounters = [];
-    const qualifiesForCervicalScreeningForHiv = this.qualifiesForHivOncologyScreening(
-      this.patient,
-      programName
-    );
-    this.isTreatmentSupporterVisit(visitTypeUuid);
-    this.isHivProgramVisit(programName);
-    for (const a of visitType.encounterTypes) {
-      if (a.uuid === this.ONCOLOGYVIA) {
-        if (!qualifiesForCervicalScreeningForHiv) {
-          continue;
-        } else {
-          allowedEncounters.push(a.uuid);
-        }
-      } else if (this.isHivClinicalEncounter(a)) {
         if (
-          this.screenedForCovidToday ||
-          this.isTreatmentSupprterVisit ||
-          this.isRetrospectiveVisit
+          visitType &&
+          Array.isArray(visitType.encounterTypes.disallowedEncounters)
         ) {
-          allowedEncounters.push(a.uuid);
-        } else {
-          continue;
+          console.log("visitType.encounterTypes.disallowedEncounters ", visitType.encounterTypes.disallowedEncounters)
+          visitType.encounterTypes.disallowedEncounters.forEach((e) => {
+            if (e.errors && e.errors.covidError != null) {
+              this.qualifiesForCovidScreening = true;
+            }
+          });
         }
-      } else {
-        allowedEncounters.push(a.uuid);
+
+        if (
+          visitType &&
+          Array.isArray(visitType.encounterTypes.allowedEncounters)
+        ) {
+          this.allowedEncounterTypesUuids = visitType.encounterTypes.allowedEncounters.map(
+            (a) => {
+              return a.uuid;
+            }
+          );
+          console.log("allowedEncounterTypesUuids ", this.allowedEncounterTypesUuids  )
+        }
       }
     }
-    return allowedEncounters;
-  }
-
-  public qualifiesForHivOncologyScreening(
-    person: { age: number; gender: string },
-    programName: string
-  ): boolean {
-    if (
-      (person.age < 25 || person.age > 49 || person.gender === 'M') &&
-      programName === 'Standard HIV TREATMENT'
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  public isHivClinicalEncounter(encounter: { uuid: string }): boolean {
-    if (
-      encounter.uuid === this.ADULT_RETURN ||
-      encounter.uuid === this.PEDS_RETURN ||
-      encounter.uuid === this.YOUTH_RETURN ||
-      encounter.uuid === this.YOUTH_INITIAL ||
-      encounter.uuid === this.ADULT_INITIAL ||
-      encounter.uuid === this.PEDS_INITIAL ||
-      encounter.uuid === this.DRUG_PICKUP ||
-      encounter.uuid === this.LAB_ORDER ||
-      encounter.uuid === this.POC_LAB
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isTreatmentSupporterVisit(visitTypeUuid: string): void {
-    if (
-      visitTypeUuid === this.TREATMENT_SUPPORTER_VISIT ||
-      visitTypeUuid === this.PMTCT_TREATMENT_SUPPORTER_VISIT ||
-      visitTypeUuid === this.DC_TREATMENT_SUPPORTER_VISIT ||
-      visitTypeUuid === this.VIREMIA_TREATMENT_SUPPORTER_VISIT ||
-      visitTypeUuid === this.HEI_TREATMENT_SUPPORTER_VISIT ||
-      visitTypeUuid === this.PHARMACY_VISIT
-    ) {
-      this.isTreatmentSupprterVisit = true;
-    } else {
-      this.isTreatmentSupprterVisit = false;
-    }
-  }
-
-  public evaluateCovidScreeningQualifications(): void {
-    if (
-      !this.screenedForCovidToday &&
-      !this.isRetrospectiveVisit &&
-      !this.isTreatmentSupprterVisit &&
-      this.isHivVisit
-    ) {
-      this.qualifiesForCovidScreenig = true;
-    } else {
-      this.qualifiesForCovidScreenig = false;
-    }
-  }
-
-  public isHivProgramVisit(programName: string): void {
-    const isHivVisit = this.hivPrograms.some((program: string) => {
-      return program === programName;
-    });
-    this.isHivVisit = isHivVisit;
   }
 
   public reloadVisit() {
@@ -366,7 +283,11 @@ export class VisitDetailsComponent implements OnInit {
           (visit) => {
             this.isBusy = false;
             this.visit = visit;
-            this.extractAllowedEncounterTypesForVisit();
+            this.getCurrentProgramEnrollmentConfig(
+              this.visit.patient.uuid,
+              this.visit.location.uuid,
+              this.visit.startDatetime
+            );
           },
           (error) => {
             this.isBusy = false;
@@ -537,5 +458,15 @@ export class VisitDetailsComponent implements OnInit {
       this.visit.location.uuid !== settings.location.value ||
       visitDate !== settings.visitDate
     );
+  }
+
+  public checkForRetrospectiveVisit(): void {
+    let isRetrospective = false;
+    if (this.visit.hasOwnProperty('attributes')) {
+      isRetrospective = this.visit.attributes.some((a: any) => {
+        return a.attributeType.uuid === this.retrospectiveAttributeTypeUuid;
+      });
+    }
+    this.isRetrospectiveVisit = isRetrospective;
   }
 }
