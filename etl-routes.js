@@ -1072,18 +1072,27 @@ module.exports = (function () {
           }
         },
         handler: function (request, reply) {
-          var requestParams = Object.assign({}, request.query, request.params);
-          var patientUuid = requestParams.patientUuid;
-          var programUuid = requestParams.programUuid;
-          var enrollment = requestParams.enrollmentUuid;
-          var locationUuid = requestParams.intendedLocationUuid || '';
+          const requestParams = Object.assign(
+            {},
+            request.query,
+            request.params
+          );
+
+          const patientUuid = requestParams.patientUuid;
+          const programUuid = requestParams.programUuid;
+          const enrollment = requestParams.enrollmentUuid;
+          const locationUuid = requestParams.intendedLocationUuid || '';
+          const retroSpective = requestParams.retroSpective;
+          const visitDate = requestParams.visitDate;
 
           patientProgramService
             .getPatientProgramVisits(
               patientUuid,
               programUuid,
               enrollment,
-              locationUuid
+              locationUuid,
+              retroSpective,
+              visitDate
             )
             .then((programVisits) => {
               reply(programVisits);

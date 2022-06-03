@@ -23,7 +23,9 @@ function getPatientProgramEnrollmentVisits(
   patientUuid,
   programUuid,
   enrollmentUuid,
-  intendedVisitLocationUuid
+  intendedVisitLocationUuid,
+  retroSpective,
+  visitDate
 ) {
   const clone = getAllProgramsConfig();
 
@@ -32,7 +34,9 @@ function getPatientProgramEnrollmentVisits(
     programUuid,
     enrollmentUuid,
     intendedVisitLocationUuid || '',
-    clone
+    clone,
+    retroSpective,
+    visitDate
   );
 }
 
@@ -45,14 +49,18 @@ function getPatientProgramVisits(
   patientUuid,
   programUuid,
   enrollment,
-  locationUuid
+  locationUuid,
+  retroSpective,
+  visitDate
 ) {
   return new Promise(function (success, error) {
     getPatientProgramEnrollmentVisits(
       patientUuid,
       programUuid,
       enrollment,
-      locationUuid
+      locationUuid,
+      retroSpective,
+      visitDate
     )
       .then((programVisits) => {
         success(programVisits);

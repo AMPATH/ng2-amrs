@@ -12,7 +12,10 @@ function buildScope(dataDictionary) {
     isPatientTransferredOut: false,
     isFirstAMPATHHIVVisit: true,
     qualifiesForStandardVisit: false,
-    qualifiesMedicationRefillVisit: false
+    qualifiesMedicationRefillVisit: false,
+    lastCovidScreeningDate: '',
+    retroSpective: false,
+    screenedForCovidToday: false
   };
 
   if (dataDictionary.patient) {
@@ -75,8 +78,28 @@ function buildScope(dataDictionary) {
     );
   }
 
+  if (dataDictionary.retroSpective) {
+    scope.retroSpective = dataDictionary.retroSpective;
+  }
+
   if (dataDictionary.isPatientTransferredOut) {
     scope['isPatientTransferredOut'] = dataDictionary.isPatientTransferredOut;
+  }
+
+  if (dataDictionary.latestCovidAssessment) {
+    scope['lastCovidScreeningDate'] = dataDictionary.latestCovidAssessment;
+    const screeningDate = Moment(dataDictionary.latestCovidAssessment).format(
+      'YYYY-MM-DD'
+    );
+    const visitDate = Moment(dataDictionary.visitDate).format('YYYY-MM-DD');
+
+    if (screeningDate >= visitDate) {
+      scope.screenedForCovidToday = true;
+    }
+
+    if (dataDictionary.retroSpective === 'true') {
+      scope.screenedForCovidToday = true;
+    }
   }
 
   // add other methods to build the scope objects
