@@ -77,6 +77,7 @@ import { MOH412Service } from './service/moh-412/moh-412';
 const syncPreproc = require('./app/lab-integration/lab-sync-pre-processor.service');
 import { DefaulterListService } from './service/defaulter-list-service';
 import { ClinicFlowService } from './service/clinic-flow-service';
+import { getPatientCovidVaccinationStatus } from './service/covid-19/covid-19-vaccination-summary';
 
 module.exports = (function () {
   var routes = [
@@ -6113,6 +6114,32 @@ module.exports = (function () {
         },
         description: 'MOH-412 Report',
         notes: 'Returns Report for HIV Cervical Cancer Screening',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/covid-vaccination-status',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.patientUuid) {
+            const patientUuid = request.query.patientUuid;
+            getPatientCovidVaccinationStatus(patientUuid)
+              .then((results) => {
+                console.log('results', results);
+                reply(results);
+              })
+              .catch((error) => {
+                reply(Boom.internal('An error occured', error));
+              });
+          } else {
+            reply(Boom.internal('Request misssing patient uuid'));
+          }
+        },
+        description: 'COVID-19 Vaccination Status',
+        notes: 'Returns the patients covid 19 vaccination status',
         tags: ['api']
       }
     }

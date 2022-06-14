@@ -63,6 +63,14 @@
         "type": "LEFT",
         "joinCondition": "t2.visit_type_id = vt.visit_type_id"
       }
+    },
+    {
+      "table": "etl.flat_covid_extract",
+      "alias": "c",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = c.person_id AND c.next_encounter_datetime IS NULL"
+      }
     }
   ],
   "columns": [
@@ -170,6 +178,31 @@
       "type": "simple_column",
       "alias": "nearest_center",
       "column": "pa.address3"
+    },
+    {
+      "type": "derived_column",
+      "alias": "covid_19_vaccination_status",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.vaccination_status = 2208",
+            "value": "Fully Vaccinated"
+          },
+          {
+            "condition": "c.vaccination_status = 11907",
+            "value": "Partially Vaccinated"
+          },
+          {
+            "condition": "c.first_dose_vaccine_administered IS NULL AND c.second_dose_vaccine_administered IS NULL AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
+            "value": "Eligible for Covid 19 Vaccination"
+          },
+          {
+            "condition": "c.received_covid_19_vaccine = 1066 AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
+            "value": "Eligible for Covid 19 Vaccination"
+          }
+        ]
+      }
     }
   ],
   "groupBy": {

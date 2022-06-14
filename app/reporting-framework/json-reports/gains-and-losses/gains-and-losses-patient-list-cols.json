@@ -77,6 +77,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Transfer Out Date",
         "width": 150,
         "field": "transfer_out_date"
@@ -174,6 +179,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Transfer Out Date",
@@ -280,6 +290,11 @@
         "field": "transfer_out_date"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Transfer Out Facility",
         "width": 200,
         "field": "transfer_out_location"
@@ -372,6 +387,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Days since LTFU",
@@ -478,6 +498,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Days since LTFU",
         "width": 150,
         "field": "days_since_ltfu"
@@ -572,6 +597,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Days since LTFU",
         "width": 150,
         "field": "days_since_ltfu"
@@ -664,6 +694,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Days since LTFU",
@@ -775,6 +810,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -872,6 +912,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Nearest Center",
@@ -973,6 +1018,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -1060,6 +1110,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Days since RTC",
@@ -1156,6 +1211,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Days since RTC",
         "width": 150,
         "field": "days_since_rtc"
@@ -1248,6 +1308,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Days since RTC",
@@ -1379,6 +1444,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -1501,6 +1571,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Nearest Center",
@@ -1627,6 +1702,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -1721,6 +1801,11 @@
         "field": "days_since_rtc"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Nearest Center",
         "width": 150,
         "field": "nearest_center"
@@ -1808,6 +1893,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Days since RTC",
@@ -1904,6 +1994,11 @@
         "field": "tb_screening_result"
       },
       {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
+      },
+      {
         "headerName": "Days since RTC",
         "width": 150,
         "field": "days_since_rtc"
@@ -1991,6 +2086,11 @@
         "headerName": "TB Screening Result",
         "width": 150,
         "field": "tb_screening_result"
+      },
+      {
+        "headerName": "Covid-19 Vaccination Status",
+        "width": 200,
+        "field": "covid_19_vaccination_status"
       },
       {
         "headerName": "Days since RTC",
