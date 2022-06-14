@@ -168,38 +168,67 @@ function isInitialPrepVisit(patientEncounters) {
 }
 
 function isInitialPepVisit(patientEncounters) {
+  /*
+  1. Hide the PEP Return Visit 2 months from the initial Visit  Use initial encounter date 
+  if in case the client does not come for 1 month return Visit
+
+   2. Display Initial Visit when Clinician discharge or after filling a PEP return form.
+
+  */
   const initialPEPEncounterUuid = 'c3a78744-f94a-4a25-ac9d-1c48df887895';
+  const returnPEPEncounterUuid = 'f091b833-9e1a-4eef-8364-fc289095a832';
+  const today = Moment(new Date());
   let isInitialPEPVisit = true;
 
-  // get initial pep encounters
+  // get initial and return pep encounters
 
-  let initialPEPEncounters = _.filter(patientEncounters, (encounter) => {
-    return encounter.encounterType.uuid === initialPEPEncounterUuid;
-  });
+  const initialPEPEncounters = getSpecificEncounterTypesFromEncounters(
+    patientEncounters,
+    initialPEPEncounterUuid
+  );
+  const pepReturnEncounters = getSpecificEncounterTypesFromEncounters(
+    patientEncounters,
+    returnPEPEncounterUuid
+  );
 
-  let orderedPEPEncounters = [];
-  let duration = 0;
-
-  if (initialPEPEncounters.length > 0) {
-    // order pep initial from the latest pep encounter
-    orderedPEPEncounters = initialPEPEncounters.sort((a, b) => {
-      var dateA = new Date(a.encounterDatetime);
-      var dateB = new Date(b.encounterDatetime);
-      return dateB - dateA;
-    });
-    const today = Moment(new Date());
-
-    let latestPEPEncounter = orderedPEPEncounters[0];
-
-    let latestPEPEncounterDate = Moment(
-      latestPEPEncounter.encounterDatetime
+  if (initialPEPEncounters.length === 0) {
+    isInitialPEPVisit = true;
+  } else {
+    const latestPEPInitialEncounter = getLatestEncounter(initialPEPEncounters);
+    const latestPEPInitialEncounterDate = Moment(
+      latestPEPInitialEncounter.encounterDatetime
     ).format();
-    duration = today.diff(latestPEPEncounterDate, 'days');
-    // if its more than 60 days since their last PEP Initial then they should see a pep initial visit
-    if (duration > 120) {
-      isInitialPEPVisit = true;
+
+    const durationSinceLastPEPInitialEncounter = today.diff(
+      latestPEPInitialEncounterDate,
+      'months'
+    );
+
+    if (pepReturnEncounters.length === 0) {
+      if (durationSinceLastPEPInitialEncounter >= 2) {
+        isInitialPEPVisit = true;
+      } else {
+        isInitialPEPVisit = false;
+      }
     } else {
-      isInitialPEPVisit = false;
+      const latestPEPReturnEncounter = getLatestEncounter(pepReturnEncounters);
+      const latestPEPReturnEncounterDate = Moment(
+        latestPEPReturnEncounter.encounterDatetime
+      ).format();
+
+      if (
+        Moment(latestPEPInitialEncounterDate).isAfter(
+          latestPEPReturnEncounterDate
+        )
+      ) {
+        if (durationSinceLastPEPInitialEncounter >= 2) {
+          isInitialPEPVisit = true;
+        } else {
+          isInitialPEPVisit = false;
+        }
+      } else {
+        isInitialPEPVisit = true;
+      }
     }
   }
 
@@ -331,4 +360,25 @@ function isInitialHivVisit(patientEncounters) {
     });
   });
   return hasInitial;
+}
+
+function getSpecificEncounterTypesFromEncounters(
+  encountersArray,
+  encounterTypeUuid
+) {
+  return _.filter(encountersArray, (encounter) => {
+    return encounter.encounterType.uuid === encounterTypeUuid;
+  });
+}
+
+function getLatestEncounter(encountersArray) {
+  const orderedEncounters = encountersArray.sort((a, b) => {
+    const dateA = new Date(a.encounterDatetime);
+    const dateB = new Date(b.encounterDatetime);
+    return dateB - dateA;
+  });
+
+  const latestEncounter = orderedEncounters[0];
+
+  return latestEncounter;
 }
