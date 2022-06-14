@@ -86,19 +86,35 @@ function buildScope(dataDictionary) {
     scope['isPatientTransferredOut'] = dataDictionary.isPatientTransferredOut;
   }
 
-  if (dataDictionary.latestCovidAssessment) {
-    scope['lastCovidScreeningDate'] = dataDictionary.latestCovidAssessment;
-    const screeningDate = Moment(dataDictionary.latestCovidAssessment).format(
-      'YYYY-MM-DD'
-    );
+  if (dataDictionary.retroSpective === 'true') {
+    scope.screenedForCovidToday = true;
+  } else {
+    const today = Moment().format('YYYY-MM-DD');
     const visitDate = Moment(dataDictionary.visitDate).format('YYYY-MM-DD');
 
-    if (screeningDate >= visitDate) {
-      scope.screenedForCovidToday = true;
-    }
+    if (dataDictionary.latestCovidAssessment) {
+      scope['lastCovidScreeningDate'] = dataDictionary.latestCovidAssessment;
+      const screeningDate = Moment(dataDictionary.latestCovidAssessment).format(
+        'YYYY-MM-DD'
+      );
+      /*
+      if the visit is a past visit but not retrospective
+      or visit is retrospective
+      */
 
-    if (dataDictionary.retroSpective === 'true') {
-      scope.screenedForCovidToday = true;
+      if (
+        screeningDate >= visitDate ||
+        Moment(today).isAfter(Moment(visitDate))
+      ) {
+        scope.screenedForCovidToday = true;
+      }
+    } else {
+      /*
+      if the visit is a past visit but not retrospective
+      */
+      if (Moment(today).isAfter(Moment(visitDate))) {
+        scope.screenedForCovidToday = true;
+      }
     }
   }
 
