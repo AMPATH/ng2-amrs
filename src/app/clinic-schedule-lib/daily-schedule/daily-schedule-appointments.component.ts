@@ -35,6 +35,11 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       headerName: 'ART start date',
       width: 120,
       field: 'arv_first_regimen_start_date'
+    },
+    {
+      headerName: 'Covid-19 Vaccination Status',
+      width: 200,
+      field: 'covid_19_vaccination_status'
     }
   ];
   public errors: any[] = [];

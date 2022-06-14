@@ -1,4 +1,5 @@
 import { TestBed, inject, async } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 
 import { HivSummaryService } from './hiv-summary.service';
 import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
@@ -18,6 +19,34 @@ import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/progra
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PatientService } from '../../services/patient.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
+import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+import { DataCacheService } from './../../../shared/services/data-cache.service';
+
+interface Covid19StatusSummary {
+  vaccination_status: string;
+  vaccination_status_code: string;
+  vaccination_status_code_message: string;
+  date_given_first_dose?: Date;
+  first_dose_vaccine_administered: string;
+  date_given_second_dose?: Date;
+  second_dose_vaccine_administered: string;
+}
+const mockCovid19StatusSummaryResponse: Covid19StatusSummary = {
+  vaccination_status: '1',
+  vaccination_status_code: '1',
+  vaccination_status_code_message: '',
+  date_given_first_dose: new Date(),
+  first_dose_vaccine_administered: 'ASTRAZENECA',
+  date_given_second_dose: new Date(),
+  second_dose_vaccine_administered: 'MODERNA'
+};
+
+class FakeCovid19ResourceService {
+  constructor() {}
+  getCovid19VaccinationStatus(): Observable<Covid19StatusSummary> {
+    return Observable.of(mockCovid19StatusSummaryResponse);
+  }
+}
 
 describe('Component: HivSummaryLatest Unit Tests', () => {
   let hivSummaryService: HivSummaryService,
@@ -25,6 +54,7 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     patientService: PatientService,
     encounterService: EncounterResourceService,
     cervicalCancerScreeningSummaResourceService: CervicalCancerScreeningSummaResourceService,
+    covid19VaccineService: Covid19ResourceService,
     component;
 
   beforeEach(() => {
@@ -46,7 +76,13 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
         AppSettingsService,
         LocalStorageService,
         PatientService,
-        CervicalCancerScreeningSummaResourceService
+        CervicalCancerScreeningSummaResourceService,
+        {
+          provide: Covid19ResourceService,
+          useFactory: () => {
+            return new FakeCovid19ResourceService();
+          }
+        }
       ]
     });
 
@@ -57,13 +93,15 @@ describe('Component: HivSummaryLatest Unit Tests', () => {
     cervicalCancerScreeningSummaResourceService = TestBed.get(
       CervicalCancerScreeningSummaResourceService
     );
+    covid19VaccineService = TestBed.get(Covid19ResourceService);
 
     component = new HivSummaryLatestComponent(
       hivSummaryService,
       encounterService,
       patientService,
       patientResourceService,
-      cervicalCancerScreeningSummaResourceService
+      cervicalCancerScreeningSummaResourceService,
+      covid19VaccineService
     );
   });
 
