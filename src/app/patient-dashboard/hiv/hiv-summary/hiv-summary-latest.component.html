@@ -34,6 +34,45 @@
       </span>
     </li>
     <li
+      *ngIf="
+        covid19VaccinationSummary &&
+        covid19VaccinationSummary.vaccination_status.length > 0
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
+      <p>
+        COVID-19 Vaccination Status:
+        <span>
+          {{ covid19VaccinationSummary?.vaccination_status }}
+        </span>
+        <span
+          style="text-transform: capitalize"
+          *ngIf="covid19VaccinationSummary?.first_dose_vaccine_administered"
+        >
+          ({{ covid19VaccinationSummary.first_dose_vaccine_administered }} :
+          {{ covid19VaccinationSummary.date_given_first_dose }})
+        </span>
+        <span
+          style="text-transform: capitalize"
+          *ngIf="covid19VaccinationSummary?.second_dose_vaccine_administered"
+        >
+          ({{ covid19VaccinationSummary.second_dose_vaccine_administered }} :
+          {{ covid19VaccinationSummary.date_given_second_dose }})
+        </span>
+        <span
+          style="
+            text-transform: capitalize;
+            color: red;
+            padding: 2px 2px 2px 2px;
+          "
+          *ngIf="covid19VaccinationSummary?.vaccination_status_code_message"
+        >
+          {{ covid19VaccinationSummary.vaccination_status_code_message }}
+        </span>
+      </p>
+    </li>
+    <li
       *ngIf="ovcStatus"
       class="list-group-item {{ colorCode }}"
       style="font-size: large"
