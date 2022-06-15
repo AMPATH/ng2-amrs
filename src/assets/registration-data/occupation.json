@@ -1,0 +1,230 @@
+[
+  {
+    "value": "engineer",
+    "label": "Engineer"
+  },
+  {
+    "value": "technician",
+    "label": "Technician"
+  },
+  {
+    "value": "scientist",
+    "label": "Scientist"
+  },
+  {
+    "value": "software-developer",
+    "label": "Software Developer"
+  },
+  {
+    "value": "teacher",
+    "label": "Teacher"
+  },
+  {
+    "value": "architect",
+    "label": "Architect"
+  },
+  {
+    "value": "veterinarian",
+    "label": "Veterinarian"
+  },
+  {
+    "value": "mechanic",
+    "label": "Mechanic"
+  },
+  {
+    "value": "psychologist",
+    "label": "Psychologist"
+  },
+  {
+    "value": "physician",
+    "label": "Physician"
+  },
+  {
+    "value": "actuary",
+    "label": "Actuary"
+  },
+  {
+    "value": "artist",
+    "label": "Artist"
+  },
+  {
+    "value": "lawyer",
+    "label": "Lawyer"
+  },
+  {
+    "value": "Chef",
+    "label": "Chef"
+  },
+  {
+    "value": "electrician",
+    "label": "Electrician"
+  },
+  {
+    "value": "plumber",
+    "label": "Plumber"
+  },
+  {
+    "value": "statistician",
+    "label": "Statistician"
+  },
+  {
+    "value": "accountant",
+    "label": "Accountant"
+  },
+  {
+    "value": "consultant",
+    "label": "Consultant"
+  },
+  {
+    "value": "hairdresser",
+    "label": "Hairdresser"
+  },
+  {
+    "value": "technologist",
+    "label": "Technologist"
+  },
+  {
+    "value": "pharmacist",
+    "label": "Pharmacist"
+  },
+  {
+    "value": "occupational-therapist",
+    "label": "Occupational Therapist"
+  },
+  {
+    "value": "radiographer",
+    "label": "Radiographer"
+  },
+  {
+    "value": "actor",
+    "label": "Actor"
+  },
+  {
+    "value": "aviator",
+    "label": "Aviator"
+  },
+  {
+    "value": "biomedical-engineer",
+    "label": "Biomedical Engineer"
+  },
+  {
+    "value": "registered-nurse",
+    "label": "Registered Nurse"
+  },
+  {
+    "value": "economist",
+    "label": "Economist"
+  },
+  {
+    "value": "athlete",
+    "label": "Athlete"
+  },
+  {
+    "value": "civil-engineer",
+    "label": "Civil Engineer"
+  },
+  {
+    "value": "dietitian",
+    "label": "Dietitian"
+  },
+  {
+    "value": "tool-and-die-maker",
+    "label": "Tool And Die Maker"
+  },
+  {
+    "value": "operator",
+    "label": "Operator"
+  },
+  {
+    "value": "cook",
+    "label": "Cook"
+  },
+  {
+    "value": "engineering-technician",
+    "label": "Engineering Technician"
+  },
+  {
+    "value": "drafter",
+    "label": "Drafter"
+  },
+  {
+    "value": "firefighter",
+    "label": "Firefighter"
+  },
+  {
+    "value": "waiting-staff",
+    "label": "Waiting Staff"
+  },
+  {
+    "value": "police-officer",
+    "label": "Police Officer"
+  },
+  {
+    "value": "petroleum-engineer",
+    "label": "Petroleum Engineer"
+  },
+  {
+    "value": "plasterer",
+    "label": "Plasterer"
+  },
+  {
+    "value": "librarian",
+    "label": "Librarian"
+  },
+  {
+    "value": "machinist",
+    "label": "Machinist"
+  },
+  {
+    "value": "landscape-architect",
+    "label": "Landscape Architect"
+  },
+  {
+    "value": "curator",
+    "label": "Curator"
+  },
+  {
+    "value": "materials-engineer",
+    "label": "Materials Engineer"
+  },
+  {
+    "value": "paramedic",
+    "label": "Paramedic"
+  },
+  {
+    "value": "dental-hygienist",
+    "label": "Dental Hygienist"
+  },
+  {
+    "value": "geologist",
+    "label": "Geologist"
+  },
+  {
+    "value": "midwife",
+    "label": "Midwife"
+  },
+  {
+    "value": "banker",
+    "label": "Banker"
+  },
+  {
+    "value": "farmer",
+    "label": "Farmer"
+  },
+  {
+    "value": "manual-worker",
+    "label": "Manual Worker"
+  },
+  {
+    "value": "politician",
+    "label": "Politician"
+  },
+  {
+    "value": "student",
+    "label": "Student"
+  },
+  {
+    "value": "doctor",
+    "label": "Doctor"
+  }
+]

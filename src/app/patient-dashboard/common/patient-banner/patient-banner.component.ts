@@ -45,6 +45,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public ovcEnrollment = false;
   public isPatientVerified = false;
+  public verificationStatus = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -78,6 +79,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          this.getVerificationStatus();
           this.getOvcEnrollments(
             patient.enrolledPrograms,
             patient.person.birthdate
@@ -111,13 +113,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
               this.familyTestingEncounterUuid = _.first<any>(response.results);
             });
           this.getPatientEncounters();
-          this.getVerificationStatus();
-
-          if (this.searchIdentifiers.upi === undefined) {
-            this.isPatientVerified = false;
-          } else {
-            this.isPatientVerified = true;
-          }
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
@@ -138,7 +133,26 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           );
         });
         if (value.length > 0 && value[0].value) {
-          this.isPatientVerified = true;
+          this.verificationStatus = true;
+
+          if (this.searchIdentifiers.upi === undefined) {
+            if (
+              this.searchIdentifiers.kenyaNationalId === undefined &&
+              this.searchIdentifiers.birthNumber === undefined &&
+              this.searchIdentifiers.pid === undefined
+            ) {
+              this.isPatientVerified = false;
+            } else if (
+              this.verificationStatus &&
+              (this.searchIdentifiers.kenyaNationalId !== undefined ||
+                this.searchIdentifiers.birthNumber !== undefined ||
+                this.searchIdentifiers.pid !== undefined)
+            ) {
+              this.isPatientVerified = true;
+            }
+          } else {
+            this.isPatientVerified = true;
+          }
         }
       });
   }

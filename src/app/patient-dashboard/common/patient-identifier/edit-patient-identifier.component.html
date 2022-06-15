@@ -157,10 +157,10 @@
   </div>
 </p-dialog>
 
-<!-- VERIFY DIALOG -->
+<!--ADD VERIFY DIALOG -->
 <p-dialog
   header="Add Patient Verification Identifiers"
-  [(visible)]="verifyDialog"
+  [(visible)]="addVerifyDialog"
   closable="true"
   styleClass="edit-identifier-dialog"
 >
@@ -184,7 +184,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+      <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
         <div class="form-group">
           <label class="control-label">Patient Identifier Type:</label>
           <select
@@ -206,9 +206,9 @@
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+      <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
         <div class="form-group">
-          <label class="control-label">Patient Identifier</label>
+          <label class="control-label">Value</label>
           <span
             class="badge btn pull-right"
             *ngIf="checkUniversal"
@@ -256,179 +256,60 @@
           </div>
         </div>
       </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Preferred</label>
-          <select
-            class="form-control"
-            [ngModel]="preferredIdentifier"
-            (ngModelChange)="setPreferredIdentifier($event)"
-          >
-            <option *ngFor="let c of preferOptions" [ngValue]="c.value">
-              {{ c.label }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Identifier Location</label>
-          <ng-select
-            class="sharp-corners"
-            id="selectedDevice"
-            (change)="seIdentifierLocation($event)"
-            [placeholder]="'Select a location or type to search...'"
-            [(ngModel)]="selectedDevice"
-            [items]="locations"
-          >
-          </ng-select>
-          <div *ngIf="invalidLocationCheck">
-            <span
-              style="color: red"
-              class="glyphicon glyphicon-exclamation-sign"
-            >
-              {{ invalidLocationCheck }}</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Is Verified?</label>
-          <select
-            class="form-control"
-            [ngModel]="isNumberVerified"
-            (ngModelChange)="setIsVerifiedValue($event)"
-          >
-            <option *ngFor="let c of preferOptions" [ngValue]="c.value">
-              {{ c.label }}
-            </option>
-          </select>
-          <div ng-messages="personForm.isNumberVerified.$error">
-            <div class="help-block" ng-message="required">
-              Verification status is required.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Phone Number</label>
-          <input
-            type="text"
-            id="telNumber"
-            class="form-control"
-            [(ngModel)]="telNumber"
-            name=""
-            (ngModelChange)="setTelNumber(telNumber)"
-          />
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label for="birthDate"
-            >Birthdate <span>(Format: mm/dd/yyyy)</span>
-            <span *ngIf="!birthDate" class="required"> * </span></label
-          ><br />
-          <date-time-picker
-            tabindex="0"
-            [modelValue]="birthDate"
-            [id]="'birthDate'"
-            (onDateChange)="updateBirthDate($event)"
-          ></date-time-picker>
-          <div *ngIf="birthError">
-            <span class="required">{{ birthError }}</span>
-          </div>
-          <div *ngIf="errors && !birthDate" class="required">
-            <span class="help-block" style="color: red"
-              >Birth Date is required!</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Country</label>
-          <input
-            type="text"
-            id="country"
-            class="form-control"
-            [(ngModel)]="country"
-            name=""
-            (ngModelChange)="setCountry(country)"
-          />
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">County</label>
-          <input
-            type="text"
-            id="county"
-            class="form-control"
-            [(ngModel)]="county"
-            name=""
-            (ngModelChange)="setCounty(county)"
-          />
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Sub County</label>
-          <input
-            type="text"
-            id="subCounty"
-            class="form-control"
-            [(ngModel)]="subCounty"
-            name=""
-            (ngModelChange)="setSubCounty(subCounty)"
-          />
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <div class="form-group">
-          <label class="control-label">Village/Estate</label>
-          <input
-            type="text"
-            id="village"
-            class="form-control"
-            [(ngModel)]="village"
-            name=""
-            (ngModelChange)="setVillage(village)"
-          />
-        </div>
-      </div>
-
-      <div
-        class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
-        style="margin-bottom: 15px"
-      >
+      <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
         <div class="form-group">
           <button
+            style="margin-top: 27px; font-size: 10px"
             ng-disabled="personForm.patientIdentifier.$invalid &&
-                personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
+                  personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
             class="btn btn-primary"
             type="button"
-            (click)="updatePatientVerificationInfo()"
+            (click)="verifyPatient()"
           >
-            <span>Save</span>
+            <span>Search Registry</span>
           </button>
-          <button
-            class="btn btn-danger pull-right"
-            type="button"
-            (click)="dismissDialog()"
-          >
-            <span>Cancel</span>
-          </button>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px"></div>
+
+      <div class="row">
+        <div
+          class="col-md-5 col-lg-5 col-sm-5 col-xs-5"
+          style="margin-left: 15px"
+        >
+          <div class="form-group">
+            <label class="control-label">UPI Identifier:</label>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+          <div class="form-group">
+            <input
+              type="text"
+              id="unsavedUpi"
+              class="form-control"
+              [(ngModel)]="unsavedUpi"
+              name=""
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+          style="margin-left: 15px"
+        >
+          <div class="form-group">
+            <button
+              [disabled]="unsavedUpi.length == 0"
+              class="btn btn-primary"
+              type="button"
+              (click)="openRegistrationPage()"
+            >
+              <span>Verify Patient</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
