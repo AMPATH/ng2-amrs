@@ -28,6 +28,7 @@ interface ValidationResponse {
 export class FormSubmissionService {
   private payloadTypes: Array<string> = ['encounter', 'personAttribute'];
   private submitStatus = false;
+  private optionalSubmissionArgs: any;
   constructor(
     private encounterAdapter: EncounterAdapter,
     private personAttributeAdapter: PersonAttribuAdapter,
@@ -40,9 +41,11 @@ export class FormSubmissionService {
 
   public submitPayload(
     form: Form,
-    payloadTypes: Array<string> = this.payloadTypes
+    payloadTypes: Array<string> = this.payloadTypes,
+    optionalArg?: any
   ): Observable<any> {
     // create payload batch to be submitted on concurrently
+    this.optionalSubmissionArgs = optionalArg;
     const payloadBatch: Array<Observable<any>> = this.createPayloadBatch(
       form,
       payloadTypes
@@ -98,7 +101,6 @@ export class FormSubmissionService {
             const encounterPayload: any = this.encounterAdapter.generateFormPayload(
               form
             );
-            console.log('encounterPayload', encounterPayload);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
                 this.submitEncounterPayload(form, encounterPayload).pipe(
@@ -386,19 +388,26 @@ export class FormSubmissionService {
 
     if (receivedCovidVaccine) {
       // check if any vaccine has been entered
-      const hasVaccineDetails = this.checkForGroupMemberAnswer(
-        obs,
-        immunizationObsGroupUuid
-      );
 
-      if (!hasVaccineDetails) {
-        const message =
-          'Patient has received Covid Vaccine but no vaccine has been entered.';
-        validityResp.isValid = false;
-        errorCount++;
-        errorMsg += `${errorCount}. ${message}`;
+      // check if patient is fully vaccinated
+      if (
+        this.optionalSubmissionArgs.covid19VaccineStatus &&
+        this.optionalSubmissionArgs.covid19VaccineStatus === '2'
+      ) {
+      } else {
+        const hasVaccineDetails = this.checkForGroupMemberAnswer(
+          obs,
+          immunizationObsGroupUuid
+        );
+        if (!hasVaccineDetails) {
+          const message =
+            'Patient has received Covid Vaccine but no vaccine has been entered.';
+          validityResp.isValid = false;
+          errorCount++;
+          errorMsg += `${errorCount}. ${message}`;
+        }
+        validityResp.errors = errorMsg;
       }
-      validityResp.errors = errorMsg;
     }
 
     if (receivedBoosterVaccince) {

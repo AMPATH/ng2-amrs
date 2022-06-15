@@ -936,11 +936,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
         true
       );
       this.dataSources.registerDataSource(
-        'patient',
-        { covid19VaccineStatus: this.covid19VaccineStatus },
-        true
-      );
-      this.dataSources.registerDataSource(
         'userLocation',
         this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
       );
@@ -973,6 +968,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
       } else {
         // creating new from
+        this.dataSources.registerDataSource(
+          'patient',
+          { covid19VaccineStatus: this.covid19VaccineStatus },
+          true
+        );
         this.dataSources.registerDataSource(
           'rawPrevEnc',
           historicalEncounter,
@@ -1216,9 +1216,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private saveEncounterOrUpdate(payloadTypes) {
+    const optionalArgs = {
+      covid19VaccineStatus: this.covid19VaccineStatus
+    };
     this.isBusyIndicator(true, 'Please wait, saving form...');
     this.formSubmissionService
-      .submitPayload(this.form, payloadTypes)
+      .submitPayload(this.form, payloadTypes, optionalArgs)
       .pipe(take(1))
       .subscribe(
         (data) => {
