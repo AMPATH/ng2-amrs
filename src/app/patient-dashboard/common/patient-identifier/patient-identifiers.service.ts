@@ -55,13 +55,13 @@ export class PatientIdentifierService {
   public patientVerificationIdentifierTypeFormat() {
     return [
       {
-        label: 'KENYAN NATIONAL ID NUMBER',
+        label: 'Kenya National ID Number',
         format: null,
         checkdigit: null,
         val: '58a47054-1359-11df-a1f1-0026b9348838'
       },
       {
-        label: 'Birth Number',
+        label: 'Birth Certificate Number',
         format: '',
         checkdigit: 0,
         val: '7924e13b-131a-4da8-8efa-e294184a1b0d'

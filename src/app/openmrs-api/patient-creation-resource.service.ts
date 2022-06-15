@@ -50,8 +50,12 @@ export class PatientCreationResourceService {
   }
 
   public generateUPI(patientUuid) {
-    // TODO: Change to production url
-    const url = `http://192.168.1.76:3000/api/identifier?patientUuid=${patientUuid}`;
+    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
+    return this.http.get(url);
+  }
+
+  public searchRegistry(idType, id) {
+    const url = `https://ngx.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}`;
     return this.http.get(url);
   }
 

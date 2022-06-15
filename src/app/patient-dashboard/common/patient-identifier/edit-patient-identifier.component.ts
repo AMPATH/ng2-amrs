@@ -14,7 +14,8 @@ import { PatientResourceService } from '../../../openmrs-api/patient-resource.se
 import { UserService } from '../../../openmrs-api/user.service';
 import { PatientCreationResourceService } from '../../../openmrs-api/patient-creation-resource.service';
 import { PatientIdentifierTypeResService } from 'src/app/openmrs-api/patient-identifierTypes-resource.service';
-
+import { Router } from '@angular/router';
+import { SessionStorageService } from './../../../utils/session-storage.service';
 @Component({
   selector: 'edit-identifiers',
   templateUrl: './edit-patient-identifier.component.html',
@@ -68,6 +69,10 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public birthDate: any;
   public birthError = '';
   public verificationIdentifierTypes: any = [];
+  public registryData: any;
+  public UpiIdentifierType = 'cba702b9-4664-4b43-83f1-9ab473cbd64d';
+
+  public unsavedUpi = '';
 
   constructor(
     private patientService: PatientService,
@@ -76,7 +81,9 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     private patientIdentifierTypeResService: PatientIdentifierTypeResService,
     private patientResourceService: PatientResourceService,
     private patientCreationResourceService: PatientCreationResourceService,
-    private userService: UserService
+    private userService: UserService,
+    private sessionStorageService: SessionStorageService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -262,97 +269,67 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setTelNumber(telNumber) {
-    this.telNumber = telNumber;
-  }
-
-  public setCountry(country) {
-    this.country = country;
-  }
-
-  public setCounty(county) {
-    this.county = county;
-  }
-
-  public setSubCounty(subCounty) {
-    this.subCounty = subCounty;
-  }
-
-  public setVillage(village) {
-    this.village = village;
-  }
-
-  public updateBirthDate(birthDate) {
-    this.disable = true;
-    this.birthDate = birthDate;
-
-    if (moment(this.birthDate).isAfter(new Date())) {
-      this.birthError = 'Birth date cannot be in the future!';
-    } else {
-      this.birthError = '';
-    }
-
-    if (!this.birthDate) {
-      this.disable = false;
-    }
-  }
-
-  private updatePerson() {
-    const attributes = [];
-    if (this.telNumber) {
-      attributes.push({
-        value: this.telNumber,
-        attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
-      });
-    }
-
-    attributes.push({
-      value: true,
-      attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
-    });
-
-    const newId = {
-      identifierType: (this.identifierType as any).val,
-      identifier: this.patientIdentifier.toString(),
-      location: this.newLocation,
-      preferred: this.preferredIdentifier
-    };
-
-    const updatePayload = {
-      data: {
-        person: {
-          birthdate: this.birthDate,
-          attributes: attributes,
-          addresses: [
-            {
-              country: this.country,
-              address8: this.village,
-              cityVillage: this.village,
-              stateProvince: this.subCounty
-            }
-          ]
-        },
-        identifiers: newId
-      }
-    };
-
-    return updatePayload;
-  }
-
-  public updatePatientVerificationInfo() {
-    const payload = this.updatePerson();
-    const uuid = this.patients.person.uuid;
+  public verifyPatient() {
+    const searchUuid = this.identifierType.val;
     this.patientCreationResourceService
-      .updateExistingPatient(payload.data.person, uuid)
-      .pipe(take(1))
+      .searchRegistry(searchUuid, this.patientIdentifier.toString())
       .subscribe(
-        (res) => {
-          this.updatePatientIdentifier(true);
+        (data: any) => {
+          console.log('DHP Client Exists ', data.clientExists);
+          if (data.clientExists) {
+            this.unsavedUpi = data.client.clientNumber;
+            const ids = [];
+            ids.push({
+              identifierType: searchUuid,
+              label: this.identifierType.label,
+              identifier: this.patientIdentifier.toString(),
+              preferred: false
+            });
+
+            ids.push({
+              identifierType: this.UpiIdentifierType,
+              label: 'UPI Number',
+              identifier: this.unsavedUpi,
+              preferred: false
+            });
+
+            data.client.localIds = ids;
+            data.client.uuid = this.patients.person.uuid;
+
+            this.registryData = data.client;
+
+            this.sessionStorageService.remove('CRPatient');
+            this.sessionStorageService.setObject('CRPatient', data.client);
+          } else {
+            this.unsavedUpi = 'Not Found';
+            this.sessionStorageService.remove('CRPatient');
+          }
         },
         (err) => {
-          console.log('Errors ', err);
+          this.sessionStorageService.remove('CRPatient');
+          console.log('Error', err);
         }
       );
+  }
+
+  public openRegistrationPage() {
+    if (this.unsavedUpi === '' || this.unsavedUpi === 'Not Found') {
+      this.router.navigate([
+        '/patient-dashboard/patient-search/patient-registration',
+        {
+          editMode: 2,
+          patientUuid: this.patients.person.uuid,
+          identifierType: this.identifierType.val,
+          identifier: this.patientIdentifier.toString(),
+          label: this.identifierType.label
+        }
+      ]);
+    } else {
+      this.router.navigate([
+        '/patient-dashboard/patient-search/patient-registration',
+        { editMode: 1 }
+      ]);
+    }
   }
 
   public updatePatientIdentifier(isVerifyDialog?: Boolean) {
@@ -429,11 +406,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
                 delete personIdentifierPayload.uuid;
               }
               this.identifierValidity = '';
-              this.saveIdentifier(
-                personIdentifierPayload,
-                person,
-                isVerifyDialog
-              );
+              this.saveIdentifier(personIdentifierPayload, person);
             }
           });
       } else {
@@ -470,7 +443,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       );
   }
 
-  private saveIdentifier(personIdentifierPayload, person, verify?: Boolean) {
+  private saveIdentifier(personIdentifierPayload, person) {
     this.patientResourceService
       .saveUpdatePatientIdentifier(
         person.uuid,
@@ -480,18 +453,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (res) => {
-          if (verify) {
-            this.patientCreationResourceService
-              .generateUPI(this.patients.person.uuid)
-              .subscribe(
-                (data) => {
-                  console.log('Success data', data);
-                },
-                (err) => {
-                  console.log('Error', err);
-                }
-              );
-          }
           this.displaySuccessAlert('Identifiers saved successfully');
           this.patientIdentifier = '';
           this.identifierLocation = '';
