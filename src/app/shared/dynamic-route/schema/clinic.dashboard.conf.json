@@ -98,12 +98,6 @@
           "isSideBarOpen": false
         },
         {
-          "url": "hiv-viz",
-          "label": "HIV Visualization",
-          "icon": "fa fa-line-chart",
-          "isSideBarOpen": false
-        },
-        {
           "url": "hiv-summary-indicator-report",
           "label": "HIV Summary Indicators",
           "icon": "fa fa-file-pdf-o",
