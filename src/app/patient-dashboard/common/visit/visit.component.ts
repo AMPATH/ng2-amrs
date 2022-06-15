@@ -18,6 +18,8 @@ import { CommunityGroupMemberService } from '../../../openmrs-api/community-grou
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ViewChild } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
+import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
+import * as moment from 'moment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -26,10 +28,13 @@ import { PatientService } from '../../services/patient.service';
   styleUrls: ['visit.component.css']
 })
 export class VisitComponent implements OnInit, OnDestroy {
-  public currentProgramConfig: any;
+  public currentProgramConfig = {};
   public showVisitStartedMsg = false;
   public patients: any;
   private subs: Subscription[] = [];
+  public isRetrospectiveVisit = false;
+  public retrospectiveAttributeTypeUuid =
+    '3bb41949-6596-4ff9-a54f-d3d7883a69ed';
 
   @Input()
   public programUuid = '';
@@ -68,7 +73,8 @@ export class VisitComponent implements OnInit, OnDestroy {
     private todayVisitService: TodayVisitService,
     private communityGroupMemberService: CommunityGroupMemberService,
     private bsModalService: BsModalService,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private patientProgramResourceService: PatientProgramResourceService
   ) {}
 
   public ngOnInit() {
@@ -210,7 +216,6 @@ export class VisitComponent implements OnInit, OnDestroy {
     this.visit = undefined;
     this.visits = [];
     // this.patient = undefined;
-    this.currentProgramConfig = undefined;
     this.currentEnrollment = undefined;
     this.currentProgramEnrollmentUuid = '';
     this.programVisitsObj = undefined;
@@ -251,7 +256,6 @@ export class VisitComponent implements OnInit, OnDestroy {
     if (!_.isEmpty(this.programVisitsObj)) {
       let returnedVisit = null;
       let visits = [];
-      let config = [];
       let currentEnrollment = {
         uuid: ''
       };
@@ -260,16 +264,26 @@ export class VisitComponent implements OnInit, OnDestroy {
       } else {
         returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
         visits = this.programVisitsObj[this.programUuid].visits;
-        config = this.programVisitsObj[this.programUuid].config;
         currentEnrollment = this.programVisitsObj[this.programUuid].enrollment
           .enrolledProgram;
       }
 
       this.visit = returnedVisit;
       this.visits = visits;
-      this.currentProgramConfig = config;
       this.currentEnrollment = currentEnrollment;
       this.currentProgramEnrollmentUuid = this.currentEnrollment.uuid;
+      if (this.visit) {
+        const visitDate = moment(this.visit.startDatetime).format('YYYY-MM-DD');
+        this.checkForRetrospectiveVisit(this.visit);
+        this.getCurrentProgramEnrollmentConfig(
+          this.visit.patient.uuid,
+          this.programUuid,
+          this.currentProgramEnrollmentUuid,
+          this.visit.location.uuid,
+          this.isRetrospectiveVisit,
+          visitDate
+        );
+      }
     }
   }
 
@@ -281,5 +295,43 @@ export class VisitComponent implements OnInit, OnDestroy {
       (error) => {}
     );
     this.subs.push(sub);
+  }
+
+  public getCurrentProgramEnrollmentConfig(
+    patientUuid,
+    programUuid,
+    programEnrollmentUuid,
+    locationUuid,
+    checkForRetrospectiveVisit,
+    visitDate
+  ) {
+    this.patientProgramResourceService
+      .getPatientProgramVisitTypes(
+        patientUuid,
+        programUuid,
+        programEnrollmentUuid,
+        locationUuid,
+        checkForRetrospectiveVisit.toString(),
+        visitDate
+      )
+      .take(1)
+      .subscribe(
+        (progConfig) => {
+          this.currentProgramConfig = progConfig;
+        },
+        (error) => {
+          console.error('Error loading the program visit configs', error);
+        }
+      );
+  }
+
+  public checkForRetrospectiveVisit(visit: any): void {
+    let isRetrospective = false;
+    if (visit.hasOwnProperty('attributes')) {
+      isRetrospective = visit.attributes.some((a: any) => {
+        return a.attributeType.uuid === this.retrospectiveAttributeTypeUuid;
+      });
+    }
+    this.isRetrospectiveVisit = isRetrospective;
   }
 }

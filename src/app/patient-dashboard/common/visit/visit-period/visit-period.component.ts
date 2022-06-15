@@ -240,7 +240,7 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
       'location:ref' +
       '),' +
       'visitType:(uuid,name),location:ref,startDatetime,' +
-      'stopDatetime,attributes:(uuid,value))';
+      'stopDatetime,attributes:(uuid,value,attributeType))';
     this.loadingVisit = true;
     this.visitSubscription = this.visitResource
       .getVisitByUuid(uuid, { v: custom })
