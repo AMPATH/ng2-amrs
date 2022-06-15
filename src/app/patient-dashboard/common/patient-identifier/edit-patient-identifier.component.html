@@ -157,7 +157,166 @@
   </div>
 </p-dialog>
 
-<!-- ADD DIALOG -->
+<!--ADD VERIFY DIALOG -->
+<p-dialog
+  header="Add Patient Verification Identifiers"
+  [(visible)]="addVerifyDialog"
+  closable="true"
+  styleClass="edit-identifier-dialog"
+>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+        <div class="form-group">
+          <label class="control-label">Patient Identifier Type:</label>
+          <select
+            required
+            class="form-control"
+            [ngModel]="identifierType"
+            (ngModelChange)="selectIdentifierType($event)"
+          >
+            <option value=""></option>
+            <option *ngFor="let c of verificationIdentifierTypes" [ngValue]="c">
+              {{ c.label }}
+            </option>
+          </select>
+          <div ng-messages="personForm.identifierType.$error">
+            <div class="help-block" ng-message="required">
+              Identifier Type is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+        <div class="form-group">
+          <label class="control-label">Value</label>
+          <span
+            class="badge btn pull-right"
+            *ngIf="checkUniversal"
+            (click)="generatePatientIdentifier()"
+            >Generate</span
+          >
+          <div [hidden]="showGeneralTexBox">
+            <input
+              type="text"
+              id="patientIdentifier"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              name=""
+              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+            />
+          </div>
+          <div [hidden]="!showNationalIdTexBox">
+            <input
+              type="number"
+              id="patientId"
+              class="form-control"
+              [(ngModel)]="patientIdentifier"
+              name=""
+              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+              (keypress)="_keyPress($event)"
+            />
+          </div>
+          <div *ngIf="identifierValidity">
+            <span
+              style="color: red"
+              class="glyphicon glyphicon-exclamation-sign"
+              >{{ identifierValidity }}</span
+            >
+          </div>
+          <div ng-messages="patientIdentifier.$error">
+            <div class="help-block" ng-message="required">
+              Identifier is required.
+            </div>
+          </div>
+          <div *ngIf="hasError" style="margin-bottom: 10px">
+            <span class="text-danger">
+              <i class="glyphicon glyphicon-exclamation-sign"></i>
+              {{ errorMessage }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+        <div class="form-group">
+          <button
+            style="margin-top: 27px; font-size: 10px"
+            ng-disabled="personForm.patientIdentifier.$invalid &&
+                  personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
+            class="btn btn-primary"
+            type="button"
+            (click)="verifyPatient()"
+          >
+            <span>Search Registry</span>
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px"></div>
+
+      <div class="row">
+        <div
+          class="col-md-5 col-lg-5 col-sm-5 col-xs-5"
+          style="margin-left: 15px"
+        >
+          <div class="form-group">
+            <label class="control-label">UPI Identifier:</label>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+          <div class="form-group">
+            <input
+              type="text"
+              id="unsavedUpi"
+              class="form-control"
+              [(ngModel)]="unsavedUpi"
+              name=""
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+          style="margin-left: 15px"
+        >
+          <div class="form-group">
+            <button
+              [disabled]="unsavedUpi.length == 0"
+              class="btn btn-primary"
+              type="button"
+              (click)="openRegistrationPage()"
+            >
+              <span>Verify Patient</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Add Patient Identifiers dialog -->
 <p-dialog
   header="Add Patient Identifiers"
   [(visible)]="addDialog"

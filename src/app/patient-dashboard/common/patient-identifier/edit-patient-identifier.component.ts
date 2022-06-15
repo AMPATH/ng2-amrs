@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { isArray } from 'util';
 
+import * as moment from 'moment';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
@@ -13,7 +14,8 @@ import { PatientResourceService } from '../../../openmrs-api/patient-resource.se
 import { UserService } from '../../../openmrs-api/user.service';
 import { PatientCreationResourceService } from '../../../openmrs-api/patient-creation-resource.service';
 import { PatientIdentifierTypeResService } from 'src/app/openmrs-api/patient-identifierTypes-resource.service';
-
+import { Router } from '@angular/router';
+import { SessionStorageService } from './../../../utils/session-storage.service';
 @Component({
   selector: 'edit-identifiers',
   templateUrl: './edit-patient-identifier.component.html',
@@ -25,6 +27,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public hasError = false;
   public display = false;
   public addDialog = false;
+  public addVerifyDialog = false;
   public patientIdentifier = '';
   public preferredIdentifier = '';
   public identifierLocation = '';
@@ -57,6 +60,19 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   private initialPatientIdentifier = '';
   public isPreferred = false;
   public isNewlocation = false;
+  public telNumber: string;
+  public country: string;
+  public county: string;
+  public subCounty: string;
+  public village: string;
+  public disable = false;
+  public birthDate: any;
+  public birthError = '';
+  public verificationIdentifierTypes: any = [];
+  public registryData: any;
+  public UpiIdentifierType = 'cba702b9-4664-4b43-83f1-9ab473cbd64d';
+
+  public unsavedUpi = '';
 
   constructor(
     private patientService: PatientService,
@@ -65,13 +81,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     private patientIdentifierTypeResService: PatientIdentifierTypeResService,
     private patientResourceService: PatientResourceService,
     private patientCreationResourceService: PatientCreationResourceService,
-    private userService: UserService
+    private userService: UserService,
+    private sessionStorageService: SessionStorageService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
     this.getPatient();
     this.fetchLocations();
     this.commonIdentifierTypes = this.patientIdentifierService.patientIdentifierTypeFormat();
+    this.verificationIdentifierTypes = this.patientIdentifierService.patientVerificationIdentifierTypeFormat();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.identifierValidity = '';
   }
@@ -101,32 +120,39 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       this.initIdentifier(id);
     } else if (param === 'add') {
       this.addDialog = true;
-      if (isArray(id)) {
-        // remove types that cannot be added more that once
-        _.each(id, (_id) => {
-          const hasId = _.includes(
-            [
-              '58a4732e-1359-11df-a1f1-0026b9348838', // AMRS Universal ID
-              '58a47054-1359-11df-a1f1-0026b9348838', // KENYA NATIONAL ID NUMBER
-              'ead42a8f-203e-4b11-a942-df03a460d617', // HEI
-              'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
-              '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
-              'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e', // CCC number
-              '22ee6ad7-58fb-4382-9af2-c6a553f3d56a', // NAT ID
-              '5b91df4a-db7d-4c52-ac85-ac519420d82e', // BHIM ID
-              'ace5f7c7-c5f4-4e77-a077-5588a682a0d6', // OVCID number
-              '91099b3f-69be-4607-a309-bd358d85af46' //  PrEP
-            ],
-            _id.identifierType.uuid
+      this.dialogData(id);
+    } else if (param === 'verify') {
+      this.addVerifyDialog = true;
+      this.dialogData(id, true);
+    }
+  }
+
+  public dialogData(id, verify?: Boolean) {
+    if (isArray(id)) {
+      // remove types that cannot be added more that once
+      _.each(id, (_id) => {
+        const hasId = _.includes(
+          [
+            '58a4732e-1359-11df-a1f1-0026b9348838', // AMRS Universal ID
+            '58a47054-1359-11df-a1f1-0026b9348838', // KENYA NATIONAL ID NUMBER
+            'ead42a8f-203e-4b11-a942-df03a460d617', // HEI
+            'd1e5ef63-126f-4b1f-bd3f-496c16c4098d', // KUZA ID
+            '9cae9c8a-2821-4aa7-8064-30508e9f62ec', // ZURI ID
+            'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e', // CCC number
+            '22ee6ad7-58fb-4382-9af2-c6a553f3d56a', // NAT ID
+            '5b91df4a-db7d-4c52-ac85-ac519420d82e', // BHIM ID
+            'ace5f7c7-c5f4-4e77-a077-5588a682a0d6', // OVCID number
+            '91099b3f-69be-4607-a309-bd358d85af46' //  PrEP
+          ],
+          _id.identifierType.uuid
+        );
+        if (hasId) {
+          _.remove(
+            this.commonIdentifierTypes,
+            (idType: any) => idType.val === _id.identifierType.uuid
           );
-          if (hasId) {
-            _.remove(
-              this.commonIdentifierTypes,
-              (idType: any) => idType.val === _id.identifierType.uuid
-            );
-          }
-        });
-      }
+        }
+      });
     }
   }
 
@@ -152,6 +178,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public dismissDialog() {
     this.display = false;
     this.addDialog = false;
+    this.addVerifyDialog = false;
     this.identifierValidity = '';
   }
 
@@ -242,7 +269,70 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
-  public updatePatientIdentifier() {
+  public verifyPatient() {
+    const searchUuid = this.identifierType.val;
+    this.patientCreationResourceService
+      .searchRegistry(searchUuid, this.patientIdentifier.toString())
+      .subscribe(
+        (data: any) => {
+          console.log('DHP Client Exists ', data.clientExists);
+          if (data.clientExists) {
+            this.unsavedUpi = data.client.clientNumber;
+            const ids = [];
+            ids.push({
+              identifierType: searchUuid,
+              label: this.identifierType.label,
+              identifier: this.patientIdentifier.toString(),
+              preferred: false
+            });
+
+            ids.push({
+              identifierType: this.UpiIdentifierType,
+              label: 'UPI Number',
+              identifier: this.unsavedUpi,
+              preferred: false
+            });
+
+            data.client.localIds = ids;
+            data.client.uuid = this.patients.person.uuid;
+
+            this.registryData = data.client;
+
+            this.sessionStorageService.remove('CRPatient');
+            this.sessionStorageService.setObject('CRPatient', data.client);
+          } else {
+            this.unsavedUpi = 'Not Found';
+            this.sessionStorageService.remove('CRPatient');
+          }
+        },
+        (err) => {
+          this.sessionStorageService.remove('CRPatient');
+          console.log('Error', err);
+        }
+      );
+  }
+
+  public openRegistrationPage() {
+    if (this.unsavedUpi === '' || this.unsavedUpi === 'Not Found') {
+      this.router.navigate([
+        '/patient-dashboard/patient-search/patient-registration',
+        {
+          editMode: 2,
+          patientUuid: this.patients.person.uuid,
+          identifierType: this.identifierType.val,
+          identifier: this.patientIdentifier.toString(),
+          label: this.identifierType.label
+        }
+      ]);
+    } else {
+      this.router.navigate([
+        '/patient-dashboard/patient-search/patient-registration',
+        { editMode: 1 }
+      ]);
+    }
+  }
+
+  public updatePatientIdentifier(isVerifyDialog?: Boolean) {
     const person = {
       uuid: this.patients.person.uuid
     };
@@ -302,7 +392,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             }
             if (hasSameIdTypeAndValue) {
               this.identifierValidity = 'This identifier is already in use!';
-              this.display = true;
+              if (isVerifyDialog) {
+                this.addVerifyDialog = true;
+              } else {
+                this.display = true;
+              }
             } else {
               if (
                 personIdentifierPayload.uuid === undefined ||
@@ -358,7 +452,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       )
       .pipe(take(1))
       .subscribe(
-        (success) => {
+        (res) => {
           this.displaySuccessAlert('Identifiers saved successfully');
           this.patientIdentifier = '';
           this.identifierLocation = '';

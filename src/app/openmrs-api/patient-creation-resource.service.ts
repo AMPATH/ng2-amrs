@@ -49,8 +49,25 @@ export class PatientCreationResourceService {
     return this.http.post(url, user);
   }
 
+  public generateUPI(patientUuid) {
+    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
+    return this.http.get(url);
+  }
+
+  public searchRegistry(idType, id) {
+    const url = `https://ngx.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}`;
+    return this.http.get(url);
+  }
+
   public savePatient(payload) {
     const url = this.url();
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), { headers });
+  }
+
+  public updateExistingPatient(payload, uuid) {
+    const url =
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'person/' + uuid;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }

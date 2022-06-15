@@ -29,7 +29,20 @@ import { ConceptResourceService } from './../openmrs-api/concept-resource.servic
 import { SessionStorageService } from '../utils/session-storage.service';
 import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
 import { PatientEducationService } from '../etl-api/patient-education.service';
+import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
+import { LocalStorageService } from './../utils/local-storage.service';
 
+/**
+ * ADDRESS MAPPINGS
+ * country: country
+ * address10: county of birth
+ * address1: current county
+ * address2: sub county
+ * cityVillage: village
+ * address7: ward
+ * address3: landmark
+ * address8: current address
+ */
 @Component({
   selector: 'patient-creation',
   templateUrl: './patient-creation.component.html',
@@ -85,6 +98,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public address2: string;
   public address3: string;
   public cityVillage: string;
+  public ward: string;
   public longitude: string;
   public latitude: string;
   public stateProvince: string;
@@ -106,6 +120,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public identifierLocation = '';
   public invalidLocationCheck = '';
   public commonIdentifierTypes: any = [];
+  public verificationIdentifierTypes: any = [];
   public commonIdentifierTypeFormats: any = [];
   public identifierValidity = '';
   public isValidIdentifier = false;
@@ -129,20 +144,52 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public preferredIdentifier;
   public errorAlerts = [];
   public occupationConceptUuid = 'a8a0a00e-1350-11df-a1f1-0026b9348838';
+  public maritalStatusConceptUuid = 'a899a9f2-1350-11df-a1f1-0026b9348838';
+  public religionConceptUuid = 'a8b03352-1350-11df-a1f1-0026b9348838';
   public occupationAttributeTypeUuid = '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0';
+  public idNumberVerified = '134eaf8a-b5aa-4187-85a6-757dec1ae72b';
   public occupations = [];
+  public maritalStatus = [];
+  public maritalStatusVal: string;
+  public religionOptions = [];
+  public religionVal: string;
   public occupationConcept: any;
+  public religionConcept: any;
+  public maritalStatusConcept: any;
   public occupation: any;
   public highestEducationConcept = 'a89e48ae-1350-11df-a1f1-0026b9348838';
   public careGivername: any;
   public relationshipToCareGiver: any;
   public careGiverPhoneNumber: any;
   public ampathLocations: any;
-  public subcounties: any = [];
+  public subCounties: any = [];
   public wards: any = [];
   public address7: any;
   public patientRelationshipTypes: any = [];
   public selectedRelationshipType: any;
+  public attributes: any;
+  public ids: any;
+  public uniqueIds: any;
+  public patientToUpdate: string;
+  public createDataExists = 0;
+  public crpObject: any;
+  public unsavedUpi: string;
+  public editMode = 0;
+  public hasIds = false;
+  public administrativeUnits: any;
+  public nCounties: any = [];
+  public address10: string;
+  public countries: any = [];
+  public country = 'Kenya';
+  public residenceAddress: string;
+  public updateOperation = 0;
+  public isNewPatient = 1;
+  public searchResult = '';
+  public email: string;
+  public kinName: string;
+  public kinRelationship: string;
+  public kinResidence: string;
+  public successText = 'You have successfully registered the patient';
 
   constructor(
     public toastrService: ToastrService,
@@ -157,15 +204,29 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private conceptService: ConceptResourceService,
     private patientRelationshipTypeService: PatientRelationshipTypeService,
     private patientEducationService: PatientEducationService,
+    private patientResourceService: PatientResourceService,
+    private localStorageService: LocalStorageService,
     private route: ActivatedRoute
   ) {}
 
   public ngOnInit() {
+    this.locationResourceService.getAdministrativeUnits().subscribe((arg) => {
+      this.administrativeUnits = arg;
+      this.nCounties = arg;
+      this.locationResourceService.getCountries().subscribe((r) => {
+        this.countries = r;
+        this.populateFormData(null);
+      });
+    });
+
+    this.verificationIdentifierTypes = this.patientIdentifierTypeResService.patientVerificationIdentifierTypeFormat();
+
     this.getLocations();
     this.getCommonIdentifierTypes();
-    this.getOccupatonConcept();
+    this.getOccupationConcept();
+    this.getMaritalStatusConcept();
+    this.getReligionConcept();
     this.getEducationLevels();
-    // this.getAmpathLocations();
     this.getRelationshipTypes();
     this.selectedRelationshipType = undefined;
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
@@ -191,6 +252,238 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       });
     this.loadNewPatientInfoFromUrl();
     this.subscriptions.push(patientCreationSub);
+
+    const mode = this.route.snapshot.paramMap.get('editMode');
+    if (!mode) {
+      this.sessionStorageService.remove('CRPatient');
+    }
+    if (mode === '1') {
+      this.isNewPatient = 0;
+      this.patientExists = false;
+      this.editMode = 1;
+      this.updateOperation = 1;
+    } else if (mode === '2') {
+      this.isNewPatient = 0;
+      this.updateOperation = 1;
+      this.patientExists = false;
+      this.editMode = 0;
+      this.identifiers.push({
+        identifierType: this.route.snapshot.paramMap.get('identifierType'),
+        identifier: this.route.snapshot.paramMap.get('identifier'),
+        identifierTypeName: this.route.snapshot.paramMap.get('label')
+      });
+      this.patientToUpdate = this.route.snapshot.paramMap.get('patientUuid');
+      // populate fields from saved person details
+      this.populateExistingData(this.patientToUpdate);
+    } else {
+      this.updateOperation = 0;
+    }
+    const crpData = this.sessionStorageService.getObject('CRPatient');
+    if (crpData != null) {
+      if (this.uniqueIds && this.uniqueIds.length === 2) {
+        this.hasIds = true;
+      }
+    }
+  }
+
+  public populateExistingData(uuid: string) {
+    this.patientResourceService.getPatientByUuid(uuid).subscribe((res) => {
+      this.givenName = res.person.preferredName.givenName;
+      this.middleName = res.person.preferredName.middleName;
+      this.familyName = res.person.preferredName.familyName;
+      this.gender = res.person.gender;
+      this.birthDate = res.person.birthdate;
+
+      res.person.attributes.forEach((at) => {
+        if (at.attributeType.uuid === '72a759a8-1359-11df-a1f1-0026b9348838') {
+          this.patientPhoneNumber = at.value;
+        }
+        if (at.attributeType.uuid === 'c725f524-c14a-4468-ac19-4a0e6661c930') {
+          this.alternativePhoneNumber = at.value;
+        }
+        if (at.attributeType.uuid === 'b0a08406-09c0-4f8b-8cb5-b22b6d4a8e46') {
+          this.partnerPhoneNumber = at.value;
+        }
+        if (at.attributeType.uuid === '9e86409f-9c20-42d0-aeb3-f29a4ca0a7a0') {
+          this.occupation = at.value.uuid;
+        }
+        if (at.attributeType.uuid === '352b0d51-63c6-47d0-a295-156bebee4fd5') {
+          this.patientHighestEducation = at.value.uuid;
+        }
+        if (at.attributeType.uuid === '2f65dbcb-3e58-45a3-8be7-fd1dc9aa0faa') {
+          this.email = at.value;
+        }
+        if (at.attributeType.uuid === '4ae16101-cfba-4c08-9c9c-d848e6f609aa') {
+          this.religionVal = at.value.uuid;
+        }
+        if (at.attributeType.uuid === '8d871f2a-c2cc-11de-8d13-0010c6dffd0f') {
+          this.maritalStatusVal = at.value.uuid;
+        }
+        if (at.attributeType.uuid === '72a75bec-1359-11df-a1f1-0026b9348838') {
+          this.kinName = at.value;
+        }
+        if (at.attributeType.uuid === 'a657a4f1-9c0f-444b-a1fd-445bb91dd12d') {
+          this.nextofkinPhoneNumber = at.value;
+        }
+        if (at.attributeType.uuid === 'f38bd1be-c54c-4863-8497-3670292881eb') {
+          this.kinResidence = at.value;
+        }
+        if (at.attributeType.uuid === '48876f06-7493-416e-855d-8413d894ea93') {
+          this.careGivername = at.value;
+        }
+        if (at.attributeType.uuid === '06b0da36-e133-4be6-aec0-31e7ed0e1ac2') {
+          this.relationshipToCareGiver = at.value;
+        }
+        if (at.attributeType.uuid === '5730994e-c267-426b-87b6-c152b606973d') {
+          this.kinRelationship = at.value;
+        }
+        if (at.attributeType.uuid === 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2') {
+          this.careGiverPhoneNumber = at.value;
+        }
+      });
+    });
+  }
+
+  public populateFormData(data: any) {
+    let crp: any;
+    if (data == null) {
+      crp = this.sessionStorageService.getObject('CRPatient');
+      if (crp != null) {
+        this.editMode = 1;
+      } else {
+        this.editMode = 0;
+      }
+    } else {
+      crp = data;
+      if (crp != null) {
+        this.editMode = 1;
+        this.createDataExists = 1;
+      } else {
+        this.editMode = 0;
+      }
+    }
+
+    if (crp != null) {
+      this.givenName = crp.firstName;
+      this.middleName = crp.middleName;
+      this.familyName = crp.lastName;
+      if (crp.gender === 'female') {
+        this.gender = 'F';
+      } else if (crp.gender === 'male') {
+        this.gender = 'M';
+      }
+
+      this.religionVal = crp.religion;
+      this.maritalStatusVal = crp.maritalStatus;
+      this.ageEstimate = this.getAge(crp.dateOfBirth);
+      this.birthDate = new Date(crp.dateOfBirth);
+      this.patientPhoneNumber = crp.contact.primaryPhone;
+      this.alternativePhoneNumber = crp.contact.secondaryPhone;
+      this.email = crp.contact.emailAddress;
+      this.cityVillage = crp.residence.village;
+      this.address3 = crp.residence.landMark;
+      this.residenceAddress = crp.residence.address;
+      if (crp.nextOfKins.length > 0) {
+        this.kinName = crp.nextOfKins[0].name;
+        this.nextofkinPhoneNumber = crp.nextOfKins[0].contact.primaryPhone;
+        this.kinResidence = crp.nextOfKins[0].residence;
+      }
+
+      this.uniqueIds = crp.localIds;
+      if (this.identifiers.length === 0) {
+        crp.localIds.forEach((id) => {
+          this.identifiers.push({
+            identifier: id.identifier,
+            identifierType: id.identifierType,
+            identifierTypeName: id.label
+          });
+        });
+      }
+      this.patientToUpdate = crp.uuid;
+
+      if (crp.country != null) {
+        const savedCountry = this.countries.filter(
+          (r) => r.value === crp.country
+        );
+
+        this.country = savedCountry[0].label;
+      }
+
+      if (crp.countyOfBirth != null) {
+        const cob = this.nCounties.filter((c) => c.value === crp.countyOfBirth);
+        this.address10 = cob[0].label;
+      }
+
+      if (crp.residence.county != null) {
+        const cr = this.nCounties.filter(
+          (c) => c.value === crp.residence.county
+        );
+
+        this.address1 = cr[0].label;
+        const counties1 = this.nCounties;
+        this.subCounties = counties1.find(
+          (county) => county.label === this.address1
+        ).children;
+      }
+    }
+  }
+
+  public searchNewPatient() {
+    this.patientCreationResourceService
+      .searchRegistry(
+        this.patientIdentifierType.val,
+        this.commonIdentifier.toString()
+      )
+      .subscribe(
+        (data: any) => {
+          const ids = [];
+          if (data.clientExists) {
+            this.searchResult =
+              'PATIENT FOUND, Verify and update registration data';
+            this.patientExists = false;
+            this.createDataExists = 1;
+            this.unsavedUpi = data.client.clientNumber;
+            ids.push({
+              identifierType: this.patientIdentifierType.val,
+              label: this.patientIdentifierType.label,
+              identifier: this.commonIdentifier.toString(),
+              location: this.identifierLocation,
+              preferred: false
+            });
+            this.commonIdentifier = '';
+
+            ids.push({
+              identifierType: 'cba702b9-4664-4b43-83f1-9ab473cbd64d',
+              label: 'UPI Number',
+              identifier: this.unsavedUpi,
+              location: this.identifierLocation,
+              preferred: false
+            });
+
+            this.uniqueIds = ids;
+
+            data.client.localIds = ids;
+            data.client.uuid = this.patients.person.uuid;
+
+            this.populateFormData(data.client);
+          } else {
+            this.identifiers.push({
+              identifierType: this.patientIdentifierType.val,
+              identifierTypeName: this.patientIdentifierType.label,
+              identifier: this.commonIdentifier.toString(),
+              location: this.identifierLocation,
+              preferred: false
+            });
+            this.commonIdentifier = '';
+            this.searchResult = 'PATIENT NOT FOUND, Proceed with registration';
+            this.createDataExists = 0;
+          }
+        },
+        (err) => {
+          this.createDataExists = 0;
+          console.log('Error', err);
+        }
+      );
   }
 
   public loadNewPatientInfoFromUrl() {
@@ -229,7 +522,47 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getOccupatonConcept() {
+  public getReligionConcept() {
+    this.conceptService
+      .getConceptByUuid(this.religionConceptUuid)
+      .subscribe((concept: any) => {
+        if (concept) {
+          this.religionConcept = concept;
+          this.setReligionOptions(concept.answers);
+        }
+      });
+  }
+
+  public setReligionOptions(religion) {
+    this.religionOptions = religion.map((r: any) => {
+      return {
+        val: r.uuid,
+        label: r.display
+      };
+    });
+  }
+
+  public getMaritalStatusConcept() {
+    this.conceptService
+      .getConceptByUuid(this.maritalStatusConceptUuid)
+      .subscribe((concept: any) => {
+        if (concept) {
+          this.maritalStatusConcept = concept;
+          this.setMaritalStatusOptions(concept.answers);
+        }
+      });
+  }
+
+  public setMaritalStatusOptions(status) {
+    this.maritalStatus = status.map((s: any) => {
+      return {
+        val: s.uuid,
+        label: s.display
+      };
+    });
+  }
+
+  public getOccupationConcept() {
     this.conceptService
       .getConceptByUuid(this.occupationConceptUuid)
       .subscribe((concept: any) => {
@@ -499,15 +832,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
   }
 
-  public createPatient() {
+  public commonPersonCreationLogic() {
     this.loaderStatus = false;
     this.errors = false;
     const ids = [];
     this.successAlert = '';
-    if (!this.checkUniversal()) {
+    if (!this.checkUniversal() && this.isNewPatient === 1) {
       this.identifierAdded = false;
       this.errors = true;
-      return;
     } else {
       const value = this.identifiers[0];
       this.preferredIdentifier = value;
@@ -530,19 +862,38 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.birthDate) {
       this.errors = true;
     }
-    if (!this.patientIdentifier) {
+    if (!this.patientIdentifier && this.isNewPatient === 1) {
       this.errors = true;
     }
     if (!this.identifierLocation) {
       this.errors = true;
     }
-    if (this.commonIdentifier && !this.commonAdded) {
+    if (this.commonIdentifier && !this.commonAdded && this.isNewPatient === 1) {
       this.errors = true;
     }
-    if (!this.selectedLocation) {
+    if (!this.selectedLocation && this.isNewPatient === 1) {
       this.errors = true;
     }
-    if (this.identifiers.length > 1 && !this.preferredIdentifier) {
+    if (!this.country) {
+      this.errors = true;
+    }
+    if (!this.address1) {
+      this.errors = true;
+    }
+    if (!this.address2) {
+      this.errors = true;
+    }
+    if (!this.cityVillage) {
+      this.errors = true;
+    }
+    if (!this.patientPhoneNumber) {
+      this.errors = true;
+    }
+    if (
+      this.identifiers.length > 1 &&
+      !this.preferredIdentifier &&
+      this.isNewPatient === 1
+    ) {
       this.errors = true;
     } else if (this.identifiers.length === 0) {
       this.errors = true;
@@ -555,6 +906,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         location: this.identifierLocation,
         preferred: true
       });
+      if (this.unsavedUpi != null) {
+        ids.push({
+          identifierType: 'cba702b9-4664-4b43-83f1-9ab473cbd64d',
+          identifier: this.unsavedUpi,
+          location: this.identifierLocation,
+          preferred: false
+        });
+      }
     } else if (this.identifiers.length > 1) {
       this.identifiers.forEach((value) => {
         if (value.identifierType === this.preferredIdentifier.identifierType) {
@@ -573,6 +932,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           });
         }
       });
+
+      this.ids = ids;
     }
 
     if (!this.errors) {
@@ -636,35 +997,99 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           attributeType: 'bb8684a5-ac0b-4c2c-b9a5-1203e99952c2'
         });
       }
-      const payload = {
-        person: {
-          names: [
-            {
-              givenName: this.givenName,
-              middleName: this.middleName,
-              familyName: this.familyName
-            }
-          ],
-          gender: this.gender,
-          birthdate: this.birthDate,
-          birthdateEstimated: this.birthdateEstimated,
-          attributes: attributes,
-          addresses: [
-            {
-              address1: this.address1,
-              address2: this.address2,
-              address3: this.address3,
-              address7: this.address7,
-              cityVillage: this.cityVillage,
-              latitude: this.latitude,
-              longitude: this.longitude,
-              stateProvince: this.stateProvince
-            }
-          ]
-        },
-        identifiers: ids
-      };
-      this.errorAlerts = [];
+
+      if (
+        ids.find(
+          (x) =>
+            x.identifierType === '58a47054-1359-11df-a1f1-0026b9348838' ||
+            x.identifierType === 'ced014a1-068a-4a13-b6b3-17412f754af2' ||
+            x.identifierType === '7924e13b-131a-4da8-8efa-e294184a1b0d'
+        )
+      ) {
+        console.log('Idexists');
+        attributes.push({
+          value: true,
+          attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+        });
+      }
+
+      if (this.email) {
+        attributes.push({
+          value: this.email,
+          attributeType: '2f65dbcb-3e58-45a3-8be7-fd1dc9aa0faa'
+        });
+      }
+      if (this.religionVal) {
+        attributes.push({
+          value: this.religionVal,
+          attributeType: '4ae16101-cfba-4c08-9c9c-d848e6f609aa'
+        });
+      }
+      if (this.maritalStatusVal) {
+        attributes.push({
+          value: this.maritalStatusVal,
+          attributeType: '8d871f2a-c2cc-11de-8d13-0010c6dffd0f'
+        });
+      }
+      if (this.kinName) {
+        attributes.push({
+          value: this.kinName,
+          attributeType: '72a75bec-1359-11df-a1f1-0026b9348838'
+        });
+      }
+
+      if (this.kinRelationship) {
+        attributes.push({
+          value: this.kinRelationship,
+          attributeType: '5730994e-c267-426b-87b6-c152b606973d'
+        });
+      }
+      if (this.kinResidence) {
+        attributes.push({
+          value: this.kinResidence,
+          attributeType: 'f38bd1be-c54c-4863-8497-3670292881eb'
+        });
+      }
+
+      this.attributes = attributes;
+      this.ids = ids;
+    }
+  }
+
+  public createPatient() {
+    this.commonPersonCreationLogic();
+    const payload = {
+      person: {
+        names: [
+          {
+            givenName: this.givenName,
+            middleName: this.middleName,
+            familyName: this.familyName
+          }
+        ],
+        gender: this.gender,
+        birthdate: this.birthDate,
+        birthdateEstimated: this.birthdateEstimated,
+        attributes: this.attributes,
+        addresses: [
+          {
+            address1: this.address1,
+            country: this.country,
+            address2: this.address2,
+            cityVillage: this.cityVillage,
+            address7: this.ward,
+            address10: this.address10,
+            address3: this.address3,
+            address8: this.residenceAddress,
+            latitude: this.latitude,
+            longitude: this.longitude
+          }
+        ]
+      },
+      identifiers: this.ids
+    };
+    this.errorAlerts = [];
+    if (!this.errors) {
       const savePatientSub = this.patientCreationResourceService
         .savePatient(payload)
         .pipe(take(1))
@@ -673,6 +1098,27 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             this.loaderStatus = false;
             this.sessionStorageService.remove('person');
             this.createdPatient = success;
+            const patientResult: any = success;
+            if (
+              !payload.identifiers.find(
+                (x) =>
+                  x.identifierType === 'cba702b9-4664-4b43-83f1-9ab473cbd64d'
+              )
+            ) {
+              console.log(
+                'Check if MOH no. will be assigned twice during patient creation'
+              );
+              this.patientCreationResourceService
+                .generateUPI(patientResult.person.uuid)
+                .subscribe(
+                  (data) => {
+                    console.log('Success data', data);
+                  },
+                  (err) => {
+                    console.log('Error', err);
+                  }
+                );
+            }
             if (this.createdPatient && !this.patientObsGroupId) {
               this.modalRef = this.modalService.show(this.successModal, {
                 backdrop: 'static',
@@ -696,13 +1142,122 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           },
           (err) => {
             this.loaderStatus = false;
+            this.errorAlert = true;
+            this.errorAlerts = this.processErrors(err.error);
+          }
+        );
+
+      this.subscriptions.push(savePatientSub);
+    }
+  }
+
+  public processErrors(err: string) {
+    const m = err.split('[')[1];
+    const n = m.split(']')[0];
+    const o = n.split(',');
+
+    return o;
+  }
+
+  public updateVerify() {
+    console.log('UPDATE PATIENT AND SAVE NATIONAL ID AND UPI NO');
+    this.commonPersonCreationLogic();
+    const payload = {
+      person: {
+        names: [
+          {
+            givenName: this.givenName,
+            middleName: this.middleName,
+            familyName: this.familyName
+          }
+        ],
+        gender: this.gender,
+        birthdate: this.birthDate,
+        birthdateEstimated: this.birthdateEstimated,
+        attributes: this.attributes,
+        addresses: [
+          {
+            address1: this.address1,
+            country: this.country,
+            address2: this.address2,
+            cityVillage: this.cityVillage,
+            address7: this.ward,
+            address10: this.address10,
+            address3: this.address3,
+            address8: this.residenceAddress,
+            latitude: this.latitude,
+            longitude: this.longitude
+          }
+        ]
+      }
+    };
+
+    this.errorAlerts = [];
+
+    if (!this.errors) {
+      /** Step 1: Update patient registration data */
+      const updatePatientSub = this.patientCreationResourceService
+        .updateExistingPatient(payload.person, this.patientToUpdate)
+        .pipe(take(1))
+        .subscribe(
+          (result: any) => {
+            /** Step 2: Update patient identifiers */
+            const idSize = this.identifiers.length;
+            let count = 0;
+            this.identifiers.forEach((e) => {
+              const id = {
+                identifier: e.identifier,
+                location: this.identifierLocation,
+                identifierType: e.identifierType
+              };
+
+              this.patientResourceService
+                .saveUpdatePatientIdentifier(this.patientToUpdate, '', id)
+                .subscribe((res) => {
+                  count++;
+                  if (idSize === count) {
+                    this.createdPatient = result;
+                    this.successText =
+                      'You have successfully updated the patient';
+                    this.modalRef = this.modalService.show(this.successModal, {
+                      backdrop: 'static',
+                      keyboard: false
+                    });
+                  }
+                });
+            });
+
+            /** Step 3: If UPI number is not part of identifiers, invoke verification service */
+            if (
+              !this.identifiers.find(
+                (x) =>
+                  x.identifierType === 'cba702b9-4664-4b43-83f1-9ab473cbd64d'
+              )
+            ) {
+              console.log(
+                'Only invoked if patient not in registry, missing UPI'
+              );
+              this.patientCreationResourceService
+                .generateUPI(this.patientToUpdate)
+                .subscribe(
+                  (data) => {
+                    console.log('Success data', data);
+                  },
+                  (err) => {
+                    console.log('Error', err);
+                  }
+                );
+            }
+          },
+          (err) => {
+            this.loaderStatus = false;
             const error = err.error.error.globalErrors;
             this.errorAlert = true;
             this.errorAlerts = error;
           }
         );
 
-      this.subscriptions.push(savePatientSub);
+      this.subscriptions.push(updatePatientSub);
     }
   }
 
@@ -985,24 +1540,38 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     return estimateDate;
   }
 
+  public setCountry(event) {
+    this.country = event;
+    this.address1 = '';
+    this.address2 = '';
+    this.ward = '';
+  }
+
+  public setCountyOfBirth(event) {
+    this.address10 = event;
+  }
+
   public setCounty(event) {
+    this.address2 = '';
+    this.ward = '';
     this.address1 = event;
-    const counties1 = this.ampathLocations.counties;
-    this.subcounties = counties1.find(
-      (county) => county.name === event
-    ).subcounties;
+    const counties1 = this.nCounties;
+    this.subCounties = counties1.find(
+      (county) => county.label === event
+    ).children;
   }
 
   public setSubCounty(event) {
+    this.ward = '';
     this.address2 = event;
-    const subcounties = this.subcounties;
-    this.wards = subcounties.find(
-      (subcounty) => subcounty.name === event
-    ).wards;
+    const subCounties = this.subCounties;
+    this.wards = subCounties.find(
+      (subCounty) => subCounty.label === event
+    ).children;
   }
 
   public setWard(event) {
-    this.address7 = event;
+    this.ward = event;
   }
 
   public getRelationshipTypes() {

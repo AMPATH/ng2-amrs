@@ -99,4 +99,12 @@ export class LocationResourceService {
         })
       );
   }
+
+  public getAdministrativeUnits() {
+    return this.http.get('./assets/locations/administrative-units.json');
+  }
+
+  public getCountries() {
+    return this.http.get('./assets/locations/countries.json');
+  }
 }
