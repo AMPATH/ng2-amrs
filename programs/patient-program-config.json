@@ -229,16 +229,16 @@
             "allowedIf": "age >= 25 && age <= 49 && gender === 'F'"
           },
           {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
+          },
+          {
             "uuid": "df55584c-1350-11df-a1f1-0026b9348838",
             "display": "DEATHREPORT"
           },
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
-          },
-          {
-            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
-            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
@@ -1632,6 +1632,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
@@ -4053,6 +4057,10 @@
           {
             "uuid": "1469e5fe-ad76-4041-9aa7-650e6afbe3a1",
             "display": "DERMATOLOGYREFERRAL"
+          },
+          {
+            "uuid": "cb5c0abd-0817-40e3-9413-8669561fadb9",
+            "display": "HIVHOMEVISIT"
           },
           {
             "uuid": "ae35ed69-e07c-4209-93ce-f23733aa816b",
