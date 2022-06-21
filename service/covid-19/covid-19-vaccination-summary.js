@@ -22,7 +22,7 @@ const getPatientVaccinationSummary = (patientUuid) => {
                 AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), p.birthdate)))) >= 15
         THEN
             'Eligible for Covid 19 Vaccination'
-        ELSE NULL
+        ELSE ''
     END AS 'vaccination_status',
     CASE
         WHEN c.vaccination_status = 2208 THEN '2'
