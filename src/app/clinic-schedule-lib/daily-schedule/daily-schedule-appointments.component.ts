@@ -40,6 +40,16 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       headerName: 'Covid-19 Assessment Status',
       width: 250,
       field: 'covid_19_vaccination_status'
+    },
+    {
+      headerName: 'SMS Consent Provided',
+      width: 150,
+      field: 'sms_consent_provided'
+    },
+    {
+      headerName: 'SMS Time',
+      width: 100,
+      field: 'sms_receive_time'
     }
   ];
   public errors: any[] = [];
