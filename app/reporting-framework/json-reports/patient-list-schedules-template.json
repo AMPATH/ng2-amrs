@@ -79,6 +79,14 @@
         "type": "LEFT",
         "joinCondition": "consent.person_id = t2.person_id"
       }
+    },
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "tb",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = tb.person_id AND tb.next_clinical_datetime_hiv IS NULL AND tb.is_clinical_encounter = 1 "
+      }
     }
   ],
   "columns": [
@@ -233,6 +241,68 @@
       "type": "simple_column",
       "alias": "sms_receive_time",
       "column": "consent.sms_receive_time"
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screening_date",
+      "column": "date_format(tb.tb_screening_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screening_result",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "tb.tb_screening_result = 1107",
+            "value": "NONE"
+          },
+          {
+            "condition": "tb.tb_screening_result = 6971",
+            "value": "POSSIBLE"
+          },
+          {
+            "condition": "tb.tb_screening_result = 1118",
+            "value": "NOT DONE"
+          },
+          {
+            "condition": "tb.tb_screening_result = 6176",
+            "value": "CURRENTLY ON TUBERCULOSIS TREATMENT"
+          },
+          {
+            "condition": "tb.tb_screening_result = 6137",
+            "value": "CONFIRMED"
+          },
+          {
+            "condition": "tb.tb_screening_result = 656",
+            "value": "ISONIAZID"
+          },
+          {
+            "condition": "tb.tb_screening_result = 10678",
+            "value": "NO SIGNS OR SYMPTOMS OF DISEASE"
+          },
+          {
+            "condition": "tb.tb_screening_result = 6621",
+            "value": "NOT ASSESSED"
+          },
+          {
+            "condition": "tb.tb_screening_result = 10767",
+            "value": "ON TREATMENT FOR DISEASE"
+          },
+          {
+            "condition": "tb.tb_screening_result = 10922",
+            "value": "ISONIAZID PREVENTIVE TREATMENT PROGRAM"
+          },
+          {
+            "condition": "tb.tb_screening_result = 10974",
+            "value": "INH PROPHYLAXIS"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
     }
   ],
   "groupBy": {
