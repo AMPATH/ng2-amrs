@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
-import { CommunityGroupAttributeService } from './community-group-attribute-resource.service';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { SessionStorageService } from '../utils/session-storage.service';
 import { Constants } from '../utils/constants';
-
+import { CohortMemberResourceService } from './cohort-member-resource.service';
 @Injectable()
 export class CommunityGroupService {
   public cachedResults: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public v = 'full';
   public _v =
-    'custom:(uuid,name,description,location,startDate,endDate,attributes)';
+    'custom:(uuid,name,description,startDate,endDate,location:(display),attributes,cohortMembers:(uuid,endDate))';
 
   constructor(
     private http: HttpClient,
     private _appSettingsService: AppSettingsService,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private cohortMemberResourceService: CohortMemberResourceService
   ) {}
 
   public getOpenMrsBaseUrl(): string {
@@ -73,11 +73,41 @@ export class CommunityGroupService {
   }
 
   public getGroupByUuid(groupUuid: string): Observable<any> {
-    const params = new HttpParams().set('v', this.v);
-    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
-    return this.http.get(url, {
-      params: params
+    const one$ = new Observable((observer) => {
+      this.cohortMemberResourceService
+        .getCohortMembersByCohort(groupUuid)
+        .subscribe((group) => {
+          this._getGroupByUuid(groupUuid, group).subscribe((res) => {
+            observer.next(res);
+            observer.complete();
+          });
+        });
     });
+
+    return one$;
+  }
+
+  public _getGroupByUuid(
+    groupUuid: string,
+    cohortMembers: any
+  ): Observable<any> {
+    let group: any;
+    const params = new HttpParams().set(
+      'v',
+      'custom:(attributes,auditInfo,cohortLeaders,cohortType,cohortVisits,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
+    );
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
+    return this.http
+      .get(url, {
+        params: params
+      })
+      .pipe(
+        map((response) => {
+          group = response;
+          group.cohortMembers = cohortMembers;
+          return group;
+        })
+      );
   }
 
   public getCohortTypes(): Observable<any> {

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import {
   Component,
   OnInit,
@@ -129,7 +130,8 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     private programService: ProgramResourceService,
     private fb: FormBuilder,
     private communityGroupMemberService: CommunityGroupMemberService,
-    private communityGroupLeaderService: CommunityGroupLeaderService
+    private communityGroupLeaderService: CommunityGroupLeaderService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -721,6 +723,12 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
       );
       this.subscription.add(sub);
     }
+  }
+
+  public navigateBack() {
+    this.router.navigate([
+      `/clinic-dashboard/${this.group.location.uuid}/hiv/group-manager`
+    ]);
   }
 
   ngOnDestroy(): void {
