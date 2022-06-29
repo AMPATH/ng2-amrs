@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { SessionStorageService } from './../../../utils/session-storage.service';
 // tslint:disable:prefer-const
 import { TestBed, inject, async } from '@angular/core/testing';
 
@@ -37,7 +39,9 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     patientIdentifierTypeResService: PatientIdentifierTypeResService,
     patientResourceService: PatientResourceService,
     patientCreationResourceService: PatientCreationResourceService,
-    userService: UserService;
+    userService: UserService,
+    router: Router,
+    sessionStorageService: SessionStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,13 +70,22 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
           provide: PatientService
         },
         AppSettingsService,
-        LocalStorageService
+        LocalStorageService,
+        SessionStorageService,
+        {
+          provide: Router,
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          }
+        }
       ]
     });
     patientService = TestBed.get(PatientService);
     locationResourceService = TestBed.get(LocationResourceService);
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
+    sessionStorageService = TestBed.get(SessionStorageService);
+    router = TestBed.get(Router);
     component = new EditPatientIdentifierComponent(
       patientService,
       locationResourceService,
@@ -80,7 +93,9 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
       patientIdentifierTypeResService,
       patientResourceService,
       patientCreationResourceService,
-      userService
+      userService,
+      sessionStorageService,
+      router
     );
   });
   afterEach(() => {
