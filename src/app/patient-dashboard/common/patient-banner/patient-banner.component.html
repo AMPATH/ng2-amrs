@@ -69,6 +69,34 @@
                 <span style="margin-left: -5px">CCC: Not Assigned</span>
               </span>
             </span>
+            <span
+              *ngIf="
+                searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
+              "
+            >
+              <span *ngIf="isPatientVerified && searchIdentifiers?.upi">
+                <span class="id-label">UPI:</span>
+                <span>{{ searchIdentifiers?.upi }}</span>
+              </span>
+              <span
+                *ngIf="!isPatientVerified"
+                (click)="
+                  identifiers.showDialog('verify', patient?._identifier, true)
+                "
+                style="
+                  color: darkorange;
+                  border: 1px solid darkorange;
+                  padding-left: 4px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-right: 0px;
+                  cursor: pointer;
+                "
+              >
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px">Verify Patient</span>
+              </span>
+            </span>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei"
@@ -104,6 +132,14 @@
             <span *ngIf="searchIdentifiers?.kenyaNationalId">
               <span class="id-label">NID:</span>
               {{ searchIdentifiers?.kenyaNationalId }}
+            </span>
+            <span *ngIf="isPatientVerified && searchIdentifiers?.birthNumber">
+              <span class="id-label">BID:</span>
+              {{ searchIdentifiers?.birthNumber }}
+            </span>
+            <span *ngIf="isPatientVerified && searchIdentifiers?.pid">
+              <span class="id-label">PID:</span>
+              {{ searchIdentifiers?.pid }}
             </span>
             <span *ngIf="searchIdentifiers?.hei">
               <span class="id-label">HEI:</span> {{ searchIdentifiers?.hei }}
@@ -255,6 +291,34 @@
                 <span style="margin-left: -5px">CCC: Not Assigned</span>
               </span>
             </span>
+            <span
+              *ngIf="
+                searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
+              "
+            >
+              <span *ngIf="isPatientVerified && searchIdentifiers?.upi">
+                <span class="id-label">UPI:</span>
+                <span>{{ searchIdentifiers?.upi }}</span>
+              </span>
+              <span
+                *ngIf="!isPatientVerified"
+                (click)="
+                  identifiers.showDialog('verify', patient?._identifier, true)
+                "
+                style="
+                  color: darkorange;
+                  border: 1px solid darkorange;
+                  padding-left: 4px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-right: 0px;
+                  cursor: pointer;
+                "
+              >
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px">Verify Patient</span>
+              </span>
+            </span>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei && enrolledToHEIProgram"
@@ -284,9 +348,19 @@
               {{ searchIdentifiers?.amrsMrn }}
               &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <span *ngIf="searchIdentifiers?.kenyaNationalId">
+            <span
+              *ngIf="isPatientVerified && searchIdentifiers?.kenyaNationalId"
+            >
               <span class="id-label">NID:</span>
               {{ searchIdentifiers?.kenyaNationalId }}
+            </span>
+            <span *ngIf="isPatientVerified && searchIdentifiers?.birthNumber">
+              <span class="id-label">BID:</span>
+              {{ searchIdentifiers?.birthNumber }}
+            </span>
+            <span *ngIf="isPatientVerified && searchIdentifiers?.pid">
+              <span class="id-label">PID:</span>
+              {{ searchIdentifiers?.pid }}
             </span>
             <span *ngIf="searchIdentifiers?.nat">
               <span class="id-label">NAT:</span> {{ searchIdentifiers?.nat }}
