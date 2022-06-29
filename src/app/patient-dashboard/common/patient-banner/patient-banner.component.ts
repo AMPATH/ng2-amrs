@@ -1,4 +1,3 @@
-import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import {
   Component,
   OnInit,
@@ -24,6 +23,7 @@ import { Relationship } from 'src/app/models/relationship.model';
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',

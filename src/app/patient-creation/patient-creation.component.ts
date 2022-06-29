@@ -490,13 +490,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(
       (params: any) => {
         if (params) {
-          this.givenName = params.givenName;
-          this.familyName = params.familyName;
-          this.middleName = params.middleName;
-          this.ageEstimate = params.age;
-          this.birthDate = params.dateOfBirth;
-          this.gender = params.gender;
-          this.patientObsGroupId = params.obs_group_id;
+          this.givenName = params.givenName ? params.givenName : '';
+          this.familyName = params.familyName ? params.familyName : '';
+          this.middleName = params.middleName ? params.middleName : '';
+          this.ageEstimate = params.age ? params.age : '';
+          this.birthDate = params.dateOfBirth ? params.dateOfBirth : '';
+          this.gender = params.gender ? params.gender : '';
+          this.patientObsGroupId = params.obs_group_id
+            ? params.obs_group_id
+            : '';
         }
       },
       (error) => {
@@ -1285,6 +1287,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.birthDate = '';
     this.ageEstimate = null;
     this.sessionStorageService.remove('person');
+    this.sessionStorageService.remove('CRPatient');
     this.errors = false;
   }
 
