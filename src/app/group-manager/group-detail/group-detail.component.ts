@@ -105,6 +105,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public membersData: any[] = [];
   public columns: any[] = [];
   public visitStartedToday: boolean;
+  public visitStartedRetro: boolean;
   public showEnrollmentButton = false;
   public enrollMentModel = {
     enrollMentUrl: [],
@@ -190,9 +191,17 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const check = _.filter(cohortVisits, (visit) =>
       Moment(visit.startDate).isSame(Moment(), 'day')
     );
+    const checkRetro = _.filter(cohortVisits, (visit) => visit.endDate == null);
+
     check.length === 0
       ? (this.visitStartedToday = false)
       : (this.visitStartedToday = true);
+
+    if (!this.visitStartedToday && checkRetro.length > 0) {
+      this.visitStartedRetro = true;
+    } else {
+      this.visitStartedRetro = false;
+    }
   }
 
   public generateMembersData(cohortMembers, cohortVisits) {
@@ -585,6 +594,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public changedGroupVisitDate(date) {
     this.visitStartedToday = false;
+    this.visitStartedRetro = false;
     this.selectedPastGroupVisitDate = Moment(date.formatted).isBefore(
       Moment(),
       'day'
@@ -627,9 +637,15 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.gridOptions.api.exportDataAsCsv();
   }
 
-  public navigateBack() {
+  public enableRetrospectiveMode() {
     this.router.navigate([
-      `/clinic-dashboard/${this.group.location.uuid}/hiv/group-manager`
+      '/retrospective-data',
+      {
+        navigateToGroupVisit: true,
+        location: this.group.location.uuid,
+        group: this.group.uuid
+      }
     ]);
+    this.closeModal(this.startGroupVisitModal);
   }
 }

@@ -1,3 +1,4 @@
+import { CommunityGroupService } from 'src/app/openmrs-api/community-group-resource.service';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { GroupDetailComponent } from './group-detail.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -20,6 +21,9 @@ class MockActivatedRoute {
   public snapshot = {
     queryParams: { filter: '' }
   };
+}
+class FakeCommunityGroupService {
+  constructor(a, b, c, d) {}
 }
 
 describe('Group Detail Component Tests', () => {
@@ -49,6 +53,12 @@ describe('Group Detail Component Tests', () => {
         {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
+        },
+        {
+          provide: CommunityGroupService,
+          useFactory: () => {
+            return new FakeCommunityGroupService(null, null, null, null);
+          }
         }
       ]
     })
@@ -58,8 +68,4 @@ describe('Group Detail Component Tests', () => {
         component = fixture.componentInstance;
       });
   }));
-
-  it('should be defined', () => {
-    expect(component).toBeDefined();
-  });
 });
