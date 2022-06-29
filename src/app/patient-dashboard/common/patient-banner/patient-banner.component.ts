@@ -23,6 +23,7 @@ import { Relationship } from 'src/app/models/relationship.model';
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -33,7 +34,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public patientChanged: any;
   public showingAddToCohort = false;
   public patient: Patient = new Patient({});
-  public searchIdentifiers: object;
+  public searchIdentifiers: any;
   public attributes: any;
   public birthdate;
   public formattedPatientAge;
@@ -43,6 +44,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationships: any = [];
   public relationship: Relationship;
   public ovcEnrollment = false;
+  public isPatientVerified = false;
+  public verificationStatus = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -65,7 +68,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private route: ActivatedRoute,
     private propertyLocationService: UserDefaultPropertiesService,
     private familyTestingService: FamilyTestingService,
-    private encounterResourceService: EncounterResourceService
+    private encounterResourceService: EncounterResourceService,
+    private personAttributeResourceService: PersonAttributeResourceService
   ) {}
 
   public ngOnInit() {
@@ -75,6 +79,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          this.getVerificationStatus();
           this.getOvcEnrollments(
             patient.enrolledPrograms,
             patient.person.birthdate
@@ -115,6 +120,41 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       }
     );
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocation();
+  }
+
+  public getVerificationStatus() {
+    const verificationStatusUuid = this.patient.uuid;
+    this.personAttributeResourceService
+      .getPersonAttributesByUuid(verificationStatusUuid)
+      .subscribe((res) => {
+        const value = res.results.filter((a: any) => {
+          return (
+            a.attributeType.uuid === '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
+          );
+        });
+        if (value.length > 0 && value[0].value) {
+          this.verificationStatus = true;
+
+          if (this.searchIdentifiers.upi === undefined) {
+            if (
+              this.searchIdentifiers.kenyaNationalId === undefined &&
+              this.searchIdentifiers.birthNumber === undefined &&
+              this.searchIdentifiers.pid === undefined
+            ) {
+              this.isPatientVerified = false;
+            } else if (
+              this.verificationStatus &&
+              (this.searchIdentifiers.kenyaNationalId !== undefined ||
+                this.searchIdentifiers.birthNumber !== undefined ||
+                this.searchIdentifiers.pid !== undefined)
+            ) {
+              this.isPatientVerified = true;
+            }
+          } else {
+            this.isPatientVerified = true;
+          }
+        }
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges) {

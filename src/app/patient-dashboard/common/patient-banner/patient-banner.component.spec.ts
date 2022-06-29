@@ -22,7 +22,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties';
 import { UserService } from 'src/app/openmrs-api/user.service';
 import { SessionStorageService } from 'src/app/utils/session-storage.service';
-
+import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 class MockPatientRelationshipService {
   getRelationships(patientUuid) {
     return of([]);
@@ -52,7 +52,8 @@ describe('Component: PatientBanner', () => {
         EncounterResourceService,
         UserService,
         UserDefaultPropertiesService,
-        SessionStorageService
+        SessionStorageService,
+        PersonAttributeResourceService
       ],
       imports: [
         HttpClientTestingModule,

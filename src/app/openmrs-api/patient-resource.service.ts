@@ -78,7 +78,7 @@ export class PatientResourceService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
       map((response: any) => {
-        return response.patient;
+        return response;
       })
     );
   }
