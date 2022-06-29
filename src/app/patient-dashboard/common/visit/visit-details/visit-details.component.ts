@@ -220,7 +220,7 @@ export class VisitDetailsComponent implements OnInit {
           Array.isArray(visitType.encounterTypes.disallowedEncounters)
         ) {
           visitType.encounterTypes.disallowedEncounters.forEach((e) => {
-            if (e.errors.covidError != null) {
+            if (e.errors && e.errors.covidError != null) {
               this.qualifiesForCovidScreening = true;
             }
           });
