@@ -47,6 +47,19 @@ npm test
 
 This command will build the app and launch the [Karma](https://karma-runner.github.io/) test runner. Karma should spin up [several](https://www.npmjs.com/package/karma-parallel) chrome browser instances (equal to the number of cores on your machine) and run the test specs in parallel the specs across them.
 
+### Docker deployment
+
+Build the app by running the command;
+
+```node
+npm run build-prod
+``` 
+Then run;
+
+```docker
+docker build -t ampathke/ng2-amrs:<tag> .
+```
+
 ### Communication and management
 
 There are a few tools that we use extensively that all AMPATH developers should have set up:
