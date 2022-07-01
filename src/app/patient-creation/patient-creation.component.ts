@@ -31,6 +31,7 @@ import { PatientRelationshipTypeService } from '../patient-dashboard/common/pati
 import { PatientEducationService } from '../etl-api/patient-education.service';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 import { LocalStorageService } from './../utils/local-storage.service';
+import { LocationUnitsService } from './../etl-api/location-units.service';
 
 /**
  * ADDRESS MAPPINGS
@@ -206,11 +207,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientEducationService: PatientEducationService,
     private patientResourceService: PatientResourceService,
     private localStorageService: LocalStorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private locationUnitsService: LocationUnitsService
   ) {}
 
   public ngOnInit() {
-    this.locationResourceService.getAdministrativeUnits().subscribe((arg) => {
+    this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
       this.nCounties = arg;
       this.locationResourceService.getCountries().subscribe((r) => {
@@ -1253,9 +1255,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           },
           (err) => {
             this.loaderStatus = false;
-            const error = err.error.error.globalErrors;
             this.errorAlert = true;
-            this.errorAlerts = error;
+            this.errorAlerts = this.processErrors(err.error);
           }
         );
 

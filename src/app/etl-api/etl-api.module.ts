@@ -42,6 +42,8 @@ import { CervicalCancerScreeningSummaResourceService } from './cervical-cancer-s
 import { MOH412ResourceService } from './moh-412-resource.service';
 import { ClinicFlowResourceService } from './clinic-flow-resource.service';
 import { Covid19ResourceService } from './covid-19-resource-service';
+import { LocationUnitsService } from './location-units.service';
+
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -88,7 +90,8 @@ import { Covid19ResourceService } from './covid-19-resource-service';
     CervicalCancerScreeningSummaResourceService,
     MOH412ResourceService,
     ClinicFlowResourceService,
-    Covid19ResourceService
+    Covid19ResourceService,
+    LocationUnitsService
   ],
   exports: []
 })
