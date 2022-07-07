@@ -11,13 +11,27 @@ function getPatientQualifiedDcVisits(patientUuid) {
     p.person_id,
     latest_medication_visit.*,
     latest_standard_visit.*,
+    latest_dc_enrolment_visit.*,
     CASE
+	   WHEN latest_dc_enrolment_visit.latest_dc_enrolment_visit is null THEN @recent_dc_enrolment:=0
+       WHEN (latest_dc_enrolment_visit.latest_dc_enrolment_visit > latest_medication_visit.latest_medication_visit
+				AND latest_dc_enrolment_visit.latest_dc_enrolment_visit > latest_standard_visit.latest_standard_visit) THEN @recent_dc_enrolment:=1
+	   WHEN latest_dc_enrolment_visit.latest_dc_enrolment_visit > latest_medication_visit.latest_medication_visit
+				AND latest_standard_visit.latest_standard_visit is null THEN @recent_dc_enrolment:=1
+	   WHEN latest_dc_enrolment_visit.latest_dc_enrolment_visit > latest_standard_visit.latest_standard_visit
+				AND latest_medication_visit.latest_medication_visit is null THEN @recent_dc_enrolment:=1
+       ELSE @recent_dc_enrolment:=0
+    END AS 'recent_dc_enrolment',
+    @recent_dc_enrolment,
+    CASE
+       WHEN @recent_dc_enrolment = 1 THEN 1
        WHEN latest_standard_visit.latest_standard_visit > latest_medication_visit.latest_medication_visit THEN 1
        WHEN latest_standard_visit.latest_standard_visit is not null AND latest_medication_visit.latest_medication_visit is NULL THEN 1
        WHEN latest_standard_visit.latest_standard_visit is null AND latest_medication_visit.latest_medication_visit is NULL THEN 1
        ELSE 0
     END AS 'qualifies_for_medication_refill',
     CASE
+	   WHEN @recent_dc_enrolment = 1 THEN 0
        WHEN latest_medication_visit.latest_medication_visit > latest_standard_visit.latest_standard_visit THEN 1
        WHEN latest_medication_visit.latest_medication_visit IS NOT NULL AND latest_standard_visit.latest_standard_visit is NULL THEN 1
        ELSE 0
@@ -35,7 +49,7 @@ FROM
     where e.encounter_type in (186)
     AND v.visit_type_id in (138,16,58,123)
     AND e.voided = 0
-	AND p.uuid = '${patientUuid}'
+    AND p.uuid = '${patientUuid}'
     order by encounter_datetime desc limit 1
     ) latest_medication_visit on (latest_medication_visit.patient_id = p.person_id)
     LEFT JOIN (
@@ -52,6 +66,21 @@ FROM
     AND p.uuid = '${patientUuid}'
     order by encounter_datetime desc limit 1
     ) latest_standard_visit on (latest_standard_visit.patient_id = p.person_id)
+    LEFT JOIN (
+    SELECT 
+    e.patient_id,
+    e.encounter_datetime AS 'latest_dc_enrolment_visit'
+FROM
+    amrs.encounter e
+    join amrs.person p on (e.patient_id = p.person_id)
+    join amrs.visit v on (e.visit_id = v.visit_id)
+    join amrs.patient_program pp on (pp.patient_id = e.patient_id and pp.program_id = 9 and date_completed is null and pp.voided = 0)
+    where e.encounter_type in (2)
+    AND v.visit_type_id in (2)
+    AND e.voided = 0
+    AND pp.program_id is not null
+    AND p.uuid = '${patientUuid}'
+    order by encounter_datetime desc limit 1) latest_dc_enrolment_visit on (latest_dc_enrolment_visit.patient_id = p.person_id)
 WHERE
     p.voided = 0 AND p.uuid = '${patientUuid}';`;
 
