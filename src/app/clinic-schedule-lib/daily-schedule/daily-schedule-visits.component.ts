@@ -34,8 +34,8 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       field: 'arv_first_regimen_start_date'
     },
     {
-      headerName: 'Covid-19 Vaccination Status',
-      width: 200,
+      headerName: 'Covid-19 Assessment Status',
+      width: 250,
       field: 'covid_19_vaccination_status'
     }
   ];
