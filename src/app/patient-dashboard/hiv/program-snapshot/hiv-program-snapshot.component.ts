@@ -35,6 +35,7 @@ interface Alert {
   'label-warning'?: boolean;
   'label-danger'?: boolean;
   'label-success'?: boolean;
+  'label-not-assessed'?: boolean;
 }
 @Component({
   selector: 'hiv-snapshot',
@@ -578,7 +579,8 @@ export class HivProgramSnapshotComponent implements OnInit {
       label: false,
       'label-warning': false,
       'label-danger': false,
-      'label-success': false
+      'label-success': false,
+      'label-not-assessed': false
     };
     switch (vaccinationStatusCode) {
       case '2':
@@ -592,6 +594,10 @@ export class HivProgramSnapshotComponent implements OnInit {
       case '0':
         alert.label = true;
         alert['label-danger'] = true;
+        break;
+      case 'NA':
+        alert.label = true;
+        alert['label-not-assessed'] = true;
         break;
       default:
         alert.label = false;

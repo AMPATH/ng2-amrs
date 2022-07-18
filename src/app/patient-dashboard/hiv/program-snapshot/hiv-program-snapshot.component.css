@@ -49,3 +49,6 @@ h4 {
   line-height: 20px;
   margin-right: 25px;
 }
+.label-not-assessed {
+  background-color: #e1c16e;
+}
