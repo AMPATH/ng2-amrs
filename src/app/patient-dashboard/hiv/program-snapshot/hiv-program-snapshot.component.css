@@ -52,3 +52,12 @@ h4 {
 .label-not-assessed {
   background-color: #e1c16e;
 }
+.alert-div {
+  margin-left: 5px;
+}
+
+@media only screen and (max-width: 900px) {
+  .alert-div {
+    margin-top: 15px;
+  }
+}

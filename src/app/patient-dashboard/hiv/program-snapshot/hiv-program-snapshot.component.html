@@ -42,8 +42,27 @@
           "
         >
           <span class="hiv-alert"
-            >Covid-19 Assessment Status :
+            >COVID-19 Assessment Status :
             {{ covid19VaccinationSummary?.vaccination_status }}</span
+          >
+        </p>
+      </div>
+      <div
+        class="alert-div"
+        *ngIf="covid19VaccinationSummary?.covid_screening_outcome_this_visit"
+        style="display: inline-block"
+      >
+        <p
+          [ngClass]="{
+            label: true,
+            'label-info': true
+          }"
+        >
+          <span class="hiv-alert"
+            >COVID-19 Screening Outcome :
+            {{
+              covid19VaccinationSummary?.covid_screening_outcome_this_visit
+            }}</span
           >
         </p>
       </div>
@@ -136,7 +155,7 @@
             </p>
           </div>
           <div
-            class="col-md-6 col-xs-12"
+            class="col-md-12 col-xs-12"
             *ngIf="covid19VaccinationSummary?.vaccination_status"
           >
             <p>

@@ -222,7 +222,8 @@ class FakeCovid19ResourceService {
       vaccination_status_code: '',
       vaccination_status_code_message: '',
       first_dose_vaccine_administered: '',
-      second_dose_vaccine_administered: ''
+      second_dose_vaccine_administered: '',
+      covid_screening_outcome_this_visit: ''
     });
   }
 }
