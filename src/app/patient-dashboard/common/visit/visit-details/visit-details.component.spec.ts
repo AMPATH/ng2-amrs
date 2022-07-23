@@ -105,6 +105,27 @@ describe('VisitDetailsComponent: ', () => {
           uuid: 'visit-type-two',
           encounterTypes: {}
         }
+      ],
+      disallowed: [
+        {
+          uuid: 'visit-type-uuid',
+          encounterTypes: {
+            allowedEncounters: [
+              {
+                uuid: 'encounter-type-1',
+                display: 'encounter type 1'
+              },
+              {
+                uuid: 'encounter-type-2',
+                display: 'encounter type 2'
+              }
+            ]
+          }
+        },
+        {
+          uuid: 'visit-type-two',
+          encounterTypes: {}
+        }
       ]
     }
   };

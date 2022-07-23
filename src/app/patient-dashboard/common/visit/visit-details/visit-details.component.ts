@@ -212,6 +212,12 @@ export class VisitDetailsComponent implements OnInit {
         programConfig.visitTypes.allowed.forEach((element) => {
           if (element.uuid === this.visit.visitType.uuid) {
             visitType = element;
+          } else {
+            programConfig.visitTypes.disallowed.forEach((e) => {
+              if (e.uuid === this.visit.visitType.uuid) {
+                visitType = e;
+              }
+            });
           }
         });
 
