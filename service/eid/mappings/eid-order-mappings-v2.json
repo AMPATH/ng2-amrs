@@ -30,7 +30,7 @@
       "age": "1",
       "line": "1",
       "eidDisplay": "AZT+3TC+DTG",
-      "mrsArvRegimen": ""
+      "mrsArvRegimen": "628,797,9759"
     },
     {
       "eidId": "4",
@@ -198,7 +198,7 @@
       "age": "1",
       "line": "1",
       "eidDisplay": "ABC+3TC+DTG",
-      "mrsArvRegimen": "814,628,9759"
+      "mrsArvRegimen": "628,814,9759"
     },
     {
       "eidId": "7",
@@ -239,6 +239,14 @@
       "age": "1",
       "line": "1",
       "mrsArvRegimen": "1400,5424,6160"
+    },
+    {
+      "eidDisplay": "3TC+RTV+TDF+ATV",
+      "eidId": "7",
+      "eidCode": "AF2D",
+      "age": "1",
+      "line": "1",
+      "mrsArvRegimen": "628,795,802,6159"
     },
     {
       "eidId": "8",
@@ -369,12 +377,20 @@
       "mrsArvRegimen": "630,5424,6159"
     },
     {
+      "eidId": "10",
+      "eidCode": "AF1F",
+      "age": "1",
+      "line": "1",
+      "eidDisplay": "3TC+RTV+AZT+ATV",
+      "mrsArvRegimen": "628,795,797,6159"
+    },
+    {
       "eidId": "11",
       "eidCode": "AF2A",
       "age": "1",
       "line": "1",
       "eidDisplay": "TDF+3TC+NVP",
-      "mrsArvRegimen": ""
+      "mrsArvRegimen": "628,631,802"
     },
     {
       "eidId": "12",
@@ -502,7 +518,7 @@
       "age": "1",
       "line": "2",
       "eidDisplay": "AZT+3TC+LPV/r",
-      "mrsArvRegimen": ""
+      "mrsArvRegimen": "628,795,797,9026"
     },
     {
       "eidId": "16",
@@ -527,6 +543,14 @@
       "line": "2",
       "eidDisplay": "TDF+3TC+LPV/r",
       "mrsArvRegimen": "9055"
+    },
+    {
+      "eidId": "18",
+      "eidCode": "AS2A",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "TDF+3TC+LPV/r",
+      "mrsArvRegimen": "628,795,802,9026"
     },
     {
       "eidId": "19",
@@ -593,12 +617,20 @@
       "mrsArvRegimen": "628,794,814,1400"
     },
     {
+      "eidDisplay": "ABC+3TC+LPV/r",
+      "eidId": "21",
+      "eidCode": "AS5A",
+      "age": "1",
+      "line": "2",
+      "mrsArvRegimen": "628,795,814,9026"
+    },
+    {
       "eidId": "22",
       "eidCode": "AS5B",
       "age": "1",
       "line": "2",
       "eidDisplay": "ABC+3TC+LPV/r",
-      "mrsArvRegimen": ""
+      "mrsArvRegimen": "628,795,814,6159"
     },
     {
       "eidDisplay": "3TC/ABC/ATV/R",
@@ -649,6 +681,14 @@
       "mrsArvRegimen": "5622"
     },
     {
+      "eidId": "24",
+      "eidCode": "AS6X",
+      "age": "1",
+      "line": "2",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "628,795,802,814,9026"
+    },
+    {
       "eidId": "25",
       "eidCode": "AT2D",
       "age": "1",
@@ -681,6 +721,14 @@
       "mrsArvRegimen": "5622"
     },
     {
+      "eidId": "28",
+      "eidCode": "AT2X",
+      "age": "1",
+      "line": "3",
+      "eidDisplay": "Other",
+      "mrsArvRegimen": "791,802,6157"
+    },
+    {
       "eidId": "29",
       "eidCode": "CF2B",
       "age": "2",
@@ -703,6 +751,14 @@
       "line": "1",
       "eidDisplay": "ABC+3TC+NVP",
       "mrsArvRegimen": "9050"
+    },
+    {
+      "eidId": "31",
+      "eidCode": "CF2A",
+      "age": "2",
+      "line": "1",
+      "eidDisplay": "ABC+3TC+NVP",
+      "mrsArvRegimen": "628,631,814"
     },
     {
       "eidId": "32",
