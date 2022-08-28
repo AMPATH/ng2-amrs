@@ -16,7 +16,7 @@ Recommended setup:
 
 - Install [chrome](https://www.google.com/chrome/).
 - Install and setup [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine.
-- Install [npm and nodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+- Install [npm and nodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).NodeJS version 10-12 and Npm version 6 recommended. 
 - Install [visual studio code](https://code.visualstudio.com/).
 
 ### Setup
