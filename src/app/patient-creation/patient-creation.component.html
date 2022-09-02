@@ -1,9 +1,94 @@
 <div class="box-body">
   <div class="component-wrapper">
-    <h2>Patient Registration</h2>
     <div style="margin-bottom: 0.5cm" *ngIf="!found">
+      <!-- Unique Numbers -->
+      <div *ngIf="hasIds" style="margin-left: 100px">
+        <div class="col-md-5"></div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="nid"
+              >National ID: <span>{{ uniqueIds[0]?.identifier }}</span></label
+            >
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="upi"
+              >UPI Number: <span>{{ uniqueIds[1]?.identifier }}</span></label
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Registry -->
+
+      <div class="row" *ngIf="isNewPatient === 1">
+        <h2>Patient Verification</h2>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Patient Identifier Type:</label>
+            <select
+              id="identifierType"
+              class="form-control"
+              [ngModel]="patientIdentifierType"
+              (ngModelChange)="setIdentifierType($event)"
+            >
+              <option></option>
+              <option
+                *ngFor="let c of verificationIdentifierTypes"
+                [ngValue]="c"
+              >
+                {{ c.label }}
+              </option>
+            </select>
+            <div *ngIf="!patientIdentifierType">
+              <div class="help-block">Identifier Type is required!</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Patient Identifier</label>
+            <input
+              [disabled]="!patientIdentifierType"
+              type="text"
+              id="commonIdentifier"
+              class="form-control"
+              [(ngModel)]="commonIdentifier"
+              (ngModelChange)="checkIdentifier($event)"
+            />
+            <div *ngIf="identifierValidity">
+              <span
+                style="color: red"
+                class="glyphicon glyphicon-exclamation-sign"
+                >{{ identifierValidity }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <button
+              id="updateCrBtn"
+              class="btn btn-primary"
+              (click)="searchNewPatient()"
+              style="margin-left: 20px; margin-top: 23px"
+            >
+              Search Registry
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label style="background-color: yellow; margin-top: 15px">{{
+            searchResult
+          }}</label>
+        </div>
+      </div>
+
       <!-- Start of Demographics -->
-      <div class="row">
+      <h2>Patient Registration</h2>
+      <div class="row" style="margin-top: 20px">
         <div class="col-md-4">
           <div class="form-group">
             <label for="givenName"
@@ -208,7 +293,7 @@
       <!-- Start of Identifiers -->
       <div *ngIf="!patientExists">
         <hr class="intro-divider patient-info-divider" />
-        <div class="row">
+        <div class="row" *ngIf="isNewPatient === 1">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <label id="universalId"
               >Universal ID
@@ -275,7 +360,7 @@
         </div>
 
         <hr class="intro-divider patient-info-divider" />
-        <div class="row">
+        <div class="row" *ngIf="isNewPatient === 1">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label class="control-label">Patient Identifier Type:</label>
@@ -374,7 +459,10 @@
         </div>
 
         <div class="row" *ngIf="identifierAdded && identifiers.length > 1">
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div
+            *ngIf="isNewPatient === 1"
+            class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
+          >
             <div class="form-group">
               <label class="control-label"
                 >Select Preferred Identifier
@@ -430,10 +518,12 @@
         <!-- Start of Phone Number -->
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
               <label for="phoneNumber" class="control-label"
-                >Phone Number</label
+                >Phone Number<span *ngIf="!phoneNumber" class="required">
+                  *</span
+                ></label
               >
               <input
                 type="text"
@@ -456,10 +546,15 @@
                   Valid phone number is required
                 </div>
               </div>
+              <div *ngIf="errors && !patientPhoneNumber" class="required">
+                <span class="help-block" style="color: red"
+                  >Phone Number is required!</span
+                >
+              </div>
             </div>
           </div>
 
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
               <label for="alternativePhoneNumber" class="control-label"
                 >Alternative Phone Number</label
@@ -487,9 +582,58 @@
               </div>
             </div>
           </div>
+          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="email"
+                name="email"
+              />
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+            <div class="form-group">
+              <label for="religion">Religion </label>
+              <select
+                id="religion"
+                class="form-control"
+                [(ngModel)]="religionVal"
+                name="religion"
+              >
+                <option *ngFor="let r of religionOptions" [value]="r.val">
+                  {{ r.label | titlecase }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+            <div class="form-group">
+              <label for="maritalStatus"
+                >Marital Status
+                <span *ngIf="!maritalStatus" class="required"> *</span></label
+              >
+              <select
+                id="maritalStatus"
+                class="form-control"
+                [(ngModel)]="maritalStatusVal"
+                name="maritalStatus"
+              >
+                <option *ngFor="let oc of maritalStatus" [value]="oc.val">
+                  {{ oc.label | titlecase }}
+                </option>
+              </select>
+              <div *ngIf="errors && !maritalStatus" class="required">
+                <span class="help-block" style="color: red"
+                  >Marital is required!</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
               <label for="spousePhoneNumber" class="control-label"
                 >Spouse Phone Number</label
@@ -521,7 +665,39 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+            <div class="form-group">
+              <label for="kinName">Next of Kin Name</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="kinName"
+                name="kinName"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+            <div class="form-group">
+              <label for="kinRelationship">Next of Kin Relationship</label>
+              <select
+                [(ngModel)]="kinRelationship"
+                [ngModelOptions]="{ standalone: true }"
+                class="form-control"
+              >
+                <option value="null"></option>
+                <option
+                  *ngFor="
+                    let patientRelationshipType of patientRelationshipTypes
+                  "
+                  [ngValue]="patientRelationshipType.display"
+                >
+                  {{ patientRelationshipType.display }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
               <label for="nextOfKin">Next Of Kin Phone Number</label>
               <input
@@ -550,7 +726,19 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+            <div class="form-group">
+              <label for="kinResidence">Next of Kin Residence</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="kinResidence"
+                name="kinResidence"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
             <div class="form-group">
               <label for="careGivername">Caregiver Name</label>
               <input
@@ -558,14 +746,15 @@
                 class="form-control"
                 [(ngModel)]="careGivername"
                 name="careGivername"
-                placeholder="Caregiver Name"
                 required
               />
             </div>
           </div>
-          <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
             <div class="form-group">
-              <label for="relationshipToCareGiver">Relationship</label>
+              <label for="relationshipToCareGiver"
+                >Caregiver Relationship</label
+              >
               <select
                 [(ngModel)]="relationshipToCareGiver"
                 [ngModelOptions]="{ standalone: true }"
@@ -603,53 +792,137 @@
         <div class="row">
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address1" class="control-label">County</label>
-              <select
-                id="address1"
-                class="form-control"
-                [(ngModel)]="address1"
-                name="county"
-                (ngModelChange)="updateLocation($event)"
+              <label id="country" for="country" class="control-label"
+                >Country<span *ngIf="!country" class="required"> *</span></label
               >
-                <option *ngFor="let county of counties" [value]="county">
-                  {{ county }}
+              <select
+                id="country"
+                class="form-control"
+                [(ngModel)]="country"
+                name="country"
+                (ngModelChange)="setCountry($event)"
+              >
+                <option
+                  *ngFor="let country of countries"
+                  [ngValue]="country.label"
+                  [selected]="address9 === country.label"
+                >
+                  {{ country.label }}
                 </option>
               </select>
             </div>
           </div>
-          <div
-            id="nonCodedCounty"
-            *ngIf="nonCodedCounty"
-            class="col-md-6 col-lg-6 col-sm-6 col-xs-6"
-          >
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address1" class="control-label"
-                >County: Other (specify)</label
+              <label id="address10" for="address10" class="control-label"
+                >County of Birth</label
               >
-              <input
-                type="text"
-                id="address1NonCoded"
+              <select
+                id="address10"
                 class="form-control"
-                [(ngModel)]="address1"
-                name="address1"
-              />
+                [(ngModel)]="address10"
+                name="address10"
+                (ngModelChange)="setCountyOfBirth($event)"
+              >
+                <option
+                  *ngFor="let county of nCounties"
+                  [ngValue]="county.label"
+                  [selected]="address10 === county.label"
+                >
+                  {{ county.label }}
+                </option>
+              </select>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address2" class="control-label">Subcounty</label>
-              <input
-                type="text"
+              <label id="address1" for="address1" class="control-label"
+                >Current County<span *ngIf="!address1" class="required">
+                  *</span
+                ></label
+              >
+              <select
+                id="address1"
+                class="form-control"
+                [(ngModel)]="address1"
+                name="address1"
+                (ngModelChange)="setCounty($event)"
+              >
+                <option
+                  *ngFor="let county of nCounties"
+                  [ngValue]="county.label"
+                  [selected]="address1 === county.label"
+                >
+                  {{ county.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label id="address2" for="address2" class="control-label"
+                >SubCounty<span *ngIf="!address2" class="required">
+                  *</span
+                ></label
+              >
+              <select
                 id="address2"
                 class="form-control"
                 [(ngModel)]="address2"
                 name="address2"
+                (ngModelChange)="setSubCounty($event)"
+              >
+                <option
+                  *ngFor="let sb of subCounties"
+                  [ngValue]="sb.label"
+                  [selected]="address2 === sb.label"
+                >
+                  {{ sb.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label id="ward" for="ward" class="control-label">Ward</label>
+              <select
+                id="ward"
+                class="form-control"
+                [(ngModel)]="ward"
+                name="ward"
+                (ngModelChange)="setWard($event)"
+              >
+                <option
+                  *ngFor="let w of wards"
+                  [ngValue]="w.label"
+                  [selected]="ward === w.label"
+                >
+                  {{ w.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label for="cityVillage" class="control-label"
+                >Estate/Village<span *ngIf="!cityVillage" class="required">
+                  *</span
+                ></label
+              >
+              <input
+                type="text"
+                id="cityVillage"
+                class="form-control"
+                [(ngModel)]="cityVillage"
+                name="cityVillage"
               />
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="address3" class="control-label">Estate</label>
+              <label id="address3" for="address3" class="control-label"
+                >Landmark</label
+              >
               <input
                 type="text"
                 id="address3"
@@ -661,13 +934,15 @@
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="cityVillage" class="control-label">City</label>
+              <label for="residenceAddress" class="control-label"
+                >Address</label
+              >
               <input
                 type="text"
-                id="cityVillage"
+                id="residenceAddress"
                 class="form-control"
-                [(ngModel)]="cityVillage"
-                name="cityVillage"
+                [(ngModel)]="residenceAddress"
+                name="residenceAddress"
               />
             </div>
           </div>
@@ -697,14 +972,24 @@
           </div>
         </div>
 
+        <!-- Start of Form Commands -->
         <div class="row">
           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
             <button
               id="saveBtn"
               class="btn btn-primary"
               (click)="createPatient()"
+              *ngIf="updateOperation === 0"
             >
               Save
+            </button>
+            <button
+              id="updateCrBtn"
+              class="btn btn-primary"
+              (click)="updateVerify()"
+              *ngIf="updateOperation"
+            >
+              Update & Verify
             </button>
             <button
               id="cancelBtn"
@@ -722,15 +1007,12 @@
             ></i>
           </div>
         </div>
+      </div>
 
-        <div class="row" style="margin-top: 10px">
-          <div
-            class="col-md-12 col-sm-12 col-lg-12 col-xs-12"
-            *ngIf="errorAlert"
-          >
-            <div *ngFor="let error of errorAlerts" class="alert alert-danger">
-              <strong>{{ error.code }}</strong>
-            </div>
+      <div class="row" style="margin-top: 10px">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" *ngIf="errorAlert">
+          <div *ngFor="let error of errorAlerts" class="alert alert-danger">
+            <strong>{{ error }}</strong>
           </div>
         </div>
       </div>
@@ -748,6 +1030,12 @@
           </div>
           <div class="alert alert-danger" *ngIf="!birthDate">
             Birth Date is required!
+          </div>
+          <div class="alert alert-danger" *ngIf="!occupation">
+            Occupation is required!
+          </div>
+          <div class="alert alert-danger" *ngIf="!patientHighestEducation">
+            Highest Education Level is required!
           </div>
           <span *ngIf="!patientExists">
             <div
@@ -780,6 +1068,18 @@
             </div>
             <div class="alert alert-danger" *ngIf="!selectedLocation">
               Identifier Location is required!
+            </div>
+            <div class="alert alert-danger" *ngIf="!country">
+              Country is required
+            </div>
+            <div class="alert alert-danger" *ngIf="!address1">
+              Current County is required!
+            </div>
+            <div class="alert alert-danger" *ngIf="!address2">
+              Sub County is required!
+            </div>
+            <div class="alert alert-danger" *ngIf="!cityVillage">
+              Village/Estate is required!
             </div>
           </span>
         </div>
@@ -868,7 +1168,7 @@
     <ng-template #successModal>
       <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
         <div class="alert alert-success" role="alert">
-          You have successfully registered the patient
+          {{ successText }}
           <strong>{{ createdPatient?.person.display | uppercase }}</strong>
         </div>
         <button

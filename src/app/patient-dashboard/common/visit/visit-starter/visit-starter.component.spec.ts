@@ -1,3 +1,5 @@
+import { CohortMemberResourceService } from './../../../../openmrs-api/cohort-member-resource.service';
+import { CommunityGroupMemberService } from './../../../../openmrs-api/community-group-member-resource.service';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -43,6 +45,10 @@ class FakeCacheStorageService {
   public ready() {
     return true;
   }
+}
+
+class FakeCommunityGroupMemberService {
+  constructor(a, b, c, d, e) {}
 }
 
 class MockParams {
@@ -143,6 +149,19 @@ describe('VisitStarterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [],
       providers: [
+        {
+          provide: CommunityGroupMemberService,
+          useFactory: () => {
+            return new FakeCommunityGroupMemberService(
+              null,
+              null,
+              null,
+              null,
+              null
+            );
+          }
+        },
+        CohortMemberResourceService,
         ProgramEnrollmentResourceService,
         {
           provide: UserDefaultPropertiesService,

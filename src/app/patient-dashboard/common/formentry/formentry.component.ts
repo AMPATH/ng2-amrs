@@ -45,6 +45,17 @@ import { PatientTransferService } from './patient-transfer.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { UserService } from '../../../openmrs-api/user.service';
 import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
+import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+
+interface Covid19StatusSummary {
+  vaccination_status: string;
+  vaccination_status_code: string;
+  vaccination_status_code_message: string;
+  date_given_first_dose?: Date;
+  first_dose_vaccine_administered: string;
+  date_given_second_dose?: Date;
+  second_dose_vaccine_administered: string;
+}
 @Component({
   selector: 'app-formentry',
   templateUrl: './formentry.component.html',
@@ -110,6 +121,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private familyTestingEncounterUuid: any;
   private covidAssessment: any;
   private updateContacts: boolean;
+  private covid19VaccineStatus: string;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -136,7 +148,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     public router: Router,
     private userService: UserService,
     public userDefaultPropertiesService: UserDefaultPropertiesService,
-    public patientConsentResourceService: PatientConsentResourceService
+    public patientConsentResourceService: PatientConsentResourceService,
+    private covid19Service: Covid19ResourceService
   ) {}
 
   public ngOnInit() {
@@ -251,6 +264,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.dataSources.registerDataSource(
       'patient',
       this.formDataSourceService.getDataSources()['hasCallConsent']
+    );
+    this.dataSources.registerDataSource(
+      'patient',
+      this.formDataSourceService.getDataSources()['covid19VaccinationStatus']
     );
   }
 
@@ -792,6 +809,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.compiledSchemaWithEncounter = data[0] || null;
           this.patient = data[1] || null;
           this.encounter = data[2] || null;
+          this.getPatientCovid19VaccineStatus(this.patient.uuid);
           // fetch patient consent after patient has been loaded
           this.patientConsentResourceService
             .getPatientCallConsent(this.patient.uuid)
@@ -951,6 +969,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else {
         // creating new from
         this.dataSources.registerDataSource(
+          'patient',
+          { covid19VaccineStatus: this.covid19VaccineStatus },
+          true
+        );
+        this.dataSources.registerDataSource(
           'rawPrevEnc',
           historicalEncounter,
           false
@@ -981,6 +1004,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
             true
           );
           this.form.valueProcessingInfo.callConset = this.hasCallConsent;
+        }
+        if (this.covid19VaccineStatus !== '') {
+          this.dataSources.registerDataSource(
+            'patient',
+            { covid19VaccineStatus: this.covid19VaccineStatus },
+            true
+          );
+          this.form.valueProcessingInfo.covid19VaccineStatus = this.covid19VaccineStatus;
         }
         // now set default value
         this.loadDefaultValues();
@@ -1185,9 +1216,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private saveEncounterOrUpdate(payloadTypes) {
+    const optionalArgs = {
+      covid19VaccineStatus: this.covid19VaccineStatus
+    };
     this.isBusyIndicator(true, 'Please wait, saving form...');
     this.formSubmissionService
-      .submitPayload(this.form, payloadTypes)
+      .submitPayload(this.form, payloadTypes, optionalArgs)
       .pipe(take(1))
       .subscribe(
         (data) => {
@@ -1592,5 +1626,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.warnMCHTransfer = true;
     }
     return validTransfer;
+  }
+
+  private getPatientCovid19VaccineStatus(patientUuid: string): void {
+    this.covid19Service
+      .getCovid19VaccinationStatus(patientUuid)
+      .subscribe((result: Covid19StatusSummary) => {
+        if (result) {
+          this.covid19VaccineStatus = result.vaccination_status_code;
+        }
+      });
   }
 }

@@ -13,7 +13,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatCheckboxChange } from '@angular/material';
 
 import * as _ from 'lodash';
@@ -56,6 +56,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   public locations: Array<any> = [];
   public error: any;
   public settingMethod: string;
+  public locationUuid: String;
+  public group: String;
 
   constructor(
     private router: Router,
@@ -64,7 +66,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
     private cdRef: ChangeDetectorRef,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute
   ) {
     this.user = this.userService.getLoggedInUser();
     this.maxDate = moment().format('YYYY-MM-DD');
@@ -72,6 +75,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.locationUuid = this.route.snapshot.paramMap.get('location');
+    this.group = this.route.snapshot.paramMap.get('group');
     this.enableRetro =
       this.localStorageService.getItem('enableRetro') === 'true';
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
@@ -168,7 +173,13 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
   }
 
   public navigateToPatientSearch() {
-    this.router.navigate(['patient-dashboard/patient-search']);
+    if (this.route.snapshot.paramMap.get('navigateToGroupVisit')) {
+      this.router.navigate([
+        `clinic-dashboard/${this.locationUuid}/hiv/group-manager/group/${this.group}`
+      ]);
+    } else {
+      this.router.navigate(['patient-dashboard/patient-search']);
+    }
   }
 
   public validateRetroSetting() {

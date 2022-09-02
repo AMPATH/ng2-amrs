@@ -229,6 +229,16 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         filter: 'agTextColumnFilter'
       },
       {
+        headerName: 'Group Count',
+        field: 'groupCount',
+        sortable: true,
+        filter: 'agTextColumnFilter',
+        width: 200,
+        filterParams: {
+          caseSensitive: false
+        }
+      },
+      {
         headerName: 'Actions',
         field: 'voided',
         cellRenderer: (column) => {

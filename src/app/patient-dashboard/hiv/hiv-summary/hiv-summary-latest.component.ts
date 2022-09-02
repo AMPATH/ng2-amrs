@@ -11,6 +11,18 @@ import * as _ from 'lodash';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
+import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+
+interface Covid19StatusSummary {
+  vaccination_status: string;
+  vaccination_status_code: string;
+  vaccination_status_code_message: string;
+  date_given_first_dose?: Date;
+  first_dose_vaccine_administered: string;
+  date_given_second_dose?: Date;
+  second_dose_vaccine_administered: string;
+  covid_screening_outcome_this_visit: string;
+}
 @Component({
   selector: 'hiv-summary-latest',
   templateUrl: './hiv-summary-latest.component.html',
@@ -32,19 +44,29 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   public exitedCare: any;
   public latestCervicalScreeningSummary = [];
   public cervicalScreeningSummary: any;
+  public covid19VaccinationSummary: Covid19StatusSummary = {
+    vaccination_status: '',
+    vaccination_status_code: '',
+    vaccination_status_code_message: '',
+    first_dose_vaccine_administered: '',
+    second_dose_vaccine_administered: '',
+    covid_screening_outcome_this_visit: ''
+  };
 
   constructor(
     private hivSummaryService: HivSummaryService,
     private _encounterResource: EncounterResourceService,
     private patientService: PatientService,
     private patientResourceService: PatientResourceService,
-    private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService
+    private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
+    private covid19VaccineService: Covid19ResourceService
   ) {}
 
   public ngOnInit() {
     this.loadPatient();
     this.loadHivSummary(this.patientUuid);
     this.getPatientCervicalScreeningSummary(this.patientUuid);
+    this.getPatientCovid19VaccineStatus(this.patientUuid);
     this.checkOvcStatus();
   }
   checkOvcStatus() {
@@ -309,5 +331,14 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           console.log('Error', error);
         }
       );
+  }
+  public getPatientCovid19VaccineStatus(patientUuid: string): void {
+    this.covid19VaccineService
+      .getCovid19VaccinationStatus(patientUuid)
+      .subscribe((result: Covid19StatusSummary) => {
+        if (result) {
+          this.covid19VaccinationSummary = result;
+        }
+      });
   }
 }

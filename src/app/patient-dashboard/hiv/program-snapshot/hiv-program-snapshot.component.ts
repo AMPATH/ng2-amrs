@@ -12,6 +12,7 @@ import { LocationResourceService } from '../../../openmrs-api/location-resource.
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
+import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -20,6 +21,23 @@ const HivNegativesProgram = [
   'c19aec66-1a40-4588-9b03-b6be55a8dd1d',
   '96047aaf-7ab3-45e9-be6a-b61810fe617d'
 ];
+interface Covid19StatusSummary {
+  vaccination_status: string;
+  vaccination_status_code: string;
+  vaccination_status_code_message: string;
+  date_given_first_dose?: Date;
+  first_dose_vaccine_administered: string;
+  date_given_second_dose?: Date;
+  second_dose_vaccine_administered: string;
+  covid_screening_outcome_this_visit: string;
+}
+interface Alert {
+  label: boolean;
+  'label-warning'?: boolean;
+  'label-danger'?: boolean;
+  'label-success'?: boolean;
+  'label-not-assessed'?: boolean;
+}
 @Component({
   selector: 'hiv-snapshot',
   styleUrls: ['./hiv-program-snapshot.component.css'],
@@ -79,19 +97,29 @@ export class HivProgramSnapshotComponent implements OnInit {
   public hivDisclosureStatus: any;
   public latestCervicalScreeningSummary = [];
   public cervicalScreeningSummary = [];
+  public covid19VaccinationSummary: Covid19StatusSummary = {
+    vaccination_status: '',
+    vaccination_status_code: '',
+    vaccination_status_code_message: '',
+    first_dose_vaccine_administered: '',
+    second_dose_vaccine_administered: '',
+    covid_screening_outcome_this_visit: ''
+  };
   private obs: any[] = [];
   private gbvScreeningResult: any;
   private curProgram: any;
   private patientPrograms: any;
   public displayProgram = true;
   public gbvScreeningLabel: String;
+  public eligibleForCovidVaccine = false;
 
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
     private locationResource: LocationResourceService,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
-    private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService
+    private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
+    private covid19Service: Covid19ResourceService
   ) {}
 
   public ngOnInit() {
@@ -103,6 +131,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.hasData = false;
           this.getHivSummary(patientUuid);
           this.getPatientCervicalScreeningSummary(patientUuid);
+          this.getPatientCovid19VaccinationStatus(patientUuid);
           this.patient.person.age > 19
             ? (this.gbvScreeningLabel = 'GBV Screening')
             : (this.gbvScreeningLabel = 'VAC Screening');
@@ -114,7 +143,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     this.getMoriskyScore();
   }
 
-  public getHivSummary(patientUuid) {
+  public getHivSummary(patientUuid: string) {
     this.loadingData = true;
     this.hivSummaryResourceService
       .getHivSummary(patientUuid, 0, 10)
@@ -185,7 +214,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       });
   }
 
-  public resolveLastEncounterLocation(location_uuid) {
+  public resolveLastEncounterLocation(location_uuid: string) {
     this.locationResource
       .getLocationByUuid(location_uuid, true)
       .pipe(
@@ -535,5 +564,48 @@ export class HivProgramSnapshotComponent implements OnInit {
           console.log('Error', error);
         }
       );
+  }
+
+  public getPatientCovid19VaccinationStatus(patientUuid: string): void {
+    this.covid19Service
+      .getCovid19VaccinationStatus(patientUuid)
+      .subscribe((result: Covid19StatusSummary) => {
+        if (result) {
+          this.covid19VaccinationSummary = result;
+        }
+      });
+  }
+
+  public getCovidVaccinationAlert(vaccinationStatusCode: string): Alert {
+    const alert: Alert = {
+      label: false,
+      'label-warning': false,
+      'label-danger': false,
+      'label-success': false,
+      'label-not-assessed': false
+    };
+    switch (vaccinationStatusCode) {
+      case '2':
+        alert.label = true;
+        alert['label-success'] = true;
+        break;
+      case '1':
+        alert.label = true;
+        alert['label-warning'] = true;
+        break;
+      case '0':
+        alert.label = true;
+        alert['label-danger'] = true;
+        break;
+      case 'NA':
+        alert.label = true;
+        alert['label-not-assessed'] = true;
+        break;
+      default:
+        alert.label = false;
+        break;
+    }
+
+    return alert;
   }
 }

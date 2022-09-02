@@ -22,6 +22,15 @@ import { UserDefaultPropertiesService } from '../../../user-default-properties/u
 import { UserService } from '../../../openmrs-api/user.service';
 import { Patient } from '../../../models/patient.model';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
+import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+
+interface Alert {
+  label: boolean;
+  'label-warning'?: boolean;
+  'label-danger'?: boolean;
+  'label-success'?: boolean;
+  'label-not-assessed'?: boolean;
+}
 
 const summaryResult = [
   {
@@ -204,10 +213,57 @@ class FakeCervicalCancerScreeningSummaResourceService {
   }
 }
 
+class FakeCovid19ResourceService {
+  constructor() {}
+
+  getCovid19VaccinationStatus() {
+    return of({
+      vaccination_status: '',
+      vaccination_status_code: '',
+      vaccination_status_code_message: '',
+      first_dose_vaccine_administered: '',
+      second_dose_vaccine_administered: '',
+      covid_screening_outcome_this_visit: ''
+    });
+  }
+}
+
+const mockCovid19FullyVaccinatedAlert: Alert = {
+  label: true,
+  'label-warning': false,
+  'label-danger': false,
+  'label-success': true,
+  'label-not-assessed': false
+};
+
+const mockCovid19PartiallyVaccinatedAlert: Alert = {
+  label: true,
+  'label-warning': true,
+  'label-danger': false,
+  'label-success': false,
+  'label-not-assessed': false
+};
+
+const mockCovid19NotVaccinatedVaccinationAlert: Alert = {
+  label: true,
+  'label-warning': false,
+  'label-danger': true,
+  'label-success': false,
+  'label-not-assessed': false
+};
+const mockCovid19UknownVaccinationAlert: Alert = {
+  label: true,
+  'label-warning': false,
+  'label-danger': false,
+  'label-success': false,
+  'label-not-assessed': true
+};
+
 describe('Component: HivProgramSnapshotComponent', () => {
   let hivService: HivSummaryResourceService;
   let appSettingsService: AppSettingsService;
   let cervicalCancerScreeningSummaResourceService: CervicalCancerScreeningSummaResourceService;
+  let covid19ResourceService: Covid19ResourceService;
   let component: HivProgramSnapshotComponent;
   let fixture: ComponentFixture<HivProgramSnapshotComponent>;
   let debugElement: DebugElement;
@@ -244,6 +300,10 @@ describe('Component: HivProgramSnapshotComponent', () => {
         {
           provide: CervicalCancerScreeningSummaResourceService,
           useClass: FakeCervicalCancerScreeningSummaResourceService
+        },
+        {
+          provide: Covid19ResourceService,
+          useClass: FakeCovid19ResourceService
         }
       ],
       declarations: [HivProgramSnapshotComponent, ZeroVlPipe]
@@ -258,6 +318,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
     cervicalCancerScreeningSummaResourceService = TestBed.get(
       CervicalCancerScreeningSummaResourceService
     );
+    covid19ResourceService = TestBed.get(Covid19ResourceService);
     debugElement = fixture.debugElement;
     nativeElement = debugElement.nativeElement;
 
@@ -295,6 +356,7 @@ describe('Component: HivProgramSnapshotComponent', () => {
     expect(component.getMorisky8).toBeDefined();
     expect(component.setNullMorisky).toBeDefined();
     expect(component.getMaximumDate).toBeDefined();
+    expect(component.getPatientCovid19VaccinationStatus).toBeDefined();
   });
 
   it("should fetch the patient's hiv summary and morisky score when the component initializes", async(() => {
@@ -364,6 +426,29 @@ describe('Component: HivProgramSnapshotComponent', () => {
       );
       expect(snapshotRows[5].textContent).toContain(
         'Care Status:  Continue With Care'
+      );
+    });
+  }));
+
+  it('should create the right covid alert object based on covid vaccination status', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const nv = component.getCovidVaccinationAlert('0');
+      const pv = component.getCovidVaccinationAlert('1');
+      const fv = component.getCovidVaccinationAlert('2');
+      const uk = component.getCovidVaccinationAlert('NA');
+      expect(JSON.stringify(nv)).toBe(
+        JSON.stringify(mockCovid19NotVaccinatedVaccinationAlert)
+      );
+      expect(JSON.stringify(pv)).toBe(
+        JSON.stringify(mockCovid19PartiallyVaccinatedAlert)
+      );
+      expect(JSON.stringify(fv)).toBe(
+        JSON.stringify(mockCovid19FullyVaccinatedAlert)
+      );
+      expect(JSON.stringify(uk)).toBe(
+        JSON.stringify(mockCovid19UknownVaccinationAlert)
       );
     });
   }));

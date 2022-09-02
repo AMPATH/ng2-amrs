@@ -61,11 +61,11 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
       .flatMap((patientUuid) =>
         this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false)
       )
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         if (data) {
-          this.gbvScreeningResult = this.checkGbvScreening(
-            data[0].gbv_screening_result
-          );
+          const gbvScreeningResult =
+            data.length > 0 ? data[0].gbv_screening_result : '';
+          this.gbvScreeningResult = this.checkGbvScreening(gbvScreeningResult);
           for (const summary of data) {
             if (summary.is_clinical_encounter === 1 && this.showViremiaAlert) {
               this.checkViremia(summary.vl_1);

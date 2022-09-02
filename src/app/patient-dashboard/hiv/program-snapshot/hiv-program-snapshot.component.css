@@ -49,3 +49,15 @@ h4 {
   line-height: 20px;
   margin-right: 25px;
 }
+.label-not-assessed {
+  background-color: #e1c16e;
+}
+.alert-div {
+  margin-left: 5px;
+}
+
+@media only screen and (max-width: 900px) {
+  .alert-div {
+    margin-top: 15px;
+  }
+}

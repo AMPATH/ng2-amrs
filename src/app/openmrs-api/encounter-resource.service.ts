@@ -82,8 +82,7 @@ export class EncounterResourceService {
     );
   }
 
-  public saveEncounter(payload) {
-    console.log('payload', payload);
+  public saveEncounter(payload: any) {
     if (!payload) {
       return null;
     }
@@ -92,7 +91,7 @@ export class EncounterResourceService {
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
-  public updateEncounter(uuid, payload) {
+  public updateEncounter(uuid: string, payload: any) {
     if (!payload || !uuid) {
       return null;
     }
@@ -101,7 +100,7 @@ export class EncounterResourceService {
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
-  public voidEncounter(uuid) {
+  public voidEncounter(uuid: string) {
     if (!uuid) {
       return null;
     }

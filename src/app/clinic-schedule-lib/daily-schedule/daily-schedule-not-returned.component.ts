@@ -39,6 +39,11 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       headerName: 'ART start date',
       width: 120,
       field: 'arv_first_regimen_start_date'
+    },
+    {
+      headerName: 'Covid-19 Assessment Status',
+      width: 250,
+      field: 'covid_19_vaccination_status'
     }
   ];
   public filter: any = {

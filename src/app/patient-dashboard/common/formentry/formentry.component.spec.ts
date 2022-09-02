@@ -81,6 +81,17 @@ import { ProgramManagerService } from '../../../program-manager/program-manager.
 import { ProgramWorkFlowResourceService } from '../../../openmrs-api/program-workflow-resource.service';
 import { ProgramWorkFlowStateResourceService } from '../../../openmrs-api/program-workflow-state-resource.service';
 import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
+import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+
+interface Covid19StatusSummary {
+  vaccination_status: string;
+  vaccination_status_code: string;
+  vaccination_status_code_message: string;
+  date_given_first_dose?: Date;
+  first_dose_vaccine_administered: string;
+  date_given_second_dose?: Date;
+  second_dose_vaccine_administered: string;
+}
 
 export class FakeConceptResourceService {
   constructor() {}
@@ -171,6 +182,23 @@ export class FakePatientConsentResourceService {
     return Observable.of({
       hasCallConsent: false
     });
+  }
+}
+
+const mockCovid19StatusSummaryResponse: Covid19StatusSummary = {
+  vaccination_status: '1',
+  vaccination_status_code: '1',
+  vaccination_status_code_message: '',
+  date_given_first_dose: new Date(),
+  first_dose_vaccine_administered: 'ASTRAZENECA',
+  date_given_second_dose: new Date(),
+  second_dose_vaccine_administered: 'MODERNA'
+};
+
+class FakeCovid19ResourceService {
+  constructor() {}
+  getCovid19VaccinationStatus(): Observable<Covid19StatusSummary> {
+    return Observable.of(mockCovid19StatusSummaryResponse);
   }
 }
 
@@ -400,6 +428,12 @@ describe('Component: FormentryComponent', () => {
           provide: PatientConsentResourceService,
           useFactory: () => {
             return new FakePatientConsentResourceService();
+          }
+        },
+        {
+          provide: Covid19ResourceService,
+          useFactory: () => {
+            return new FakeCovid19ResourceService();
           }
         }
       ]

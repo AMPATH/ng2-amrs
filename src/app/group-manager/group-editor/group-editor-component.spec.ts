@@ -1,3 +1,4 @@
+import { CommunityGroupService } from 'src/app/openmrs-api/community-group-resource.service';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +23,9 @@ class MockActivatedRoute {
     queryParams: { filter: '' }
   };
 }
-
+class FakeCommunityGroupService {
+  constructor(a, b, c, d) {}
+}
 class MockCacheStorageService {
   constructor(a, b) {}
 
@@ -58,13 +61,19 @@ describe('Group Editor Component Tests', () => {
         DepartmentProgramsConfigService,
         {
           provide: CacheStorageService,
-          useuseFactory: () => {
+          useFactory: () => {
             return new MockCacheStorageService(null, null);
           }
         },
         {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
+        },
+        {
+          provide: CommunityGroupService,
+          useFactory: () => {
+            return new FakeCommunityGroupService(null, null, null, null);
+          }
         }
       ]
     })

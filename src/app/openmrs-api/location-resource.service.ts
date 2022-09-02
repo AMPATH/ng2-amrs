@@ -99,4 +99,8 @@ export class LocationResourceService {
         })
       );
   }
+
+  public getCountries() {
+    return this.http.get('./assets/locations/countries.json');
+  }
 }

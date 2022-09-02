@@ -13,12 +13,21 @@ describe('GroupSearchInputComponent', () => {
   let component: GroupSearchInputComponent;
   let fixture: ComponentFixture<GroupSearchInputComponent>;
 
+  class FakeCommunityGroupService {
+    constructor(a, b, c, d) {}
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GroupSearchInputComponent],
       imports: [FormsModule, MatSlideToggleModule, HttpClientTestingModule],
       providers: [
-        CommunityGroupService,
+        {
+          provide: CommunityGroupService,
+          useFactory: () => {
+            return new FakeCommunityGroupService(null, null, null, null);
+          }
+        },
         AppSettingsService,
         LocalStorageService,
         SessionStorageService

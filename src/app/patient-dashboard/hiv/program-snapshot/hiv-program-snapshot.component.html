@@ -30,6 +30,42 @@
           >
         </p>
       </div>
+      <div
+        *ngIf="covid19VaccinationSummary?.vaccination_status"
+        style="display: inline-block"
+      >
+        <p
+          [ngClass]="
+            getCovidVaccinationAlert(
+              covid19VaccinationSummary.vaccination_status_code
+            )
+          "
+        >
+          <span class="hiv-alert"
+            >COVID-19 Assessment Status :
+            {{ covid19VaccinationSummary?.vaccination_status }}</span
+          >
+        </p>
+      </div>
+      <div
+        class="alert-div"
+        *ngIf="covid19VaccinationSummary?.covid_screening_outcome_this_visit"
+        style="display: inline-block"
+      >
+        <p
+          [ngClass]="{
+            label: true,
+            'label-info': true
+          }"
+        >
+          <span class="hiv-alert"
+            >COVID-19 Screening Outcome :
+            {{
+              covid19VaccinationSummary?.covid_screening_outcome_this_visit
+            }}</span
+          >
+        </p>
+      </div>
     </div>
     <div class="snapshot-summary">
       <h4 class="component-title">Last Encounter</h4>
@@ -115,6 +151,51 @@
               Disclosure Status:
               <span style="text-transform: capitalize">
                 {{ hivDisclosureStatus }}
+              </span>
+            </p>
+          </div>
+          <div
+            class="col-md-12 col-xs-12"
+            *ngIf="covid19VaccinationSummary?.vaccination_status"
+          >
+            <p>
+              COVID-19 Vaccination Status:
+              <span>
+                {{ covid19VaccinationSummary?.vaccination_status }}
+              </span>
+              <span
+                style="text-transform: capitalize"
+                *ngIf="
+                  covid19VaccinationSummary?.first_dose_vaccine_administered
+                "
+              >
+                ({{
+                  covid19VaccinationSummary.first_dose_vaccine_administered
+                }}
+                : {{ covid19VaccinationSummary.date_given_first_dose }})
+              </span>
+              <span
+                style="text-transform: capitalize"
+                *ngIf="
+                  covid19VaccinationSummary?.second_dose_vaccine_administered
+                "
+              >
+                ({{
+                  covid19VaccinationSummary.second_dose_vaccine_administered
+                }}
+                : {{ covid19VaccinationSummary.date_given_second_dose }})
+              </span>
+              <span
+                style="
+                  text-transform: capitalize;
+                  color: red;
+                  padding: 2px 2px 2px 2px;
+                "
+                *ngIf="
+                  covid19VaccinationSummary?.vaccination_status_code_message
+                "
+              >
+                {{ covid19VaccinationSummary.vaccination_status_code_message }}
               </span>
             </p>
           </div>

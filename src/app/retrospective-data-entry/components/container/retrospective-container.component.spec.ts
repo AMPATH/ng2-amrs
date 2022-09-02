@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import {
   TestBed,
   async,
@@ -18,6 +19,12 @@ import { ProviderResourceService } from '../../../openmrs-api/provider-resource.
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 
 describe('RetrospectiveContainer Component', () => {
+  const mockActivatedRoute = {
+    queryParams: {
+      subscribe: jasmine.createSpy('subscribe').and.returnValue(of({}))
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RetrospectiveDataEntryModule, HttpClientTestingModule],
@@ -35,6 +42,10 @@ describe('RetrospectiveContainer Component', () => {
         {
           provide: Router,
           useValue: jasmine.createSpyObj('Router', ['navigate'])
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute
         }
       ]
     }).compileComponents();

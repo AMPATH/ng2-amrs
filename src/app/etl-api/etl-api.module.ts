@@ -41,6 +41,9 @@ import { HeiReportService } from './hei-report.service';
 import { CervicalCancerScreeningSummaResourceService } from './cervical-cancer-screening-summary-resource.service';
 import { MOH412ResourceService } from './moh-412-resource.service';
 import { ClinicFlowResourceService } from './clinic-flow-resource.service';
+import { Covid19ResourceService } from './covid-19-resource-service';
+import { LocationUnitsService } from './location-units.service';
+
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
   declarations: [],
@@ -86,7 +89,9 @@ import { ClinicFlowResourceService } from './clinic-flow-resource.service';
     PatientEducationService,
     CervicalCancerScreeningSummaResourceService,
     MOH412ResourceService,
-    ClinicFlowResourceService
+    ClinicFlowResourceService,
+    Covid19ResourceService,
+    LocationUnitsService
   ],
   exports: []
 })
