@@ -2393,6 +2393,15 @@
     "mflCode": "14799",
     "eidDisplay": ""
   },
+  "523d5060-07ee-46d9-b439-12867c4e83ac": {
+    "mrsId": 400,
+    "mrsDisplay": "Elgeyo Border Dispensary MCH",
+    "description": "Elgeyo Border Dispensary PMTCT Site in Moiben Sub County",
+    "mflCode": "14437",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
   "09c9dbeb-9a24-4511-9ad2-9cf6601a9023": {
     "mrsId": 401,
     "mrsDisplay": "Kipkabus MCH",
@@ -2427,6 +2436,33 @@
     "county": "Uasin Gishu",
     "description": "Kapsoya MCH",
     "mflCode": "14769",
+    "eidDisplay": ""
+  },
+  "a580930d-9a57-48ec-aa3e-c170802f45b0": {
+    "mrsId": 411,
+    "mrsDisplay": "Kapteldon Health Centre",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "Health Centre in Kapteldon",
+    "mflCode": "14779",
+    "eidDisplay": ""
+  },
+  "840d4e9c-8f62-4ece-bfd7-64bf04007033": {
+    "mrsId": 414,
+    "mrsDisplay": "Railways CCC",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "A CCC location",
+    "mflCode": "15478",
+    "eidDisplay": ""
+  },
+  "a473d19b-51ce-429e-927e-a197d36e00f1": {
+    "mrsId": 415,
+    "mrsDisplay": "Railways MCH",
+    "cityVillage": null,
+    "county": "Uasin Gishu",
+    "description": "A MCH Facility",
+    "mflCode": "15478",
     "eidDisplay": ""
   }
 }
