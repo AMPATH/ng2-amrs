@@ -2186,6 +2186,15 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
+  "f0e8d70a-dd24-4f59-bcf3-3566b8a1d5cc": {
+    "mrsId": 324,
+    "mrsDisplay": "Langas MCH",
+    "description": "Langas PMTCT Clinic",
+    "mflCode": "15011",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
   "8b6f450b-8a61-4051-b4bd-b1a79cb541ee": {
     "mrsId": 325,
     "mrsDisplay": "Moi's Bridge MCH",
