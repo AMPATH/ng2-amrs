@@ -262,7 +262,9 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       discordant_status: 'Discordant Status',
       tb_screening_date: 'TB Screening Date',
       tb_screening_result: 'TB Screening Result',
-      covid_19_vaccination_status: 'Covid-19 Assessment Status',
+      covid_19_vaccination_status: 'Covid-19 Vaccination Status',
+      sms_consent_provided: 'SMS Consent Provided',
+      sms_receive_time: 'SMS Time',
       nearest_center: 'Nearest Center'
     };
 
