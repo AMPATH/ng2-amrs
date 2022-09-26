@@ -63,6 +63,14 @@
         "type": "LEFT",
         "joinCondition": "t1.person_id = c.person_id AND c.next_encounter_datetime IS NULL"
       }
+    },
+    {
+      "table": "etl.flat_consent",
+      "alias": "consent",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "consent.person_id = t1.person_id"
+      }
     }
   ],
   "columns": [
@@ -190,6 +198,28 @@
           }
         ]
       }
+    },
+    {
+      "type": "derived_column",
+      "alias": "sms_consent_provided",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "consent.patient_sms_consent_provided = 1065",
+            "value": "YES"
+          },
+          {
+            "condition": "consent.patient_sms_consent_provided = 1066",
+            "value": "NO"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "sms_receive_time",
+      "column": "consent.sms_receive_time"
     }
   ],
   "groupBy": {
