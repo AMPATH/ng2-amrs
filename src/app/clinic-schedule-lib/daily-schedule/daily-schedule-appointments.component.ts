@@ -42,6 +42,16 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       field: 'covid_19_vaccination_status'
     },
     {
+      headerName: 'TB Screening Date',
+      width: 150,
+      field: 'tb_screening_date'
+    },
+    {
+      headerName: 'TB Screening Result',
+      width: 200,
+      field: 'tb_screening_result'
+    },
+    {
       headerName: 'SMS Consent Provided',
       width: 150,
       field: 'sms_consent_provided'
