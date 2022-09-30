@@ -56,6 +56,21 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       field: 'tb_screening_result'
     },
     {
+      headerName: 'Cervical Screening Date',
+      width: 200,
+      field: 'cervical_screening_date'
+    },
+    {
+      headerName: 'Cervical Screening Method',
+      width: 200,
+      field: 'cervical_screening_method'
+    },
+    {
+      headerName: 'Cervical Screening Result',
+      width: 200,
+      field: 'cervical_screening_result'
+    },
+    {
       headerName: 'SMS Consent Provided',
       width: 150,
       field: 'sms_consent_provided'
