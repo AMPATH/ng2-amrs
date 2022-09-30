@@ -79,6 +79,14 @@
         "type": "LEFT",
         "joinCondition": "t1.person_id = tb.person_id AND tb.next_clinical_datetime_hiv IS NULL AND tb.is_clinical_encounter = 1 "
       }
+    },
+    {
+      "table": " etl.flat_cervical_cancer_screening_rc",
+      "alias": "cs",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "cs.person_id = t1.person_id AND cs.next_clinical_datetime_cervical_cancer_screening IS NULL"
+      }
     }
   ],
   "columns": [
@@ -287,6 +295,133 @@
           {
             "condition": "else",
             "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "cervical_screening_date",
+      "column": "date_format(cs.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "cervical_screening_method",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cs.screening_method = 9434",
+            "value": "VIA or VIA/VILI"
+          },
+          {
+            "condition": "cs.screening_method = 885",
+            "value": "PAP SMEAR"
+          },
+          {
+            "condition": "cs.screening_method = 2322",
+            "value": "HPV"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test IS NOT NULL",
+            "value": "VIA or VIA/VILI"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cervical_screening_result",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cs.via_or_via_vili_test_result = 1",
+            "value": "NEGATIVE"
+          },
+          {
+            "condition": "cs.via_or_via_vili_test_result = 2",
+            "value": "POSITIVE"
+          },
+          {
+            "condition": "cs.via_or_via_vili_test_result = 3",
+            "value": "SUSPICIOUS OF CANCER"
+          },
+          {
+            "condition": "cs.hpv_test_result = 1",
+            "value": "NEGATIVE"
+          },
+          {
+            "condition": "cs.hpv_test_result = 2",
+            "value": "POSITIVE"
+          },
+          {
+            "condition": "cs.hpv_test_result = 3",
+            "value": "INDETERMINATE"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 1",
+            "value": "NORMAL"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 2",
+            "value": "ASCUS"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 3",
+            "value": "LSIL"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 4",
+            "value": "HSIL/CIS"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 5",
+            "value": "AGUS"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 6",
+            "value": "INVASIVE CANCER"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 1115",
+            "value": "NORMAL"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7469",
+            "value": "ACETOWHITE LESION"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 5245",
+            "value": "PALLOR"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7470",
+            "value": "PUNCTUATED CAPILLARIES"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 9591",
+            "value": "OYSTERWHITE LESION"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 9592",
+            "value": "BRIGHT WHITE LESION"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7293",
+            "value": "ULCER"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 6497",
+            "value": "DYSFUNCTIONAL UTERINE BLEEDING"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7472",
+            "value": "ATYPICAL BLOOD VESSELS"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 9593",
+            "value": "FRIABLE TISSUE"
           }
         ]
       }

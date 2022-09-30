@@ -82,6 +82,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "Transfer Out Date",
         "width": 150,
         "field": "transfer_out_date"
@@ -194,6 +209,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -315,6 +345,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -422,6 +467,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -543,6 +603,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -652,6 +727,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -759,6 +849,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -885,6 +990,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -997,6 +1117,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -1113,6 +1248,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -1215,6 +1365,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -1326,6 +1491,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -1433,6 +1613,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -1579,6 +1774,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -1716,6 +1926,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -1857,6 +2082,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -1966,6 +2206,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -2068,6 +2323,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
@@ -2179,6 +2449,21 @@
         "field": "covid_19_vaccination_status"
       },
       {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
+      },
+      {
         "headerName": "SMS Consent Provided",
         "width": 150,
         "field": "sms_consent_provided"
@@ -2281,6 +2566,21 @@
         "headerName": "Covid-19 Assessment Status",
         "width": 200,
         "field": "covid_19_vaccination_status"
+      },
+      {
+        "headerName": "Cervical Screening Date",
+        "width": 200,
+        "field": "cervical_screening_date"
+      },
+      {
+        "headerName": "Cervical Screening Method",
+        "width": 200,
+        "field": "cervical_screening_method"
+      },
+      {
+        "headerName": "Cervical Screening Result",
+        "width": 200,
+        "field": "cervical_screening_result"
       },
       {
         "headerName": "SMS Consent Provided",
