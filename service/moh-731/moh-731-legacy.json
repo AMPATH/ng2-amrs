@@ -336,11 +336,6 @@
         "label": "Total Screened for TB (Sum HV03-50 to HV03-53)",
         "ref": "HV03-54",
         "indicator": "screened_for_tb"
-      },
-      {
-        "label": "Screened for cervical cancer (F 18 years and older)",
-        "ref": "HV03-55",
-        "indicator": "Screened_for_cervical_cancer"
       }
     ]
   },

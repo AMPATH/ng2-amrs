@@ -16,6 +16,14 @@
         "type": "INNER",
         "joinCondition": "l.location_id = hmsd.location_id"
       }
+    },
+    {
+      "table": "etl.cervical_screening_monthly_report_dataset",
+      "alias": "csm",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "csm.person_id = hmsd.person_id AND csm.endDate = hmsd.endDate"
+      }
     }
   ],
   "columns": [
@@ -441,9 +449,12 @@
       }
     },
     {
-      "type": "simple_column",
-      "alias": "screened_for_cervical_ca",
-      "column": "hmsd.ca_cx_screened_active_this_month"
+      "type": "derived_column",
+      "alias": "screened_for_cervical_ca_female_18_and_above",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(csm.screened_this_month_for_cervical_cancer = 1 and hmsd.status = 'active' AND hmsd.gender = 'F' AND hmsd.age >= 18, 1 , 0)"
+      }
     }
   ],
   "filters": {
@@ -451,7 +462,7 @@
     "conditions": [
       {
         "filterType": "tableColumns",
-        "conditionExpression": "endDate = ?",
+        "conditionExpression": "hmsd.endDate = ?",
         "parameterName": "endDate"
       },
       {

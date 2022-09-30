@@ -412,10 +412,10 @@
     },
     {
       "type": "derived_column",
-      "alias": "screened_for_cervical_ca",
+      "alias": "screened_for_cervical_ca_female_18_and_above",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "sum(hmsd.screened_for_cervical_ca)"
+        "expression": "sum(hmsd.screened_for_cervical_ca_female_18_and_above)"
       }
     }
   ],
