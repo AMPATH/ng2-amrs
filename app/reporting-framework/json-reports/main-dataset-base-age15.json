@@ -196,11 +196,6 @@
       "type": "simple_column",
       "alias": "f_gte_18_visits",
       "column": "hmsd.f_18_and_older_this_month"
-    },
-    {
-      "type": "simple_column",
-      "alias": "screened_for_cervical_ca",
-      "column": "hmsd.ca_cx_screened_active_this_month"
     }
   ],
   "filters": {

@@ -340,7 +340,7 @@
       {
         "label": "Screened for cervical cancer (F 18 years and older)",
         "ref": "HV03-55",
-        "indicator": "Screened_for_cervical_cancer"
+        "indicator": "screened_for_cervical_ca_female_18_and_above"
       }
     ]
   },

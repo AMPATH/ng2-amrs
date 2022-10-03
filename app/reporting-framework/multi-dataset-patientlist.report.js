@@ -33,6 +33,7 @@ let mockPatientList = [
     tb_screened_this_visit_this_month: 1,
     tb_screened_positive: 0,
     screened_for_cervical_ca: 0,
+    screened_for_cervical_ca_female_18_and_above: 0,
     started_ipt: 0,
     completed_ipt_past_12_months: 0,
     condoms_provided: 0,
@@ -136,6 +137,8 @@ export class MultiDatasetPatientlistReport extends MultiDatasetReport {
         (dataObject['tb_screened_positive'] = element.tb_screened_positive),
         (dataObject['screened_for_cervical_ca'] =
           element.screened_for_cervical_ca),
+        (dataObject['screened_for_cervical_ca_female_18_and_above'] =
+          element.screened_for_cervical_ca_female_18_and_above),
         (dataObject['started_ipt'] = element.started_ipt),
         (dataObject['completed_ipt_past_12_months'] =
           element.completed_ipt_past_12_months),
