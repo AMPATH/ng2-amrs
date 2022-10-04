@@ -5,6 +5,17 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
+interface PatientListPayload {
+  endingMonth: string;
+  locationUuids: string;
+  indicators: string;
+}
+
+interface MonthlyReportPayload {
+  endingMonth: string;
+  locationUuids: string;
+}
+
 @Injectable()
 export class Covid19ResourceService {
   constructor(
@@ -36,5 +47,39 @@ export class Covid19ResourceService {
         })
       );
     return this.cacheService.cacheRequest(url, params, request);
+  }
+
+  public getCovid19VaccinationMonthlyReport(
+    payload: MonthlyReportPayload
+  ): Observable<any> {
+    if (!payload) {
+      return null;
+    }
+    const urlParams: HttpParams = new HttpParams()
+      .set('endingMonth', payload.endingMonth)
+      .set('locationUuids', payload.locationUuids);
+    const url = this.getUrl() + 'covid-19-monthly-vaccination-report';
+    const request = this.http.get(url, {
+      params: urlParams
+    });
+    return this.cacheService.cacheRequest(url, urlParams, request);
+  }
+
+  public getCovid19VaccinationMonthlyReportPatientList(
+    payload: PatientListPayload
+  ): Observable<any> {
+    if (!payload) {
+      return null;
+    }
+    const urlParams: HttpParams = new HttpParams()
+      .set('endingMonth', payload.endingMonth)
+      .set('locationUuids', payload.locationUuids)
+      .set('indicators', payload.indicators);
+    const url =
+      this.getUrl() + 'covid-19-monthly-vaccination-report/patient-list';
+    const request = this.http.get(url, {
+      params: urlParams
+    });
+    return this.cacheService.cacheRequest(url, urlParams, request);
   }
 }
