@@ -1,0 +1,95 @@
+[
+  {
+    "sectionTitle": "",
+    "indicators": [
+      {
+        "label": "Month",
+        "indicator": "month"
+      },
+      {
+        "label": "Location",
+        "indicator": "location"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Current on ART",
+    "indicators": [
+      {
+        "label": "15+ years",
+        "indicator": "current_on_art_15_and_above"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Screenings This Month",
+    "indicators": [
+      {
+        "label": "Screened",
+        "indicator": "screened_this_month"
+      },
+      {
+        "label": "Fully Vaccinated",
+        "indicator": "fully_vaccinated_this_month"
+      },
+      {
+        "label": "Partially Vaccinated",
+        "indicator": "partially_vaccinated_this_month"
+      },
+      {
+        "label": "Not Vaccinated",
+        "indicator": "not_vaccinated_this_month"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Not Screened",
+    "indicators": [
+      {
+        "label": "Active and Never Screened",
+        "indicator": "active_this_month_not_screened_for_covid"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Ever",
+    "indicators": [
+      {
+        "label": "Screened",
+        "indicator": "ever_screened"
+      },
+      {
+        "label": "Fully Vaccinated",
+        "indicator": "fully_vaccinated_ever"
+      },
+      {
+        "label": "Partially Vaccinated",
+        "indicator": "partially_vaccinated_ever"
+      },
+      {
+        "label": "Not Vaccinated",
+        "indicator": "not_vaccinated_ever"
+      },
+      {
+        "label": "Verified First Dose",
+        "indicator": "verified_1st_dose_ever"
+      },
+      {
+        "label": "Verified Second Dose",
+        "indicator": "verified_2nd_dose_ever"
+      },
+      {
+        "label": "Received Booster",
+        "indicator": "received_booster"
+      },
+      {
+        "label": "Tested Positive",
+        "indicator": "ever_tested_positive"
+      },
+      {
+        "label": "Hospitalized",
+        "indicator": "ever_hospitalized"
+      }
+    ]
+  }
+]

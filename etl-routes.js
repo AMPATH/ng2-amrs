@@ -78,6 +78,7 @@ const syncPreproc = require('./app/lab-integration/lab-sync-pre-processor.servic
 import { DefaulterListService } from './service/defaulter-list-service';
 import { ClinicFlowService } from './service/clinic-flow-service';
 import { getPatientCovidVaccinationStatus } from './service/covid-19/covid-19-vaccination-summary';
+import { Covid19MonthlyReport } from './service/covid-19/covid-19-monthly-report';
 
 module.exports = (function () {
   var routes = [
@@ -6128,7 +6129,6 @@ module.exports = (function () {
             const patientUuid = request.query.patientUuid;
             getPatientCovidVaccinationStatus(patientUuid)
               .then((results) => {
-                console.log('results', results);
                 reply(results);
               })
               .catch((error) => {
@@ -6140,6 +6140,87 @@ module.exports = (function () {
         },
         description: 'COVID-19 Vaccination Status',
         notes: 'Returns the patients covid 19 vaccination status',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/covid-19-monthly-vaccination-report',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.locationUuids) {
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+              let reportParams = etlHelpers.getReportParams(
+                'covid-19-monthly-report',
+                ['endingMonth', 'locationUuids', 'locations'],
+                requestParams
+              );
+              const covid19MonthlyReport = new Covid19MonthlyReport(
+                'covid-19-monthly-report',
+                reportParams.requestParams
+              );
+              covid19MonthlyReport
+                .generateReport(reportParams.requestParams)
+                .then((result) => {
+                  reply(result);
+                })
+                .catch((error) => {
+                  reply(error);
+                });
+            });
+          }
+        },
+        description: 'COVID-19 Monthly Report',
+        notes:
+          'Returns summary of vaccinated i.e fully,partial and not vaccinated',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/covid-19-monthly-vaccination-report/patient-list',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.locationUuids) {
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+              let reportParams = etlHelpers.getReportParams(
+                'covid-19-monthly-report',
+                ['endingMonth', 'locationUuids', 'locations'],
+                requestParams
+              );
+              delete reportParams.requestParams['gender'];
+              const covid19MonthlyReport = new Covid19MonthlyReport(
+                'covid-19-monthly-report',
+                reportParams.requestParams
+              );
+              covid19MonthlyReport
+                .generatePatientListReport(reportParams.requestParams)
+                .then((result) => {
+                  reply(result);
+                })
+                .catch((error) => {
+                  reply(error);
+                });
+            });
+          }
+        },
+        description: 'COVID-19 Monthly Report Patient List',
+        notes:
+          'Returns patient list of vaccinated i.e fully,partial and not vaccinated',
         tags: ['api']
       }
     }

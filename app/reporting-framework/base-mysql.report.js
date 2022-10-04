@@ -228,6 +228,15 @@ import * as defaulter_list_base from './json-reports/defaulter-list-base.json';
 //clinic clow report
 import * as clinic_flow_provider_statistics_aggregate from './json-reports/clinic-flow-provider-statistics-aggregate.json';
 import * as clinic_flow_provider_statistics_base from './json-reports/clinic-flow-provider-statistics-base.json';
+
+//covid 19 report
+import * as covid_19_summary_aggregate from './json-reports/covid-19-summary-report-aggregate.json';
+import * as covid_19_summary_base from './json-reports/covid-19-summary-report-base.json';
+import * as on_art_15_and_above_aggregate from './json-reports/hiv-monthly-on-art-15-and-above-report-aggregate.json';
+import * as on_art_15_and_above_base from './json-reports/hiv-monthly-on-art-15-and-above-report-base.json';
+import * as covid_19_monthly_report from './json-reports/covid-19/covid-19-monthly-report.json';
+import * as hiv_monthly_not_screened_for_covid_aggregate from './json-reports/hiv-monthly-not-screened-for-covid-aggregate.json';
+import * as hiv_monthly_not_screened_for_covid_base from './json-reports/hiv-monthly-not-screened-for-covid-base.json';
 export class BaseMysqlReport {
   constructor(reportName, params) {
     this.reportName = reportName;
@@ -1091,6 +1100,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_screening_monthly_base
             )
           });
+          break;
         case 'hivCervicalCancerScreeningMonthlyPcfAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1100,6 +1110,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_screening_monthly_base
             )
           });
+          break;
         case 'hivCervicalCancerPositiveScreeningMonthlyAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1109,6 +1120,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_positive_screening_monthly_base
             )
           });
+          break;
         case 'hivCervicalCancerPositiveScreeningMonthlyPcfAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1118,6 +1130,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_positive_screening_monthly_base
             )
           });
+          break;
         case 'hivCervicalCancerTreatmentMonthlyAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1127,6 +1140,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_treatment_monthly_base
             )
           });
+          break;
         case 'hivCervicalCancerTreatmentMonthlyPcfAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1136,6 +1150,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_treatment_monthly_base
             )
           });
+          break;
         case 'hivPositiveCervicalCancerScreeningMonthlyAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1145,6 +1160,7 @@ export class BaseMysqlReport {
               hiv_positive_cervical_cancer_screening_monthly_base
             )
           });
+          break;
         case 'hivPositiveCervicalCancerScreeningMonthlyPcfAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1154,6 +1170,7 @@ export class BaseMysqlReport {
               hiv_positive_cervical_cancer_screening_monthly_base
             )
           });
+          break;
         case 'hivCervicalCancerScreeningMonthlyMainDatasetAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1163,6 +1180,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_screening_monthly_main_dataset_base
             )
           });
+          break;
         case 'hivCervicalCancerScreeningMonthlyMainDatasetPcfAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1172,6 +1190,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_screening_monthly_main_dataset_base
             )
           });
+          break;
         case 'hivCervicalCancerMonthlySummaryLesionsAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1181,6 +1200,7 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_monthly_summary_lesions_base
             )
           });
+          break;
         case 'hivCervicalCancerMonthlySummaryLesionsPcfAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1190,11 +1210,13 @@ export class BaseMysqlReport {
               hiv_cervical_cancer_monthly_summary_lesions_base
             )
           });
+          break;
         case 'defaulterListAggregate':
           resolve({
             main: this.cloneJsonSchema(defaulter_list_aggregate),
             defaulterListBase: this.cloneJsonSchema(defaulter_list_base)
           });
+          break;
         case 'clinicFlowProviderStatisticsAggregate':
           resolve({
             main: this.cloneJsonSchema(
@@ -1204,6 +1226,38 @@ export class BaseMysqlReport {
               clinic_flow_provider_statistics_base
             )
           });
+          break;
+        case 'covid19SummaryReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(covid_19_summary_aggregate),
+            covid19SummaryReportBase: this.cloneJsonSchema(
+              covid_19_summary_base
+            )
+          });
+          break;
+        case 'hivMonthlyOnART15AndAboveAggregate':
+          resolve({
+            main: this.cloneJsonSchema(on_art_15_and_above_aggregate),
+            hivMonthlyOnART15AndAboveBase: this.cloneJsonSchema(
+              on_art_15_and_above_base
+            )
+          });
+          break;
+        case 'hivMonthlyNotScreenedForCovidAggregate':
+          resolve({
+            main: this.cloneJsonSchema(
+              hiv_monthly_not_screened_for_covid_aggregate
+            ),
+            hivMonthlyNotScreenedForCovidBase: this.cloneJsonSchema(
+              hiv_monthly_not_screened_for_covid_base
+            )
+          });
+          break;
+        case 'covid-19-monthly-report':
+          resolve({
+            main: this.cloneJsonSchema(covid_19_monthly_report)
+          });
+          break;
         default:
           reject('Unknown report ', reportName);
           break;

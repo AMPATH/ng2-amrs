@@ -1,0 +1,94 @@
+{
+  "name": "hivMonthlyOnART15AndAboveBase",
+  "version": "1.0",
+  "tag": "hiv_monthly_on_art_15_and_above_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(hmsd.endDate,'%Y-%m')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "current_on_art_15_and_above",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.age >= 15 AND hmsd.status = 'active' AND hmsd.on_art_this_month = 1,1,NULL)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.endDate = ?",
+        "parameterName": "endingMonth"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.age >= 15",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.status = 'active'",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.on_art_this_month = 1",
+        "parameterName": ""
+      }
+    ]
+  }
+}

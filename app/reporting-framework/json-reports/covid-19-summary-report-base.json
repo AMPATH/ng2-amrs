@@ -1,0 +1,179 @@
+{
+  "name": "covid19SummaryReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.monthly_covid_extract_report",
+      "alias": "ce"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "ce.location_id = l.location_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "ce.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "ce.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "covid_screening_date",
+      "column": "DATE_FORMAT(ce.encounter_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "screened_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.screened_this_month = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.person_id IS NOT NULL = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "fully_vaccinated_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.vaccination_status_this_month = 2208 AND ce.screened_this_month = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "fully_vaccinated_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.vaccination_status_this_month = 2208,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "partially_vaccinated_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.vaccination_status_this_month = 11907 AND ce.screened_this_month = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "partially_vaccinated_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.vaccination_status_this_month = 11907,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_vaccinated_this_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.received_covid_19_vaccine = 1066 AND ce.screened_this_month = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_vaccinated_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.received_covid_19_vaccine  = 1066,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "verified_1st_dose_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.vaccine_verification = 2300,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "verified_2nd_dose_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.vaccine_verification_second_dose = 2300,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "received_booster",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.booster_given = 1065,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_tested_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.ever_covid_19_positive = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_hospitalized",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.ever_hospitalized = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(ce.endDate,'%Y-%m')"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "ce.location_id IN (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "ce.endDate = ?",
+        "parameterName": "endingMonth"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

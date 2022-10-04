@@ -1,0 +1,102 @@
+{
+  "name": "hivMonthlyNotScreenedForCovidBase",
+  "version": "1.0",
+  "tag": "hiv_monthly_not_screened_for_covid_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "<<hivMonthlyDatasetSource>>",
+      "alias": "hmsd"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "l.location_id = hmsd.location_id"
+      }
+    },
+    {
+      "table": "etl.monthly_covid_extract_report",
+      "alias": "csm",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "hmsd.person_id = csm.person_id AND csm.endDate = hmsd.endDate"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(hmsd.endDate,'%Y-%m')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "active_this_month_not_screened_for_covid",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmsd.person_id IS NOT NULL,1,NULL)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmsd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmsd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hmsd.gender"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.endDate = ?",
+        "parameterName": "endingMonth"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.location_id in ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.status = 'active'",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmsd.on_art_this_month = 1",
+        "parameterName": ""
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "csm.person_id IS NULL",
+        "parameterName": ""
+      }
+    ]
+  }
+}

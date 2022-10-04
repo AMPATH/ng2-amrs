@@ -49,7 +49,6 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
               .fetchPatientListTemplate(that.plSchemasRaw.aggregate)
               .then((template) => {
                 that.plTemplate = template.main;
-
                 let generated = that.generatePatientListJsonQuery(
                   that.plSchemasRaw.aggregate,
                   that.plSchemasRaw.base,
@@ -91,7 +90,6 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
                     sqlQuery = sqlQuery.replace(/\'null\'/g, 'null');
                     that.reportQuery = sqlQuery;
                     // run query
-
                     that
                       .executeReportQuery(that.reportQuery)
                       .then((results) => {
@@ -141,8 +139,10 @@ export class PatientlistMysqlReport extends BaseMysqlReport {
         aggregateReport.dynamicJsonQueryGenerationDirectives
           .patientListGenerator.useTemplateVersion;
       return this.fetchReportSchema(name, version);
+    } else {
+      console.log('Invalid aggregate report. Missing template directives.');
     }
-    // console.log('Invalid aggregate report. Missing template directives.')
+
     return Promise.reject(
       'Invalid aggregate report. Missing template directives.'
     );
