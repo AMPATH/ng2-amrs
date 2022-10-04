@@ -80,6 +80,7 @@ import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-
 import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-lib.module';
 import { IptReportComponent } from './ipt-report/ipt-report.component';
 import { DefaulterListFilterComponent } from './../general/defaulter-list/defaulter-list-filter-component';
+import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 
 @NgModule({
   imports: [
@@ -133,7 +134,8 @@ import { DefaulterListFilterComponent } from './../general/defaulter-list/defaul
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
     MOH412ClinicDashboardPatientListComponent,
-    DefaulterListFilterComponent
+    DefaulterListFilterComponent,
+    ClinicDashboardCovid19ReportComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -177,7 +179,8 @@ import { DefaulterListFilterComponent } from './../general/defaulter-list/defaul
     MOH412ClinicDashboardComponent,
     MOH412ClinicDashboardPatientListComponent,
     IptReportComponent,
-    DefaulterListFilterComponent
+    DefaulterListFilterComponent,
+    ClinicDashboardCovid19ReportComponent
   ],
   providers: [ClinicalSummaryVisualizationService],
   entryComponents: [PatientStatusDatalistCellComponent]
