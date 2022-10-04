@@ -1,3 +1,4 @@
+import { Covid19ReportComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HivModuleComponent } from './hiv-program.component';
@@ -58,6 +59,8 @@ import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/co
 import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
 import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-dashboard.component';
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
+import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
+import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
 
 const routes: Routes = [
   {
@@ -438,6 +441,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: MOH412ClinicDashboardPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'covid-19-monthly-report',
+        children: [
+          {
+            path: '',
+            component: ClinicDashboardCovid19ReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: Covid19ReportPatientListComponent
           }
         ]
       }
