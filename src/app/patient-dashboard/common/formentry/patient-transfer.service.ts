@@ -8,11 +8,18 @@ import { FormentryComponent } from './formentry.component';
 import { Patient } from '../../../models/patient.model';
 import { SelectDepartmentService } from 'src/app/shared/services/select-department.service';
 
+// form uuids
+import { FormUuids } from './../../../constants/forms.constants';
+// program constants
+import { Programs } from './../../../constants/program.constants';
+
 @Injectable()
 export class PatientTransferService {
   public componentRef: FormentryComponent;
   private patient: Patient;
   private transferState: BehaviorSubject<any> = new BehaviorSubject(null);
+  private INTERNAL_MOVEMENT_FORM_UUID = FormUuids.INTERNAL_MOVEMENT_FORM_UUID;
+  private YES_CONCEPT = 'a899b35c-1350-11df-a1f1-0026b9348838';
 
   constructor(private selectSetDepartmentService: SelectDepartmentService) {}
 
@@ -26,6 +33,7 @@ export class PatientTransferService {
     // check if patient status was filled
     const patientCareStatus = this.getPatientStatusQuestion();
     const referralQuestion = this.getReferralsQuestion();
+    const internalMovementQuestion = this.getInternalMovementQstn();
     const force =
       patientCareStatus.length > 0 &&
       !_.isEmpty(_.first(patientCareStatus).control.value);
@@ -37,15 +45,11 @@ export class PatientTransferService {
        * Do not save transfer out options when
         submitting transfer out form
        */
-      if (
-        this.componentRef.formUuid !== '4f8b3fc4-7262-45f7-81b0-7bed31655fcd'
-      ) {
+      if (this.componentRef.formUuid !== FormUuids.TRANSFER_OUT_FORM_UUID) {
         this.saveTransferOptionsIfSpecified();
       }
 
-      if (
-        this.componentRef.formUuid === '4f8b3fc4-7262-45f7-81b0-7bed31655fcd'
-      ) {
+      if (this.componentRef.formUuid === FormUuids.TRANSFER_OUT_FORM_UUID) {
         // patient care status in transfer out form is non-ampath
         if (
           _.first(patientCareStatus).control.value ===
@@ -107,7 +111,7 @@ export class PatientTransferService {
       ) {
         // Enhanced adherence HIV Program
         _.merge(queryParams, {
-          program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
+          program: Programs.VIREMIA_PROGRAM.uuid,
           notice: 'adherence'
         });
         const location: any = this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
@@ -122,11 +126,28 @@ export class PatientTransferService {
       ) {
         // HIV Differentiated Program
         _.merge(queryParams, {
-          program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
+          program: Programs.HIV_DIFFERENTIATED_CARE_PROGRAM.uuid,
           notice: 'dc'
         });
         const location: any = this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         localStorage.setItem('transferLocation', location.uuid);
+      }
+    }
+    if (internalMovementQuestion.length > 0) {
+      // Internal Movement
+
+      if (this.containsInternalMovementAnwer(internalMovementQuestion)) {
+        // Standard HIV Program
+        _.merge(queryParams, {
+          program: Programs.STANDARD_HIV_PROGRAM.uuid,
+          notice: 'sh'
+        });
+        this.transferState.next({
+          transfer: true,
+          loadInternalMovementForm: this.shouldLoadInternalMovementForm(
+            this.componentRef.formUuid
+          )
+        });
       }
     }
     return this.transferState;
@@ -194,7 +215,7 @@ export class PatientTransferService {
     }
     // (questionId tracking transfers is transferOut in Outreach Field Follow-Up Form V1.0 & Returns forms)
     if (
-      this.componentRef.formUuid === '5053f206-cd65-432e-87de-043f48e462a1' ||
+      this.componentRef.formUuid === FormUuids.OUTREACH_FOLLOW_UP_FORM_UUID ||
       patientCareStatus.length === 0
     ) {
       patientCareStatus = this.searchNodeByQuestionId('transferOut');
@@ -225,7 +246,20 @@ export class PatientTransferService {
      */
     return !_.includes(
       [
-        '4f8b3fc4-7262-45f7-81b0-7bed31655fcd' // AMPATH POC Transfer Out Form
+        FormUuids.TRANSFER_OUT_FORM_UUID // AMPATH POC Transfer Out Form
+      ],
+      this.componentRef.formUuid
+    );
+  }
+
+  private loadInternalMovementForm() {
+    /*
+      Only load internal movement form from adult return form
+    */
+
+    return !_.includes(
+      [
+        FormUuids.INTERNAL_MOVEMENT_FORM_UUID // AMPATH POC Internal Movement Form
       ],
       this.componentRef.formUuid
     );
@@ -240,6 +274,13 @@ export class PatientTransferService {
       !_.isEmpty(_.first(referralsQuestion).control.value)
       ? referralsQuestion
       : [];
+  }
+
+  private getInternalMovementQstn(): any[] {
+    const internalMovementQuestion = this.searchNodeByQuestionId(
+      'internalMove'
+    );
+    return internalMovementQuestion.length > 0 ? internalMovementQuestion : [];
   }
 
   private saveTransferOptionsIfSpecified() {
@@ -315,5 +356,22 @@ export class PatientTransferService {
 
   private setTransferState(state: any) {
     this.transferState.next(state);
+  }
+
+  private shouldLoadInternalMovementForm(formUuid: string): boolean {
+    let shouldLoadForm = false;
+    if (formUuid !== this.INTERNAL_MOVEMENT_FORM_UUID) {
+      shouldLoadForm = true;
+    }
+    return shouldLoadForm;
+  }
+
+  private containsInternalMovementAnwer(interMovementQstn: any[]): boolean {
+    let value = '';
+    if (interMovementQstn) {
+      value = _.first(interMovementQstn).control.value;
+    }
+
+    return value === this.YES_CONCEPT;
   }
 }

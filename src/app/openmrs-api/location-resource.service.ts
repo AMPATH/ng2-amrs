@@ -1,6 +1,4 @@
-import { take } from 'rxjs/operators';
-
-import { map } from 'rxjs/operators';
+import { map, take, filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
@@ -102,5 +100,30 @@ export class LocationResourceService {
 
   public getCountries() {
     return this.http.get('./assets/locations/countries.json');
+  }
+
+  public getSiblingAmrsLocations(locationUuid: string): Observable<any> {
+    return this.getLocationByUuid(locationUuid, true, 'full').pipe(
+      filter((locations: any) => {
+        /* select only parent locations locations */
+        if (
+          locations.parentLocation !== null &&
+          locations.parentLocation.childLocations &&
+          !locations.parentLocation.retired
+        ) {
+          return locations.parentLocation.childLocations;
+        } else {
+          return [];
+        }
+      }),
+      map((filteredLocation: any) => {
+        /* extract child locations from parent locations */
+        if (filteredLocation.parentLocation) {
+          return filteredLocation.parentLocation.childLocations;
+        } else {
+          return [];
+        }
+      })
+    );
   }
 }
