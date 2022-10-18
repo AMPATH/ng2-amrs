@@ -28,7 +28,7 @@
       "alias": "t2",
       "join": {
         "type": "left",
-        "joinCondition": "date(t1.encounter_datetime) = date(t2.test_datetime)"
+        "joinCondition": "date(t1.encounter_datetime) = date(t2.test_datetime) and t1.person_id = t2.person_id"
       }
     },
     {

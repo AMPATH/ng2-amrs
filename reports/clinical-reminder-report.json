@@ -13,7 +13,7 @@
         "schema": "etl",
         "tableName": "flat_labs_and_imaging",
         "alias": "t2",
-        "joinExpression": "date(t1.encounter_datetime) = date(t2.test_datetime)"
+        "joinExpression": "date(t1.encounter_datetime) = date(t2.test_datetime) and t1.person_id = t2.person_id"
       },
       {
         "joinType": "INNER JOIN",
