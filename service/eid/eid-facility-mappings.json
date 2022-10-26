@@ -2473,5 +2473,41 @@
     "description": "A MCH Facility",
     "mflCode": "15478",
     "eidDisplay": ""
+  },
+  "e466e113-dcfa-4dd0-9404-66a45a9a6a88": {
+    "mrsId": 420,
+    "mrsDisplay": "Kitale New Module",
+    "description": "This is a module  under KCRH for New Clients",
+    "mflCode": "14947",
+    "county": "transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "345514ae-8f37-42fc-9bbe-993828c2910d": {
+    "mrsId": 421,
+    "mrsDisplay": "KCRH Module A",
+    "description": "This a module under KCRH for General clients",
+    "mflCode": "14947",
+    "county": "transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "d9076981-4a84-4f6c-9f22-8980376727ae": {
+    "mrsId": 422,
+    "mrsDisplay": "KCRH Module B",
+    "description": "This a module under KCRH for General clients",
+    "mflCode": "14947",
+    "county": "transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "4e21fbba-66e4-43d5-94a9-219b25a02ddc": {
+    "mrsId": 423,
+    "mrsDisplay": "KCRH Champions Module",
+    "description": "This is a module for young 24 years and Below under KCRH",
+    "mflCode": "14947",
+    "county": "transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
   }
 }
