@@ -1,5 +1,21 @@
 const AdministrativeUnits = [
   {
+    value: 'county-n-a',
+    label: 'County N/A',
+    children: [
+      {
+        value: 'subcounty-n-a',
+        label: 'Subcounty N/A',
+        children: [
+          {
+            value: 'ward-n-a',
+            label: 'Ward N/A'
+          }
+        ]
+      }
+    ]
+  },
+  {
     value: '030',
     label: 'Baringo',
     children: [
@@ -16,11 +32,11 @@ const AdministrativeUnits = [
             label: 'Ravine'
           },
           {
-            value: 'lembus/perkerra',
+            value: 'lembus-perkerra',
             label: 'Lembus/Perkerra'
           },
           {
-            value: 'mumberes/maji-mazuri',
+            value: 'mumberes-maji-mazuri',
             label: 'Mumberes/Maji mazuri'
           },
           {
@@ -126,7 +142,7 @@ const AdministrativeUnits = [
         label: 'Tiaty',
         children: [
           {
-            value: 'churo/amaya',
+            value: 'churo-amaya',
             label: 'Churo/Amaya'
           },
           {
@@ -274,7 +290,7 @@ const AdministrativeUnits = [
         label: 'Sotik',
         children: [
           {
-            value: 'rongena/manaret',
+            value: 'rongena-manaret',
             label: 'Rongena/Manaret'
           },
           {
@@ -290,7 +306,7 @@ const AdministrativeUnits = [
             label: 'Chemagel'
           },
           {
-            value: 'ndanai/abosi',
+            value: 'ndanai-abosi',
             label: 'Ndanai/Abosi'
           }
         ]
@@ -306,23 +322,23 @@ const AdministrativeUnits = [
         label: 'Tongaren',
         children: [
           {
-            value: 'soysambu/-mitua',
-            label: 'Soysambu/ Mitua'
+            value: 'soysambu-mitua',
+            label: 'Soysambu/Mitua'
           },
           {
             value: 'tongaren',
             label: 'Tongaren'
           },
           {
-            value: 'ndalu/-tabani',
-            label: 'Ndalu/ Tabani'
+            value: 'ndalu-tabani',
+            label: 'Ndalu/Tabani'
           },
           {
             value: 'milima',
             label: 'Milima'
           },
           {
-            value: 'naitiri/kabuyefwe',
+            value: 'naitiri-kabuyefwe',
             label: 'Naitiri/Kabuyefwe'
           },
           {
@@ -350,24 +366,6 @@ const AdministrativeUnits = [
           {
             value: 'kibingei',
             label: 'Kibingei'
-          }
-        ]
-      },
-      {
-        value: 'webuye-east',
-        label: 'Webuye East',
-        children: [
-          {
-            value: 'mihuu',
-            label: 'Mihuu'
-          },
-          {
-            value: 'maraka',
-            label: 'Maraka'
-          },
-          {
-            value: 'ndivisi',
-            label: 'Ndivisi'
           }
         ]
       },
@@ -406,6 +404,24 @@ const AdministrativeUnits = [
         ]
       },
       {
+        value: 'webuye-east',
+        label: 'Webuye East',
+        children: [
+          {
+            value: 'mihuu',
+            label: 'Mihuu'
+          },
+          {
+            value: 'maraka',
+            label: 'Maraka'
+          },
+          {
+            value: 'ndivisi',
+            label: 'Ndivisi'
+          }
+        ]
+      },
+      {
         value: 'kanduyi',
         label: 'Kanduyi',
         children: [
@@ -414,7 +430,7 @@ const AdministrativeUnits = [
             label: 'West Sangalo'
           },
           {
-            value: 'marakaru/tuuti',
+            value: 'marakaru-tuuti',
             label: 'Marakaru/Tuuti'
           },
           {
@@ -486,7 +502,7 @@ const AdministrativeUnits = [
             label: 'Mukuyuni'
           },
           {
-            value: 'bwake/luuya',
+            value: 'bwake-luuya',
             label: 'Bwake/Luuya'
           },
           {
@@ -494,7 +510,7 @@ const AdministrativeUnits = [
             label: 'West Nalondo'
           },
           {
-            value: 'kabuchai/chwele',
+            value: 'kabuchai-chwele',
             label: 'Kabuchai/Chwele'
           }
         ]
@@ -508,7 +524,7 @@ const AdministrativeUnits = [
             label: 'Lwandanyi'
           },
           {
-            value: 'malakisi/south-kulisiru',
+            value: 'malakisi-south-kulisiru',
             label: 'Malakisi/South Kulisiru'
           },
           {
@@ -666,7 +682,7 @@ const AdministrativeUnits = [
             label: 'Bukhayo East'
           },
           {
-            value: 'bukhayo-north/walatsi',
+            value: 'bukhayo-north-walatsi',
             label: 'Bukhayo North/Walatsi'
           },
           {
@@ -798,8 +814,8 @@ const AdministrativeUnits = [
         label: 'Marakwet East',
         children: [
           {
-            value: 'embobut-/-embulot',
-            label: 'Embobut / Embulot'
+            value: 'embobut-embulot',
+            label: 'Embobut/Embulot'
           },
           {
             value: 'endo',
@@ -950,7 +966,7 @@ const AdministrativeUnits = [
             label: 'Kithimu'
           },
           {
-            value: 'ruguru/ngandori',
+            value: 'ruguru-ngandori',
             label: 'Ruguru/Ngandori'
           }
         ]
@@ -1190,7 +1206,7 @@ const AdministrativeUnits = [
             label: 'Kanyamwa Kologi'
           },
           {
-            value: 'kabuoch-south/pala',
+            value: 'kabuoch-south-pala',
             label: 'Kabuoch South/Pala'
           },
           {
@@ -1294,7 +1310,7 @@ const AdministrativeUnits = [
             label: 'Kojwach'
           },
           {
-            value: 'kokwanyo/kakelo',
+            value: 'kokwanyo-kakelo',
             label: 'Kokwanyo/Kakelo'
           },
           {
@@ -1420,11 +1436,11 @@ const AdministrativeUnits = [
             label: 'Kuku'
           },
           {
-            value: 'mbirikani/eselenkei',
+            value: 'mbirikani-eselenkei',
             label: 'Mbirikani/Eselenkei'
           },
           {
-            value: 'entonet/lenkisim',
+            value: 'entonet-lenkisim',
             label: 'Entonet/Lenkisim'
           }
         ]
@@ -1468,7 +1484,7 @@ const AdministrativeUnits = [
             label: 'Kenyawa-Poka'
           },
           {
-            value: 'oloosirkon/sholinke',
+            value: 'oloosirkon-sholinke',
             label: 'Oloosirkon/Sholinke'
           },
           {
@@ -1674,11 +1690,11 @@ const AdministrativeUnits = [
             label: 'East Wanga'
           },
           {
-            value: 'malaha/isongo/makunga',
+            value: 'malaha-isongo-makunga',
             label: 'Malaha/Isongo/Makunga'
           },
           {
-            value: 'lusheya/lubinu',
+            value: 'lusheya-lubinu',
             label: 'Lusheya/Lubinu'
           }
         ]
@@ -1782,11 +1798,11 @@ const AdministrativeUnits = [
             label: 'Kabras'
           },
           {
-            value: 'butali/chegulo',
+            value: 'butali-chegulo',
             label: 'Butali/Chegulo'
           },
           {
-            value: 'manda/shivanga',
+            value: 'manda-shivanga',
             label: 'Manda/Shivanga'
           },
           {
@@ -1862,7 +1878,7 @@ const AdministrativeUnits = [
     label: 'Kericho',
     children: [
       {
-        value: 'sigowet/soin',
+        value: 'sigowet-soin',
         label: 'Sigowet/Soin',
         children: [
           {
@@ -1896,7 +1912,7 @@ const AdministrativeUnits = [
             label: 'Chaik'
           },
           {
-            value: 'cheptororiet/seretut',
+            value: 'cheptororiet-seretut',
             label: 'Cheptororiet/Seretut'
           },
           {
@@ -1996,7 +2012,7 @@ const AdministrativeUnits = [
         label: 'Kipkelion East',
         children: [
           {
-            value: 'tendeno/sorget',
+            value: 'tendeno-sorget',
             label: 'Tendeno/Sorget'
           },
           {
@@ -2004,7 +2020,7 @@ const AdministrativeUnits = [
             label: 'Chepseon'
           },
           {
-            value: 'kedowa/kimugul',
+            value: 'kedowa-kimugul',
             label: 'Kedowa/Kimugul'
           },
           {
@@ -2024,7 +2040,7 @@ const AdministrativeUnits = [
         label: 'Lari',
         children: [
           {
-            value: 'lari/kirenga',
+            value: 'lari-kirenga',
             label: 'Lari/Kirenga'
           },
           {
@@ -2218,7 +2234,7 @@ const AdministrativeUnits = [
             label: 'Kahawa Wendani'
           },
           {
-            value: 'kahawa/sukari',
+            value: 'kahawa-sukari',
             label: 'Kahawa/Sukari'
           },
           {
@@ -2420,11 +2436,11 @@ const AdministrativeUnits = [
         label: 'Riabai',
         children: [
           {
-            value: 'rabai/kisurutini',
+            value: 'rabai-kisurutini',
             label: 'Rabai/Kisurutini'
           },
           {
-            value: 'kambe/ribe',
+            value: 'kambe-ribe',
             label: 'Kambe/Ribe'
           },
           {
@@ -2740,11 +2756,11 @@ const AdministrativeUnits = [
         label: 'Bomachoge Chache',
         children: [
           {
-            value: 'bosoti/sengera',
+            value: 'bosoti-sengera',
             label: 'Bosoti/Sengera'
           },
           {
-            value: 'boochi/tendere',
+            value: 'boochi-tendere',
             label: 'Boochi/Tendere'
           },
           {
@@ -2762,7 +2778,7 @@ const AdministrativeUnits = [
             label: 'Bobasi Boitangare'
           },
           {
-            value: 'sameta/mokwerero',
+            value: 'sameta-mokwerero',
             label: 'Sameta/Mokwerero'
           },
           {
@@ -2826,8 +2842,8 @@ const AdministrativeUnits = [
             label: 'Moticho'
           },
           {
-            value: 'borabu-/-chitago',
-            label: 'Borabu / Chitago'
+            value: 'borabu-chitago',
+            label: 'Borabu/Chitago'
           },
           {
             value: 'bogetenga',
@@ -2902,7 +2918,7 @@ const AdministrativeUnits = [
         label: 'Muhoroni',
         children: [
           {
-            value: 'muhoroni/koru',
+            value: 'muhoroni-koru',
             label: 'Muhoroni/Koru'
           },
           {
@@ -2910,7 +2926,7 @@ const AdministrativeUnits = [
             label: 'Chemelil'
           },
           {
-            value: 'masogo/nyangoma',
+            value: 'masogo-nyangoma',
             label: 'Masogo/Nyangoma'
           },
           {
@@ -2932,7 +2948,7 @@ const AdministrativeUnits = [
             label: 'Kobura'
           },
           {
-            value: 'kabonyo/kanyagwal',
+            value: 'kabonyo-kanyagwal',
             label: 'Kabonyo/Kanyagwal'
           },
           {
@@ -2940,11 +2956,11 @@ const AdministrativeUnits = [
             label: 'Ahero'
           },
           {
-            value: 'awasi/onjiko',
+            value: 'awasi-onjiko',
             label: 'Awasi/Onjiko'
           },
           {
-            value: 'east-kano/wawidhi',
+            value: 'east-kano-wawidhi',
             label: 'East Kano/Wawidhi'
           }
         ]
@@ -3084,7 +3100,7 @@ const AdministrativeUnits = [
             label: 'Mutomo'
           },
           {
-            value: 'ikanga/kyatune',
+            value: 'ikanga-kyatune',
             label: 'Ikanga/Kyatune'
           }
         ]
@@ -3094,15 +3110,15 @@ const AdministrativeUnits = [
         label: 'Kitui East',
         children: [
           {
-            value: 'mutito/kaliku',
+            value: 'mutito-kaliku',
             label: 'Mutito/Kaliku'
           },
           {
-            value: 'endau/malalani',
+            value: 'endau-malalani',
             label: 'Endau/Malalani'
           },
           {
-            value: 'voo/kyamatu',
+            value: 'voo-kyamatu',
             label: 'Voo/Kyamatu'
           },
           {
@@ -3114,7 +3130,7 @@ const AdministrativeUnits = [
             label: 'Nzambani'
           },
           {
-            value: 'zombe/mwitika',
+            value: 'zombe-mwitika',
             label: 'Zombe/Mwitika'
           }
         ]
@@ -3154,7 +3170,7 @@ const AdministrativeUnits = [
             label: 'Kanyangi'
           },
           {
-            value: 'kwavonza/yatta',
+            value: 'kwavonza-yatta',
             label: 'Kwavonza/Yatta'
           },
           {
@@ -3172,7 +3188,7 @@ const AdministrativeUnits = [
         label: 'Kitui West',
         children: [
           {
-            value: 'kwa-mutonga/kithumula',
+            value: 'kwa-mutonga-kithumula',
             label: 'Kwa Mutonga/Kithumula'
           },
           {
@@ -3224,7 +3240,7 @@ const AdministrativeUnits = [
         label: 'Mwingi West',
         children: [
           {
-            value: 'kiomo/kyethani',
+            value: 'kiomo-kyethani',
             label: 'Kiomo/Kyethani'
           },
           {
@@ -3236,7 +3252,7 @@ const AdministrativeUnits = [
             label: 'Nguutani'
           },
           {
-            value: 'kyome/thaana',
+            value: 'kyome-thaana',
             label: 'Kyome/Thaana'
           }
         ]
@@ -3286,7 +3302,7 @@ const AdministrativeUnits = [
             label: 'Mwavumbo'
           },
           {
-            value: 'chengoni/samburu',
+            value: 'chengoni-samburu',
             label: 'Chengoni/Samburu'
           },
           {
@@ -3350,7 +3366,7 @@ const AdministrativeUnits = [
             label: 'Dzombo'
           },
           {
-            value: 'pongwe/kikoneni',
+            value: 'pongwe-kikoneni',
             label: 'Pongwe/Kikoneni'
           }
         ]
@@ -3546,7 +3562,7 @@ const AdministrativeUnits = [
             label: 'Masii'
           },
           {
-            value: 'makutano/mwala',
+            value: 'makutano-mwala',
             label: 'Makutano/Mwala'
           },
           {
@@ -3564,7 +3580,7 @@ const AdministrativeUnits = [
             label: 'Kola'
           },
           {
-            value: 'muvuti/kiima-kimwe',
+            value: 'muvuti-kiima-kimwe',
             label: 'Muvuti/Kiima-Kimwe'
           },
           {
@@ -3594,7 +3610,7 @@ const AdministrativeUnits = [
         label: 'Athi River',
         children: [
           {
-            value: 'syokimau/mulolongo',
+            value: 'syokimau-mulolongo',
             label: 'Syokimau/Mulolongo'
           },
           {
@@ -3616,11 +3632,11 @@ const AdministrativeUnits = [
         label: 'Kathiani',
         children: [
           {
-            value: 'lower-kaewa/kaani',
+            value: 'lower-kaewa-kaani',
             label: 'Lower Kaewa/Kaani'
           },
           {
-            value: 'upper-kaewa/iveti',
+            value: 'upper-kaewa-iveti',
             label: 'Upper Kaewa/Iveti'
           },
           {
@@ -3744,7 +3760,7 @@ const AdministrativeUnits = [
         label: 'Kibwezi East',
         children: [
           {
-            value: 'ivingoni/nzambani',
+            value: 'ivingoni-nzambani',
             label: 'Ivingoni/Nzambani'
           },
           {
@@ -3766,11 +3782,11 @@ const AdministrativeUnits = [
         label: 'Kibwezi West',
         children: [
           {
-            value: 'emali/mulala',
+            value: 'emali-mulala',
             label: 'Emali/Mulala'
           },
           {
-            value: 'nguu/masumba',
+            value: 'nguu-masumba',
             label: 'Nguu/Masumba'
           },
           {
@@ -3800,7 +3816,7 @@ const AdministrativeUnits = [
             label: 'Mbitini'
           },
           {
-            value: 'nzaui/kilili/kalamba',
+            value: 'nzaui-kilili-kalamba',
             label: 'Nzaui/Kilili/Kalamba'
           },
           {
@@ -3808,7 +3824,7 @@ const AdministrativeUnits = [
             label: 'Kathonzweni'
           },
           {
-            value: 'kitise/kithuki',
+            value: 'kitise-kithuki',
             label: 'Kitise/Kithuki'
           },
           {
@@ -3816,7 +3832,7 @@ const AdministrativeUnits = [
             label: 'Mavindini'
           },
           {
-            value: 'muvau/kikuumini',
+            value: 'muvau-kikuumini',
             label: 'Muvau/Kikuumini'
           },
           {
@@ -3846,7 +3862,7 @@ const AdministrativeUnits = [
             label: 'Ukia'
           },
           {
-            value: 'kiima-kiu/kalanzoni',
+            value: 'kiima-kiu-kalanzoni',
             label: 'Kiima Kiu/Kalanzoni'
           },
           {
@@ -3868,7 +3884,7 @@ const AdministrativeUnits = [
             label: 'Kalawa'
           },
           {
-            value: 'waia/kako',
+            value: 'waia-kako',
             label: 'Waia/Kako'
           },
           {
@@ -3876,7 +3892,7 @@ const AdministrativeUnits = [
             label: 'Kisau-Kiteta'
           },
           {
-            value: 'kithungo/kitundu',
+            value: 'kithungo-kitundu',
             label: 'Kithungo/Kitundu'
           },
           {
@@ -4070,11 +4086,11 @@ const AdministrativeUnits = [
             label: 'Logologo'
           },
           {
-            value: 'korr/ngurunit',
+            value: 'korr-ngurunit',
             label: 'Korr/Ngurunit'
           },
           {
-            value: 'kargi/south-horr',
+            value: 'kargi-south-horr',
             label: 'Kargi/South Horr'
           },
           {
@@ -4096,7 +4112,7 @@ const AdministrativeUnits = [
             label: 'Karare'
           },
           {
-            value: 'sagante/jaldesa',
+            value: 'sagante-jaldesa',
             label: 'Sagante/Jaldesa'
           }
         ]
@@ -4148,7 +4164,7 @@ const AdministrativeUnits = [
             label: 'Golbo'
           },
           {
-            value: 'heilu/manyatta',
+            value: 'heilu-manyatta',
             label: 'Heilu/Manyatta'
           },
           {
@@ -4228,11 +4244,11 @@ const AdministrativeUnits = [
             label: 'Kibirichia'
           },
           {
-            value: 'ruiri/rwarera',
+            value: 'ruiri-rwarera',
             label: 'Ruiri/Rwarera'
           },
           {
-            value: 'kiirua/naari',
+            value: 'kiirua-naari',
             label: 'Kiirua/Naari'
           },
           {
@@ -4384,7 +4400,7 @@ const AdministrativeUnits = [
             label: 'Athiru Gaiti'
           },
           {
-            value: 'kiegoi/antubochiu',
+            value: 'kiegoi-antubochiu',
             label: 'Kiegoi/Antubochiu'
           },
           {
@@ -4420,7 +4436,7 @@ const AdministrativeUnits = [
             label: 'Ntimaru West'
           },
           {
-            value: 'gokeharaka/getambwega',
+            value: 'gokeharaka-getambwega',
             label: 'Gokeharaka/Getambwega'
           }
         ]
@@ -4430,7 +4446,7 @@ const AdministrativeUnits = [
         label: 'Kuria West Sub County',
         children: [
           {
-            value: 'nyamosense/komosoko',
+            value: 'nyamosense-komosoko',
             label: 'Nyamosense/Komosoko'
           },
           {
@@ -4450,7 +4466,7 @@ const AdministrativeUnits = [
             label: 'Isibania'
           },
           {
-            value: 'bukira-centrl/ikerege',
+            value: 'bukira-centrl-ikerege',
             label: 'Bukira Centrl/Ikerege'
           },
           {
@@ -4476,7 +4492,11 @@ const AdministrativeUnits = [
             label: 'Kaler'
           },
           {
-            value: 'macalder/kanyarwanda',
+            value: 'kanyasa',
+            label: 'Kanyasa'
+          },
+          {
+            value: 'macalder-kanyarwanda',
             label: 'Macalder/Kanyarwanda'
           },
           {
@@ -4614,11 +4634,11 @@ const AdministrativeUnits = [
         label: 'Mvita',
         children: [
           {
-            value: 'majengo/mwembe-tayari',
+            value: 'majengo-mwembe-tayari',
             label: 'Majengo/Mwembe Tayari'
           },
           {
-            value: 'shimanzi/ganjoni',
+            value: 'shimanzi-ganjoni',
             label: 'Shimanzi/Ganjoni'
           },
           {
@@ -4630,7 +4650,7 @@ const AdministrativeUnits = [
             label: 'Tudor'
           },
           {
-            value: 'mji-wa-kale/makadara',
+            value: 'mji-wa-kale-makadara',
             label: 'Mji Wa Kale/Makadara'
           }
         ]
@@ -4792,7 +4812,7 @@ const AdministrativeUnits = [
             label: 'Mugumo Ini'
           },
           {
-            value: 'kakuzi/mitubiri',
+            value: 'kakuzi-mitubiri',
             label: 'Kakuzi/Mitubiri'
           },
           {
@@ -4856,7 +4876,7 @@ const AdministrativeUnits = [
             label: 'Makuyu'
           },
           {
-            value: 'kimorori/wempa',
+            value: 'kimorori-wempa',
             label: 'Kimorori/Wempa'
           }
         ]
@@ -4996,7 +5016,7 @@ const AdministrativeUnits = [
             label: 'Landimawe'
           },
           {
-            value: 'ziwani/kariokor',
+            value: 'ziwani-kariokor',
             label: 'Ziwani/Kariokor'
           },
           {
@@ -5056,7 +5076,7 @@ const AdministrativeUnits = [
             label: 'Viwandani'
           },
           {
-            value: 'maringo/hamza',
+            value: 'maringo-hamza',
             label: 'Maringo/Hamza'
           }
         ]
@@ -5114,7 +5134,7 @@ const AdministrativeUnits = [
         label: 'Embakasi Central',
         children: [
           {
-            value: 'matopeni/spring-valley',
+            value: 'matopeni-spring-valley',
             label: 'Matopeni/Spring Valley'
           },
           {
@@ -5274,7 +5294,7 @@ const AdministrativeUnits = [
             label: 'Sarangombe'
           },
           {
-            value: 'woodley/kenyatta-golf-course',
+            value: 'woodley-kenyatta-golf-course',
             label: 'Woodley/Kenyatta Golf Course'
           },
           {
@@ -5326,7 +5346,7 @@ const AdministrativeUnits = [
             label: 'Waithaka'
           },
           {
-            value: 'uthiru/ruthimitu',
+            value: 'uthiru-ruthimitu',
             label: 'Uthiru/Ruthimitu'
           },
           {
@@ -5386,7 +5406,7 @@ const AdministrativeUnits = [
             label: 'Karura'
           },
           {
-            value: 'parklands/highridge',
+            value: 'parklands-highridge',
             label: 'Parklands/Highridge'
           },
           {
@@ -5466,7 +5486,7 @@ const AdministrativeUnits = [
             label: 'Bahati'
           },
           {
-            value: 'lanet/umoja',
+            value: 'lanet-umoja',
             label: 'Lanet/Umoja'
           },
           {
@@ -5584,7 +5604,7 @@ const AdministrativeUnits = [
             label: 'Malewa West'
           },
           {
-            value: 'mbaruk/eburu',
+            value: 'mbaruk-eburu',
             label: 'Mbaruk/Eburu'
           },
           {
@@ -5698,7 +5718,7 @@ const AdministrativeUnits = [
         label: 'Mosop',
         children: [
           {
-            value: 'sangalo/kebulonik',
+            value: 'sangalo-kebulonik',
             label: 'Sangalo/Kebulonik'
           },
           {
@@ -5714,7 +5734,7 @@ const AdministrativeUnits = [
             label: 'Kabiyet'
           },
           {
-            value: 'kurgung/surungai',
+            value: 'kurgung-surungai',
             label: 'Kurgung/Surungai'
           },
           {
@@ -5754,11 +5774,11 @@ const AdministrativeUnits = [
             label: 'Kiptuya'
           },
           {
-            value: 'kaptel/kamoiywo',
+            value: 'kaptel-kamoiywo',
             label: 'Kaptel/Kamoiywo'
           },
           {
-            value: 'lelmokwo/ngechek',
+            value: 'lelmokwo-ngechek',
             label: 'Lelmokwo/Ngechek'
           },
           {
@@ -5766,7 +5786,7 @@ const AdministrativeUnits = [
             label: 'Kosirai'
           },
           {
-            value: 'chemundu/kapngetuny',
+            value: 'chemundu-kapngetuny',
             label: 'Chemundu/Kapngetuny'
           }
         ]
@@ -5832,7 +5852,7 @@ const AdministrativeUnits = [
             label: 'Kapsimotwo'
           },
           {
-            value: 'chemelil/chemase',
+            value: 'chemelil-chemase',
             label: 'Chemelil/Chemase'
           },
           {
@@ -5840,7 +5860,7 @@ const AdministrativeUnits = [
             label: 'Tindiret'
           },
           {
-            value: 'songhor/soba',
+            value: 'songhor-soba',
             label: 'Songhor/Soba'
           }
         ]
@@ -5898,7 +5918,7 @@ const AdministrativeUnits = [
             label: 'Ololulunga'
           },
           {
-            value: 'majimoto/naroosura',
+            value: 'majimoto-naroosura',
             label: 'Majimoto/Naroosura'
           }
         ]
@@ -6278,7 +6298,7 @@ const AdministrativeUnits = [
         label: 'Nyeri Central',
         children: [
           {
-            value: 'kamakwa/mukaro',
+            value: 'kamakwa-mukaro',
             label: 'Kamakwa/Mukaro'
           },
           {
@@ -6286,7 +6306,7 @@ const AdministrativeUnits = [
             label: 'Ruringu'
           },
           {
-            value: 'gatitu/muruguru',
+            value: 'gatitu-muruguru',
             label: 'Gatitu/Muruguru'
           },
           {
@@ -6294,7 +6314,7 @@ const AdministrativeUnits = [
             label: 'Rware'
           },
           {
-            value: 'kiganjo/mathari',
+            value: 'kiganjo-mathari',
             label: 'Kiganjo/Mathari'
           }
         ]
@@ -6410,7 +6430,7 @@ const AdministrativeUnits = [
             label: 'Mweiga'
           },
           {
-            value: 'mwiyogo/endarasha',
+            value: 'mwiyogo-endarasha',
             label: 'Mwiyogo/Endarasha'
           },
           {
@@ -6604,8 +6624,12 @@ const AdministrativeUnits = [
             label: 'Central Gem'
           },
           {
-            value: 'west-gemnorth-gem',
-            label: 'West GemNorth Gem'
+            value: 'west-gem',
+            label: 'West Gem'
+          },
+          {
+            value: 'north-gem',
+            label: 'North Gem'
           }
         ]
       },
@@ -6720,7 +6744,7 @@ const AdministrativeUnits = [
         label: 'Mwatate',
         children: [
           {
-            value: 'wusi/kishamba',
+            value: 'wusi-kishamba',
             label: 'Wusi/Kishamba'
           },
           {
@@ -6746,11 +6770,11 @@ const AdministrativeUnits = [
         label: 'Wundanyi',
         children: [
           {
-            value: 'mwanda/mgange',
+            value: 'mwanda-mgange',
             label: 'Mwanda/Mgange'
           },
           {
-            value: 'wumingu/kishushe',
+            value: 'wumingu-kishushe',
             label: 'Wumingu/Kishushe'
           },
           {
@@ -6758,7 +6782,7 @@ const AdministrativeUnits = [
             label: 'Werugha'
           },
           {
-            value: 'wundanyi/mbale',
+            value: 'wundanyi-mbale',
             label: 'Wundanyi/Mbale'
           }
         ]
@@ -6912,7 +6936,7 @@ const AdministrativeUnits = [
         ]
       },
       {
-        value: 'chuka/igambangombe',
+        value: 'chuka-igambangombe',
         label: 'Chuka/Igambangombe',
         children: [
           {
@@ -6978,11 +7002,11 @@ const AdministrativeUnits = [
             label: 'Sitatunga'
           },
           {
-            value: 'chepsiro/kiptoror',
+            value: 'chepsiro-kiptoror',
             label: 'Chepsiro/Kiptoror'
           },
           {
-            value: 'cherangany/suwerwa',
+            value: 'cherangany-suwerwa',
             label: 'Cherangany/Suwerwa'
           },
           {
@@ -7110,7 +7134,7 @@ const AdministrativeUnits = [
         label: 'Turkana East',
         children: [
           {
-            value: 'lokori/kochodinkatilia',
+            value: 'lokori-kochodinkatilia',
             label: 'Lokori/KochodinKatilia'
           },
           {
@@ -7118,7 +7142,7 @@ const AdministrativeUnits = [
             label: 'Katilia'
           },
           {
-            value: 'kapedo/napeitom',
+            value: 'kapedo-napeitom',
             label: 'Kapedo/Napeitom'
           }
         ]
@@ -7154,7 +7178,7 @@ const AdministrativeUnits = [
         label: 'Loima',
         children: [
           {
-            value: 'lokiriama/lorengippi',
+            value: 'lokiriama-lorengippi',
             label: 'Lokiriama/Lorengippi'
           },
           {
@@ -7166,7 +7190,7 @@ const AdministrativeUnits = [
             label: 'Turkwel'
           },
           {
-            value: 'kotaruk/lobei',
+            value: 'kotaruk-lobei',
             label: 'Kotaruk/Lobei'
           }
         ]
@@ -7254,7 +7278,7 @@ const AdministrativeUnits = [
             label: 'Nakalale'
           },
           {
-            value: 'kaikor/kaaleng',
+            value: 'kaikor-kaaleng',
             label: 'Kaikor/Kaaleng'
           },
           {
@@ -7282,11 +7306,11 @@ const AdministrativeUnits = [
             label: 'Tarakwa'
           },
           {
-            value: 'tulwet/chuiyat',
+            value: 'tulwet-chuiyat',
             label: 'Tulwet/Chuiyat'
           },
           {
-            value: 'cheptiret/kipchamo',
+            value: 'cheptiret-kipchamo',
             label: 'Cheptiret/Kipchamo'
           },
           {
@@ -7316,7 +7340,7 @@ const AdministrativeUnits = [
             label: 'Kipkenyo'
           },
           {
-            value: 'simat/kapseret',
+            value: 'simat-kapseret',
             label: 'Simat/Kapseret'
           }
         ]
@@ -7326,7 +7350,7 @@ const AdministrativeUnits = [
         label: 'Ainabkoi',
         children: [
           {
-            value: 'ainabkoi/olare',
+            value: 'ainabkoi-olare',
             label: 'Ainabkoi/Olare'
           },
           {
@@ -7352,7 +7376,7 @@ const AdministrativeUnits = [
             label: 'Moiben'
           },
           {
-            value: 'karuna/meibeki',
+            value: 'karuna-meibeki',
             label: 'Karuna/Meibeki'
           },
           {
@@ -7400,7 +7424,7 @@ const AdministrativeUnits = [
         label: 'Soy',
         children: [
           {
-            value: 'kuinet/kapsuswa',
+            value: 'kuinet-kapsuswa',
             label: 'Kuinet/Kapsuswa'
           },
           {
@@ -7412,7 +7436,7 @@ const AdministrativeUnits = [
             label: 'Kipsomba'
           },
           {
-            value: 'segero/barsombe',
+            value: 'segero-barsombe',
             label: 'Segero/Barsombe'
           },
           {
@@ -7550,7 +7574,7 @@ const AdministrativeUnits = [
             label: 'West Sabatia'
           },
           {
-            value: 'lyaduywa/izava',
+            value: 'lyaduywa-izava',
             label: 'Lyaduywa/Izava'
           }
         ]
@@ -7588,7 +7612,7 @@ const AdministrativeUnits = [
         label: 'Wajir West',
         children: [
           {
-            value: 'ganyure/wagalla',
+            value: 'ganyure-wagalla',
             label: 'Ganyure/Wagalla'
           },
           {
@@ -7596,7 +7620,7 @@ const AdministrativeUnits = [
             label: 'Ademasajide'
           },
           {
-            value: 'hadado/athibohol',
+            value: 'hadado-athibohol',
             label: 'Hadado/Athibohol'
           },
           {
@@ -7632,7 +7656,7 @@ const AdministrativeUnits = [
         label: 'Wajir East',
         children: [
           {
-            value: 'khorof/harar',
+            value: 'khorof-harar',
             label: 'Khorof/Harar'
           },
           {
@@ -7796,4 +7820,5 @@ const AdministrativeUnits = [
     ]
   }
 ];
+
 export default AdministrativeUnits;
