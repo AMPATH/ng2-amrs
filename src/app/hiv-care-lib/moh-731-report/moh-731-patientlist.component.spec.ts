@@ -114,9 +114,8 @@ describe('Component: Moh731PatientListComponent', () => {
     currentTestComponent.ngOnInit();
     currentTestFixture.detectChanges();
     setTimeout(() => {
-      const h4strong: Array<DebugElement> = currentTestFixture.debugElement.queryAll(
-        By.css('h4 > strong')
-      );
+      const h4strong: Array<DebugElement> =
+        currentTestFixture.debugElement.queryAll(By.css('h4 > strong'));
       const inCare = h4strong[0].nativeElement;
       const locations = h4strong[1].nativeElement;
       const startDate = h4strong[2].nativeElement;

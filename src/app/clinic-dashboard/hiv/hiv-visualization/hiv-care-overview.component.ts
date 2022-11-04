@@ -16,7 +16,8 @@ import { DataAnalyticsDashboardService } from '../../../data-analytics-dashboard
 })
 export class HivCareComparativeComponent
   extends HivCareComparativeOverviewBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
   public enabledControls = 'datesControl';

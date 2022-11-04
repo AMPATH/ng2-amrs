@@ -12,9 +12,8 @@ describe('Model: PatientIdentifierType', () => {
   };
 
   it('should wrap openmrs person for display correctly', () => {
-    const wrappedPatientIdentifierType: PatientIdentifierType = new PatientIdentifierType(
-      existingPatientIdentifierType
-    );
+    const wrappedPatientIdentifierType: PatientIdentifierType =
+      new PatientIdentifierType(existingPatientIdentifierType);
     expect(wrappedPatientIdentifierType.uuid).toEqual(
       existingPatientIdentifierType.uuid
     );

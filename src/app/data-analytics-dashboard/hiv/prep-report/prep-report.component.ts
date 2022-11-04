@@ -16,7 +16,8 @@ import { PrepReportBaseComponent } from './../../../hiv-care-lib/prep-report/pre
 })
 export class PrepReportComponent
   extends PrepReportBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public enabledControls = 'monthControl,locationControl';
 
   constructor(

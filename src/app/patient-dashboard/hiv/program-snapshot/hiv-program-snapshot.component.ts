@@ -177,9 +177,8 @@ export class HivProgramSnapshotComponent implements OnInit {
         const latestClinicalEncounter = _.first(this.clinicalEncounters);
 
         this.hasTransferEncounter = this.checkIfHasTransferEncounter(results);
-        const transferEncounterIndex = this.getIndexOfTransferEncounter(
-          results
-        );
+        const transferEncounterIndex =
+          this.getIndexOfTransferEncounter(results);
 
         // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
         this.hasSubsequentClinicalEncounter =
@@ -364,7 +363,8 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   private hasMatchingLocation() {
-    const currentlyLoggedInLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocation();
+    const currentlyLoggedInLocation =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocation();
     if (this.latestEncounterLocation) {
       return this.latestEncounterLocation.display === currentlyLoggedInLocation;
     }

@@ -31,6 +31,5 @@ export const routes: Routes = [
   }
 ];
 
-export const dataAnalyticsDashboardRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const dataAnalyticsDashboardRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

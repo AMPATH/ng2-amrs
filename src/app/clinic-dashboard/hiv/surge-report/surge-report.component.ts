@@ -10,7 +10,8 @@ import { SurgeResourceService } from 'src/app/etl-api/surge-resource.service';
 })
 export class SurgeReportComponent
   extends SurgeReportBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public params: any;
   public surgeReportSummaryData: any = [];
   public columnDefs: any = [];

@@ -24,6 +24,5 @@ const patientListCohort: Routes = [
     ]
   }
 ];
-export const cohortRouting: ModuleWithProviders = RouterModule.forChild(
-  patientListCohort
-);
+export const cohortRouting: ModuleWithProviders =
+  RouterModule.forChild(patientListCohort);

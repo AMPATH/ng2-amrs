@@ -61,9 +61,10 @@ const caseManagementService = jasmine.createSpyObj(
   ['getCaseManagers']
 );
 
-const caseManagementResourceServiceSpy = caseManagementService.getCaseManagers.and.returnValue(
-  of(mockCaseManagersResponse)
-);
+const caseManagementResourceServiceSpy =
+  caseManagementService.getCaseManagers.and.returnValue(
+    of(mockCaseManagersResponse)
+  );
 
 describe('Component: Case Management Filter', () => {
   let fixture: ComponentFixture<CaseManagementFiltersComponent>;
@@ -92,9 +93,10 @@ describe('Component: Case Management Filter', () => {
       .then(() => {
         fixture = TestBed.createComponent(CaseManagementFiltersComponent);
         comp = fixture.componentInstance;
-        caseManagementResourceService = fixture.debugElement.injector.get<
-          CaseManagementResourceService
-        >(CaseManagementResourceService);
+        caseManagementResourceService =
+          fixture.debugElement.injector.get<CaseManagementResourceService>(
+            CaseManagementResourceService
+          );
         router = fixture.debugElement.injector.get(Router);
         route = fixture.debugElement.injector.get(ActivatedRoute);
       });

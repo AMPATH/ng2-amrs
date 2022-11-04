@@ -24,7 +24,8 @@ import { PatientRoutesFactory } from '../navigation/side-navigation/patient-side
 
 @Injectable()
 export class PatientDashboardGuard
-  implements CanActivate, CanDeactivate<PatientDashboardComponent> {
+  implements CanActivate, CanDeactivate<PatientDashboardComponent>
+{
   constructor(
     private dynamicRoutesService: DynamicRoutesService,
     private router: Router,
@@ -50,9 +51,10 @@ export class PatientDashboardGuard
             this.patientService.currentlyLoadedPatient.subscribe(
               (patientObject) => {
                 if (patientObject) {
-                  const routes = this.patientRoutesFactory.createPatientDashboardRoutes(
-                    patientObject
-                  );
+                  const routes =
+                    this.patientRoutesFactory.createPatientDashboardRoutes(
+                      patientObject
+                    );
                   this.dynamicRoutesService.setPatientDashBoardRoutes(routes);
                 }
               },

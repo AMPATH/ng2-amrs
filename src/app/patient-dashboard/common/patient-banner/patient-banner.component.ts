@@ -119,7 +119,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     );
-    this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocation();
+    this.currentLocation =
+      this.propertyLocationService.getCurrentUserDefaultLocation();
   }
 
   public getVerificationStatus() {

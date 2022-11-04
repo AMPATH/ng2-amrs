@@ -50,9 +50,8 @@ describe('Component: LabOrderSearchComponent', () => {
       .then(() => {
         fixture = TestBed.createComponent(LabOrderSearchComponent);
         comp = fixture.componentInstance;
-        fakeOrderResourceService = fixture.debugElement.injector.get(
-          OrderResourceService
-        );
+        fakeOrderResourceService =
+          fixture.debugElement.injector.get(OrderResourceService);
       });
   }));
 

@@ -120,7 +120,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
   public patientHasBeenSeenInProgram(program) {
     if (!_.isUndefined(program.referred_to_location_uuid)) {
       const patientEncounters = this.patient.encounters;
-      const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+      const location =
+        this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
       // patient was referred to this location
       if (location.uuid === program.referred_to_location_uuid) {
         const referralEncounter = _.find(patientEncounters, (encounter) => {
@@ -164,7 +165,8 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
 
   public getReferralLocation(enrolledPrograms: any[]) {
     const programBatch: Array<Observable<any>> = [];
-    const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const location =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     _.each(enrolledPrograms, (program) => {
       programBatch.push(
         this.getReferralByLocation(location.uuid, program.enrolledProgram.uuid)

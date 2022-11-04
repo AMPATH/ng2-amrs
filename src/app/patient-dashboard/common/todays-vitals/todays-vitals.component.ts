@@ -125,14 +125,13 @@ export class TodaysVitalsComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToPatientChangeEvent() {
-    this.currentPatientSub = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
+    this.currentPatientSub =
+      this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         if (patient) {
           this.patient = patient;
           this.getTodaysVitals(patient);
         }
-      }
-    );
+      });
   }
 
   public resetVariables() {

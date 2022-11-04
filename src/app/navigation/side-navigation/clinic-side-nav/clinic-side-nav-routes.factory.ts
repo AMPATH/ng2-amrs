@@ -48,8 +48,8 @@ export class ClinicRoutesFactory {
     selectedDepartment = setDepartment[0].itemName;
     this.selectedDepartment = selectedDepartment;
 
-    let analyticsRoutesConfig: any = this.routesProvider
-      .analyticsDashboardConfig;
+    let analyticsRoutesConfig: any =
+      this.routesProvider.analyticsDashboardConfig;
     analyticsRoutesConfig = this.processSharedRoutes(analyticsRoutesConfig);
 
     const routes: RouteModel[] = [];

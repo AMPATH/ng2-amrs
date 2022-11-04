@@ -27,9 +27,8 @@ export class ReportFilterComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onGenerateReport: EventEmitter<any> = new EventEmitter();
   @Input() public reportFilterModel: ReportFilterModel;
-  @Output() public reportFilterModelChange: EventEmitter<
-    any
-  > = new EventEmitter();
+  @Output() public reportFilterModelChange: EventEmitter<any> =
+    new EventEmitter();
 
   constructor(
     private indicatorResourceService: IndicatorResourceService,

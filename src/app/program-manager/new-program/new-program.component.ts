@@ -33,7 +33,8 @@ import { RisonService } from '../../shared/services/rison-service';
 })
 export class NewProgramComponent
   extends ProgramManagerBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public newlyEnrolledGroup: any;
   public unenrolledProgrames: any[] = [];
   public unenrollmentForms: string[] = [];
@@ -260,8 +261,8 @@ export class NewProgramComponent
   }
 
   public startVisit() {
-    const dashboardRoutesConfig: any = this.routesProviderService
-      .patientDashboardConfig;
+    const dashboardRoutesConfig: any =
+      this.routesProviderService.patientDashboardConfig;
     const route: any = _.find(
       dashboardRoutesConfig.programs,
       (_r: any) => _r['programUuid'] === this.newlyEnrolledProgram.program.uuid
@@ -281,7 +282,8 @@ export class NewProgramComponent
   public referPatient() {
     this.removeMessage();
     this.enrolling = true;
-    const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const location =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const payload = {
       submittedEncounter: this.submittedEncounter,
       referredToLocation: this.selectedLocation
@@ -369,7 +371,8 @@ export class NewProgramComponent
   public checkForRequiredQuestions(): void {
     this.requiredProgramQuestions = [];
     if (this.hasRequiredProgramQuestions()) {
-      this.requiredProgramQuestions = this.programVisitConfig.enrollmentOptions.requiredProgramQuestions;
+      this.requiredProgramQuestions =
+        this.programVisitConfig.enrollmentOptions.requiredProgramQuestions;
     }
   }
 
@@ -405,13 +408,16 @@ export class NewProgramComponent
 
   public filterStateChangeEncounterTypes(): void {
     if (this.hasStateChangeEncounterTypes()) {
-      let encounterTypes = this.programVisitConfig.enrollmentOptions
-        .stateChangeEncounterTypes.enrollment;
-      const unenrollmentEncounterTypes = this.programVisitConfig
-        .enrollmentOptions.stateChangeEncounterTypes.incompatible;
+      let encounterTypes =
+        this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+          .enrollment;
+      const unenrollmentEncounterTypes =
+        this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+          .incompatible;
       if (this.isReferral) {
-        encounterTypes = this.programVisitConfig.enrollmentOptions
-          .stateChangeEncounterTypes.referral;
+        encounterTypes =
+          this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
+            .referral;
       }
       if (unenrollmentEncounterTypes) {
         this.unenrollmentForms = _.map(
@@ -484,8 +490,8 @@ export class NewProgramComponent
   }
 
   private resetRequiredQuestion(question): any {
-    const questions = this.programVisitConfig.enrollmentOptions
-      .requiredProgramQuestions;
+    const questions =
+      this.programVisitConfig.enrollmentOptions.requiredProgramQuestions;
     const targetQuestion = _.find(questions, (q: any) => {
       return question.qtype === q.qtype;
     });
@@ -534,9 +540,8 @@ export class NewProgramComponent
   }
 
   private preFillEnrollmentQuestions(enrollMentQuestions: any) {
-    const enrollMentQuestionsObject = this.risonService.decode(
-      enrollMentQuestions
-    );
+    const enrollMentQuestionsObject =
+      this.risonService.decode(enrollMentQuestions);
     for (const key in enrollMentQuestionsObject) {
       if (enrollMentQuestionsObject.hasOwnProperty(key)) {
         const answer = enrollMentQuestionsObject[key];
@@ -713,8 +718,8 @@ export class NewProgramComponent
       !_.isNil(this.selectedProgram.enrolledProgram) &&
       _.isNull(this.selectedProgram.enrolledProgram.dateCompleted);
     if (patientEnrolled && !_.isNil(this.selectedLocation)) {
-      const hasLocation = this.selectedProgram.enrolledProgram._openmrsModel
-        .location;
+      const hasLocation =
+        this.selectedProgram.enrolledProgram._openmrsModel.location;
       if (
         !_.isNil(hasLocation) &&
         hasLocation.uuid === this.selectedLocation.value

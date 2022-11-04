@@ -96,9 +96,8 @@ describe('Component: Patient Demographics Unit Tests', () => {
   });
 
   it('should create an instance', () => {
-    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(
-      AppFeatureAnalytics
-    );
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics =
+      TestBed.get(AppFeatureAnalytics);
     const patientCreationService: PatientCreationService = TestBed.get(
       PatientCreationService
     );

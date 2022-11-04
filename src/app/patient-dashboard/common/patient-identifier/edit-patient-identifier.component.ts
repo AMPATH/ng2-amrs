@@ -89,8 +89,10 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.getPatient();
     this.fetchLocations();
-    this.commonIdentifierTypes = this.patientIdentifierService.patientIdentifierTypeFormat();
-    this.verificationIdentifierTypes = this.patientIdentifierService.patientVerificationIdentifierTypeFormat();
+    this.commonIdentifierTypes =
+      this.patientIdentifierService.patientIdentifierTypeFormat();
+    this.verificationIdentifierTypes =
+      this.patientIdentifierService.patientVerificationIdentifierTypeFormat();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.identifierValidity = '';
   }
@@ -527,10 +529,11 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
           }
 
           if (identifierHasFormat) {
-            this.isValidIdentifier = this.patientIdentifierService.checkRegexValidity(
-              identifierHasFormat,
-              this.patientIdentifier
-            );
+            this.isValidIdentifier =
+              this.patientIdentifierService.checkRegexValidity(
+                identifierHasFormat,
+                this.patientIdentifier
+              );
             if (!this.isValidIdentifier) {
               this.identifierValidity =
                 'Invalid Identifier Format. {' + identifierHasFormat + '}';

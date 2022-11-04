@@ -84,12 +84,10 @@ export class CohortMemberResourceService {
     const requestUrl =
       this.baseOpenMrsUrl + `cohortm/cohortmember?cohort=${cohortUuid}&v=${v}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this._http
-      .get<any>(requestUrl, { headers })
-      .pipe(
-        map((response) => {
-          return response.results;
-        })
-      );
+    return this._http.get<any>(requestUrl, { headers }).pipe(
+      map((response) => {
+        return response.results;
+      })
+    );
   }
 }

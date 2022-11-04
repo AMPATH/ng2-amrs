@@ -76,9 +76,10 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
                               (pdf) => {
                                 this.pdfSrc = pdf.pdfSrc;
                                 this.pdfMakeProxy = pdf.pdfProxy;
-                                this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-                                  this.pdfSrc
-                                );
+                                this.securedUrl =
+                                  this.domSanitizer.bypassSecurityTrustResourceUrl(
+                                    this.pdfSrc
+                                  );
                                 this.isBusy = false;
                               },
                               (err) => {

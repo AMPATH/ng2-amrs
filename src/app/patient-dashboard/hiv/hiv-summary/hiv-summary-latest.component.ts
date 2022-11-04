@@ -70,8 +70,8 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     this.checkOvcStatus();
   }
   checkOvcStatus() {
-    const checkOVCEnrollment = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
+    const checkOVCEnrollment =
+      this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         this.colorCode = 'list-group-item-default';
         this.patient = new Patient({});
         if (patient) {
@@ -91,8 +91,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
             this.checkNonEnrollmentandExitEncounter(patient);
           }
         }
-      }
-    );
+      });
     this.subscription.push(checkOVCEnrollment);
   }
   checkNonEnrollmentandExitEncounter(patient) {

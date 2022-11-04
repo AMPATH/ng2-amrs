@@ -264,9 +264,8 @@ describe('Component: TodaysVitalsComponent', () => {
   });
 
   it("should fetch and return the details of the currrent day's encounter", () => {
-    const todaysEncounterDetails = component.getTodaysEncounterDetails(
-      testPatient1
-    );
+    const todaysEncounterDetails =
+      component.getTodaysEncounterDetails(testPatient1);
     todaysEncounterDetails.then(
       (encounterDetails) => {
         expect(encounterDetails[0].encounterType.display).toEqual(

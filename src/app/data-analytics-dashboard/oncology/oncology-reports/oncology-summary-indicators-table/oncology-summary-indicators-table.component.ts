@@ -18,7 +18,8 @@ import { AgGridNg2 } from 'ag-grid-angular';
   styleUrls: ['./oncology-summary-indicators-table.component.css']
 })
 export class OncologySummaryIndicatorsTableComponent
-  implements OnInit, OnChanges {
+  implements OnInit, OnChanges
+{
   public startDate: any;
   public endDate: any;
   public locationUuids: any;

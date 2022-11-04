@@ -19,7 +19,8 @@ import { GridOptions } from 'ag-grid/main';
   styleUrls: ['./data-entry-statistics-monthly-list.component.css']
 })
 export class DataEntryStatisticsMonthlyListComponent
-  implements OnInit, OnChanges, AfterViewInit {
+  implements OnInit, OnChanges, AfterViewInit
+{
   public title = 'Encounters Per Type Per Month';
   public pinnedBottomRowData: any = [];
   public rowData = [];

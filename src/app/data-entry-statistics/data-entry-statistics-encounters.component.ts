@@ -16,7 +16,8 @@ import {
   styleUrls: ['./data-entry-statistics-encounters.component.css']
 })
 export class DataEntryStatisticsEncountersComponent
-  implements OnInit, OnChanges, AfterViewInit {
+  implements OnInit, OnChanges, AfterViewInit
+{
   public title = '';
   @Input() public dataEntryEncounterData: any = [];
   @Input() public params: any;

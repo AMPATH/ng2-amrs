@@ -332,9 +332,8 @@ describe('Component: Patient Creation Unit Tests', () => {
       middleNameInput = fixture.nativeElement.querySelector('input#middleName');
       familyNameInput = fixture.nativeElement.querySelector('input#familyName');
       genderSelect = fixture.nativeElement.querySelector('select#gender');
-      occupationSelect = fixture.nativeElement.querySelector(
-        'select#occupation'
-      );
+      occupationSelect =
+        fixture.nativeElement.querySelector('select#occupation');
       educationLevelSelect = fixture.nativeElement.querySelector(
         'select#educationLevel'
       );
@@ -364,9 +363,8 @@ describe('Component: Patient Creation Unit Tests', () => {
 
       tickAndDetectChanges(fixture);
 
-      const resetBtn: HTMLButtonElement = nativeElement.querySelector(
-        'button#resetBtn'
-      );
+      const resetBtn: HTMLButtonElement =
+        nativeElement.querySelector('button#resetBtn');
       click(resetBtn);
 
       expect(component.givenName).toEqual('');
@@ -439,9 +437,8 @@ describe('Component: Patient Creation Unit Tests', () => {
         identifierTypeSelect.value = identifierTypeSelect.options[2].value;
         identifierTypeSelect.dispatchEvent(new Event('change'));
 
-        const identifierLocationSelect: HTMLSelectElement = nativeElement.querySelector(
-          'ng-select'
-        );
+        const identifierLocationSelect: HTMLSelectElement =
+          nativeElement.querySelector('ng-select');
         identifierLocationSelect.value = 'Test';
         identifierLocationSelect.dispatchEvent(new Event('input'));
 

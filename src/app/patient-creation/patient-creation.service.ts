@@ -11,9 +11,8 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 
 @Injectable()
 export class PatientCreationService {
-  public patientsSearchResults: BehaviorSubject<
-    Patient[]
-  > = new BehaviorSubject<Patient[]>([]);
+  public patientsSearchResults: BehaviorSubject<Patient[]> =
+    new BehaviorSubject<Patient[]>([]);
   public searchString = '';
   public patientsResults: BehaviorSubject<Patient[]> = new BehaviorSubject<
     Patient[]

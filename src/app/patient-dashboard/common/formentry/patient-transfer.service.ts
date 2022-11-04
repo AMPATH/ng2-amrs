@@ -110,7 +110,8 @@ export class PatientTransferService {
           program: 'c4246ff0-b081-460c-bcc5-b0678012659e',
           notice: 'adherence'
         });
-        const location: any = this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+        const location: any =
+          this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         localStorage.setItem('transferLocation', location.uuid);
       }
       // HIV Differentiated Program
@@ -125,7 +126,8 @@ export class PatientTransferService {
           program: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
           notice: 'dc'
         });
-        const location: any = this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+        const location: any =
+          this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
         localStorage.setItem('transferLocation', location.uuid);
       }
     }

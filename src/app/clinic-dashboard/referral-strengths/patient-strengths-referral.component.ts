@@ -16,7 +16,8 @@ import { SelectDepartmentService } from '../../shared/services/select-department
 })
 export class StrengthsPatientReferralComponent
   extends StrengthsPatientReferralBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
   public programName: any;

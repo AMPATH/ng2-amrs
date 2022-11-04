@@ -16,7 +16,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./data-entry-statistics.component.css']
 })
 export class DataEntryStatisticsComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   public busyIndicator: any = {
     busy: false,
     message: 'Please wait...' // default message

@@ -140,9 +140,8 @@ describe('Component: PatientSearch', () => {
     resetBtnel = resetBtne.nativeElement;
 
     // Service from the root injector
-    const patientSearchService = fixture.debugElement.injector.get(
-      PatientSearchService
-    );
+    const patientSearchService =
+      fixture.debugElement.injector.get(PatientSearchService);
     const route = fixture.debugElement.injector.get(MockRouter);
     const appFeatureAnalytics = fixture.debugElement.injector.get(
       FakeAppFeatureAnalytics

@@ -57,32 +57,39 @@ export class EditAddressComponent implements OnInit, OnDestroy {
   }
 
   public getPatient() {
-    const getPatientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
+    const getPatientSubscription =
+      this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
           if (this.patient.person.preferredAddress) {
-            this.address1 = (this.patient.person
-              .preferredAddress as any).address1;
-            this.address2 = (this.patient.person
-              .preferredAddress as any).address2;
-            this.address3 = (this.patient.person
-              .preferredAddress as any).address3;
-            this.address7 = (this.patient.person
-              .preferredAddress as any).address7;
-            this.cityVillage = (this.patient.person
-              .preferredAddress as any).cityVillage;
-            this.latitude = (this.patient.person
-              .preferredAddress as any).latitude;
-            this.longitude = (this.patient.person
-              .preferredAddress as any).longitude;
-            this.preferredAddressUuid = (this.patient.person
-              .preferredAddress as any).uuid;
+            this.address1 = (
+              this.patient.person.preferredAddress as any
+            ).address1;
+            this.address2 = (
+              this.patient.person.preferredAddress as any
+            ).address2;
+            this.address3 = (
+              this.patient.person.preferredAddress as any
+            ).address3;
+            this.address7 = (
+              this.patient.person.preferredAddress as any
+            ).address7;
+            this.cityVillage = (
+              this.patient.person.preferredAddress as any
+            ).cityVillage;
+            this.latitude = (
+              this.patient.person.preferredAddress as any
+            ).latitude;
+            this.longitude = (
+              this.patient.person.preferredAddress as any
+            ).longitude;
+            this.preferredAddressUuid = (
+              this.patient.person.preferredAddress as any
+            ).uuid;
           }
         }
-      }
-    );
+      });
     this.subscriptions.push(getPatientSubscription);
   }
 

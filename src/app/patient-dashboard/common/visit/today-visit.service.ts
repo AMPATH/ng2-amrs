@@ -210,9 +210,8 @@ export class TodayVisitService implements OnDestroy {
           todaysVisits,
           this.getProgramVisitTypesUuid(programVisitObj.config)
         );
-        const orderedVisits = this.sortVisitsByVisitStartDateTime(
-          programVisits
-        );
+        const orderedVisits =
+          this.sortVisitsByVisitStartDateTime(programVisits);
 
         programVisitObj.visits = orderedVisits;
 

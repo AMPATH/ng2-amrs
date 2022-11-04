@@ -36,13 +36,13 @@ export class ProgramReferralService {
       // Construct referralPayload
     } else if (department === 'HEMATO-ONCOLOGY') {
       // Construct referralPayload
-      const referralLocation = this.localStorageService.getItem(
-        'referralLocation'
-      );
+      const referralLocation =
+        this.localStorageService.getItem('referralLocation');
       const referralVisitEncounter = this.localStorageService.getItem(
         'referralVisitEncounter'
       );
-      const referredFromLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+      const referredFromLocation =
+        this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
       const payload = {
         submittedEncounter: JSON.parse(referralVisitEncounter),
         referredToLocation: referralLocation,

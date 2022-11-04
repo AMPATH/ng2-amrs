@@ -27,7 +27,8 @@ require('ion-rangeslider');
   styleUrls: ['range-slider.component.css']
 })
 export class RangeSliderComponent
-  implements OnInit, ControlValueAccessor, AfterViewInit {
+  implements OnInit, ControlValueAccessor, AfterViewInit
+{
   @Input() public start: number;
   @Input() public end: number;
   @Output() public onAgeChange = new EventEmitter<any>();

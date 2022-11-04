@@ -69,18 +69,23 @@ export class EditDemographicsComponent implements OnInit, OnDestroy {
         this.patients = new Patient({});
         if (patient) {
           this.patients = patient;
-          this.givenName = (this.patients.person
-            .preferredName as any).givenName;
-          this.middleName = (this.patients.person
-            .preferredName as any).middleName;
-          this.familyName = (this.patients.person
-            .preferredName as any).familyName;
+          this.givenName = (
+            this.patients.person.preferredName as any
+          ).givenName;
+          this.middleName = (
+            this.patients.person.preferredName as any
+          ).middleName;
+          this.familyName = (
+            this.patients.person.preferredName as any
+          ).familyName;
           this.birthDate = this.patients.person.birthdate;
           this.birthdateEstimated = this.patients.person.birthdateEstimated;
-          this.ispreferred = (this.patients.person
-            .preferredName as any).preferred;
-          this.preferredNameuuid = (this.patients.person
-            .preferredName as any).uuid;
+          this.ispreferred = (
+            this.patients.person.preferredName as any
+          ).preferred;
+          this.preferredNameuuid = (
+            this.patients.person.preferredName as any
+          ).uuid;
           this.gender = this.patients.person.gender;
           this.healthCenter = this.patients.person.healthCenter;
           this.dead = this.patients.person.dead;

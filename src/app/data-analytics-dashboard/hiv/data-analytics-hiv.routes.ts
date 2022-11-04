@@ -249,6 +249,5 @@ const routes: Routes = [
   }
 ];
 
-export const dataAnalyticsDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const dataAnalyticsDashboardHivRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

@@ -39,22 +39,30 @@ export class AddressComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patients = patient;
           if (this.patients.person.preferredAddress !== null) {
-            this.address1 = (this.patients.person
-              .preferredAddress as any).address1;
-            this.address2 = (this.patients.person
-              .preferredAddress as any).address2;
-            this.address3 = (this.patients.person
-              .preferredAddress as any).address3;
-            this.address7 = (this.patients.person
-              .preferredAddress as any).address7;
-            this.cityVillage = (this.patients.person
-              .preferredAddress as any).cityVillage;
-            this.stateProvince = (this.patients.person
-              .preferredAddress as any).stateProvince;
-            this.latitude = (this.patients.person
-              .preferredAddress as any).latitude;
-            this.longitude = (this.patients.person
-              .preferredAddress as any).longitude;
+            this.address1 = (
+              this.patients.person.preferredAddress as any
+            ).address1;
+            this.address2 = (
+              this.patients.person.preferredAddress as any
+            ).address2;
+            this.address3 = (
+              this.patients.person.preferredAddress as any
+            ).address3;
+            this.address7 = (
+              this.patients.person.preferredAddress as any
+            ).address7;
+            this.cityVillage = (
+              this.patients.person.preferredAddress as any
+            ).cityVillage;
+            this.stateProvince = (
+              this.patients.person.preferredAddress as any
+            ).stateProvince;
+            this.latitude = (
+              this.patients.person.preferredAddress as any
+            ).latitude;
+            this.longitude = (
+              this.patients.person.preferredAddress as any
+            ).longitude;
           }
         }
       }

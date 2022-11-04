@@ -79,9 +79,10 @@ const patientProgramEnrollmentService = jasmine.createSpyObj(
   ['getActivePatientEnrollmentPatientList']
 );
 
-const patientProgramEnrollmentServiceSpy = patientProgramEnrollmentService.getActivePatientEnrollmentPatientList.and.returnValue(
-  of(mockEnrollments)
-);
+const patientProgramEnrollmentServiceSpy =
+  patientProgramEnrollmentService.getActivePatientEnrollmentPatientList.and.returnValue(
+    of(mockEnrollments)
+  );
 
 const mockLocation = jasmine.createSpyObj('Location', ['back']);
 
@@ -129,13 +130,13 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
           ProgramEnrollmentPatientListComponent
         );
         comp = fixture.componentInstance;
-        patientsProgramEnrollmentService = fixture.debugElement.injector.get<
-          PatientProgramEnrollmentService
-        >(PatientProgramEnrollmentService);
+        patientsProgramEnrollmentService =
+          fixture.debugElement.injector.get<PatientProgramEnrollmentService>(
+            PatientProgramEnrollmentService
+          );
         router = fixture.debugElement.injector.get<Router>(Router);
-        route = fixture.debugElement.injector.get<ActivatedRoute>(
-          ActivatedRoute
-        );
+        route =
+          fixture.debugElement.injector.get<ActivatedRoute>(ActivatedRoute);
       });
   }));
 

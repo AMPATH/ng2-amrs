@@ -252,9 +252,8 @@ describe('Service: TodayVisit', () => {
       person: { uuid: 'uuid' }
     };
 
-    const visitResService: VisitResourceService = TestBed.get(
-      VisitResourceService
-    );
+    const visitResService: VisitResourceService =
+      TestBed.get(VisitResourceService);
     const patientVisitsSpy = spyOn(
       visitResService,
       'getPatientVisits'
@@ -297,9 +296,8 @@ describe('Service: TodayVisit', () => {
   it('should extract a program config from all program configs', () => {
     const service: TodayVisitService = TestBed.get(TodayVisitService);
     service.patientProgramVisitConfigs = prog;
-    const filteredProgConfig = service.getProgramConfigurationObject(
-      'some-uuid'
-    );
+    const filteredProgConfig =
+      service.getProgramConfigurationObject('some-uuid');
     expect(filteredProgConfig).toBe(progConfig);
   });
 

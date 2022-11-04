@@ -42,8 +42,8 @@ export class PatientProgramService {
 
   private loadProgramBatch(patientUuid: string): Observable<any> {
     let allAvailablePrograms = [];
-    const dashboardRoutesConfig: any = this.routesProviderService
-      .patientDashboardConfig;
+    const dashboardRoutesConfig: any =
+      this.routesProviderService.patientDashboardConfig;
     return this.getAvailablePrograms()
       .flatMap((programs) => {
         allAvailablePrograms = programs;

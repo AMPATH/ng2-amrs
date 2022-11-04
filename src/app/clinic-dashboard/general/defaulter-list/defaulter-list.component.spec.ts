@@ -27,9 +27,8 @@ export class MockPatientListComponent {
 })
 export class MockDefaulterListFilterComponent {
   @Input() public currentLocation: string;
-  @Output() public resetFilter: EventEmitter<Boolean> = new EventEmitter<
-    Boolean
-  >();
+  @Output() public resetFilter: EventEmitter<Boolean> =
+    new EventEmitter<Boolean>();
 }
 
 const mockClinic = 'uuid';
@@ -146,14 +145,14 @@ describe('Defaulterlist Component', () => {
       .then(() => {
         fixture = TestBed.createComponent(DefaulterListComponent);
         component = fixture.componentInstance;
-        clinicDashboardCacheService = fixture.debugElement.injector.get<
-          ClinicDashboardCacheService
-        >(ClinicDashboardCacheService);
-        defaulterListResourceServiceSpy = fixture.debugElement.injector.get<
-          DefaulterListResourceService
-        >(DefaulterListResourceService) as jasmine.SpyObj<
-          DefaulterListResourceService
-        >;
+        clinicDashboardCacheService =
+          fixture.debugElement.injector.get<ClinicDashboardCacheService>(
+            ClinicDashboardCacheService
+          );
+        defaulterListResourceServiceSpy =
+          fixture.debugElement.injector.get<DefaulterListResourceService>(
+            DefaulterListResourceService
+          ) as jasmine.SpyObj<DefaulterListResourceService>;
         route = fixture.debugElement.injector.get(ActivatedRoute);
       });
   }));

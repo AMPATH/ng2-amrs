@@ -41,9 +41,8 @@ export class RetrospectiveDataEntryService {
 
   public updateRetroSettings() {
     // get the defaults
-    const enabled = this.userDefaultPropertiesService.getUserProperty(
-      'enableRetro'
-    );
+    const enabled =
+      this.userDefaultPropertiesService.getUserProperty('enableRetro');
     if (enabled) {
       this.retroSettings.next(this.getSettingsObject(enabled));
     } else {
@@ -72,21 +71,17 @@ export class RetrospectiveDataEntryService {
   }
 
   private getSettingsObject(enabled) {
-    const provider = this.userDefaultPropertiesService.getUserProperty(
-      'retroProvider'
-    );
-    const visitDate = this.userDefaultPropertiesService.getUserProperty(
-      'retroVisitDate'
-    );
-    const location = this.userDefaultPropertiesService.getUserProperty(
-      'retroLocation'
-    );
+    const provider =
+      this.userDefaultPropertiesService.getUserProperty('retroProvider');
+    const visitDate =
+      this.userDefaultPropertiesService.getUserProperty('retroVisitDate');
+    const location =
+      this.userDefaultPropertiesService.getUserProperty('retroLocation');
     const visitTimeState = this.userDefaultPropertiesService.getUserProperty(
       'retroVisitTimeState'
     );
-    const visitTime = this.userDefaultPropertiesService.getUserProperty(
-      'retroVisitTime'
-    );
+    const visitTime =
+      this.userDefaultPropertiesService.getUserProperty('retroVisitTime');
     return {
       enabled: enabled,
       error: this.errorState.value,

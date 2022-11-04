@@ -82,9 +82,10 @@ const clinicDashboardCacheService = jasmine.createSpyObj(
   ['getDartmentProgramsConfig']
 );
 
-const clinicDashboardCacheServiceSpy = clinicDashboardCacheService.getDartmentProgramsConfig.and.returnValue(
-  of(mockCurrentLocation)
-);
+const clinicDashboardCacheServiceSpy =
+  clinicDashboardCacheService.getDartmentProgramsConfig.and.returnValue(
+    of(mockCurrentLocation)
+  );
 
 const mockParams = {
   startDate: '2018-03-01',
@@ -167,9 +168,8 @@ describe('Component : DepartmentProgramFilter', () => {
       .then(() => {
         fixture = TestBed.createComponent(DepartmentProgramFilterComponent);
         comp = fixture.componentInstance;
-        localStorageService = fixture.debugElement.injector.get(
-          LocalStorageService
-        );
+        localStorageService =
+          fixture.debugElement.injector.get(LocalStorageService);
         userDefaultService = fixture.debugElement.injector.get(
           UserDefaultPropertiesService
         );

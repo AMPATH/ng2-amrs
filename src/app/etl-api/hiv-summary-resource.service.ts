@@ -35,11 +35,11 @@ export class HivSummaryResourceService {
     }
 
     const params: HttpParams = new HttpParams()
-      .set('startIndex', (startIndex as any) as string)
-      .set('limit', (limit as any) as string)
+      .set('startIndex', startIndex as any as string)
+      .set('limit', limit as any as string)
       .set(
         'includeNonClinicalEncounter',
-        (includeNonClinicalEncounter as any) as string
+        includeNonClinicalEncounter as any as string
       );
 
     return this.http
@@ -71,12 +71,12 @@ export class HivSummaryResourceService {
     }
 
     const params: HttpParams = new HttpParams()
-      .set('startIndex', (p.startIndex as any) as string)
-      .set('limit', (p.limit as any) as string)
-      .set('program', (p.program as any) as string)
+      .set('startIndex', p.startIndex as any as string)
+      .set('limit', p.limit as any as string)
+      .set('program', p.program as any as string)
       .set(
         'includeNonClinicalEncounter',
-        (p.includeNonClinicalEncounter as any) as string
+        p.includeNonClinicalEncounter as any as string
       );
 
     return this.http

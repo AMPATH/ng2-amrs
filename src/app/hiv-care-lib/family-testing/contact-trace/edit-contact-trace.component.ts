@@ -130,14 +130,16 @@ export class EditContactTraceComponent implements OnInit {
 
     if (this.selectedContactType === 1555) {
       this.notContactedStatusReasons = this.phoneNotContactedReasons;
-      this.selectedNotContactedStatusReasons = this.phoneNotContactedReasons.find(
-        (reason) => reason.label.includes(reasonNotContacted)
-      ).val;
+      this.selectedNotContactedStatusReasons =
+        this.phoneNotContactedReasons.find((reason) =>
+          reason.label.includes(reasonNotContacted)
+        ).val;
     } else {
       this.notContactedStatusReasons = this.physicalNotContactedReasons;
-      this.selectedNotContactedStatusReasons = this.physicalNotContactedReasons.find(
-        (reason) => reason.label.includes(reasonNotContacted)
-      ).val;
+      this.selectedNotContactedStatusReasons =
+        this.physicalNotContactedReasons.find((reason) =>
+          reason.label.includes(reasonNotContacted)
+        ).val;
     }
   }
 }

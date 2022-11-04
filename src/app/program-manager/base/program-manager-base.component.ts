@@ -322,7 +322,8 @@ export class ProgramManagerBaseComponent implements OnInit {
       this.selectedLocation = JSON.parse(retroLocation);
       return;
     }
-    const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const location: any =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     if (location) {
       this.selectedLocation = {
         value: location.uuid,

@@ -7,12 +7,10 @@ import { Patient } from './../models/patient.model';
 
 @Injectable()
 export class PatientSearchService {
-  public patientsSearchResults: BehaviorSubject<
-    Patient[]
-  > = new BehaviorSubject<Patient[]>([]);
-  public patientsToBindRelationshipSearchResults: BehaviorSubject<
-    Patient[]
-  > = new BehaviorSubject<Patient[]>([]);
+  public patientsSearchResults: BehaviorSubject<Patient[]> =
+    new BehaviorSubject<Patient[]>([]);
+  public patientsToBindRelationshipSearchResults: BehaviorSubject<Patient[]> =
+    new BehaviorSubject<Patient[]>([]);
   public searchString: string = '';
   public relationshipSearchString: string = '';
 

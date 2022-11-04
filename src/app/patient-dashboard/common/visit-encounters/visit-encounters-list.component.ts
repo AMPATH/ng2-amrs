@@ -113,9 +113,8 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         if (typeof encounterProvider !== 'undefined') {
           if (encounterProvider.provider !== null) {
             if (encounterProvider.provider.display !== null) {
-              const displayMinusAttribute = encounterProvider.provider.display.split(
-                '-'
-              )[2];
+              const displayMinusAttribute =
+                encounterProvider.provider.display.split('-')[2];
 
               if (typeof displayMinusAttribute !== 'undefined') {
                 provider = encounterProvider.provider.display.split('-')[2];

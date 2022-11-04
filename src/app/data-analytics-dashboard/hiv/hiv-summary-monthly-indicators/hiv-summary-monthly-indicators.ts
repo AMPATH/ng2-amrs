@@ -14,7 +14,8 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 })
 export class HivSummaryMonthlyIndicatorsComponent
   extends HivMonthlySummaryIndicatorBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
 

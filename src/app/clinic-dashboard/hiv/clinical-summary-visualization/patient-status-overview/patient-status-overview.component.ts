@@ -21,7 +21,8 @@ import { ClinicDashboardCacheService } from '../../../services/clinic-dashboard-
   encapsulation: ViewEncapsulation.None
 })
 export class PatientStatusOverviewComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() public data: any;
   @Input() public indicatorDef: any;
   public loadingPatientStatus = false;

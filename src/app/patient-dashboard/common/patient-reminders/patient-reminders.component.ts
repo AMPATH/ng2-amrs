@@ -183,7 +183,8 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
   }
 
   private enrollPatientToProgram(payload, reminder, toast) {
-    const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const location: any =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     payload.location = location.uuid;
     this.getIncompatiblePrograms(payload.programUuid)
       .pipe(take(1))
@@ -269,9 +270,8 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
 
   public updateContacts(toast) {
     const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
-    const elicitationAction = this.localStorageService.getItem(
-      'elicitationAction'
-    );
+    const elicitationAction =
+      this.localStorageService.getItem('elicitationAction');
     if (elicitationAction === 'addContacts') {
       this.router.navigate([url], {
         queryParams: {

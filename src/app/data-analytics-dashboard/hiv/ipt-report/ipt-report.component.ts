@@ -16,7 +16,8 @@ import { DataAnalyticsDashboardService } from '../../services/data-analytics-das
 })
 export class IPTReportComponent
   extends IptBaseReportComponent
-  implements OnInit {
+  implements OnInit
+{
   public enabledControls = 'monthControl,locationControl';
 
   constructor(

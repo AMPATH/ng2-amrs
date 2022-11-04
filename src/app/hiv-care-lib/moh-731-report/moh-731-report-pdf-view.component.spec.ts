@@ -82,9 +82,8 @@ describe('Component: MOHReportComponent', () => {
   });
 
   it('should create an instance of MOHReportComponent', () => {
-    const moh731ReportComponent: MOHReportComponent = TestBed.get(
-      MOHReportComponent
-    );
+    const moh731ReportComponent: MOHReportComponent =
+      TestBed.get(MOHReportComponent);
     expect(moh731ReportComponent).toBeTruthy();
   });
 

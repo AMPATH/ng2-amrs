@@ -140,8 +140,7 @@ const mockPdfResult = {
             alignment: 'center',
             fontSize: 8
           },
-          text:
-            'Generated Using: POC v2.12.0-SNAPSHOTga0e5573f | Generated On: Fri May 24 2019 15:59:29 GMT+0300 (East Africa Time)'
+          text: 'Generated Using: POC v2.12.0-SNAPSHOTga0e5573f | Generated On: Fri May 24 2019 15:59:29 GMT+0300 (East Africa Time)'
         }
       ]
     },
@@ -245,8 +244,7 @@ const mockPdfResult = {
               alignment: 'center',
               fontSize: 8
             },
-            text:
-              'Generated Using: POC v2.12.0-SNAPSHOTga0e5573f | Generated On: Fri May 24 2019 15:59:29 GMT+0300 (East Africa Time)'
+            text: 'Generated Using: POC v2.12.0-SNAPSHOTga0e5573f | Generated On: Fri May 24 2019 15:59:29 GMT+0300 (East Africa Time)'
           }
         ]
       }

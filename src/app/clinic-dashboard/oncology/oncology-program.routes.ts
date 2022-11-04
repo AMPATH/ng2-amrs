@@ -74,6 +74,5 @@ const routes: Routes = [
   }
 ];
 
-export const oncologyProgramRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const oncologyProgramRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

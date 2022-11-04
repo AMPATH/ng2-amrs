@@ -6,9 +6,8 @@ describe('Model: personAttributeType', () => {
   };
 
   it('It should wrap person Attribute type model for display correctly', (done) => {
-    const wrappedPersonAttributeType: PersonAttributeType = new PersonAttributeType(
-      existingPersonAttributeType
-    );
+    const wrappedPersonAttributeType: PersonAttributeType =
+      new PersonAttributeType(existingPersonAttributeType);
     expect(wrappedPersonAttributeType.name).toEqual(
       existingPersonAttributeType.name
     );

@@ -52,7 +52,8 @@ import { SelectDepartmentService } from './../services/select-department.service
   ]
 })
 export class ReportFiltersComponent
-  implements OnInit, ControlValueAccessor, AfterViewInit {
+  implements OnInit, ControlValueAccessor, AfterViewInit
+{
   public cervicalScreeningReport = 'cervical-cancer-screening-numbers';
   @Input() public start: number;
   @Input() public end: number;

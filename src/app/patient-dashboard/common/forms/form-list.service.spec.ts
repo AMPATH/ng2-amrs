@@ -223,9 +223,8 @@ describe('FormListService', () => {
         display: 'form v1.0'
       }
     ];
-    const actualFormNames = service.removeVersionInformationFromForms(
-      formNames
-    );
+    const actualFormNames =
+      service.removeVersionInformationFromForms(formNames);
     expect(expectedFormNames).toEqual(actualFormNames);
   });
 });

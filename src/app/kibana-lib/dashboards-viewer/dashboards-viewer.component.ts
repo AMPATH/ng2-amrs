@@ -13,7 +13,8 @@ import { DashboardListComponent } from '../dashboard-list/dashboard-list.compone
 })
 export class DashboardsViewerComponent
   extends KibanaVizComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public dashboard: any;
   public kibanaVizUrl = '';
   public width = '99%';

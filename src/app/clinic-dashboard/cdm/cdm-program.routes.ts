@@ -73,6 +73,5 @@ const routes: Routes = [
   }
 ];
 
-export const cdmProgramRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const cdmProgramRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

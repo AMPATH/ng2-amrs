@@ -1315,9 +1315,8 @@ export class HivPatientClinicalSummaryService {
             (pdfStructure) => {
               const pdfProxy = pdfMake.createPdf(pdfStructure);
               pdfProxy.getBase64((output) => {
-                const int8Array: Uint8Array = HivPatientClinicalSummaryService._base64ToUint8Array(
-                  output
-                );
+                const int8Array: Uint8Array =
+                  HivPatientClinicalSummaryService._base64ToUint8Array(output);
                 const blob = new Blob([int8Array], {
                   type: 'application/pdf'
                 });

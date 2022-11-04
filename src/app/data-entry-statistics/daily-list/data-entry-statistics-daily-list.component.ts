@@ -19,7 +19,8 @@ import { GridOptions } from 'ag-grid/main';
   styleUrls: ['./data-entry-statistics-daily-list.component.css']
 })
 export class DataEntryStatisticsDailyListComponent
-  implements OnInit, OnChanges, AfterViewInit {
+  implements OnInit, OnChanges, AfterViewInit
+{
   public title = 'Encounter Types Per Day';
   public totalEncounters = 0;
   public pinnedBottomRowData: any = [];

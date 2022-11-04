@@ -102,9 +102,8 @@ describe('StrengthsPatientReferralBaseComponent', () => {
     selectDepartmentService = jasmine.createSpyObj('SelectDepartmentService', [
       'getUserSetDepartment'
     ]);
-    getUserSetDepartmentSpy = selectDepartmentService.getUserSetDepartment.and.returnValue(
-      'ONCOLOGY'
-    );
+    getUserSetDepartmentSpy =
+      selectDepartmentService.getUserSetDepartment.and.returnValue('ONCOLOGY');
 
     TestBed.configureTestingModule({
       declarations: [
@@ -160,9 +159,10 @@ describe('StrengthsPatientReferralBaseComponent', () => {
 
   it('should generate patient referral report from the parameters provided', () => {
     fixture.detectChanges();
-    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.returnValue(
-      of(mockResponse)
-    );
+    const getPatientReferralReportSpy =
+      patientReferralResourceService.getPatientReferralReport.and.returnValue(
+        of(mockResponse)
+      );
     // report hasn't been generated yet
     expect(component.encounteredError).toBeFalsy();
     expect(component.errorMessage).toEqual('');
@@ -191,11 +191,12 @@ describe('StrengthsPatientReferralBaseComponent', () => {
     expect(component.errorMessage).toEqual('');
     component.generateReport();
     component.locationUuids = 'xxxx';
-    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.callFake(
-      () => {
-        return throwError(mockErrorResponse);
-      }
-    );
+    const getPatientReferralReportSpy =
+      patientReferralResourceService.getPatientReferralReport.and.callFake(
+        () => {
+          return throwError(mockErrorResponse);
+        }
+      );
     // generate report
     component.programs = '142939b0-28a9-4649-baf9-a9d012bf3b3d';
     component.generateReport();
@@ -216,9 +217,10 @@ describe('StrengthsPatientReferralBaseComponent', () => {
     );
     expect(component.msgObj.show).toBeTruthy();
     fixture.detectChanges();
-    const getPatientReferralReportSpy = patientReferralResourceService.getPatientReferralReport.and.returnValue(
-      of(mockResponse)
-    );
+    const getPatientReferralReportSpy =
+      patientReferralResourceService.getPatientReferralReport.and.returnValue(
+        of(mockResponse)
+      );
     component.programs = '142939b0-28a9-4649-baf9-a9d012bf3b3d';
     component.generateReport();
     // error message

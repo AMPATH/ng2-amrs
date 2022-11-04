@@ -12,6 +12,5 @@ export const routes: Routes = [
   { path: 'group-manager', children: childRoutes }
 ];
 
-export const GroupManagerRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const GroupManagerRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

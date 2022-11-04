@@ -123,9 +123,8 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
 
   public enroll(group) {
     if (this.action.toLowerCase() === 'enroll') {
-      const existingGroupInProgram = this.isPatientEnrolledInGroupInSameProgram(
-        group
-      );
+      const existingGroupInProgram =
+        this.isPatientEnrolledInGroupInSameProgram(group);
       if (existingGroupInProgram) {
         this.groupToUnenroll = existingGroupInProgram;
         this.groupToEnroll = group;

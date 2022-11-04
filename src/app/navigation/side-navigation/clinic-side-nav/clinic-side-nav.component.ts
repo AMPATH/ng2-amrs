@@ -65,14 +65,13 @@ export class ClinicSideNavComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.analyticsRoutesSub = this.dynamicRoutesService.analyticsRoutes.subscribe(
-      (next) => {
+    this.analyticsRoutesSub =
+      this.dynamicRoutesService.analyticsRoutes.subscribe((next) => {
         this.routes = next;
         if (this.routes && this.routes.length > 0) {
           this.selectedRoute = this.routes[0];
         }
-      }
-    );
+      });
   }
 
   public expandSideBar() {

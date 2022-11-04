@@ -142,9 +142,8 @@ export class EnrollmentShortcutComponent implements OnInit {
         }
       );
 
-      this.patientEnrollablePrograms = this.filterOutIncompatiblePrograms(
-        availablePrograms
-      );
+      this.patientEnrollablePrograms =
+        this.filterOutIncompatiblePrograms(availablePrograms);
     }
   }
 

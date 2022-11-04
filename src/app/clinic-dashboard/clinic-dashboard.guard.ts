@@ -17,7 +17,8 @@ import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-n
 
 @Injectable()
 export class ClinicDashboardGuard
-  implements CanActivate, CanDeactivate<ClinicDashboardComponent> {
+  implements CanActivate, CanDeactivate<ClinicDashboardComponent>
+{
   constructor(
     private dynamicRoutesService: DynamicRoutesService,
     private router: Router,
@@ -34,13 +35,13 @@ export class ClinicDashboardGuard
   ): boolean {
     const component: any = routeSnapshot.component;
     if (component.name === 'ClinicDashboardComponent') {
-      const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
+      const userLocation =
+        this.userDefaultProperties.getCurrentUserDefaultLocationObject();
       const locationUuid = routeSnapshot.params['location_uuid'];
       if (locationUuid) {
         this.clinicDashboardCacheService.setCurrentClinic(locationUuid);
-        const routes = this.clinicRoutesFactory.createClinicDashboardRoutes(
-          locationUuid
-        );
+        const routes =
+          this.clinicRoutesFactory.createClinicDashboardRoutes(locationUuid);
         this.dynamicRoutesService.setClinicDashBoardRoutes(routes);
       } else if (userLocation && userLocation.uuid) {
         this.clinicDashboardCacheService.setCurrentClinic(userLocation.uuid);

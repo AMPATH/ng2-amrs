@@ -21,7 +21,8 @@ import { MonthlyScheduleResourceService } from '../../../etl-api/monthly-schedul
 })
 export class CdmMonthlyScheduleComponent
   extends MonthlyScheduleBaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public routeSub: Subscription = new Subscription();
   public myDepartment = 'CDM';
 

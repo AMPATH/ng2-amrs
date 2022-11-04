@@ -16,7 +16,8 @@ import * as _ from 'lodash';
   styleUrls: ['./data-entry-statistics-creators-list.component.css']
 })
 export class DataEntryStatisticsCreatorsListComponent
-  implements OnInit, OnChanges, AfterViewInit {
+  implements OnInit, OnChanges, AfterViewInit
+{
   public title = 'Encounters Per Type Per Creator';
   public pinnedBottomRowData: any = [];
   public allClicalEncounters: any = [];

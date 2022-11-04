@@ -12,6 +12,5 @@ const authRoutes: Routes = [
   }
 ];
 
-export const authRouting: ModuleWithProviders = RouterModule.forChild(
-  authRoutes
-);
+export const authRouting: ModuleWithProviders =
+  RouterModule.forChild(authRoutes);

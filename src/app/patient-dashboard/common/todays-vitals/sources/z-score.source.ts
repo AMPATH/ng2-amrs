@@ -8,7 +8,8 @@ import { VitalView } from '../vital-view';
 
 export class ZScoreSource
   extends CommonVitalsSource
-  implements VitalSourceInterface {
+  implements VitalSourceInterface
+{
   constructor(public model: any | Vital, public patient: Patient) {
     super(model, patient);
   }

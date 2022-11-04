@@ -48,9 +48,8 @@ export class PatientRelationshipService {
                 relationshipsArr.push(new Relationship(relation));
               }
             }
-            const orderedRelationshipsArr = this.addOrderProperty(
-              relationshipsArr
-            );
+            const orderedRelationshipsArr =
+              this.addOrderProperty(relationshipsArr);
             orderedRelationshipsArr.sort(this.sortRelationships);
             return orderedRelationshipsArr;
           }

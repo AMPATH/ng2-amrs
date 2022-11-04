@@ -148,9 +148,10 @@ export class ArtOverviewComponent implements OnInit {
     ];
     for (const indicator in data) {
       if (!indicator.match(new RegExp('location_uuid|location_id|patients'))) {
-        const cols = this.clinicalSummaryVisualizationService.translateColumns[
-          'clinical-art-overview'
-        ];
+        const cols =
+          this.clinicalSummaryVisualizationService.translateColumns[
+            'clinical-art-overview'
+          ];
         this.categories.push(cols[indicator]);
         this.series.push({
           name: cols[indicator],

@@ -26,9 +26,8 @@ describe('Component: CDM Summary', () => {
   });
 
   it('should create an instance', () => {
-    const fakeAppFeatureAnalytics: AppFeatureAnalytics = TestBed.get(
-      AppFeatureAnalytics
-    );
+    const fakeAppFeatureAnalytics: AppFeatureAnalytics =
+      TestBed.get(AppFeatureAnalytics);
     const component = new CdmSummaryComponent(fakeAppFeatureAnalytics);
     expect(component).toBeTruthy();
   });

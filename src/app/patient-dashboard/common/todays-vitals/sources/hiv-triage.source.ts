@@ -7,7 +7,8 @@ import { VitalsDatasource } from '../vitals.datasource';
 
 export class HivTriageSource
   extends CommonVitalsSource
-  implements VitalSourceInterface {
+  implements VitalSourceInterface
+{
   private recursive = false;
   constructor(public model: any | Vital, public patient: Patient) {
     super(model, patient);

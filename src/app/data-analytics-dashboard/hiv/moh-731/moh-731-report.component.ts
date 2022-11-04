@@ -13,7 +13,8 @@ import { Moh731ResourceService } from '../../../etl-api/moh-731-resource.service
 })
 export class Moh731ReportComponent
   extends Moh731ReportBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
 

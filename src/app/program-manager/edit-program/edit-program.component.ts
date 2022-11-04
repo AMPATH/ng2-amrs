@@ -21,7 +21,8 @@ import { ProgramManagerService } from '../program-manager.service';
 })
 export class EditProgramComponent
   extends ProgramManagerBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public programsToEdit: any[] = [];
   public updating = false;
   public theChange: string;
@@ -87,8 +88,8 @@ export class EditProgramComponent
     );
     if (this.programVisitConfig && this.hasStateChangeEncounterTypes()) {
       _.extend(program, {
-        stateChangeEncounterTypes: this.programVisitConfig.enrollmentOptions
-          .stateChangeEncounterTypes
+        stateChangeEncounterTypes:
+          this.programVisitConfig.enrollmentOptions.stateChangeEncounterTypes
       });
     }
     if (event.target.checked) {
@@ -364,7 +365,8 @@ export class EditProgramComponent
   }
 
   private stopPatientCurrentLocationPrograms(department: string) {
-    const location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const location =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const departmentPrograms: any = _.find(
       this.enrolledProgramsByDepartment,
       (_department: any) => {

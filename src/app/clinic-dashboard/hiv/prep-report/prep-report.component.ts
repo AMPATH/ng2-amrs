@@ -10,7 +10,8 @@ import * as Moment from 'moment';
 })
 export class PrepReportComponent
   extends PrepReportBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   constructor(
     public router: Router,
     public route: ActivatedRoute,

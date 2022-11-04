@@ -47,9 +47,8 @@ export class TransferProgramComponent implements OnInit {
     return this._formsFilled;
   }
 
-  @Output() public programTransferComplete: EventEmitter<
-    any
-  > = new EventEmitter(null);
+  @Output() public programTransferComplete: EventEmitter<any> =
+    new EventEmitter(null);
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onBack: EventEmitter<any> = new EventEmitter(null);
   public transferring = false;

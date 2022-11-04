@@ -96,8 +96,7 @@ const screeningPatient = new Patient({
       },
       form: {
         uuid: '077c6358-983c-4b7c-bb51-bae56a304f8a',
-        name:
-          'ONCOLOGY POC Breast Cancer Screening Form (FOR MASS SCREENING) V1.4'
+        name: 'ONCOLOGY POC Breast Cancer Screening Form (FOR MASS SCREENING) V1.4'
       },
       location: {
         display: 'Location Test',

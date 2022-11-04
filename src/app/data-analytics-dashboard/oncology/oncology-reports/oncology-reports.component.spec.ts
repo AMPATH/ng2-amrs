@@ -41,9 +41,10 @@ const mockReportsResponse: any = [
 ];
 
 // Make the spy return a synchronous Observable with the test data
-const getReportsSpy = getOncologyReportsService.getOncologyReports.and.returnValue(
-  of(mockReportsResponse)
-);
+const getReportsSpy =
+  getOncologyReportsService.getOncologyReports.and.returnValue(
+    of(mockReportsResponse)
+  );
 
 const mockParams = {};
 

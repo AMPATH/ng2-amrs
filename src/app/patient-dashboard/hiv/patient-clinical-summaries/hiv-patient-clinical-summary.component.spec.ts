@@ -90,9 +90,8 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
   });
 
   it('should create an instance of HivPatientClinicalSummaryComponent', () => {
-    const patientClinicalSummaryComponent: HivPatientClinicalSummaryComponent = TestBed.get(
-      HivPatientClinicalSummaryComponent
-    );
+    const patientClinicalSummaryComponent: HivPatientClinicalSummaryComponent =
+      TestBed.get(HivPatientClinicalSummaryComponent);
     expect(patientClinicalSummaryComponent).toBeTruthy();
   });
 
@@ -121,12 +120,10 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     const component: HivPatientClinicalSummaryComponent = TestBed.get(
       HivPatientClinicalSummaryComponent
     );
-    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService = TestBed.get(
-      HivPatientClinicalSummaryService
-    );
-    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService = TestBed.get(
-      HivPatientClinicalSummaryResourceService
-    );
+    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService =
+      TestBed.get(HivPatientClinicalSummaryService);
+    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService =
+      TestBed.get(HivPatientClinicalSummaryResourceService);
     const service: PatientService = TestBed.get(PatientService);
     const hivSummaryService: HivSummaryService = TestBed.get(HivSummaryService);
 
@@ -140,17 +137,14 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     const component: HivPatientClinicalSummaryComponent = TestBed.get(
       HivPatientClinicalSummaryComponent
     );
-    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService = TestBed.get(
-      HivPatientClinicalSummaryService
-    );
-    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService = TestBed.get(
-      HivPatientClinicalSummaryResourceService
-    );
+    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService =
+      TestBed.get(HivPatientClinicalSummaryService);
+    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService =
+      TestBed.get(HivPatientClinicalSummaryResourceService);
 
-    spyOn(
-      patientClinicalSummaryResource,
-      'fetchPatientSummary'
-    ).and.callFake((err, data) => {});
+    spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake(
+      (err, data) => {}
+    );
 
     spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
     component.ngOnInit();
@@ -160,12 +154,10 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     const component: HivPatientClinicalSummaryComponent = TestBed.get(
       HivPatientClinicalSummaryComponent
     );
-    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService = TestBed.get(
-      HivPatientClinicalSummaryService
-    );
-    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService = TestBed.get(
-      HivPatientClinicalSummaryResourceService
-    );
+    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService =
+      TestBed.get(HivPatientClinicalSummaryService);
+    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService =
+      TestBed.get(HivPatientClinicalSummaryResourceService);
 
     spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
 
@@ -177,12 +169,10 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     const component: HivPatientClinicalSummaryComponent = TestBed.get(
       HivPatientClinicalSummaryComponent
     );
-    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService = TestBed.get(
-      HivPatientClinicalSummaryService
-    );
-    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService = TestBed.get(
-      HivPatientClinicalSummaryResourceService
-    );
+    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService =
+      TestBed.get(HivPatientClinicalSummaryService);
+    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService =
+      TestBed.get(HivPatientClinicalSummaryResourceService);
     spyOn(hivPatientClinicalSummaryService, 'generatePdf').and.callThrough();
 
     component.generatePdf();
@@ -193,12 +183,10 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     const component: HivPatientClinicalSummaryComponent = TestBed.get(
       HivPatientClinicalSummaryComponent
     );
-    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService = TestBed.get(
-      HivPatientClinicalSummaryService
-    );
-    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService = TestBed.get(
-      HivPatientClinicalSummaryResourceService
-    );
+    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService =
+      TestBed.get(HivPatientClinicalSummaryService);
+    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService =
+      TestBed.get(HivPatientClinicalSummaryResourceService);
 
     spyOn(
       patientClinicalSummaryResource,
@@ -221,12 +209,10 @@ describe('Component: HivPatientClinicalSummaryComponent', () => {
     const component: HivPatientClinicalSummaryComponent = TestBed.get(
       HivPatientClinicalSummaryComponent
     );
-    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService = TestBed.get(
-      HivPatientClinicalSummaryService
-    );
-    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService = TestBed.get(
-      HivPatientClinicalSummaryResourceService
-    );
+    const hivPatientClinicalSummaryService: HivPatientClinicalSummaryService =
+      TestBed.get(HivPatientClinicalSummaryService);
+    const patientClinicalSummaryResource: HivPatientClinicalSummaryResourceService =
+      TestBed.get(HivPatientClinicalSummaryResourceService);
 
     spyOn(patientClinicalSummaryResource, 'fetchPatientSummary').and.callFake(
       (uuid) => {

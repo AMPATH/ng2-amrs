@@ -62,8 +62,7 @@ const routes: Routes = [
                 component: HivSummaryIndicatorsComponent
               },
               {
-                path:
-                  'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
                 component: HivSummaryIndicatorsPatientListComponent
               }
             ]
@@ -103,8 +102,7 @@ const routes: Routes = [
                 component: HivSummaryMonthlyIndicatorsComponent
               },
               {
-                path:
-                  'patient-list/:indicator/:period/:gender/:age/:locationUuids',
+                path: 'patient-list/:indicator/:period/:gender/:age/:locationUuids',
                 component: HivMonthlySummaryIndicatorsPatientListComponent
               }
             ]
@@ -128,6 +126,5 @@ const routes: Routes = [
   }
 ];
 
-export const dataAnalyticsDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const dataAnalyticsDashboardHivRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

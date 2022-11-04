@@ -67,9 +67,7 @@ export class ProgramWizardComponent implements AfterContentInit {
   @Output() public onNext: EventEmitter<any> = new EventEmitter<any>();
   @Output() public onPrev: EventEmitter<any> = new EventEmitter<any>();
   @Output()
-  public onStepChanged: EventEmitter<
-    ProgramWizardStepComponent
-  > = new EventEmitter<ProgramWizardStepComponent>();
+  public onStepChanged: EventEmitter<ProgramWizardStepComponent> = new EventEmitter<ProgramWizardStepComponent>();
 
   private _steps: Array<ProgramWizardStepComponent> = [];
   private _showPrev = false;
@@ -127,9 +125,8 @@ export class ProgramWizardComponent implements AfterContentInit {
 
   public next(): void {
     if (this.hasNextStep) {
-      const nextStep: ProgramWizardStepComponent = this.steps[
-        this.currentStepIndex + 1
-      ];
+      const nextStep: ProgramWizardStepComponent =
+        this.steps[this.currentStepIndex + 1];
       this.currentStep.onNext.emit();
       this.currentStep = nextStep;
     }
@@ -137,9 +134,8 @@ export class ProgramWizardComponent implements AfterContentInit {
 
   public previous(): void {
     if (this.hasPrevStep) {
-      const prevStep: ProgramWizardStepComponent = this.steps[
-        this.currentStepIndex - 1
-      ];
+      const prevStep: ProgramWizardStepComponent =
+        this.steps[this.currentStepIndex - 1];
       this.currentStep.onPrev.emit();
       this.currentStep = prevStep;
     }

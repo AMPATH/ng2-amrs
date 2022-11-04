@@ -13,9 +13,8 @@ import {
 })
 export class OrderListComponent implements AfterViewInit {
   @Input() public submittedOrdersModel: any;
-  @Output() public submittedOrdersModelChange: EventEmitter<
-    any
-  > = new EventEmitter();
+  @Output() public submittedOrdersModelChange: EventEmitter<any> =
+    new EventEmitter();
   public orders: Array<any> = [];
 
   constructor() {}

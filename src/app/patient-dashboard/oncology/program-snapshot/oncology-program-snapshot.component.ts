@@ -75,9 +75,8 @@ export class OncologyProgramSnapshotComponent implements OnInit, OnDestroy {
             this.loadingSummary = false;
             if (summary.length) {
               if (this.programUuid === this.generalOncologyProgramUuid) {
-                const generalOncologyEncounters = this.getGeneralOncologyEncounters(
-                  summary
-                );
+                const generalOncologyEncounters =
+                  this.getGeneralOncologyEncounters(summary);
                 if (generalOncologyEncounters) {
                   this.summaryData = _.first(generalOncologyEncounters);
                 }

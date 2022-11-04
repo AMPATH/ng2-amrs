@@ -23,9 +23,10 @@ export class ProgramService {
   public getPatientEnrolledProgramsByUuid(
     uuid
   ): Observable<ProgramEnrollment[]> {
-    const patientsObservable = this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(
-      uuid
-    );
+    const patientsObservable =
+      this.programEnrollmentResourceService.getProgramEnrollmentByPatientUuid(
+        uuid
+      );
 
     if (patientsObservable === null) {
       throw new Error('Null patient programs observable');

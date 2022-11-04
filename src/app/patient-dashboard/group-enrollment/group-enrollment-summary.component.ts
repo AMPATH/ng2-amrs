@@ -186,9 +186,10 @@ export class GroupEnrollmentSummaryComponent implements OnInit, OnDestroy {
   }
 
   navigateToGroup(groupUuid: string) {
-    const locationUuid = this.propertiesDefaultService.getCurrentUserDefaultLocationObject()[
-      'uuid'
-    ];
+    const locationUuid =
+      this.propertiesDefaultService.getCurrentUserDefaultLocationObject()[
+        'uuid'
+      ];
     this.router.navigate([
       '/clinic-dashboard/' +
         locationUuid +

@@ -22,7 +22,8 @@ import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cac
 })
 export class HivMonthlyScheduleComponent
   extends MonthlyScheduleBaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public routeSub: Subscription = new Subscription();
   public myDepartment = 'HIV';
 

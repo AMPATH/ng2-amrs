@@ -19,9 +19,8 @@ export class PatientEncounterService {
     const encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<
       Encounter[]
     >([]);
-    const encounterObservable = this.encounterService.getEncountersByPatientUuid(
-      patientUuid
-    );
+    const encounterObservable =
+      this.encounterService.getEncountersByPatientUuid(patientUuid);
 
     this.busy = encounterObservable.pipe(take(1)).subscribe(
       (encounters) => {

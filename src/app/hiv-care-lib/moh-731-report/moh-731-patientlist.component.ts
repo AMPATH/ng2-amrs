@@ -130,17 +130,15 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
               data.result
             );
             this.patientList[params.indicators] = this.patientListPerIndicator;
-            this.currentStartIndexPerIndicator = this.startIndex[
-              params.indicators
-            ];
+            this.currentStartIndexPerIndicator =
+              this.startIndex[params.indicators];
             this.currentStartIndexPerIndicator = this
               .currentStartIndexPerIndicator
               ? this.currentStartIndexPerIndicator
               : 0;
             this.currentStartIndexPerIndicator += data.size;
-            this.startIndex[
-              params.indicators
-            ] = this.currentStartIndexPerIndicator;
+            this.startIndex[params.indicators] =
+              this.currentStartIndexPerIndicator;
             if (data.size < 300 && !this.dataLoaded[params.indicators]) {
               this.dataLoaded[params.indicator] = true;
             }

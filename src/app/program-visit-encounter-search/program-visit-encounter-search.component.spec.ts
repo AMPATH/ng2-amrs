@@ -162,9 +162,10 @@ const patientProgramSpyService = jasmine.createSpyObj(
   ]
 );
 
-const departmentProgramServiceSpy = departmentProgramSpyService.getDartmentProgramsConfig.and.returnValue(
-  of(departmentConfig)
-);
+const departmentProgramServiceSpy =
+  departmentProgramSpyService.getDartmentProgramsConfig.and.returnValue(
+    of(departmentConfig)
+  );
 
 describe('Component: ProgramVisitEncounterSearch', () => {
   let fixture: ComponentFixture<ProgramVisitEncounterSearchComponent>;
@@ -215,15 +216,18 @@ describe('Component: ProgramVisitEncounterSearch', () => {
       .then(() => {
         fixture = TestBed.createComponent(ProgramVisitEncounterSearchComponent);
         comp = fixture.componentInstance;
-        patientProgramService = fixture.debugElement.injector.get<
-          PatientProgramResourceService
-        >(PatientProgramResourceService);
-        localStorageService = fixture.debugElement.injector.get<
-          LocalStorageService
-        >(LocalStorageService);
-        departmentProgramService = fixture.debugElement.injector.get<
-          DepartmentProgramsConfigService
-        >(DepartmentProgramsConfigService);
+        patientProgramService =
+          fixture.debugElement.injector.get<PatientProgramResourceService>(
+            PatientProgramResourceService
+          );
+        localStorageService =
+          fixture.debugElement.injector.get<LocalStorageService>(
+            LocalStorageService
+          );
+        departmentProgramService =
+          fixture.debugElement.injector.get<DepartmentProgramsConfigService>(
+            DepartmentProgramsConfigService
+          );
         router = fixture.debugElement.injector.get(Router);
         route = fixture.debugElement.injector.get(ActivatedRoute);
       });

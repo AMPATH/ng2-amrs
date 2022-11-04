@@ -20,7 +20,8 @@ import * as Moment from 'moment';
 })
 export class OncDailyScheduleComponent
   extends DailyScheduleBaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public routeSub: Subscription = new Subscription();
   public myDepartment = 'HEMATO-ONCOLOGY';
   public activeLinkIndex = 0;

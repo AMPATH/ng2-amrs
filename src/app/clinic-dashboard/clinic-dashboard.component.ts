@@ -98,7 +98,8 @@ export class ClinicDashboardComponent implements OnInit {
                   this.selectingLocation = false;
                 }
               } else {
-                const userLocation = this.userDefaultProperties.getCurrentUserDefaultLocationObject();
+                const userLocation =
+                  this.userDefaultProperties.getCurrentUserDefaultLocationObject();
                 const department =
                   this.selectedDepartment.length > 0
                     ? this.selectedDepartment[0].itemName.toLowerCase()

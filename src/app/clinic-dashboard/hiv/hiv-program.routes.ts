@@ -508,6 +508,5 @@ const routes: Routes = [
   }
 ];
 
-export const clinicDashboardHivRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const clinicDashboardHivRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

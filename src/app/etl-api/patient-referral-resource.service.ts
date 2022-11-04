@@ -91,23 +91,19 @@ export class PatientReferralResourceService {
       this.REFERRAL_NOTIFICATION_PATH + '/' + payload.patient_referral_id;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http
-      .post<any>(url, JSON.stringify(payload), { headers })
-      .pipe(
-        map((response: any) => response),
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(url, JSON.stringify(payload), { headers }).pipe(
+      map((response: any) => response),
+      catchError(this.handleError)
+    );
   }
 
   public getPatientReferralReport(params: any) {
     const urlParams = this.getUrlRequestParams(params);
     const url: string = this.REFERRALS_PATH;
-    const request = this.http
-      .get<any>(url, { params: urlParams })
-      .pipe(
-        map((response: Response) => response),
-        catchError(this.handleError)
-      );
+    const request = this.http.get<any>(url, { params: urlParams }).pipe(
+      map((response: Response) => response),
+      catchError(this.handleError)
+    );
 
     const key = url + '?' + urlParams.toString();
     if (key !== this.requestUrl) {

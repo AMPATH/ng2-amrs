@@ -64,10 +64,12 @@ export class EditContactsComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.partnerPhoneNumber = this.patient.person.partnerPhoneNumber;
           this.patientPhoneNumber = this.patient.person.patientPhoneNumber;
-          this.alternativePhoneNumber = this.patient.person.alternativePhoneNumber;
+          this.alternativePhoneNumber =
+            this.patient.person.alternativePhoneNumber;
           this.nextofkinPhoneNumber = this.patient.person.nextofkinPhoneNumber;
           this.careGivername = this.patient.person.caregiverName;
-          this.relationshipToCareGiver = this.patient.person.relationshipToCaregiver;
+          this.relationshipToCareGiver =
+            this.patient.person.relationshipToCaregiver;
           this.careGiverPhoneNumber = this.patient.person.caregiverPhoneNumber;
         }
       }

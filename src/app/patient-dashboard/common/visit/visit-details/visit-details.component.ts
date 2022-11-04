@@ -236,11 +236,10 @@ export class VisitDetailsComponent implements OnInit {
           visitType &&
           Array.isArray(visitType.encounterTypes.allowedEncounters)
         ) {
-          this.allowedEncounterTypesUuids = visitType.encounterTypes.allowedEncounters.map(
-            (a) => {
+          this.allowedEncounterTypesUuids =
+            visitType.encounterTypes.allowedEncounters.map((a) => {
               return a.uuid;
-            }
-          );
+            });
         }
       }
     }

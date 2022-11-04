@@ -31,8 +31,8 @@ export class ClinicalNotesResourceService {
     }
 
     const params: HttpParams = new HttpParams()
-      .set('startIndex', (startIndex as any) as string)
-      .set('limit', (limit as any) as string);
+      .set('startIndex', startIndex as any as string)
+      .set('limit', limit as any as string);
 
     return this.http.get(api, { params: params });
   }

@@ -95,16 +95,15 @@ export class PatientReferralService {
 
   public getReferralPatientList(params: any) {
     const referralInfo: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-    const referralObservable = this.patientReferralResourceService.getPatientReferralPatientList(
-      {
+    const referralObservable =
+      this.patientReferralResourceService.getPatientReferralPatientList({
         endDate: params.endDate,
         locationUuids: params.locationUuids,
         startDate: params.startDate,
         startAge: params.startAge,
         programUuids: params.programUuids,
         startIndex: params.startIndex
-      }
-    );
+      });
 
     if (referralObservable === null) {
       throw new Error('Null referral provider observable');

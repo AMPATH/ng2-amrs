@@ -348,8 +348,8 @@ export class GroupEditorComponent implements OnInit {
   }
 
   public getLoggedInProvider() {
-    const providerPersonUuid = this.userResourceService.getLoggedInUser()
-      .personUuid;
+    const providerPersonUuid =
+      this.userResourceService.getLoggedInUser().personUuid;
     this.providerResourceService
       .getProviderByPersonUuid(providerPersonUuid)
       .subscribe((provider: any) => {
@@ -361,7 +361,8 @@ export class GroupEditorComponent implements OnInit {
   }
 
   public getCurrentUserLocation() {
-    const location = this.userLocationService.getCurrentUserDefaultLocationObject();
+    const location =
+      this.userLocationService.getCurrentUserDefaultLocationObject();
     if (location) {
       this.facility = { label: location.display, value: location.uuid };
     }

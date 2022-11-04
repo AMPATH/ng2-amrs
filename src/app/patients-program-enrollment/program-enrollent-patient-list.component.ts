@@ -20,7 +20,8 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
   styleUrls: ['./program-enrollent-patient-list.component.css']
 })
 export class ProgramEnrollmentPatientListComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public params: any;
 
   public enrolledPatientList: any = [];

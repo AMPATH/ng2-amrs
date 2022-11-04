@@ -148,9 +148,8 @@ describe('LabOrderSearchPostComponent', () => {
     spyOn(comp, 'postOrder');
 
     fixture.whenStable().then(() => {
-      const submitButton = fixture.nativeElement.querySelector(
-        '#post-order-btn'
-      );
+      const submitButton =
+        fixture.nativeElement.querySelector('#post-order-btn');
       expect(submitButton).toBeDefined();
       submitButton.click();
 

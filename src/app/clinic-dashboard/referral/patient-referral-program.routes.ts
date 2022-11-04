@@ -25,6 +25,5 @@ const routes: Routes = [
   }
 ];
 
-export const patientReferralProgramRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const patientReferralProgramRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

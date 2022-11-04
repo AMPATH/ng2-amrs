@@ -12,7 +12,8 @@ import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-n
 
 @Injectable()
 export class DataAnalyticsDashboardGuard
-  implements CanActivate, CanDeactivate<DataAnalyticsDashboardComponent> {
+  implements CanActivate, CanDeactivate<DataAnalyticsDashboardComponent>
+{
   constructor(
     private dynamicRoutesService: DynamicRoutesService,
     private clinicRoutesFactory: ClinicRoutesFactory

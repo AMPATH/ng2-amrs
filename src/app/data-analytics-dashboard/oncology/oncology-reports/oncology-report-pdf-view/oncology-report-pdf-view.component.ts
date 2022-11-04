@@ -22,7 +22,8 @@ import { OncologyReportPdfService } from './oncology-report-pdf.service';
   styleUrls: ['./oncology-report-pdf-view.component.css']
 })
 export class OncologyReportPdfViewComponent
-  implements OnInit, OnDestroy, OnChanges {
+  implements OnInit, OnDestroy, OnChanges
+{
   @Input() public title: String;
   @Input() public monthlySummary: Array<any> = [];
   @Input() public params: any;

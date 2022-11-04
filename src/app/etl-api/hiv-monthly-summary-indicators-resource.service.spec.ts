@@ -119,9 +119,9 @@ describe('HivMonthlySummaryIndicatorsResourceService Tests', () => {
   });
 
   it('should return Hiv monthly Summary Indicators Report', () => {
-    s.getHivSummaryMonthlyIndicatorsReport(
-      reportParams
-    ).subscribe((result) => {});
+    s.getHivSummaryMonthlyIndicatorsReport(reportParams).subscribe(
+      (result) => {}
+    );
 
     const req = httpMock.expectNone('');
   });

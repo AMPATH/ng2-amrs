@@ -17,7 +17,8 @@ import { GridOptions } from 'ag-grid/main';
   styleUrls: ['./data-entry-statistics-patient-list.component.css']
 })
 export class DataEntryStatisticsPatientListComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit
+{
   public title = 'Patient List';
   public busyIndicator: any = {
     busy: false,

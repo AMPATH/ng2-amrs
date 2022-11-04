@@ -31,7 +31,8 @@ import * as moment from 'moment/moment';
   encapsulation: ViewEncapsulation.None
 })
 export class PatientStatusChangeVisualizationComponent
-  implements OnInit, OnChanges, OnDestroy, AfterViewInit, AfterViewChecked {
+  implements OnInit, OnChanges, OnDestroy, AfterViewInit, AfterViewChecked
+{
   @Input()
   public renderType: string;
   @Input()

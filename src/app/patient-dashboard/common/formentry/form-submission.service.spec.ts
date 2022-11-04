@@ -99,8 +99,7 @@ describe('Service: FormSubmissionService', () => {
 
   // sample submission error
   const sampleSubmissionError: any = {
-    code:
-      'org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource:748',
+    code: 'org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource:748',
     // tslint:disable-next-line:max-line-length
     detail:
       'org.openmrs.module.webservices.rest.web.response.ConversionException: unknown provider ↵',

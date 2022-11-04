@@ -477,11 +477,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             (group) => !group.voided
           );
         }
-        const validation = this.communityGroupMemberService.validateMemberEnrollment(
-          programsEnrolled,
-          currentGroupsEnrolled,
-          this.group
-        );
+        const validation =
+          this.communityGroupMemberService.validateMemberEnrollment(
+            programsEnrolled,
+            currentGroupsEnrolled,
+            this.group
+          );
         console.log(validation);
         switch (true) {
           case validation.alreadyEnrolled.found:

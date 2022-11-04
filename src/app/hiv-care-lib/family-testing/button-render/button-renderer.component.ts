@@ -13,7 +13,8 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
   </button>`
 })
 export class FamilyTestingButtonRendererComponent
-  implements ICellRendererAngularComp {
+  implements ICellRendererAngularComp
+{
   params;
   label: string;
   buttonType: string;

@@ -442,7 +442,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   public loadDefaultValues(): void {
-    let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    let location =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
     this.retrospectiveDataEntryService.retroSettings.subscribe(
@@ -499,23 +500,20 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public shouldShowPatientReferralsDialog(data: any): void {
     this.submittedEncounter = data;
     // Check if referral location question was answered in the form (question id is `referralLocation`)
-    const referralLocation = this.form.searchNodeByQuestionId(
-      'referralLocation'
-    );
+    const referralLocation =
+      this.form.searchNodeByQuestionId('referralLocation');
     if (
       referralLocation.length > 0 &&
       _.first(referralLocation).control.value
     ) {
       const referralData = { submittedEncounter: data };
       // Check if the `Is this patient a referral` question was answered in the form (id `patientReferral`)
-      const referralQuestion = this.form.searchNodeByQuestionId(
-        'patientReferral'
-      );
+      const referralQuestion =
+        this.form.searchNodeByQuestionId('patientReferral');
       if (referralQuestion.length > 0 && _.isNil(this.programEncounter)) {
         // CDM referral
-        const referralsOrdered = this.form.searchNodeByQuestionId(
-          'referralsOrdered'
-        );
+        const referralsOrdered =
+          this.form.searchNodeByQuestionId('referralsOrdered');
         if (referralsOrdered.length > 0) {
           const answer = _.first(referralsOrdered).control.value;
           this.searchReferralConcepts(answer)
@@ -606,7 +604,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public updatePatientDemographics(data: any): void {
     // check if patient status was filled
 
-    const patientCareStatus = this.patientTransferService.getPatientStatusQuestion();
+    const patientCareStatus =
+      this.patientTransferService.getPatientStatusQuestion();
     const deathDate = this.form.searchNodeByQuestionId('deathDate');
     let causeOfDeath = this.form.searchNodeByQuestionId('reasdeath');
     if (causeOfDeath.length === 0) {
@@ -850,9 +849,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     const pcpProphylaxisCurrentControl = form.searchNodeByQuestionId(
       'pcpProphylaxisCurrent'
     );
-    const onTbProphylaxisControl = form.searchNodeByQuestionId(
-      'onTbProphylaxis'
-    );
+    const onTbProphylaxisControl =
+      form.searchNodeByQuestionId('onTbProphylaxis');
 
     childControls.forEach((cControl) => {
       const childControl = form.searchNodeByQuestionId(cControl);
@@ -914,8 +912,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     try {
       const schema: any = this.compiledSchemaWithEncounter.schema;
       this.formName = this.compiledSchemaWithEncounter.schema.display;
-      const historicalEncounter: any = this.compiledSchemaWithEncounter
-        .encounter;
+      const historicalEncounter: any =
+        this.compiledSchemaWithEncounter.encounter;
       this.dataSources.registerDataSource(
         'patient',
         this.formDataSourceService.getPatientObject(this.patient),
@@ -1011,7 +1009,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
             { covid19VaccineStatus: this.covid19VaccineStatus },
             true
           );
-          this.form.valueProcessingInfo.covid19VaccineStatus = this.covid19VaccineStatus;
+          this.form.valueProcessingInfo.covid19VaccineStatus =
+            this.covid19VaccineStatus;
         }
         // now set default value
         this.loadDefaultValues();
@@ -1079,8 +1078,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.compiledSchemaWithEncounter.visit.encounters &&
       Array.isArray(this.compiledSchemaWithEncounter.visit.encounters)
     ) {
-      const visitEncounters: Array<any> = this.compiledSchemaWithEncounter.visit
-        .encounters;
+      const visitEncounters: Array<any> =
+        this.compiledSchemaWithEncounter.visit.encounters;
       visitEncounters.forEach((enc) => {
         hd.registerEncounters(enc.encounterType.uuid, enc);
       });
@@ -1101,9 +1100,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
       whoStageQuestion.control.valueChanges.subscribe((val) => {
         if (val && val !== '') {
-          const source = this.form.dataSourcesContainer.dataSources[
-            'conceptAnswers'
-          ];
+          const source =
+            this.form.dataSourcesContainer.dataSources['conceptAnswers'];
           if (source.changeConcept) {
             source.changeConcept(val);
           }
@@ -1322,11 +1320,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private saveDuplicate(payloadTypes: any) {
     const encounterDate = this.extractEncounterDate();
-    const duplicateEncounter = this.formentryHelperService.getLastDuplicateEncounter(
-      this.previousEncounters,
-      this.form.schema.encounterType.uuid,
-      encounterDate
-    );
+    const duplicateEncounter =
+      this.formentryHelperService.getLastDuplicateEncounter(
+        this.previousEncounters,
+        this.form.schema.encounterType.uuid,
+        encounterDate
+      );
     const duplicateMoment = Object.assign({}, moment);
     const encounterDateMoment = moment(new Date(encounterDate));
     this.confirmationService.confirm({

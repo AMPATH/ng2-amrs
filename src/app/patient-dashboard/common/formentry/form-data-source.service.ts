@@ -204,9 +204,8 @@ export class FormDataSourceService {
   }
 
   public getProviderByUuid(uuid): Observable<any> {
-    const providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<
-      any
-    >([]);
+    const providerSearchResults: BehaviorSubject<any> =
+      new BehaviorSubject<any>([]);
     return this.providerResourceService
       .getProviderByUuid(uuid, false)
       .pipe(
@@ -230,9 +229,8 @@ export class FormDataSourceService {
       );
   }
   public getProviderByPersonUuid(uuid) {
-    const providerSearchResults: BehaviorSubject<any> = new BehaviorSubject<
-      any
-    >([]);
+    const providerSearchResults: BehaviorSubject<any> =
+      new BehaviorSubject<any>([]);
     this.providerResourceService.getProviderByPersonUuid(uuid).subscribe(
       (provider) => {
         const mappedProvider = {
@@ -307,9 +305,8 @@ export class FormDataSourceService {
   }
 
   public getLocationByUuid(uuid): Observable<any> {
-    const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
-      any
-    >([]);
+    const locationSearchResults: BehaviorSubject<any> =
+      new BehaviorSubject<any>([]);
     return this.locationResourceService
       .getLocationByUuid(uuid, false)
       .pipe(

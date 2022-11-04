@@ -14,7 +14,8 @@ import * as Moment from 'moment';
 })
 export class HivDailyScheduleComponent
   extends DailyScheduleBaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public routeSub: Subscription = new Subscription();
   public myDepartment = 'HIV';
   public _datePipe: DatePipe;

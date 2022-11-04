@@ -23,12 +23,11 @@ export class TelecareComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.patientService.currentlyLoadedPatientUuid.subscribe(
-      (uuid) => {
+    this.subscription =
+      this.patientService.currentlyLoadedPatientUuid.subscribe((uuid) => {
         this.patientUuid = uuid;
         this.getClientConsent();
-      }
-    );
+      });
   }
   getClientConsent() {
     this.conceptUuid = [
@@ -45,9 +44,8 @@ export class TelecareComponent implements OnInit, OnDestroy {
         const results = data['results'];
         if (results.length > 0) {
           const encDateTime = results[0].encounter.encounterDatetime;
-          this.clientConsent.dateofConsent = moment(encDateTime).format(
-            'DD-MM-YYYY HH-mm'
-          );
+          this.clientConsent.dateofConsent =
+            moment(encDateTime).format('DD-MM-YYYY HH-mm');
           this.clientConsent.encounterUuid = results[0].encounter.uuid;
           results.forEach((element) => {
             if (element.encounter.encounterDatetime === encDateTime) {

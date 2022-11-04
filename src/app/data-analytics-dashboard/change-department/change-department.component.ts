@@ -11,7 +11,8 @@ import * as _ from 'lodash';
 })
 export class ChangeDepartmentComponent
   extends DepartmentSelectComponent
-  implements OnInit {
+  implements OnInit
+{
   public analyticsDashboardConf: any = require('../../shared/dynamic-route/schema/analytics.dashboard.conf.json');
 
   constructor(

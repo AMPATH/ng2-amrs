@@ -10,9 +10,8 @@ import { CommonModule } from '@angular/common';
 export const routes: Routes = [
   { path: '', component: FormVisitTypeSearchComponent }
 ];
-export const visitTypeSearchRoutes: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const visitTypeSearchRoutes: ModuleWithProviders =
+  RouterModule.forChild(routes);
 @NgModule({
   declarations: [FormVisitTypeSearchComponent],
   providers: [

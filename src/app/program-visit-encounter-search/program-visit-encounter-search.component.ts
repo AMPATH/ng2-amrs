@@ -32,7 +32,8 @@ import { ItemsList } from '@ng-select/ng-select/ng-select/items-list';
   styleUrls: ['./program-visit-encounter-search.component.css']
 })
 export class ProgramVisitEncounterSearchComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   public programs: Array<any> = [];
   public message: any = {
     message: ''

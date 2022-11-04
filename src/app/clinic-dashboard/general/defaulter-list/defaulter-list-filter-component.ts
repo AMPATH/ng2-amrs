@@ -15,9 +15,8 @@ export class DefaulterListFilterComponent implements OnInit {
     locationUuids: ''
   };
   @Input() public currentLocation: string;
-  @Output() public resetFilter: EventEmitter<Boolean> = new EventEmitter<
-    Boolean
-  >();
+  @Output() public resetFilter: EventEmitter<Boolean> =
+    new EventEmitter<Boolean>();
   public params = {
     minDefaultPeriod: 0,
     maxDefaultPeriod: 0,

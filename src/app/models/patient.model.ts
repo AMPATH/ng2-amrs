@@ -193,9 +193,8 @@ export class Patient extends BaseModel {
         }
       } else {
         filteredIdentifiers = {
-          kenyaNationalId: this._fromArrayToCommaSeparatedString(
-            kenyaNationalId
-          ),
+          kenyaNationalId:
+            this._fromArrayToCommaSeparatedString(kenyaNationalId),
           amrsMrn: amrsMrn
             ? this._fromArrayToCommaSeparatedString(amrsMrn)
             : amrsMrn,

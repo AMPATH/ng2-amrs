@@ -26,7 +26,8 @@ import * as Moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class PatientEncounterObservationsComponent
-  implements OnInit, OnChanges {
+  implements OnInit, OnChanges
+{
   public obs: any;
   public pretty: boolean;
   public isHidden: Array<boolean> = [];

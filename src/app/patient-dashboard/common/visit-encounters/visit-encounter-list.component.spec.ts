@@ -206,8 +206,7 @@ const visitEncounterGrouping = [
                 links: [
                   {
                     rel: 'self',
-                    uri:
-                      'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/user/uuid'
+                    uri: 'https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/user/uuid'
                   }
                 ]
               },
@@ -327,13 +326,11 @@ describe('Component : Visit-Encounters', () => {
     const encounterResourceService = fixture.debugElement.injector.get(
       EncounterResourceService
     );
-    const visitResourceService = fixture.debugElement.injector.get(
-      VisitResourceService
-    );
+    const visitResourceService =
+      fixture.debugElement.injector.get(VisitResourceService);
     const route = fixture.debugElement.injector.get(MockRouter);
-    const activatedRoute = fixture.debugElement.injector.get(
-      MockActivatedRoute
-    );
+    const activatedRoute =
+      fixture.debugElement.injector.get(MockActivatedRoute);
   });
 
   afterEach(() => {

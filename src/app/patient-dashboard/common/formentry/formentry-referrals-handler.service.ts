@@ -147,13 +147,13 @@ export class FormentryReferralsHandlerService {
   }
 
   public createEnrollmentPayload(patient, referralData): any {
-    const referralLocation = this.localStorageService.getItem(
-      'referralLocation'
-    );
+    const referralLocation =
+      this.localStorageService.getItem('referralLocation');
     const referralVisitEncounter = this.localStorageService.getItem(
       'referralVisitEncounter'
     );
-    const referredFromLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const referredFromLocation =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const enrollmentPayload = {
       submittedEncounter: JSON.parse(referralVisitEncounter),
       referredToLocation: referralLocation,
@@ -184,9 +184,7 @@ export class FormentryReferralsHandlerService {
     );
   }
 
-  public extractRequiredValues(
-    form: Form
-  ): {
+  public extractRequiredValues(form: Form): {
     hasDifferentiatedCareReferal: boolean;
     rtcDate: Date;
     encounterDatetime: Date;

@@ -15,7 +15,8 @@ import {
   styleUrls: ['./patient-gains-and-losses-tabular-view.component.css']
 })
 export class PatientGainsAndLossesTabularViewComponent
-  implements OnInit, OnChanges {
+  implements OnInit, OnChanges
+{
   @Input() public patientGainAndLoseData = [];
   @Input() public sections: any;
   @Input() public params = {

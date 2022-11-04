@@ -20,7 +20,8 @@ import { EventEmitter } from 'events';
   styleUrls: ['./oncology-summary-indicators.component.css']
 })
 export class OncologySummaryIndicatorsComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit
+{
   public title = '';
   public monthlySummary: any = [];
   public isPdfReportAvailable = false;

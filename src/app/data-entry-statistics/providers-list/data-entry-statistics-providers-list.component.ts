@@ -17,7 +17,8 @@ import * as _ from 'lodash';
   styleUrls: ['./data-entry-statistics-providers-list.component.css']
 })
 export class DataEntryStatisticsProviderListComponent
-  implements OnInit, OnChanges, AfterViewInit {
+  implements OnInit, OnChanges, AfterViewInit
+{
   public title = 'Encounters Per Type Per Provider';
   public totalProviderEncounters = 0;
   public pinnedBottomRowData: any = [];

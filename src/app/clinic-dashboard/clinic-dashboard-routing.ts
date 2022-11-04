@@ -68,6 +68,5 @@ const clinicDashboardRoutes: Routes = [
     canActivate: [ClinicDashboardGuard]
   }
 ];
-export const clinicDashboardRouting: ModuleWithProviders = RouterModule.forChild(
-  clinicDashboardRoutes
-);
+export const clinicDashboardRouting: ModuleWithProviders =
+  RouterModule.forChild(clinicDashboardRoutes);

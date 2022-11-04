@@ -52,9 +52,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    const settingsFromAppSettings = this.localStorageService.getItem(
-      'appSettingsAction'
-    );
+    const settingsFromAppSettings =
+      this.localStorageService.getItem('appSettingsAction');
     // respect users choice from app settings
     if (!settingsFromAppSettings) {
       const templates = this.appSettingsService.getServerTemplates();
@@ -96,10 +95,10 @@ export class LoginComponent implements OnInit {
             }
 
             if (currentRoute && currentRoute.indexOf('login') !== -1) {
-              const previousRoute: string = sessionStorage.getItem(
-                'previousRoute'
-              );
-              const userDefaultLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocation();
+              const previousRoute: string =
+                sessionStorage.getItem('previousRoute');
+              const userDefaultLocation =
+                this.userDefaultPropertiesService.getCurrentUserDefaultLocation();
 
               if (previousRoute && previousRoute.length > 1) {
                 if (previousRoute && previousRoute.indexOf('login') !== -1) {

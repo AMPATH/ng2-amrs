@@ -46,9 +46,10 @@ export class VisualizationPatientListComponent implements OnInit, OnDestroy {
         const monthYear = params['period'].split('|');
         this.reportName = params['report'];
         this.currentIndicator = params['indicator'];
-        this.translatedIndicator = this.clinicalSummaryVisualizationService.translateColumns[
-          this.reportName
-        ][this.currentIndicator];
+        this.translatedIndicator =
+          this.clinicalSummaryVisualizationService.translateColumns[
+            this.reportName
+          ][this.currentIndicator];
         this.setDateRange(monthYear);
         this.overrideColumns.push({
           field: 'identifiers',

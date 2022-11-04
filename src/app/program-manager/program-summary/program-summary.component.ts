@@ -17,7 +17,8 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 })
 export class ProgramSummaryComponent
   extends ProgramManagerBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   constructor(
     public patientService: PatientService,
     public programService: ProgramService,

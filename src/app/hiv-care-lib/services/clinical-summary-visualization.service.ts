@@ -17,9 +17,10 @@ export class ClinicalSummaryVisualizationService {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < translateColumns.length; i++) {
       columns.push({
-        headerName: this.translateColumns['clinical-hiv-comparative-overview'][
-          translateColumns[i]
-        ],
+        headerName:
+          this.translateColumns['clinical-hiv-comparative-overview'][
+            translateColumns[i]
+          ],
         pinned: translateColumns[i] === 'reporting_month',
         onCellClicked: (params) => {
           this.colCallback.next(params);

@@ -91,9 +91,10 @@ const departmentProgramConfigService = jasmine.createSpyObj(
   ['getDartmentProgramsConfig']
 );
 
-const getDepartmentProgramsSpy = departmentProgramConfigService.getDartmentProgramsConfig.and.returnValue(
-  of(mockDepartmentProgramConfig)
-);
+const getDepartmentProgramsSpy =
+  departmentProgramConfigService.getDartmentProgramsConfig.and.returnValue(
+    of(mockDepartmentProgramConfig)
+  );
 
 const clinicDashboardCacheService = jasmine.createSpyObj(
   'ClinicDashboardCacheService',
@@ -105,27 +106,30 @@ const patientProgramEnrollmentService = jasmine.createSpyObj(
   ['getActivePatientEnrollmentSummary']
 );
 
-const patientProgramEnrollmentServiceSpy = patientProgramEnrollmentService.getActivePatientEnrollmentSummary.and.returnValue(
-  of(mockEnrollmentSummary)
-);
+const patientProgramEnrollmentServiceSpy =
+  patientProgramEnrollmentService.getActivePatientEnrollmentSummary.and.returnValue(
+    of(mockEnrollmentSummary)
+  );
 
 const patientProgramResourceService = jasmine.createSpyObj(
   'PatientProgramResourceService',
   ['getAllProgramVisitConfigs']
 );
 
-const patientProgramResourceServiceSpy = patientProgramResourceService.getAllProgramVisitConfigs.and.returnValue(
-  of(mockEnrollmentSummary)
-);
+const patientProgramResourceServiceSpy =
+  patientProgramResourceService.getAllProgramVisitConfigs.and.returnValue(
+    of(mockEnrollmentSummary)
+  );
 
 const locationResourceService = jasmine.createSpyObj(
   'LocationResourceService',
   ['getLocations']
 );
 
-const locationResourceServiceSpy = locationResourceService.getLocations.and.returnValue(
-  of(mockDepartmentProgramConfig)
-);
+const locationResourceServiceSpy =
+  locationResourceService.getLocations.and.returnValue(
+    of(mockDepartmentProgramConfig)
+  );
 
 const localStorageService = jasmine.createSpyObj('LocalStorageService', [
   'getItem'
@@ -277,12 +281,14 @@ describe('Component: Patient Program Enrollment', () => {
       .then(() => {
         fixture = TestBed.createComponent(PatientsProgramEnrollmentComponent);
         comp = fixture.componentInstance;
-        const patientsProgramService = fixture.debugElement.injector.get<
-          PatientProgramEnrollmentService
-        >(PatientProgramEnrollmentService);
-        const departmentService = fixture.debugElement.injector.get<
-          DepartmentProgramsConfigService
-        >(DepartmentProgramsConfigService);
+        const patientsProgramService =
+          fixture.debugElement.injector.get<PatientProgramEnrollmentService>(
+            PatientProgramEnrollmentService
+          );
+        const departmentService =
+          fixture.debugElement.injector.get<DepartmentProgramsConfigService>(
+            DepartmentProgramsConfigService
+          );
         cd = fixture.debugElement.injector.get<ChangeDetectorRef>(
           ChangeDetectorRef as any
         );

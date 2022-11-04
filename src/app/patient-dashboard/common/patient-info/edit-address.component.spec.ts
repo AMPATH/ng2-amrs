@@ -159,21 +159,16 @@ describe('Component: EditAddressComponent Unit Tests', () => {
   });
 
   it('should instantiate the component', () => {
-    const countyLabel: HTMLLabelElement = nativeElement.querySelector(
-      'label#county'
-    );
-    const subcountyLabel: HTMLLabelElement = nativeElement.querySelector(
-      'label#subcounty'
-    );
-    const estateLabel: HTMLLabelElement = nativeElement.querySelector(
-      'label#estate'
-    );
-    const cityLabel: HTMLLabelElement = nativeElement.querySelector(
-      'label#city'
-    );
-    const cancelBtn: HTMLButtonElement = nativeElement.querySelector(
-      'button#cancelBtn'
-    );
+    const countyLabel: HTMLLabelElement =
+      nativeElement.querySelector('label#county');
+    const subcountyLabel: HTMLLabelElement =
+      nativeElement.querySelector('label#subcounty');
+    const estateLabel: HTMLLabelElement =
+      nativeElement.querySelector('label#estate');
+    const cityLabel: HTMLLabelElement =
+      nativeElement.querySelector('label#city');
+    const cancelBtn: HTMLButtonElement =
+      nativeElement.querySelector('button#cancelBtn');
 
     expect(component).toBeDefined();
     expect(component.display).toEqual(true);
@@ -197,18 +192,14 @@ describe('Component: EditAddressComponent Unit Tests', () => {
     ).and.callThrough();
 
     // Set new values for county, subcounty, estate and city
-    const countySelect: HTMLSelectElement = nativeElement.querySelector(
-      'select#address1'
-    );
-    const subcountyInput: HTMLInputElement = nativeElement.querySelector(
-      'input#address2'
-    );
-    const estateInput: HTMLInputElement = nativeElement.querySelector(
-      'input#address3'
-    );
-    const cityInput: HTMLInputElement = nativeElement.querySelector(
-      'input#cityVillage'
-    );
+    const countySelect: HTMLSelectElement =
+      nativeElement.querySelector('select#address1');
+    const subcountyInput: HTMLInputElement =
+      nativeElement.querySelector('input#address2');
+    const estateInput: HTMLInputElement =
+      nativeElement.querySelector('input#address3');
+    const cityInput: HTMLInputElement =
+      nativeElement.querySelector('input#cityVillage');
 
     expect(component.address1).toEqual('Foo', 'county');
     expect(component.address2).toEqual('Bar', 'subcounty');
@@ -253,9 +244,8 @@ describe('Component: EditAddressComponent Unit Tests', () => {
           })
         );
 
-        const successMsg: HTMLDivElement = nativeElement.querySelector(
-          'div#successMsg'
-        );
+        const successMsg: HTMLDivElement =
+          nativeElement.querySelector('div#successMsg');
         expect(successMsg.innerText).toContain(
           'Done! Address saved successfully'
         );

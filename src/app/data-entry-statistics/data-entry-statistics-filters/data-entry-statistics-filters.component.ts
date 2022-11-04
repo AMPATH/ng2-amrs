@@ -25,7 +25,8 @@ import { PatientProgramResourceService } from './../../etl-api/patient-program-r
   styleUrls: ['./data-entry-statistics-filters.component.css']
 })
 export class DataEntryStatisticsFiltersComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Output() public filterParams: any = new EventEmitter<string>();
   @Output() public viewSelected: any = new EventEmitter<string>();
   @Output() public filterReset: any = new EventEmitter<boolean>();

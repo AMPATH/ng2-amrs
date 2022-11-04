@@ -162,7 +162,8 @@ export class VisitComponent implements OnInit, OnDestroy {
   }
 
   public getVisitStartedMsgStatus() {
-    this.showVisitStartedMsg = this.todayVisitService.getVisitStartedMsgStatus();
+    this.showVisitStartedMsg =
+      this.todayVisitService.getVisitStartedMsgStatus();
   }
 
   public removeVisitStartedMsg() {
@@ -264,8 +265,8 @@ export class VisitComponent implements OnInit, OnDestroy {
       } else {
         returnedVisit = this.programVisitsObj[this.programUuid].currentVisit;
         visits = this.programVisitsObj[this.programUuid].visits;
-        currentEnrollment = this.programVisitsObj[this.programUuid].enrollment
-          .enrolledProgram;
+        currentEnrollment =
+          this.programVisitsObj[this.programUuid].enrollment.enrolledProgram;
       }
 
       this.visit = returnedVisit;

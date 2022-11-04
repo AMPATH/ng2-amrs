@@ -129,9 +129,10 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     });
     this.patient = this.order.patient;
     this.person = new Person(this.order.patient.person);
-    this.searchIdentifiers = this.labOrdersSearchHelperService.searchIdentifiers(
-      this.order.patient.identifiers
-    );
+    this.searchIdentifiers =
+      this.labOrdersSearchHelperService.searchIdentifiers(
+        this.order.patient.identifiers
+      );
     this.orderType = this.labOrdersSearchHelperService.determineOrderType(
       this.order
     );
@@ -187,9 +188,10 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.vlJustification = this.labOrdersSearchHelperService.getViralLoadJustification(
-      this.order.encounter.obs
-    );
+    this.vlJustification =
+      this.labOrdersSearchHelperService.getViralLoadJustification(
+        this.order.encounter.obs
+      );
   }
 
   get isVisible() {
@@ -456,9 +458,8 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
           return i.identifierType.uuid === this.heiIdentifierType;
         });
       }
-      const defaultIdentifier: Identifier = this.selectDefaultIdentifier(
-        allowedIdentifiers
-      );
+      const defaultIdentifier: Identifier =
+        this.selectDefaultIdentifier(allowedIdentifiers);
       this.setDefaultIdentifier(defaultIdentifier);
       _.each(allowedIdentifiers, (identifier: Identifier) => {
         if (_.indexOf(identifier.display, '=') > 0) {

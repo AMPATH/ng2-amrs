@@ -91,16 +91,14 @@ describe('Component: EditContacts Unit Tests', () => {
     spyOn(component, 'getPatient').and.callFake((err, data) => {});
     component.getPatient((err, data) => {});
     expect(component.getPatient).toHaveBeenCalled();
-    spyOn(
-      component,
-      'getPersonAttributeByAttributeTypeUuid'
-    ).and.callFake((err, data) => {});
+    spyOn(component, 'getPersonAttributeByAttributeTypeUuid').and.callFake(
+      (err, data) => {}
+    );
     component.getPersonAttributeByAttributeTypeUuid((err, data) => {});
     expect(component.getPersonAttributeByAttributeTypeUuid).toHaveBeenCalled();
-    spyOn(
-      component,
-      'filterUndefinedUuidFromPayLoad'
-    ).and.callFake((err, data) => {});
+    spyOn(component, 'filterUndefinedUuidFromPayLoad').and.callFake(
+      (err, data) => {}
+    );
     component.filterUndefinedUuidFromPayLoad((err, data) => {});
     expect(component.filterUndefinedUuidFromPayLoad).toHaveBeenCalled();
 

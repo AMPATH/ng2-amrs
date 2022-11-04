@@ -99,7 +99,8 @@ export class UserDefaultPropertiesComponent implements OnInit {
           this.mapDepartments(results);
           this.setDepartmentLocation();
         }
-        this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
+        this.currentLocation =
+          this.propertyLocationService.getCurrentUserDefaultLocationObject();
         if (!this.currentLocation) {
           this.disable = true;
         }

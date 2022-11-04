@@ -136,6 +136,5 @@ const routes: Routes = [
   }
 ];
 
-export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders = RouterModule.forChild(
-  routes
-);
+export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders =
+  RouterModule.forChild(routes);

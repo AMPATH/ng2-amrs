@@ -141,7 +141,8 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
   public setUserDefaultLocation() {
-    const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+    const location: any =
+      this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     this.retrospectiveDataEntryService.retroSettings.subscribe(
       (retroSettings) => {
         if (location && location.uuid) {
@@ -207,14 +208,13 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
                 return attribute !== undefined;
               });
               if (this.patientCohort) {
-                this.cohostVisitsDropdownOptions = this.patientCohort.cohort.cohortVisits.map(
-                  (v) => {
+                this.cohostVisitsDropdownOptions =
+                  this.patientCohort.cohort.cohortVisits.map((v) => {
                     return {
                       value: v.uuid,
                       label: `${this.datePipe.transform(v.startDate)} Meeting`
                     };
-                  }
-                );
+                  });
               }
             },
             (error) => {

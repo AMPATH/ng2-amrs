@@ -113,9 +113,8 @@ describe('Component : MOTD Notification', () => {
       MOTDNotificationService
     );
     const route = fixture.debugElement.injector.get(MockRouter);
-    const activatedRoute = fixture.debugElement.injector.get(
-      MockActivatedRoute
-    );
+    const activatedRoute =
+      fixture.debugElement.injector.get(MockActivatedRoute);
   });
 
   afterEach(() => {

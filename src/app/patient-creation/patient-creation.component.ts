@@ -221,7 +221,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.verificationIdentifierTypes = this.patientIdentifierTypeResService.patientVerificationIdentifierTypeFormat();
+    this.verificationIdentifierTypes =
+      this.patientIdentifierTypeResService.patientVerificationIdentifierTypeFormat();
 
     this.getLocations();
     this.getCommonIdentifierTypes();
@@ -1478,9 +1479,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.isValidIdentifier = false;
     this.identifierValidity = '';
     const identifierType = this.patientIdentifierType;
-    const identifierTypeSpecifiedFormat = this.patientCreationService.getIdentifierTypeFormat(
-      (identifierType as any).val
-    );
+    const identifierTypeSpecifiedFormat =
+      this.patientCreationService.getIdentifierTypeFormat(
+        (identifierType as any).val
+      );
     let identifierHasCheckDigit = null;
     let identifierHasRegex = null;
 

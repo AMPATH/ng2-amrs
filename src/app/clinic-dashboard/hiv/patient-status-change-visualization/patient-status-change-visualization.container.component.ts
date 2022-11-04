@@ -19,7 +19,8 @@ import * as _ from 'lodash';
   styleUrls: ['./patient-status-change-visualization.container.component.css']
 })
 export class PatientStatusChangeVisualizationContainerComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public error: any;
   public results = {
     startIndex: 0,

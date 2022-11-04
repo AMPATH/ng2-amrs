@@ -79,7 +79,8 @@ export class RetrospectiveSettingsComponent implements OnInit, OnDestroy {
     this.group = this.route.snapshot.paramMap.get('group');
     this.enableRetro =
       this.localStorageService.getItem('enableRetro') === 'true';
-    this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
+    this.currentLocation =
+      this.propertyLocationService.getCurrentUserDefaultLocationObject();
     this._init();
   }
 

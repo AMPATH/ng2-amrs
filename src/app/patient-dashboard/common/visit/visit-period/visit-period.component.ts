@@ -128,28 +128,29 @@ export class VisitPeriodComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToPatientChangeEvent() {
-    this.patientSubscription = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
-        // this.resetVariables();
-        if (patient !== null) {
-          this.encounters = patient.encounters;
-        } else {
-          // console.error('No patient');
-        }
+    this.patientSubscription =
+      this.patientService.currentlyLoadedPatient.subscribe(
+        (patient) => {
+          // this.resetVariables();
+          if (patient !== null) {
+            this.encounters = patient.encounters;
+          } else {
+            // console.error('No patient');
+          }
 
-        if (this.encounterUuid) {
-          this.loadVisitByEncounter(this.encounterUuid);
+          if (this.encounterUuid) {
+            this.loadVisitByEncounter(this.encounterUuid);
+          }
+        },
+        (err) => {
+          console.error('An error occured while fetching the patient', err);
+          this.resetVariables();
+          this.errors.push({
+            id: 'patient',
+            message: 'error fetching patient'
+          });
         }
-      },
-      (err) => {
-        console.error('An error occured while fetching the patient', err);
-        this.resetVariables();
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching patient'
-        });
-      }
-    );
+      );
   }
 
   public getLocations() {

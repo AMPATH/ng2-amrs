@@ -65,9 +65,8 @@ describe('PatientSideNavComponent:', () => {
   });
 
   it('should changed the displayed new routes for a patient when they change', (done) => {
-    const dynamicRoutesService: DynamicRoutesService = TestBed.get(
-      DynamicRoutesService
-    );
+    const dynamicRoutesService: DynamicRoutesService =
+      TestBed.get(DynamicRoutesService);
     const newRoutes: Array<RouteModel> = [new RouteModel(), new RouteModel()];
     dynamicRoutesService.setPatientDashBoardRoutes(newRoutes);
     fixture.detectChanges();
@@ -80,9 +79,8 @@ describe('PatientSideNavComponent:', () => {
     'should display the child routes for the selected programs when' +
       ' a program route is selected',
     (done) => {
-      const dynamicRoutesService: DynamicRoutesService = TestBed.get(
-        DynamicRoutesService
-      );
+      const dynamicRoutesService: DynamicRoutesService =
+        TestBed.get(DynamicRoutesService);
       const programRoute = new RouteModel();
       programRoute.renderingInfo = {};
       programRoute.initials = 'P';
@@ -102,9 +100,8 @@ describe('PatientSideNavComponent:', () => {
   );
 
   it('should display Forms Tab depending on the roles', (done) => {
-    const dynamicRoutesService: DynamicRoutesService = TestBed.get(
-      DynamicRoutesService
-    );
+    const dynamicRoutesService: DynamicRoutesService =
+      TestBed.get(DynamicRoutesService);
     const programRoute = new RouteModel();
     programRoute.renderingInfo = {};
     programRoute.initials = 'G';

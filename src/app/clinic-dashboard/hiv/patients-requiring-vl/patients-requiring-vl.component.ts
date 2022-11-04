@@ -12,7 +12,8 @@ import { PatientsRequiringVLResourceService } from '../../../etl-api/patients-re
 })
 export class PatientsRequiringVLComponent
   extends PatientsRequiringVLBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
 

@@ -85,12 +85,10 @@ describe('Component: HivSummaryIndicatorsPatientListComponent', () => {
     currentTestComponent.endAge = 120;
     currentTestComponent.ngOnInit();
     currentTestFixture.detectChanges();
-    const h3strong: Array<DebugElement> = currentTestFixture.debugElement.queryAll(
-      By.css('h3')
-    );
-    const h5strong: Array<DebugElement> = currentTestFixture.debugElement.queryAll(
-      By.css('h5')
-    );
+    const h3strong: Array<DebugElement> =
+      currentTestFixture.debugElement.queryAll(By.css('h3'));
+    const h5strong: Array<DebugElement> =
+      currentTestFixture.debugElement.queryAll(By.css('h5'));
     const onArvs = h3strong[0].nativeElement;
     const date = h5strong[0].nativeElement;
     expect(h3strong.length).toBe(1);

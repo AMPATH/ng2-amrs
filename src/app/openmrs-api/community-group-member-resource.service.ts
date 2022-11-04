@@ -131,29 +131,32 @@ export class CommunityGroupMemberService {
     groupToEnroll: Group
   ): GroupEnrollmentValidation {
     // tslint:disable-next-line:prefer-const
-    let validations: GroupEnrollmentValidation = new GroupEnrollmentValidation();
+    let validations: GroupEnrollmentValidation =
+      new GroupEnrollmentValidation();
     try {
       const groupProgramUuid = this.communityService.getGroupAttribute(
         'programUuid',
         groupToEnroll.attributes
       ).value;
-      const patientEnrolledInGroupProgram = this._isPatientEnrolledInGroupProgram(
-        programsEnrolled,
-        groupProgramUuid
-      );
-      const patientEnrolledInAnotherGroupInSameProgram = this._isPatientEnrolledInAnotherGroupInSameProgram(
-        groupsEnrolled,
-        groupProgramUuid
-      );
-      const patientAlreadyEnrolledInGroup = this._isPatientAlreadyEnrolledInGroup(
-        groupsEnrolled,
-        groupToEnroll.uuid
-      );
+      const patientEnrolledInGroupProgram =
+        this._isPatientEnrolledInGroupProgram(
+          programsEnrolled,
+          groupProgramUuid
+        );
+      const patientEnrolledInAnotherGroupInSameProgram =
+        this._isPatientEnrolledInAnotherGroupInSameProgram(
+          groupsEnrolled,
+          groupProgramUuid
+        );
+      const patientAlreadyEnrolledInGroup =
+        this._isPatientAlreadyEnrolledInGroup(
+          groupsEnrolled,
+          groupToEnroll.uuid
+        );
 
       validations['alreadyEnrolled'] = patientAlreadyEnrolledInGroup;
-      validations[
-        'enrolledInAnotherGroupInSameProgram'
-      ] = patientEnrolledInAnotherGroupInSameProgram;
+      validations['enrolledInAnotherGroupInSameProgram'] =
+        patientEnrolledInAnotherGroupInSameProgram;
       validations['notEnrolledInGroupProgram'] = patientEnrolledInGroupProgram;
       return validations;
     } catch (error) {

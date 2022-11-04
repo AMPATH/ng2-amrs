@@ -87,7 +87,8 @@ export class FormSubmissionService {
       payloadTypes.forEach((payloadType: any, key) => {
         switch (payloadType) {
           case 'encounter':
-            const providers = this.formDataSourceService.getCachedProviderSearchResults();
+            const providers =
+              this.formDataSourceService.getCachedProviderSearchResults();
 
             if (
               providers &&
@@ -98,9 +99,8 @@ export class FormSubmissionService {
               form = this.setProviderUuid(form, providerUuid);
             }
 
-            const encounterPayload: any = this.encounterAdapter.generateFormPayload(
-              form
-            );
+            const encounterPayload: any =
+              this.encounterAdapter.generateFormPayload(form);
             if (!_.isEmpty(encounterPayload)) {
               payloadBatch.push(
                 this.submitEncounterPayload(form, encounterPayload).pipe(
@@ -121,9 +121,8 @@ export class FormSubmissionService {
             }
             break;
           case 'personAttribute':
-            const personAttrPayload: Array<any> = this.personAttributeAdapter.generateFormPayload(
-              form
-            );
+            const personAttrPayload: Array<any> =
+              this.personAttributeAdapter.generateFormPayload(form);
             if (!_.isEmpty(personAttrPayload)) {
               // this should be > 0
               payloadBatch.push(

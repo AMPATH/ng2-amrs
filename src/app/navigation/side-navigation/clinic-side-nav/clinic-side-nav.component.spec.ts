@@ -58,9 +58,8 @@ describe('ClinicSideNavComponent:', () => {
   });
 
   it('should changed the displayed new routes for a patient when they change', (done) => {
-    const dynamicRoutesService: DynamicRoutesService = TestBed.get(
-      DynamicRoutesService
-    );
+    const dynamicRoutesService: DynamicRoutesService =
+      TestBed.get(DynamicRoutesService);
     const newRoutes: Array<RouteModel> = [new RouteModel(), new RouteModel()];
     dynamicRoutesService.setClinicDashBoardRoutes(newRoutes);
     fixture.detectChanges();

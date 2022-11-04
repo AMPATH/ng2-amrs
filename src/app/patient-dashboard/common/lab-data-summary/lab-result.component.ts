@@ -336,7 +336,8 @@ export class LabResultComponent implements OnInit, OnDestroy {
   }
 
   public getCurrentDepartment() {
-    const defaultDepartment = this.selectDepartmentService.getUserSetDepartment();
+    const defaultDepartment =
+      this.selectDepartmentService.getUserSetDepartment();
     this.currentDepartment = defaultDepartment;
     this.setLabRows(this.currentDepartment);
     this.setLabSummaryView(this.currentDepartment);

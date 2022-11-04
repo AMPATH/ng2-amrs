@@ -68,6 +68,5 @@ export const dashboardRoutes: Routes = [
   }
 ];
 
-export const dashboardRouting: ModuleWithProviders = RouterModule.forChild(
-  dashboardRoutes
-);
+export const dashboardRouting: ModuleWithProviders =
+  RouterModule.forChild(dashboardRoutes);

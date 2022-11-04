@@ -13,7 +13,8 @@ import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.ser
 import { MainDashboardComponent } from './main-dashboard.component';
 @Injectable()
 export class MainDashboardGuard
-  implements CanActivate, CanDeactivate<MainDashboardComponent> {
+  implements CanActivate, CanDeactivate<MainDashboardComponent>
+{
   constructor(
     private dynamicRoutesService: DynamicRoutesService,
     private router: Router,

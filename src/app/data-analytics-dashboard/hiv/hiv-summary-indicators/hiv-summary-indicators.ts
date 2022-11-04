@@ -13,7 +13,8 @@ import { DataAnalyticsDashboardService } from '../../services/data-analytics-das
 })
 export class HivSummaryIndicatorsComponent
   extends HivSummaryIndicatorBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
 

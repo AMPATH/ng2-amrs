@@ -28,13 +28,11 @@ export class UserService {
     const baseUrl = this.getOpenMrsBaseUrl();
     const url = baseUrl + 'user?v=custom:(uuid,display,person)';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this._http
-      .get<any>(url, { headers })
-      .pipe(
-        map((response) => {
-          return response.results;
-        })
-      );
+    return this._http.get<any>(url, { headers }).pipe(
+      map((response) => {
+        return response.results;
+      })
+    );
   }
   public getOpenMrsBaseUrl(): string {
     return this.appSettingsService.getOpenmrsRestbaseurl().trim();

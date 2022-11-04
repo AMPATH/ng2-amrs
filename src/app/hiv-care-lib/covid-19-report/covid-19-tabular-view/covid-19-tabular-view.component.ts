@@ -63,15 +63,13 @@ export class Covid19TabularViewComponent implements OnInit, OnChanges {
         headerName: section.sectionTitle,
         field: section.sectionTitle,
         width: 200,
-        children: section.indicators.map(
-          (i: any): GridCol => {
-            return {
-              headerName: i.label,
-              field: i.indicator,
-              width: 200
-            };
-          }
-        )
+        children: section.indicators.map((i: any): GridCol => {
+          return {
+            headerName: i.label,
+            field: i.indicator,
+            width: 200
+          };
+        })
       });
     });
 

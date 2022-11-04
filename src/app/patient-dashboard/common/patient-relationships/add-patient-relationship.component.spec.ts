@@ -98,10 +98,9 @@ describe('Component: AddRelationship Unit Tests', () => {
     spyOn(component, 'showDialog').and.callFake((err, data) => {});
     component.showDialog((err, data) => {});
     expect(component.showDialog).toHaveBeenCalled();
-    spyOn(
-      component,
-      'getPatientRelationshipPayload'
-    ).and.callFake((err, data) => {});
+    spyOn(component, 'getPatientRelationshipPayload').and.callFake(
+      (err, data) => {}
+    );
     component.getPatientRelationshipPayload((err, data) => {});
     expect(component.getPatientRelationshipPayload).toHaveBeenCalled();
     spyOn(component, 'cancelRelationship').and.callFake((err, data) => {});

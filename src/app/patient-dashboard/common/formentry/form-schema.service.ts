@@ -28,9 +28,8 @@ export class FormSchemaService {
     cached: boolean = true
   ): ReplaySubject<any> {
     const formSchema: ReplaySubject<any> = new ReplaySubject(1);
-    const cachedCompiledSchema: any = this.getCachedCompiledSchemaByUuid(
-      formUuid
-    );
+    const cachedCompiledSchema: any =
+      this.getCachedCompiledSchemaByUuid(formUuid);
     if (cachedCompiledSchema && cached === true) {
       formSchema.next(cachedCompiledSchema);
     } else {
@@ -46,10 +45,11 @@ export class FormSchemaService {
               formMetadataObject.referencedForms = form.referencedForms || [];
               formMetadataObject.processor = form.processor;
               // compile schema
-              const compiledSchema: any = this.formSchemaCompiler.compileFormSchema(
-                formMetadataObject,
-                referencedComponents
-              );
+              const compiledSchema: any =
+                this.formSchemaCompiler.compileFormSchema(
+                  formMetadataObject,
+                  referencedComponents
+                );
               // now cache the compiled schema
               this.cacheCompiledSchemaByUuid(formUuid, compiledSchema);
               // return the compiled schema
@@ -133,9 +133,8 @@ export class FormSchemaService {
     const observableBatch: Array<Observable<any>> = [];
     const referencedForms: Array<any> = formSchema.referencedForms;
     if (Array.isArray(referencedForms) && referencedForms.length > 0) {
-      const referencedUuids: Array<string> = this.getFormUuidArray(
-        referencedForms
-      );
+      const referencedUuids: Array<string> =
+        this.getFormUuidArray(referencedForms);
       referencedUuids.forEach((referencedUuid: any, key) => {
         observableBatch.push(
           this.fetchFormSchemaUsingFormMetadata(referencedUuid)

@@ -39,7 +39,8 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
     this._data.next(
       this.clinicalSummaryVisualizationService.generateTableData(value)
     );
-    this.columns = this.clinicalSummaryVisualizationService.generateTabularViewColumns;
+    this.columns =
+      this.clinicalSummaryVisualizationService.generateTabularViewColumns;
   }
 
   get data() {
@@ -47,10 +48,11 @@ export class HivCareTabularViewComponent implements OnInit, OnDestroy {
   }
 
   public goToPatientList(indicator, col) {
-    const dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      col.reporting_month.split('/')[0],
-      col.reporting_month.split('/')[1] - 1
-    );
+    const dateRange =
+      this.clinicalSummaryVisualizationService.getMonthDateRange(
+        col.reporting_month.split('/')[0],
+        col.reporting_month.split('/')[1] - 1
+      );
 
     this.router.navigate(
       [

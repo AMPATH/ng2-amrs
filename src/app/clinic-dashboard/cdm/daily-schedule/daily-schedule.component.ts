@@ -19,7 +19,8 @@ import { ClinicFlowCacheService } from '../../../hiv-care-lib/clinic-flow/clinic
 })
 export class CdmDailyScheduleComponent
   extends DailyScheduleBaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public myDepartment = 'CDM';
   public routeSub: Subscription;
   public paramsSub: Subscription;

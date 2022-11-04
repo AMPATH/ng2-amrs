@@ -64,10 +64,11 @@ export class HivCareComparativeChartComponent implements OnInit {
   }
 
   public goToPatientList(indicator, filters) {
-    const dateRange = this.clinicalSummaryVisualizationService.getMonthDateRange(
-      filters.split('/')[0],
-      filters.split('/')[1] - 1
-    );
+    const dateRange =
+      this.clinicalSummaryVisualizationService.getMonthDateRange(
+        filters.split('/')[0],
+        filters.split('/')[1] - 1
+      );
 
     this.router.navigate(
       [

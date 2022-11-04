@@ -13,7 +13,8 @@ import { KibanaVizComponent } from '../../shared/kibana-viz/kibana-viz.component
 })
 export class ClinicKibanaVizComponent
   extends KibanaVizComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   public kibanaVizUrl: string;
   public locationUuid: string;
   public height = '600';

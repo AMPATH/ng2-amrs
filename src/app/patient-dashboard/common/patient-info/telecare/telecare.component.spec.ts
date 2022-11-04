@@ -65,9 +65,8 @@ describe('TelecareComponent', () => {
   });
 
   it('should create', () => {
-    const rowHtmlElements = fixture.debugElement.nativeElement.querySelectorAll(
-      'tbody tr'
-    );
+    const rowHtmlElements =
+      fixture.debugElement.nativeElement.querySelectorAll('tbody tr');
     expect(rowHtmlElements.length).toBe(1);
     expect(rowHtmlElements[0].innerHTML).toContain('Add consent');
     expect(component).toBeTruthy();
@@ -112,12 +111,10 @@ describe('TelecareComponent', () => {
     );
     component.getClientConsent();
     fixture.detectChanges();
-    const noConsentWarning = fixture.debugElement.nativeElement.querySelectorAll(
-      '.text-danger'
-    );
-    const tdHtmlElements = fixture.debugElement.nativeElement.querySelectorAll(
-      'td'
-    );
+    const noConsentWarning =
+      fixture.debugElement.nativeElement.querySelectorAll('.text-danger');
+    const tdHtmlElements =
+      fixture.debugElement.nativeElement.querySelectorAll('td');
     expect(tdHtmlElements.length).toEqual(5);
     expect(noConsentWarning).toBeDefined();
   });

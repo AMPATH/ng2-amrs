@@ -13,7 +13,8 @@ import * as Moment from 'moment';
 })
 export class IptReportComponent
   extends IptBaseReportComponent
-  implements OnInit {
+  implements OnInit
+{
   constructor(
     public route: ActivatedRoute,
     public router: Router,

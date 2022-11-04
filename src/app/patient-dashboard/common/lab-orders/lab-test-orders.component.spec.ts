@@ -84,10 +84,9 @@ describe('Component: Lab Test Orders Unit Tests', () => {
     spyOn(component, 'getPatientLabOrders').and.callFake((err, data) => {});
     component.getPatientLabOrders('report', 'uuid', (err, data) => {});
     expect(component.getPatientLabOrders).toHaveBeenCalled();
-    spyOn(
-      component,
-      'getCurrentlyLoadedPatient'
-    ).and.callFake((err, data) => {});
+    spyOn(component, 'getCurrentlyLoadedPatient').and.callFake(
+      (err, data) => {}
+    );
     component.getCurrentlyLoadedPatient((err, data) => {});
     expect(component.getCurrentlyLoadedPatient).toHaveBeenCalled();
 

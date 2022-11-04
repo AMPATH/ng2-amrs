@@ -56,9 +56,10 @@ const locationResourceService = jasmine.createSpyObj(
   ['getLocations']
 );
 
-const locationResourceServiceSpy = locationResourceService.getLocations.and.returnValue(
-  of(mockDepartmentProgramConfig)
-);
+const locationResourceServiceSpy =
+  locationResourceService.getLocations.and.returnValue(
+    of(mockDepartmentProgramConfig)
+  );
 describe('Component: ProgramEnrollmentPatientListComponent', () => {
   let fixture: ComponentFixture<ReportFilterComponent>;
   let router: Router;
@@ -98,9 +99,8 @@ describe('Component: ProgramEnrollmentPatientListComponent', () => {
         fixture = TestBed.createComponent(ReportFilterComponent);
         comp = fixture.componentInstance;
         router = fixture.debugElement.injector.get<Router>(Router);
-        route = fixture.debugElement.injector.get<ActivatedRoute>(
-          ActivatedRoute
-        );
+        route =
+          fixture.debugElement.injector.get<ActivatedRoute>(ActivatedRoute);
       });
   }));
 

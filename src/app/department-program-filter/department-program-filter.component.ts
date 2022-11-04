@@ -22,7 +22,8 @@ import { LocalStorageService } from 'src/app/utils/local-storage.service';
   styleUrls: ['./department-program-filter.component.css']
 })
 export class DepartmentProgramFilterComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   public selectedProgram: string;
   public programs: Array<any> = [];
   public departmenProgramtConfig: any = [];

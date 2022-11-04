@@ -13,7 +13,8 @@ import { DataAnalyticsDashboardService } from '../../services/data-analytics-das
 })
 export class HivCareComparativeAnalyticsComponent
   extends HivCareComparativeOverviewBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   public data = [];
   public sectionsDef = [];
 

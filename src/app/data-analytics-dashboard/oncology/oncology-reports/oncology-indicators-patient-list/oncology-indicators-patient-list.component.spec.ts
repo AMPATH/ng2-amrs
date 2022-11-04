@@ -137,9 +137,10 @@ describe('OncologySummaryIndicatorsPatientListComponent', () => {
       ['getOncologySummaryMonthlyIndicatorsPatientList']
     );
 
-    getOncologySummaryMonthlyIndicatorsPatientListSpy = oncologySummaryIndicatorsResourceServiceSpy.getOncologySummaryMonthlyIndicatorsPatientList.and.returnValue(
-      of(mockResults)
-    );
+    getOncologySummaryMonthlyIndicatorsPatientListSpy =
+      oncologySummaryIndicatorsResourceServiceSpy.getOncologySummaryMonthlyIndicatorsPatientList.and.returnValue(
+        of(mockResults)
+      );
 
     TestBed.configureTestingModule({
       declarations: [OncologySummaryIndicatorsPatientListComponent],
