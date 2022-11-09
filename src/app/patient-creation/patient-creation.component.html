@@ -1,33 +1,34 @@
 <div class="box-body">
   <div class="component-wrapper">
     <div style="margin-bottom: 0.5cm" *ngIf="!found">
-      <!-- Unique Numbers -->
-      <div *ngIf="hasIds" style="margin-left: 100px">
-        <div class="col-md-5"></div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="nid"
-              >National ID: <span>{{ uniqueIds[0]?.identifier }}</span></label
-            >
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="upi"
-              >UPI Number: <span>{{ uniqueIds[1]?.identifier }}</span></label
-            >
-          </div>
-        </div>
-      </div>
-
       <!-- Search Registry -->
 
       <div class="row" *ngIf="isNewPatient === 1">
-        <h2>Patient Verification</h2>
+        <h2 style="color: #76b5c5">Patient Verification</h2>
         <div class="col-md-3">
           <div class="form-group">
-            <label class="control-label">Patient Identifier Type:</label>
+            <label
+              id="countrySearchParam"
+              for="countrySearchParam"
+              class="control-label"
+              >Country<span *ngIf="!countrySearchParam" class="required">
+                *</span
+              ></label
+            >
+            <ng-select
+              [typeahead]="countrySuggest"
+              class="sharp-corners select"
+              [items]="countries"
+              name="countryInput"
+              [(ngModel)]="countrySearchParam"
+              #countryInput="ngModel"
+              required
+            ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Verification ID Type:</label>
             <select
               id="identifierType"
               class="form-control"
@@ -43,7 +44,7 @@
               </option>
             </select>
             <div *ngIf="!patientIdentifierType">
-              <div class="help-block">Identifier Type is required!</div>
+              <div class="help-block">Verification ID is required!</div>
             </div>
           </div>
         </div>
@@ -67,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <div class="form-group">
             <button
               id="updateCrBtn"
@@ -79,15 +80,10 @@
             </button>
           </div>
         </div>
-        <div class="col-md-4">
-          <label style="background-color: yellow; margin-top: 15px">{{
-            searchResult
-          }}</label>
-        </div>
       </div>
 
       <!-- Start of Demographics -->
-      <h2>Patient Registration</h2>
+      <h2 style="color: #76b5c5">Patient Registration</h2>
       <div class="row" style="margin-top: 20px">
         <div class="col-md-4">
           <div class="form-group">
@@ -793,7 +789,9 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label id="country" for="country" class="control-label"
-                >Country<span *ngIf="!country" class="required"> *</span></label
+                >Country of Origin<span *ngIf="!country" class="required">
+                  *</span
+                ></label
               >
               <select
                 id="country"
@@ -815,7 +813,7 @@
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label id="address10" for="address10" class="control-label"
-                >County of Birth</label
+                >County of Origin</label
               >
               <select
                 id="address10"
@@ -834,6 +832,10 @@
               </select>
             </div>
           </div>
+          <div class="col-md-9 col-lg-9 col-sm-9 col-xs-9">
+            <h3 style="color: #76b5c5">Current Residence</h3>
+          </div>
+          <hr class="intro-divider patient-info-divider" />
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label id="address1" for="address1" class="control-label"
@@ -1222,6 +1224,46 @@
         >
           <span class="glyphicon glyphicon-remove"></span> No
         </button>
+      </div>
+    </ng-template>
+    <ng-template #verificationModal>
+      <div bsModal class="modal-header">
+        <h4 class="modal-title pull-left" style="color: red">
+          <span class="glyphicon glyphicon-info-sign"></span> &nbsp; &nbsp;
+          Information.
+        </h4>
+      </div>
+      <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
+        <label style="color: blue">{{ searchResult }}</label
+        ><br />
+        <label *ngIf="verificationFacility" style="color: blue">{{
+          verificationFacility
+        }}</label>
+      </div>
+      <div bsModal class="modal-footer">
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"></div>
+          <div class="col-md-3 col-lg-4 col-sm-3 col-xs-3">
+            <div class="form-group" *ngIf="createDataExists == 1">
+              <button
+                class="btn btn-warning"
+                type="button"
+                (click)="openUserFeedback()"
+              >
+                <span>Contact Support</span>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+            <button
+              type="button"
+              class="btn btn-success pull-right"
+              (click)="closeVerification()"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
     </ng-template>
   </div>

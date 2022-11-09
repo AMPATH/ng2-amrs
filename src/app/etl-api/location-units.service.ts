@@ -14,15 +14,11 @@ export class LocationUnitsService {
   ) {}
 
   public getUrl(): string {
-    return (
-      this.appSettingsService.getEtlRestbaseurl().trim() +
-      'administrative-units'
-    );
+    return this.appSettingsService.getEtlRestbaseurl().trim();
   }
 
   public getAdministrativeUnits(): Observable<any> {
-    const url = this.getUrl();
-
+    const url = this.getUrl() + 'administrative-units';
     return this.http.get<any>(url, {}).pipe(
       map((response) => {
         return response;
