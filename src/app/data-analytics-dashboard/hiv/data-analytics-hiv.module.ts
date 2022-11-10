@@ -33,6 +33,8 @@ import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-l
 import { IPTReportComponent } from './ipt-report/ipt-report.component';
 import { DataAnalyticsMonthlyReportComponent } from './monthly-reports-dashboard/data-analytics-monthly-reports.component';
 import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and-losses/data-analytics-hiv-gains-and-losses.component';
+import { ContactTestingComponent } from './contact-testing/contact-testing/contact-testing.component';
+import { DialogModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -49,7 +51,8 @@ import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and
     ChangeDepartmentModule,
     KibanaLibModule,
     ReportingUtilitiesModule,
-    OncologyProgramModule
+    OncologyProgramModule,
+    DialogModule
   ],
   exports: [
     RouterModule,
@@ -74,7 +77,8 @@ import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and
     MOH412HIVDataAnalyticsPatientListComponent,
     IPTReportComponent,
     DataAnalyticsMonthlyReportComponent,
-    DataAnalyticsHivGainsAndLossesComponent
+    DataAnalyticsHivGainsAndLossesComponent,
+    ContactTestingComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
