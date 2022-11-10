@@ -160,6 +160,131 @@
         <div class="clear-fix clear"></div>
       </div>
 
+      <div class="date-range" *ngIf="isEnabled('familyTestingControls')">
+        <div class="form-group col-md-4">
+          <div class="form-row">
+            <label for="elicitedStartDate">Elicitation Start Date</label>
+            <date-time-picker
+              tabindex="0"
+              [modelValue]="elicitedStartDate"
+              [id]="'elicitedStartDate'"
+              (onDateChange)="elicitationStartDateChange($event)"
+            ></date-time-picker>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <div class="form-row">
+            <label for="elicitedEndDate">Elicitation End Date</label>
+            <date-time-picker
+              tabindex="0"
+              [modelValue]="elicitedEndDate"
+              [id]="'elicitedEndDate'"
+              (onDateChange)="elicitationEndDateChange($event)"
+            ></date-time-picker>
+          </div>
+          <div></div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="program">Index Program </label>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-map-marker"></span>
+            </div>
+            <ng-select
+              class="sharp-corners"
+              [multiple]="true"
+              id="program"
+              [placeholder]="'Select Program(s)...'"
+              [(ngModel)]="selectedPrograms"
+              [items]="programsFT"
+            >
+            </ng-select>
+            <div
+              class="input-group-addon"
+              (click)="selectAllProgramsFT()"
+              style="cursor: pointer"
+            >
+              <div>
+                <span
+                  *ngIf="selectAllProgramsTag"
+                  class="glyphicon glyphicon-trash mr-1"
+                ></span>
+                <span
+                  *ngIf="!selectAllProgramsTag"
+                  class="glyphicon glyphicon-pushpin mr-1"
+                ></span>
+                <span *ngIf="!selectAllProgramsTag">Select All</span>
+                <span *ngIf="selectAllProgramsTag">Select None</span>
+              </div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+        <div class="clear-fix clear"></div>
+      </div>
+      <div class="date-range" *ngIf="isEnabled('familyTestingControls')">
+        <div class="form-group col-md-4">
+          <div class="form-row">
+            <label for="isEligible">Eligible for Testing</label>
+            <select
+              style="height: 39px"
+              class="form-control"
+              [(ngModel)]="isEligible"
+              id="isEligible"
+              name="isEligible"
+              (ngModelChange)="testEligibleChange($event)"
+              required
+            >
+              <option *ngFor="let p of isEligibleOptions" [value]="p.value">
+                {{ p.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <div class="form-row">
+            <label for="childStatus">Children Status</label>
+            <select
+              style="height: 39px"
+              class="form-control"
+              [(ngModel)]="childStatus"
+              id="childStatus"
+              name="childStatus"
+              (ngModelChange)="onChildStatusChange($event)"
+              required
+            >
+              <option *ngFor="let p of childStatusOptions" [value]="p.value">
+                {{ p.label }}
+              </option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div class="form-group col-md-4">
+          <div class="form-row">
+            <label for="elicitedClients">Reviewed Clients</label>
+            <select
+              style="height: 39px"
+              class="form-control"
+              [(ngModel)]="elicitedClients"
+              id="elicitedClients"
+              name="elicitedClients"
+              (ngModelChange)="elicitedClientsChange($event)"
+              required
+            >
+              <option
+                *ngFor="let p of elicitedClientsOptions"
+                [value]="p.value"
+              >
+                {{ p.label }}
+              </option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div class="clear-fix clear"></div>
+      </div>
+
       <div class="form-group col-md-12" *ngIf="isEnabled('ageControl')">
         <label for="age">Age Range</label>
         <input type="text" class="slider" />
@@ -274,7 +399,11 @@
       </div>
     </div>
   </div>
-  <div class="_row" style="margin-top: 4px; padding: 0px">
+  <div
+    class="_row"
+    style="margin-top: 4px; padding: 0px"
+    *ngIf="!hideGenerateReportButton"
+  >
     <button
       type="button"
       *ngIf="!parentIsBusy"

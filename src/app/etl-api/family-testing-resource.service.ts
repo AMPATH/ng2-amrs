@@ -21,9 +21,12 @@ export class FamilyTestingService {
     return this.appSettingsService.getOpenmrsRestbaseurl().trim();
   }
 
-  public getFamilyTestingReportData(patientId: string): Observable<any> {
+  public getFamilyTestingReportData(params: any): Observable<any> {
+    const urlParams = this.getUrlRequestParams(params);
     return this.http
-      .get(`${this.url}patient-family-history?patientUuid=${patientId}`)
+      .get(`${this.url}patient-family-history`, {
+        params: urlParams
+      })
       .pipe(
         catchError((err: any) => {
           const error: any = err;
@@ -42,8 +45,8 @@ export class FamilyTestingService {
   public getUrlRequestParams(params): HttpParams {
     let urlParams: HttpParams = new HttpParams();
 
-    if (params.locationUuid && params.locationUuid !== '') {
-      urlParams = urlParams.set('locationUuid', params.locationUuid);
+    if (params.locationUuids && params.locationUuids !== '') {
+      urlParams = urlParams.set('locationUuids', params.locationUuids);
     }
 
     if (params.isEligible && params.isEligible !== '') {
@@ -59,7 +62,7 @@ export class FamilyTestingService {
     }
 
     if (params.programType && params.programType !== '') {
-      urlParams = urlParams.set('program_type', params.programType);
+      urlParams = urlParams.set('programType', params.programType);
     }
     if (params.childStatus && params.childStatus !== '') {
       urlParams = urlParams.set('child_status', params.childStatus);
@@ -67,6 +70,10 @@ export class FamilyTestingService {
     if (params.elicitedClients && params.elicitedClients !== '') {
       urlParams = urlParams.set('elicited_clients', params.elicitedClients);
     }
+    if (params.patientUuid && params.patientUuid !== '') {
+      urlParams = urlParams.set('patientUuid', params.patientUuid);
+    }
+    urlParams = urlParams.set('startIndex', params.startIndex);
 
     return urlParams;
   }

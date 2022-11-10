@@ -18,15 +18,14 @@ import { GridOptions } from 'ag-grid';
   styleUrls: ['./family-testing-patient-list.component.css']
 })
 export class FamilyTestingPatientlistComponent implements OnInit {
-  public hasLoadedAll: true;
   public hasError: false;
   public showList = false;
-  public gridOptions: GridOptions = {
-    columnDefs: []
-  };
+  public gridOptions: GridOptions = {};
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
   public _patientData = [];
+  @Input() public hasLoadedAll = false;
+  @Output() loadMore = new EventEmitter();
 
   @Input()
   public get patientData(): any {
@@ -34,6 +33,7 @@ export class FamilyTestingPatientlistComponent implements OnInit {
   }
   public set patientData(patientData: any) {
     this._patientData = patientData;
+    this.main();
   }
 
   private columnDefs = [
@@ -75,6 +75,11 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       width: 120
     },
     {
+      field: 'status',
+      headerName: 'Clinical status',
+      width: 120
+    },
+    {
       field: 'arv_first_regimen_start_date',
       headerName: 'ART Initiation Date'
     },
@@ -100,7 +105,6 @@ export class FamilyTestingPatientlistComponent implements OnInit {
     },
     { field: 'fm_phone', headerName: 'Telephone Number', width: 130 },
     { field: 'relationship_type', headerName: 'Relationship', width: 130 },
-    { field: 'fm_current_age', headerName: 'Current age', width: 100 },
     {
       field: 'age_at_elicitation',
       headerName: 'Age at elicitation',
@@ -164,22 +168,81 @@ export class FamilyTestingPatientlistComponent implements OnInit {
       }
     }
   ];
+
+  private indexColumns = [
+    {
+      field: 'identifiers',
+      headerName: 'Identifiers',
+      pinned: 'left',
+      width: 250,
+      cellRenderer: (column) => {
+        if (column.value === undefined || column.value === null) {
+          return '';
+        } else {
+          return (
+            '<a href="javascript:void(0);" title="Identifiers">' +
+            column.value +
+            '</a>'
+          );
+        }
+      }
+    },
+    {
+      field: 'person_name',
+      headerName: 'Index Name'
+    },
+    {
+      field: 'index_gender',
+      headerName: 'Index Gender',
+      width: 130
+    },
+    {
+      field: 'age',
+      headerName: 'Index Age',
+      width: 100
+    },
+    {
+      field: 'phone_number',
+      headerName: 'Index Phone',
+      width: 120
+    },
+    {
+      field: 'status',
+      headerName: 'Clinical status',
+      width: 120
+    },
+    {
+      field: 'arv_first_regimen_start_date',
+      headerName: 'ART Initiation Date'
+    },
+    {
+      field: 'patient_program_name',
+      headerName: 'Patient Program',
+      width: 300
+    }
+  ];
   @Output()
   public patientSelected = new EventEmitter();
-  public ngOnInit() {
-    this.gridOptions.columnDefs = this.columnDefs;
-    this.gridOptions.groupDefaultExpanded = -1;
-    this.gridOptions.enableFilter = true;
-    (this.gridOptions.groupRemoveSingleChildren = false),
-      (this.gridOptions.groupUseEntireRow = true);
-    this.setCellSelection();
-  }
+  public ngOnInit() {}
 
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     public location: Location
   ) {}
+
+  public main() {
+    if (this.patientData.length > 0 && this.patientData[0].hideContactColumns) {
+      this.gridOptions.columnDefs = this.indexColumns;
+    } else {
+      this.gridOptions.columnDefs = this.columnDefs;
+      this.gridOptions.groupDefaultExpanded = -1;
+    }
+    this.gridOptions.enableFilter = true;
+    this.gridOptions.groupRemoveSingleChildren = false;
+    this.gridOptions.groupUseEntireRow = true;
+    this.setCellSelection();
+  }
 
   private setCellSelection(col?) {
     this.gridOptions.rowSelection = 'single';
