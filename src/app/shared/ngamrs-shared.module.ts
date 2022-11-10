@@ -75,6 +75,7 @@ import { KibanaVizHostComponent } from './kibana-viz-host/kibana-viz-host.compon
 import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
 import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
 import { ProgramSnapshotNegativesComponent } from '../patient-dashboard/hiv/program-snapshot-negatives/program-snapshot-negatives.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -125,7 +126,8 @@ import { ProgramSnapshotNegativesComponent } from '../patient-dashboard/hiv/prog
     MatButtonModule,
     MatTooltipModule,
     PdfViewerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularMultiSelectModule
   ],
   exports: [
     NgBusyModule,

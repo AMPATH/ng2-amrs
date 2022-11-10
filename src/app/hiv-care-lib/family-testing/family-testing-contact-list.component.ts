@@ -38,6 +38,8 @@ export class FamilyTestingContactComponent implements OnInit {
   public gridOptions: any = {
     columnDefs: []
   };
+  public indexHasContacts: boolean;
+  public params: any;
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
   @ViewChild('staticModal')
@@ -153,11 +155,22 @@ export class FamilyTestingContactComponent implements OnInit {
   public ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.patientUuid = params.patient_uuid;
+      this.params = {
+        locationUuids: params.location_uuid,
+        isEligible: params.eligible,
+        childStatus: params.childStatus,
+        elicitedClients: params.elicitedClients,
+        start_date: params.start_date,
+        end_date: params.end_date,
+        patientUuid: this.patientUuid
+      };
       this.getFamilyTestingContactListData(this.patientUuid);
       this.setPatientUuid(this.patientUuid);
     });
     this.gridOptions.columnDefs = this.columnDefs;
-    this.getPatientEncounters();
+    if (this.patientUuid !== undefined) {
+      this.getPatientEncounters();
+    }
   }
 
   constructor(
@@ -175,22 +188,31 @@ export class FamilyTestingContactComponent implements OnInit {
   }
 
   public getFamilyTestingContactListData(patientId: string) {
-    this.isLoading = true;
-    this.familyTestingService
-      .getFamilyTestingReportData(patientId)
-      .subscribe((data) => {
-        if (data.error) {
-          this.showInfoMessage = true;
-          this.errorMessage = `There has been an error while loading the report, please retry again`;
-          this.isLoading = false;
-        } else {
-          this.showInfoMessage = false;
-          this.isLoading = false;
-          this.familyTestingContactList = data.result;
-          this.indexName = data.result[0].person_name;
-          this.indexUuid = data.result[0].patient_uuid;
-        }
-      });
+    if (this.params['elicitedClients'] === 3) {
+      this.indexHasContacts = false;
+    } else {
+      this.isLoading = true;
+      this.familyTestingService
+        .getFamilyTestingReportData(this.params)
+        .subscribe((data) => {
+          if (data.error) {
+            this.showInfoMessage = true;
+            this.errorMessage = `There has been an error while loading the report, please retry again`;
+            this.isLoading = false;
+          } else {
+            this.showInfoMessage = false;
+            this.isLoading = false;
+            this.familyTestingContactList = data.result;
+            if (this.familyTestingContactList[0].fm_name === undefined) {
+              this.indexHasContacts = false;
+            } else {
+              this.indexHasContacts = true;
+            }
+            this.indexName = data.result[0].person_name;
+            this.indexUuid = data.result[0].patient_uuid;
+          }
+        });
+    }
   }
 
   public getPatientEncounters() {
