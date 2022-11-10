@@ -1,125 +1,59 @@
 <h4 class="component-title text-success">
   <span class="fa fa-area-chart"></span>Index Testing Contact List
 </h4>
-<div class="container-fluid">
-  <div class="row" id="family-testing-filters">
-    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-      <h4 class="report-title">Report Filters</h4>
-    </div>
-    <div class="row row-separator">
-      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <div class="form-group row">
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            <label for="elicitedStartDate">Date Elicited Start Date</label>
-            <date-time-picker
-              tabindex="0"
-              [modelValue]="elicitedStartDate"
-              [id]="'elicitedStartDate'"
-              (onDateChange)="getSelectedElicitedStartDate($event)"
-            ></date-time-picker>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            <label for="elicitedEndDate"> Date Elicited End Date</label>
-            <date-time-picker
-              tabindex="0"
-              [modelValue]="elicitedEndDate"
-              [id]="'elicitedEndDate'"
-              (onDateChange)="getSelectedElicitedEndDate($event)"
-            ></date-time-picker>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            <label for="programSelect">Program</label>
-            <angular2-multiselect
-              #programSelect
-              [data]="programs"
-              [(ngModel)]="program"
-              [settings]="programDropdownSettings"
-              (onSelect)="selectProgram($event)"
-              (onDeSelect)="DeSelectProgram($event)"
-              (onSelectAll)="onSelectAllPrograms($event)"
-              (onDeSelectAll)="onDeSelectAllPrograms($event)"
-              name="program-filter"
-            >
-            </angular2-multiselect>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <div class="form-group row">
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            <label for="isEligible">Eligible for Testing</label>
-            <select
-              style="height: 39px"
-              class="form-control"
-              [(ngModel)]="isEligible"
-              id="isEligible"
-              name="isEligible"
-              (ngModelChange)="onIsEligibleChange($event)"
-              required
-            >
-              <option *ngFor="let p of isEligibleOptions" [value]="p.value">
-                {{ p.label }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            <label for="childStatus">Index Child Status</label>
-            <select
-              style="height: 39px"
-              class="form-control"
-              [(ngModel)]="childStatus"
-              id="childStatus"
-              name="childStatus"
-              (ngModelChange)="childStatusChange($event)"
-              required
-            >
-              <option *ngFor="let p of childStatusOptions" [value]="p.value">
-                {{ p.label }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-            <label for="elicitedClients">Elicited Index</label>
-            <select
-              style="height: 39px"
-              class="form-control"
-              [(ngModel)]="elicitedClients"
-              id="elicitedClients"
-              name="elicitedClients"
-              (ngModelChange)="onElicitedClientsChange($event)"
-              required
-            >
-              <option
-                *ngFor="let p of elicitedClientsOptions"
-                [value]="p.value"
-              >
-                {{ p.label }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row row-separator" class="pull-right">
-      <button
-        type="button"
-        class="btn btn-danger pull-right"
-        style="margin-right: 50px"
-        (click)="resetFilters()"
-      >
-        Reset Filters
-      </button>
-      <button
-        [disabled]="disableGenerateButton"
-        type="button"
-        class="btn btn-success pull-right"
-        style="margin-right: 50px"
-        (click)="generateReport()"
-      >
-        Generate Report
-      </button>
-    </div>
+<report-filters
+  [enabledControls]="enabledControls"
+  [isEligible]="isEligible"
+  [isEligibleOptions]="isEligibleOptions"
+  (onIsEligibleChange)="onIsEligibleChange($event)"
+  [childStatus]="childStatus"
+  [childStatusOptions]="childStatusOptions"
+  (childStatusChange)="childStatusChange($event)"
+  [elicitedClients]="elicitedClients"
+  [elicitedClientsOptions]="elicitedClientsOptions"
+  (onElicitedClientsChange)="onElicitedClientsChange($event)"
+  [hideGenerateReportButton]="true"
+  [elicitedEndDate]="elicitedEndDate"
+  (getSelectedElicitedStartDate)="getSelectedElicitedStartDate($event)"
+  [elicitedStartDate]="elicitedStartDate"
+  (getSelectedElicitedEndDate)="getSelectedElicitedEndDate($event)"
+  (onProgramChange)="getSelectedPrograms($event)"
+  [programsFT]="programOptions"
+  [selectAllProgramsTag]="selectedProgramTagsSelectedAll"
+  (onSelectAllPrograms)="selectAllPrograms()"
+  [selectedPrograms]="selectedPrograms"
+>
+</report-filters>
+<div class="row">
+  <div class="pull-right" style="margin: 4px; padding: 0px">
+    <button
+      [disabled]="disableGenerateButton"
+      type="button"
+      class="btn btn-info pull-right"
+      style="margin-right: 50px"
+      (click)="openDefinitions()"
+    >
+      Indicator Definitions
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger pull-right"
+      style="margin-right: 50px"
+      (click)="resetFilters()"
+    >
+      Reset Filters
+    </button>
+    <button
+      [disabled]="disableGenerateButton"
+      type="button"
+      class="btn btn-success pull-right"
+      style="margin-right: 50px"
+      (click)="generateReport()"
+    >
+      Generate Report
+    </button>
   </div>
+  <div class="clear clear-fix"></div>
 </div>
 
 <div class="alert alert-danger fade in" *ngIf="showInfoMessage">
@@ -138,8 +72,31 @@
     <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
   </div>
   <family-testing-patient-list
+    *ngIf="!isLoading"
     [patientData]="familyTestingPatientList"
     (patientSelected)="onPatientSelected($event)"
+    (loadMore)="loadMorePatients()"
+    [hasLoadedAll]="hasLoadedAll"
   >
   </family-testing-patient-list>
 </div>
+
+<!-- Modal -->
+<p-dialog
+  header="Indicator Definitions"
+  [(visible)]="showIndicatorDefinitions"
+  styleClass="contact-list-dialog"
+>
+  <div class="container-fluid">
+    <div class="row" *ngFor="let indicator of indicators">
+      <h4>
+        <b>{{ indicator.name }}:&nbsp;&nbsp;</b>{{ indicator.def }}
+      </h4>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-warning pull-right" (click)="onClickCancel(false)">
+      Cancel
+    </button>
+  </div>
+</p-dialog>

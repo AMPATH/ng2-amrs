@@ -15,7 +15,8 @@ import {
   FieldsetModule,
   ButtonModule,
   GrowlModule,
-  AccordionModule
+  AccordionModule,
+  DialogModule
 } from 'primeng/primeng';
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DateTimePickerModule } from '@ampath-kenya/ngx-openmrs-formentry';
@@ -102,6 +103,7 @@ import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-
     TabViewModule,
     FieldsetModule,
     ButtonModule,
+    DialogModule,
     GrowlModule,
     AccordionModule,
     ChartModule,
