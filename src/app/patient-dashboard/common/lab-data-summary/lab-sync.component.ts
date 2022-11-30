@@ -31,7 +31,8 @@ export class LabSyncComponent implements OnInit, OnDestroy {
         this.loadingPatient = false;
         if (patient) {
           this.patient = patient;
-          this.getNewResults();
+          //disable fetching results on component load
+          //this.getNewResults();
         }
       }
     );
