@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DqaChartAbstractionService } from 'src/app/etl-api/dqa-chart-abstraction.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+
 import * as moment from 'moment';
 
+import { DqaChartAbstractionService } from 'src/app/etl-api/dqa-chart-abstraction.service';
 @Component({
   selector: 'app-chart-abstraction-patientlist',
   templateUrl: './chart-abstraction-patientlist.component.html',
@@ -62,17 +63,24 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
   }
   public addExtraColumns() {
     const extraColumns = {
-      person_id: 'Unique Patient ID',
+      ccc_number: "CCC Number",
+      NUPI: "NUPI",
       birthdate: 'DOB',
+      date_confirmed_hiv_positive: "Date Confirmed HIV Positive",
+      cd4_result: "Baseline CD4 Test Result",
+      arv_start_date: "Date of ART Initiation",
+      drugs_given: 'Current ART Regimen',
+      height: 'Height',
+      weight: 'Weight',
+      muac: 'MUAC',
+      BMI: 'BMI',
+      tb_screened_this_visit: 'TB Screening At Last Visit',
+      last_ipt_start_date: 'IPT Initiated',
+      vl_result: "Viral Load Result",
+      last_clinical_encounter: "Last Clinical Encounter Date",
       last_appointment_date: 'Date Of Last Appointment',
       next_appointment: 'Date Of Next Appointment ',
-      drugs_given: 'Drugs Given',
-      weight: 'Weight',
-      height: 'Height',
-      BMI: 'BMI',
-      condom_provided_this_visit: 'Condom Issued',
-      tb_screened_this_visit: 'TB screening',
-      last_ipt_start_date: 'IPT initiated'
+      condom_provided_this_visit: 'Condom Issued'
     };
     for (const indicator in extraColumns) {
       if (indicator) {
@@ -93,6 +101,30 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'last_appointment_date',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'arv_start_date',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'date_confirmed_hiv_positive',
+        cellRenderer: (column) => {
+          if (column.value != null) {
+            return moment(column.value).format('YYYY-MM-DD');
+          }
+        }
+      },
+      {
+        field: 'last_clinical_encounter',
         cellRenderer: (column) => {
           if (column.value != null) {
             return moment(column.value).format('YYYY-MM-DD');
@@ -136,24 +168,40 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         }
       },
       {
-        field: 'weight',
-        width: 150
+        field: 'drugs_given',
+        width: 280
       },
       {
-        field: 'Height',
-        width: 150
+        field: 'height',
+        width: 100
+      },
+      {
+        field: 'weight',
+        width: 100
+      },
+      {
+        field: 'muac',
+        width: 100
       },
       {
         field: 'BMI',
+        width: 100
+      },
+      {
+        field: 'NUPI',
         width: 150
       },
       {
-        field: 'person_id',
-        width: 200
+        field: 'ccc_number',
+        width: 150
       },
       {
-        field: 'drugs_given',
-        width: 280
+        field: 'vl_result',
+        width: 150
+      },
+      {
+        field: 'cd4_result',
+        width: 150
       }
     );
   }
