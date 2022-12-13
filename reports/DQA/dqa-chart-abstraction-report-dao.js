@@ -23,6 +23,9 @@ export class DQAChartAbstractionDAO {
         where = `EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), h.birthdate)))) >= 15`;
     }
     let runner = this.getSqlRunner();
+
+    const limitOffSetDefinition =
+      limit === 'all' ? '' : `limit ` + limit + ` offset ` + offset;
     let sqlQuery =
       `
     SELECT
@@ -108,11 +111,9 @@ export class DQAChartAbstractionDAO {
       where +
       ` 
     GROUP BY h.person_id
-    ORDER BY RAND() DESC limit ` +
-      limit +
-      ` offset ` +
-      offset +
-      `; `;
+    ORDER BY RAND() DESC ` +
+      limitOffSetDefinition;
+
     return new Promise((resolve, reject) => {
       runner
         .executeQuery(sqlQuery)
