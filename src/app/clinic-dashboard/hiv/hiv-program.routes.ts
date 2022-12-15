@@ -223,19 +223,6 @@ const routes: Routes = [
         component: SurgeReportComponent
       },
       {
-        path: 'dqa-reports',
-        children: [
-          {
-            path: 'dqa-report-patientlist',
-            component: ChartAbstractionPatientlistComponent
-          },
-          {
-            path: '',
-            component: DqaReportsComponent
-          }
-        ]
-      },
-      {
         path: 'surge-reports/surge-report-patientlist',
         component: SurgeReportPatientListComponent
       },

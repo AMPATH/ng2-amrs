@@ -290,6 +290,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         field: '#',
         width: 150,
         hide: true
+      },
+      {
+        field: 'visit_type',
+        width: 150,
+        hide: true
       }
     );
   }
