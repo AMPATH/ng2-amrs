@@ -71,6 +71,13 @@ export class DQAChartAbstractionDAO {
               1,
               0) AS ipt_started_this_visit,
           DATE_FORMAT(h.ipt_start_date,'%Y-%m-%d') AS last_ipt_start_date,
+          case
+           when e.on_ipt = 1 then 'CONTINUING'
+           when e.ipt_completion_date is null and e.ipt_stop_date is not null then 'DISCONTINUED'
+           when e.ipt_completion_date is not null
+               then 'COMPLETED' -- Favors completion date if the client has both stop and completion date.
+           else 'NA'
+           end as tpt_status,
           h.ipt_stop_date,
           h.ipt_completion_date,
           IF(h.ipt_stop_date = h.encounter_date
