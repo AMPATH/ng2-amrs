@@ -83,10 +83,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       BMI: 'BMI',
       nutrition: 'Nutrition Assessment Done',
       DSD: 'DSD Model',
-      hiv_start_date: "Date Confirmed HIV Positive",
+      hiv_start_date: 'Date Confirmed HIV Positive',
       arv_start_date: 'Date of ART Initiation',
       cd4_1: 'Baseline CD4 Test Result',
       vl_1: 'Latest Valid VL',
+      tpt_status: 'TPT Status',
       last_ipt_start_date: 'TPT initiated',
       ipt_stop_date: 'TPT Stop Date',
       ipt_completion_date: 'TPT Completion Date',
@@ -105,7 +106,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       }
     }
     this.overrideColumns.push(
-           {
+      {
         field: 'birthdate',
         cellRenderer: (column) => {
           if (column.value != null) {
@@ -189,7 +190,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
           if (column.value != null) {
             return moment(column.value).format('DD-MM-YYYY');
           }
-        }
+        },
+        hide: true
       },
       {
         field: 'ipt_completion_date',
@@ -197,7 +199,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
           if (column.value != null) {
             return moment(column.value).format('DD-MM-YYYY');
           }
-        }
+        },
+        hide: true
       },
       {
         field: 'ipt_stop_date',
@@ -238,7 +241,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'muac',
-        width: 100,
+        width: 100
       },
       {
         field: 'person_id',
@@ -279,11 +282,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'age',
-        width: 150,
+        width: 150
       },
       {
         field: 'sex_gender',
-        width: 150,
+        width: 150
       },
       {
         field: '#',

@@ -242,7 +242,11 @@
           (onLocationChange)="getSelectedLocations($event)"
         ></location-filter>
       </div>
-      <div class="row" *ngIf="isEnabled('patientTypeControl')" style="margin-left: 0; margin-right: 0">
+      <div
+        class="row"
+        *ngIf="isEnabled('patientTypeControl')"
+        style="margin-left: 0; margin-right: 0"
+      >
         <div class="form-group col-md-6">
           <div class="form-row">
             <label for="patient_type">Patient Type: </label>
