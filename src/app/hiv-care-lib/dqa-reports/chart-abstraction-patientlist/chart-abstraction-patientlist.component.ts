@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { DqaChartAbstractionService } from 'src/app/etl-api/dqa-chart-abstraction.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
 import * as moment from 'moment';
 
-import { DqaChartAbstractionService } from 'src/app/etl-api/dqa-chart-abstraction.service';
 @Component({
   selector: 'app-chart-abstraction-patientlist',
   templateUrl: './chart-abstraction-patientlist.component.html',
@@ -288,6 +287,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: '#',
+        width: 150,
+        hide: true
+      },
+      {
+        field: 'visit_type',
         width: 150,
         hide: true
       }
