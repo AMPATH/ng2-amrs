@@ -45,10 +45,10 @@ export class DQAChartAbstractionDAO {
           h.cur_arv_meds,
           h.tb_screen,
           h.tb_screening_datetime,
-          hiv_start_date,
+          e.hiv_start_date,
           h.arv_start_date,
-          cd4_1,
-         IF(is_clinical_encounter = 1, encounter_datetime, null)   AS last_clinical_encounter,
+          e.cd4_1,
+          ls.encounter_datetime AS last_clinical_encounter,
           DATE_FORMAT(h.rtc_date,'%Y-%m-%d') as next_appointment,
           h.vl_1,
           case
@@ -75,7 +75,7 @@ export class DQAChartAbstractionDAO {
            when e.on_ipt = 1 then 'CONTINUING'
            when e.ipt_completion_date is null and e.ipt_stop_date is not null then 'DISCONTINUED'
            when e.ipt_completion_date is not null
-               then 'COMPLETED' -- Favors completion date if the client has both stop and completion date.
+               then 'COMPLETED'
            else 'NA'
            end as tpt_status,
           h.ipt_stop_date,
@@ -86,24 +86,22 @@ export class DQAChartAbstractionDAO {
               0) AS ipt_ended_this_visit
       FROM
           etl.hiv_monthly_report_dataset_frozen h
-          left join etl.flat_hiv_summary_v15b e on (h.encounter_id=e.encounter_id)
-              INNER JOIN
-          amrs.person t1 ON (h.person_id = t1.person_id)
-            INNER JOIN amrs.person_name person_name ON (t1.person_id = person_name.person_id
-              AND (person_name.voided = 0
-                  || person_name.voided = 0))
-              LEFT JOIN
-          amrs.patient_identifier id ON (t1.person_id = id.patient_id
-              AND id.voided = 0)
-              LEFT JOIN
-        amrs.patient_identifier cc ON (t1.person_id = cc.patient_id and cc.identifier_type in (28)
-              AND cc.voided = 0)
-              LEFT JOIN
-        amrs.patient_identifier np ON (t1.person_id = np.patient_id and np.identifier_type in (45)
-              AND np.voided = 0)
+          LEFT JOIN
+           etl.flat_hiv_summary_v15b e on (h.encounter_id=e.encounter_id)
+          LEFT JOIN
+           etl.flat_hiv_summary_v15b ls on (ls.next_clinical_datetime_hiv is null and ls.person_id=e.person_id)
+          INNER JOIN
+           amrs.person t1 ON (h.person_id = t1.person_id)
+          INNER JOIN 
+          amrs.person_name person_name ON (t1.person_id = person_name.person_id AND (person_name.voided = 0 || person_name.voided = 0))
+          LEFT JOIN
+          amrs.patient_identifier id ON (t1.person_id = id.patient_id AND id.voided = 0)
+          LEFT JOIN
+          amrs.patient_identifier cc ON (t1.person_id = cc.patient_id and cc.identifier_type in (28) AND cc.voided = 0)
+          LEFT JOIN
+          amrs.patient_identifier np ON (t1.person_id = np.patient_id and np.identifier_type in (45) AND np.voided = 0)
         left join amrs.patient_program p on (p.patient_id = h.person_id and p.program_id in (4,9) and p.date_completed is null and p.voided = 0)
-        WHERE
-        h.status = "active"
+        WHERE h.status = "active"
         AND e.height IS NOT NULL
         AND e.weight IS NOT NULL
       AND h.endDate >= '` +
