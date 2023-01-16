@@ -1678,7 +1678,7 @@
     "mrsDisplay": "Anderson",
     "cityVillage": null,
     "county": "Transzoia",
-    "description": "A health centre in transzoia",
+    "description": "A health centre in Transzoia",
     "mflCode": "",
     "eidDisplay": ""
   },
@@ -1984,7 +1984,7 @@
     "mrsDisplay": "Kitale MCH",
     "description": "mch clinic at kitale",
     "mflCode": "14947",
-    "county": "transzoia",
+    "county": "Transzoia",
     "cityVillage": "",
     "eidDisplay": ""
   },
@@ -2479,7 +2479,7 @@
     "mrsDisplay": "Kitale New Module",
     "description": "This is a module  under KCRH for New Clients",
     "mflCode": "14947",
-    "county": "transzoia",
+    "county": "Transzoia",
     "cityVillage": "",
     "eidDisplay": ""
   },
@@ -2488,7 +2488,7 @@
     "mrsDisplay": "KCRH Module A",
     "description": "This a module under KCRH for General clients",
     "mflCode": "14947",
-    "county": "transzoia",
+    "county": "Transzoia",
     "cityVillage": "",
     "eidDisplay": ""
   },
@@ -2497,7 +2497,7 @@
     "mrsDisplay": "KCRH Module B",
     "description": "This a module under KCRH for General clients",
     "mflCode": "14947",
-    "county": "transzoia",
+    "county": "Transzoia",
     "cityVillage": "",
     "eidDisplay": ""
   },
@@ -2506,7 +2506,142 @@
     "mrsDisplay": "KCRH Champions Module",
     "description": "This is a module for young 24 years and Below under KCRH",
     "mflCode": "14947",
-    "county": "transzoia",
+    "county": "Transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "38eec9dd-8b52-4f8c-ad25-f045486299c1": {
+    "mrsId": 428,
+    "mrsDisplay": "Murkwijit Health Centre",
+    "description": "Murkwijit Health Centre",
+    "mflCode": "20055",
+    "county": "West Pokot",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "fc26648e-aa47-4928-8595-5c96943b44b2": {
+    "mrsId": 426,
+    "mrsDisplay": "Konyao Health centre",
+    "description": "Konyao Health centre",
+    "mflCode": "14988",
+    "county": "West Pokot",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "9d1025b7-280d-46f7-8f0d-33b3b7aeab41": {
+    "mrsId": 424,
+    "mrsDisplay": "Alale health centre",
+    "description": "Alale health centre",
+    "mflCode": "16367",
+    "county": "West Pokot",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "d0d133f1-22f3-49c3-b9f1-d2f64944eb0d": {
+    "mrsId": 425,
+    "mrsDisplay": "Amakuriat dispensary",
+    "description": "Amakuriat dispensary",
+    "mflCode": "14198",
+    "county": "West Pokot",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "0a2d9adf-d758-4c81-8429-2ff54e2c58d6": {
+    "mrsId": 427,
+    "mrsDisplay": "Lomut dispensary",
+    "description": "Lomut dispensary",
+    "mflCode": "15073",
+    "county": "West Pokot",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "4949293e-7b5c-4359-8a55-1196a578143b": {
+    "mrsId": 466,
+    "mrsDisplay": "Top Station Dispensary",
+    "description": "Top Station Dispensary",
+    "mflCode": "15734",
+    "county": "Transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "6666bb3c-1500-4320-9c46-78efc5bbaee0": {
+    "mrsId": 418,
+    "mrsDisplay": "Rafiki Health center",
+    "description": "Rafiki Health center",
+    "mflCode": "22624",
+    "county": "Transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "1dc987ac-5396-4498-9e87-a344aeb4b290": {
+    "mrsId": 280,
+    "mrsDisplay": "Kiminini Health center",
+    "description": "Kiminini Health center",
+    "mflCode": "16362",
+    "county": "Transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "29664340-6318-4808-8adb-6be98ddcb81b": {
+    "mrsId": 417,
+    "mrsDisplay": "Kobos Health center",
+    "description": "Kobos Health center",
+    "mflCode": "14958",
+    "county": "Transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "7a948722-45db-4b55-bbf0-0637644b0228": {
+    "mrsId": 431,
+    "mrsDisplay": "Kapsitwet Dispensary",
+    "description": "Kapsitwet Dispensary",
+    "mflCode": "14762",
+    "county": "Transzoia",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "0db6a78c-6b64-420c-bc30-ac403417c237": {
+    "mrsId": 434,
+    "mrsDisplay": "Chesoi Health Centre",
+    "description": "Chesoi Health Centre",
+    "mflCode": "14385",
+    "county": "Elgeyo Marakwet",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "ce8089a9-d105-4d79-8a0a-d4a389d691b4": {
+    "mrsId": 435,
+    "mrsDisplay": "Chesongoch Health Centre",
+    "description": "Chesongoch Health Centre",
+    "mflCode": "14386",
+    "county": "Elgeyo Marakwet",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "5794ab51-f531-46b8-acc0-51d77ff23760": {
+    "mrsId": 436,
+    "mrsDisplay": "Kaparon Health Centre",
+    "description": "Kaparon Health Centre",
+    "mflCode": "16335",
+    "county": "Elgeyo Marakwet",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "086e6f2e-b67e-4926-a8fa-23999a7b7af1": {
+    "mrsId": 433,
+    "mrsDisplay": "Kaptarakwa Sub County Hospital",
+    "description": "Kaptarakwa Sub County Hospital",
+    "mflCode": "14776",
+    "county": "Elgeyo Marakwet",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "33bca52f-148a-4f86-8897-48da6f8f01ec": {
+    "mrsId": 437,
+    "mrsDisplay": "Simotwo Dispensary (Keiyo)",
+    "description": "Simotwo Dispensary (Keiyo)",
+    "mflCode": "15578",
+    "county": "Elgeyo Marakwet",
     "cityVillage": "",
     "eidDisplay": ""
   }
