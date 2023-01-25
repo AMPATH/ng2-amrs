@@ -33,6 +33,16 @@ import {
   programVisitConfigs
 } from './mock/formentry-referrals-handler.mock';
 
+// constants
+import { Programs } from './../../../constants/program.constants';
+
+// referral concepts
+import { ReferralConcepts } from './../../../constants/referral-concepts.contants';
+
+// interfaces
+import { ReferredProgram } from './../../../interfaces/referred-program.interface';
+import { ReturnValue } from './../../../interfaces/return-value.interface';
+
 class FakeCacheStorageService {
   constructor(a, b) {}
 
@@ -55,12 +65,43 @@ const testCurrentUserDefaultLocationObject = {
   uuid: '18c343eb-b353-462a-9139-b16606e6b6c2'
 };
 
+const YES_CONCEPT = 'a899b35c-1350-11df-a1f1-0026b9348838';
+const REFERRED_FACILITY = 'LOCATION-TEST-UUID';
+
 const testReferralData = {
   programUuid: '876a154d-310d-4caf-8b58-be9dbcc7e753' // HTN-DM TERTIARY CARE
 };
 
-let localStorageService;
-let userDefaultPropertiesService;
+const mockReferralsData: ReturnValue = {
+  hasDifferentiatedCareReferal: false,
+  isInterMovementForm: false,
+  hasInterFacilityReferral: false,
+  hasTransitionReferral: false,
+  hasTbTreatmentReferral: false,
+  hasPmtctReferral: true,
+  hasActgReferral: false,
+  hasInpatientCareReferral: false,
+  hasBackToCareReferral: false,
+  hasPppReferral: false,
+  hasPatientPreferenceReferral: false,
+  hasStandardHivCareReferral: false,
+  rtcDate: null,
+  encounterDatetime: null,
+  providerUuid: 'provider-uuid',
+  locationUuid: 'location-uuid',
+  hivReferralLocationUuid: 'hiv-ref-location-uuid'
+};
+
+const mockRefProgram: ReferredProgram = {
+  uuid: Programs.PMTCT_PROGRAM.uuid,
+  name: Programs.PMTCT_PROGRAM.name,
+  locationUuid: 'hiv-ref-location-uuid',
+  providerUuid: 'provider-uuid',
+  referralMetaData: mockReferralsData
+};
+
+let localStorageService: any;
+let userDefaultPropertiesService: any;
 
 describe('Service: FormentryReferralsHandler', () => {
   let form: Form;
@@ -143,13 +184,16 @@ describe('Service: FormentryReferralsHandler', () => {
   });
 
   beforeEach(() => {
-    form = new Form(null, null, null);
-
+    const schema: any = {
+      uuid: 'testUuid'
+    };
+    form = new Form(schema, null, null);
+    form.schema.uuid = 'test-uuid';
     // set up spies
     const getQuestionByIdSpy = spyOn(
       form,
       'searchNodeByQuestionId'
-    ).and.callFake((questionId) => {
+    ).and.callFake((questionId: string) => {
       if (questionId === 'rtc') {
         const found = {
           control: {
@@ -188,7 +232,31 @@ describe('Service: FormentryReferralsHandler', () => {
       if (questionId === 'referrals') {
         const found = {
           control: {
-            value: ['ovc-uuid', service.differentiatedCareConceptUuid]
+            value: ['ovc-uuid', ReferralConcepts.differentiatedCareConceptUuid]
+          }
+        };
+        return [found];
+      }
+      if (questionId === 'careType') {
+        const found = {
+          control: {
+            value: ReferralConcepts.MCH_PROGRAM_CONCEPT
+          }
+        };
+        return [found];
+      }
+      if (questionId === 'internalMove') {
+        const found = {
+          control: {
+            value: YES_CONCEPT
+          }
+        };
+        return [found];
+      }
+      if (questionId === 'referedFacility') {
+        const found = {
+          control: {
+            value: REFERRED_FACILITY
           }
         };
         return [found];
@@ -206,8 +274,7 @@ describe('Service: FormentryReferralsHandler', () => {
 
   it('should extract required values for making a referral', () => {
     expect(form).toBeTruthy();
-
-    const values = service.extractRequiredValues(form);
+    const values: ReturnValue = service.extractRequiredValues(form);
     expect(values.hasDifferentiatedCareReferal).toEqual(true);
     expect(moment(values.rtcDate).isSame(moment('2017-12-12'))).toEqual(true);
     expect(
@@ -215,6 +282,8 @@ describe('Service: FormentryReferralsHandler', () => {
     ).toEqual(true);
     expect(values.providerUuid).toEqual('provider-uuid');
     expect(values.locationUuid).toEqual('location-uuid');
+    expect(values.hasPmtctReferral).toEqual(true);
+    expect(values.hasInterFacilityReferral).toEqual(true);
   });
 
   it('should refer to differentiated care program when handleFormReferrals is invoked', (done) => {
@@ -367,5 +436,9 @@ describe('Service: FormentryReferralsHandler', () => {
         fail('Expected referral payload, not an error');
       }
     );
+  }));
+  it('It should return the correct referral program', async(() => {
+    const refProgram = service.getReferralProgram(mockReferralsData);
+    expect(JSON.stringify(refProgram)).toBe(JSON.stringify(mockRefProgram));
   }));
 });

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import * as _ from 'lodash';
@@ -47,15 +47,19 @@ import { UserService } from '../../../openmrs-api/user.service';
 import { PatientConsentResourceService } from './../../../openmrs-api/patient-consent-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
 
-interface Covid19StatusSummary {
-  vaccination_status: string;
-  vaccination_status_code: string;
-  vaccination_status_code_message: string;
-  date_given_first_dose?: Date;
-  first_dose_vaccine_administered: string;
-  date_given_second_dose?: Date;
-  second_dose_vaccine_administered: string;
+// interfaces
+import { ReferralStatus } from './../../../interfaces/referral-status.interface';
+import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.interface';
+
+// constants
+import { FormUuids } from './../../../constants/forms.constants';
+
+interface RefProgram {
+  uuid: string;
+  name: string;
+  locationUuid: string;
 }
+
 @Component({
   selector: 'app-formentry',
   templateUrl: './formentry.component.html',
@@ -74,6 +78,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public encounterLocation: any;
   public enrollToGroup = false;
   public enrollToDC = false;
+  public enrollToHivRefferalProgram = null;
   public form: Form;
   public formName = '';
   public formRenderingErrors: Array<any> = [];
@@ -99,6 +104,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
   public showSuccessDialog = false;
   public showReferralDialog = false;
   public showProcessReferralsDialog;
+  public showInternalMovementReferralsDialog = false;
+  public internalRefProgram: RefProgram = {
+    uuid: '',
+    name: '',
+    locationUuid: ''
+  };
   public step: number;
   public submitClicked = false;
   public submittedEncounter: any;
@@ -122,6 +133,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private covidAssessment: any;
   private updateContacts: boolean;
   private covid19VaccineStatus: string;
+  private internalMovementFormUuid = FormUuids.INTERNAL_MOVEMENT_FORM_UUID;
+  public referToHivProgram = 0;
+  public hivReferralStatus: ReferralStatus = {
+    status: '',
+    message: ''
+  };
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -238,6 +255,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.formDataSourceService.getDataSources()['location']
     );
     this.dataSources.registerDataSource(
+      'siblingLocations',
+      this.formDataSourceService.getDataSources()['siblingLocations']
+    );
+    this.dataSources.registerDataSource(
       'provider',
       this.formDataSourceService.getDataSources()['provider']
     );
@@ -309,7 +330,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.submitForm(this.failedPayloadTypes);
   }
 
-  public navigateTo(path): void {
+  public navigateTo(path: string): void {
     switch (path) {
       case 'patientDashboard':
         this.preserveFormAsDraft = false;
@@ -700,6 +721,27 @@ export class FormentryComponent implements OnInit, OnDestroy {
                 }
               });
             }, 1);
+          } else if (transfer.loadInternalMovementForm) {
+            setTimeout(() => {
+              this.confirmationService.confirm({
+                header: 'Confirm Patient movement',
+                rejectVisible: true,
+                acceptVisible: true,
+                message:
+                  'You Have chosen to move this client to another clinic. Do you wish to complete the movement?',
+                accept: () => {
+                  this.router.navigate(
+                    [
+                      `/patient-dashboard/patient/${this.patient.uuid}/hiv/${this.activeProgram}/formentry/${this.internalMovementFormUuid}`
+                    ],
+                    { queryParams: transfer.params }
+                  );
+                },
+                reject: () => {
+                  this.showSuccessDialog = true;
+                }
+              });
+            }, 1);
           } else {
             this.router.navigate(
               _.concat(
@@ -1019,6 +1061,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
       // add valueProcessingInfo
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
+
+      console.log('datasources', this.dataSources);
 
       this.setUpWHOCascading();
       if (schema.encounterType) {
@@ -1413,6 +1457,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
       if (referralsData.hasDifferentiatedCareReferal) {
         this.showProcessReferralsDialog = true;
+      } else if (referralsData.isInterMovementForm) {
+        this.showInternalMovementReferralsDialog = true;
+        this.internalRefProgram = this.referralsHandler.getReferralProgram(
+          referralsData
+        );
       } else {
         // this.showSuccessDialog = true;
         // display success dialog
@@ -1460,11 +1509,41 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }
   }
 
+  public handleHivRefferal(
+    program: RefProgram,
+    enrollToHivRefferalProgram: boolean
+  ): void {
+    if (this.enrollToHivRefferalProgram) {
+      this.referToHivProgram = 1;
+    } else {
+      this.referToHivProgram = 2;
+    }
+  }
+
+  public onHivReferralStatusChange($statusChange: ReferralStatus): void {
+    if ($statusChange.status.length > 0) {
+      this.hivReferralStatus = $statusChange;
+    }
+  }
+
+  private completeHivRefferal(): void {
+    this.showInternalMovementReferralsDialog = false;
+    this.showSuccessDialog = true;
+  }
+
+  public cancelHivReferral(): void {
+    this.showInternalMovementReferralsDialog = false;
+  }
+
   public toggleEnrollToDC() {
     this.enrollToDC = !this.enrollToDC;
     if (!this.enrollToDC) {
       this.enrollToGroup = false;
     }
+  }
+
+  public toggleEnrollHivRefferalProgram(toggle: boolean): void {
+    this.enrollToHivRefferalProgram = toggle;
   }
 
   public toggleReferral() {
