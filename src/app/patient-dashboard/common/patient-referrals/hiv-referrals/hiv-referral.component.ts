@@ -21,6 +21,7 @@ import {
 } from './../../../../interfaces/program-enrollment.interface';
 import { Location } from './../../../../interfaces/location.interface';
 import { ReferralStatus } from './../../../../interfaces/referral-status.interface';
+import { Programs } from 'src/app/constants/program.constants';
 
 interface Provider {
   provider: string;
@@ -167,6 +168,7 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
   private referToProgram(
     enrollToProgramPayload: ProgramEnrollmentPayload
   ): Promise<any> {
+    console.log('Payload', enrollToProgramPayload);
     return new Promise((resolve, reject) => {
       this.enrollToProgramSubscription = this.hivReferralService
         .enrollToProgram(enrollToProgramPayload)
@@ -183,7 +185,9 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
       for (let i = 0; i < enrollmentsPayload.length; i++) {
         const enrollmentPayload: ProgramEnrollmentPayload =
           enrollmentsPayload[i];
-        await this.referToProgram(enrollmentPayload);
+        if (enrollmentPayload) {
+          await this.referToProgram(enrollmentPayload);
+        }
       }
 
       return Promise.resolve('enrolled');
@@ -200,11 +204,45 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
       dateEnrolled: new Date(),
       program: this.referredHivProgram.uuid
     };
+    let referredToStandard = false;
+    const enrollmentsPayload = hivPrograms.map(
+      (hivProgram: ProgramEnrollment) => {
+        if (
+          hivProgram.program.uuid === Programs.STANDARD_HIV_PROGRAM.uuid &&
+          this.referredHivProgram.uuid === Programs.PMTCT_PROGRAM.uuid
+        ) {
+          console.log('Eliminate standard');
+        } else if (
+          hivProgram.program.uuid === Programs.PMTCT_PROGRAM.uuid &&
+          this.referredHivProgram.uuid === Programs.STANDARD_HIV_PROGRAM.uuid
+        ) {
+          referredToStandard = true;
+          console.log('Eliminate PMTCT and enroll on standard alone');
+        } else {
+          return {
+            location: this.referredHivProgram.locationUuid,
+            patient: this.patient.uuid,
+            dateEnrolled: new Date(),
+            program: hivProgram.program.uuid
+          };
+        }
+      }
+    );
+    // Add the referred program in payload
 
+    enrollmentsPayload.push(enrollmentPayload);
+    console.log('Payload', enrollmentPayload, enrollmentsPayload);
     return new Promise((resolve, reject) => {
       this.completeHivPrograms(hivPrograms)
         .then((result: any) => {
-          return this.referToProgram(enrollmentPayload);
+          if (
+            referredToStandard &&
+            this.referredHivProgram.uuid === Programs.STANDARD_HIV_PROGRAM.uuid
+          ) {
+            return this.referToProgram(enrollmentPayload);
+          } else {
+            return this.referToMultiplePrograms(enrollmentsPayload);
+          }
         })
         .then((result: any) => {
           return this.createAutoEnrollmentEncounter();
@@ -226,7 +264,7 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
         return {
           location: this.referredHivProgram.locationUuid,
           patient: this.patient.uuid,
-          dateEnrolled: new Date(),
+          dateEnrolled: Date.now().toLocaleString(),
           program: hivProgram.program.uuid
         };
       }

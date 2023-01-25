@@ -222,7 +222,10 @@ describe('Service: FormDataSourceService', () => {
           const subject = new BehaviorSubject<any>({});
           subject.next({
             uuid: 'uuid',
-            display: 'display'
+            display: 'display',
+            parentLocation: {
+              childLocations: []
+            }
           });
           return subject;
         }
