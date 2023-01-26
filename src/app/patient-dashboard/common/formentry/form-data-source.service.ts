@@ -1,6 +1,4 @@
-import { take } from 'rxjs/operators';
-
-import { map, flatMap, catchError } from 'rxjs/operators';
+import { take, map, flatMap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
@@ -13,6 +11,8 @@ import * as _ from 'lodash';
 import { ZscoreService } from '../../../shared/services/zscore.service';
 @Injectable()
 export class FormDataSourceService {
+  private siblingLocations = [];
+
   constructor(
     private providerResourceService: ProviderResourceService,
     private locationResourceService: LocationResourceService,
@@ -24,6 +24,7 @@ export class FormDataSourceService {
   public getDataSources() {
     const formData: any = {
       location: this.getLocationDataSource(),
+      siblingLocations: this.getSiblingLocationsDataSource(),
       provider: this.getProviderDataSource(),
       drug: this.getDrugDataSource(),
       problem: this.getProblemDataSource(),
@@ -39,6 +40,32 @@ export class FormDataSourceService {
 
     const find = (text: string) => {
       return this.findLocation(text);
+    };
+
+    return {
+      resolveSelectedValue: resolve,
+      searchOptions: find
+    };
+  }
+
+  public getSiblingLocationsDataSource() {
+    const resolve = (uuid: string) => {
+      return this.getSiblingLocationsByUuid(uuid);
+    };
+
+    const find = (searchString: string) => {
+      const filteredLocations = this.siblingLocations.filter(
+        (location: any) => {
+          const searchStringSc = searchString.toLowerCase();
+          const locationSc = location.label.toLowerCase();
+          const patt = new RegExp(searchStringSc);
+          const matchResult = patt.test(locationSc);
+          if (matchResult) {
+            return location;
+          }
+        }
+      );
+      return Observable.of(filteredLocations);
     };
 
     return {
@@ -306,7 +333,8 @@ export class FormDataSourceService {
     return locationSearchResults.asObservable();
   }
 
-  public getLocationByUuid(uuid): Observable<any> {
+  public getLocationByUuid(uuid: string): Observable<any> {
+    this.getEncounterLocationSiblingLocations(uuid);
     const locationSearchResults: BehaviorSubject<any> = new BehaviorSubject<
       any
     >([]);
@@ -332,7 +360,45 @@ export class FormDataSourceService {
       );
   }
 
-  public resolveConcept(uuid): Observable<any> {
+  /*
+  Get sibling locations for the specific facility based on encounter location
+  */
+
+  public getEncounterLocationSiblingLocations(locationUuid: string) {
+    const MTRH_ANTI_COAGULATION = '379ff09d-c72f-4859-a9dc-3c0295738252';
+    const MTRH_MOTHER_BABY = '3ce46ae0-7eca-48c9-86d3-d5bdde1c7dab';
+    /* Exclude MTRH Anti coagulation and Mother baby */
+
+    this.locationResourceService
+      .getSiblingAmrsLocations(locationUuid)
+      .subscribe((locations: any) => {
+        if (locations.length) {
+          this.siblingLocations = locations
+            .filter((l: any) => {
+              return (
+                l.uuid !== MTRH_ANTI_COAGULATION && l.uuid !== MTRH_MOTHER_BABY
+              );
+            })
+            .map((l: any) => {
+              return {
+                label: l.display,
+                value: l.uuid
+              };
+            });
+        }
+      });
+  }
+
+  public getSiblingLocationsByUuid(uuid: string): Observable<any> {
+    return new Observable((observer) => {
+      const result = this.siblingLocations.filter((l: any) => {
+        return l.value === uuid;
+      });
+      observer.next(result[0] || '');
+    });
+  }
+
+  public resolveConcept(uuid: string): Observable<any> {
     return new Observable((observer) => {
       this.conceptResourceService.getConceptByUuid(uuid).subscribe(
         (result: any) => {

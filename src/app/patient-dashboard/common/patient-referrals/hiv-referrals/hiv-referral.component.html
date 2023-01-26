@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="statusLog.length > 0 && refer === 1">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <ul *ngFor="let status of statusLog">
+        <li *ngIf="status.message.length > 0" class="status-list">
+          {{ status.message }}<i class="fa fa-check" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

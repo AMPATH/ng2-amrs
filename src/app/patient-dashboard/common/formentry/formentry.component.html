@@ -360,4 +360,99 @@
       </button>
     </p-footer>
   </p-dialog>
+
+  <p-dialog
+    heaheaderder="internalRefProgram?.name + 'Referral'"
+    [(visible)]="showInternalMovementReferralsDialog"
+    [closable]="true"
+    [modal]="true"
+  >
+    <h4>
+      <div
+        class="alert alert-info"
+        *ngIf="hivReferralStatus && hivReferralStatus.status !== 'complete'"
+      >
+        <i class="fa fa-question-circle"></i> {{ hivReferralStatus.message }}
+      </div>
+      <div
+        class="alert alert-success"
+        *ngIf="hivReferralStatus && hivReferralStatus.status === 'complete'"
+      >
+        {{ hivReferralStatus.message }}
+      </div>
+    </h4>
+    <app-hiv-referral
+      [referredHivProgram]="internalRefProgram"
+      [refer]="referToHivProgram"
+      [patient]="patient"
+      (referralStatus)="onHivReferralStatusChange($event)"
+    >
+    </app-hiv-referral>
+    <ul class="list-group" *ngIf="hivReferralStatus.status !== 'complete'">
+      <li class="list-group-item">
+        <h4>Do you want to enroll the patient to the program?</h4>
+        <div class="row">
+          <button
+            class="pull-right btn btn-xs"
+            [ngClass]="{
+              'btn-primary': enrollToHivRefferalProgram === false,
+              'btn-default': enrollToHivRefferalProgram
+            }"
+            style="margin-left: 11px; margin-right: 7px"
+            (click)="toggleEnrollHivRefferalProgram(false)"
+          >
+            <i class="fa fa-close"></i> No
+          </button>
+          <button
+            class="pull-right btn btn-xs"
+            [ngClass]="{
+              'btn-primary': enrollToHivRefferalProgram,
+              'btn-default': enrollToHivRefferalProgram === false
+            }"
+            style="margin-left: 5px"
+            (click)="toggleEnrollHivRefferalProgram(true)"
+          >
+            <i class="fa fa-check"></i> Yes
+          </button>
+        </div>
+      </li>
+    </ul>
+    <p-footer>
+      <div
+        *ngIf="
+          hivReferralStatus.status !== 'complete' &&
+          enrollToHivRefferalProgram !== null
+        "
+      >
+        <button
+          type="button"
+          class="btn btn-danger pull-left"
+          style="margin-left: 7px"
+          (click)="cancelHivReferral()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="margin-right: 7px"
+          (click)="
+            handleHivRefferal(internalRefProgram, enrollToHivRefferalProgram)
+          "
+        >
+          Proceed
+        </button>
+      </div>
+      <div *ngIf="hivReferralStatus.status === 'complete'">
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="margin-right: 7px"
+          (click)="completeHivRefferal()"
+        >
+          Finish
+        </button>
+      </div>
+    </p-footer>
+  </p-dialog>
 </div>
