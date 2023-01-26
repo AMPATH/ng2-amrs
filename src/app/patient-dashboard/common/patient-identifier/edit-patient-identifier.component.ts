@@ -109,7 +109,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
       this.nCounties = arg;
-      this.setUpContryTypeAhead();
+      this.setUpCountryTypeAhead();
       this.locationResourceService.getCountries().subscribe((r) => {
         this.countries = r;
       });
@@ -268,7 +268,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setUpContryTypeAhead() {
+  public setUpCountryTypeAhead() {
     this.countrySuggest
       .pipe(
         debounceTime(350),
