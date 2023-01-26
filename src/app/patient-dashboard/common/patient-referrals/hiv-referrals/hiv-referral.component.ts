@@ -168,7 +168,6 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
   private referToProgram(
     enrollToProgramPayload: ProgramEnrollmentPayload
   ): Promise<any> {
-    console.log('Payload', enrollToProgramPayload);
     return new Promise((resolve, reject) => {
       this.enrollToProgramSubscription = this.hivReferralService
         .enrollToProgram(enrollToProgramPayload)
@@ -211,13 +210,11 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
           hivProgram.program.uuid === Programs.STANDARD_HIV_PROGRAM.uuid &&
           this.referredHivProgram.uuid === Programs.PMTCT_PROGRAM.uuid
         ) {
-          console.log('Eliminate standard');
         } else if (
           hivProgram.program.uuid === Programs.PMTCT_PROGRAM.uuid &&
           this.referredHivProgram.uuid === Programs.STANDARD_HIV_PROGRAM.uuid
         ) {
           referredToStandard = true;
-          console.log('Eliminate PMTCT and enroll on standard alone');
         } else {
           return {
             location: this.referredHivProgram.locationUuid,
@@ -231,7 +228,6 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
     // Add the referred program in payload
 
     enrollmentsPayload.push(enrollmentPayload);
-    console.log('Payload', enrollmentPayload, enrollmentsPayload);
     return new Promise((resolve, reject) => {
       this.completeHivPrograms(hivPrograms)
         .then((result: any) => {

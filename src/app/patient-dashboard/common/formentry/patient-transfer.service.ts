@@ -149,6 +149,8 @@ export class PatientTransferService {
           )
         });
       }
+    } else {
+      this.transferState.next({ loadInternalMovementForm: false });
     }
     return this.transferState;
   }
@@ -280,6 +282,7 @@ export class PatientTransferService {
     const internalMovementQuestion = this.searchNodeByQuestionId(
       'internalMove'
     );
+    console.log('WHy is internal', internalMovementQuestion);
     return internalMovementQuestion.length > 0 ? internalMovementQuestion : [];
   }
 

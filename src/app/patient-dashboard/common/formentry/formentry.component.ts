@@ -1061,9 +1061,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
       // add valueProcessingInfo
       this.form.valueProcessingInfo.personUuid = this.patient.person.uuid;
       this.form.valueProcessingInfo.formUuid = schema.uuid;
-
-      console.log('datasources', this.dataSources);
-
       this.setUpWHOCascading();
       if (schema.encounterType) {
         this.form.valueProcessingInfo.encounterTypeUuid =
