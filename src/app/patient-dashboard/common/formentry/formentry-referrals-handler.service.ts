@@ -14,9 +14,24 @@ import { PatientProgramResourceService } from '../../../etl-api/patient-program-
 import { ProgramManagerService } from '../../../program-manager/program-manager.service';
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 
+// interfaces
+import { ReturnValue } from './../../../interfaces/return-value.interface';
+import { Program } from './../../../interfaces/program.interface';
+import { ReferredProgram } from './../../../interfaces/referred-program.interface';
+
+// program constants
+import { Programs } from './../../../constants/program.constants';
+
+// referral concepts
+import { ReferralConcepts } from './../../../constants/referral-concepts.contants';
+
+// form uuids
+import { FormUuids } from './../../../constants/forms.constants';
+
 @Injectable()
 export class FormentryReferralsHandlerService {
-  public differentiatedCareConceptUuid = '7c6f0599-3e3e-4f42-87a2-2ce66f1e96d0';
+  private PMTCT_PROGRAM: Program = Programs.PMTCT_PROGRAM;
+  private STANDARD_PROGRAM: Program = Programs.STANDARD_HIV_PROGRAM;
 
   constructor(
     public diffCareReferralService: DifferentiatedCareReferralService,
@@ -184,30 +199,101 @@ export class FormentryReferralsHandlerService {
     );
   }
 
-  public extractRequiredValues(
-    form: Form
-  ): {
-    hasDifferentiatedCareReferal: boolean;
-    rtcDate: Date;
-    encounterDatetime: Date;
-    providerUuid: string;
-    locationUuid: string;
-  } {
-    const returnValue = {
+  public extractRequiredValues(form: Form): ReturnValue {
+    const returnValue: ReturnValue = {
       hasDifferentiatedCareReferal: false,
+      isInterMovementForm: false,
+      hasInterFacilityReferral: false,
+      hasTransitionReferral: false,
+      hasTbTreatmentReferral: false,
+      hasPmtctReferral: false,
+      hasActgReferral: false,
+      hasInpatientCareReferral: false,
+      hasBackToCareReferral: false,
+      hasPppReferral: false,
+      hasPatientPreferenceReferral: false,
+      hasStandardHivCareReferral: false,
       rtcDate: null,
       encounterDatetime: null,
       providerUuid: '',
-      locationUuid: ''
+      locationUuid: '',
+      hivReferralLocationUuid: ''
     };
+
+    const formUuid = form.schema.uuid ? form.schema.uuid : '';
 
     // has differentiaded care referal;
     const referrals = this.getQuestionValue(form, 'referrals');
+    const internalMvmentData = this.getQuestionValue(form, 'careType');
+    const interMovementQstnAns = this.getQuestionValue(form, 'internalMove');
     if (
       Array.isArray(referrals) &&
-      referrals.indexOf(this.differentiatedCareConceptUuid) >= 0
+      referrals.indexOf(ReferralConcepts.differentiatedCareConceptUuid) >= 0
     ) {
       returnValue.hasDifferentiatedCareReferal = true;
+    }
+
+    // has selected yes for internal movement
+    if (interMovementQstnAns === 'a899b35c-1350-11df-a1f1-0026b9348838') {
+      returnValue.hasInterFacilityReferral = true;
+    }
+
+    // has transition referral
+
+    if (internalMvmentData === ReferralConcepts.TRANSITION_CONCEPT) {
+      returnValue.hasTransitionReferral = true;
+    }
+
+    // has TB referral
+    if (internalMvmentData === ReferralConcepts.TB_REFERRAL_CONCEPT) {
+      returnValue.hasTbTreatmentReferral = true;
+    }
+
+    // haS PMTCT referral
+    if (internalMvmentData === ReferralConcepts.MCH_PROGRAM_CONCEPT) {
+      returnValue.hasPmtctReferral = true;
+    }
+
+    // has ACTG referral
+    if (internalMvmentData === ReferralConcepts.ACTG_REFERRAL_CONCEPT) {
+      returnValue.hasActgReferral = true;
+    }
+
+    // has Patient care referral
+    if (
+      internalMvmentData === ReferralConcepts.IN_PATIENT_CARE_REFERRAL_CONCEPT
+    ) {
+      returnValue.hasInpatientCareReferral = true;
+    }
+
+    // has Back to CCC referral
+    if (internalMvmentData === ReferralConcepts.BACK_TO_CCC_REFERRAL_CONCEPT) {
+      returnValue.hasBackToCareReferral = true;
+    }
+
+    // has PPP referral
+    if (internalMvmentData === ReferralConcepts.PPP_REFERRAL_CONCEPT) {
+      returnValue.hasPppReferral = true;
+    }
+
+    // has Personal Preference referral
+    if (internalMvmentData === ReferralConcepts.PATIENT_PREFERENCE_CONCEPT) {
+      returnValue.hasPatientPreferenceReferral = true;
+    }
+
+    // has Standard HIV Care Referral
+    if (
+      internalMvmentData === ReferralConcepts.STANDARD_HIV_CARE_REFERRAL_CONCEPT
+    ) {
+      returnValue.hasStandardHivCareReferral = true;
+    }
+
+    if (internalMvmentData && internalMvmentData.length > 0) {
+      returnValue.hivReferralLocationUuid = this.getQuestionValue(
+        form,
+        'referedFacility'
+      );
+      returnValue.isInterMovementForm = this.isInterMovementForm(formUuid);
     }
 
     // rtcdate
@@ -217,6 +303,32 @@ export class FormentryReferralsHandlerService {
     returnValue.locationUuid = this.getQuestionValue(form, 'location');
 
     return returnValue;
+  }
+
+  public getReferralProgram(referralObj: any): ReferredProgram {
+    const refProgram: ReferredProgram = {
+      uuid: '',
+      name: '',
+      locationUuid: '',
+      providerUuid: '',
+      referralMetaData: referralObj
+    };
+    if (referralObj.hasPmtctReferral) {
+      refProgram.uuid = this.PMTCT_PROGRAM.uuid;
+      refProgram.name = this.PMTCT_PROGRAM.name;
+    } else {
+      refProgram.uuid = this.STANDARD_PROGRAM.uuid;
+      refProgram.name = this.STANDARD_PROGRAM.name;
+    }
+
+    refProgram.locationUuid = referralObj.hivReferralLocationUuid;
+    refProgram.providerUuid = referralObj.providerUuid;
+
+    return refProgram;
+  }
+
+  public isInterMovementForm(formUuid: string): boolean {
+    return formUuid === FormUuids.INTERNAL_MOVEMENT_FORM_UUID;
   }
 
   private getQuestionValue(form: Form, questionId: string) {

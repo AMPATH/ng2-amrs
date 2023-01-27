@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <h4 class="component-title" style="color: green">
+    <span class="fa fa-bar-chart"></span> {{ title }}
+  </h4>
+  <div class="alert alert-danger fade in" *ngIf="encounteredError">
+    <a class="close" data-dismiss="alert">&times;</a>
+    <h4>
+      <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong>
+      An error occurred while trying to load the report. Please try again.
+    </h4>
+    <p>
+      <small>{{ errorMessage }}</small>
+    </p>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-covid-19-report-filters
+        [startDate]="startMonth"
+        (filterSet)="filterSet($event)"
+        (filteReset)="filteReset($event)"
+        (locationsSet)="locationsSet($event)"
+        [dashboardType]="dashboardType"
+      >
+      </app-covid-19-report-filters>
+    </div>
+  </div>
+  <div class="row" *ngIf="locationUuids">
+    <div class="col-sm-12 col-lg-12 col-xs-12 col-md-12">
+      <div class="loader" *ngIf="isLoadingReport">
+        <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <app-covid-19-tabular-view
+    [covid19SummaryData]="covid19SummaryData"
+    [params]="params"
+    (indicatorSelected)="onIndicatorSelect($event)"
+    [covid19SectionDefs]="covid19SectionDefs"
+  ></app-covid-19-tabular-view>
+</div>
