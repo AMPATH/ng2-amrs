@@ -436,6 +436,7 @@
           type="button"
           class="btn btn-primary"
           style="margin-right: 7px"
+          [disabled]="!enrollToHivRefferalProgram"
           (click)="
             handleHivRefferal(internalRefProgram, enrollToHivRefferalProgram)
           "
