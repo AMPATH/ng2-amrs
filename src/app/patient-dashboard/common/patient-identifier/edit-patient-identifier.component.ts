@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { take } from 'rxjs/operators/take';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { isArray } from 'util';
+import { debounceTime, switchMap, take } from 'rxjs/operators';
 
 import * as moment from 'moment';
 import { PatientService } from '../../services/patient.service';
@@ -16,6 +16,7 @@ import { PatientCreationResourceService } from '../../../openmrs-api/patient-cre
 import { PatientIdentifierTypeResService } from 'src/app/openmrs-api/patient-identifierTypes-resource.service';
 import { Router } from '@angular/router';
 import { SessionStorageService } from './../../../utils/session-storage.service';
+import { LocationUnitsService } from 'src/app/etl-api/location-units.service';
 @Component({
   selector: 'edit-identifiers',
   templateUrl: './edit-patient-identifier.component.html',
@@ -73,6 +74,17 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public UpiIdentifierType = 'cba702b9-4664-4b43-83f1-9ab473cbd64d';
 
   public unsavedUpi = '';
+  public administrativeUnits: any;
+  public nCounties: any = [];
+  public countrySuggest: Subject<any> = new Subject();
+  public counties: any;
+  public countries: any = [];
+  public countrySearchParam = { value: 'KE', label: 'Kenya' };
+  public givenName = '';
+  public familyName = '';
+  public middleName = '';
+  public searchResult = '';
+  public createDataExists = 0;
 
   constructor(
     private patientService: PatientService,
@@ -83,7 +95,8 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     private patientCreationResourceService: PatientCreationResourceService,
     private userService: UserService,
     private sessionStorageService: SessionStorageService,
-    private router: Router
+    private router: Router,
+    private locationUnitsService: LocationUnitsService
   ) {}
 
   public ngOnInit(): void {
@@ -93,6 +106,14 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.verificationIdentifierTypes = this.patientIdentifierService.patientVerificationIdentifierTypeFormat();
     this.userId = this.userService.getLoggedInUser().openmrsModel.systemId;
     this.identifierValidity = '';
+    this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
+      this.administrativeUnits = arg;
+      this.nCounties = arg;
+      this.setUpCountryTypeAhead();
+      this.locationResourceService.getCountries().subscribe((r) => {
+        this.countries = r;
+      });
+    });
   }
 
   public ngOnDestroy(): void {
@@ -247,6 +268,21 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     }
   }
 
+  public setUpCountryTypeAhead() {
+    this.countrySuggest
+      .pipe(
+        debounceTime(350),
+        switchMap((term: string) => {
+          return this.counties.filter((c) => c.label === term);
+        })
+      )
+      .subscribe((data) => this.processCountries(data));
+  }
+
+  public processCountries(data) {
+    this.countries = _.filter(data, (p: any) => !_.isNil(p.label));
+  }
+
   public selectIdentifierType(identifierType) {
     this.checkUniversal = false;
     this.identifierType = identifierType;
@@ -272,11 +308,16 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
   public verifyPatient() {
     const searchUuid = this.identifierType.val;
     this.patientCreationResourceService
-      .searchRegistry(searchUuid, this.patientIdentifier.toString())
+      .searchRegistry(
+        searchUuid,
+        this.patientIdentifier.toString(),
+        this.countrySearchParam.value
+      )
       .subscribe(
         (data: any) => {
           console.log('DHP Client Exists ', data.clientExists);
           if (data.clientExists) {
+            this.createDataExists = 1;
             this.unsavedUpi = data.client.clientNumber;
             const ids = [];
             ids.push({
@@ -297,12 +338,32 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             data.client.uuid = this.patients.person.uuid;
 
             this.registryData = data.client;
-
+            this.givenName = this.registryData.firstName
+              ? this.registryData.firstName
+              : '';
+            this.familyName = this.registryData.lastName
+              ? this.registryData.lastName
+              : '';
+            this.middleName = this.registryData.middleName
+              ? this.registryData.middleName
+              : '';
+            this.birthDate = this.registryData.dateOfBirth
+              ? this.registryData.dateOfBirth
+              : '';
+            this.searchResult = `This ID number (${this.patientIdentifier.toString()}) was used to verify ${
+              this.givenName
+            } ${this.middleName} ${this.familyName} of DOB ${moment(
+              this.birthDate
+            ).format(
+              'DD/MM/YYYY'
+            )}. If this name is different from what is in the ID URGENTLY contact system support`;
             this.sessionStorageService.remove('CRPatient');
             this.sessionStorageService.setObject('CRPatient', data.client);
           } else {
+            this.createDataExists = 0;
             this.unsavedUpi = 'Not Found';
             this.sessionStorageService.remove('CRPatient');
+            this.searchResult = 'PATIENT NOT FOUND, Proceed with registration';
           }
         },
         (err) => {
@@ -330,6 +391,10 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         { editMode: 1 }
       ]);
     }
+  }
+
+  public openUserFeedback() {
+    this.router.navigate(['/feed-back']);
   }
 
   public updatePatientIdentifier(isVerifyDialog?: Boolean) {
@@ -427,20 +492,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
       // invalid character, prevent input
       event.preventDefault();
     }
-  }
-
-  public generatePatientIdentifier() {
-    this.patientCreationResourceService
-      .generateIdentifier(this.userId)
-      .subscribe(
-        (data: any) => {
-          this.patientIdentifier = data.identifier;
-          this.checkUniversal = false;
-        },
-        (err) => {
-          console.log(err.json());
-        }
-      );
   }
 
   private saveIdentifier(personIdentifierPayload, person) {
