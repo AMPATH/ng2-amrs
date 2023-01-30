@@ -43,6 +43,12 @@ export class MonthlyReportComponent implements OnInit {
         description: '',
         url: 'moh-412-report',
         icon: 'fa'
+      },
+      {
+        title: 'Covid-19 Monthly Report',
+        description: '',
+        url: 'covid-19-monthly-report',
+        icon: 'fa'
       }
     ];
   }

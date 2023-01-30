@@ -1,6 +1,6 @@
 {
   "name": "ngx-amrs",
-  "version": "2.12.0-SNAPSHOT",
+  "version": "2.16.1-SNAPSHOT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 3000",
@@ -34,7 +34,7 @@
   },
   "private": true,
   "dependencies": {
-    "@ampath-kenya/ngx-openmrs-formentry": "2.12.17",
+    "@ampath-kenya/ngx-openmrs-formentry": "2.12.20",
     "@angular/animations": "^6.1.0",
     "@angular/cdk": "^6.1.0",
     "@angular/common": "^6.1.0",
