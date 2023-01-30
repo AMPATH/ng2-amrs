@@ -49,13 +49,13 @@ export class PatientCreationResourceService {
     return this.http.post(url, user);
   }
 
-  public generateUPI(patientUuid) {
-    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
+  public generateUPI(patientUuid, countryCode = 'KE') {
+    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}&countryCode=${countryCode}`;
     return this.http.get(url);
   }
 
-  public searchRegistry(idType, id) {
-    const url = `https://ngx.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}`;
+  public searchRegistry(idType, id, countryCode = 'KE') {
+    const url = `https://ngx.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}&countryCode=${countryCode}`;
     return this.http.get(url);
   }
 

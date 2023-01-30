@@ -184,116 +184,109 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
-        <div class="form-group">
-          <label class="control-label">Patient Identifier Type:</label>
-          <select
-            required
-            class="form-control"
-            [ngModel]="identifierType"
-            (ngModelChange)="selectIdentifierType($event)"
-          >
-            <option value=""></option>
-            <option *ngFor="let c of verificationIdentifierTypes" [ngValue]="c">
-              {{ c.label }}
-            </option>
-          </select>
-          <div ng-messages="personForm.identifierType.$error">
-            <div class="help-block" ng-message="required">
-              Identifier Type is required.
-            </div>
+      <div>
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="form-group">
+            <label class="control-label">Country:</label>
+            <ng-select
+              [typeahead]="countrySuggest"
+              class="sharp-corners select"
+              [items]="countries"
+              name="countryInput"
+              [(ngModel)]="countrySearchParam"
+              #countryInput="ngModel"
+              required
+            ></ng-select>
           </div>
         </div>
-      </div>
 
-      <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-        <div class="form-group">
-          <label class="control-label">Value</label>
-          <span
-            class="badge btn pull-right"
-            *ngIf="checkUniversal"
-            (click)="generatePatientIdentifier()"
-            >Generate</span
-          >
-          <div [hidden]="showGeneralTexBox">
-            <input
-              type="text"
-              id="patientIdentifier"
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="form-group">
+            <label class="control-label">Verification Identifier Type:</label>
+            <select
+              required
               class="form-control"
-              [(ngModel)]="patientIdentifier"
-              name=""
-              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
-            />
-          </div>
-          <div [hidden]="!showNationalIdTexBox">
-            <input
-              type="number"
-              id="patientId"
-              class="form-control"
-              [(ngModel)]="patientIdentifier"
-              name=""
-              (ngModelChange)="setPatientIdentifier(patientIdentifier)"
-              (keypress)="_keyPress($event)"
-            />
-          </div>
-          <div *ngIf="identifierValidity">
-            <span
-              style="color: red"
-              class="glyphicon glyphicon-exclamation-sign"
-              >{{ identifierValidity }}</span
+              [ngModel]="identifierType"
+              (ngModelChange)="selectIdentifierType($event)"
             >
-          </div>
-          <div ng-messages="patientIdentifier.$error">
-            <div class="help-block" ng-message="required">
-              Identifier is required.
+              <option value=""></option>
+              <option
+                *ngFor="let c of verificationIdentifierTypes"
+                [ngValue]="c"
+              >
+                {{ c.label }}
+              </option>
+            </select>
+            <div ng-messages="personForm.identifierType.$error">
+              <div class="help-block" ng-message="required">
+                Verification Type is required.
+              </div>
             </div>
           </div>
-          <div *ngIf="hasError" style="margin-bottom: 10px">
-            <span class="text-danger">
-              <i class="glyphicon glyphicon-exclamation-sign"></i>
-              {{ errorMessage }}</span
-            >
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="form-group">
+            <label class="control-label">Value</label>
+            <div [hidden]="showGeneralTexBox">
+              <input
+                type="text"
+                id="patientIdentifier"
+                class="form-control"
+                [(ngModel)]="patientIdentifier"
+                name=""
+                (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+              />
+            </div>
+            <div [hidden]="!showNationalIdTexBox">
+              <input
+                type="number"
+                id="patientId"
+                class="form-control"
+                [(ngModel)]="patientIdentifier"
+                name=""
+                (ngModelChange)="setPatientIdentifier(patientIdentifier)"
+                (keypress)="_keyPress($event)"
+              />
+            </div>
+            <div *ngIf="identifierValidity">
+              <span
+                style="color: red"
+                class="glyphicon glyphicon-exclamation-sign"
+                >{{ identifierValidity }}</span
+              >
+            </div>
+            <div ng-messages="patientIdentifier.$error">
+              <div class="help-block" ng-message="required">
+                Identifier is required.
+              </div>
+            </div>
+            <div *ngIf="hasError" style="margin-bottom: 10px">
+              <span class="text-danger">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                {{ errorMessage }}</span
+              >
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-        <div class="form-group">
-          <button
-            style="margin-top: 27px; font-size: 10px"
-            ng-disabled="personForm.patientIdentifier.$invalid &&
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="form-group">
+            <button
+              style="margin-top: 27px; font-size: 10px"
+              ng-disabled="personForm.patientIdentifier.$invalid &&
                   personForm.identifierType.$invalid && personForm.selectedLocation.selected.$invalid"
-            class="btn btn-primary"
-            type="button"
-            (click)="verifyPatient()"
-          >
-            <span>Search Registry</span>
-          </button>
+              class="btn btn-primary"
+              type="button"
+              (click)="verifyPatient()"
+            >
+              <span>Search Registry</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div style="margin-top: 20px"></div>
-
-      <div class="row">
-        <div
-          class="col-md-5 col-lg-5 col-sm-5 col-xs-5"
-          style="margin-left: 15px"
-        >
-          <div class="form-group">
-            <label class="control-label">UPI Identifier:</label>
-          </div>
-        </div>
-
-        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-          <div class="form-group">
-            <input
-              type="text"
-              id="unsavedUpi"
-              class="form-control"
-              [(ngModel)]="unsavedUpi"
-              name=""
-            />
-          </div>
-        </div>
+      <div class="row" *ngIf="unsavedUpi.length != 0">
+        <label style="color: blue">{{ searchResult }} </label>
       </div>
       <div class="row">
         <div
@@ -303,11 +296,25 @@
           <div class="form-group">
             <button
               [disabled]="unsavedUpi.length == 0"
-              class="btn btn-primary"
+              class="btn btn-success"
               type="button"
               (click)="openRegistrationPage()"
             >
               <span>Verify Patient</span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="col-md-4 col-lg-4 col-sm-4 col-xs-4"
+          style="margin-right: 15px"
+        >
+          <div class="form-group" *ngIf="createDataExists == 1">
+            <button
+              class="btn btn-warning"
+              type="button"
+              (click)="openUserFeedback()"
+            >
+              <span>Contact Support</span>
             </button>
           </div>
         </div>
