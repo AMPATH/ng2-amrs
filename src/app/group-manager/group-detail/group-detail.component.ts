@@ -382,7 +382,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   private patientPresent(patient, cohortVisit) {
     let present = false;
     const patientVisit = cohortVisit.cohortMemberVisits.find((v) => {
-      return v.visit.patient.uuid === patient.uuid;
+      return v.visit.patient.uuid === patient.person.uuid;
     });
     if (patientVisit) {
       present = true;
