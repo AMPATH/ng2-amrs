@@ -2960,7 +2960,7 @@
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN",
-            "allowedIf": "screenedForCovidToday",
+            "allowedIf": "screenedForCovidToday && age > 24",
             "errors": {
               "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
             }
@@ -2995,6 +2995,7 @@
           },
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
+            "allowedIf": "age >= 10 && age <= 24 && screenedForCovidToday",
             "display": "YOUTHRETURN"
           },
           {
@@ -3028,6 +3029,7 @@
           },
           {
             "uuid": "c4efb6ba-e286-4933-8854-cd3af8e1ebef",
+            "allowedIf": "age >= 10 && age <= 24",
             "display": "YOUTHCOUNSELING"
           }
         ]
@@ -4409,7 +4411,7 @@
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN",
-            "allowedIf": "screenedForCovidToday",
+            "allowedIf": "screenedForCovidToday && age > 24",
             "errors": {
               "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
             }
@@ -4417,7 +4419,7 @@
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN",
-            "allowedIf": "screenedForCovidToday",
+            "allowedIf": "screenedForCovidToday && age >= 10 && age <= 24",
             "errors": {
               "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
             }
@@ -4425,7 +4427,7 @@
           {
             "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSRETURN",
-            "allowedIf": "screenedForCovidToday",
+            "allowedIf": "screenedForCovidToday && age < 10",
             "errors": {
               "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
             }
@@ -4477,6 +4479,7 @@
           },
           {
             "uuid": "c4efb6ba-e286-4933-8854-cd3af8e1ebef",
+            "allowedIf": "screenedForCovidToday && age >= 10 && age <= 24",
             "display": "YOUTHCOUNSELING"
           }
         ]
