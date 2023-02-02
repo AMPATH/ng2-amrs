@@ -2644,5 +2644,95 @@
     "county": "Elgeyo Marakwet",
     "cityVillage": "",
     "eidDisplay": ""
+  },
+  "0db6a78c-6b64-420c-bc30-ac403417c237": {
+    "mrsId": 434,
+    "mrsDisplay": "Chesoi Health Centre",
+    "description": "Chesoi Health Centre POC site",
+    "mflCode": "14385",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "2c89c870-560d-4521-90f9-b62f56939595": {
+    "mrsId": 438,
+    "mrsDisplay": "Chesoi Health Centre MCH",
+    "description": "Chesoi Health Centre MCH",
+    "mflCode": "14385",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "ce8089a9-d105-4d79-8a0a-d4a389d691b4": {
+    "mrsId": 435,
+    "mrsDisplay": "Chesongoch Health Centre",
+    "description": "Chesongoch Health Centre POC site",
+    "mflCode": "14386",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "3db5339b-491c-4e80-8c55-7ef21d7141e6": {
+    "mrsId": 439,
+    "mrsDisplay": "Chesongoch Health Centre MCH",
+    "description": "Chesongoch Health Centre MCH",
+    "mflCode": "14386",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "5794ab51-f531-46b8-acc0-51d77ff23760": {
+    "mrsId": 436,
+    "mrsDisplay": "Kaparon Health Centre",
+    "description": "Kaparon Health Centre POC site",
+    "mflCode": "16335",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "291f7e34-a803-4066-8c43-73c71bf206ce": {
+    "mrsId": 440,
+    "mrsDisplay": "Kaparon Health Centre MCH",
+    "description": "Kaparon Health Centre MCH",
+    "mflCode": "16335",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "086e6f2e-b67e-4926-a8fa-23999a7b7af1": {
+    "mrsId": 433,
+    "mrsDisplay": "Kaptarakwa Sub County Hospital",
+    "description": "Kaptarakwa Sub County Hospital POC site",
+    "mflCode": "14776",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "bc47c92b-9e7f-4e6e-a017-c748cb62a4d3": {
+    "mrsId": 441,
+    "mrsDisplay": "Kaptarakwa Sub County Hospital MCH",
+    "description": "Kaptarakwa Sub County Hospital MCH",
+    "mflCode": "14776",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "33bca52f-148a-4f86-8897-48da6f8f01ec": {
+    "mrsId": 437,
+    "mrsDisplay": "Simotwo Dispensary (Keiyo)",
+    "description": "Simotwo Dispensary POC site",
+    "mflCode": "15578",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "73366df2-53d1-4e3a-b825-e89aaea19f49": {
+    "mrsId": 442,
+    "mrsDisplay": "Simotwo Dispensary (Keiyo) MCH",
+    "description": "Simotwo Dispensary MCH",
+    "mflCode": "15578",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
   }
 }
