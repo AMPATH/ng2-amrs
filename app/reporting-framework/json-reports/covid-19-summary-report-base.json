@@ -16,6 +16,14 @@
         "type": "INNER",
         "joinCondition": "ce.location_id = l.location_id"
       }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "per",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "ce.person_id = per.person_id"
+      }
     }
   ],
   "columns": [
@@ -97,7 +105,7 @@
       "alias": "not_vaccinated_this_month",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if(ce.received_covid_19_vaccine = 1066 AND ce.screened_this_month = 1,1,null)"
+        "expression": "if(ce.received_covid_19_vaccine = 1066 AND ce.vaccination_status_this_month is null AND ce.screened_this_month = 1,1,null)"
       }
     },
     {
@@ -169,6 +177,10 @@
         "filterType": "tableColumns",
         "conditionExpression": "ce.endDate = ?",
         "parameterName": "endingMonth"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), per.birthdate)))) >= 15)"
       }
     ]
   },

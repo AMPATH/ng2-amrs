@@ -205,11 +205,11 @@
             "value": "Partially Vaccinated"
           },
           {
-            "condition": "c.person_id IS NULL AND c.second_dose_vaccine_administered IS NULL AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
+            "condition": "c.person_id IS NULL AND c.second_dose_vaccine_administered IS NULL AND c.vaccination_status is null AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
             "value": "Unknown Covid 19 Vaccination"
           },
           {
-            "condition": "c.received_covid_19_vaccine = 1066 AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
+            "condition": "c.received_covid_19_vaccine = 1066 AND c.vaccination_status is null AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
             "value": "Not vaccinated"
           }
         ]
