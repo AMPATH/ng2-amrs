@@ -58,6 +58,10 @@ export class PatientCreationResourceService {
     const url = `https://ngx.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}`;
     return this.http.get(url);
   }
+  public updateRegistry(patientUuid) {
+    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
+    return this.http.put(url, '');
+  }
 
   public savePatient(payload) {
     const url = this.url();
