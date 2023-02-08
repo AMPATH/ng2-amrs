@@ -285,6 +285,20 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.patientToUpdate = this.route.snapshot.paramMap.get('patientUuid');
       // populate fields from saved person details
       this.populateExistingData(this.patientToUpdate);
+    } else if (mode === '3') {
+      // update re-verification patients
+      this.isNewPatient = 0;
+      this.updateOperation = 1;
+      this.patientExists = false;
+      this.editMode = 0;
+      this.identifiers.push({
+        identifierType: this.route.snapshot.paramMap.get('identifierType'),
+        identifier: this.route.snapshot.paramMap.get('identifier'),
+        identifierTypeName: this.route.snapshot.paramMap.get('label')
+      });
+      this.patientToUpdate = this.route.snapshot.paramMap.get('patientUuid');
+      // populate fields from saved person details
+      this.populateExistingData(this.patientToUpdate);
     } else {
       this.updateOperation = 0;
     }
@@ -1285,6 +1299,20 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
                 });
             });
 
+            const mode = this.route.snapshot.paramMap.get('editMode');
+            if (mode === '3') {
+              this.patientCreationResourceService
+                .updateRegistry(this.patientToUpdate)
+                .subscribe(
+                  (data) => {
+                    console.log('Success data', data);
+                  },
+                  (err) => {
+                    console.log('Error', err);
+                  }
+                );
+            }
+
             /** Step 3: If UPI number is not part of identifiers, invoke verification service */
             if (
               !this.identifiers.find(
@@ -1295,6 +1323,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
               console.log(
                 'Only invoked if patient not in registry, missing UPI'
               );
+              // check Edit mode
+
               this.patientCreationResourceService
                 .generateUPI(this.patientToUpdate)
                 .subscribe(
