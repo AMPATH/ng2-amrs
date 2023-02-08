@@ -22,6 +22,7 @@ import {
 import { Location } from './../../../../interfaces/location.interface';
 import { ReferralStatus } from './../../../../interfaces/referral-status.interface';
 import { Programs } from 'src/app/constants/program.constants';
+import * as moment from 'moment';
 
 interface Provider {
   provider: string;
@@ -32,7 +33,7 @@ interface AutoEnrollmentEncounterPayload {
   patient: string;
   encounterProviders: Provider[];
   encounterType: string;
-  encounterDatetime: Date;
+  encounterDatetime: string;
 }
 
 @Component({
@@ -200,7 +201,7 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
     const enrollmentPayload: ProgramEnrollmentPayload = {
       location: this.referredHivProgram.locationUuid,
       patient: this.patient.uuid,
-      dateEnrolled: new Date(),
+      dateEnrolled: moment().subtract(1, 'minutes').format(),
       program: this.referredHivProgram.uuid
     };
     let referredToStandard = false;
@@ -219,7 +220,7 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
           return {
             location: this.referredHivProgram.locationUuid,
             patient: this.patient.uuid,
-            dateEnrolled: new Date(),
+            dateEnrolled: moment().subtract(1, 'minutes').format(),
             program: hivProgram.program.uuid
           };
         }
@@ -260,7 +261,7 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
         return {
           location: this.referredHivProgram.locationUuid,
           patient: this.patient.uuid,
-          dateEnrolled: Date.now().toLocaleString(),
+          dateEnrolled: moment().subtract(1, 'minutes').format(),
           program: hivProgram.program.uuid
         };
       }
@@ -301,7 +302,7 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
           }
         ],
         encounterType: '',
-        encounterDatetime: new Date()
+        encounterDatetime: moment().subtract(1, 'minutes').format()
       };
 
       const programUuid = this.referredHivProgram.uuid;

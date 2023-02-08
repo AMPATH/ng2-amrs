@@ -18,6 +18,6 @@ export interface ProgramCompletionEnrollmentPayload {
 export interface ProgramEnrollmentPayload {
   location: string;
   patient: string;
-  dateEnrolled: Date;
+  dateEnrolled: any;
   program: string;
 }

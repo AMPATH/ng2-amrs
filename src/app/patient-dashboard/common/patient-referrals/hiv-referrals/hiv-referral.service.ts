@@ -28,7 +28,7 @@ interface EncounterPayload {
   location: string;
   patient: string;
   encounterProviders: Provider[];
-  encounterDatetime: Date;
+  encounterDatetime: string;
   encounterType: string;
   obs?: Obs[];
 }
