@@ -1071,7 +1071,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           (x) =>
             x.identifierType === '58a47054-1359-11df-a1f1-0026b9348838' ||
             x.identifierType === 'ced014a1-068a-4a13-b6b3-17412f754af2' ||
-            x.identifierType === '7924e13b-131a-4da8-8efa-e294184a1b0d'
+            x.identifierType === '7924e13b-131a-4da8-8efa-e294184a1b0d' ||
+            x.identifierType === 'cba702b9-4664-4b43-83f1-9ab473cbd64d'
         )
       ) {
         console.log('Idexists');
@@ -1323,7 +1324,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
               console.log(
                 'Only invoked if patient not in registry, missing UPI'
               );
-              // check Edit mode
 
               this.patientCreationResourceService
                 .generateUPI(this.patientToUpdate)

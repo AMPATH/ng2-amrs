@@ -50,16 +50,16 @@ export class PatientCreationResourceService {
   }
 
   public generateUPI(patientUuid, countryCode = 'KE') {
-    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}&countryCode=${countryCode}`;
+    const url = `https://staging.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}&countryCode=${countryCode}`;
     return this.http.get(url);
   }
 
   public searchRegistry(idType, id, countryCode = 'KE') {
-    const url = `https://ngx.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}&countryCode=${countryCode}`;
+    const url = `https://staging.ampath.or.ke/registry/api/uno?uno=${id}&idType=${idType}&countryCode=${countryCode}`;
     return this.http.get(url);
   }
   public updateRegistry(patientUuid) {
-    const url = `https://ngx.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
+    const url = `https://staging.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
     return this.http.put(url, '');
   }
 
@@ -72,6 +72,7 @@ export class PatientCreationResourceService {
   public updateExistingPatient(payload, uuid) {
     const url =
       this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'person/' + uuid;
+    console.log('url' + url);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
