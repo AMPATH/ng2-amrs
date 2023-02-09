@@ -16,25 +16,27 @@ export class UsefulLinksComponent implements OnInit {
   public _links = [
     {
       url:
-        'https://wiki.ampath.or.ke/display/POC/Versions+Of+POC+Troubleshooting+Manual',
+        'https://ampath.atlassian.net/wiki/spaces/PRN/pages/5013512/POC+General+Troubleshooting+Manual+PDF',
       title: 'POC General Troubleshooting Manual (PDF)'
     },
     {
       url:
-        'https://wiki.ampath.or.ke/display/ACPS/AMPATH+Clinical+Protocols+and+SOPs',
+        'https://ampath.atlassian.net/wiki/spaces/PRN/pages/5242881/POC+Standard+Operating+Procedures',
       title: 'AMPATH Clinical Protocols and SOPs'
     },
     {
-      url: 'https://wiki.ampath.or.ke/display/ATG/AMPATH+TB+Guidelines+Home',
+      url:
+        'https://ampath.atlassian.net/wiki/spaces/PRN/pages/5373953/TB+Guidelines',
       title: 'TB Guidelines '
     },
     {
-      url: 'https://wiki.ampath.or.ke/display/POC/POC+Release+Notes',
+      url:
+        'https://ampath.atlassian.net/wiki/spaces/PRN/pages/5079041/POC+Release+notes',
       title: 'POC Release Notes '
     },
     {
       url:
-        'https://wiki.ampath.or.ke/display/POC/AMPATHPlus+Master+Facility+List+-+MFL',
+        'https://ampath.atlassian.net/jira/software/c/projects/POC/boards/1?modal=detail&selectedIssue=POC-116#:~:text=MFL%20Wiki%20%2D-,MFL%20Wiki,-Information%20on%20Forms',
       title: 'MFL Wiki'
     }
   ];
