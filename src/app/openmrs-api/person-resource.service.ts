@@ -45,6 +45,18 @@ export class PersonResourceService {
       })
     );
   }
+  public createPersonAddress(uuid, payload) {
+    if (!payload || !uuid) {
+      return null;
+    }
+    const url = this.getUrl() + '/' + uuid + '/address';
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
+      map((response: any) => {
+        return response.person;
+      })
+    );
+  }
 
   public generatePersonAttributePayload(
     personAttributePayload,

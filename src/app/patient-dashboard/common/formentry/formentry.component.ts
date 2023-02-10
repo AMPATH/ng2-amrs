@@ -26,6 +26,7 @@ import {
   EncounterAdapter,
   Form,
   PersonAttribuAdapter,
+  PersonAddressAdapter,
   HistoricalEncounterDataService
 } from '@ampath-kenya/ngx-openmrs-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -166,7 +167,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public userDefaultPropertiesService: UserDefaultPropertiesService,
     public patientConsentResourceService: PatientConsentResourceService,
-    private covid19Service: Covid19ResourceService
+    private covid19Service: Covid19ResourceService,
+    private personAddressAdapter: PersonAddressAdapter
   ) {}
 
   public ngOnInit() {
@@ -1007,6 +1009,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.form,
           this.patient.person.attributes
         );
+        this.personAddressAdapter.populateForm(
+          this.form,
+          this.patient.person.addresses
+        );
         this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
       } else {
         // creating new from
@@ -1224,7 +1230,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(
-    payloadTypes: Array<string> = ['encounter', 'personAttribute']
+    payloadTypes: Array<string> = [
+      'encounter',
+      'personAttribute',
+      'personAddress'
+    ]
   ): void {
     this.form.showErrors = !this.form.valid;
     this.isBusyIndicator(true, 'Please wait, saving form...');
