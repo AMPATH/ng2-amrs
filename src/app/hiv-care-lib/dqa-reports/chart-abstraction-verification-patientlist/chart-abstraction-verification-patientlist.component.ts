@@ -82,16 +82,19 @@ export class VerificationChartAbstractionPatientlistComponent
       onCellClicked: (column: any) => {
         const data = column.data.patient_uuid;
         const upi = column.data.identifiers.split(',')[0];
-        if (upi) {
+        if (upi && column.data.status === 'false') {
           this.navigateToPatientInfo(data, upi);
         }
       },
       cellRenderer: (column) => {
         console.log('ireye', column);
         let assignBtn = '';
-        if (column.data.identifiers) {
+        if (column.data.identifiers && column.data.status === 'false') {
           assignBtn =
-            '<a> <i class="fa fa-check" aria-hidden="true"></i>Re-Verify Client</a>';
+            '<a> <i class="fa fa-pencil" aria-hidden="true"> </i> Re-Verify Client</a>';
+        } else {
+          assignBtn =
+            '<i class="fa fa-check" aria-hidden="true"></i>Re-Verified';
         }
         return assignBtn;
       },
