@@ -3,5 +3,10 @@
     "name": "Patient chart abstraction",
     "id": "1",
     "description": "DQA Chart Abstraction Report"
+  },
+  {
+    "name": "Patient Verification",
+    "id": "2",
+    "description": "Clients Re-Verification"
   }
 ]

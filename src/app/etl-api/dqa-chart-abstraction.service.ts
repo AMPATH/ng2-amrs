@@ -42,4 +42,31 @@ export class DqaChartAbstractionService {
       })
     );
   }
+  public getDqaVerificationChartAbstractionReport(
+    params: any
+  ): Observable<any> {
+    const sampleUrl =
+      this.url +
+      'client_validation?locationUuid=' +
+      params.locations +
+      '&limit=' +
+      params.limit +
+      '&offset=' +
+      params.offset;
+
+    return this.http.get(sampleUrl, {}).pipe(
+      map((response: any) => {
+        return response.result;
+      }),
+      catchError((err: any) => {
+        console.log('Err', err);
+        const error: any = err;
+        const errorObj = {
+          error: error.status,
+          message: error.statusText
+        };
+        return of(errorObj);
+      })
+    );
+  }
 }

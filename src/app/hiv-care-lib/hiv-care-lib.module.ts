@@ -84,6 +84,7 @@ import { RetentionIndicatorDefComponent } from './retention-report/retention-ind
 import { ChartAbstractionPatientlistComponent } from './dqa-reports/chart-abstraction-patientlist/chart-abstraction-patientlist.component';
 import { DqaReportsComponent } from './dqa-reports/dqa-reports/dqa-reports.component';
 import { DqaReportBaseComponent } from './dqa-reports/dqa-report-base/dqa-report-base.component';
+import { VerificationChartAbstractionPatientlistComponent } from './dqa-reports/chart-abstraction-verification-patientlist/chart-abstraction-verification-patientlist.component';
 
 import { CaseManagementComponent } from './case-management/case-management.component';
 import { CaseManagementFiltersComponent } from './case-management/case-management-filters.component';
@@ -255,6 +256,7 @@ import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-
     ChartAbstractionPatientlistComponent,
     DqaReportsComponent,
     DqaReportBaseComponent,
+    VerificationChartAbstractionPatientlistComponent,
     CaseManagementComponent,
     CaseManagementFiltersComponent,
     CaseManagementPatientListComponent,
