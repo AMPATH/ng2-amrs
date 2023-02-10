@@ -56,6 +56,13 @@ export class PersonAddress extends BaseModel {
     this._openmrsModel.address6 = v;
   }
   @serializable()
+  public get address15(): string {
+    return this._openmrsModel.address15;
+  }
+  public set address15(v: string) {
+    this._openmrsModel.address15 = v;
+  }
+  @serializable()
   public get cityVillage(): string {
     return this._openmrsModel.cityVillage;
   }

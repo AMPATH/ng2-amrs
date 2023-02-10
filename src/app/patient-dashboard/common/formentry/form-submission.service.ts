@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 import {
   EncounterAdapter,
   PersonAttribuAdapter,
+  PersonAddressAdapter,
   Form
 } from '@ampath-kenya/ngx-openmrs-formentry';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
@@ -26,7 +27,11 @@ interface ValidationResponse {
 }
 @Injectable()
 export class FormSubmissionService {
-  private payloadTypes: Array<string> = ['encounter', 'personAttribute'];
+  private payloadTypes: Array<string> = [
+    'encounter',
+    'personAttribute',
+    'personAddress'
+  ];
   private submitStatus = false;
   private optionalSubmissionArgs: any;
   constructor(
@@ -36,7 +41,8 @@ export class FormSubmissionService {
     private encounterResourceService: EncounterResourceService,
     private personResourceService: PersonResourceService,
     private formDataSourceService: FormDataSourceService,
-    private errorLogResourceService: ErrorLogResourceService
+    private errorLogResourceService: ErrorLogResourceService,
+    private personAddressAdapter: PersonAddressAdapter
   ) {}
 
   public submitPayload(
@@ -44,6 +50,7 @@ export class FormSubmissionService {
     payloadTypes: Array<string> = this.payloadTypes,
     optionalArg?: any
   ): Observable<any> {
+    console.log('ola', form);
     // create payload batch to be submitted on concurrently
     this.optionalSubmissionArgs = optionalArg;
     const payloadBatch: Array<Observable<any>> = this.createPayloadBatch(
@@ -85,6 +92,7 @@ export class FormSubmissionService {
     const payloadBatch: Array<Observable<any>> = [];
     if (Array.isArray(payloadTypes) && payloadTypes.length > 0) {
       payloadTypes.forEach((payloadType: any, key) => {
+        console.log('payloadType', payloadType);
         switch (payloadType) {
           case 'encounter':
             const providers = this.formDataSourceService.getCachedProviderSearchResults();
@@ -144,6 +152,31 @@ export class FormSubmissionService {
               );
             }
             break;
+          case 'personAddress':
+            const personAddrPayload: any = this.personAddressAdapter.generateFormPayload(
+              form
+            );
+
+            if (personAddrPayload.length > 0) {
+              // this should be > 0
+              payloadBatch.push(
+                this.submitPersonAddressPayload(form, personAddrPayload).pipe(
+                  catchError((res: any) =>
+                    of({
+                      hasError: true,
+                      payloadType: [payloadType],
+                      response: res,
+                      errorMessages: this.processFormSubmissionErrors(
+                        res,
+                        payloadType,
+                        personAddrPayload
+                      )
+                    })
+                  )
+                )
+              );
+            }
+            break;
           default:
             console.error('Invalid Payload Type, Please register');
         }
@@ -187,6 +220,24 @@ export class FormSubmissionService {
       return this.personResourceService.saveUpdatePerson(
         form.valueProcessingInfo.personUuid,
         personAttributePayload
+      );
+    } else {
+      return observableThrowError(
+        'Form does not have: form.valueProcessingInfo.personUuid'
+      );
+    }
+  }
+  private submitPersonAddressPayload(
+    form: Form,
+    payload: any
+  ): Observable<any> {
+    const personAddrPayload: any = {
+      addresses: payload
+    };
+    if (form.valueProcessingInfo.personUuid) {
+      return this.personResourceService.saveUpdatePerson(
+        form.valueProcessingInfo.personUuid,
+        personAddrPayload
       );
     } else {
       return observableThrowError(
@@ -248,6 +299,12 @@ export class FormSubmissionService {
       case 'personAttribute':
         errors.push(
           'Person Attribute Error: ' +
+            this.generateUserFriendlyErrorMessage(response)
+        );
+        break;
+      case 'personAddress':
+        errors.push(
+          'Person Address Error: ' +
             this.generateUserFriendlyErrorMessage(response)
         );
         break;
