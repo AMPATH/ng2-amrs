@@ -149,7 +149,7 @@
       "alias": "general_pop_active",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "IF((prep.population_type = 3  or prep.population_type = 1  or prep.population_type is null) and active_on_prep_this_month = 1 ,1, 0)"
+        "expression": "IF((prep.population_type = 3 or prep.population_type is null) and active_on_prep_this_month = 1 ,1, 0)"
       }
     },
     {
