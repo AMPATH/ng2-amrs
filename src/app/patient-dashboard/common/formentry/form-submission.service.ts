@@ -153,19 +153,18 @@ export class FormSubmissionService {
             }
             break;
           case 'personAddress':
-            console.log('mete meta');
-            const personAddrPayload: {} = this.personAddressAdapter.generateFormPayload(
+            const personAddrPayload: any = this.personAddressAdapter.generateFormPayload(
               form
             );
-            console.log('mete meta', personAddrPayload);
-            if (personAddrPayload) {
+
+            if (personAddrPayload.length > 0) {
               // this should be > 0
               payloadBatch.push(
                 this.submitPersonAddressPayload(form, personAddrPayload).pipe(
                   catchError((res: any) =>
                     of({
                       hasError: true,
-                      payloadType: payloadType,
+                      payloadType: [payloadType],
                       response: res,
                       errorMessages: this.processFormSubmissionErrors(
                         res,
@@ -233,12 +232,12 @@ export class FormSubmissionService {
     payload: any
   ): Observable<any> {
     const personAddrPayload: any = {
-      payload
+      addresses: payload
     };
     if (form.valueProcessingInfo.personUuid) {
-      return this.personResourceService.createPersonAddress(
+      return this.personResourceService.saveUpdatePerson(
         form.valueProcessingInfo.personUuid,
-        payload
+        personAddrPayload
       );
     } else {
       return observableThrowError(

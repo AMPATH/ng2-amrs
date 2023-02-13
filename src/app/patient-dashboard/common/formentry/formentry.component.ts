@@ -1011,7 +1011,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         );
         this.personAddressAdapter.populateForm(
           this.form,
-          this.patient.person.addresses
+          this.patient.person.preferredAddress
         );
         this.form.valueProcessingInfo.encounterUuid = this.encounterUuid;
       } else {
