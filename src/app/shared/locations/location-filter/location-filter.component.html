@@ -5,7 +5,41 @@
   }
 </style>
 <div class="location-filter suggest-container form-group" *ngIf="counties">
-  <div [ngClass]="{ 'col-md-6 col-sm-12 col-xs-12': !disableCounty }">
+  <div [ngClass]="{'hide hidden': disableCounty, 'col-md-6 col-sm-12 col-xs-12': !disableCounty }" >
+    <label>County</label>
+    <select
+      class="form-control"
+      name="selectedCounty"
+      [(ngModel)]="selectedCounty"
+      (ngModelChange)="onCountyChanged($event)"
+    >
+      <option
+        *ngFor="let county of countyDropdownOptions"
+        [selected]="county === selectedCounty"
+        [value]="county"
+      >
+        {{ county }}
+      </option>
+    </select>
+  </div>
+  <div [ngClass]="{'hide hidden': disableCounty, 'col-md-6 col-sm-12 col-xs-12': !disableCounty }" >
+    <label>Facility</label>
+    <select
+      class="form-control"
+      name="selectedFacility"
+      [(ngModel)]="selectedFacility"
+      (ngModelChange)="onFacilityChanged($event)"
+    >
+      <option
+        *ngFor="let facility of facilityDropdownOptions"
+        [selected]="facility === selectedFacility"
+        [value]="facility"
+      >
+        {{ facility }}
+      </option>
+    </select>
+  </div>
+  <div [ngClass]="{ 'col-md-12 col-sm-12 col-xs-12': !disableCounty }">
     <label *ngIf="showLabel" for="location-filter">Location</label>
     <div
       class="input-group"
@@ -66,28 +100,6 @@
         </div>
       </div>
     </div>
-  </div>
-  <div
-    [ngClass]="{
-      'hide hidden': disableCounty,
-      'col-md-6 col-sm-12 col-xs-12': !disableCounty
-    }"
-  >
-    <label>County</label>
-    <select
-      class="form-control"
-      name="selectedCounty"
-      [(ngModel)]="selectedCounty"
-      (ngModelChange)="onCountyChanged($event)"
-    >
-      <option
-        *ngFor="let county of countyDropdownOptions"
-        [selected]="county === selectedCounty"
-        [value]="county"
-      >
-        {{ county }}
-      </option>
-    </select>
   </div>
   <div class="clear"></div>
 </div>
