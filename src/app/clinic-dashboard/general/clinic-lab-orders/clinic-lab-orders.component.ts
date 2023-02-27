@@ -490,6 +490,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         field: 'last_appointment'
       },
       {
+        headerName: 'OVCID',
+        width: 120,
+        field: 'ovcid_id'
+      },
+      {
         headerName: 'Latest RTC Date',
         width: 150,
         field: 'latest_rtc_date'

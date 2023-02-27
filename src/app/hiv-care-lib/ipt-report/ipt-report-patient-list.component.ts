@@ -47,6 +47,7 @@ export class IptReportPatientListComponent implements OnInit {
       ipt_start_date: 'IPT Start Date',
       ipt_completion_date: 'IPT Completion Date',
       ipt_outcome: 'IPT Outcomes',
+      ovcid_id: 'OVCID',
       tb_test_modality: 'Tb test modality',
       tb_tx_start_date: 'Tb Tx Start Date',
       tb_tx_stop_reason: 'Tb Tx Stop reason',

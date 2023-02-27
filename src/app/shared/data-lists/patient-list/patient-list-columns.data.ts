@@ -12,31 +12,9 @@ export class PatientListColumns {
         field: '#'
       },
       {
-        headerName: 'Identifiers',
-        field: 'identifiers',
-        width: 150,
-        cellStyle: {
-          'white-space': 'nowrap',
-          'text-overflow': 'ellipsis'
-        },
-        pinned: true,
-        filter: 'text',
-        cellClass: 'identifier-column'
-      },
-      {
         headerName: 'CCC Identifier',
         width: 120,
         field: 'ccc_number',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        pinned: true,
-        filter: 'text'
-      },
-      {
-        headerName: 'OVCID',
-        width: 120,
-        field: 'ovcid_id',
         cellStyle: {
           'white-space': 'normal'
         },
@@ -52,6 +30,18 @@ export class PatientListColumns {
         },
         pinned: true,
         filter: 'text'
+      },
+      {
+        headerName: 'Identifiers',
+        field: 'identifiers',
+        width: 150,
+        cellStyle: {
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis'
+        },
+        pinned: true,
+        filter: 'text',
+        cellClass: 'identifier-column'
       },
       {
         headerName: 'Person Name',

@@ -64,6 +64,11 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       field: 'cervical_screening_result'
     },
     {
+      headerName: 'OVCID',
+      width: 120,
+      field: 'ovcid_id'
+    },
+    {
       headerName: 'SMS Consent Provided',
       width: 150,
       field: 'sms_consent_provided'
