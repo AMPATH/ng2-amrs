@@ -52,7 +52,7 @@ export class ContactListComponent implements OnInit {
     },
 
     {
-      field: 'modified_test_result',
+      field: 'modified_fm_status',
       headerName: 'Current test results',
       width: 150
     },
