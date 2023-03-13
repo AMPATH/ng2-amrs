@@ -95,7 +95,7 @@ export class LabClient {
       method: 'POST',
       // json: true,
       form: payload,
-      timeout: 20000
+      timeout: 40000
     };
     return rp(options);
   }
@@ -122,7 +122,7 @@ export class LabClient {
       json: true,
       insecure: true,
       method: 'POST',
-      timeout: 20000,
+      timeout: 40000,
       form: filterOptions
     };
     return new Promise((resolve, reject) => {
