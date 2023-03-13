@@ -24,6 +24,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
+
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -45,6 +46,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public ovcEnrollment = false;
   public isPatientVerified = false;
+  public isPatientForReVerification = false;
   public verificationStatus = false;
   modalRef: BsModalRef;
   modalConfig = {
@@ -79,6 +81,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
+          console.log(this.searchIdentifiers);
           this.getVerificationStatus();
           this.getOvcEnrollments(
             patient.enrolledPrograms,
@@ -132,6 +135,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             a.attributeType.uuid === '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
           );
         });
+
         if (value.length > 0 && value[0].value) {
           this.verificationStatus = true;
 
@@ -153,10 +157,36 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           } else {
             this.isPatientVerified = true;
           }
+        } else {
+          if (this.searchIdentifiers.upi === undefined) {
+            this.isPatientVerified = false;
+          } else {
+            this.isPatientVerified = true;
+            this.isPatientForReVerification = true;
+          }
         }
       });
   }
-
+  // update re-verification patient
+  public openRegistrationPage() {
+    if (this.isPatientForReVerification) {
+      this.router.navigate([
+        '/patient-dashboard/patient-search/patient-registration',
+        {
+          editMode: 3,
+          patientUuid: this.patient.person.uuid,
+          identifierType: `cba702b9-4664-4b43-83f1-9ab473cbd64d`,
+          identifier: this.searchIdentifiers.upi,
+          label: 'UPI Number'
+        }
+      ]);
+    } else {
+      this.router.navigate([
+        '/patient-dashboard/patient-search/patient-registration',
+        { editMode: 1 }
+      ]);
+    }
+  }
   public ngOnChanges(changes: SimpleChanges) {
     if (
       changes['patientChanged'].currentValue !==

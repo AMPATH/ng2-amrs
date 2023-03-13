@@ -41,13 +41,23 @@ export class DqaReportsComponent implements OnInit {
       this.route.parent.parent.params.subscribe((params) => {
         const locationUuid = params['location_uuid'];
         console.log(locationUuid);
-        this.router.navigate(['dqa-report-patientlist'], {
-          relativeTo: this.route,
-          queryParams: {
-            reportId: reportName.id,
-            locationUuids: params['location_uuid']
-          }
-        });
+        if (reportName.id === '1') {
+          this.router.navigate(['dqa-report-patientlist'], {
+            relativeTo: this.route,
+            queryParams: {
+              reportId: reportName.id,
+              locationUuids: params['location_uuid']
+            }
+          });
+        } else {
+          this.router.navigate(['dqa-verification-report-patientlist'], {
+            relativeTo: this.route,
+            queryParams: {
+              reportId: reportName.id,
+              locationUuids: params['location_uuid']
+            }
+          });
+        }
       });
     }
   }

@@ -61,6 +61,7 @@ import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
+import { VerificationChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-reports/chart-abstraction-verification-patientlist/chart-abstraction-verification-patientlist.component';
 
 const routes: Routes = [
   {
@@ -233,6 +234,10 @@ const routes: Routes = [
             component: ChartAbstractionPatientlistComponent
           },
           {
+            path: 'dqa-verification-report-patientlist',
+            component: VerificationChartAbstractionPatientlistComponent
+          },
+          {
             path: '',
             component: DqaReportsComponent
           }
@@ -361,6 +366,10 @@ const routes: Routes = [
       {
         path: 'dqa-report-patientlist',
         component: ChartAbstractionPatientlistComponent
+      },
+      {
+        path: 'dqa-verification-report-patientlist',
+        component: VerificationChartAbstractionPatientlistComponent
       },
       {
         path: '',
