@@ -38,7 +38,7 @@ export class Group extends BaseModel {
 
   @serializable()
   public get status() {
-    return this._openmrsModel.voided ? 'Disbanded' : 'Active';
+    return this._openmrsModel.endDate ? 'Disbanded' : 'Active';
   }
 
   @serializable()
