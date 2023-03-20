@@ -48,6 +48,30 @@
       }
     },
     {
+      "table": "amrs.patient_identifier",
+      "alias": "upi",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = upi.patient_id AND (upi.voided IS NULL || upi.voided = 0) AND upi.identifier_type = 45"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "ovcid",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = ovcid.patient_id AND (ovcid.voided IS NULL || ovcid.voided = 0) AND ovcid.identifier_type = 43"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "ccc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = ccc.patient_id AND (ccc.voided IS NULL || ccc.voided = 0) AND ccc.identifier_type = 28"
+      }
+    },
+    {
       "table": "etl.program_visit_map",
       "alias": "t21",
       "join": {
@@ -92,6 +116,21 @@
       "type": "simple_column",
       "alias": "d",
       "column": "date_format(t2.scheduled_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "ccc.identifier"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "ovcid.identifier"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "upi.identifier"
     },
     {
       "type": "simple_column",

@@ -18,10 +18,34 @@
     },
     {
       "table": "amrs.patient_identifier",
-      "alias": "id",
+      "alias": "ccc",
       "join": {
         "type": "LEFT",
-        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+        "joinCondition": "t1.person_id = ccc.patient_id AND (ccc.voided IS NULL || ccc.voided = 0) AND ccc.identifier_type = 28"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "ovcid",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = ovcid.patient_id AND (ovcid.voided IS NULL || ovcid.voided = 0) AND ovcid.identifier_type = 43"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "upi",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = upi.patient_id AND (upi.voided IS NULL || upi.voided = 0) AND upi.identifier_type = 45"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "ids",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = ids.patient_id AND (ids.voided IS NULL || ids.voided = 0)"
       }
     },
     {
@@ -143,12 +167,27 @@
       }
     },
     {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "ccc.identifier"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "ovcid.identifier"
+    },
+    {
       "type": "derived_column",
       "alias": "identifiers",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+        "expression": "GROUP_CONCAT(DISTINCT ids.identifier SEPARATOR ', ')"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "upi.identifier"
     },
     {
       "type": "derived_column",

@@ -63,6 +63,30 @@
         "type": "LEFT",
         "joinCondition": "t1.person_id = ovc_id.patient_id AND (ovc_id.voided IS NULL || ovc_id.voided = 0) AND ovc_id.identifier_type = 43"
       }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "ccc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = ccc.patient_id AND (ccc.voided IS NULL || ccc.voided = 0) AND ccc.identifier_type = 28"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "upi",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = upi.patient_id AND (upi.voided IS NULL || upi.voided = 0) AND upi.identifier_type = 45"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "ovc_id",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = ovc_id.patient_id AND (ovc_id.voided IS NULL || ovc_id.voided = 0) AND ovc_id.identifier_type = 43"
+      }
     }
   ],
   "columns": [
@@ -85,6 +109,16 @@
       "column": "t1.person_id"
     },
     {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "upi.identifier"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "ccc.identifier"
+    },
+    {
       "type": "derived_column",
       "alias": "person_name",
       "expressionType": "simple_expression",
@@ -103,6 +137,11 @@
     {
       "type": "simple_column",
       "alias": "ovc_identifier",
+      "column": "ovc_id.identifier"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
       "column": "ovc_id.identifier"
     },
     {
