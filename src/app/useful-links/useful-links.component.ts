@@ -36,7 +36,7 @@ export class UsefulLinksComponent implements OnInit {
     },
     {
       url:
-        'https://ampath.atlassian.net/jira/software/c/projects/POC/boards/1?modal=detail&selectedIssue=POC-116#:~:text=MFL%20Wiki%20%2D-,MFL%20Wiki,-Information%20on%20Forms',
+        'https://ampath.atlassian.net/wiki/spaces/PRN/pages/5079051/MFL+Wiki',
       title: 'MFL Wiki'
     }
   ];
