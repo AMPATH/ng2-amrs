@@ -16,7 +16,7 @@ Recommended setup:
 
 - Install [chrome](https://www.google.com/chrome/).
 - Install and setup [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your local machine.
-- Install [npm and nodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).NodeJS version 10-12 and Npm version 6 recommended. 
+- Install [npm and nodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).NodeJS version 10-12 and Npm version 6 recommended.
 - Install [visual studio code](https://code.visualstudio.com/).
 
 ### Setup
@@ -38,6 +38,14 @@ npm start
 ```
 
 Fire up your chrome and go to `https://localhost:3000`. You should see a login screen with the AMPATH logo.
+
+### Building for deployment
+
+When building for production environment use:
+`npm run build-prod`
+When building for staging or test environment use:
+`npm run build-staging`
+This assists the team to differentiate which environment they are working on
 
 ### Running tests
 
