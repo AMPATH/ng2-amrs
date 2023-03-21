@@ -12,7 +12,11 @@
   <div class="row">
     <div
       class="container-fluid patient-banner-partially hidden-sm hidden-md hidden-lg hidden-xl  {{
-        patient.person.dead ? 'banner-danger' : 'banner-info'
+        patient.person.dead
+          ? 'banner-danger'
+          : isStaging
+          ? 'banner-test'
+          : 'banner-info'
       }}"
       *ngIf="patient"
       style="padding: 4px 26px"
@@ -236,7 +240,11 @@
   </div>-->
     <div
       class="container-fluid patient-banner-partially hidden-xs {{
-        patient.person.dead ? 'banner-danger' : 'banner-info'
+        patient.person.dead
+          ? 'banner-danger'
+          : isStaging
+          ? 'banner-test'
+          : 'banner-info'
       }}"
       *ngIf="patient"
       style="padding: 12px 26px"

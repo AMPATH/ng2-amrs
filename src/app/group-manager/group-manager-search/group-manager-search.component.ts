@@ -240,7 +240,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
       },
       {
         headerName: 'Actions',
-        field: 'voided',
+        field: 'endDate',
         cellRenderer: (column) => {
           if (column.value) {
             return `<button class='btn btn-sm btn-success' data-action-type='activate'
