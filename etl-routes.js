@@ -1779,7 +1779,7 @@ module.exports = (function () {
               reply(referralLocation);
             })
             .catch(function (error) {
-              reply(Boom.create(500, 'Internal server error.', error));
+              reply(new Boom(500, 'Internal server error.', '', '', error));
             });
         },
         description: 'Get patient referral details by program enrollment uuid',
@@ -1807,7 +1807,7 @@ module.exports = (function () {
                 );
               } else {
                 console.error(error);
-                reply(Boom.create(500, 'Internal server error.', error));
+                reply(new Boom(500, 'Internal server error.', '', '', error));
               }
             });
         },
@@ -1838,7 +1838,7 @@ module.exports = (function () {
                   Boom.badRequest('Validation errors:' + JSON.stringify(error))
                 );
               } else {
-                reply(Boom.create(500, 'Internal server error.', error));
+                reply(new Boom(500, 'Internal server error.', '', '', error));
               }
             });
         },
@@ -3156,7 +3156,7 @@ module.exports = (function () {
               }
             })
             .catch(function (error) {
-              reply(Boom.create(500, 'Internal server error.', error));
+              reply(new Boom(500, 'Internal server error.', '', '', error));
             });
         },
         description: 'Get cohort users for a certain cohort',
@@ -3178,7 +3178,7 @@ module.exports = (function () {
               reply(message);
             })
             .catch(function (error) {
-              reply(Boom.create(500, 'Internal server error.', error));
+              reply(new Boom(500, 'Internal server error.', '', '', error));
             });
         },
         description: 'Get cohort users for a certain cohort',
@@ -3205,7 +3205,7 @@ module.exports = (function () {
                   Boom.badRequest('Validation errors:' + JSON.stringify(error))
                 );
               } else {
-                reply(Boom.create(500, 'Internal server error.', error));
+                reply(new Boom(500, 'Internal server error.', '', '', error));
               }
             });
         },
@@ -3234,7 +3234,7 @@ module.exports = (function () {
                 );
               } else {
                 console.error(error);
-                reply(Boom.create(500, 'Internal server error.', error));
+                reply(new Boom(500, 'Internal server error.', '', '', error));
               }
             });
         },
@@ -3257,7 +3257,7 @@ module.exports = (function () {
               reply(cohortUsers);
             })
             .catch(function (error) {
-              reply(Boom.create(500, 'Internal server error.', error));
+              reply(new Boom(500, 'Internal server error.', '', '', error));
             });
         },
         description: 'Get cohort users for a certain cohort',
@@ -4322,7 +4322,7 @@ module.exports = (function () {
               }
             })
             .catch(function (error) {
-              reply(Boom.create(500, 'Internal server error.', error));
+              reply(new Boom(500, 'Internal server error.', '', '', error));
             });
         },
         description: 'Daily Message Alerts',
