@@ -70,7 +70,7 @@ export class LocationResourceService {
   }
 
   public getChildMapping(location_id): Observable<any> {
-    const url = this.getUrl() + 'childlocations?parentId=' + location_id;
+    const url = this.getUrl() + `childlocations?parentId=${location_id}`;
     return this.http.get<any>(url, {}).pipe(
       map((response) => {
         return response;
