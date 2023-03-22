@@ -51,7 +51,7 @@ export class LocationResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim();
   }
 
-  public getMflCodes(): Observable<any> {
+  getMflCodes(): Observable<any> {
     const url = this.getUrl() + 'mflcodes';
     return this.http.get<any>(url, {}).pipe(
       map((response) => {
@@ -60,7 +60,7 @@ export class LocationResourceService {
     );
   }
 
-  public getFacilityMapping(): Observable<any> {
+  getFacilityMapping(): Observable<any> {
     const url = this.getUrl() + 'parentlocations';
     return this.http.get<any>(url, {}).pipe(
       map((response) => {
@@ -69,7 +69,7 @@ export class LocationResourceService {
     );
   }
 
-  public getChildMapping(location_id): Observable<any> {
+  getChildMapping(location_id): Observable<any> {
     const url = this.getUrl() + `childlocations?parentId=${location_id}`;
     return this.http.get<any>(url, {}).pipe(
       map((response) => {
