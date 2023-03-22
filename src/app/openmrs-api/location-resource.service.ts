@@ -8,6 +8,7 @@ import * as locationIds from '../shared/locations/location_data.json';
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
+  private facilities = new ReplaySubject(1);
   private v = 'full';
 
   constructor(
@@ -51,7 +52,7 @@ export class LocationResourceService {
     return this.appSettingsService.getEtlRestbaseurl().trim();
   }
 
-  getMflCodes(): Observable<any> {
+  public getMflCodes(): Observable<any> {
     const url = this.getUrl() + 'mflcodes';
     return this.http.get<any>(url, {}).pipe(
       map((response) => {
@@ -60,22 +61,14 @@ export class LocationResourceService {
     );
   }
 
-  getFacilityMapping(): Observable<any> {
+  public getFacilityMapping(): Observable<any> {
     const url = this.getUrl() + 'parentlocations';
-    return this.http.get<any>(url, {}).pipe(
-      map((response) => {
-        return response;
-      })
-    );
+    return this.http.get<any>(url);
   }
 
-  getChildMapping(location_id): Observable<any> {
+  public getChildMapping(location_id): Observable<any> {
     const url = this.getUrl() + `childlocations?parentId=${location_id}`;
-    return this.http.get<any>(url, {}).pipe(
-      map((response) => {
-        return response;
-      })
-    );
+    return this.http.get<any>(url);
   }
 
   public getAmpathLocations() {
