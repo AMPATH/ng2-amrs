@@ -156,6 +156,20 @@ export class Person extends BaseModel {
       }
     }
   }
+  public get isVerifiedStatus() {
+    const isVerifiedStatusPersonAttributeTypeUuid =
+      '134eaf8a-b5aa-4187-85a6-757dec1ae72b';
+    if (this._attributes) {
+      const isVerifiedStatus = this.getPersonAttribute(
+        isVerifiedStatusPersonAttributeTypeUuid
+      );
+      if (isVerifiedStatus) {
+        return isVerifiedStatus;
+      } else {
+        return '';
+      }
+    }
+  }
   public get relationshipToCaregiver() {
     const relationshipToCaregiverPersonAttributeTypeUuid =
       '06b0da36-e133-4be6-aec0-31e7ed0e1ac2';

@@ -62,7 +62,17 @@ export class PatientCreationResourceService {
     const url = `https://staging.ampath.or.ke/registry/api/identifier?patientUuid=${patientUuid}`;
     return this.http.put(url, '');
   }
-
+  public updateAttribute(payload, patientUuid, attributeUuid) {
+    const url =
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() +
+      'person/' +
+      patientUuid +
+      '/attribute/' +
+      attributeUuid;
+    console.log('url' + url);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), { headers });
+  }
   public savePatient(payload) {
     const url = this.url();
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

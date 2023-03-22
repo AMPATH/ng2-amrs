@@ -96,6 +96,22 @@
                 <span class="glyphicon glyphicon-info-sign"></span>
                 <span style="margin-left: -5px">Verify Patient</span>
               </span>
+              <span
+                *ngIf="isPatientForReVerification"
+                (click)="openPatientInfo()"
+                style="
+                  color: darkolivegreen;
+                  border: 1px solid darkolivegreen;
+                  padding-left: 4px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-right: 0px;
+                  cursor: pointer;
+                "
+              >
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span style="margin-left: -5px">Re-Verify Patient</span>
+              </span>
             </span>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
@@ -320,7 +336,7 @@
               </span>
               <span
                 *ngIf="isPatientForReVerification"
-                (click)="openRegistrationPage()"
+                (click)="openPatientInfo()"
                 style="
                   color: darkolivegreen;
                   border: 1px solid darkolivegreen;
@@ -417,6 +433,8 @@
               Family History
             </button>
           </span>
+         
+
           <div
             *ngIf="patient && relationships.length > 0"
             class="btn-group pull-right"

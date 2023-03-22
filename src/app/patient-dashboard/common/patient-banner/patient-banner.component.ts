@@ -9,7 +9,7 @@ import {
   TemplateRef
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+
 import { take } from 'rxjs/operators';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
@@ -20,10 +20,12 @@ import { Patient } from '../../../models/patient.model';
 import { PatientRelationshipService } from '../patient-relationships/patient-relationship.service';
 import { Person } from '../../../models/person.model';
 import { Relationship } from 'src/app/models/relationship.model';
+
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'patient-banner',
@@ -35,6 +37,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public patientChanged: any;
   public showingAddToCohort = false;
   public patient: Patient = new Patient({});
+
   public searchIdentifiers: any;
   public attributes: any;
   public birthdate;
@@ -46,6 +49,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public ovcEnrollment = false;
   public isPatientVerified = false;
+  public showVerifiedButton = false;
   public isPatientForReVerification = false;
   public verificationStatus = false;
   modalRef: BsModalRef;
@@ -61,6 +65,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public displayContacts = false;
   public contactsExist = false;
   public patientEncounters: Array<any> = [];
+  public successText = 'You have successfully Verified the patient';
 
   constructor(
     private patientService: PatientService,
@@ -81,7 +86,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         if (patient) {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
-          console.log(this.searchIdentifiers);
+
           this.getVerificationStatus();
           this.getOvcEnrollments(
             patient.enrolledPrograms,
@@ -247,6 +252,38 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
   }
+  public openPatientInfo() {
+    if (this.isPatientForReVerification) {
+      this.showVerifiedButton = true;
+      const snapshot = this.router.url;
+      const patientUUID = this.patient.uuid;
+      console.log(patientUUID);
+
+      // if person in patient info then dont navigate
+      const patientInfo = snapshot.indexOf('patient-info');
+      this.patientServiceSubscription = this.patientService
+        .setCurrentlyLoadedPatientByUuid(patientUUID)
+        .subscribe((patient) => {
+          if (patient) {
+            if (patientInfo === -1) {
+              this.router.navigate(
+                [
+                  '/patient-dashboard/patient/' +
+                    patientUUID +
+                    '/general/general/patient-info',
+                  { editMode: 3 }
+                ],
+                {
+                  queryParams: {
+                    scrollSection: 'relationship'
+                  }
+                }
+              );
+            }
+          }
+        });
+    }
+  }
   private getPatientAge(birthdate) {
     if (birthdate) {
       const todayMoment: any = Moment();
@@ -323,6 +360,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       this.displayContacts = true;
     }
   }
+
   public addContacts() {
     const familyPartnerHistoryForm = `3fbc8512-b37b-4bc2-a0f4-8d0ac7955127`;
     const url = `/patient-dashboard/patient/${this.patient.uuid}/general/general/formentry/${familyPartnerHistoryForm}`;

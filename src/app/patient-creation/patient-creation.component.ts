@@ -1075,7 +1075,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             x.identifierType === 'cba702b9-4664-4b43-83f1-9ab473cbd64d'
         )
       ) {
-        console.log('Idexists');
         attributes.push({
           value: true,
           attributeType: '134eaf8a-b5aa-4187-85a6-757dec1ae72b'
