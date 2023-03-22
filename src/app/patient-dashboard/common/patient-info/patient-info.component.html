@@ -83,11 +83,12 @@
     <h5 class="info_section_title">Outreach Locator Map</h5>
   </div>
   <locator-map></locator-map>
-  <div>
+  <div style="text-align: center;"> 
     <button
     *ngIf="showVerifiedButton"
     (click)="patientVerified()"
     class="btn btn-primary"
+    
   >
     <span style="margin-left: -5px">  Submit & Re-Verify</span>
   </button>
