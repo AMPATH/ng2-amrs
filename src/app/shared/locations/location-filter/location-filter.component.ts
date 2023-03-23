@@ -176,7 +176,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   public onFacilityChanged(facility: string) {
     this.showReset = true;
-    this.allLocations = false;
+    this.allFromFacility = false;
     this.getFacilitiesByMFL().then((locations) => {
       this.locationResourceService
         .getChildMapping(locations[0].location_id)
@@ -209,7 +209,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
               label: location.facility_name
             };
           });
-          this.facilityDropdownOptions = locs;
+          this.locationDropdownOptions = locs;
           this.allEncounterLocations = locs;
           this.facilities = _.groupBy(locations, 'description');
           this.facilityDropdownOptions = _.compact(_.keys(this.facilities))
@@ -371,6 +371,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public resetLocations() {
     this.showReset = false;
     this.allLocations = true;
+    this.allFromFacility = true;
     this.selectedCounty = '';
     this.allFromCounty = false;
     this.selectedLocations = [];
