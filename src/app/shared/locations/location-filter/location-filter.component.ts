@@ -10,6 +10,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
+import { FacilityResourceService } from '../../../openmrs-api/facility-resource.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -106,7 +107,8 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   private allEncounterLocations: Array<any> = [];
   constructor(
     private locationResourceService: LocationResourceService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private facilityResourceService: FacilityResourceService
   ) {}
 
   public ngOnInit() {
@@ -178,7 +180,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     this.showReset = true;
     this.allFromFacility = false;
     this.getFacilitiesByMFL().then((locations) => {
-      this.locationResourceService
+      this.facilityResourceService
         .getChildMapping(locations[0].location_id)
         .pipe(take(1))
         .subscribe((response) => {
@@ -198,7 +200,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   public resolveFacilityDetails(): void {
     this.loading = true;
-    this.locationResourceService
+    this.facilityResourceService
       .getFacilityMapping()
       .pipe(take(1))
       .subscribe(
