@@ -21,7 +21,7 @@
       "alias": "id",
       "join": {
         "type": "LEFT",
-        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0)"
+        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0) AND id.identifier_type not in(28,43,45)"
       }
     },
     {
