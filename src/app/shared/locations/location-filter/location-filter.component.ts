@@ -42,13 +42,17 @@ import * as _ from 'lodash';
 export class LocationFilterComponent implements OnInit, AfterViewInit {
   public locations = {};
   public counties: any;
+  public facilities: any;
   public loading = false;
   public locationDropdownOptions: Array<any> = [];
   public countyDropdownOptions: Array<any> = [];
+  public facilityDropdownOptions: Array<any> = [];
   public selectedLocations: any | Array<any>;
   public selectedCounty: string;
+  public selectedFacility: string;
   public showReset = false;
   public allFromCounty = false;
+  public allFromFacility = false;
   public allLocations = true;
 
   // tslint:disable-next-line:no-input-rename
@@ -60,6 +64,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   @Input('showLabel') public showLabel = true;
   @Input() public county: string;
+  @Input() public facility: string;
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onLocationChange = new EventEmitter<any>();
 
@@ -111,7 +116,11 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     if (this.locationUuids) {
       this.selectedLocations = this.locationUuids;
     }
+    if (this.facility) {
+      this.selectedFacility = this.facility;
+    }
     this.resolveLocationDetails();
+    this.resolveFacilityDetails();
   }
 
   public ngAfterViewInit(): void {
@@ -165,6 +174,80 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     });
   }
 
+  public onFacilityChanged(facility: string) {
+    this.showReset = true;
+    this.allLocations = false;
+    this.getFacilitiesByMFL().then((locations) => {
+      this.locationResourceService
+        .getChildMapping(locations[0].location_id)
+        .pipe(take(1))
+        .subscribe((response) => {
+          this.selectedLocations = _.map(response, (location: any) => {
+            return {
+              value: location.uuid,
+              label: location.name
+            };
+          });
+          this.onLocationChange.emit({
+            locations: this.selectedLocations,
+            facility: this.selectedFacility
+          });
+        });
+    });
+  }
+
+  public resolveFacilityDetails(): void {
+    this.loading = true;
+    this.locationResourceService
+      .getFacilityMapping()
+      .pipe(take(1))
+      .subscribe(
+        (locations: any[]) => {
+          const locs = locations.map((location) => {
+            return {
+              value: location.location_id,
+              label: location.facility_name
+            };
+          });
+          this.facilityDropdownOptions = locs;
+          this.allEncounterLocations = locs;
+          this.facilities = _.groupBy(locations, 'description');
+          this.facilityDropdownOptions = _.compact(_.keys(this.facilities))
+            .filter(function (el) {
+              return el !== 'null';
+            })
+            .sort();
+          _.each(locations, (location) => {
+            const details = {
+              facility_name: location.description,
+              location_id: location.location_id
+            };
+            this.locations[location.location_id] = details;
+          });
+          if (this.facility) {
+            this.onFacilityChanged(this.selectedFacility);
+          }
+          if (this.locationUuids) {
+            if (typeof this.locationUuids === 'string') {
+              this.selectedLocations = _.first(
+                _.filter(this.locationDropdownOptions, (location) => {
+                  return location.value === this.locationUuids;
+                })
+              );
+            } else {
+              this.selectedLocations = this.locationUuids;
+            }
+            this.onLocationSelected(this.selectedLocations);
+          }
+          this.loading = false;
+        },
+        (error: any) => {
+          console.log(error);
+          this.loading = false;
+        }
+      );
+  }
+
   public resolveLocationDetails(): void {
     this.loading = true;
     this.locationResourceService
@@ -172,6 +255,16 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       .pipe(take(1))
       .subscribe(
         (locations: any[]) => {
+          const filtered_amrslocations = locations.filter(function (el) {
+            return (
+              el.attributes.length !== 0 &&
+              el.attributes.find(function (column) {
+                return column.value === true && column.voided === false;
+              })
+            );
+          });
+
+          locations = filtered_amrslocations;
           const locs = locations.map((location) => {
             return {
               value: location.uuid,
@@ -181,7 +274,11 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           this.locationDropdownOptions = locs;
           this.allEncounterLocations = locs;
           this.counties = _.groupBy(locations, 'stateProvince');
-          this.countyDropdownOptions = _.compact(_.keys(this.counties));
+          this.countyDropdownOptions = _.compact(_.keys(this.counties))
+            .filter(function (el) {
+              return el !== 'null' && el !== 'Test';
+            })
+            .sort();
           _.each(locations, (location) => {
             const details = {
               uuid: location.uuid,
@@ -221,6 +318,12 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public getLocationsByCounty(): Promise<any> {
     return new Promise((resolve) => {
       resolve(_.get(this.counties, this.selectedCounty));
+    });
+  }
+
+  public getFacilitiesByMFL(): Promise<any> {
+    return new Promise((resolve) => {
+      resolve(_.get(this.facilities, this.selectedFacility));
     });
   }
 
