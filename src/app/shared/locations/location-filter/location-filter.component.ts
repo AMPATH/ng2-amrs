@@ -10,7 +10,6 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { LocationResourceService } from '../../../openmrs-api/location-resource.service';
-import { FacilityResourceService } from '../../../openmrs-api/facility-resource.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -107,8 +106,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   private allEncounterLocations: Array<any> = [];
   constructor(
     private locationResourceService: LocationResourceService,
-    private cd: ChangeDetectorRef,
-    private facilityResourceService: FacilityResourceService
+    private cd: ChangeDetectorRef
   ) {}
 
   public ngOnInit() {
@@ -178,9 +176,9 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   public onFacilityChanged(facility: string) {
     this.showReset = true;
-    this.allFromFacility = false;
+    this.allLocations = false;
     this.getFacilitiesByMFL().then((locations) => {
-      this.facilityResourceService
+      this.locationResourceService
         .getChildMapping(locations[0].location_id)
         .pipe(take(1))
         .subscribe((response) => {
@@ -200,7 +198,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   public resolveFacilityDetails(): void {
     this.loading = true;
-    this.facilityResourceService
+    this.locationResourceService
       .getFacilityMapping()
       .pipe(take(1))
       .subscribe(
@@ -211,7 +209,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
               label: location.facility_name
             };
           });
-          this.locationDropdownOptions = locs;
+          this.facilityDropdownOptions = locs;
           this.allEncounterLocations = locs;
           this.facilities = _.groupBy(locations, 'description');
           this.facilityDropdownOptions = _.compact(_.keys(this.facilities))
@@ -373,7 +371,6 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   public resetLocations() {
     this.showReset = false;
     this.allLocations = true;
-    this.allFromFacility = true;
     this.selectedCounty = '';
     this.allFromCounty = false;
     this.selectedLocations = [];
