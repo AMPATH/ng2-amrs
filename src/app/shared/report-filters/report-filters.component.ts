@@ -74,6 +74,8 @@ export class ReportFiltersComponent
   @Output() public startingMonthChange = new EventEmitter<any>();
   @Output() public endingMonthChange = new EventEmitter<any>();
   @Output() public locationTypeChange = new EventEmitter<any>();
+  @Output() public patientTypeChange = new EventEmitter<any>();
+  @Output() public sampleSizeChange = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -102,6 +104,106 @@ export class ReportFiltersComponent
     {
       label: 'Primary Care Facility',
       value: 'primary_care_facility'
+    }
+  ];
+  public patientTypeOptions = [
+    {
+      label: 'Adult',
+      value: 'adult'
+    },
+    {
+      label: 'Pediatric',
+      value: 'PEADS'
+    },
+    {
+      label: 'PMTCT',
+      value: 'PMTCT'
+    }
+  ];
+  public sampleSize = [
+    {
+      label: '10',
+      value: '10'
+    },
+    {
+      label: '20',
+      value: '20'
+    },
+    {
+      label: '30',
+      value: '30'
+    },
+    {
+      label: '40',
+      value: '40'
+    },
+    {
+      label: '50',
+      value: '50'
+    },
+    {
+      label: '60',
+      value: '60'
+    },
+    {
+      label: '70',
+      value: '70'
+    },
+    {
+      label: '80',
+      value: '80'
+    },
+    {
+      label: '90',
+      value: '90'
+    },
+    {
+      label: '100',
+      value: '100'
+    },
+    {
+      label: '110',
+      value: '110'
+    },
+    {
+      label: '120',
+      value: '120'
+    },
+    {
+      label: '130',
+      value: '130'
+    },
+    {
+      label: '140',
+      value: '140'
+    },
+    {
+      label: '150',
+      value: '150'
+    },
+    {
+      label: '160',
+      value: '160'
+    },
+    {
+      label: '170',
+      value: '170'
+    },
+    {
+      label: '180',
+      value: '180'
+    },
+    {
+      label: '190',
+      value: '190'
+    },
+    {
+      label: '200',
+      value: '200'
+    },
+    {
+      label: 'All',
+      value: 'all'
     }
   ];
   public selectedLoactionType: any;
@@ -520,7 +622,13 @@ export class ReportFiltersComponent
     this.onMonthChange.emit(value);
   }
   public onlocationTypeChange($event: any): void {
-    console.log('Location Type Change', $event);
     this.locationTypeChange.emit($event.value);
+  }
+
+  public onpatientTypeChange($event: any): void {
+    this.patientTypeChange.emit($event.value);
+  }
+  public onsampleSizeChange($event: any): void {
+    this.sampleSizeChange.emit($event.value);
   }
 }
