@@ -223,9 +223,14 @@ export class FormentryReferralsHandlerService {
     const formUuid = form.schema.uuid ? form.schema.uuid : '';
 
     // has differentiaded care referal;
-    const referrals = this.getQuestionValue(form, 'referrals');
+    const referrals_1 = this.getQuestionValue(form, 'referrals');
     const internalMvmentData = this.getQuestionValue(form, 'careType');
     const interMovementQstnAns = this.getQuestionValue(form, 'internalMove');
+    // validating if selected option is DC care and referrals is blank. Adult and youth forms are different
+    const referrals =
+      referrals_1 === undefined
+        ? this.getQuestionValue(form, 'patientReferrals')
+        : referrals_1;
     if (
       Array.isArray(referrals) &&
       referrals.indexOf(ReferralConcepts.differentiatedCareConceptUuid) >= 0
