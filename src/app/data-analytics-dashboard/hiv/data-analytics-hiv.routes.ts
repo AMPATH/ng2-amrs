@@ -36,6 +36,8 @@ import { IPTReportComponent } from './ipt-report/ipt-report.component';
 import { ClinicFlowProviderStatsPatientListComponent } from './../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats-patient-list.component';
 import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and-losses/data-analytics-hiv-gains-and-losses.component';
 import { PatientGainsAndLosesPatientListComponent } from './../../hiv-care-lib/patient-gains-and-loses/patient-gains-and-loses-patient-list/patient-gains-and-loses-patient-list.component';
+import { ContactTestingComponent } from './contact-testing/contact-testing/contact-testing.component';
+
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -244,6 +246,15 @@ const routes: Routes = [
         path: '',
         component: DqaReportsComponent,
         data: { multipleLocation: true }
+      }
+    ]
+  },
+  {
+    path: 'family-testing',
+    children: [
+      {
+        path: '',
+        component: ContactTestingComponent
       }
     ]
   }
