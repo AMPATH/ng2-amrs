@@ -37,11 +37,6 @@
     },
     {
       "type": "simple_column",
-      "alias": "gender",
-      "column": "hmsd.gender"
-    },
-    {
-      "type": "simple_column",
       "alias": "location_id",
       "column": "hmsd.location_id"
     },

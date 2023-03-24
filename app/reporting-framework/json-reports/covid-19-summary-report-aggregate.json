@@ -44,11 +44,6 @@
     },
     {
       "type": "simple_column",
-      "alias": "ever_screened",
-      "column": "count(b.ever_screened)"
-    },
-    {
-      "type": "simple_column",
       "alias": "screened_this_month",
       "column": "count(b.screened_this_month)"
     },
@@ -59,53 +54,13 @@
     },
     {
       "type": "simple_column",
-      "alias": "fully_vaccinated_ever",
-      "column": "count(b.fully_vaccinated_ever)"
-    },
-    {
-      "type": "simple_column",
       "alias": "partially_vaccinated_this_month",
       "column": "count(b.partially_vaccinated_this_month)"
     },
     {
       "type": "simple_column",
-      "alias": "partially_vaccinated_ever",
-      "column": "count(b.partially_vaccinated_ever)"
-    },
-    {
-      "type": "simple_column",
       "alias": "not_vaccinated_this_month",
       "column": "count(b.not_vaccinated_this_month)"
-    },
-    {
-      "type": "simple_column",
-      "alias": "not_vaccinated_ever",
-      "column": "count(b.not_vaccinated_ever)"
-    },
-    {
-      "type": "simple_column",
-      "alias": "verified_1st_dose_ever",
-      "column": "count(b.verified_1st_dose_ever)"
-    },
-    {
-      "type": "simple_column",
-      "alias": "verified_2nd_dose_ever",
-      "column": "count(b.verified_2nd_dose_ever)"
-    },
-    {
-      "type": "simple_column",
-      "alias": "ever_tested_positive",
-      "column": "count(b.ever_tested_positive)"
-    },
-    {
-      "type": "simple_column",
-      "alias": "ever_hospitalized",
-      "column": "count(b.ever_hospitalized)"
-    },
-    {
-      "type": "simple_column",
-      "alias": "received_booster",
-      "column": "count(b.received_booster)"
     }
   ],
   "groupBy": {

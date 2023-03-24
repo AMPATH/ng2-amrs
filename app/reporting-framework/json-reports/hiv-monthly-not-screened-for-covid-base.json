@@ -18,11 +18,11 @@
       }
     },
     {
-      "table": "etl.monthly_covid_extract_report",
+      "table": "etl.flat_covid_extract",
       "alias": "csm",
       "join": {
         "type": "LEFT",
-        "joinCondition": "hmsd.person_id = csm.person_id AND csm.endDate = hmsd.endDate"
+        "joinCondition": "hmsd.person_id = csm.person_id"
       }
     }
   ],

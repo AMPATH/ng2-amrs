@@ -1,0 +1,154 @@
+{
+  "name": "covid19CumulativeSummaryReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.monthly_covid_extract_report",
+      "alias": "ce"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "ce.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_covid_extract",
+      "alias": "_fce",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ce.person_id = _fce.person_id AND _fce.next_encounter_datetime IS NULL"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "per",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "ce.person_id = per.person_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "ce.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "ce.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "covid_screening_date",
+      "column": "DATE_FORMAT(ce.encounter_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_screened",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(ce.person_id IS NOT NULL = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "fully_vaccinated_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.vaccination_status = 2208,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "partially_vaccinated_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.vaccination_status = 11907,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_vaccinated_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((_fce.received_covid_19_vaccine = 1066 AND _fce.vaccination_status is null),1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "verified_1st_dose_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.vaccine_verification = 2300,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "verified_2nd_dose_ever",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.vaccine_verification_second_dose = 2300,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "received_booster",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.booster_given = 1065,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_tested_positive",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.ever_covid_19_positive = 1,1,null)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ever_hospitalized",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if(_fce.ever_hopsitalized = 1,1,null)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "ce.location_id IN (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), per.birthdate)))) >= 15)"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

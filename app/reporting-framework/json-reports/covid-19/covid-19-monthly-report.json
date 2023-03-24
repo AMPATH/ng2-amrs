@@ -1,6 +1,7 @@
 {
   "reports": [
     "covid19SummaryReportAggregate",
+    "covid19CumulativeSummaryReportAggregate",
     "hivMonthlyOnART15AndAboveAggregate",
     "hivMonthlyNotScreenedForCovidAggregate"
   ]

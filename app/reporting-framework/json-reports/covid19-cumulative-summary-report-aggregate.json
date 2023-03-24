@@ -1,0 +1,114 @@
+{
+  "name": "covid19CumulativeSummaryReportAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "covid19CumulativeSummaryReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "covid19CumulativeSummaryReportBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ever_screened",
+      "column": "count(b.ever_screened)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "fully_vaccinated_ever",
+      "column": "count(b.fully_vaccinated_ever)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "partially_vaccinated_ever",
+      "column": "count(b.partially_vaccinated_ever)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "not_vaccinated_ever",
+      "column": "count(b.not_vaccinated_ever)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "verified_1st_dose_ever",
+      "column": "count(b.verified_1st_dose_ever)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "verified_2nd_dose_ever",
+      "column": "count(b.verified_2nd_dose_ever)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ever_tested_positive",
+      "column": "count(b.ever_tested_positive)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ever_hospitalized",
+      "column": "count(b.ever_hospitalized)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "received_booster",
+      "column": "count(b.received_booster)"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-covid-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}
