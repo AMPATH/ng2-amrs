@@ -154,6 +154,7 @@ export class ProgramEnrollmentPatientListComponent
           width: 150,
           field: 'previous_vl_date'
         },
+
         {
           headerName: 'Nearest Center',
           width: 150,
