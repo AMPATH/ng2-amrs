@@ -24,6 +24,36 @@ export class PatientListColumns {
         cellClass: 'identifier-column'
       },
       {
+        headerName: 'CCC Identifier',
+        width: 120,
+        field: 'ccc_number',
+        cellStyle: {
+          'white-space': 'normal'
+        },
+        pinned: true,
+        filter: 'text'
+      },
+      {
+        headerName: 'OVCID',
+        width: 120,
+        field: 'ovcid_id',
+        cellStyle: {
+          'white-space': 'normal'
+        },
+        pinned: true,
+        filter: 'text'
+      },
+      {
+        headerName: 'NUPI Identifier',
+        width: 120,
+        field: 'upi_number',
+        cellStyle: {
+          'white-space': 'normal'
+        },
+        pinned: true,
+        filter: 'text'
+      },
+      {
         headerName: 'Person Name',
         width: 120,
         field: 'person_name',
