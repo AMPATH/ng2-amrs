@@ -247,6 +247,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       cur_arv_line: 'Current ARV Line (edited)',
       cur_arv_meds: 'Current ARV Regimen',
       vl_1: 'Viral Load',
+      vl_category: 'VL Category',
       vl_1_date: 'Viral Load Date',
       has_pending_vl_test: 'Pending Viral Load Test',
       phone_number: 'Phone Number',
