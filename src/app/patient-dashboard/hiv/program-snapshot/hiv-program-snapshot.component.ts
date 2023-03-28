@@ -13,6 +13,7 @@ import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+import { lastDayOfISOWeek } from 'date-fns';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -75,6 +76,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public hasSubsequentClinicalEncounter = false;
   public resolvedCareStatus: any;
   public showCareStatus = true;
+  public viralLoadCategory: any = '';
   public backgroundColor: any = {
     pink: '#FFC0CB',
     yellow: '#FFFF00'
@@ -160,7 +162,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestVlResult = this.getlatestVlResult(results);
           latestVlDate = latestVlResult.vl_1_date;
           latestVl = latestVlResult.vl_1;
-          latestVl = latestVlResult.vl_1;
+
           this.patientCareStatus = results[0].patient_care_status;
           this.hivDisclosureStatus =
             results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
@@ -232,6 +234,28 @@ export class HivProgramSnapshotComponent implements OnInit {
           console.error('Error resolving locations', error);
         }
       );
+  }
+
+  public getViralLoadCategory(latestViralLoad: any) {
+    switch (true) {
+      case latestViralLoad < 50:
+        this.viralLoadCategory = 'LDL';
+
+        break;
+      case latestViralLoad >= 50 && latestViralLoad < 200:
+        this.viralLoadCategory = 'Low Risk Low Level Viremia';
+        break;
+      case latestViralLoad >= 200 && latestViralLoad < 1000:
+        this.viralLoadCategory = 'High Risk Low Level Viremia';
+        break;
+      case latestViralLoad >= 1000:
+        this.viralLoadCategory = 'Suspected Treatment Failure';
+        break;
+      default:
+        this.viralLoadCategory = 'Undefined';
+        console.log('no viral load ' + latestViralLoad);
+        break;
+    }
   }
 
   public getPatientCareStatus(care_status_id: any) {
