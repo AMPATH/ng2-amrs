@@ -62,6 +62,11 @@ export const routes = [
             component: OncologySummaryComponent
           },
           {
+            // Oncology related Program Landing Page
+            path: 'mnch/:program/landing-page',
+            component: GeneralLandingPageComponent
+          },
+          {
             path: 'cdm/:program/landing-page', // CDM Landing Page
             component: CdmSummaryComponent
           },
