@@ -237,7 +237,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   public getViralLoadCategory(latestViralLoad: any) {
-    switch (true) {
+    switch (latestViralLoad) {
       case latestViralLoad < 50:
         this.viralLoadCategory = 'LDL';
 
@@ -251,9 +251,10 @@ export class HivProgramSnapshotComponent implements OnInit {
       case latestViralLoad >= 1000:
         this.viralLoadCategory = 'Suspected Treatment Failure';
         break;
+
       default:
-        this.viralLoadCategory = 'Undefined';
-        console.log('no viral load ' + latestViralLoad);
+        this.viralLoadCategory = 'N/A';
+
         break;
     }
   }
