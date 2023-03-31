@@ -28,6 +28,11 @@ export const routes = [
             loadChildren:
               './oncology/oncology-program.module#OncologyProgramModule'
           },
+          {
+            path: 'prevention',
+            loadChildren:
+              './prevention/prevention-program.module#PreventionProgramModule'
+          },
           { path: '', redirectTo: 'general', pathMatch: 'prefix' }
         ]
       }

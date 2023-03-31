@@ -266,6 +266,44 @@
           "isDistinct": true
         }
       ]
+    },
+    {
+      "departmentName": "PREVENTION",
+      "baseRoute": "prevention",
+      "alias": "prevention",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "monthly-schedule",
+          "label": "Monthly Schedule",
+          "icon": "fa fa-calendar",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "program-enrollment",
+          "label": "Program Enrollment",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "referral/patient-referral-report",
+          "label": "Patient Referral",
+          "icon": "fa fa-file-pdf-o",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "department-select",
+          "label": "Change Department",
+          "icon": "fa fa-exchange",
+          "isSideBarOpen": false,
+          "isDistinct": true
+        }
+      ]
     }
   ]
 }
