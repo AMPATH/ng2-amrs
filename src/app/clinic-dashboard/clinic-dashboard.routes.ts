@@ -29,6 +29,11 @@ export const routes = [
               './oncology/oncology-program.module#OncologyProgramModule'
           },
           {
+            path: 'prevention',
+            loadChildren:
+              './prevention/prevention-program.module#PreventionProgramModule'
+          },
+          {
             path: 'mnch',
             loadChildren: './mnch/mnch-program.module#MNCHModule'
           },

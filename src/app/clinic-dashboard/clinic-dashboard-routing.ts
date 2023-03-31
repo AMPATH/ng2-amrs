@@ -3,18 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ClinicDashboardComponent } from './clinic-dashboard.component';
 import { ClinicDashboardGuard } from './clinic-dashboard.guard';
-import { VisualizationComponent } from './clinical-summary-visualization/visualization-component';
-import { ClinicLabOrdersComponent } from './clinic-lab-orders/clinic-lab-orders.component';
-import { VisualizationPatientListComponent } from './clinical-summary-visualization/visualization-patient-list/visualization.patient-list.component';
-import { ClinicFlowSummaryComponent } from '../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
-import { ClinicFlowVisitsComponent } from '../hiv-care-lib/clinic-flow/clinic-flow-visits.component';
-import { PatientStatusChangeVisualizationContainerComponent } from './patient-status-change-visualization/patient-status-change-visualization.container.component';
-import { PatientStatusChangeListComponent } from './patient-status-change-visualization/patient-status-change-list.component';
-import { ClinicFlowLocationStatsComponent } from '../hiv-care-lib/clinic-flow/clinic-flow-location-stats.component';
-import { ClinicFlowProviderStatsComponent } from '../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
-import { DailyScheduleClinicFlowComponent } from './hiv/clinic-flow/daily-schedule-clinic-flow.component';
-import { PatientsProgramEnrollmentComponent } from '../patients-program-enrollment/patients-program-enrollment.component';
-import { ProgramEnrollmentPatientListComponent } from './../patients-program-enrollment/program-enrollent-patient-list.component';
 
 const clinicDashboardRoutes: Routes = [
   {
@@ -66,6 +54,14 @@ const clinicDashboardRoutes: Routes = [
             (mod) => mod.MNCHModule
           )
       },
+      {
+        path: 'prevention',
+        loadChildren: () =>
+          System.import('./prevention/prevention-program.module').then(
+            (mod) => mod.PreventionProgramModule
+          )
+      },
+    
       {
         path: '',
         redirectTo: 'general',
