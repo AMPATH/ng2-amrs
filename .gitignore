@@ -1,6 +1,5 @@
 node_modules/
 conf/config.json
-conf/kibana-config.json
 conf_copy/
 .idea/**
 .vscode/
@@ -11,4 +10,3 @@ etl-daemon.js
 coverage
 conf/config-bk.json
 .DS_Store
-

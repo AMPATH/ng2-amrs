@@ -7,7 +7,7 @@ export class FamilyTestingService {
       let queryParts = {};
       let where = '';
       let sql = 'SELECT ';
-      const columns = `t1.*,tx.*, tx.encounter_datetime as last_date_elicited, t2.contacts_count,tx.gender as index_gender,
+      const columns = `t1.*,tx.*, t8.status, tx.encounter_datetime as last_date_elicited,tx.gender as index_gender, t1.patient_program_name as patient_program,
       case 
           when eligible_for_testing = 1065 then 'YES' 
           when eligible_for_testing = 1066 then 'No' 
@@ -41,36 +41,30 @@ export class FamilyTestingService {
       const from = `FROM
       etl.flat_family_testing_index tx
         LEFT JOIN
-      etl.flat_family_testing t1 on (tx.person_id = t1.patient_id)
+      etl.flat_family_testing t1 ON (tx.person_id = t1.patient_id)
           LEFT JOIN
-      (SELECT 
-          patient_id, COUNT(*) AS 'contacts_count'
-      FROM
-          etl.flat_family_testing
-          WHERE
-       location_uuid = '${params.locationUuid}'
-      GROUP BY patient_id) t2 ON (t1.patient_id = t2.patient_id) `;
+      etl.hiv_monthly_report_dataset_frozen t8 ON (tx.person_id = t8.person_id and t8.location_id in (${params.locations}))
+          LEFT JOIN
+      etl.moh_731_last_release_month t9 ON (t8.endDate = t9.last_released_month) `;
 
       where = `
       WHERE
-      tx.location_uuid = '${params.locationUuid}' `;
+      t8.location_id in (${params.locations})  AND (DATE(t8.endDate) = DATE(t9.last_released_month)) `;
 
       if (params.start_date != null && params.end_date != null) {
-        where =
-          where +
-          `  and date(t1.date_elicited) between date('${params.start_date}') and date('${params.end_date}')`;
+        where += `  and date(t1.date_elicited) between date('${params.start_date}') and date('${params.end_date}')`;
       } else if (params.end_date != null) {
-        where =
-          where + `  and date(t1.date_elicited) <= date('${params.end_date}')`;
+        where += `  and date(t1.date_elicited) <= date('${params.end_date}')`;
       }
 
       if (params.eligible != null) {
-        where = where + `  and eligible_for_testing = '${params.eligible}'`;
+        where += `  and eligible_for_testing = '${params.eligible}'`;
       }
 
       if (params.programs != undefined) {
         let program = '';
         const programs = params.programs.split(',');
+
         for (let i = 0; i < programs.length; i++) {
           if (i == programs.length - 1) {
             program += `'${programs[i]}'`;
@@ -79,46 +73,88 @@ export class FamilyTestingService {
           }
         }
 
-        where = where + `  and tx.patient_program_uuid in (${program})`;
+        where += `  and t1.patient_program_uuid in (${program})`;
       }
 
       switch (params.child_status) {
         case '1':
-          where = where + `  and tx.child_status_reason = 11890`;
+          where += `  and tx.child_status_reason = 11890`;
           break;
         case '0':
-          where = where + `  and tx.child_status_reason = 11891`;
+          where += `  and tx.child_status_reason = 11891`;
           break;
       }
 
       if (params.elicited_clients == 0) {
-        where = `${where}  group by tx.person_id`;
-        sql =
-          sql +
-          ' tx.*, extract(year from (from_days(datediff(now(),tx.birthdate)))) as age, tx.gender as index_gender ' +
+        //all screened clients
+
+        sql = this.allReviewedClientsQuery(params, sql, columns, from, where);
+      } else if (params.elicited_clients == 1) {
+        //Screened and reviewed for children
+        sql = this.screenedAndReviewed(params, sql, columns, from, where);
+      } else if (params.elicited_clients == 2) {
+        //Screened not reviewed for children
+        sql = this.screenedNotReviewed(params, sql, columns, from, where);
+      } else if (params.elicited_clients == 8) {
+        //Reviewed with children
+        sql = this.reviewedWithChildren(params, sql, columns, from, where);
+      } else if (params.elicited_clients == 9) {
+        //Reviewed with sexual partners
+        sql = this.reviewedWithSexualPartners(
+          params,
+          sql,
+          columns,
+          from,
+          where
+        );
+      } else if (params.elicited_clients == 3) {
+        //Clients not screened for contacts
+        sql = this.activeNotScreened(params);
+      } else if (params.elicited_clients == 4) {
+        //'Children 19yrs and below'
+        sql +=
+          columns +
           from +
-          where;
-      } else if (params.elicited_clients < 0) {
-        where = `${where} and obs_group_id is null `;
-        sql =
-          sql +
-          ' tx.*, extract(year from (from_days(datediff(now(),tx.birthdate)))) as age, tx.gender as index_gender ' +
+          where +
+          ' and obs_group_id is not null and extract(year from (from_days(datediff(t1.date_elicited,t1.fm_dob)))) < 20 AND t1.relationship_type in ("CHILD","MOTHER","FATHER") AND fm_name is not null LIMIT 2000 OFFSET ' +
+          params.startIndex;
+      } else if (params.elicited_clients == 5) {
+        //'Sexual partners'
+        sql +=
+          columns +
           from +
-          where;
-      } else if (params.elicited_clients > 0) {
-        where = `${where} and tx.person_id in (select patient_id from etl.flat_family_testing where location_uuid = '${params.locationUuid}' ) group by tx.person_id`;
-        sql =
-          sql +
-          ' tx.*, extract(year from (from_days(datediff(now(),tx.birthdate)))) as age, tx.gender as index_gender ' +
+          where +
+          ' and obs_group_id is not null and t1.relationship_type in ("PARTNER-SPOUSE","PARTNER-OTHER","FELLOW-WIFE") AND fm_name is not null LIMIT 2000 OFFSET ' +
+          params.startIndex;
+      } else if (params.elicited_clients == 6) {
+        //'Siblings'
+        sql +=
+          columns +
           from +
-          where;
+          where +
+          ' and obs_group_id is not null and t1.relationship_type in ("SIBLING") AND fm_name is not null LIMIT 2000 OFFSET ' +
+          params.startIndex;
+      } else if (params.elicited_clients == 7) {
+        //'Uncategorized contacts'
+        sql +=
+          columns +
+          from +
+          where +
+          ' and obs_group_id is not null and t1.relationship_type not in ("SIBLING","PARTNER-SPOUSE","PARTNER-OTHER","FELLOW-WIFE","CHILD","MOTHER","FATHER") AND fm_name is not null LIMIT 2000 OFFSET ' +
+          params.startIndex;
       } else {
-        sql = sql + columns + from + where + ' and obs_group_id is not null ';
+        sql +=
+          columns +
+          from +
+          where +
+          ' and obs_group_id is not null AND fm_name is not null LIMIT 2000 OFFSET ' +
+          params.startIndex;
       }
 
       queryParts = {
         sql: sql
       };
+
       return db.queryServer(queryParts, function (result) {
         result.sql = sql;
         resolve(result);
@@ -127,6 +163,12 @@ export class FamilyTestingService {
   };
 
   getPatientContacts = (params) => {
+    let appendWhereClause = '';
+    if (params.elicited_clients == 4) {
+      appendWhereClause = `and extract(year from (from_days(datediff(t1.date_elicited,t1.fm_dob)))) < 20 and relationship_type in ("CHILD","MOTHER","FATHER","SIBLING")`;
+    } else if (params.elicited_clients == 5) {
+      appendWhereClause = `and relationship_type not in ("CHILD","MOTHER","FATHER","SIBLING")`;
+    }
     return new Promise((resolve, reject) => {
       let queryParts = {};
       let sql = `select t1.*,
@@ -210,7 +252,7 @@ export class FamilyTestingService {
             patient_uuid = '${params.patientUuid}'
               and fm_age < 20) t2
             ON (t1.patient_id = t2.patient_id) 
-            where tx.patient_uuid = '${params.patientUuid}'`;
+            where tx.patient_uuid = '${params.patientUuid}' ${appendWhereClause}`;
       /*
       1.eligible_for_tracing = 0, not eligible for testing 
       2.eligible_for_tracing = 1, traced and tested
@@ -368,4 +410,213 @@ export class FamilyTestingService {
       });
     });
   };
+
+  allReviewedClientsQuery(params, sql, columns, from, where) {
+    let w =
+      where +
+      ` and t8.location_id in (${params.locations})  AND (DATE(t8.endDate) = DATE(t9.last_released_month)) `;
+    if (params.start_date != null && params.end_date != null) {
+      w += `  AND ((DATE(t1.date_elicited) BETWEEN date('${params.start_date}') and date('${params.end_date}'))
+        OR (DATE(tx.encounter_datetime) BETWEEN date('${params.start_date}') and date('${params.end_date}')))`;
+    } else if (params.end_date != null) {
+      w += `  and (date(t1.date_elicited) <= date('${params.end_date}') or (date(tx.encounter_datetime) <= date('${params.end_date}'))) `;
+    }
+
+    switch (params.child_status) {
+      case '1':
+        w += `  and tx.child_status_reason = 11890`;
+        break;
+      case '0':
+        w += `  and tx.child_status_reason = 11891`;
+        break;
+    }
+
+    sql +=
+      columns +
+      from +
+      w +
+      '  group by tx.person_id LIMIT 2000 OFFSET ' +
+      params.startIndex;
+    return sql;
+  }
+
+  screenedNotReviewed(params, sql, columns, from, where) {
+    let w =
+      where +
+      ` and t8.location_id in (${params.locations})  
+              AND tx.child_status IS NULL AND (DATE(t8.endDate) = DATE(t9.last_released_month)) `;
+    if (params.start_date != null && params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) between date('${params.start_date}') and date('${params.end_date}')`;
+    } else if (params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) <= date('${params.end_date}') `;
+    }
+
+    switch (params.child_status) {
+      case '1':
+        w += `  and tx.child_status_reason = 11890`;
+        break;
+      case '0':
+        w += `  and tx.child_status_reason = 11891`;
+        break;
+    }
+
+    sql +=
+      columns +
+      from +
+      w +
+      ' group by tx.person_id LIMIT 2000 OFFSET ' +
+      params.startIndex;
+
+    return sql;
+  }
+
+  screenedAndReviewed(params, sql, columns, from, where) {
+    let w =
+      where +
+      ` and t8.location_id in (${params.locations})  
+              AND (IF(tx.child_status IS NOT NULL or (obs_group_id IS NOT NULL
+              AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(t1.date_elicited, t1.fm_dob)))) < 20
+              AND t1.relationship_type IN ('CHILD' , 'MOTHER', 'FATHER')
+              AND fm_name IS NOT NULL) ,1,0) = 1) AND (DATE(t8.endDate) = DATE(t9.last_released_month)) `;
+    if (params.start_date != null && params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) between date('${params.start_date}') and date('${params.end_date}')`;
+    } else if (params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) <= date('${params.end_date}') `;
+    }
+
+    switch (params.child_status) {
+      case '1':
+        w += `  and tx.child_status_reason = 11890`;
+        break;
+      case '0':
+        w += `  and tx.child_status_reason = 11891`;
+        break;
+    }
+
+    sql +=
+      columns +
+      w +
+      ' group by tx.person_id LIMIT 2000 OFFSET ' +
+      params.startIndex;
+
+    return sql;
+  }
+
+  revießwedWithChildren(params, sql, columns, from, where) {
+    let w =
+      where +
+      ` and t8.location_id in (${params.locations})  
+              AND (IF(obs_group_id IS NOT NULL
+              AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(t1.date_elicited, t1.fm_dob)))) < 20
+              AND t1.relationship_type IN ('CHILD' , 'MOTHER', 'FATHER')
+              AND fm_name IS NOT NULL ,1,0) = 1) AND (DATE(t8.endDate) = DATE(t9.last_released_month)) `;
+    if (params.start_date != null && params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) between date('${params.start_date}') and date('${params.end_date}')`;
+    } else if (params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) <= date('${params.end_date}') `;
+    }
+
+    switch (params.child_status) {
+      case '1':
+        w += `  and tx.child_status_reason = 11890`;
+        break;
+      case '0':
+        w += `  and tx.child_status_reason = 11891`;
+        break;
+    }
+
+    sql +=
+      columns +
+      from +
+      w +
+      ' group by tx.person_id LIMIT 2000 OFFSET ' +
+      params.startIndex;
+
+    return sql;
+  }
+
+  reviewedWithSexualPartners(params, sql, columns, from, where) {
+    let w =
+      where +
+      ` AND t8.location_id in (${params.locations})  
+              AND (IF(obs_group_id IS NOT NULL
+                AND t1.relationship_type IN ('PARTNER-SPOUSE' , 'PARTNER-OTHER', 'FELLOW-WIFE')
+                AND fm_name IS NOT NULL,
+              1,
+              0) = 1) AND (DATE(t8.endDate) = DATE(t9.last_released_month)) `;
+    if (params.start_date != null && params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) between date('${params.start_date}') and date('${params.end_date}')`;
+    } else if (params.end_date != null) {
+      w += `  and date(tx.encounter_datetime) <= date('${params.end_date}') `;
+    }
+
+    switch (params.child_status) {
+      case '1':
+        w += `  and tx.child_status_reason = 11890`;
+        break;
+      case '0':
+        w += `  and tx.child_status_reason = 11891`;
+        break;
+    }
+
+    sql +=
+      columns +
+      w +
+      ' group by tx.person_id LIMIT 2000 OFFSET ' +
+      params.startIndex;
+
+    return sql;
+  }
+
+  activeNotScreened(params) {
+    return `SELECT 
+    EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t2.birthdate)))) AS age, 
+    t2.gender AS index_gender, 
+    CONCAT(COALESCE(person_name.given_name, ''), 
+            ' ',
+            COALESCE(person_name.middle_name, ''),
+            ' ',
+            COALESCE(person_name.family_name, '')) AS person_name, 
+    GROUP_CONCAT(DISTINCT id.identifier
+        SEPARATOR ', ') AS identifiers, 
+    GROUP_CONCAT(DISTINCT contacts.value
+        SEPARATOR ', ') AS phone_number, 
+    DATE_FORMAT(t1.arv_first_regimen_start_date, 
+            '%d-%m-%y') AS arv_first_regimen_start_date, 
+    pr.name as patient_program_name, 
+    1 AS hideContactColumns  
+FROM
+    amrs.person t2 
+        INNER JOIN
+    etl.flat_hiv_summary_v15b t1 ON (t1.person_id = t2.person_id 
+        AND t1.last_non_transit_location_id IN ( ${params.locations} ) 
+        AND t1.next_clinical_datetime_hiv IS NULL 
+        AND is_clinical_encounter = 1 
+        AND TIMESTAMPDIFF(DAY, t1.rtc_date, NOW()) < 30) 
+        LEFT JOIN 
+    amrs.patient_program pp ON (t1.person_id = pp.patient_id) 
+        LEFT JOIN 
+    amrs.program pr ON (pr.program_id = pp.program_id) 
+    
+        LEFT JOIN 
+    amrs.person_name person_name ON (t1.person_id = person_name.person_id 
+        AND (person_name.voided IS NULL 
+        || person_name.voided = 0) 
+       
+        AND person_name.preferred = 1) 
+        LEFT JOIN 
+    amrs.patient_identifier id ON (t1.person_id = id.patient_id 
+        AND (id.voided IS NULL || id.voided = 0)) 
+        LEFT JOIN 
+    amrs.person_attribute contacts ON (t1.person_id = contacts.person_id 
+        AND (contacts.voided IS NULL 
+        || contacts.voided = 0) 
+        AND contacts.person_attribute_type_id IN (10 , 48)) 
+        LEFT JOIN 
+    etl.flat_family_testing_index ft ON (t1.person_id = ft.person_id) 
+WHERE 
+    ft.person_id IS NULL 
+    AND pr.uuid IN ('${params.programs}')
+GROUP BY t1.person_id LIMIT 300 OFFSET ${params.startIndex};`;
+  }
 }

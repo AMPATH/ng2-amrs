@@ -1,6 +1,9 @@
-var authorizer = require('../../authorization/etl-authorizer');
+import { LogLevel } from '@slack/client';
 import { FamilyTestingService } from '../family-history/family-history.service';
+var authorizer = require('../../authorization/etl-authorizer');
 var privileges = authorizer.getAllPrivileges();
+var etlHelpers = require('../../etl-helpers');
+var preRequest = require('../../pre-request-processing');
 
 const routes = [
   {
@@ -13,25 +16,37 @@ const routes = [
         }
       },
       handler: function (request, reply) {
-        let familyTestingService = new FamilyTestingService();
-        let params = {
-          locationUuid: request.query.locationUuid,
-          eligible: request.query.eligible,
-          start_date: request.query.start_date,
-          end_date: request.query.end_date,
-          programs: request.query.program_type,
-          child_status: request.query.child_status,
-          elicited_clients: request.query.elicited_clients
-        };
+        preRequest.resolveLocationIdsToLocationUuids(request, function () {
+          let requestParams = Object.assign({}, request.query, request.params);
+          let requestCopy = _.cloneDeep(requestParams);
+          let reportParams = etlHelpers.getReportParams(
+            '',
+            ['startDate', 'endDate', 'locationUuid', 'locations'],
+            requestParams
+          );
 
-        familyTestingService.getPatientList(params).then((result) => {
-          if (result.error) {
-            reply(result);
-          } else {
-            reply(result);
-          }
+          requestCopy.locationUuids = reportParams.requestParams.locationUuids;
+          let familyTestingService = new FamilyTestingService();
+          let params = {
+            locations: reportParams.requestParams.locations,
+            eligible: request.query.eligible,
+            start_date: request.query.start_date,
+            end_date: request.query.end_date,
+            programs: request.query.programType,
+            child_status: request.query.child_status,
+            elicited_clients: request.query.elicited_clients,
+            startIndex: request.query.startIndex
+          };
+          familyTestingService.getPatientList(params).then((result) => {
+            if (result.error) {
+              reply(result);
+            } else {
+              reply(result);
+            }
+          });
         });
       },
+
       description: 'Family testing patient list',
       notes: 'Family testing patient list',
       tags: ['api'],
@@ -54,7 +69,6 @@ const routes = [
       },
       handler: function (request, reply) {
         let familyTestingService = new FamilyTestingService();
-
         familyTestingService
           .getPatientContacts(request.query)
           .then((result) => {
@@ -88,7 +102,6 @@ const routes = [
       handler: function (request, h) {
         try {
           let familyTestingService = new FamilyTestingService();
-
           familyTestingService
             .updateRegisteredContact(request.payload)
             .then((result) => {
@@ -126,7 +139,6 @@ const routes = [
       handler: function (request, h) {
         try {
           const service = new FamilyTestingService();
-
           let params = {
             payload: request.payload,
             query: request.query
@@ -197,7 +209,6 @@ const routes = [
       handler: function (request, h) {
         try {
           const service = new FamilyTestingService();
-
           service.deleteContact(request.query).then((result) => {
             const res = {
               type: 'Success',
