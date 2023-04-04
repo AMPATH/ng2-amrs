@@ -11,7 +11,19 @@
 </div>
 
 <hr />
-<div *ngIf="patientData" style="display: flex; justify-content: space-between">
+<div *ngIf="!hasLoadedAll">
+  <div class="button">
+    <button
+      class="btn btn-primary"
+      data-size="xs"
+      data-color="blue"
+      (click)="loadMore.emit()"
+    >
+      <span class=""></span>Load More...
+    </button>
+  </div>
+</div>
+<div *ngIf="hasLoadedAll" style="display: flex; justify-content: space-between">
   <p class="bg-info" style="padding: 4px">
     <b>
       <span style="color: green" class="glyphicon glyphicon-ok"
