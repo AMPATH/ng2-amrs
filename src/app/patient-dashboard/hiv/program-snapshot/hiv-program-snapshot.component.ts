@@ -13,7 +13,8 @@ import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
-import { lastDayOfISOWeek } from 'date-fns';
+import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
+// import { PatientReminderService } from 'src/app/patient-dashboard/common/patient-reminders/patient-reminders.service.ts';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -121,7 +122,8 @@ export class HivProgramSnapshotComponent implements OnInit {
     private locationResource: LocationResourceService,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
-    private covid19Service: Covid19ResourceService
+    private covid19Service: Covid19ResourceService,
+    private patientReminderService: PatientReminderService
   ) {}
 
   public ngOnInit() {
@@ -142,6 +144,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       0,
       this.patient.uuid
     );
+
     this.getMoriskyScore();
   }
 
@@ -237,24 +240,40 @@ export class HivProgramSnapshotComponent implements OnInit {
   }
 
   public getViralLoadCategory(latestViralLoad: any) {
-    switch (true) {
-      case latestViralLoad < 50 && latestViralLoad != null:
-        this.viralLoadCategory = 'LDL';
-
-        break;
-      case latestViralLoad >= 50 && latestViralLoad < 200:
-        this.viralLoadCategory = 'Low Risk Low Level Viremia';
-        break;
-      case latestViralLoad >= 200 && latestViralLoad < 1000:
-        this.viralLoadCategory = 'High Risk Low Level Viremia';
-        break;
-      case latestViralLoad >= 1000:
-        this.viralLoadCategory = 'Suspected Treatment Failure';
-        break;
-      default:
-        this.viralLoadCategory = 'N/A';
-
-        break;
+    const eligiblility = this.patientReminderService.vl_eligible;
+    let isEligible: any;
+    _.each(eligiblility, (vl_eligibiliy: any) => {
+      if (vl_eligibiliy.title === 'Viral Load Reminder') {
+        isEligible = 1;
+      } else {
+        isEligible = 2;
+      }
+    });
+    if (isEligible) {
+      switch (true) {
+        case latestViralLoad < 50 &&
+          latestViralLoad != null &&
+          isEligible === 2:
+          this.viralLoadCategory = 'LDL';
+          break;
+        case latestViralLoad >= 50 && latestViralLoad < 200 && isEligible === 2:
+          this.viralLoadCategory = 'Low Risk Low Level Viremia';
+          break;
+        case latestViralLoad >= 200 &&
+          latestViralLoad < 1000 &&
+          isEligible === 2:
+          this.viralLoadCategory = 'High Risk Low Level Viremia';
+          break;
+        case latestViralLoad >= 1000 && isEligible === 2:
+          this.viralLoadCategory = 'Suspected Treatment Failure';
+          break;
+        case isEligible === 1:
+          this.viralLoadCategory = 'Missing VL';
+          break;
+        default:
+          this.viralLoadCategory = 'N/A';
+          break;
+      }
     }
   }
 
