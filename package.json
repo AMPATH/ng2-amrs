@@ -105,7 +105,7 @@
     "ngx-mydatepicker": "^2.4.9",
     "ngx-pagination": "^3.1.1",
     "ngx-select": "^0.0.1",
-    "ngx-toastr": "^9.1.1",
+    "ngx-toastr": "^9.2.0",
     "ngx-webcam": "^0.2.5",
     "pdfjs-dist": "~1.7.308",
     "pdfkit": "^0.8.0",
