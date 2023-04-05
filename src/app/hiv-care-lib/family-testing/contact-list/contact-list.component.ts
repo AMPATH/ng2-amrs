@@ -46,6 +46,11 @@ export class ContactListComponent implements OnInit {
       width: 150
     },
     {
+      field: 'reported_test_date',
+      headerName: 'Reported test date',
+      width: 150
+    },
+    {
       field: 'test_result_value',
       headerName: 'Current test results',
       width: 150
