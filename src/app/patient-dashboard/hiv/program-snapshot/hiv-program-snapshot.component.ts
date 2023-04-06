@@ -78,6 +78,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public resolvedCareStatus: any;
   public showCareStatus = true;
   public viralLoadCategory: any = '';
+  public viralloadColor = ' ';
   public backgroundColor: any = {
     pink: '#FFC0CB',
     yellow: '#FFFF00'
@@ -255,23 +256,29 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestViralLoad != null &&
           isEligible === 2:
           this.viralLoadCategory = 'LDL';
+          this.viralloadColor = 'green';
           break;
         case latestViralLoad >= 50 && latestViralLoad < 200 && isEligible === 2:
           this.viralLoadCategory = 'Low Risk Low Level Viremia';
+          this.viralloadColor = 'yellowgreen';
           break;
         case latestViralLoad >= 200 &&
           latestViralLoad < 1000 &&
           isEligible === 2:
           this.viralLoadCategory = 'High Risk Low Level Viremia';
+          this.viralloadColor = 'orange';
           break;
         case latestViralLoad >= 1000 && isEligible === 2:
           this.viralLoadCategory = 'Suspected Treatment Failure';
+          this.viralloadColor = 'red';
           break;
         case isEligible === 1:
           this.viralLoadCategory = 'Missing VL';
+          this.viralloadColor = 'purple';
           break;
         default:
           this.viralLoadCategory = 'N/A';
+          this.viralloadColor = 'black';
           break;
       }
     }
