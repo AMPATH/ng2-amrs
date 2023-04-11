@@ -116,39 +116,34 @@ export class FamilyTestingService {
           columns +
           from +
           where +
-          ' and obs_group_id is not null and extract(year from (from_days(datediff(t1.date_elicited,t1.fm_dob)))) < 20 AND t1.relationship_type in ("CHILD","MOTHER","FATHER") AND fm_name is not null LIMIT 2000 OFFSET ' +
-          params.startIndex;
+          ' and obs_group_id is not null and extract(year from (from_days(datediff(t1.date_elicited,t1.fm_dob)))) < 20 AND t1.relationship_type in ("CHILD","MOTHER","FATHER") AND fm_name is not null  ';
       } else if (params.elicited_clients == 5) {
         //'Sexual partners'
         sql +=
           columns +
           from +
           where +
-          ' and obs_group_id is not null and t1.relationship_type in ("PARTNER-SPOUSE","PARTNER-OTHER","FELLOW-WIFE") AND fm_name is not null LIMIT 2000 OFFSET ' +
-          params.startIndex;
+          ' and obs_group_id is not null and t1.relationship_type in ("PARTNER-SPOUSE","PARTNER-OTHER","FELLOW-WIFE") AND fm_name is not null  ';
       } else if (params.elicited_clients == 6) {
         //'Siblings'
         sql +=
           columns +
           from +
           where +
-          ' and obs_group_id is not null and t1.relationship_type in ("SIBLING") AND fm_name is not null LIMIT 2000 OFFSET ' +
-          params.startIndex;
+          ' and obs_group_id is not null and t1.relationship_type in ("SIBLING") AND fm_name is not null ';
       } else if (params.elicited_clients == 7) {
         //'Uncategorized contacts'
         sql +=
           columns +
           from +
           where +
-          ' and obs_group_id is not null and t1.relationship_type not in ("SIBLING","PARTNER-SPOUSE","PARTNER-OTHER","FELLOW-WIFE","CHILD","MOTHER","FATHER") AND fm_name is not null LIMIT 2000 OFFSET ' +
-          params.startIndex;
+          ' and obs_group_id is not null and t1.relationship_type not in ("SIBLING","PARTNER-SPOUSE","PARTNER-OTHER","FELLOW-WIFE","CHILD","MOTHER","FATHER") AND fm_name is not null ';
       } else {
         sql +=
           columns +
           from +
           where +
-          ' and obs_group_id is not null AND fm_name is not null LIMIT 2000 OFFSET ' +
-          params.startIndex;
+          ' and obs_group_id is not null AND fm_name is not null ';
       }
 
       queryParts = {
