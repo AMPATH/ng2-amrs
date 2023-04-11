@@ -43,26 +43,8 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
     {
       headerName: 'Name',
       field: 'person_name',
-      width: 200,
+      width: 250,
       pinned: true
-    },
-    {
-      headerName: 'CCC Identifier',
-      field: 'ccc_number',
-      width: 100,
-      pinned: 'left'
-    },
-    {
-      headerName: 'OVCID',
-      field: 'ovcid_id',
-      width: 100,
-      pinned: 'left'
-    },
-    {
-      headerName: 'NUPI Identifier',
-      field: 'upi_number',
-      width: 100,
-      pinned: 'left'
     },
     { headerName: 'Gender', field: 'gender', width: 100 },
     { headerName: 'Age', field: 'age', width: 100 }
