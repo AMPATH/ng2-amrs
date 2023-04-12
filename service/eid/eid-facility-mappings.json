@@ -2600,15 +2600,6 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
-  "0db6a78c-6b64-420c-bc30-ac403417c237": {
-    "mrsId": 434,
-    "mrsDisplay": "Chesoi Health Centre",
-    "description": "Chesoi Health Centre",
-    "mflCode": "14385",
-    "county": "Elgeyo Marakwet",
-    "cityVillage": "",
-    "eidDisplay": ""
-  },
   "ce8089a9-d105-4d79-8a0a-d4a389d691b4": {
     "mrsId": 435,
     "mrsDisplay": "Chesongoch Health Centre",
@@ -2663,29 +2654,11 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
-  "ce8089a9-d105-4d79-8a0a-d4a389d691b4": {
-    "mrsId": 435,
-    "mrsDisplay": "Chesongoch Health Centre",
-    "description": "Chesongoch Health Centre POC site",
-    "mflCode": "14386",
-    "county": "Elgeyo-Marakwet County",
-    "cityVillage": "",
-    "eidDisplay": ""
-  },
   "3db5339b-491c-4e80-8c55-7ef21d7141e6": {
     "mrsId": 439,
     "mrsDisplay": "Chesongoch Health Centre MCH",
     "description": "Chesongoch Health Centre MCH",
     "mflCode": "14386",
-    "county": "Elgeyo-Marakwet County",
-    "cityVillage": "",
-    "eidDisplay": ""
-  },
-  "5794ab51-f531-46b8-acc0-51d77ff23760": {
-    "mrsId": 436,
-    "mrsDisplay": "Kaparon Health Centre",
-    "description": "Kaparon Health Centre POC site",
-    "mflCode": "16335",
     "county": "Elgeyo-Marakwet County",
     "cityVillage": "",
     "eidDisplay": ""
@@ -2699,29 +2672,11 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
-  "086e6f2e-b67e-4926-a8fa-23999a7b7af1": {
-    "mrsId": 433,
-    "mrsDisplay": "Kaptarakwa Sub County Hospital",
-    "description": "Kaptarakwa Sub County Hospital POC site",
-    "mflCode": "14776",
-    "county": "Elgeyo-Marakwet County",
-    "cityVillage": "",
-    "eidDisplay": ""
-  },
   "bc47c92b-9e7f-4e6e-a017-c748cb62a4d3": {
     "mrsId": 441,
     "mrsDisplay": "Kaptarakwa Sub County Hospital MCH",
     "description": "Kaptarakwa Sub County Hospital MCH",
     "mflCode": "14776",
-    "county": "Elgeyo-Marakwet County",
-    "cityVillage": "",
-    "eidDisplay": ""
-  },
-  "33bca52f-148a-4f86-8897-48da6f8f01ec": {
-    "mrsId": 437,
-    "mrsDisplay": "Simotwo Dispensary (Keiyo)",
-    "description": "Simotwo Dispensary POC site",
-    "mflCode": "15578",
     "county": "Elgeyo-Marakwet County",
     "cityVillage": "",
     "eidDisplay": ""
@@ -2732,6 +2687,285 @@
     "description": "Simotwo Dispensary MCH",
     "mflCode": "15578",
     "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "ac8a4f98-260b-41e4-a5de-dc62d027c0ab": {
+    "mrsId": 465,
+    "mrsDisplay": "Msekekwa Health Centre MCH",
+    "description": "Msekekwa Health Centre MCH",
+    "mflCode": "15238",
+    "county": "Elgeyo-Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "4ce35995-fcc3-4c70-9190-3cd56582cf8f": {
+    "mrsId": 432,
+    "mrsDisplay": "Lupida MCH",
+    "description": "Lupida MCH",
+    "mflCode": "15975",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "b8135ddf-e02c-4098-b4ce-17880a9ddb0f": {
+    "mrsId": 406,
+    "mrsDisplay": "Tambach MCH",
+    "description": "Tambach PMTCT Site",
+    "mflCode": "15703",
+    "county": "Elgeyo Marakwet County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "f7aabb83-7915-4c24-88b2-bcde8b3a9977": {
+    "mrsId": 342,
+    "mrsDisplay": "Mt. Elgon MCH",
+    "description": "Mt. Elgon MCH",
+    "mflCode": "16025",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e9f515c2-7c48-4099-ac76-41db9977f96": {
+    "mrsId": 342,
+    "mrsDisplay": "Webuye MCH",
+    "description": "Webuye Sub County PMTCT",
+    "mflCode": "16160",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "1254d7b3-4fb1-407e-b192-57e149225bb3": {
+    "mrsId": 340,
+    "mrsDisplay": "Sinoko  MCH",
+    "description": "Sinoko PMTCT Clinic",
+    "mflCode": "16126",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "b4f7483a-00b8-4ff4-be70-dfefc85c60fa": {
+    "mrsId": 338,
+    "mrsDisplay": "Milo  MCH",
+    "description": "Milo PMTCT Clinic",
+    "mflCode": "16018",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "abef0621-e2cd-4a65-8893-2ee6e963ab81": {
+    "mrsId": 337,
+    "mrsDisplay": "Mihuu  MCH",
+    "description": "Mihuu PMTCT Clinic",
+    "mflCode": "16016",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "0449c609-d190-4412-80ae-c14444e6a5f2": {
+    "mrsId": 336,
+    "mrsDisplay": "Kaptama  MCH",
+    "description": "Kaptama MCH",
+    "mflCode": "22508",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "3d8cdb07-bbe5-495c-b4ae-b9d6a2dc694f": {
+    "mrsId": 335,
+    "mrsDisplay": "Kaborom  MCH",
+    "description": "Kaborom PMTCT Clinic",
+    "mflCode": "15910",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "dfc0f21e-2e6c-4052-bdfe-23ee1b8084e8": {
+    "mrsId": 334,
+    "mrsDisplay": "Bokoli  MCH",
+    "description": "Bokoli PMTCT Clinic",
+    "mflCode": "15808",
+    "county": "Bungoma COUNTY",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e93d79ea-13c8-4f0c-a757-0858a7f387eb": {
+    "mrsId": 333,
+    "mrsDisplay": "Kesses  MCH",
+    "description": "Kesses PMTCT Clinic",
+    "mflCode": "14841",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "8241f06b-d74d-4f6d-9def-7254d9833e10": {
+    "mrsId": 322,
+    "mrsDisplay": "Burnt Forest   MCH",
+    "description": "Burnt Forest MCH Clinic",
+    "mflCode": "16347",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "2efc716d-fddf-468e-8365-09cca3fc4d5c": {
+    "mrsId": 332,
+    "mrsDisplay": "Plateau Mission Hospital MCH",
+    "description": "Plateau Mission Hospital PMTCT Site",
+    "mflCode": "15464",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "fc9e3da3-0128-4ae8-8a23-63561f7aea11": {
+    "mrsId": 331,
+    "mrsDisplay": "Ziwa  MCH",
+    "description": "Ziwa PMTCT Clinic",
+    "mflCode": "15788",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "d0fac112-5690-47c5-8ffc-0abcbb5b3124": {
+    "mrsId": 329,
+    "mrsDisplay": "Turbo  MCH",
+    "description": "Turbo PMTCT Clinic",
+    "mflCode": "15753",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "469bb74e-18a4-4d74-872e-55fcebe12dc7": {
+    "mrsId": 328,
+    "mrsDisplay": "Soy  MCH",
+    "description": "Soy PMTCT clinic",
+    "mflCode": "15623",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "78d91367-c020-4c65-b4f3-31ec07fb90d9": {
+    "mrsId": 327,
+    "mrsDisplay": "Pioneer Sub-District Hospital  MCH",
+    "description": "Pioneer Sub-District Hospital PMTCT Clinic",
+    "mflCode": "15910",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "0943a3b0-3630-4d71-ad09-cc55cfd3bde1": {
+    "mrsId": 326,
+    "mrsDisplay": "Moiben  MCH",
+    "description": "Moiben PMTCT Clinic",
+    "mflCode": "15206",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "d560891a-28b9-41cc-8cfc-1efd441bc906": {
+    "mrsId": 323,
+    "mrsDisplay": "Chepsaita  MCH",
+    "description": "Chepsaita MCH",
+    "mflCode": "14358",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "60cd8ba2-c4a5-44e5-b7cf-7cc3192756f6": {
+    "mrsId": 321,
+    "mrsDisplay": "Teso  MCH",
+    "description": "Teso/Kocholya Sub-County Hospital MCH Clinic",
+    "mflCode": "16150",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e211bf00-819a-43a5-baa4-354feaa02db8": {
+    "mrsId": 320,
+    "mrsDisplay": "Malaba MCH",
+    "description": "Malaba Health Centre MCH Clinic",
+    "mflCode": "15993",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e907044b-4170-49e1-98e8-93258596bb23": {
+    "mrsId": 319,
+    "mrsDisplay": "Khunyangu  MCH",
+    "description": "Khunyangu District Hospital MCH Clinic",
+    "mflCode": "15939",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "6ba7d04a-585b-48b4-895a-fe1af98453bc": {
+    "mrsId": 318,
+    "mrsDisplay": "Kamolo  MCH",
+    "description": "Kamolo Health Centre MCH Clinic",
+    "mflCode": "17242",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "22a1255d-e56b-446a-a32b-e7ea8bd1a89c": {
+    "mrsId": 317,
+    "mrsDisplay": "Changara  MCH",
+    "description": "Changara MCH Clinic",
+    "mflCode": "16421",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "cb4a90fd-28b8-4c01-b15c-242ff5e5e731": {
+    "mrsId": 316,
+    "mrsDisplay": "Bumala B MCH",
+    "description": "Bumala B Health Center(Busia Satellite Clinic)",
+    "mflCode": "15824",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "8565e74d-c5df-4c60-aa1b-5976001e3977": {
+    "mrsId": 314,
+    "mrsDisplay": "Angurai  MCH",
+    "description": "Angurai Health Centre MCH Clinic",
+    "mflCode": "15800",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e3cb359e-0b69-4371-aa62-8ca22dca151f": {
+    "mrsId": 312,
+    "mrsDisplay": "Port Victoria  MCH",
+    "description": "Port Victoria MCH Clinic",
+    "mflCode": "16091",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "f8dd8eb8-b9fe-46d1-bb42-58a5f18cfc25": {
+    "mrsId": 311,
+    "mrsDisplay": "Osieko   MCH",
+    "description": "Osieko MCH clinic",
+    "mflCode": "17680",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "48305e5b-2ca5-44e1-8f6b-008c4d2789ba": {
+    "mrsId": 310,
+    "mrsDisplay": "Mukhobola MCH",
+    "description": "Mukhobola MCH Clinic",
+    "mflCode": "16029",
+    "county": "Busia County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "29124daf-6422-4896-b70e-daad3b252c9d": {
+    "mrsId": 306,
+    "mrsDisplay": "Kapenguria County Referral Hospital MCH",
+    "description": "Kapenguria County Referral Hospital MCH",
+    "mflCode": "14701",
+    "county": "West Pokot County",
     "cityVillage": "",
     "eidDisplay": ""
   }
