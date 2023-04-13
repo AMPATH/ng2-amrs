@@ -34,16 +34,6 @@ export class PatientListColumns {
         filter: 'text'
       },
       {
-        headerName: 'OVCID',
-        width: 120,
-        field: 'ovcid_id',
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        pinned: true,
-        filter: 'text'
-      },
-      {
         headerName: 'NUPI Identifier',
         width: 120,
         field: 'upi_number',
@@ -102,6 +92,11 @@ export class PatientListColumns {
         headerName: 'Med Pickup RTC',
         width: 150,
         field: 'med_pick_up_date'
+      },
+      {
+        headerName: 'OVCID',
+        width: 200,
+        field: 'ovcid_id'
       },
       {
         headerName: 'Current Regimen',

@@ -53,12 +53,6 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       pinned: 'left'
     },
     {
-      headerName: 'OVCID',
-      field: 'ovcid_id',
-      width: 100,
-      pinned: 'left'
-    },
-    {
       headerName: 'NUPI Identifier',
       field: 'upi_number',
       width: 100,
