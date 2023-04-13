@@ -426,12 +426,7 @@ export class FamilyTestingService {
         break;
     }
 
-    sql +=
-      columns +
-      from +
-      w +
-      '  group by tx.person_id LIMIT 2000 OFFSET ' +
-      params.startIndex;
+    sql += columns + from + w + '  group by tx.person_id';
     return sql;
   }
 
@@ -455,12 +450,7 @@ export class FamilyTestingService {
         break;
     }
 
-    sql +=
-      columns +
-      from +
-      w +
-      ' group by tx.person_id LIMIT 2000 OFFSET ' +
-      params.startIndex;
+    sql += columns + from + w + ' group by tx.person_id';
 
     return sql;
   }
@@ -488,16 +478,12 @@ export class FamilyTestingService {
         break;
     }
 
-    sql +=
-      columns +
-      w +
-      ' group by tx.person_id LIMIT 2000 OFFSET ' +
-      params.startIndex;
+    sql += columns + from + w + ' group by tx.person_id';
 
     return sql;
   }
 
-  revießwedWithChildren(params, sql, columns, from, where) {
+  reviewedWithChildren(params, sql, columns, from, where) {
     let w =
       where +
       ` and t8.location_id in (${params.locations})  
@@ -520,12 +506,7 @@ export class FamilyTestingService {
         break;
     }
 
-    sql +=
-      columns +
-      from +
-      w +
-      ' group by tx.person_id LIMIT 2000 OFFSET ' +
-      params.startIndex;
+    sql += columns + from + w + ' group by tx.person_id';
 
     return sql;
   }
@@ -554,11 +535,7 @@ export class FamilyTestingService {
         break;
     }
 
-    sql +=
-      columns +
-      w +
-      ' group by tx.person_id LIMIT 2000 OFFSET ' +
-      params.startIndex;
+    sql += columns + from + w + ' group by tx.person_id';
 
     return sql;
   }
@@ -578,7 +555,7 @@ export class FamilyTestingService {
         SEPARATOR ', ') AS phone_number, 
     DATE_FORMAT(t1.arv_first_regimen_start_date, 
             '%d-%m-%y') AS arv_first_regimen_start_date, 
-    pr.name as patient_program_name, 
+    pr.name as patient_program, 
     1 AS hideContactColumns  
 FROM
     amrs.person t2 
@@ -609,9 +586,9 @@ FROM
         AND contacts.person_attribute_type_id IN (10 , 48)) 
         LEFT JOIN 
     etl.flat_family_testing_index ft ON (t1.person_id = ft.person_id) 
-WHERE 
+WHERE t1.location_id in(${params.locations}) and
     ft.person_id IS NULL 
-    AND pr.uuid IN ('${params.programs}')
-GROUP BY t1.person_id LIMIT 300 OFFSET ${params.startIndex};`;
+    
+GROUP BY t1.person_id;`;
   }
 }
