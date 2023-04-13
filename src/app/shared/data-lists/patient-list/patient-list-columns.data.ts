@@ -42,6 +42,17 @@ export class PatientListColumns {
         headerName: 'Age',
         width: 60,
         field: 'age'
+      },
+      {
+        headerName: 'Identifiers',
+        field: 'identifiers',
+        width: 150,
+        cellStyle: {
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis'
+        },
+        filter: 'text',
+        cellClass: 'identifier-column'
       }
     ];
   }
@@ -72,6 +83,11 @@ export class PatientListColumns {
         headerName: 'Med Pickup RTC',
         width: 150,
         field: 'med_pick_up_date'
+      },
+      {
+        headerName: 'OVCID',
+        width: 200,
+        field: 'ovcid_id'
       },
       {
         headerName: 'Current Regimen',
