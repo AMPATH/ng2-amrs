@@ -74,6 +74,11 @@ export class PatientListColumns {
         field: 'med_pick_up_date'
       },
       {
+        headerName: 'OVCID',
+        width: 200,
+        field: 'ovcid_id'
+      },
+      {
         headerName: 'Current Regimen',
         width: 200,
         field: 'cur_meds'
