@@ -12,16 +12,10 @@ export class PatientListColumns {
         field: '#'
       },
       {
-        headerName: 'Identifiers',
-        field: 'identifiers',
+        headerName: 'CCC Number',
         width: 150,
-        cellStyle: {
-          'white-space': 'nowrap',
-          'text-overflow': 'ellipsis'
-        },
-        pinned: true,
-        filter: 'text',
-        cellClass: 'identifier-column'
+        field: 'ccc_number',
+        pinned: true
       },
       {
         headerName: 'Person Name',
@@ -32,6 +26,12 @@ export class PatientListColumns {
         },
         pinned: true,
         filter: 'text'
+      },
+      {
+        headerName: 'NUPI Identifier',
+        width: 150,
+        field: 'upi_number',
+        pinned: true
       },
       {
         headerName: 'Gender',
