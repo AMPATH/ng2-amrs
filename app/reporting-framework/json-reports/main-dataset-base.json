@@ -24,6 +24,14 @@
         "type": "LEFT",
         "joinCondition": "csm.person_id = hmsd.person_id AND csm.endDate = hmsd.endDate"
       }
+    },
+    {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "hmsd.person_id = flat_identifiers.patient_id"
+      }
     }
   ],
   "columns": [
@@ -36,6 +44,21 @@
       "type": "simple_column",
       "alias": "birthdate",
       "column": "hmsd.birthdate"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "simple_column",

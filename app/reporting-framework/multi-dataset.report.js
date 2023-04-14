@@ -57,7 +57,6 @@ export class MultiDatasetReport extends BaseMysqlReport {
 
   executeReportHandlers(reportHandlers, additionalParams) {
     let that = this;
-
     return new Promise((resolve, reject) => {
       let results = [];
 

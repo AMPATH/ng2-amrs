@@ -24,6 +24,14 @@
         "type": "INNER",
         "joinCondition": "fhs.person_id = p.person_id"
       }
+    },
+    {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fhs.person_id = flat_identifiers.patient_id"
+      }
     }
   ],
   "columns": [
@@ -55,6 +63,21 @@
       "expressionOptions": {
         "expression": "if(fhs.cur_arv_line=2,1,null)"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "derived_column",
