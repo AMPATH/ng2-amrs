@@ -81,6 +81,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       height: 'Height',
       muac: 'MUAC',
       BMI: 'BMI',
+      sysBP: 'Systolic BP',
+      dysBP: 'Diastolic BP',
       nutrition: 'Nutrition Assessment Done',
       DSD: 'DSD Model',
       hiv_start_date: 'Date Confirmed HIV Positive',
