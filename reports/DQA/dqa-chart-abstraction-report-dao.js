@@ -83,13 +83,19 @@ export class DQAChartAbstractionDAO {
           IF(h.ipt_stop_date = h.encounter_date
                   OR h.ipt_completion_date = h.encounter_date,
               1,
-              0) AS ipt_ended_this_visit
+              0) AS ipt_ended_this_visit,fv.systolic_bp as sysBP,fv.diastolic_bp as dysBP
       FROM
           etl.hiv_monthly_report_dataset_frozen h
           LEFT JOIN
            etl.flat_hiv_summary_v15b e on (h.encounter_id=e.encounter_id)
           LEFT JOIN
            etl.flat_hiv_summary_v15b ls on (ls.next_clinical_datetime_hiv is null and ls.person_id=e.person_id)
+           left JOIN (SELECT fv.person_id,
+            fv.systolic_bp,
+            fv.diastolic_bp,
+            MAX(fv.encounter_datetime) AS max_date
+            FROM etl.flat_vitals fv where diastolic_bp is not null
+            GROUP BY fv.person_id,fv.encounter_datetime order by fv.encounter_datetime desc limit 1) fv ON e.person_id = fv.person_id
           INNER JOIN
            amrs.person t1 ON (h.person_id = t1.person_id)
           INNER JOIN 
