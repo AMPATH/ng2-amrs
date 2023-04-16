@@ -209,7 +209,7 @@ export class FamilyTestingContactComponent implements OnInit {
               this.indexHasContacts = true;
             }
             this.indexName = data.result[0].person_name;
-            this.indexUuid = data.result[0].patient_uuid;
+            this.indexUuid = this.params.patientUuid;
           }
         });
     }

@@ -718,7 +718,9 @@ export class ReportFiltersComponent
   public onpatientTypeChange($event: any): void {
     this.patientTypeChange.emit($event.value);
   }
-
+  public onsampleSizeChange($event: any): void {
+    this.sampleSizeChange.emit($event.value);
+  }
   public selectAllProgramsFT() {
     this.onSelectAllPrograms.emit();
   }

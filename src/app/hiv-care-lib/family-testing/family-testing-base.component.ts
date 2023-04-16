@@ -30,8 +30,7 @@ export class FamilyTestingBaseComponent implements OnInit {
   public isEligible = '';
   public childStatus = '';
   public elicitedClients = '';
-  public hasLoadedAll = false;
-  public limit = 2000;
+  public hasLoadedAll = true;
   public startIndex = 0;
   public showIndicatorDefinitions = false;
   public elicitedStartDate = '';
@@ -228,7 +227,6 @@ export class FamilyTestingBaseComponent implements OnInit {
     }
     this.isLoading = true;
     this.familyTestingService
-
       .getFamilyTreePatientList(this.params)
       .subscribe((data) => {
         if (data.error) {
@@ -239,19 +237,10 @@ export class FamilyTestingBaseComponent implements OnInit {
           this.showInfoMessage = false;
           this.isLoading = false;
           this.appendData(data.result);
-          this.checkOrderLimit(data.result.length);
         }
       });
   }
 
-  public checkOrderLimit(resultCount: number): void {
-    this.hasLoadedAll = false;
-    if (this.elicitedClients === '3' && resultCount < 300) {
-      this.hasLoadedAll = true;
-    } else if (resultCount < this.limit && !(this.elicitedClients === '3')) {
-      this.hasLoadedAll = true;
-    }
-  }
   public loadMorePatients() {
     if (this.elicitedClients === '3') {
       this.startIndex += 300;
