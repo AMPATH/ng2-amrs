@@ -379,21 +379,25 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  checkIfDrugPickupFilled(cohortVisit, patient) {
+  checkIfDrugPickupFilled(personuuid, cohortVisit) {
     let xx = false;
     const drugPickupUuid = '987009c6-6f24-43f7-9640-c285d6553c63';
 
-    cohortVisit.cohortMemberVisits.filter((cmv) => {
-      if (cmv.visit.patient.uuid === patient.person.uuid) {
-        cmv.visit.encounters.forEach((en) => {
-          if (
-            en.encounterType.uuid === drugPickupUuid &&
-            Moment(cmv.visit.startDatetime).format('DD MMMM YYYY') ===
-              Moment(en.encounterDatetime).format('DD MMMM YYYY')
-          ) {
-            xx = true;
+    cohortVisit.cohortMemberVisits.filter((cohortMemberVisit) => {
+      if (cohortMemberVisit.visit.patient.uuid === personuuid) {
+        const drugPickupEncounter = cohortMemberVisit.visit.encounters.find(
+          (encounter) => {
+            const isDrugPickupEncounter =
+              encounter.encounterType.uuid === drugPickupUuid;
+            const isSameDay = Moment(
+              cohortMemberVisit.visit.startDatetime
+            ).isSame(encounter.encounterDatetime, 'day');
+            return isDrugPickupEncounter && isSameDay;
           }
-        });
+        );
+        if (drugPickupEncounter) {
+          xx = true;
+        }
       }
     });
 
@@ -402,12 +406,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private patientPresent(patient, cohortVisit) {
     let present = false;
+    const personuuid = patient.person.uuid;
     const patientVisit = cohortVisit.cohortMemberVisits.find((v) => {
-      return v.visit.patient.uuid === patient.person.uuid;
+      return v.visit.patient.uuid === personuuid;
     });
-    if (patientVisit && this.checkIfDrugPickupFilled(patient, cohortVisit)) {
-      present = true;
+    if (patientVisit) {
+      if (this.checkIfDrugPickupFilled(personuuid, cohortVisit)) {
+        present = true;
+      }
     }
+
     return present;
   }
 
