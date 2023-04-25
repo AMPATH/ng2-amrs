@@ -2497,20 +2497,12 @@
         ]
       },
       {
-        "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
-        "name": "Inpatient peer visit",
+        "uuid": "7f5b3593-bb28-4efb-9cdd-afebf8853f0b",
+        "name": "Event Driven Visit",
         "encounterTypes": [
           {
-            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
-            "display": "INPATIENTPEER"
-          },
-          {
-            "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
-            "display": "COVIDSCREENING"
-          },
-          {
-            "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
-            "display": "COVIDCASEREPORTING"
+            "uuid": "0a80be13-6ff7-4758-9651-eb66d3712be0",
+            "display": "EVENTDRIVEN"
           }
         ]
       },
@@ -2525,6 +2517,10 @@
           {
             "uuid": "466d6707-8429-4e61-b5a0-d63444f5ad35",
             "display": "COVIDSCREENING"
+          },
+          {
+            "uuid": "a0b0475f-9aa1-43ab-a8f4-3d3be1261295",
+            "display": "PREPTRACING"
           }
         ]
       }
