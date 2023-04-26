@@ -5,6 +5,7 @@ import { PatientReminderResourceService } from '../../../etl-api/patient-reminde
 
 @Injectable()
 export class PatientReminderService {
+  public vl_eligible: any;
   constructor(
     private patientReminderResourceService: PatientReminderResourceService
   ) {}
@@ -19,6 +20,7 @@ export class PatientReminderService {
               personUuid: data.person_uuid,
               generatedReminders: data.reminders
             };
+            this.vl_eligible = data.reminders;
             return remindersObj;
           } else {
             return {};
@@ -29,5 +31,8 @@ export class PatientReminderService {
           return error;
         })
       );
+  }
+  public getVlEligible(): string {
+    return this.vl_eligible;
   }
 }
