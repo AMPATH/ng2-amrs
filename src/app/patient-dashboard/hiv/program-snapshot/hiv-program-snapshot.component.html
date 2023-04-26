@@ -69,7 +69,7 @@
       <div class="alert-div " style="display: inline-block">
       
         <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
-          <span class="hiv-alert" style="background-color: black;"  
+          <span class="hiv-alert" [style.background-color]="viralloadColor"  
             >VL Category: {{ this.viralLoadCategory }}</span
           >
         </p>
