@@ -25,6 +25,8 @@ import { GridOptions } from 'ag-grid';
 import { GroupTransferModalComponent } from '../modals/group-transfer-modal.component';
 import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { RisonService } from '../../shared/services/rison-service';
+import { HttpClient } from '@angular/common/http';
+import { flatMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'group-detail',
@@ -121,7 +123,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private modalService: BsModalService,
     private risonService: RisonService,
-    private retrospectiveService: RetrospectiveDataEntryService
+    private retrospectiveService: RetrospectiveDataEntryService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -260,6 +263,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public showDateModal(
     member: any,
     title?: string,
+    arrayCount?: any,
+    cohortId?: string,
     okBtnText?: string,
     closeBtnText?: string
   ) {
@@ -274,7 +279,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.nestedModalRef.content.onSave.subscribe((date) => {
       this.modalRef.hide();
-      this.endMembership(member, date);
+      this.endMembership(member, date, arrayCount, cohortId);
     });
   }
 
@@ -292,23 +297,50 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.modalRef.hide();
   }
 
-  public endMembership(member, date) {
-    const successMsg = `Successfully ended membership for ${
-      member.patient.person.display
-    } on ${Moment(date).format('DD MMMM YYYY')}`;
-    this.subscriptions.add(
-      this.communityGroupMemberService
-        .endMembership(member.uuid, date)
-        .subscribe(
-          (response) => {
-            this.reloadData();
-            this.showSuccessModal(successMsg);
-          },
-          (error) => {
-            this.error = true;
-            console.log(error);
-          }
-        )
+  public endMembership(member, date, arraycount, cohortId) {
+    this.getMembersByCohort(cohortId)
+      .pipe(
+        flatMap((response) => {
+          return this.communityGroupMemberService.endMembership(
+            response.results[arraycount].uuid.toString(),
+            date
+          );
+        })
+      )
+      .subscribe(
+        (response) => {
+          const successMsg = `Successfully ended membership for ${
+            member.patient.person.display
+          } on ${Moment(date).format('DD MMMM YYYY')}`;
+          this.reloadData();
+          this.showSuccessModal(successMsg);
+        },
+        (error) => {
+          this.error = true;
+          console.log(error);
+        }
+      );
+  }
+
+  getMembersByCohort(cohortId: string) {
+    const url = `${this.communityGroupService.getOpenMrsBaseUrl()}/cohortmember?cohort=${cohortId}`;
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        const results = response.results.map((result: any) => {
+          return {
+            uuid: result.uuid,
+            display: result.display,
+            links: result.links.map((link: any) => {
+              return {
+                rel: link.rel,
+                uri: link.uri,
+                resourceAlias: link.resourceAlias
+              };
+            })
+          };
+        });
+        return { results };
+      })
     );
   }
 
@@ -447,7 +479,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   onGroupDetailsChanged(updatedGroup) {
     this.group = updatedGroup;
     this.generateMembersData(this.group.cohortMembers, this.group.cohortVisits);
-    this.loadGroup();
   }
 
   private generateColumns(cohortVisits) {

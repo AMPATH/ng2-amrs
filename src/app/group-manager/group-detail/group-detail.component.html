@@ -153,22 +153,24 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let member of group.cohortMembers">
+            <ng-container *ngFor="let member of group.cohortMembers; let i = index;">
               <tr *ngIf="!member.endDate">
                 <td>{{ member.patient.person.display }}</td>
-
+          
                 <td *ngIf="member.phoneNumber">
                   {{ member.phoneNumber.value }}
                 </td>
                 <td *ngIf="!member.phoneNumber">-</td>
-
+          
                 <td>{{ member.startDate | date: 'medium' }}</td>
                 <td>
                   <button
                     (click)="
                       showDateModal(
                         member,
-                        'End Membership For ' + member.patient.person.display
+                        'End Membership For ' + member.patient.person.display,
+                        i,
+                        group.uuid
                       )
                     "
                     class="btn btn-sm btn-danger"
