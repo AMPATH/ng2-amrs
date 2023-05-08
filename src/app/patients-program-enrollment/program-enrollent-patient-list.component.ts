@@ -33,38 +33,18 @@ export class ProgramEnrollmentPatientListComponent
   };
 
   public defaultEnrollmentColdef: any = [
-    { headerName: 'No', field: 'no', width: 50 },
     {
-      headerName: 'Identifier',
-      field: 'identifier',
-      width: 250,
-      cellRenderer: (column) => {
-        return (
-          '<a href="javascript:void(0);" title="Identifiers">' +
-          column.value +
-          '</a>'
-        );
-      },
-      onCellClicked: (column) => {
-        this.redirectTopatientInfo(column.data.patient_uuid);
-      }
+      headerName: 'CCC Number',
+      width: 200,
+      field: 'ccc_number',
+      pinned: true
     },
-    { headerName: 'Name', field: 'name', width: 250 },
-    { headerName: 'Gender', field: 'gender', width: 100 },
-    { headerName: 'Age', field: 'age', width: 100 },
+    { headerName: 'Name', field: 'name', width: 250, pinned: true },
     {
-      headerName: 'Program',
-      field: 'program',
-      width: 500,
-      cellRenderer: (params) => {
-        return '<span>' + params.value + '</span>';
-      },
-      cellStyle: {
-        'white-space': 'normal',
-        fontsize: '14px !important',
-        'overflow-y': 'scroll',
-        'word-wrap': 'break-word'
-      }
+      headerName: 'NUPI Identifier',
+      field: 'upi_number',
+      width: 150,
+      pinned: true
     }
   ];
 
@@ -114,10 +94,41 @@ export class ProgramEnrollmentPatientListComponent
     );
     if (userDefaultDepartment[0].itemName === 'HIV') {
       const hivColumns = [
+        { headerName: 'Gender', field: 'gender', width: 100 },
+        { headerName: 'Age', field: 'age', width: 100 },
+        {
+          headerName: 'Program',
+          field: 'program',
+          width: 500,
+          cellRenderer: (params) => {
+            return '<span>' + params.value + '</span>';
+          },
+          cellStyle: {
+            'white-space': 'normal',
+            fontsize: '14px !important',
+            'overflow-y': 'scroll',
+            'word-wrap': 'break-word'
+          }
+        },
         {
           headerName: 'Phone Number',
           width: 150,
           field: 'phone_number'
+        },
+        {
+          headerName: 'Identifier',
+          field: 'identifier',
+          width: 250,
+          cellRenderer: (column) => {
+            return (
+              '<a href="javascript:void(0);" title="Identifiers">' +
+              column.value +
+              '</a>'
+            );
+          },
+          onCellClicked: (column) => {
+            this.redirectTopatientInfo(column.data.patient_uuid);
+          }
         },
         {
           headerName: 'Latest Appointment',
@@ -154,6 +165,7 @@ export class ProgramEnrollmentPatientListComponent
           width: 150,
           field: 'previous_vl_date'
         },
+        { headerName: 'OVCID', field: 'ovcid_id', width: 150 },
         {
           headerName: 'Nearest Center',
           width: 150,
@@ -245,6 +257,9 @@ export class ProgramEnrollmentPatientListComponent
           latest_rtc_date: enrollment.latest_rtc_date,
           cur_meds: enrollment.cur_meds,
           latest_vl: enrollment.latest_vl,
+          ccc_number: enrollment.ccc_number,
+          upi_number: enrollment.upi_number,
+          ovcid_id: enrollment.ovcid_id,
           latest_vl_date: enrollment.latest_vl_date
         };
 

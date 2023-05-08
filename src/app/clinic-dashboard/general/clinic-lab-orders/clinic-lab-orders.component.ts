@@ -404,13 +404,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         filter: 'text'
       },*/
       {
-        headerName: 'Identifiers',
-        field: 'identifiers',
+        headerName: 'CCC Number',
+        field: 'ccc_number',
         width: 150,
-        cellStyle: {
-          'white-space': 'normal'
-        },
-        filter: 'text'
+        filter: 'text',
+        pinned: true
       },
       {
         headerName: 'Person Name',
@@ -419,7 +417,15 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         cellStyle: {
           'white-space': 'normal'
         },
-        filter: 'text'
+        filter: 'text',
+        pinned: true
+      },
+      {
+        headerName: 'NUPI Identifier',
+        field: 'upi_number',
+        width: 150,
+        filter: 'text',
+        pinned: true
       },
       {
         headerName: 'Age',
@@ -431,6 +437,15 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         headerName: 'Gender',
         field: 'gender',
         width: 90,
+        filter: 'text'
+      },
+      {
+        headerName: 'Identifiers',
+        field: 'identifiers',
+        width: 150,
+        cellStyle: {
+          'white-space': 'normal'
+        },
         filter: 'text'
       },
       {
@@ -498,6 +513,11 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         headerName: 'Current Regimen',
         width: 200,
         field: 'cur_meds'
+      },
+      {
+        headerName: 'OVCID',
+        field: 'ovcid_id',
+        width: 150
       },
       {
         headerName: 'Latest VL',
