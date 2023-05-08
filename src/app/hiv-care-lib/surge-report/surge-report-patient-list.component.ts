@@ -32,17 +32,10 @@ export class SurgeReportPatientListComponent implements OnInit {
   };
   public baseColumns = [
     {
-      headerName: 'Identifiers',
-      field: 'identifiers',
-      width: 200,
-      pinned: true,
-      cellRenderer: (column: any) => {
-        return (
-          '<a href="javascript:void(0);" title="Identifiers">' +
-          column.value +
-          '</a>'
-        );
-      }
+      headerName: 'CCC Number',
+      field: 'ccc_number',
+      width: 150,
+      pinned: true
     },
     {
       headerName: 'Name',
@@ -50,8 +43,26 @@ export class SurgeReportPatientListComponent implements OnInit {
       width: 200,
       pinned: true
     },
+    {
+      headerName: 'NUPI Identifier',
+      field: 'upi_number',
+      width: 150,
+      pinned: true
+    },
     { headerName: 'Gender', field: 'gender', width: 70 },
-    { headerName: 'Age', field: 'age', width: 70 }
+    { headerName: 'Age', field: 'age', width: 70 },
+    {
+      headerName: 'Identifiers',
+      field: 'identifiers',
+      width: 200,
+      cellRenderer: (column: any) => {
+        return (
+          '<a href="javascript:void(0);" title="Identifiers">' +
+          column.value +
+          '</a>'
+        );
+      }
+    }
   ];
 
   constructor(

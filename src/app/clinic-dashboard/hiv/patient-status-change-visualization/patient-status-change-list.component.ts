@@ -54,6 +54,11 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
       field: 'previous_vl'
     },
     {
+      headerName: 'OVCID',
+      field: 'ovcid_id',
+      width: 150
+    },
+    {
       headerName: 'Previous VL Date',
       width: 150,
       field: 'previous_vl_date'

@@ -124,6 +124,11 @@ export class HivEnhancedComponent implements OnInit {
         field: 'vl_2_date_max'
       },
       {
+        headerName: 'OVCID',
+        width: 150,
+        field: 'ovcid_id'
+      },
+      {
         headerName: 'Nearest Center',
         width: 150,
         field: 'nearest_center'

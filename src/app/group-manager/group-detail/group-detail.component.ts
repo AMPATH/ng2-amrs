@@ -479,6 +479,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   onGroupDetailsChanged(updatedGroup) {
     this.group = updatedGroup;
     this.generateMembersData(this.group.cohortMembers, this.group.cohortVisits);
+    this.loadGroup();
   }
 
   private generateColumns(cohortVisits) {
