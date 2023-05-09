@@ -63,25 +63,34 @@
               (click)="optionSelected('all')"
               name="optradio"
               checked
-            />All
+            />All (VL > 50)
           </label>
           <label class="radio-inline">
             <input
               type="radio"
               [ngModel]="viremiaOption"
-              value="lowViremia"
-              (click)="optionSelected('lowViremia')"
+              value="lowRiskLowLevelViremia"
+              (click)="optionSelected('lowRiskLowLevelViremia')"
               name="optradio"
-            />Low Viremia
+            />Low Risk Low Level Viremia (VL 50-199)
           </label>
           <label class="radio-inline">
             <input
               type="radio"
               [ngModel]="viremiaOption"
-              value="highViremia"
-              (click)="optionSelected('highViremia')"
+              value="highRiskLowLevelViremia"
+              (click)="optionSelected('highRiskLowLevelViremia')"
               name="optradio"
-            />High Viremia
+            />High Risk Low Level Viremia (VL 200-999)
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              [ngModel]="viremiaOption"
+              value="suspectedTreatmentFailure"
+              (click)="optionSelected('suspectedTreatmentFailure')"
+              name="optradio"
+            />Suspected Treatment Failure (VL > 1000)
           </label>
         </div>
         <div></div>
