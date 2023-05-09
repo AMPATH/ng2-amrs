@@ -46,16 +46,22 @@ export class RetentionReportPatientListComponent implements OnInit {
       pinned: 'left'
     },
     {
-      headerName: 'Identifiers',
-      field: 'identifiers',
-      width: 400,
-      pinned: 'left'
+      headerName: 'CCC Number',
+      field: 'ccc_number',
+      width: 150,
+      pinned: true
     },
     {
       headerName: 'Name',
       field: 'person_name',
       width: 200,
-      pinned: 'left'
+      pinned: true
+    },
+    {
+      headerName: 'NUPI Identifier',
+      field: 'upi_number',
+      width: 150,
+      pinned: true
     },
     {
       headerName: 'Gender',
@@ -66,6 +72,11 @@ export class RetentionReportPatientListComponent implements OnInit {
       headerName: 'Age',
       field: 'age',
       width: 50
+    },
+    {
+      headerName: 'Identifiers',
+      field: 'identifiers',
+      width: 400
     },
     {
       headerName: 'Phone No',
@@ -116,6 +127,11 @@ export class RetentionReportPatientListComponent implements OnInit {
       headerName: 'Current Regimen',
       field: 'cur_arv_meds',
       width: 200
+    },
+    {
+      headerName: 'OVCID',
+      field: 'ovcid_id',
+      width: 150
     },
     {
       headerName: 'Latest appointment',

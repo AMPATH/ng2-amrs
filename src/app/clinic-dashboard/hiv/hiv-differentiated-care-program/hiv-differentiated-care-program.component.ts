@@ -150,6 +150,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
         }
       },
       {
+        headerName: 'OVCID',
+        field: 'ovcid_id',
+        width: 150
+      },
+      {
         headerName: 'Nearest Center',
         width: 150,
         field: 'nearest_center'

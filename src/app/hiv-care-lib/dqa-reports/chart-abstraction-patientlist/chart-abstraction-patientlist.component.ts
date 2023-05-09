@@ -71,8 +71,6 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       hide = false;
     }
     const extraColumns = {
-      person_id: 'CCC Number',
-      NUPI: 'NUPI',
       birthdate: 'DOB',
       sex_gender: 'Gender',
       drugs_given: 'Current Regimen',
@@ -81,6 +79,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       height: 'Height',
       muac: 'MUAC',
       BMI: 'BMI',
+      sysBP: 'Systolic BP',
+      dysBP: 'Diastolic BP',
       nutrition: 'Nutrition Assessment Done',
       DSD: 'DSD Model',
       hiv_start_date: 'Date Confirmed HIV Positive',
@@ -88,6 +88,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       cd4_1: 'Baseline CD4 Test Result',
       vl_1: 'Latest Valid VL',
       tpt_status: 'TPT Status',
+      ovcid_id: 'OVCID',
       last_ipt_start_date: 'TPT initiated',
       ipt_stop_date: 'TPT Stop Date',
       ipt_completion_date: 'TPT Completion Date',

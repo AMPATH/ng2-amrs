@@ -39,11 +39,6 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
       field: 'cur_meds'
     },
     {
-      headerName: 'CCC Identifier',
-      width: 200,
-      field: 'ccc_number'
-    },
-    {
       headerName: 'Latest VL',
       width: 75,
       field: 'latest_vl'
@@ -57,6 +52,11 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
       headerName: 'Previous VL',
       width: 75,
       field: 'previous_vl'
+    },
+    {
+      headerName: 'OVCID',
+      field: 'ovcid_id',
+      width: 150
     },
     {
       headerName: 'Previous VL Date',

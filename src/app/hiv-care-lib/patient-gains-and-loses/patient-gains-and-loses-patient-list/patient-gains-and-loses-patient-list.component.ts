@@ -28,10 +28,29 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       valueGetter: this.getRowNNumber
     },
     {
+      headerName: 'CCC Number',
+      width: 150,
+      field: 'ccc_number',
+      pinned: true
+    },
+    {
+      headerName: 'Name',
+      field: 'person_name',
+      width: 250,
+      pinned: true
+    },
+    {
+      headerName: 'NUPI Identifier',
+      width: 150,
+      field: 'upi_number',
+      pinned: true
+    },
+    { headerName: 'Gender', field: 'gender', width: 100 },
+    { headerName: 'Age', field: 'age', width: 100 },
+    {
       headerName: 'Identifiers',
       field: 'identifiers',
       width: 250,
-      pinned: true,
       cellRenderer: (column: any) => {
         return (
           '<a href="javascript:void(0);" title="Identifiers">' +
@@ -39,33 +58,7 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
           '</a>'
         );
       }
-    },
-    {
-      headerName: 'Name',
-      field: 'person_name',
-      width: 200,
-      pinned: true
-    },
-    {
-      headerName: 'CCC Identifier',
-      field: 'ccc_number',
-      width: 100,
-      pinned: 'left'
-    },
-    {
-      headerName: 'OVCID',
-      field: 'ovcid_id',
-      width: 100,
-      pinned: 'left'
-    },
-    {
-      headerName: 'NUPI Identifier',
-      field: 'upi_number',
-      width: 100,
-      pinned: 'left'
-    },
-    { headerName: 'Gender', field: 'gender', width: 100 },
-    { headerName: 'Age', field: 'age', width: 100 }
+    }
   ];
   public gridOptions: GridOptions = {
     enableColResize: true,
