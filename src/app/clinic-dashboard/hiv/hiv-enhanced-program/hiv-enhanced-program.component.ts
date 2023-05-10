@@ -90,6 +90,11 @@ export class HivEnhancedComponent implements OnInit {
         field: 'last_appointment_max'
       },
       {
+        headerName: 'Patient Category',
+        width: 150,
+        field: 'patient_category'
+      },
+      {
         headerName: 'Latest RTC Date',
         width: 150,
         field: 'latest_rtc_date_max'

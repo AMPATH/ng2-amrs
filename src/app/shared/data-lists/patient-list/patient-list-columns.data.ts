@@ -89,6 +89,11 @@ export class PatientListColumns {
         field: 'last_appointment'
       },
       {
+        headerName: 'Patient Category',
+        width: 150,
+        field: 'patient_category'
+      },
+      {
         headerName: 'Visit Type',
         width: 200,
         field: 'visit_type'

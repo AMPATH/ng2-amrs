@@ -29,6 +29,11 @@ export class PatientStatusChangeListComponent implements OnInit, OnDestroy {
       field: 'last_appointment'
     },
     {
+      headerName: 'Patient Category',
+      width: 150,
+      field: 'patient_category'
+    },
+    {
       headerName: 'Latest RTC Date',
       width: 150,
       field: 'latest_rtc_date'
