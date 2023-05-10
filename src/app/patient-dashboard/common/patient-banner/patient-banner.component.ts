@@ -76,6 +76,9 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   public ngOnInit() {
+    if (environment.production) {
+      this.isStaging = false;
+    }
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -87,9 +90,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             patient.enrolledPrograms,
             patient.person.birthdate
           );
-          if (environment.production) {
-            this.isStaging = false;
-          }
+
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute

@@ -76,6 +76,12 @@ export class ReportFiltersComponent
   @Output() public locationTypeChange = new EventEmitter<any>();
   @Output() public patientTypeChange = new EventEmitter<any>();
   @Output() public sampleSizeChange = new EventEmitter<any>();
+  @Output() public onIsEligibleChange = new EventEmitter<any>();
+  @Output() public childStatusChange = new EventEmitter<any>();
+  @Output() public onElicitedClientsChange = new EventEmitter<any>();
+  @Output() public getSelectedElicitedStartDate = new EventEmitter<any>();
+  @Output() public getSelectedElicitedEndDate = new EventEmitter<any>();
+  @Output() public onSelectAllPrograms = new EventEmitter<any>();
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -249,6 +255,87 @@ export class ReportFiltersComponent
   @Input()
   public dateRange: String;
   month: any;
+
+  public programDropdownSettings: any = {
+    singleSelection: false,
+    text: 'Select or enter to search',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    enableSearchFilter: true,
+    maxHeight: 200
+  };
+
+  private _elicitedStartDate: any;
+  @Input()
+  public set elicitedStartDate(v: any) {
+    this._elicitedStartDate = v;
+  }
+  public get elicitedStartDate() {
+    return this._elicitedStartDate;
+  }
+
+  private _elicitedEndDate: any;
+  @Input()
+  public set elicitedEndDate(v: any) {
+    this._elicitedEndDate = v;
+  }
+  public get elicitedEndDate() {
+    return this._elicitedEndDate;
+  }
+
+  private _programsFT: any;
+  @Input()
+  public set programsFT(v: any) {
+    this._programsFT = v;
+  }
+  public get programsFT() {
+    return this._programsFT;
+  }
+  @Input()
+  public selectAllProgramsTag = false;
+  @Input()
+  public isEligible: any;
+
+  private _isEligibleOptions: any;
+  @Input()
+  public set isEligibleOptions(v: any) {
+    this._isEligibleOptions = v;
+  }
+  public get isEligibleOptions() {
+    return this._isEligibleOptions;
+  }
+
+  @Input()
+  public childStatus: any;
+  private _childStatusOptions: any;
+  @Input()
+  public set childStatusOptions(v: any) {
+    this._childStatusOptions = v;
+  }
+  public get childStatusOptions() {
+    return this._childStatusOptions;
+  }
+
+  @Input()
+  public elicitedClients: any;
+  private _elicitedClientsOptions: any;
+  @Input()
+  public set elicitedClientsOptions(v: any) {
+    this._elicitedClientsOptions = v;
+  }
+  public get elicitedClientsOptions() {
+    return this._elicitedClientsOptions;
+  }
+
+  private _hideGenerateReportButton = false;
+  @Input()
+  public set hideGenerateReportButton(v: any) {
+    this._hideGenerateReportButton = v;
+  }
+  public get hideGenerateReportButton() {
+    return this._hideGenerateReportButton;
+  }
+
   constructor(
     private indicatorResourceService: IndicatorResourceService,
     private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
@@ -402,7 +489,7 @@ export class ReportFiltersComponent
     if (this._indicators.length > 0) {
       this.selectedIndicatorTagsSelectedAll = true;
     }
-    if (this._programs.length > 0) {
+    if (this._programs && this._programs.length > 0) {
       this.selectedProgramTagsSelectedAll = true;
     } else {
       this._programs = this.programOptions;
@@ -416,7 +503,10 @@ export class ReportFiltersComponent
     if (this.isEnabled('indicatorsControl')) {
       this.getIndicators();
     }
-    if (this.isEnabled('programsControl')) {
+    if (
+      this.isEnabled('programsControl') ||
+      this.isEnabled('familyTestingControls')
+    ) {
       this.getCurrentDepartment();
     }
   }
@@ -630,5 +720,28 @@ export class ReportFiltersComponent
   }
   public onsampleSizeChange($event: any): void {
     this.sampleSizeChange.emit($event.value);
+  }
+  public selectAllProgramsFT() {
+    this.onSelectAllPrograms.emit();
+  }
+
+  public testEligibleChange(value) {
+    this.onIsEligibleChange.emit(value);
+  }
+
+  public onChildStatusChange(value) {
+    this.childStatusChange.emit(value);
+  }
+
+  public elicitedClientsChange(value) {
+    this.onElicitedClientsChange.emit(value);
+  }
+
+  public elicitationStartDateChange(value) {
+    this.getSelectedElicitedStartDate.emit(value);
+  }
+
+  public elicitationEndDateChange(value) {
+    this.getSelectedElicitedEndDate.emit(value);
   }
 }
