@@ -85,11 +85,11 @@
         "indicator": "started_ipt_this_month"
       },
       {
-        "label": "Completed TPT",
+        "label": "Completed TPT this month",
         "indicator": "completed_ipt_this_month"
       },
       {
-        "label": "Stopped TPT",
+        "label": "Stopped TPT this month",
         "indicator": "stopped_ipt_this_month"
       },
       {

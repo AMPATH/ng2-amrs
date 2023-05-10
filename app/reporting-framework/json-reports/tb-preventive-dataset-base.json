@@ -116,7 +116,7 @@
       "alias": "completed_ipt_this_month",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "IF(hmsd.tb_screened_active_this_month = 1 and hmsd.presumed_tb_positive_this_month = 0 AND hmsd.tb_screening_datetime between date_format(endDate,'%Y-%m-01') and endDate and  hmsd.ipt_start_date is not null AND hmsd.ipt_completion_date is not null AND status = 'active',1,0)"
+        "expression": "IF(hmsd.ipt_completion_date between date_format(endDate,'%Y-%m-01') and endDate and hmsd.ipt_start_date is not null AND hmsd.ipt_completion_date is not null AND status = 'active',1,0)"
       }
     },
     {

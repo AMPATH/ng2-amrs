@@ -135,6 +135,14 @@
     },
     {
       "type": "derived_column",
+      "alias": "completed_ipt",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "sum(hmsd.completed_ipt)"
+      }
+    },
+    {
+      "type": "derived_column",
       "alias": "started_ipt_12months",
       "expressionType": "simple_expression",
       "expressionOptions": {
