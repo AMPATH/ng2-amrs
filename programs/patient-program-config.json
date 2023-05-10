@@ -5299,5 +5299,47 @@
         ]
       }
     ]
+  },
+  "52aeb285-fb18-455b-893e-3e53ccc77ceb": {
+    "name": "ANTENATAL CARE PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "patientEncounters",
+      "patientEnrollment"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
+        "name": "ANC Initial Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstANCVisit && gender==='F'",
+        "encounterTypes": [
+          {
+            "uuid": "f5702679-6a16-43bd-8629-4b44c7a78ff1",
+            "display": "ANCINITIAL"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          }
+        ]
+      },
+      {
+        "uuid": "02e3ce61-fa24-445e-a1f0-6e3299142966",
+        "name": "ANC Return Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstANCVisit && gender==='F'",
+        "encounterTypes": [
+          {
+            "uuid": "26bfc6b7-28d0-41ab-90c5-e101af46d06d",
+            "display": "ANCRETURN"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          }
+        ]
+      }
+    ]
   }
 }

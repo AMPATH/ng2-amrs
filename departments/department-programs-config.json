@@ -179,5 +179,14 @@
         "name": "DERMATOLOGY"
       }
     ]
+  },
+  "uud6": {
+    "name": "MNCH",
+    "programs": [
+      {
+        "uuid": "52aeb285-fb18-455b-893e-3e53ccc77ceb",
+        "name": "ANTENATAL CARE PROGRAM"
+      }
+    ]
   }
 }

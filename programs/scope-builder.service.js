@@ -76,6 +76,11 @@ function buildScope(dataDictionary) {
       dataDictionary.patientEncounters,
       dataDictionary.programUuid
     );
+    buildANCScopeMembers(
+      scope,
+      dataDictionary.patientEncounters,
+      dataDictionary.patientEnrollment
+    );
   }
 
   if (dataDictionary.retroSpective) {
@@ -264,7 +269,35 @@ function isInitialPMTCTVisit(patientEncounters) {
 
   return initialPMTCTEncounters.length === 0;
 }
-
+function isInitialANCVisit(patientEncounters, patientEnrollment) {
+  const initialANCEncounterUuid = 'f5702679-6a16-43bd-8629-4b44c7a78ff1'; // ANC Initial
+  let initialANCEncounters = _.filter(patientEncounters, (encounter) => {
+    return initialANCEncounterUuid === encounter.encounterType.uuid;
+  });
+  const activeEnrollments = _.filter(patientEnrollment, {
+    dateCompleted: null
+  });
+  let isEnrolledinANC = false;
+  let dateEnrolled = '';
+  activeEnrollments.forEach((item) => {
+    if (item.program.uuid === '52aeb285-fb18-455b-893e-3e53ccc77ceb') {
+      isEnrolledinANC = true;
+      dateEnrolled = item.dateEnrolled;
+    }
+  });
+  // get latest initial encounter and compare with dateenrolled to check wether it's a new enrollment
+  let latestEnc = initialANCEncounters[initialANCEncounters.length - 1];
+  if (
+    initialANCEncounters.length > 0 &&
+    dateEnrolled > latestEnc.encounterDatetime
+  ) {
+    return true;
+  } else if (initialANCEncounters.length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 function isInitialOncologyVisit(encounters, programUuid) {
   const oncologyProgramEncounterTypeMap = [
     {
@@ -351,6 +384,18 @@ function buildOncologyScopeMembers(scope, patientEncounters, programUuid) {
   scope.isFirstOncologyVisit = isInitialOncologyVisit(
     patientEncounters,
     programUuid
+  );
+}
+function buildANCScopeMembers(scope, patientEncounters, programEnrollment) {
+  // If the client has not exited the antenatal program show return visit if they have an initial encounter
+
+  scope.isFirstANCVisit = isInitialANCVisit(
+    patientEncounters,
+    programEnrollment
+  );
+  console.log(
+    'Output',
+    isInitialANCVisit(patientEncounters, programEnrollment)
   );
 }
 function isInitialHivVisit(patientEncounters) {
