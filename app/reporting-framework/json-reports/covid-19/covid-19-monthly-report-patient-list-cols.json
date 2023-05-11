@@ -1,15 +1,21 @@
 {
   "patientListCols": [
     {
-      "headerName": "Identifiers",
-      "field": "identifiers",
-      "width": 250,
+      "headerName": "CCC Number",
+      "field": "ccc_number",
+      "width": 150,
       "pinned": true
     },
     {
       "headerName": "Name",
       "field": "person_name",
       "width": 250,
+      "pinned": true
+    },
+    {
+      "headerName": "NUPI Identifier",
+      "field": "upi_number",
+      "width": 150,
       "pinned": true
     },
     {
@@ -23,9 +29,14 @@
       "width": 100
     },
     {
+      "headerName": "Identifiers",
+      "field": "identifiers",
+      "width": 250
+    },
+    {
       "headerName": "Phone Number",
       "field": "phone_number",
-      "width": 250
+      "width": 150
     },
     {
       "headerName": "Last Appointment",
@@ -60,6 +71,11 @@
     {
       "headerName": "Covid-19 Screening Date",
       "field": "covid_screening_date",
+      "width": 100
+    },
+    {
+      "headerName": "OVCID",
+      "field": "ovcid_id",
       "width": 100
     },
     {

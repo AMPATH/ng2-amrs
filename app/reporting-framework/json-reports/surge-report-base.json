@@ -10,6 +10,14 @@
       "alias": "srb"
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "srb.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "amrs.location",
       "alias": "l",
       "join": {
@@ -28,6 +36,21 @@
       "type": "simple_column",
       "alias": "encounter_yw",
       "column": "srb.encounter_yw"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "derived_column",

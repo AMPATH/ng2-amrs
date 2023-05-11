@@ -10,6 +10,14 @@
       "alias": "hmsd"
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "hmsd.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "amrs.location",
       "alias": "l",
       "join": {
@@ -23,6 +31,21 @@
       "type": "simple_column",
       "alias": "gender",
       "column": "hmsd.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "simple_column",

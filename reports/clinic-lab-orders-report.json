@@ -21,7 +21,13 @@
         "alias": "t3",
         "joinExpression": "t1.patient_id  = t3.person_id and (t3.voided is null || t3.voided = 0)"
       },
-
+      {
+        "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_patient_identifiers_v1",
+        "alias": "flat_identifiers",
+        "joinExpression": "t1.patient_id  = flat_identifiers.patient_id"
+      },
       {
         "joinType": "LEFT OUTER JOIN",
         "schema": "amrs",
@@ -185,6 +191,21 @@
         "label": "orderNumber",
         "type": "single",
         "sql": " t1.order_number"
+      },
+      {
+        "type": "single",
+        "label": "ccc_number",
+        "sql": "flat_identifiers.ccc"
+      },
+      {
+        "type": "single",
+        "label": "ovcid_id",
+        "sql": "flat_identifiers.ovcid"
+      },
+      {
+        "type": "single",
+        "label": "upi_number",
+        "sql": "flat_identifiers.nupi"
       },
       {
         "label": "order_type",

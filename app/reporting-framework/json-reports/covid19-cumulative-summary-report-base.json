@@ -18,6 +18,14 @@
       }
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ce.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "etl.flat_covid_extract",
       "alias": "_fce",
       "join": {
@@ -49,6 +57,21 @@
       "type": "simple_column",
       "alias": "location",
       "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "simple_column",

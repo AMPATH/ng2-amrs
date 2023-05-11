@@ -850,6 +850,13 @@
       },
       {
         "joinType": "LEFT OUTER JOIN",
+        "schema": "etl",
+        "tableName": "flat_patient_identifiers_v1",
+        "alias": "flat_identifiers",
+        "joinExpression": "flat_identifiers.patient_id = t2.patient_id"
+      },
+      {
+        "joinType": "LEFT OUTER JOIN",
         "schema": "amrs",
         "tableName": "person_attribute",
         "alias": "contacts",
@@ -905,6 +912,21 @@
         "label": "patient_uuid",
         "type": "single",
         "sql": "t3.uuid"
+      },
+      {
+        "type": "single",
+        "label": "ccc_number",
+        "sql": "flat_identifiers.ccc"
+      },
+      {
+        "type": "single",
+        "label": "ovcid_id",
+        "sql": "flat_identifiers.ovcid"
+      },
+      {
+        "type": "single",
+        "label": "upi_number",
+        "sql": "flat_identifiers.nupi"
       },
       {
         "label": "person_name",

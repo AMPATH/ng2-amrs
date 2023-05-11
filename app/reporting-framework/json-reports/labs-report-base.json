@@ -10,6 +10,14 @@
       "alias": "t2"
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "amrs.location",
       "alias": "l",
       "join": {
@@ -63,6 +71,21 @@
       "expressionOptions": {
         "expression": "if(case when (t2.cur_arv_meds is not null and t2.vl_1 > 1000) and (timestampdiff(day,t2.vl_1_date, '{endDate}') >= 90) then true when (timestampdiff(month,t2.arv_start_date, '{endDate}') <= 12) and (t2.vl_1_date is null or timestampdiff(month,t2.vl_1_date, '{endDate}') >= 6)  and (timestampdiff(month,t2.arv_start_date, '{endDate}')>=6) then true when (timestampdiff(month,t2.arv_start_date, '{endDate}') >= 12) and (t2.vl_1_date is null or timestampdiff(month,t2.vl_1_date, '{endDate}') >= 12) then true else false end,1,0)"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "simple_column",

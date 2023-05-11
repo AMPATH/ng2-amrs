@@ -21,6 +21,14 @@
       "alias": "fhs"
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fhs.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "etl.flat_hiv_summary_v15b",
       "alias": "fhs2",
       "join": {
@@ -82,6 +90,21 @@
       "expressionOptions": {
         "expression": " IF(program_id IS NULL or pp.program_id = 27, 1, NULL)"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "derived_column",

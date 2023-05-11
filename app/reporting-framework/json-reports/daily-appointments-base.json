@@ -26,6 +26,14 @@
       }
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t2.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "etl.flat_appointment",
       "alias": "death_reporting",
       "join": {
@@ -60,6 +68,21 @@
       "type": "simple_column",
       "alias": "encounter_type",
       "column": "t2.encounter_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
     },
     {
       "type": "simple_column",

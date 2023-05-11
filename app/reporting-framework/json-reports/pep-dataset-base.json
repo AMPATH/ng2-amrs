@@ -10,6 +10,14 @@
       "alias": "pep"
     },
     {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pep.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
       "table": "amrs.location",
       "alias": "l",
       "join": {
@@ -23,6 +31,21 @@
       "type": "simple_column",
       "alias": "location_id",
       "column": "pep.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "IFNULL(flat_identifiers.ccc, 'No CCC')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "IFNULL(flat_identifiers.nupi, 'No NUPI')"
     },
     {
       "type": "simple_column",

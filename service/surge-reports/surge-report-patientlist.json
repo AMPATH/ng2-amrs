@@ -82,6 +82,11 @@
         "field": "previous_vl_date"
       },
       {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
+      },
+      {
         "headerName": "Transfer out date",
         "width": 75,
         "field": "transfer_out_date"
@@ -174,6 +179,11 @@
         "headerName": "Previous VL Date",
         "width": 150,
         "field": "previous_vl_date"
+      },
+      {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
       },
       {
         "headerName": "Transfer out date",
@@ -300,6 +310,11 @@
         "field": "home_encounter_datetime"
       },
       {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
+      },
+      {
         "headerName": "Home trace count",
         "width": 150,
         "field": "phone_outreach_count"
@@ -412,6 +427,11 @@
         "headerName": "Home outcome",
         "width": 150,
         "field": "home_outreach_result"
+      },
+      {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
       },
       {
         "headerName": "Outcome date",
@@ -533,6 +553,11 @@
         "field": "home_outreach_result"
       },
       {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
+      },
+      {
         "headerName": "Outcome date",
         "width": 150,
         "field": "home_encounter_datetime"
@@ -650,6 +675,11 @@
         "headerName": "Home outcome",
         "width": 150,
         "field": "home_outreach_result"
+      },
+      {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
       },
       {
         "headerName": "Outcome date",
@@ -771,6 +801,11 @@
         "field": "home_outreach_result"
       },
       {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
+      },
+      {
         "headerName": "Outcome date",
         "width": 150,
         "field": "home_encounter_datetime"
@@ -858,6 +893,11 @@
         "headerName": "Latest VL Date",
         "width": 150,
         "field": "latest_vl_date"
+      },
+      {
+        "headerName": "OVCID",
+        "field": "ovcid_id",
+        "width": 150
       },
       {
         "headerName": "Previous VL",

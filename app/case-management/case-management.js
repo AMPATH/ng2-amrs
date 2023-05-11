@@ -13,7 +13,7 @@ const caseDataDao = {
       let queryParts = {};
 
       var columns =
-        "t1.identifiers,CONCAT(COALESCE(DATE_FORMAT(t1.encounter_datetime, '%Y-%m-%d'), ''), ' ', COALESCE(t5.name,'')) AS last_follow_up_date,DATE_FORMAT(t1.rtc_date, '%Y-%m-%d') AS rtc_date,extract(year from (from_days(datediff(now(),t1.birthdate)))) as age,  TIMESTAMPDIFF(DAY,DATE(t1.rtc_date),curdate()) AS days_since_missed_appointment,  " +
+        "GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ') as identifiers, cc.identifier as ccc_number, np.identifier as upi_number, ov.identifier as ovcid_id, CONCAT(COALESCE(DATE_FORMAT(t1.encounter_datetime, '%Y-%m-%d'), ''), ' ', COALESCE(t5.name,'')) AS last_follow_up_date,DATE_FORMAT(t1.rtc_date, '%Y-%m-%d') AS rtc_date,extract(year from (from_days(datediff(now(),t1.birthdate)))) as age,  TIMESTAMPDIFF(DAY,DATE(t1.rtc_date),curdate()) AS days_since_missed_appointment,  " +
         "case_manager_name AS case_manager,t1.person_name AS patient_name,t1.gender,t1.vl_1 AS last_vl, DATE_FORMAT(t1.vl_1_date, '%Y-%m-%d') as last_vl_date, TIMESTAMPDIFF(DAY,DATE(t1.encounter_datetime),curdate()) AS days_since_follow_up, t3.uuid as `attribute_uuid`, DATE_FORMAT(t1.med_pickup_rtc_date, '%Y-%m-%d') AS med_pickup_rtc_date, " +
         "DATE_FORMAT(t1.enrollment_date, '%Y-%m-%d') AS enrollment_date, TIMESTAMPDIFF(DAY,DATE(t1.enrollment_date),curdate()) AS days_since_enrollment,t5.name as `encounter_type`,t1.uuid as patient_uuid, DATE_FORMAT(next_phone_appointment, '%Y-%m-%d') AS next_phone_appointment, case_manager_user_id, (CASE WHEN TIMESTAMPDIFF(DAY,DATE(t1.rtc_date),curdate()) > 0 THEN 1 ELSE 0 END) as missed_appointment, " +
         getDueForVl() +
@@ -108,6 +108,10 @@ const caseDataDao = {
         'LEFT JOIN amrs.person_attribute `t3` on (t1.person_id = t3.person_id AND t3.person_attribute_type_id = 68 AND t1.case_manager_user_id = t3.value)  ' +
         'LEFT JOIN amrs.encounter_type t5 ON (t1.encounter_type = t5.encounter_type_id) ' +
         'INNER JOIN amrs.person t4 ON (t1.person_id = t4.person_id AND dead = 0) ' +
+        'LEFT JOIN amrs.patient_identifier id ON (t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0) AND id.identifier_type not in(28,43,45))' +
+        'LEFT JOIN amrs.patient_identifier cc ON (t1.person_id = cc.patient_id and cc.identifier_type in (28) AND cc.voided = 0)' +
+        'LEFT JOIN amrs.patient_identifier ov ON (t1.person_id = ov.patient_id and ov.identifier_type in (43) AND ov.voided = 0)' +
+        'LEFT JOIN amrs.patient_identifier np ON (t1.person_id = np.patient_id and np.identifier_type in (45) AND np.voided = 0)' +
         'LEFT JOIN etl.flat_hiv_summary_v15b t6 on (t1.person_id = t6.person_id and t6.is_clinical_encounter = 1 AND t6.next_clinical_datetime_hiv IS NULL and t6.transfer_transfer_out_bncd is not null)  ' +
         'WHERE ( ' +
         where +

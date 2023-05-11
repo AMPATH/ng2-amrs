@@ -30,8 +30,9 @@ export class DQAChartAbstractionDAO {
       `
     SELECT
           h.person_uuid as uuid,
-          cc.identifier as person_id,
-          np.identifier as NUPI,
+          cc.identifier as ccc_number,
+          np.identifier as upi_number,
+          ov.identifier as ovcid_id,
           EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), h.birthdate)))) AS age,
           IF( date(h.tb_screening_datetime) > date_sub(h.endDate, interval 6 month),"YES","NO") as tb_screened_this_visit,
           h.gender as 'sex_gender',
@@ -104,6 +105,8 @@ export class DQAChartAbstractionDAO {
           amrs.patient_identifier id ON (t1.person_id = id.patient_id AND id.voided = 0)
           LEFT JOIN
           amrs.patient_identifier cc ON (t1.person_id = cc.patient_id and cc.identifier_type in (28) AND cc.voided = 0)
+          LEFT JOIN
+          amrs.patient_identifier ov ON (t1.person_id = ov.patient_id and ov.identifier_type in (43) AND ov.voided = 0)
           LEFT JOIN
           amrs.patient_identifier np ON (t1.person_id = np.patient_id and np.identifier_type in (45) AND np.voided = 0)
         left join amrs.patient_program p on (p.patient_id = h.person_id and p.program_id in (4,9) and p.date_completed is null and p.voided = 0)
