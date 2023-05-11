@@ -28,14 +28,18 @@ export class HivEnhancedComponent implements OnInit {
   };
   public viremiaStatus = {
     all: {
-      lowerVl: '401',
+      lowerVl: '50',
       upperVl: ''
     },
-    lowViremia: {
-      lowerVl: '401',
+    lowRiskLowLevelViremia: {
+      lowerVl: '50',
+      upperVl: '199'
+    },
+    highRiskLowLevelViremia: {
+      lowerVl: '200',
       upperVl: '999'
     },
-    highViremia: {
+    suspectedTreatmentFailure: {
       lowerVl: '1000',
       upperVl: ''
     }
@@ -132,9 +136,9 @@ export class HivEnhancedComponent implements OnInit {
     ];
   }
 
-  public generateReport(indicator, lowerVl = '401', upperVl = '') {
+  public generateReport(indicator, lowerVl = '50', upperVl = '') {
     if (this.lowerVl == null) {
-      lowerVl = '401';
+      lowerVl = '50';
       upperVl = '';
     } else {
       lowerVl = this.lowerVl;
@@ -143,7 +147,7 @@ export class HivEnhancedComponent implements OnInit {
     this.indicators = indicator;
     this.setActiveTab();
     this.patientData = [];
-    this.storeReportParamsInUrl();
+    this.cacheReportParams();
     this.isLoadingPatientList = true;
     this.hivEnhancedReportService
       .getPatientList(
@@ -206,7 +210,7 @@ export class HivEnhancedComponent implements OnInit {
     }
   }
 
-  public storeReportParamsInUrl() {
+  public cacheReportParams() {
     const path = this.router.parseUrl(this.location.path());
     path.queryParams = {
       startDate: this.startDate.toUTCString(),
@@ -248,23 +252,21 @@ export class HivEnhancedComponent implements OnInit {
       case 'not_virally_suppressed_total':
         this.activeTab.not_virally_suppressed_total = true;
         // tslint:disable-next-line:max-line-length
-        this.sectionTittle =
-          'Patients eligible for Viremia Program (VL > 400). Patients enrolled in Viremia and patients eligible but not enrolled';
+        this.sectionTittle = `Patients Eligible for Viremia Program.`;
         break;
       case 'not_virally_suppressed_not_in_enhanced_care':
         this.activeTab.not_in_enhanced_care = true;
         this.sectionTittle =
-          'Patients eligible for Viremia Program (VL > 400 but not enrolled)';
+          'Patients Eligible for Viremia Program but not enrolled';
         break;
       case 'not_virally_suppressed_in_enhanced_care':
         this.activeTab.in_enhanced_care = true;
-        this.sectionTittle =
-          'All Patients Enrolled in Viremia Program (VL > 400 and enrolled)';
+        this.sectionTittle = 'All Patients Enrolled in Viremia Program';
         break;
       case 'not_virally_suppressed_in_enhanced_care_active':
         this.activeTab.in_enhanced_care_active = true;
         this.sectionTittle =
-          'All Patients Enrolled in Viremia Program (VL > 400 and enrolled) and active';
+          'All Patients Enrolled in Viremia Program and active';
         break;
       case 'not_virally_suppressed_in_enhanced_care_vl_due':
         this.activeTab.in_enhanced_care_vl_due = true;
@@ -282,12 +284,13 @@ export class HivEnhancedComponent implements OnInit {
   }
   public viremiaFilterChange(option) {
     const viremiaOption = this.viremiaStatus[option];
+    this.setActiveTab();
     if (viremiaOption) {
       this.lowerVl = viremiaOption.lowerVl;
       this.upperVl = viremiaOption.upperVl;
       this.generateReport(this.indicators, this.lowerVl, this.upperVl);
       this.viremiaFilter = option;
-      this.storeReportParamsInUrl();
+      this.cacheReportParams();
     }
   }
 
