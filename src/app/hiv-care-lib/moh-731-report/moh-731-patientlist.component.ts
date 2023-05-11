@@ -252,6 +252,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       has_pending_vl_test: 'Pending Viral Load Test',
       phone_number: 'Phone Number',
       last_appointment: 'Latest Appointment',
+      patient_category: 'Patient Category',
       latest_rtc_date: 'Latest RTC Date',
       latest_vl: 'Latest VL',
       latest_vl_date: 'Latest VL Date',
