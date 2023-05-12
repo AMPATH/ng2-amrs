@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 10.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -45,6 +45,9 @@ jobs:
 
       - name: Build prod
         run: npm run build-prod
+      
+      - name: Check xvfb-run version
+        run: xvfb-run --version
 
       - name: Run tests
-        run: npm run test
+        run: xvfb-run --auto-servernum npm run test
