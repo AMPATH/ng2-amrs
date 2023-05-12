@@ -37,9 +37,44 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       field: 'arv_first_regimen_start_date'
     },
     {
-      headerName: 'Covid-19 Vaccination Status',
-      width: 200,
+      headerName: 'Covid-19 Assessment Status',
+      width: 250,
       field: 'covid_19_vaccination_status'
+    },
+    {
+      headerName: 'TB Screening Date',
+      width: 150,
+      field: 'tb_screening_date'
+    },
+    {
+      headerName: 'TB Screening Result',
+      width: 200,
+      field: 'tb_screening_result'
+    },
+    {
+      headerName: 'Cervical Screening Date',
+      width: 200,
+      field: 'cervical_screening_date'
+    },
+    {
+      headerName: 'Cervical Screening Method',
+      width: 200,
+      field: 'cervical_screening_method'
+    },
+    {
+      headerName: 'Cervical Screening Result',
+      width: 200,
+      field: 'cervical_screening_result'
+    },
+    {
+      headerName: 'SMS Consent Provided',
+      width: 150,
+      field: 'sms_consent_provided'
+    },
+    {
+      headerName: 'SMS Time',
+      width: 100,
+      field: 'sms_receive_time'
     }
   ];
   public errors: any[] = [];

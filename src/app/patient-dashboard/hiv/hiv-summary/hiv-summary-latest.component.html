@@ -42,7 +42,7 @@
       style="font-size: large"
     >
       <p>
-        COVID-19 Vaccination Status:
+        COVID-19 Assessment Status:
         <span>
           {{ covid19VaccinationSummary?.vaccination_status }}
         </span>
@@ -69,6 +69,21 @@
           *ngIf="covid19VaccinationSummary?.vaccination_status_code_message"
         >
           {{ covid19VaccinationSummary.vaccination_status_code_message }}
+        </span>
+      </p>
+    </li>
+    <li
+      *ngIf="
+        covid19VaccinationSummary &&
+        covid19VaccinationSummary.covid_screening_outcome_this_visit.length > 0
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
+      <p>
+        COVID-19 Screening Outcome:
+        <span>
+          {{ covid19VaccinationSummary?.covid_screening_outcome_this_visit }}
         </span>
       </p>
     </li>

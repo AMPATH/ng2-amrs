@@ -97,6 +97,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "family-testing",
+          "label": "Family Testing",
+          "icon": "fa fa-users",
+          "isSideBarOpen": false
+        },
+        {
           "url": "dqa",
           "label": "DQA Reports",
           "icon": "fa fa-pie-chart",

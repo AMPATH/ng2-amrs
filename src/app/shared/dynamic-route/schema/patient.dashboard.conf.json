@@ -542,6 +542,26 @@
       "shared-routes-class": "cdm",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "Mental Health",
+      "programUuid": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
+      "baseRoute": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "Antenatal Care",
+      "programUuid": "52aeb285-fb18-455b-893e-3e53ccc77ceb",
+      "baseRoute": "52aeb285-fb18-455b-893e-3e53ccc77ceb",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -655,6 +675,53 @@
         "url": "lab-data-summary",
         "label": "Lab Data Summary",
         "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "patient-imaging",
+        "label": "Imaging",
+        "icon": "icon-i-radiology"
+      }
+    ],
+    "mnch": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
+      {
+        "url": "patient-encounters",
+        "label": "Encounters",
+        "icon": "icon-i-immunizations"
+      },
+      {
+        "url": "patient-vitals",
+        "label": "Vitals",
+        "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "hiv-summary",
+        "label": "HIV Summary",
+        "icon": "fa fa-medkit"
+      },
+      {
+        "url": "patient-monthly-status-history",
+        "label": "Monthly Status History",
+        "icon": "fa fa-medkit"
+      },
+      {
+        "url": "clinical-notes",
+        "label": "Clinical Notes",
+        "icon": "fa fa-book"
+      },
+      {
+        "url": "lab-data-summary",
+        "label": "Lab Data Summary",
+        "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
       },
       {
         "url": "patient-imaging",

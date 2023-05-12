@@ -29,21 +29,24 @@
             <td>{{ group.program }}</td>
             <td>{{ group.facility.display }}</td>
             <td>{{ group.landmark }}</td>
-            <td>{{ group.status }}</td>
+            <td
+              [ngStyle]="{ color: group.status === 'Active' ? 'green' : 'red' }"
+            >
+              {{ group.status }}
+            </td>
             <td *ngIf="group.endDate == null">
-              <button
-                class="btn btn-sm btn-danger"
-                (click)="$event.stopPropagation(); showDisbandDateModal(group)"
-              >
-                Disband
+              <button class="btn btn-sm btn-warning">
+                <i class="fa fa-times-circle" aria-hidden="true"></i> Open Group
+                to Disband
               </button>
             </td>
             <td *ngIf="group.endDate">
               <button
                 class="btn btn-sm btn-success"
-                (click)="$event.stopPropagation(); activateGroup(group)"
+                (click)="$event.stopPropagation(); confirmActivate(group)"
               >
-                Activate
+                <i class="fa fa-check-square" aria-hidden="true"></i> Activate
+                Group
               </button>
             </td>
           </tr>

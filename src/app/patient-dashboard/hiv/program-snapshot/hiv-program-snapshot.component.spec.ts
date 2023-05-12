@@ -29,6 +29,7 @@ interface Alert {
   'label-warning'?: boolean;
   'label-danger'?: boolean;
   'label-success'?: boolean;
+  'label-not-assessed'?: boolean;
 }
 
 const summaryResult = [
@@ -221,7 +222,8 @@ class FakeCovid19ResourceService {
       vaccination_status_code: '',
       vaccination_status_code_message: '',
       first_dose_vaccine_administered: '',
-      second_dose_vaccine_administered: ''
+      second_dose_vaccine_administered: '',
+      covid_screening_outcome_this_visit: ''
     });
   }
 }
@@ -230,21 +232,31 @@ const mockCovid19FullyVaccinatedAlert: Alert = {
   label: true,
   'label-warning': false,
   'label-danger': false,
-  'label-success': true
+  'label-success': true,
+  'label-not-assessed': false
 };
 
 const mockCovid19PartiallyVaccinatedAlert: Alert = {
   label: true,
   'label-warning': true,
   'label-danger': false,
-  'label-success': false
+  'label-success': false,
+  'label-not-assessed': false
 };
 
-const mockCovid19PEligibleForVavvinationAlert: Alert = {
+const mockCovid19NotVaccinatedVaccinationAlert: Alert = {
   label: true,
   'label-warning': false,
   'label-danger': true,
-  'label-success': false
+  'label-success': false,
+  'label-not-assessed': false
+};
+const mockCovid19UknownVaccinationAlert: Alert = {
+  label: true,
+  'label-warning': false,
+  'label-danger': false,
+  'label-success': false,
+  'label-not-assessed': true
 };
 
 describe('Component: HivProgramSnapshotComponent', () => {
@@ -422,17 +434,21 @@ describe('Component: HivProgramSnapshotComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      const ev = component.getCovidVaccinationAlert('0');
+      const nv = component.getCovidVaccinationAlert('0');
       const pv = component.getCovidVaccinationAlert('1');
       const fv = component.getCovidVaccinationAlert('2');
-      expect(JSON.stringify(ev)).toBe(
-        JSON.stringify(mockCovid19PEligibleForVavvinationAlert)
+      const uk = component.getCovidVaccinationAlert('NA');
+      expect(JSON.stringify(nv)).toBe(
+        JSON.stringify(mockCovid19NotVaccinatedVaccinationAlert)
       );
       expect(JSON.stringify(pv)).toBe(
         JSON.stringify(mockCovid19PartiallyVaccinatedAlert)
       );
       expect(JSON.stringify(fv)).toBe(
         JSON.stringify(mockCovid19FullyVaccinatedAlert)
+      );
+      expect(JSON.stringify(uk)).toBe(
+        JSON.stringify(mockCovid19UknownVaccinationAlert)
       );
     });
   }));

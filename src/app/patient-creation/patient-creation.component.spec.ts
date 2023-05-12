@@ -40,6 +40,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { ConceptResourceService } from './../openmrs-api/concept-resource.service';
 import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
 import { PatientEducationService } from '../etl-api/patient-education.service';
+import { LocationUnitsService } from './../etl-api/location-units.service';
 
 const testLocations = [
   {
@@ -105,8 +106,7 @@ const conceptResourceServiceStub = {
   getConceptByUuid: (uuid) => of(testConcept)
 };
 
-const locationResourceServiceStub = {
-  getLocations: () => of(testLocations),
+const locationUnitsServiceStub = {
   getAdministrativeUnits: () =>
     of([
       {
@@ -125,7 +125,11 @@ const locationResourceServiceStub = {
           }
         ]
       }
-    ]),
+    ])
+};
+
+const locationResourceServiceStub = {
+  getLocations: () => of(testLocations),
   getCountries: () =>
     of([
       {
@@ -249,6 +253,10 @@ describe('Component: Patient Creation Unit Tests', () => {
         {
           provide: LocationResourceService,
           useValue: locationResourceServiceStub
+        },
+        {
+          provide: LocationUnitsService,
+          useValue: locationUnitsServiceStub
         },
         {
           provide: PatientCreationService,

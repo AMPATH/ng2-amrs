@@ -21,6 +21,7 @@ interface Covid19StatusSummary {
   first_dose_vaccine_administered: string;
   date_given_second_dose?: Date;
   second_dose_vaccine_administered: string;
+  covid_screening_outcome_this_visit: string;
 }
 @Component({
   selector: 'hiv-summary-latest',
@@ -48,7 +49,8 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     vaccination_status_code: '',
     vaccination_status_code_message: '',
     first_dose_vaccine_administered: '',
-    second_dose_vaccine_administered: ''
+    second_dose_vaccine_administered: '',
+    covid_screening_outcome_this_visit: ''
   };
 
   constructor(

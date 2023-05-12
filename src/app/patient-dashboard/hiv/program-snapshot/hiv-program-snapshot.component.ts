@@ -29,12 +29,14 @@ interface Covid19StatusSummary {
   first_dose_vaccine_administered: string;
   date_given_second_dose?: Date;
   second_dose_vaccine_administered: string;
+  covid_screening_outcome_this_visit: string;
 }
 interface Alert {
   label: boolean;
   'label-warning'?: boolean;
   'label-danger'?: boolean;
   'label-success'?: boolean;
+  'label-not-assessed'?: boolean;
 }
 @Component({
   selector: 'hiv-snapshot',
@@ -100,7 +102,8 @@ export class HivProgramSnapshotComponent implements OnInit {
     vaccination_status_code: '',
     vaccination_status_code_message: '',
     first_dose_vaccine_administered: '',
-    second_dose_vaccine_administered: ''
+    second_dose_vaccine_administered: '',
+    covid_screening_outcome_this_visit: ''
   };
   private obs: any[] = [];
   private gbvScreeningResult: any;
@@ -140,7 +143,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     this.getMoriskyScore();
   }
 
-  public getHivSummary(patientUuid) {
+  public getHivSummary(patientUuid: string) {
     this.loadingData = true;
     this.hivSummaryResourceService
       .getHivSummary(patientUuid, 0, 10)
@@ -211,7 +214,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       });
   }
 
-  public resolveLastEncounterLocation(location_uuid) {
+  public resolveLastEncounterLocation(location_uuid: string) {
     this.locationResource
       .getLocationByUuid(location_uuid, true)
       .pipe(
@@ -578,7 +581,8 @@ export class HivProgramSnapshotComponent implements OnInit {
       label: false,
       'label-warning': false,
       'label-danger': false,
-      'label-success': false
+      'label-success': false,
+      'label-not-assessed': false
     };
     switch (vaccinationStatusCode) {
       case '2':
@@ -592,6 +596,10 @@ export class HivProgramSnapshotComponent implements OnInit {
       case '0':
         alert.label = true;
         alert['label-danger'] = true;
+        break;
+      case 'NA':
+        alert.label = true;
+        alert['label-not-assessed'] = true;
         break;
       default:
         alert.label = false;

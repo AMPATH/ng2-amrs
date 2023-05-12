@@ -13,8 +13,8 @@ import 'ag-grid-enterprise/main';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import * as Fuse from 'fuse.js';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, switchMap, take } from 'rxjs/operators';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -31,6 +31,8 @@ import { PatientRelationshipTypeService } from '../patient-dashboard/common/pati
 import { PatientEducationService } from '../etl-api/patient-education.service';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 import { LocalStorageService } from './../utils/local-storage.service';
+import { LocationUnitsService } from './../etl-api/location-units.service';
+import { FormControl } from '@angular/forms';
 
 /**
  * ADDRESS MAPPINGS
@@ -52,6 +54,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   @Output() public patientSelected: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('successModal') public successModal: BsModalRef;
   @ViewChild('confirmModal') public confirmModal: BsModalRef;
+  @ViewChild('verificationModal') public verificationModal: BsModalRef;
 
   public patients: Patient = new Patient({});
   public person: any;
@@ -179,17 +182,22 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public administrativeUnits: any;
   public nCounties: any = [];
   public address10: string;
-  public countries: any = [];
   public country = 'Kenya';
+  public countrySearchParam = { value: 'KE', label: 'Kenya' };
   public residenceAddress: string;
   public updateOperation = 0;
   public isNewPatient = 1;
   public searchResult = '';
+  public verificationFacility = '';
   public email: string;
   public kinName: string;
   public kinRelationship: string;
   public kinResidence: string;
   public successText = 'You have successfully registered the patient';
+  myControl = new FormControl('');
+  options: string[] = [];
+  public countries: any = [];
+  public countrySuggest: Subject<any> = new Subject();
 
   constructor(
     public toastrService: ToastrService,
@@ -206,13 +214,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientEducationService: PatientEducationService,
     private patientResourceService: PatientResourceService,
     private localStorageService: LocalStorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private locationUnitsService: LocationUnitsService
   ) {}
 
   public ngOnInit() {
-    this.locationResourceService.getAdministrativeUnits().subscribe((arg) => {
+    this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
       this.nCounties = arg;
+      this.setUpCountryTypeAhead();
       this.locationResourceService.getCountries().subscribe((r) => {
         this.countries = r;
         this.populateFormData(null);
@@ -284,6 +294,21 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.hasIds = true;
       }
     }
+  }
+
+  public setUpCountryTypeAhead() {
+    this.countrySuggest
+      .pipe(
+        debounceTime(350),
+        switchMap((term: string) => {
+          return this.counties.filter((c) => c.label === term);
+        })
+      )
+      .subscribe((data) => this.processCountries(data));
+  }
+
+  public processCountries(data) {
+    this.countries = _.filter(data, (p: any) => !_.isNil(p.label));
   }
 
   public populateExistingData(uuid: string) {
@@ -414,32 +439,45 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.address10 = cob[0].label;
       }
 
-      if (crp.residence.county != null) {
+      if (crp.residence.county != null && crp.residence.subCounty != null) {
         const cr = this.nCounties.filter(
           (c) => c.value === crp.residence.county
         );
 
         this.address1 = cr[0].label;
-        const counties1 = this.nCounties;
-        this.subCounties = counties1.find(
-          (county) => county.label === this.address1
-        ).children;
+        this.subCounties = cr[0].children;
+
+        const sr = this.subCounties.filter((d) => {
+          return d.value === crp.residence.subCounty.toLowerCase();
+        });
+        this.address2 = sr[0].label;
+
+        if (crp.residence.ward != null) {
+          this.wards = sr[0].children;
+          const wr = this.wards.filter(
+            (c) => c.value === crp.residence.subCounty.toLowerCase()
+          );
+          if (wr.length > 0) {
+            this.ward = wr[0].label;
+          }
+        }
       }
     }
   }
 
   public searchNewPatient() {
+    this.resetForm();
     this.patientCreationResourceService
       .searchRegistry(
         this.patientIdentifierType.val,
-        this.commonIdentifier.toString()
+        this.commonIdentifier.toString(),
+        this.countrySearchParam.value
       )
       .subscribe(
         (data: any) => {
           const ids = [];
+          const searchIdValue = this.commonIdentifier;
           if (data.clientExists) {
-            this.searchResult =
-              'PATIENT FOUND, Verify and update registration data';
             this.patientExists = false;
             this.createDataExists = 1;
             this.unsavedUpi = data.client.clientNumber;
@@ -450,7 +488,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
               location: this.identifierLocation,
               preferred: false
             });
-            this.commonIdentifier = '';
 
             ids.push({
               identifierType: 'cba702b9-4664-4b43-83f1-9ab473cbd64d',
@@ -464,8 +501,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
             data.client.localIds = ids;
             data.client.uuid = this.patients.person.uuid;
-
             this.populateFormData(data.client);
+            this.searchResult = `This ID number (${searchIdValue}) was used to verify ${
+              this.givenName
+            } ${this.middleName} ${this.familyName} of DOB ${moment(
+              this.birthDate
+            ).format(
+              'DD/MM/YYYY'
+            )}. If this name is different from what is in the ID URGENTLY contact system support`;
           } else {
             this.identifiers.push({
               identifierType: this.patientIdentifierType.val,
@@ -474,16 +517,25 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
               location: this.identifierLocation,
               preferred: false
             });
-            this.commonIdentifier = '';
             this.searchResult = 'PATIENT NOT FOUND, Proceed with registration';
+            this.verificationFacility = '';
             this.createDataExists = 0;
           }
+          this.modalRef = this.modalService.show(this.verificationModal, {
+            backdrop: 'static',
+            keyboard: false
+          });
         },
         (err) => {
           this.createDataExists = 0;
           console.log('Error', err);
         }
       );
+  }
+
+  public openUserFeedback() {
+    this.router.navigate(['/feed-back']);
+    this.modalRef.hide();
   }
 
   public loadNewPatientInfoFromUrl() {
@@ -1091,6 +1143,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       identifiers: this.ids
     };
     this.errorAlerts = [];
+    this.commonIdentifier = '';
     if (!this.errors) {
       const savePatientSub = this.patientCreationResourceService
         .savePatient(payload)
@@ -1111,7 +1164,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
                 'Check if MOH no. will be assigned twice during patient creation'
               );
               this.patientCreationResourceService
-                .generateUPI(patientResult.person.uuid)
+                .generateUPI(
+                  patientResult.person.uuid,
+                  this.countrySearchParam.value
+                )
                 .subscribe(
                   (data) => {
                     console.log('Success data', data);
@@ -1253,9 +1309,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           },
           (err) => {
             this.loaderStatus = false;
-            const error = err.error.error.globalErrors;
             this.errorAlert = true;
-            this.errorAlerts = error;
+            this.errorAlerts = this.processErrors(err.error);
           }
         );
 
@@ -1276,6 +1331,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public close() {
     this.modalRef.hide();
     this.router.navigate(['/patient-dashboard/patient-search']);
+    this.errorAlert = false;
+  }
+
+  public closeVerification() {
+    this.modalRef.hide();
     this.errorAlert = false;
   }
 
@@ -1543,6 +1603,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     return estimateDate;
   }
 
+  public setCountrySearch(event) {
+    this.countrySearchParam = event;
+  }
+
   public setCountry(event) {
     this.country = event;
     this.address1 = '';
@@ -1592,6 +1656,44 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         );
       }
     );
+  }
+
+  public resetForm() {
+    this.givenName = '';
+    this.middleName = '';
+    this.familyName = '';
+    this.gender = '';
+    this.religionVal = '';
+    this.maritalStatusVal = '';
+    this.ageEstimate = null;
+    this.birthDate = null;
+    this.patientPhoneNumber = null;
+    this.alternativePhoneNumber = null;
+    this.email = '';
+    this.cityVillage = '';
+    this.address3 = '';
+    this.residenceAddress = '';
+    this.kinName = '';
+    this.nextofkinPhoneNumber = null;
+    this.kinResidence = '';
+    this.identifiers = [];
+    this.patientToUpdate = '';
+    this.country = '';
+    this.address10 = '';
+    this.address1 = '';
+    this.address2 = '';
+    this.ward = '';
+    this.occupation = '';
+    this.patientHighestEducation = '';
+    this.patientIdentifier = '';
+    this.kinRelationship = '';
+    this.careGivername = '';
+    this.relationshipToCareGiver = '';
+    this.latitude = '';
+    this.longitude = '';
+    this.careGiverPhoneNumber = '';
+    this.selectedLocation = '';
+    this.partnerPhoneNumber = null;
   }
 }
 

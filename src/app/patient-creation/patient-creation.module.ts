@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ModalModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,12 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { PatientIdentifierTypeResService } from '../openmrs-api/patient-identifierTypes-resource.service';
 import { LocationResourceService } from '../openmrs-api/location-resource.service';
 import { UserService } from '../openmrs-api/user.service';
+import {
+  MatAutocompleteModule,
+  MatCardModule,
+  MatSelectModule
+} from '@angular/material';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +28,11 @@ import { UserService } from '../openmrs-api/user.service';
     DateTimePickerModule,
     NgSelectModule,
     NgxPaginationModule,
-    ModalModule
+    ModalModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   declarations: [PatientCreationComponent],
   exports: [PatientCreationComponent],
