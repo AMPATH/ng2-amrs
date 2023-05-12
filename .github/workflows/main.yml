@@ -9,11 +9,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
+        os: [macos-latest, ubuntu-20.04]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
@@ -34,9 +35,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install brfs
-        run: npm install -g brfs
-
       - name: Linting
         run: npm run lint
 
@@ -45,9 +43,9 @@ jobs:
 
       - name: Build prod
         run: npm run build-prod
-      
-      - name: Check xvfb-run version
-        run: xvfb-run --version
 
-      - name: Run tests
-        run: xvfb-run --auto-servernum npm run test
+      - name: Run headless tests
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: npm test
+          working-directory: ./
