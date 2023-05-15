@@ -60,6 +60,13 @@ const clinicDashboardRoutes: Routes = [
           )
       },
       {
+        path: 'mnch',
+        loadChildren: () =>
+          System.import('./mnch/mnch-program.module').then(
+            (mod) => mod.MNCHModule
+          )
+      },
+      {
         path: '',
         redirectTo: 'general',
         pathMatch: 'prefix'

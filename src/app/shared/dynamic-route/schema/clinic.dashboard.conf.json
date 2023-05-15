@@ -266,6 +266,19 @@
           "isDistinct": true
         }
       ]
+    },
+    {
+      "departmentName": "MNCH",
+      "baseRoute": "mnch",
+      "alias": "mnch",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        }
+      ]
     }
   ]
 }
