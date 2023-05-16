@@ -28,12 +28,8 @@ export class HivEnhancedComponent implements OnInit {
   };
   public viremiaStatus = {
     all: {
-      lowerVl: '50',
+      lowerVl: '200',
       upperVl: ''
-    },
-    lowRiskLowLevelViremia: {
-      lowerVl: '50',
-      upperVl: '199'
     },
     highRiskLowLevelViremia: {
       lowerVl: '200',
@@ -124,6 +120,11 @@ export class HivEnhancedComponent implements OnInit {
         field: 'vl_2_date_max'
       },
       {
+        headerName: 'OVCID',
+        width: 150,
+        field: 'ovcid_id'
+      },
+      {
         headerName: 'Nearest Center',
         width: 150,
         field: 'nearest_center'
@@ -131,9 +132,9 @@ export class HivEnhancedComponent implements OnInit {
     ];
   }
 
-  public generateReport(indicator, lowerVl = '50', upperVl = '') {
+  public generateReport(indicator, lowerVl = '200', upperVl = '') {
     if (this.lowerVl == null) {
-      lowerVl = '50';
+      lowerVl = '200';
       upperVl = '';
     } else {
       lowerVl = this.lowerVl;

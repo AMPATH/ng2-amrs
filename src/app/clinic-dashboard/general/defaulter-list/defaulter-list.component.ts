@@ -102,6 +102,11 @@ export class DefaulterListComponent implements OnInit {
         field: 'cur_meds'
       },
       {
+        headerName: 'OVCID',
+        field: 'ovcid_id',
+        width: 150
+      },
+      {
         headerName: 'Latest VL',
         width: 75,
         field: 'latest_vl'
