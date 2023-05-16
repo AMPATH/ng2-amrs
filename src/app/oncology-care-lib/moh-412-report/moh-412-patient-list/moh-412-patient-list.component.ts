@@ -30,10 +30,29 @@ export class MOH412PatientListComponent implements OnInit {
       valueGetter: this.getRowNNumber
     },
     {
+      headerName: 'CCC Number',
+      field: 'ccc_number',
+      width: 100,
+      pinned: true
+    },
+    {
+      headerName: 'Name',
+      field: 'person_name',
+      width: 250,
+      pinned: true
+    },
+    {
+      headerName: 'NUPI Identifier',
+      field: 'upi_number',
+      width: 100,
+      pinned: true
+    },
+    { headerName: 'Gender', field: 'gender', width: 100 },
+    { headerName: 'Age', field: 'age', width: 100 },
+    {
       headerName: 'Identifiers',
       field: 'identifiers',
       width: 250,
-      pinned: true,
       cellRenderer: (column: any) => {
         return (
           '<a href="javascript:void(0);" title="Identifiers">' +
@@ -42,14 +61,6 @@ export class MOH412PatientListComponent implements OnInit {
         );
       }
     },
-    {
-      headerName: 'Name',
-      field: 'person_name',
-      width: 250,
-      pinned: true
-    },
-    { headerName: 'Gender', field: 'gender', width: 100 },
-    { headerName: 'Age', field: 'age', width: 100 },
     { headerName: 'HIV Status', field: 'hiv_status', width: 200 },
     { headerName: 'Screening Date', field: 'screening_date', width: 200 },
     {
@@ -63,6 +74,7 @@ export class MOH412PatientListComponent implements OnInit {
       width: 200
     },
     { headerName: 'Screening Method', field: 'screening_method', width: 200 },
+    { headerName: 'OVCID', field: 'ovcid_id', width: 100 },
     {
       headerName: 'Visit Type',
       field: 'screening_visit_type',
