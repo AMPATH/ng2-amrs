@@ -65,6 +65,7 @@ export class PrepReportPatientListComponent implements OnInit {
       hiv_rapid_test: 'HIV Rapid test result',
       rapid_test_date: 'HIV Rapid test date',
       population_type: 'Population Type',
+      ovcid_id: 'OVCID',
       population_type_category: 'Population Type Category',
       nearest_center: 'Estate/Nearest Center'
     };
