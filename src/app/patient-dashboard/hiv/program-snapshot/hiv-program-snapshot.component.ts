@@ -14,7 +14,6 @@ import { UserDefaultPropertiesService } from '../../../user-default-properties/u
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
 import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
-// import { PatientReminderService } from 'src/app/patient-dashboard/common/patient-reminders/patient-reminders.service.ts';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
