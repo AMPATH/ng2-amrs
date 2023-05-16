@@ -28,6 +28,10 @@ export const routes = [
             loadChildren:
               './oncology/oncology-program.module#OncologyProgramModule'
           },
+          {
+            path: 'mnch',
+            loadChildren: './mnch/mnch-program.module#MNCHModule'
+          },
           { path: '', redirectTo: 'general', pathMatch: 'prefix' }
         ]
       }
