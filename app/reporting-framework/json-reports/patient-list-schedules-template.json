@@ -81,6 +81,14 @@
       }
     },
     {
+      "table": "etl.sms_delivery_report",
+      "alias": "delivery_report",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "delivery_report.person_id = t2.person_id and DATE_FORMAT(delivery_report.date_created, '%Y-%m-%d')='{startDate}'"
+      }
+    },
+    {
       "table": "etl.flat_hiv_summary_v15b",
       "alias": "tb",
       "join": {
@@ -249,6 +257,11 @@
       "type": "simple_column",
       "alias": "sms_receive_time",
       "column": "consent.sms_receive_time"
+    },
+    {
+      "type": "simple_column",
+      "alias": "sms_delivery_status",
+      "column": "delivery_report.delivery_status"
     },
     {
       "type": "simple_column",
