@@ -25,28 +25,6 @@
 
   <p></p>
 </div>
-
-<div style="display: inline-block" *ngIf="hasLoadedAll">
-  <button
-    style="width: 80px"
-    [ladda]="isLoading"
-    data-size="xs"
-    data-color="blue"
-    (click)="loadMoreDQAList('next')"
-  >
-    <span class=""></span>Next
-  </button>
-
-  <button
-    style="margin-left: 20px; width: 80px"
-    [ladda]="isLoading"
-    data-size="xs"
-    data-color="grey"
-    (click)="loadMoreDQAList('all')"
-  >
-    <span class=""></span>Load all
-  </button>
-</div>
 <div *ngIf="hasError">
   <p class="alert-error alert">Error loading patient list.</p>
 </div>

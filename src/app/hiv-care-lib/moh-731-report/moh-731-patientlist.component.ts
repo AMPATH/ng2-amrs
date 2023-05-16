@@ -259,6 +259,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       ipt_start_date: 'IPT Start Date',
       ipt_completion_date: 'IPT Completion Date',
       ipt_stop_date: 'IPT Stop Date',
+      ovcid_id: 'OVCID',
       discordant_status: 'Discordant Status',
       tb_screening_date: 'TB Screening Date',
       tb_screening_result: 'TB Screening Result',

@@ -53,6 +53,7 @@ import { PatientProgramEnrollmentService } from './../etl-api/patient-program-en
 import { PatientProgramEnrollmentModule } from './../patients-program-enrollment/patients-program-enrollment.module';
 import { PatientReferralProgramModule } from './referral/patient-referral-program.module';
 import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
+import { MNCHModule } from './mnch/mnch-program.module';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-n
     PatientProgramEnrollmentModule,
     NgxPaginationModule,
     PatientReferralProgramModule,
-    OncologyProgramModule
+    OncologyProgramModule,
+    MNCHModule
   ],
   providers: [
     ClinicDashboardCacheService,

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
+import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 import * as _ from 'lodash';
 import {
   ActivatedRoute,
@@ -15,6 +16,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { Group } from '../../models/group.model';
 import { GridOptions, RowNode } from 'ag-grid';
 import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.service';
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'group-manager-search',
   templateUrl: './group-manager-search.component.html',
@@ -49,7 +51,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private bsModalService: BsModalService,
     private route: ActivatedRoute,
-    private programResourceService: ProgramResourceService
+    private programResourceService: ProgramResourceService,
+    private toastrService: ToastrFunctionService
   ) {}
 
   ngOnInit(): void {
@@ -240,14 +243,16 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
       },
       {
         headerName: 'Actions',
-        field: 'voided',
+        field: 'endDate',
         cellRenderer: (column) => {
           if (column.value) {
-            return `<button class='btn btn-sm btn-success' data-action-type='activate'
-                    (click)='activateGroup($event, rowData)'>Activate</button>`;
+            return `
+            <button class='btn btn-sm btn-success' data-action-type='activate'
+                    (click)='activateGroup($event, rowData)'><i class="fa fa-check-square" aria-hidden="true"></i> Activate Group</button>`;
           } else {
-            return `<button class='btn btn-sm btn-danger' data-action-type='disband'
-                    (click)='disband(group, new Date())' >Disband</button>`;
+            return `<button class="btn btn-sm btn-warning">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Open Group to Disband
+          </button>`;
           }
         }
       }
@@ -277,6 +282,12 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+
+    this.toastrService.showToastr(
+      'success',
+      `Group ${group.display} has been activated successully`,
+      'Activated!'
+    );
   }
 
   public gridOnCellClick($event) {
@@ -285,7 +296,13 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
       const actionType = $event.event.target.getAttribute('data-action-type');
       switch (actionType) {
         case 'activate':
-          return this.activateGroup(data, $event.node);
+          const confirmed = window.confirm(
+            `Are you sure you want to activate group ${data.display}?`
+          );
+          if (confirmed) {
+            return this.activateGroup(data, $event.node);
+          }
+          break;
         case 'disband':
           return this.disbandGroup(data, $event.node, new Date());
         default:

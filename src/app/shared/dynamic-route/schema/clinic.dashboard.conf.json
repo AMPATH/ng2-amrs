@@ -171,12 +171,6 @@
           "isSideBarOpen": false
         },
         {
-          "url": "dqa-reports",
-          "label": "DQA Reports",
-          "icon": "fa fa-pie-chart",
-          "isSideBarOpen": false
-        },
-        {
           "url": "hei-report",
           "label": "HEI Report",
           "icon": "fa fa-line-chart",
@@ -270,6 +264,19 @@
           "icon": "fa fa-exchange",
           "isSideBarOpen": false,
           "isDistinct": true
+        }
+      ]
+    },
+    {
+      "departmentName": "MNCH",
+      "baseRoute": "mnch",
+      "alias": "mnch",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
         }
       ]
     }

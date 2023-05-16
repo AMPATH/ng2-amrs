@@ -4,7 +4,13 @@
   background-color: #d9edf7;
   padding: 15px;
 }
-
+/* background-color: #d9edf7; */
+.banner-test {
+  color: #214a5f;
+  width: 100%;
+  background-color: #eacbf4;
+  padding: 15px;
+}
 .banner-danger {
   color: #fff;
   width: 100%;

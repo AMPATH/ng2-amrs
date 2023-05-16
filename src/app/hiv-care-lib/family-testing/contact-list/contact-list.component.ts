@@ -86,7 +86,7 @@ export class ContactListComponent implements OnInit {
 
   public getFamilyTestingContactListData(patientId: string) {
     this.familyTestingService
-      .getFamilyTestingReportData(patientId)
+      .getFamilyTestingReportData({ patientUuid: patientId })
       .subscribe((data) => {
         if (data.result && data.result.length > 0) {
           this.getContacts(data.result);

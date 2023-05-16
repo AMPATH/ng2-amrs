@@ -1,6 +1,6 @@
 {
   "name": "ngx-amrs",
-  "version": "2.16.1-SNAPSHOT",
+  "version": "2.16.4-SNAPSHOT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 3000",
@@ -14,7 +14,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "stats": "webpack-bundle-analyzer dist/ngx-amrs/stats.json",
-    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --aot --optimization=false",
+    "build-prod": "node version.js && bash ./scripts/ng.sh build --prod --configuration=production --aot --optimization=false",
+    "build-staging": "node version.js && bash ./scripts/ng.sh build --prod --configuration=staging --aot --optimization=false",
     "build-prod:stats": "npm run build-prod -- --statsJson=true && npm run stats",
     "serve:prod": "http-server dist/ngx-amrs/ -P https://ngx.ampath.or.ke",
     "prebuild": "node version.js",
@@ -34,7 +35,7 @@
   },
   "private": true,
   "dependencies": {
-    "@ampath-kenya/ngx-openmrs-formentry": "2.12.20",
+    "@ampath-kenya/ngx-openmrs-formentry": "2.12.23",
     "@angular/animations": "^6.1.0",
     "@angular/cdk": "^6.1.0",
     "@angular/common": "^6.1.0",
@@ -79,6 +80,7 @@
     "date-fns": "^1.27.2",
     "dotenv": "^4.0.0",
     "enhanced-resolve": "^3.3.0",
+    "file-saver": "^1.3.8",
     "font-awesome": "^4.7.0",
     "fuse.js": "^3.2.0",
     "git-describe": "^4.0.3",

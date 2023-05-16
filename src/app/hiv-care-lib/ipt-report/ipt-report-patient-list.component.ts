@@ -58,6 +58,7 @@ export class IptReportPatientListComponent implements OnInit {
       latest_vl_date: 'Latest VL Date',
       previous_vl: 'Previous VL',
       previous_vl_date: 'Previous VL Date',
+      ovcid_id: 'OVCID',
       nearest_center: 'Estate/Nearest Center'
     };
 

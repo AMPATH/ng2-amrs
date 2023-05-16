@@ -24,6 +24,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -37,12 +38,14 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public searchIdentifiers: any;
   public attributes: any;
   public birthdate;
+
   public formattedPatientAge;
   private subscription: Subscription;
   private subs = [];
   private patientServiceSubscription: Subscription;
   public relationships: any = [];
   public relationship: Relationship;
+  public isStaging = true;
   public ovcEnrollment = false;
   public isPatientVerified = false;
   public verificationStatus = false;
@@ -73,6 +76,9 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   public ngOnInit() {
+    if (environment.production) {
+      this.isStaging = false;
+    }
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -84,6 +90,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             patient.enrolledPrograms,
             patient.person.birthdate
           );
+
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute
