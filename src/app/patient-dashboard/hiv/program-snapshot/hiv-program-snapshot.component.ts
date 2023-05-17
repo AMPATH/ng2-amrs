@@ -49,7 +49,6 @@ export class HivProgramSnapshotComponent implements OnInit {
     this.patientPrograms = enrolledProgrames;
   }
   @Input() public set program(program) {
-    this.showViremiaAlert = program.uuid === mdtProgramUuid ? true : false;
     this.hasMoriskyScore = program.uuid === stdProgramUuid ? true : false;
     this.curProgram = program;
     _.each(HivNegativesProgram, (p) => {
@@ -82,8 +81,6 @@ export class HivProgramSnapshotComponent implements OnInit {
     pink: '#FFC0CB',
     yellow: '#FFFF00'
   };
-  public viremiaAlert: string;
-  public showViremiaAlert: boolean;
   public lowViremia: boolean;
   public highViremia: boolean;
   public currentPatientSub: Subscription;
@@ -170,9 +167,6 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.hivDisclosureStatus =
             results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
 
-          if (this.showViremiaAlert) {
-            this.checkViremia(latestVl);
-          }
           this.gbvScreeningResult = this.checkGbvScreening(
             results[0].gbv_screening_result
           );
@@ -435,17 +429,6 @@ export class HivProgramSnapshotComponent implements OnInit {
     return text.replace(/\w\S*/g, (txt) => {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
-  }
-
-  private checkViremia(latestVl) {
-    if (latestVl >= 1 && latestVl <= 999) {
-      this.lowViremia = true;
-      this.viremiaAlert = 'Low';
-    }
-    if (latestVl >= 1000) {
-      this.highViremia = true;
-      this.viremiaAlert = 'High';
-    }
   }
 
   private checkGbvScreening(screeningResult) {
