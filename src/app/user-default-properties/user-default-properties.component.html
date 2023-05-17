@@ -65,7 +65,8 @@
             [value]="department.itemName"
             color="primary"
           >
-            {{ department?.itemName }} Patients
+          
+            {{ department?.itemName === 'HIV' ? 'HIV CARE' : department?.itemName  }}
           </mat-radio-button>
         </mat-radio-group>
       </div>

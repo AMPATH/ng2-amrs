@@ -249,6 +249,7 @@ export class ProgramVisitEncounterSearchComponent
       .pipe(take(1))
       .subscribe((result) => {
         this.departmentPrograms = result;
+        console.log('Result: ', result);
         this.loadProgramFilter(result);
       });
   }
