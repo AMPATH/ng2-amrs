@@ -4403,7 +4403,7 @@
           {
             "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSRETURN",
-            "allowedIf": "screenedForCovidToday && age < 10",
+            "allowedIf": "screenedForCovidToday && age <= 14",
             "errors": {
               "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
             }
