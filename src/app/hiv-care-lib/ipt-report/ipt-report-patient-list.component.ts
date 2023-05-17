@@ -41,6 +41,7 @@ export class IptReportPatientListComponent implements OnInit {
       phone_number: 'Phone Number',
       enrollment_date: 'Date Enrolled',
       last_appointment: 'Latest Appointment',
+      patient_category: 'Patient Category',
       latest_rtc_date: 'Latest RTC Date',
       days_since_rtc_date: 'Days Since RTC',
       status: 'Current Status',

@@ -13,6 +13,7 @@ import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -74,6 +75,8 @@ export class HivProgramSnapshotComponent implements OnInit {
   public hasSubsequentClinicalEncounter = false;
   public resolvedCareStatus: any;
   public showCareStatus = true;
+  public viralLoadCategory: any = '';
+  public viralloadColor = ' ';
   public backgroundColor: any = {
     pink: '#FFC0CB',
     yellow: '#FFFF00'
@@ -116,7 +119,8 @@ export class HivProgramSnapshotComponent implements OnInit {
     private locationResource: LocationResourceService,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
-    private covid19Service: Covid19ResourceService
+    private covid19Service: Covid19ResourceService,
+    private patientReminderService: PatientReminderService
   ) {}
 
   public ngOnInit() {
@@ -137,6 +141,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       0,
       this.patient.uuid
     );
+
     this.getMoriskyScore();
   }
 
@@ -157,7 +162,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestVlResult = this.getlatestVlResult(results);
           latestVlDate = latestVlResult.vl_1_date;
           latestVl = latestVlResult.vl_1;
-          latestVl = latestVlResult.vl_1;
+
           this.patientCareStatus = results[0].patient_care_status;
           this.hivDisclosureStatus =
             results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
@@ -226,6 +231,50 @@ export class HivProgramSnapshotComponent implements OnInit {
           console.error('Error resolving locations', error);
         }
       );
+  }
+
+  public getViralLoadCategory(latestViralLoad: any) {
+    const eligiblility = this.patientReminderService.vl_eligible;
+    let isEligible: any;
+    _.each(eligiblility, (vl_eligibiliy: any) => {
+      if (vl_eligibiliy.title === 'Viral Load Reminder') {
+        isEligible = 1;
+      } else {
+        isEligible = 2;
+      }
+    });
+    if (isEligible) {
+      switch (true) {
+        case latestViralLoad < 50 &&
+          latestViralLoad != null &&
+          isEligible === 2:
+          this.viralLoadCategory = 'LDL';
+          this.viralloadColor = 'green';
+          break;
+        case latestViralLoad >= 50 && latestViralLoad < 200 && isEligible === 2:
+          this.viralLoadCategory = 'Low Risk Low Level Viremia';
+          this.viralloadColor = 'yellowgreen';
+          break;
+        case latestViralLoad >= 200 &&
+          latestViralLoad < 1000 &&
+          isEligible === 2:
+          this.viralLoadCategory = 'High Risk Low Level Viremia';
+          this.viralloadColor = 'orange';
+          break;
+        case latestViralLoad >= 1000 && isEligible === 2:
+          this.viralLoadCategory = 'Suspected Treatment Failure';
+          this.viralloadColor = 'red';
+          break;
+        case isEligible === 1:
+          this.viralLoadCategory = 'Missing VL';
+          this.viralloadColor = 'purple';
+          break;
+        default:
+          this.viralLoadCategory = 'N/A';
+          this.viralloadColor = 'black';
+          break;
+      }
+    }
   }
 
   public getPatientCareStatus(care_status_id: any) {
