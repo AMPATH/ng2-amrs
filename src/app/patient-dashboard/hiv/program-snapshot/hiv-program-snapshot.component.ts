@@ -239,41 +239,33 @@ export class HivProgramSnapshotComponent implements OnInit {
     _.each(eligiblility, (vl_eligibiliy: any) => {
       if (vl_eligibiliy.title === 'Viral Load Reminder') {
         isEligible = 1;
-      } else {
-        isEligible = 2;
       }
     });
-    if (isEligible) {
-      switch (true) {
-        case latestViralLoad < 50 &&
-          latestViralLoad != null &&
-          isEligible === 2:
-          this.viralLoadCategory = 'LDL';
-          this.viralloadColor = 'green';
-          break;
-        case latestViralLoad >= 50 && latestViralLoad < 200 && isEligible === 2:
-          this.viralLoadCategory = 'Low Risk Low Level Viremia';
-          this.viralloadColor = 'yellowgreen';
-          break;
-        case latestViralLoad >= 200 &&
-          latestViralLoad < 1000 &&
-          isEligible === 2:
-          this.viralLoadCategory = 'High Risk Low Level Viremia';
-          this.viralloadColor = 'orange';
-          break;
-        case latestViralLoad >= 1000 && isEligible === 2:
-          this.viralLoadCategory = 'Suspected Treatment Failure';
-          this.viralloadColor = 'red';
-          break;
-        case isEligible === 1:
-          this.viralLoadCategory = 'Missing VL';
-          this.viralloadColor = 'purple';
-          break;
-        default:
-          this.viralLoadCategory = 'N/A';
-          this.viralloadColor = 'black';
-          break;
-      }
+    switch (true) {
+      case isEligible === 1:
+        this.viralLoadCategory = 'Missing VL';
+        this.viralloadColor = 'purple';
+        break;
+      case latestViralLoad < 50 && latestViralLoad != null:
+        this.viralLoadCategory = 'LDL';
+        this.viralloadColor = 'green';
+        break;
+      case latestViralLoad >= 50 && latestViralLoad < 200:
+        this.viralLoadCategory = 'Low Risk Low Level Viremia';
+        this.viralloadColor = 'yellowgreen';
+        break;
+      case latestViralLoad >= 200 && latestViralLoad < 1000:
+        this.viralLoadCategory = 'High Risk Low Level Viremia';
+        this.viralloadColor = 'orange';
+        break;
+      case latestViralLoad >= 1000:
+        this.viralLoadCategory = 'Suspected Treatment Failure';
+        this.viralloadColor = 'red';
+        break;
+      default:
+        this.viralLoadCategory = 'N/A';
+        this.viralloadColor = 'black';
+        break;
     }
   }
 
