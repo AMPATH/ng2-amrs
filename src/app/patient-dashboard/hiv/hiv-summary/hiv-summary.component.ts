@@ -11,8 +11,6 @@ const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryComponent implements OnInit, OnDestroy {
-  viremiaAlert: string;
-  showViremiaAlert: boolean;
   lowViremia: boolean;
   highViremia: boolean;
   patientUuid: string;
@@ -30,13 +28,6 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.loadHivSummary();
     this.getPatient();
-    this.route.url.subscribe((url) => {
-      if (url[1]) {
-        if (url[1].path === mdtProgramUuid) {
-          this.showViremiaAlert = true;
-        }
-      }
-    });
   }
 
   public getPatient() {
@@ -66,28 +57,8 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
           const gbvScreeningResult =
             data.length > 0 ? data[0].gbv_screening_result : '';
           this.gbvScreeningResult = this.checkGbvScreening(gbvScreeningResult);
-          for (const summary of data) {
-            if (summary.is_clinical_encounter === 1 && this.showViremiaAlert) {
-              this.checkViremia(summary.vl_1);
-              break;
-            }
-          }
         }
       });
-  }
-
-  public checkViremia(viralLoad) {
-    let alert;
-    if (viralLoad >= 401 && viralLoad <= 999) {
-      this.lowViremia = true;
-      alert = 'Low Viremia';
-    } else if (viralLoad >= 1000) {
-      this.highViremia = true;
-      alert = 'High Viremia';
-    }
-    if (alert) {
-      this.viremiaAlert = alert;
-    }
   }
 
   public checkGbvScreening(screeningResult) {
