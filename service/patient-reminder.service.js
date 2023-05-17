@@ -12,6 +12,7 @@ import { FamilyTestingService } from './../app/family-history/family-history.ser
 var serviceDef = {
   generateReminders: generateReminders,
   viralLoadReminders: viralLoadReminders,
+  cd4TestReminder: cd4TestReminder,
   newViralLoadPresent: newViralLoadPresent,
   viralLoadErrors: viralLoadErrors,
   pendingViralOrder: pendingViralOrder,
@@ -24,6 +25,7 @@ function viralLoadReminders(data) {
   let reminders = [];
 
   let labMessage = 'Last viral load: none';
+  let requires = 'Patient requires viral load test. ';
   if (data.last_vl_date) {
     labMessage =
       'Last viral load: ' +
@@ -38,11 +40,26 @@ function viralLoadReminders(data) {
   }
 
   let isAdult = checkAge(new Date(data.birth_date));
-
-  if (!isAdult && data.months_since_last_vl_date >= 6) {
+  //0-24
+  if (!isAdult && data.needs_vl_coded === 6) {
     reminders.push({
       message:
-        'Patient requires a viral load test. Patients who are between 0-24 years old ' +
+        requires +
+        'Patients who are between 0-24 years old and 3 months after ART initiation ' +
+        'require a viral load test.' +
+        labMessage,
+      title: 'Viral Load Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  } else if (!isAdult && data.months_since_last_vl_date >= 6) {
+    reminders.push({
+      message:
+        requires +
+        'Patients who are between 0-24 years old ' +
         'require a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -52,15 +69,26 @@ function viralLoadReminders(data) {
         toast: true
       }
     });
-  } else if (
-    isAdult &&
-    data.needs_vl_coded === 2 &&
-    data.months_since_last_vl_date >= 6
-  ) {
+  } else if (!isAdult && data.needs_vl_coded === 2) {
     reminders.push({
       message:
-        'Patient requires a viral load test. Patients older than 25 years and newly on ART require ' +
-        'a viral load test every 6 months. ' +
+        requires +
+        'A Patient with Viral Load that is more than 200 requires a viral load test every 3 months. ' +
+        labMessage,
+      title: 'Viral Load Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  } // adults
+  else if (isAdult && data.needs_vl_coded === 3) {
+    reminders.push({
+      message:
+        requires +
+        'Patients older than 25 years and newly on ART require ' +
+        'a viral load test after 12 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
       type: 'danger',
@@ -71,13 +99,54 @@ function viralLoadReminders(data) {
     });
   } else if (
     isAdult &&
-    data.needs_vl_coded === 3 &&
-    data.months_since_last_vl_date >= 12
+    (data.needs_vl_coded === 8) & (data.months_since_last_vl_date >= 12)
   ) {
     reminders.push({
       message:
-        'Patient requires viral load. Patients older than 25 years and on ART > 1 year require ' +
+        requires +
+        'Patients older than 25 years and on ART for more than 1 year require ' +
         'a viral load test every year. ' +
+        labMessage,
+      title: 'Viral Load Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  } else if (isAdult && data.needs_vl_coded === 6) {
+    reminders.push({
+      message:
+        requires +
+        'Patients older than 25 years and 3 months after ART initiation require a viral load test. ' +
+        labMessage,
+      title: 'Viral Load Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  } else if (isAdult && data.needs_vl_coded === 2) {
+    reminders.push({
+      message:
+        requires +
+        'A Patient with Viral Load that is more than 200 requires a viral load test every 3 months. ' +
+        labMessage,
+      title: 'Viral Load Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  } //pregnant
+  else if (data.needs_vl_coded === 5 && data.gender === 'F') {
+    reminders.push({
+      message:
+        requires +
+        'A pregnant or breastfeeding patient with vl > 200 requires ' +
+        'a viral load test every 3 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
       type: 'danger',
@@ -89,20 +158,8 @@ function viralLoadReminders(data) {
   } else if (data.needs_vl_coded === 4 && data.gender === 'F') {
     reminders.push({
       message:
-        'Patient requires viral load. A pregnant or breastfeeding patient with vl > 400 requires ' +
-        'a viral load test every 3 months. ' +
-        labMessage,
-      title: 'Viral Load Reminder',
-      type: 'danger',
-      display: {
-        banner: true,
-        toast: true
-      }
-    });
-  } else if (data.needs_vl_coded === 5 && data.gender === 'F') {
-    reminders.push({
-      message:
-        'Patient requires viral load. A pregnant or breastfeeding patient with vl <= 400 requires ' +
+        requires +
+        'A pregnant or breastfeeding patient requires ' +
         'a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -113,8 +170,105 @@ function viralLoadReminders(data) {
       }
     });
   }
+  // all patients
+  else if (data.needs_vl_coded === 7) {
+    reminders.push({
+      message: requires + ' 3 months after Regimen Modification ' + labMessage,
+      title: 'Viral Load Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  }
 
   return reminders;
+}
+function cd4TestReminder(data) {
+  let reminders = [];
+
+  switch (data.get_cd4_count_coded) {
+    case 1:
+      reminders.push({
+        message: 'Patient requires a baseline CD4',
+        title: 'CD4 Reminder',
+        type: 'success',
+        display: {
+          banner: true,
+          toast: true
+        }
+      });
+      break;
+    case 2:
+      reminders.push({
+        message:
+          'Patient requires CD4. Latest CD4 is  ' +
+          data.latest_cd4_count +
+          ', done ' +
+          data.months_since_cd4_count +
+          ' months ago.',
+        title: 'CD4 Reminder',
+        type: 'success',
+        display: {
+          banner: true,
+          toast: true
+        }
+      });
+      break;
+    case 3:
+      reminders.push({
+        message:
+          'Patient requires CD4 confirmation. Previous CD4 was ' +
+          data.previous_cd4_count +
+          ' Latest CD4 is  ' +
+          data.latest_cd4_count +
+          ', done ' +
+          data.months_since_cd4_count +
+          ' months ago.',
+        title: 'CD4 Reminder',
+        type: 'success',
+        display: {
+          banner: true,
+          toast: true
+        }
+      });
+      break;
+    case 4:
+      reminders.push({
+        message:
+          'Patient requires CD4 confirmation. First CD4 is  ' +
+          data.latest_cd4_count +
+          ', done ' +
+          data.months_since_cd4_count +
+          ' months ago.',
+        title: 'CD4 Reminder',
+        type: 'success',
+        display: {
+          banner: true,
+          toast: true
+        }
+      });
+      break;
+    default:
+  }
+  return reminders;
+}
+
+function isBelow2Years(patientDateString) {
+  return calculateAge(patientDateString) <= 2;
+}
+
+function calculateMonths(date) {
+  const givenDate = new Date(date);
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the difference in months
+  return (
+    (currentDate.getFullYear() - givenDate.getFullYear()) * 12 +
+    (currentDate.getMonth() - givenDate.getMonth())
+  );
 }
 
 function checkAge(dateString) {
@@ -165,7 +319,7 @@ function qualifiesDifferenciatedReminders(data) {
   ) {
     reminders.push({
       message:
-        'Patient qualifies for Differentiated Care. Viral load is <= 400 and age >= 20. ' +
+        'Patient qualifies for Differentiated Care. Viral load is <= 200 and age >= 20. ' +
         diffMessage,
       title: 'Differentiated Care Reminder',
       type: 'warning',
@@ -189,9 +343,11 @@ function qualifiesDifferenciatedReminders(data) {
 function inhReminders(data) {
   let reminders = [];
   let months = 6;
+  let treatment = 'INH';
   let showReminder = false;
   if (data.tb_prophylaxis_duration == 3) {
     months = 3;
+    treatment = '3HP';
   }
   if (
     data.tb_prophylaxis_duration == 3 &&
@@ -215,7 +371,9 @@ function inhReminders(data) {
         message:
           'Patient started ' +
           months +
-          ' months INH treatment on (' +
+          ' months' +
+          treatment +
+          ' treatment on (' +
           Moment(data.ipt_start_date).format('DD-MM-YYYY') +
           '). ' +
           'Expected to end on (' +
@@ -242,9 +400,11 @@ function inhReminders(data) {
   ) {
     reminders.push({
       message:
-        'Patient has been on ' +
+        'Patient started ' +
         months +
-        ' month INH treatment since (' +
+        ' month ' +
+        treatment +
+        'treatment since (' +
         Moment(data.ipt_start_date).format('DD-MM-YYYY') +
         '). Expected to end on (' +
         Moment(data.ipt_completion_date).format('DD-MM-YYYY') +
@@ -363,7 +523,7 @@ function qualifiesEnhancedReminders(data) {
     case 1:
       reminders.push({
         message:
-          'The Patient’s viral load is greater than 400. Patients with viral load greater than 400 should be enrolled in the Viremia program.',
+          'The Patient’s viral load is greater than 199. Patients with viral load greater than 199 should be enrolled in the Viremia program.',
         title: 'Viremia Program',
         type: 'warning',
         display: {
@@ -745,6 +905,7 @@ async function generateReminders(etlResults, eidResults) {
   );
   let inh_reminders = inhReminders(data);
   let vl_reminders = viralLoadReminders(data);
+  let cd4_reminder = cd4TestReminder(data);
   let qualifies_enhanced = qualifiesEnhancedReminders(data);
   let dna_pcr_reminder = dnaReminder(data);
   let dst_result = dstReminders(data);
@@ -772,6 +933,7 @@ async function generateReminders(etlResults, eidResults) {
       inh_reminders,
       qualifies_differenciated_care_reminders,
       vl_reminders,
+      cd4_reminder,
       qualifies_enhanced,
       dna_pcr_reminder,
       dst_result,

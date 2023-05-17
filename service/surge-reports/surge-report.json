@@ -238,21 +238,21 @@
       },
       {
         "label": "VL resulted and suppressed",
-        "description": "VL resulted this week and suppressed (<400 copies)",
+        "description": "VL resulted this week and suppressed (<200 copies)",
         "indicator": "has_vl_this_week_and_suppressed"
       },
       {
         "label": "VL resulted and not suppressed",
-        "description": "VL resulted this week and unsuppressed (>400 copies)",
+        "description": "VL resulted this week and unsuppressed (>200 copies)",
         "indicator": "has_vl_this_week_and_unsuppressed"
       },
       {
-        "label": "Has VL and Suppressed cumulative(<400 copies)",
+        "label": "Has VL and Suppressed cumulative(<200 copies)",
         "description": "All active patients who are suppressed",
         "indicator": "is_suppressed"
       },
       {
-        "label": "Has VL and Unsuppressed cumulative(>400 copies)",
+        "label": "Has VL and Unsuppressed cumulative(>200 copies)",
         "description": "All active patients who are unsuppressed",
         "indicator": "is_un_suppressed"
       }

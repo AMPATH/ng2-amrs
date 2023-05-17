@@ -177,6 +177,31 @@
       "column": "fh.vl_1"
     },
     {
+      "type": "derived_column",
+      "alias": "vl_category",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.vl_1 < 50",
+            "value": "LDL"
+          },
+          {
+            "condition": "(fh.vl_1 >= 50 and fh.vl_1 < 200)",
+            "value": "Low Risk Low Level Viremia"
+          },
+          {
+            "condition": "(fh.vl_1 >= 200 and fh.vl_1 < 1000)",
+            "value": "High Risk Low Level Viremia"
+          },
+          {
+            "condition": "(fh.vl_1 > 1000)",
+            "value": "Suspected Treatment Failure"
+          }
+        ]
+      }
+    },
+    {
       "type": "simple_column",
       "alias": "latest_vl_date",
       "column": "date_format(fh.vl_1_date, '%Y-%m-%d')"
@@ -267,6 +292,31 @@
       "type": "simple_column",
       "alias": "tb_screening_date",
       "column": "date_format(tb.tb_screening_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "patient_category",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.patient_category= 9070",
+            "value": "Well"
+          },
+          {
+            "condition": "fh.patient_category= 11550",
+            "value": "UnWell"
+          },
+          {
+            "condition": "fh.patient_category = 0",
+            "value": "N/A"
+          },
+          {
+            "condition": "fh.patient_category IS NULL",
+            "value": "N/A"
+          }
+        ]
+      }
     },
     {
       "type": "derived_column",

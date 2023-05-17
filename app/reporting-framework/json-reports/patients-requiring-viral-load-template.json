@@ -161,6 +161,31 @@
       "column": "fhsh.vl_1"
     },
     {
+      "type": "derived_column",
+      "alias": "vl_category",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fhsh.vl_1 < 50",
+            "value": "LDL"
+          },
+          {
+            "condition": "(fhsh.vl_1 >= 50 and fhsh.vl_1 < 200)",
+            "value": "Low Risk Low Level Viremia"
+          },
+          {
+            "condition": "(fhsh.vl_1 >= 200 and fhsh.vl_1 < 1000)",
+            "value": "High Risk Low Level Viremia"
+          },
+          {
+            "condition": "(fhsh.vl_1 > 1000)",
+            "value": "Suspected Treatment Failure"
+          }
+        ]
+      }
+    },
+    {
       "type": "simple_column",
       "alias": "latest_vl_date",
       "column": "date_format(fhsh.vl_1_date, '%Y-%m-%d')"

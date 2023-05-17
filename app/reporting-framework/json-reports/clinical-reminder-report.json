@@ -102,7 +102,7 @@
       "alias": "needs_vl_coded",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when (ls.cur_arv_meds is null) then 0 when (timestampdiff(month,ls.vl_1_date, date('{referenceDate}')) > 3) and ls.vl_1 > 1000 and ls.arv_start_date < ls.vl_1_date then 1 when (timestampdiff(month,ls.arv_start_date,date('{referenceDate}')) between 6 and 12) and (ls.vl_1_date is null or ls.vl_1_date < ls.arv_start_date ) then 2 when (timestampdiff(month,ls.arv_start_date,'{referenceDate}') > 12) and (ls.vl_1_date is null or timestampdiff(month,ls.vl_1_date,'{referenceDate}') > 12) then 3 WHEN  (ls.is_pregnant OR (t6.relationship = 2 AND TIMESTAMPDIFF(MONTH, t6.date_created,'{referenceDate}') BETWEEN 0 AND 24 )) AND ls.vl_1 > 400 AND  (TIMESTAMPDIFF(MONTH, ls.vl_1_date,'{referenceDate}') >= 3) THEN 4 WHEN  (t1.is_pregnant OR (t6.relationship = 2 AND TIMESTAMPDIFF(MONTH, t6.date_created,'{referenceDate}') BETWEEN 0 AND 24 )) AND ls.vl_1 <= 400 AND  (TIMESTAMPDIFF(MONTH, ls.vl_1_date,'{referenceDate}') >= 6) THEN 5 else 0 end"
+        "expression": "CASE WHEN (ls.cur_arv_meds IS NULL) THEN 0 WHEN (TIMESTAMPDIFF(MONTH, ls.vl_1_date, DATE('{referenceDate}')) > 3) AND ls.vl_1 > 1000 AND ls.arv_start_date < ls.vl_1_date THEN 1 WHEN ls.vl_1 > 200 AND (TIMESTAMPDIFF(MONTH,ls.vl_1_date,DATE('{referenceDate}')) > 3) THEN 2 WHEN (TIMESTAMPDIFF(MONTH, ls.arv_start_date, '{referenceDate}') >= 12) AND (ls.vl_2 IS NULL) THEN 3 WHEN (ls.is_pregnant OR (t6.relationship = 2 AND TIMESTAMPDIFF(MONTH, t6.date_created, '{referenceDate}') BETWEEN 0 AND 24)) AND (TIMESTAMPDIFF(MONTH, ls.vl_1_date, '{referenceDate}') >= 6) THEN 4 WHEN (t1.is_pregnant OR (t6.relationship = 2 AND TIMESTAMPDIFF(MONTH, t6.date_created, '{referenceDate}') BETWEEN 0 AND 24)) AND ls.vl_1 >= 200 AND (TIMESTAMPDIFF(MONTH, ls.vl_1_date, '{referenceDate}') >= 3) THEN 5 WHEN (TIMESTAMPDIFF(MONTH, ls.arv_start_date, '{referenceDate}') = 3) AND (ls.vl_1_date IS NULL) THEN 6 WHEN (ls.cur_arv_meds <> ls.prev_arv_meds) AND ls.prev_arv_meds IS NOT NULL THEN 7 WHEN ls.vl_1 < 200  AND (TIMESTAMPDIFF(MONTH, ls.vl_1_date, DATE('{referenceDate}')) >= 12) THEN 8 ELSE 0 END"
       }
     },
     {
@@ -127,6 +127,32 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "case when ls.cur_arv_meds is not null and ls.vl_1 > 1000 and timestampdiff(day,ls.cd4_1_date, '{referenceDate}') >= 90 then 1 when timestampdiff(month,ls.arv_start_date, '{referenceDate}') <= 12 and (ls.cd4_1_date is null or timestampdiff(month,ls.cd4_1_date, '{referenceDate}') > 6) then 2 when timestampdiff(month,ls.arv_start_date, '{referenceDate}') > 12 and (ls.cd4_1_date is null or timestampdiff(month,ls.cd4_1_date, '{referenceDate}') > 12) then 3 else 0 end"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "months_since_cd4_count",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "TIMESTAMPDIFF(MONTH, ls.cd4_1_date,'{referenceDate}')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "previous_cd4_count",
+      "column": "ls.cd4_2"
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_cd4_count",
+      "column": "ls.cd4_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "get_cd4_count_coded",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN ls.cd4_1 IS NULL THEN 1 WHEN (ls.cd4_1 <= 200) AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') > 6) THEN 2 WHEN (ls.cd4_1 > 200 AND ls.cd4_2 <= 200) AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') > 6) THEN 3 WHEN ls.cd4_2 IS NULL AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') > 6) THEN 4   ELSE 0 END"
       }
     },
     {
@@ -158,7 +184,7 @@
       "alias": "qualifies_differenciated_care",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when t1.vl_1 < 401 and (timestampdiff(year,birthdate, date('{referenceDate}')) >= 20) and ((timestampdiff(month,t1.ipt_start_date,if(t1.ipt_completion_date is not null and (t1.tb_prophylaxis_duration = 6 or t1.tb_prophylaxis_duration is null),t1.ipt_completion_date,'{referenceDate}')) >= 6) or (timestampdiff(month,t1.ipt_start_date,if(t1.ipt_completion_date is not null and t1.tb_prophylaxis_duration = 3,t1.ipt_completion_date,'{referenceDate}')) >= 3)) and (timestampdiff(month,t1.vl_1_date,now()) <= 11 ) and (timestampdiff(month,t1.arv_start_date, '{referenceDate}') >= 12) AND p.program_id IS NULL and t10.program_id is null and DATE(t1.prev_rtc_date) = DATE(t1.encounter_datetime) then 1 else 0 end"
+        "expression": "case when t1.vl_1 < 200 and (timestampdiff(year,birthdate, date('{referenceDate}')) >= 20) and ((timestampdiff(month,t1.ipt_start_date,if(t1.ipt_completion_date is not null and (t1.tb_prophylaxis_duration = 6 or t1.tb_prophylaxis_duration is null),t1.ipt_completion_date,'{referenceDate}')) >= 6) or (timestampdiff(month,t1.ipt_start_date,if(t1.ipt_completion_date is not null and t1.tb_prophylaxis_duration = 3,t1.ipt_completion_date,'{referenceDate}')) >= 3)) and (timestampdiff(month,t1.vl_1_date,now()) <= 11 ) and (timestampdiff(month,t1.arv_start_date, '{referenceDate}') >= 12) AND p.program_id IS NULL and t10.program_id is null and DATE(t1.prev_rtc_date) = DATE(t1.encounter_datetime) then 1 else 0 end"
       }
     },
     {
@@ -294,7 +320,7 @@
       "alias": "qualifies_enhanced",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "case when t1.vl_1 >= 401 and (t7.program_id is null) then 1 when (t1.vl_1 < 401) and (t7.program_id is not null) then 2 when (t7.program_id is not null and t7.date_completed is null) and timestampdiff(month,t1.vl_1_date, '{referenceDate}') >= 3 then 3 else 0 end"
+        "expression": "case when t1.vl_1 >= 200 and (t7.program_id is null) then 1 when (t1.vl_1 < 200) and (t7.program_id is not null) then 2 when (t7.program_id is not null and t7.date_completed is null) and timestampdiff(month,t1.vl_1_date, '{referenceDate}') >= 3 then 3 else 0 end"
       }
     },
     {

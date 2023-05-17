@@ -331,8 +331,8 @@ function getDueForVl() {
     '(case when (timestampdiff(month,t1.vl_1_date, curdate()) >= 3) and t1.vl_1 > 999 and t1.arv_start_date < t1.vl_1_date then 1  ' +
     'when (timestampdiff(month,t1.arv_start_date,curdate()) between 6 and 12) and (t1.vl_1_date is null or t1.vl_1_date < t1.arv_start_date ) then 1 ' +
     'when (timestampdiff(month,t1.arv_start_date,curdate()) > 12) and (t1.vl_1_date is null or timestampdiff(month,t1.vl_1_date,curdate()) > 12) then 1  ' +
-    'WHEN  (t1.is_pregnant OR (t2.relationship = 2 AND TIMESTAMPDIFF(MONTH, t2.date_created,curdate()) BETWEEN 0 AND 24 )) AND t1.vl_1 > 400 AND  (TIMESTAMPDIFF(MONTH, t1.vl_1_date,curdate()) >= 3) THEN 1  ' +
-    'WHEN  (t1.is_pregnant OR (t2.relationship = 2 AND TIMESTAMPDIFF(MONTH, t2.date_created,curdate()) BETWEEN 0 AND 24 )) AND t1.vl_1 <= 400 AND  (TIMESTAMPDIFF(MONTH, t1.vl_1_date,curdate()) >= 6) THEN 1 ' +
+    'WHEN  (t1.is_pregnant OR (t2.relationship = 2 AND TIMESTAMPDIFF(MONTH, t2.date_created,curdate()) BETWEEN 0 AND 24 )) AND t1.vl_1 > 200 AND  (TIMESTAMPDIFF(MONTH, t1.vl_1_date,curdate()) >= 3) THEN 1  ' +
+    'WHEN  (t1.is_pregnant OR (t2.relationship = 2 AND TIMESTAMPDIFF(MONTH, t2.date_created,curdate()) BETWEEN 0 AND 24 )) AND t1.vl_1 <= 200 AND  (TIMESTAMPDIFF(MONTH, t1.vl_1_date,curdate()) >= 6) THEN 1 ' +
     'WHEN t1.arv_first_regimen_start_date is not null and t1.arv_start_date is not null and t1.arv_first_regimen_start_date < t1.arv_start_date AND TIMESTAMPDIFF(MONTH,t1.arv_start_date,curdate()) >= 3 AND t1.vl_1_date is null then 1 ' +
     'WHEN t1.arv_first_regimen_start_date is not null and t1.arv_start_date is not null and t1.arv_first_regimen_start_date < t1.arv_start_date AND TIMESTAMPDIFF(MONTH,t1.arv_start_date,curdate()) >= 3 AND TIMESTAMPDIFF(MONTH,t1.vl_1_date,t1.arv_start_date)>=1  then 1 else 0 end) '
   );

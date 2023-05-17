@@ -54,6 +54,11 @@
       "width": 100
     },
     {
+      "headerName": "VL Category",
+      "field": "vl_category",
+      "width": 250
+    },
+    {
       "headerName": "Latest VL Date",
       "field": "latest_vl_date",
       "width": 100

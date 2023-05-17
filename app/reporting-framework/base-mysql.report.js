@@ -1311,7 +1311,7 @@ export class BaseMysqlReport {
           });
         })
         .catch((error) => {
-          console.error('Error Executing Mysql Query', error);
+          // console.error('Error Executing Mysql Query', error);
           reject(error);
         });
     });
