@@ -5341,5 +5341,70 @@
         ]
       }
     ]
+  },
+  "d2552058-d7bd-47c6-aed1-480a4308027a": {
+    "name": "POSTNATAL CARE PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "patientEncounters",
+      "patientEnrollment"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "b1a978ca-9315-4ba2-ac2b-84efb9a68c5c",
+        "name": "PMTCT Postnatal Initial Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstPNCVisit && gender==='F'",
+        "encounterTypes": [
+          {
+            "uuid": "ded4ecf7-8129-4a9e-8aa3-a21a7adb7759",
+            "display": "PNCADULTINITIAL"
+          },
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          }
+        ]
+      },
+      {
+        "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
+        "name": "PMTCT Postnatal Return Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstPNCVisit && gender==='F'",
+        "encounterTypes": [
+          {
+            "uuid": "ded4ecf7-8129-4a9e-8aa3-a21a7adb7759",
+            "display": "PNCADULTRETURN"
+          },
+          {
+            "uuid": "db215741-de99-424a-a109-1f23eb3b680b",
+            "display": "HIVTRIAGE"
+          }
+        ]
+      }
+    ]
+  },
+  "01948855-8491-4164-b54f-9b16d174d93e": {
+    "name": "MATERNITY PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "patientEncounters",
+      "patientEnrollment"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "5dd2b2c7-66cc-4cd8-b1ce-ca8fc0189a12",
+        "name": "Maternity Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && gender==='F'",
+        "encounterTypes": [
+          {
+            "uuid": "2b928d9b-84ce-4777-9658-3fba6248b3bc",
+            "display": "LABORANDDELIVERY"
+          }
+        ]
+      }
+    ]
   }
 }

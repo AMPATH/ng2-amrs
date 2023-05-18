@@ -186,6 +186,14 @@
       {
         "uuid": "52aeb285-fb18-455b-893e-3e53ccc77ceb",
         "name": "ANTENATAL CARE PROGRAM"
+      },
+      {
+        "uuid": "d2552058-d7bd-47c6-aed1-480a4308027a",
+        "name": "POSTNATAL CARE PROGRAM"
+      },
+      {
+        "uuid": "01948855-8491-4164-b54f-9b16d174d93e",
+        "name": "MATERNITY CARE PROGRAM"
       }
     ]
   }
