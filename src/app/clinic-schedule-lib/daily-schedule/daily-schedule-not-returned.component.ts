@@ -79,6 +79,11 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       headerName: 'SMS Time',
       width: 100,
       field: 'sms_receive_time'
+    },
+    {
+      headerName: 'SMS Delivery Status',
+      width: 100,
+      field: 'sms_delivery_status'
     }
   ];
   public filter: any = {
