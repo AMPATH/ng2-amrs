@@ -117,6 +117,12 @@ import { IptBaseReportComponent } from 'src/app/hiv-care-lib/ipt-report/ipt-repo
 import { PatientGainsFiltersComponent } from './patient-gains-and-loses/patient-gains-and-losses-filters/patient-gains-and-losses-filter.component';
 import { PatientGainsAndLossesDashboardViewComponent } from './patient-gains-and-loses/patient-gains-and-losses-dashboard-view/patient-gains-and-losses-dashboard-view.component';
 import { PatientGainsAndLossesTabularViewComponent } from './patient-gains-and-loses/patient-gains-and-losses-tabular-view/patient-gains-and-losses-tabular-view.component';
+
+import { Covid19ReportComponent } from './covid-19-report/covid-19-report.component';
+import { Covid19ReportFiltersComponent } from './covid-19-report/covid-19-report-filters/covid-19-report-filters.component';
+import { Covid19ReportPatientListComponent } from './covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
+import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-view/covid-19-tabular-view.component';
+
 @NgModule({
   imports: [
     RouterModule,
@@ -206,7 +212,11 @@ import { PatientGainsAndLossesTabularViewComponent } from './patient-gains-and-l
     ContactListComponent,
     PatientGainsAndLosesComponent,
     PatientGainsAndLossesDashboardViewComponent,
-    PatientGainsAndLossesTabularViewComponent
+    PatientGainsAndLossesTabularViewComponent,
+    Covid19ReportComponent,
+    Covid19ReportFiltersComponent,
+    Covid19ReportPatientListComponent,
+    Covid19TabularViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -274,7 +284,11 @@ import { PatientGainsAndLossesTabularViewComponent } from './patient-gains-and-l
     IptBaseReportComponent,
     IptReportPatientListComponent,
     PatientGainsAndLossesDashboardViewComponent,
-    PatientGainsAndLossesTabularViewComponent
+    PatientGainsAndLossesTabularViewComponent,
+    Covid19ReportComponent,
+    Covid19ReportFiltersComponent,
+    Covid19ReportPatientListComponent,
+    Covid19TabularViewComponent
   ],
   providers: [
     MOHReportService,

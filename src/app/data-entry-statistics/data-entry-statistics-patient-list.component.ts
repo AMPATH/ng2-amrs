@@ -51,8 +51,29 @@ export class DataEntryStatisticsPatientListComponent
 
   public dataEntryPatientListColdef: any = [
     {
-      headerName: '#',
-      field: 'patient_no'
+      headerName: 'CCC Number',
+      field: 'ccc_number',
+      width: 150,
+      pinned: true
+    },
+    {
+      headerName: 'Person Name',
+      field: 'person_name',
+      pinned: true
+    },
+    {
+      headerName: 'NUPI Identifier',
+      field: 'upi_number',
+      width: 150,
+      pinned: true
+    },
+    {
+      headerName: 'Gender',
+      field: 'gender'
+    },
+    {
+      headerName: 'Age',
+      field: 'age'
     },
     {
       headerName: 'Identifiers',
@@ -69,18 +90,6 @@ export class DataEntryStatisticsPatientListComponent
       }
     },
     {
-      headerName: 'Person Name',
-      field: 'person_name'
-    },
-    {
-      headerName: 'Gender',
-      field: 'gender'
-    },
-    {
-      headerName: 'Age',
-      field: 'age'
-    },
-    {
       headerName: 'Location Name',
       field: 'location_name'
     },
@@ -95,6 +104,11 @@ export class DataEntryStatisticsPatientListComponent
       field: 'last_appointment'
     },
     {
+      headerName: 'Patient Category',
+      width: 150,
+      field: 'patient_category'
+    },
+    {
       headerName: 'Latest RTC Date',
       width: 150,
       field: 'latest_rtc_date'
@@ -104,6 +118,7 @@ export class DataEntryStatisticsPatientListComponent
       width: 200,
       field: 'cur_meds'
     },
+    { headerName: 'OVCID', field: 'ovcid_id', width: 150 },
     {
       headerName: 'Latest VL',
       width: 75,
@@ -163,6 +178,9 @@ export class DataEntryStatisticsPatientListComponent
         patient_no: patientCount,
         identifiers: list.identifiers,
         person_name: list.person_name,
+        ccc_number: list.ccc_number,
+        ovcid_id: list.ovcid_id,
+        upi_number: list.upi_number,
         gender: list.gender,
         age: list.age,
         location_name: list.location_name,

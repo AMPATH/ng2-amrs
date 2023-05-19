@@ -18,6 +18,14 @@ export class DqaChartAbstractionService {
   }
 
   public getDqaChartAbstractionReport(params: any): Observable<any> {
+    let extraParams = '';
+    if (params.startDate && params.endDate) {
+      extraParams +=
+        '&startDate=' + params.startDate + '&endDate=' + params.endDate;
+    }
+    if (params.patientType) {
+      extraParams += '&patientType=' + params.patientType;
+    }
     const sampleUrl =
       this.url +
       'dqa-chart-abstraction?locationUuids=' +
@@ -25,7 +33,8 @@ export class DqaChartAbstractionService {
       '&limit=' +
       params.limit +
       '&offset=' +
-      params.offset;
+      params.offset +
+      extraParams;
 
     return this.http.get(sampleUrl, {}).pipe(
       map((response: any) => {

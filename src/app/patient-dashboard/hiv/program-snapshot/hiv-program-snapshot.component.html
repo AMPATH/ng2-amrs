@@ -11,18 +11,6 @@
   </div>
   <div *ngIf="!hasError && hasData && displayProgram">
     <div class="row">
-      <div *ngIf="viremiaAlert" style="display: inline-block">
-        <p
-          class="hiv-alert"
-          [ngClass]="{
-            label: true,
-            'label-danger': highViremia,
-            'label-warning': lowViremia
-          }"
-        >
-          <span class="hiv-alert">{{ viremiaAlert }} Viremia</span>
-        </p>
-      </div>
       <div *ngIf="gbvScreeningResult" style="display: inline-block">
         <p>
           <span class="hiv-alert" style="background: orange"
@@ -63,6 +51,13 @@
             {{
               covid19VaccinationSummary?.covid_screening_outcome_this_visit
             }}</span
+          >
+        </p>
+      </div>
+      <div class="alert-div" style="display: inline-block">
+        <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
+          <span class="hiv-alert" [style.background-color]="viralloadColor"
+            >VL Category: {{ this.viralLoadCategory }}</span
           >
         </p>
       </div>

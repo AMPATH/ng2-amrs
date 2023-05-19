@@ -118,6 +118,16 @@ export class CaseManagementPatientListComponent implements OnInit {
       }
     },
     {
+      headerName: 'CCC Number',
+      field: 'ccc_number',
+      width: 200
+    },
+    {
+      headerName: 'NUPI Number',
+      field: 'upi_number',
+      width: 200
+    },
+    {
       headerName: 'Identifiers',
       field: 'identifiers',
       width: 200
@@ -165,6 +175,11 @@ export class CaseManagementPatientListComponent implements OnInit {
     {
       headerName: 'Phone RTC',
       field: 'next_phone_appointment',
+      width: 200
+    },
+    {
+      headerName: 'OVCID Identifier',
+      field: 'ovcid_id',
       width: 200
     },
     {

@@ -46,6 +46,11 @@ export class ContactListComponent implements OnInit {
       width: 150
     },
     {
+      field: 'reported_test_date',
+      headerName: 'Reported test date',
+      width: 150
+    },
+    {
       field: 'test_result_value',
       headerName: 'Current test results',
       width: 150
@@ -80,7 +85,7 @@ export class ContactListComponent implements OnInit {
 
   public getFamilyTestingContactListData(patientId: string) {
     this.familyTestingService
-      .getFamilyTestingReportData(patientId)
+      .getFamilyTestingReportData({ patientUuid: patientId })
       .subscribe((data) => {
         if (data.result && data.result.length > 0) {
           this.getContacts(data.result);

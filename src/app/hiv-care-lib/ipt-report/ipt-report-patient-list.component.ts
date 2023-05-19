@@ -41,6 +41,7 @@ export class IptReportPatientListComponent implements OnInit {
       phone_number: 'Phone Number',
       enrollment_date: 'Date Enrolled',
       last_appointment: 'Latest Appointment',
+      patient_category: 'Patient Category',
       latest_rtc_date: 'Latest RTC Date',
       days_since_rtc_date: 'Days Since RTC',
       status: 'Current Status',
@@ -58,6 +59,7 @@ export class IptReportPatientListComponent implements OnInit {
       latest_vl_date: 'Latest VL Date',
       previous_vl: 'Previous VL',
       previous_vl_date: 'Previous VL Date',
+      ovcid_id: 'OVCID',
       nearest_center: 'Estate/Nearest Center'
     };
 

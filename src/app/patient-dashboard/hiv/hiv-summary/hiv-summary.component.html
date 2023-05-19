@@ -1,14 +1,5 @@
 <h4 class="component-title">
   <span class="fa fa-medkit"></span> HIV Summary
-  <span
-    *ngIf="viremiaAlert"
-    [ngClass]="{
-      label: true,
-      'label-danger': highViremia,
-      'label-warning': lowViremia
-    }"
-    >{{ viremiaAlert }}</span
-  >
 
   <span *ngIf="gbvScreeningResult" class="hiv-alert" style="background: orange"
     >{{ gbvScreeningLabel }}: {{ gbvScreeningResult }}</span

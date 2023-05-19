@@ -28,17 +28,10 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       valueGetter: this.getRowNNumber
     },
     {
-      headerName: 'Identifiers',
-      field: 'identifiers',
-      width: 250,
-      pinned: true,
-      cellRenderer: (column: any) => {
-        return (
-          '<a href="javascript:void(0);" title="Identifiers">' +
-          column.value +
-          '</a>'
-        );
-      }
+      headerName: 'CCC Number',
+      width: 150,
+      field: 'ccc_number',
+      pinned: true
     },
     {
       headerName: 'Name',
@@ -46,8 +39,26 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       width: 250,
       pinned: true
     },
+    {
+      headerName: 'NUPI Identifier',
+      width: 150,
+      field: 'upi_number',
+      pinned: true
+    },
     { headerName: 'Gender', field: 'gender', width: 100 },
-    { headerName: 'Age', field: 'age', width: 100 }
+    { headerName: 'Age', field: 'age', width: 100 },
+    {
+      headerName: 'Identifiers',
+      field: 'identifiers',
+      width: 250,
+      cellRenderer: (column: any) => {
+        return (
+          '<a href="javascript:void(0);" title="Identifiers">' +
+          column.value +
+          '</a>'
+        );
+      }
+    }
   ];
   public gridOptions: GridOptions = {
     enableColResize: true,
@@ -86,9 +97,7 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       }
     );
   }
-  public extraColumns() {
-    return this.patientListCols;
-  }
+
   private getPatientList(params: any) {
     this.patientGainLose
       .getPatientGainAndLosePatientList(params)

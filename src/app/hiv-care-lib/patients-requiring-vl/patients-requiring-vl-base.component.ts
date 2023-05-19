@@ -95,6 +95,14 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         cellStyle: {
           'white-space': 'normal'
         }
+      },
+      {
+        headerName: 'VL Category',
+        field: 'vl_category',
+        width: 170,
+        cellStyle: {
+          'white-space': 'normal'
+        }
       }
     ];
   }

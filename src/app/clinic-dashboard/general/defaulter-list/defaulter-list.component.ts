@@ -92,6 +92,11 @@ export class DefaulterListComponent implements OnInit {
         field: 'last_appointment'
       },
       {
+        headerName: 'Patient Category',
+        width: 150,
+        field: 'patient_category'
+      },
+      {
         headerName: 'Latest RTC Date',
         width: 150,
         field: 'latest_rtc_date'
@@ -100,6 +105,11 @@ export class DefaulterListComponent implements OnInit {
         headerName: 'Current Regimen',
         width: 200,
         field: 'cur_meds'
+      },
+      {
+        headerName: 'OVCID',
+        field: 'ovcid_id',
+        width: 150
       },
       {
         headerName: 'Latest VL',

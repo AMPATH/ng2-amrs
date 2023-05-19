@@ -14,6 +14,7 @@ import * as Moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DatePickerModalComponent } from '../modals/date-picker-modal.component';
 import { Group } from '../../models/group.model';
+import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 
 @Component({
   selector: 'group-manager-search-results',
@@ -42,7 +43,8 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
 
   constructor(
     private communityGroupService: CommunityGroupService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private toastrService: ToastrFunctionService
   ) {}
 
   ngOnInit(): void {}
@@ -106,6 +108,15 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
     );
   }
 
+  public confirmActivate(group: any): void {
+    const confirmed = window.confirm(
+      `Are you sure you want to activate group ${group.display}?`
+    );
+    if (confirmed) {
+      this.activateGroup(group);
+    }
+  }
+
   public activateGroup(group) {
     const index = _.indexOf(this._groups, group);
     this.communityGroupService.activateGroup(group.uuid).subscribe(
@@ -115,6 +126,12 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
       (error) => {
         console.log(error);
       }
+    );
+
+    this.toastrService.showToastr(
+      'success',
+      `Group ${group.display} has been activated successully`,
+      'Activated!'
     );
   }
 

@@ -13,6 +13,7 @@ import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource
 import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
+import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -48,7 +49,6 @@ export class HivProgramSnapshotComponent implements OnInit {
     this.patientPrograms = enrolledProgrames;
   }
   @Input() public set program(program) {
-    this.showViremiaAlert = program.uuid === mdtProgramUuid ? true : false;
     this.hasMoriskyScore = program.uuid === stdProgramUuid ? true : false;
     this.curProgram = program;
     _.each(HivNegativesProgram, (p) => {
@@ -75,12 +75,12 @@ export class HivProgramSnapshotComponent implements OnInit {
   public hasSubsequentClinicalEncounter = false;
   public resolvedCareStatus: any;
   public showCareStatus = true;
+  public viralLoadCategory: any = '';
+  public viralloadColor = ' ';
   public backgroundColor: any = {
     pink: '#FFC0CB',
     yellow: '#FFFF00'
   };
-  public viremiaAlert: string;
-  public showViremiaAlert: boolean;
   public lowViremia: boolean;
   public highViremia: boolean;
   public currentPatientSub: Subscription;
@@ -119,7 +119,8 @@ export class HivProgramSnapshotComponent implements OnInit {
     private locationResource: LocationResourceService,
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
-    private covid19Service: Covid19ResourceService
+    private covid19Service: Covid19ResourceService,
+    private patientReminderService: PatientReminderService
   ) {}
 
   public ngOnInit() {
@@ -140,6 +141,7 @@ export class HivProgramSnapshotComponent implements OnInit {
       0,
       this.patient.uuid
     );
+
     this.getMoriskyScore();
   }
 
@@ -160,14 +162,11 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestVlResult = this.getlatestVlResult(results);
           latestVlDate = latestVlResult.vl_1_date;
           latestVl = latestVlResult.vl_1;
-          latestVl = latestVlResult.vl_1;
+
           this.patientCareStatus = results[0].patient_care_status;
           this.hivDisclosureStatus =
             results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
 
-          if (this.showViremiaAlert) {
-            this.checkViremia(latestVl);
-          }
           this.gbvScreeningResult = this.checkGbvScreening(
             results[0].gbv_screening_result
           );
@@ -232,6 +231,42 @@ export class HivProgramSnapshotComponent implements OnInit {
           console.error('Error resolving locations', error);
         }
       );
+  }
+
+  public getViralLoadCategory(latestViralLoad: any) {
+    const eligiblility = this.patientReminderService.vl_eligible;
+    let isEligible: any;
+    _.each(eligiblility, (vl_eligibiliy: any) => {
+      if (vl_eligibiliy.title === 'Viral Load Reminder') {
+        isEligible = 1;
+      }
+    });
+    switch (true) {
+      case isEligible === 1:
+        this.viralLoadCategory = 'Missing VL';
+        this.viralloadColor = 'purple';
+        break;
+      case latestViralLoad < 50 && latestViralLoad != null:
+        this.viralLoadCategory = 'LDL';
+        this.viralloadColor = 'green';
+        break;
+      case latestViralLoad >= 50 && latestViralLoad < 200:
+        this.viralLoadCategory = 'Low Risk Low Level Viremia';
+        this.viralloadColor = 'yellowgreen';
+        break;
+      case latestViralLoad >= 200 && latestViralLoad < 1000:
+        this.viralLoadCategory = 'High Risk Low Level Viremia';
+        this.viralloadColor = 'orange';
+        break;
+      case latestViralLoad >= 1000:
+        this.viralLoadCategory = 'Suspected Treatment Failure';
+        this.viralloadColor = 'red';
+        break;
+      default:
+        this.viralLoadCategory = 'N/A';
+        this.viralloadColor = 'black';
+        break;
+    }
   }
 
   public getPatientCareStatus(care_status_id: any) {
@@ -386,17 +421,6 @@ export class HivProgramSnapshotComponent implements OnInit {
     return text.replace(/\w\S*/g, (txt) => {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
-  }
-
-  private checkViremia(latestVl) {
-    if (latestVl >= 1 && latestVl <= 999) {
-      this.lowViremia = true;
-      this.viremiaAlert = 'Low';
-    }
-    if (latestVl >= 1000) {
-      this.highViremia = true;
-      this.viremiaAlert = 'High';
-    }
   }
 
   private checkGbvScreening(screeningResult) {

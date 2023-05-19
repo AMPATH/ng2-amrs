@@ -98,6 +98,7 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
                   this.errorMessage = error;
                 }
               );
+            this.patientReminderService.getVlEligible();
             this.subscriptions.push(sub2);
           }
         }

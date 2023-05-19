@@ -20,6 +20,7 @@ import { PatientCreationResourceService } from '../../../openmrs-api/patient-cre
 import { DataCacheService } from '../../../shared/services/data-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CacheStorageService } from 'ionic-cache/dist/cache-storage';
+import { LocationUnitsService } from 'src/app/etl-api/location-units.service';
 
 class FakeCacheStorageService {
   constructor(a, b) {}
@@ -41,6 +42,7 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     patientCreationResourceService: PatientCreationResourceService,
     userService: UserService,
     router: Router,
+    locationUnitsService: LocationUnitsService,
     sessionStorageService: SessionStorageService;
 
   beforeEach(() => {
@@ -85,6 +87,7 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
     personResourceService = TestBed.get(PersonResourceService);
     fakeAppFeatureAnalytics = TestBed.get(AppFeatureAnalytics);
     sessionStorageService = TestBed.get(SessionStorageService);
+    locationUnitsService = TestBed.get(LocationUnitsService);
     router = TestBed.get(Router);
     component = new EditPatientIdentifierComponent(
       patientService,
@@ -95,7 +98,8 @@ describe('Component: EditPatientIdentifierComponent Unit Tests', () => {
       patientCreationResourceService,
       userService,
       sessionStorageService,
-      router
+      router,
+      locationUnitsService
     );
   });
   afterEach(() => {
