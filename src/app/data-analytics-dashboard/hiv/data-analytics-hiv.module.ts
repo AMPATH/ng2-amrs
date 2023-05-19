@@ -35,6 +35,8 @@ import { DataAnalyticsMonthlyReportComponent } from './monthly-reports-dashboard
 import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and-losses/data-analytics-hiv-gains-and-losses.component';
 import { ContactTestingComponent } from './contact-testing/contact-testing/contact-testing.component';
 import { DialogModule } from 'primeng/primeng';
+import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
+import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
 
 @NgModule({
   imports: [
@@ -61,7 +63,8 @@ import { DialogModule } from 'primeng/primeng';
     HivCareComparativeAnalyticsComponent,
     MOH412HIVDataAnalyticsComponent,
     MOH412HIVDataAnalyticsPatientListComponent,
-    DataAnalyticsMonthlyReportComponent
+    DataAnalyticsMonthlyReportComponent,
+    TxReportsDashboardComponent
   ],
   declarations: [
     AdminDashboardClinicFlowComponent,
@@ -78,7 +81,9 @@ import { DialogModule } from 'primeng/primeng';
     IPTReportComponent,
     DataAnalyticsMonthlyReportComponent,
     DataAnalyticsHivGainsAndLossesComponent,
-    ContactTestingComponent
+    ContactTestingComponent,
+    TxReportsDashboardComponent,
+    TxMlReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

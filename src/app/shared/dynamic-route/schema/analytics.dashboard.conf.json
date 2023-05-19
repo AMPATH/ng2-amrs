@@ -109,6 +109,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "tx-report",
+          "label": "TX Reports",
+          "icon": "fa fa-file",
+          "isSideBarOpen": false
+        },
+        {
           "url": "select-department",
           "label": "Change Department",
           "icon": "fa fa-exchange",

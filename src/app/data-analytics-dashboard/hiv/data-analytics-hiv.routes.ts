@@ -40,6 +40,9 @@ import { ContactTestingComponent } from './contact-testing/contact-testing/conta
 import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
 import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component';
 import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
+import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
+import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
+import { TxMlReportPatientListComponent } from 'src/app/hiv-care-lib/tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -223,6 +226,28 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PatientGainsAndLosesPatientListComponent
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'tx-report',
+    children: [
+      {
+        path: '',
+        component: TxReportsDashboardComponent
+      },
+      {
+        path: 'tx-ml-report',
+        children: [
+          {
+            path: '',
+            component: TxMlReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxMlReportPatientListComponent
           }
         ]
       }
