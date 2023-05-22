@@ -1,8 +1,58 @@
-<div class="loader" *ngIf="loading">
+
+
+<p-dialog header = "Locator-Map" [(visible)]="display" styleClass="edit-identifier-dialog" class="edit_link">
+  <div class="container-fluid"></div>
+</p-dialog>
+
+
+
+
+<!--<div class="loader" *ngIf="loading">
   <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
 </div>
 <div class="row">
-  <div class="col-md-12"></div>
+  <div class="col-md-12">
+    <div
+      *ngIf="imageSaved"
+      class="alert alert-success alert-dismissible"
+      role="alert">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Image saved successfully
+    </div>
+    <div
+      *ngIf="imageUploadFailed"
+      class="alert alert-danger alert-dismissible"
+      role="alert"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Image not saved try again;
+    </div>
+    <div> -->
+      <!-- [singleFile]="singleFileInput"  
+      <lib-file-uploader
+        [(ngModel)]="dataModel"
+        [srcUrl]="pdfUrl"
+        (uploadData)="onFileChange($event)"
+        (liveCamera)="liveCamera()"
+        (_onClear)="clearPhoto()"
+        (fileChanged)="uploadFile($event)"
+      ></lib-file-uploader>
+    </div>
+  </div>
   <div *ngIf="dataModel" class="col-md-12">
     <span
       ><b>Last Updated : </b>
@@ -21,4 +71,4 @@
       style="display: block"
     ></pdf-viewer>
   </div>
-</div>
+</div> -->

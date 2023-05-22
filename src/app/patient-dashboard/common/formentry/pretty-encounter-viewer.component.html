@@ -1,13 +1,8 @@
-<div *ngIf="form && selectedEncounter && !error" id="encounter">
-  <div *ngIf="fromLocatorMap">
-    <app-locator-pretty-viewer
-      [locatorData]="locatorData"
-    ></app-locator-pretty-viewer>
-  </div>
-  <div *ngIf="!fromLocatorMap">
-    <encounter-renderer [encounter]="selectedEncounter" [form]="form">
-    </encounter-renderer>
-  </div>
+<div *ngIf="form && selectedEncounter && !error" id="encounter" >
+  <encounter-renderer
+    [encounter]="selectedEncounter"
+    [form]="form"
+  > </encounter-renderer>
 </div>
 <div *ngIf="error" class="text-center">
   {{ errorMessage }}
@@ -17,3 +12,6 @@
     <i class="fa fa-spinner fa-spin" style="color: #fff"></i> {{ loaderText }}
   </button>
 </div>
+<p-dialog header = "Locator-Map" [(visible)]="display" styleClass="edit-identifier-dialog" class="edit_link">
+  <div class="container-fluid"></div>
+</p-dialog>
