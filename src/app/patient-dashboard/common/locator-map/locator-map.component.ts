@@ -16,6 +16,10 @@ import { PatientService } from '../../services/patient.service';
   styleUrls: ['./locator-map.css']
 })
 export class LocatorMapComponent implements OnInit, OnDestroy {
+  public display = false;
+  public addDialog = false;
+  public showSuccessAlert = false;
+  public showErrorAlert = false;
   public dataModel: string;
   public mapInfo: any;
   public lastUpdatedDate: string;
@@ -39,7 +43,25 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
     private personResourceService: PersonResourceService
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {}
+
+  public ngOnDestroy(): void {}
+
+  public showDialog(param, id) {
+    this.identifierValidity = '';
+    if (param === 'edit' && id) {
+      this.display = true;
+      this.initIdentifier(id);
+    } else if (param === 'add') {
+      this.addDialog = true;
+      this.dialogData(id);
+    } else if (param === 'verify') {
+      this.addVerifyDialog = true;
+      this.dialogData(id, true);
+    }
+  }
+
+  /*public ngOnInit() {
     this.subscriptions.push(
       this.patientService.currentlyLoadedPatient.subscribe((patient) => {
         if (patient) {
@@ -185,5 +207,5 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
   public resetValues(): void {
     this.dataModel = null;
     this.pdfAvailable = false;
-  }
+  } */
 }

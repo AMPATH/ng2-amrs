@@ -328,16 +328,14 @@
   header="Add Patient Identifiers"
   [(visible)]="addDialog"
   closable="true"
-  styleClass="edit-identifier-dialog"
->
+  styleClass="edit-identifier-dialog">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
         <div
           class="alert alert-success"
           *ngIf="showSuccessAlert"
-          style="margin-top: 10px"
-        >
+          style="margin-top: 10px">
           <strong>Done!</strong> {{ successAlert }}
         </div>
         <div
