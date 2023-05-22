@@ -6,8 +6,8 @@
   tabindex="-1"
   role="dialog"
   aria-labelledby="mySmallModalLabel"
-  aria-hidden="true"
->
+  aria-hidden="true">
+
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -16,8 +16,7 @@
           type="button"
           class="close pull-right"
           aria-label="Close"
-          (click)="staticModal.hide()"
-        >
+          (click)="staticModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -65,8 +64,8 @@
         </div>
         <div class="obs-wrapper" *ngIf="pretty">
           <pretty-encounter-viewer
-            [encounter]="selectedEncounter"
-          ></pretty-encounter-viewer>
+            [encounter]="selectedEncounter">
+          </pretty-encounter-viewer>
         </div>
       </div>
     </div>

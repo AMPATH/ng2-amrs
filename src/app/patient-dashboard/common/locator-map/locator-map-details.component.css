@@ -2,10 +2,7 @@
   margin-right: 0px;
   margin-left: 0px;
 }
-.patient-info-divider {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
+
 .info_section_title {
   font-size: 20px;
   color: #203864;
@@ -20,7 +17,7 @@
   cursor: pointer;
 }
 .spacing {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 .smaller-icon {
   font-size: 12px;
