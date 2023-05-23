@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
+import { PrettyEncounterViewerComponent } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 
@@ -11,7 +13,6 @@ import { Subscription } from 'rxjs';
 })
 export class LocatorMapDetailsComponent implements OnInit {
   public patient: Patient = new Patient({});
-
   public display = false;
   public subscription: Subscription;
   private patient_uuid: string;
