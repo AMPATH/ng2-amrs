@@ -181,14 +181,22 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
                 if (summary.ipt_start_date != null) {
                   switch (summary.tb_prophylaxis_medication) {
                     case '607':
-                      this.iptProphylaxisMedication = '3HP';
+                      this.iptProphylaxisMedication =
+                        'Isoniazid 300mg and Rifapentine 300mg (3HP)';
                       break;
                     case '608':
+                      this.iptProphylaxisMedication =
+                        'Rifampicin 70mg and Isonaizid 50mg (3RH)';
+                      break;
                     case '282':
-                      this.iptProphylaxisMedication = '3RH';
+                      this.iptProphylaxisMedication =
+                        'Rifampicin 150mg and Isonaizid 75mg (3RH)';
+                      break;
+                    case '59':
+                      this.iptProphylaxisMedication = 'Isoniazid 100mg (6H)';
                       break;
                     default:
-                      this.iptProphylaxisMedication = 'Isoniazid';
+                      this.iptProphylaxisMedication = 'Isoniazid 300mg (6H)';
                       break;
                   }
                 }
