@@ -99,6 +99,11 @@ export class RetentionReportPatientListComponent implements OnInit {
       width: 200
     },
     {
+      headerName: 'Patient Category',
+      width: 150,
+      field: 'patient_category'
+    },
+    {
       headerName: 'Latest RTC date',
       field: 'latest_rtc_date',
       width: 150

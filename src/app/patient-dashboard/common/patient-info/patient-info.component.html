@@ -69,25 +69,36 @@
   <edit-identifiers #identifiers></edit-identifiers>
   <patient-identifier [identifiers]="patient?._identifier"></patient-identifier>
 </div>
+
 <hr class="intro-divider patient-info-divider" />
+
 <div class="row patient-info-row" id="relationship">
   <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
     <h5 class="info_section_title">Relationships</h5>
   </div>
   <patient-relationships></patient-relationships>
 </div>
+
 <hr class="intro-divider patient-info-divider" />
+
 <div class="row patient-info-row">
   <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
     <h5 class="info_section_title">Patient Location Details</h5>
+    <a
+      (click)="locator.showDialog()"
+      class="edit_link" 
+      ><span><i class="fa fa-plus fa-fw"></i> Add  </span>
+    </a> 
+    <span class="spacing"></span>
+    <a 
+     (click)="showEncounterObservations(encounter)" class="edit_link" >
+     <span><i class=" glyphicon glyphicon-eye-open smaller-icon"></i> View</span>
+    </a>
+
   </div>
-  <locator-map-details></locator-map-details>
+  <locator-map #locator></locator-map>
+  <locator-map-details ></locator-map-details>
 </div>
 
-<!-- <hr class="intro-divider patient-info-divider" />
-<div class="row patient-info-row">
-  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-    <h5 class="info_section_title">Outreach Locator Map</h5>
-  </div>
-  <locator-map></locator-map> -->
-<!-- </div> -->
+<hr class="intro-divider patient-info-divider" />
+

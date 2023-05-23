@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
+import { PrettyEncounterViewerComponent } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
+import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+
 import * as _ from 'lodash';
 @Component({
   selector: 'locator-map-details',
@@ -14,7 +16,6 @@ import * as _ from 'lodash';
 })
 export class LocatorMapDetailsComponent implements OnInit {
   public patient: Patient = new Patient({});
-
   public display = false;
   public subscription: Subscription;
   public patientLocatorEncounterUuid: string;

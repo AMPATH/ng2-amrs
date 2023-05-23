@@ -97,9 +97,7 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
       }
     );
   }
-  public extraColumns() {
-    return this.patientListCols;
-  }
+
   private getPatientList(params: any) {
     this.patientGainLose
       .getPatientGainAndLosePatientList(params)
