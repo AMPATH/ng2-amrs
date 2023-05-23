@@ -3,7 +3,10 @@ import { PatientService } from '../../services/patient.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
-
+import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
+import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import * as _ from 'lodash';
 @Component({
   selector: 'locator-map-details',
   templateUrl: './locator-map-details.component.html',
@@ -14,6 +17,10 @@ export class LocatorMapDetailsComponent implements OnInit {
 
   public display = false;
   public subscription: Subscription;
+  public patientLocatorEncounterUuid: string;
+  public patientLocatorEncounter: any;
+  public editDetails = false;
+  public patientEncounters: Array<any> = [];
   private patient_uuid: string;
   private tribe: string;
   private nearestNeighbour: string;
@@ -21,9 +28,12 @@ export class LocatorMapDetailsComponent implements OnInit {
   private workplace: string;
   private knownChild: string;
   private treatmentSupporter: string;
+  private locatorMapFormUuid = '18992298-4fe3-4c77-af9c-df8cf31b6e2b';
   constructor(
     private patientService: PatientService,
-    private personAttributeResourceService: PersonAttributeResourceService
+    private personAttributeResourceService: PersonAttributeResourceService,
+    private router: Router,
+    private encounterResourceService: EncounterResourceService
   ) {}
   ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -32,6 +42,7 @@ export class LocatorMapDetailsComponent implements OnInit {
         if (patient) {
           this.patient = patient;
           this.getPatientLocation();
+          this.getPatientEncounters();
         }
       }
     );
@@ -42,7 +53,6 @@ export class LocatorMapDetailsComponent implements OnInit {
       .getPersonAttributesByUuid(patientUuid)
       .subscribe((res) => {
         res.results.forEach((a: any) => {
-          console.log(a);
           if (a.attributeType.uuid === '4dcc4901-d4a1-422a-b6a0-2b24594a0dc6') {
             this.knownChild = a.value;
           } else if (
@@ -67,6 +77,50 @@ export class LocatorMapDetailsComponent implements OnInit {
             this.tribe = a.value;
           }
         });
+      });
+  }
+  public fillLocatorDetails() {
+    const patientUuid = this.patient.uuid;
+
+    if (patientUuid === undefined || patientUuid === null) {
+      return;
+    }
+
+    if (this.patientEncounters.length > 0) {
+      const url = `/patient-dashboard/patient/${patientUuid}/general/general/formentry/${this.locatorMapFormUuid}`;
+      this.router.navigate([url], {
+        queryParams: {
+          encounter: this.patientLocatorEncounterUuid,
+          visitTypeUuid: ''
+        }
+      });
+    } else {
+      this.router.navigate([
+        '/patient-dashboard/patient/' +
+          patientUuid +
+          '/general/general/formentry/' +
+          this.locatorMapFormUuid
+      ]);
+    }
+  }
+
+  public getPatientEncounters() {
+    this.encounterResourceService
+      .getEncountersByPatientUuid(this.patient.uuid, false, null)
+      .pipe(take(1))
+      .subscribe((resp) => {
+        this.patientEncounters = resp.reverse().filter((encounter) => {
+          if (encounter.form) {
+            return encounter.form.uuid === this.locatorMapFormUuid;
+          }
+        });
+        if (this.patientEncounters.length > 0) {
+          this.editDetails = true;
+          this.patientLocatorEncounter = _.first(this.patientEncounters);
+          this.patientLocatorEncounterUuid = _.first(
+            this.patientEncounters
+          ).uuid;
+        }
       });
   }
 
