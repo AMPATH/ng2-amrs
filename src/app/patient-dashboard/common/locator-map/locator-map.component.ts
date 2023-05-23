@@ -47,18 +47,8 @@ export class LocatorMapComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {}
 
-  public showDialog(param, id) {
-    this.identifierValidity = '';
-    if (param === 'edit' && id) {
-      this.display = true;
-      this.initIdentifier(id);
-    } else if (param === 'add') {
-      this.addDialog = true;
-      this.dialogData(id);
-    } else if (param === 'verify') {
-      this.addVerifyDialog = true;
-      this.dialogData(id, true);
-    }
+  public showDialog() {
+    this.display = true;
   }
 
   /*public ngOnInit() {

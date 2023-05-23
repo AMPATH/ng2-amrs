@@ -1,28 +1,11 @@
-<p-dialog
-  header="Add Locator Map"
-  [(visible)]="addDialog"
-  closable="true"
-  styleClass="edit-locator-dialog">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-        <div
-          class="alert alert-success"
-          *ngIf="showSuccessAlert"
-          style="margin-top: 10px"
-        >
-          <strong>Done!</strong> {{ successAlert }}
-        </div>
-        <div
-          class="alert alert-danger"
-          *ngIf="showErrorAlert"
-          style="margin-top: 10px">
-          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+<p-dialog header = "Locator-Map" [(visible)]="display" styleClass="edit-identifier-dialog" class="edit_link">
+  <div class="container-fluid"></div>
 </p-dialog>
+
+
+
 
 <!--<div class="loader" *ngIf="loading">
   <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
