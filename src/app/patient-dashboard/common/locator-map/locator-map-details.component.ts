@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { PrettyEncounterViewerComponent } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
@@ -7,7 +7,7 @@ import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+
 import * as _ from 'lodash';
 @Component({
   selector: 'locator-map-details',
@@ -16,12 +16,15 @@ import * as _ from 'lodash';
 })
 export class LocatorMapDetailsComponent implements OnInit {
   public patient: Patient = new Patient({});
+
   public display = false;
   public subscription: Subscription;
   public patientLocatorEncounterUuid: string;
   public patientLocatorEncounter: any;
   public editDetails = false;
   public patientEncounters: Array<any> = [];
+  public isBusy = new EventEmitter();
+  public onShowPrettyEncounterViewer = new EventEmitter();
   private patient_uuid: string;
   private tribe: string;
   private nearestNeighbour: string;
@@ -36,6 +39,11 @@ export class LocatorMapDetailsComponent implements OnInit {
     private router: Router,
     private encounterResourceService: EncounterResourceService
   ) {}
+  public showDialog(encounter: any) {
+    this.display = true;
+    this.isBusy.emit(true);
+    this.onShowPrettyEncounterViewer.emit(encounter);
+  }
   ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -48,6 +56,7 @@ export class LocatorMapDetailsComponent implements OnInit {
       }
     );
   }
+
   public getPatientLocation() {
     const patientUuid = this.patient.uuid;
     this.personAttributeResourceService

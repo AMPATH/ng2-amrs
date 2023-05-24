@@ -1,7 +1,14 @@
 <div class="row patient-info-row">
-  <!--  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-    <h5 class="info_section_title">Locator Map Details</h5>
-  </div> -->
+  <a
+  (click)="locator.showDialog()"
+  class="edit_link" 
+  ><span><i class="fa fa-plus fa-fw"></i> Add  </span>
+</a> 
+<span class="spacing"></span>
+<a 
+ (click)="showDialog(encounter)" class="edit_link" >
+ <span><i class=" glyphicon glyphicon-eye-open smaller-icon"></i> View</span>
+</a>
   <div>
     <a *ngIf="editDetails" (click)="fillLocatorDetails()" class="edit_link"
       ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
@@ -39,8 +46,8 @@
       </tbody>
     </table>
   </div>
-
-  <pretty-encounter-viewer
-    [encounter]="patientLocatorEncounter"
-  ></pretty-encounter-viewer>
+<div id="encounter"><pretty-encounter-viewer
+  [encounter]="patientLocatorEncounter" *ngIf="display"
+></pretty-encounter-viewer></div>
+  
 </div>
