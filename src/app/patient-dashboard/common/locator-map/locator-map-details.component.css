@@ -7,3 +7,23 @@
   font-size: 20px;
   color: #203864;
 }
+.edit_link span {
+  font-size: 1.1em;
+}
+.edit_link .fa {
+  display: inline;
+}
+.edit_link:hover {
+  cursor: pointer;
+}
+.spacing {
+  margin-right: 10px;
+}
+.smaller-icon {
+  font-size: 12px;
+}
+.modal {
+  top: 20%;
+  left: 20%;
+  max-height: 80vh;
+}

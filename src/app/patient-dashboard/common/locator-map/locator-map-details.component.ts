@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { PrettyEncounterViewerComponent } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
@@ -23,8 +23,9 @@ export class LocatorMapDetailsComponent implements OnInit {
   public patientLocatorEncounter: any;
   public editDetails = false;
   public patientEncounters: Array<any> = [];
-  public isBusy = new EventEmitter();
-  public onShowPrettyEncounterViewer = new EventEmitter();
+  @Output() public isBusy = new EventEmitter();
+  @Output() public ShowPrettyEncounterViewer = new EventEmitter();
+  @Output() public EncounterObservations = new EventEmitter();
   private patient_uuid: string;
   private tribe: string;
   private nearestNeighbour: string;
@@ -39,10 +40,15 @@ export class LocatorMapDetailsComponent implements OnInit {
     private router: Router,
     private encounterResourceService: EncounterResourceService
   ) {}
-  public showDialog(encounter: any) {
+
+  public showDialog() {
+    this.display = true;
+  }
+  public showEncounterObservations(encounter) {
     this.display = true;
     this.isBusy.emit(true);
-    this.onShowPrettyEncounterViewer.emit(encounter);
+    this.EncounterObservations.emit(encounter);
+    // console.log('Show observations', encounter);
   }
   ngOnInit() {
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
