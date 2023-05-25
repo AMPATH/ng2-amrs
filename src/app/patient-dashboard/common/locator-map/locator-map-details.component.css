@@ -23,7 +23,11 @@
   font-size: 12px;
 }
 .modal {
-  top: 20%;
-  left: 20%;
-  max-height: 80vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
 }
