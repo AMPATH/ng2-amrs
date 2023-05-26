@@ -1,8 +1,8 @@
-<div *ngIf="form && selectedEncounter && !error" id="encounter">
+<div *ngIf="form && selectedEncounter && !error" id="encounter" >
   <encounter-renderer
     [encounter]="selectedEncounter"
     [form]="form"
-  ></encounter-renderer>
+  > </encounter-renderer>
 </div>
 
 <div *ngIf="error" class="text-center">
