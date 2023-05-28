@@ -195,9 +195,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
                     case '59':
                       this.iptProphylaxisMedication = 'Isoniazid 100mg (6H)';
                       break;
-                    default:
+                    case '60':
                       this.iptProphylaxisMedication = 'Isoniazid 300mg (6H)';
                       break;
+                    default:
+                      this.iptProphylaxisMedication = '';
                   }
                 }
                 break;
