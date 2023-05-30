@@ -7,26 +7,21 @@
   (click)="locator.showDialog()"
   class="edit_link" 
   ><span><i class="fa fa-plus fa-fw"></i> Add  </span>
-</a> 
-<locator-map #locator ></locator-map> -->
-<span class="spacing"></span>
-<a 
-type="button"
- (click)="display" 
- data-target="#encounter"
- data-toggle="modal"
- class="edit_link" >
- <span>
-  <i class=" glyphicon glyphicon-eye-open smaller-icon"></i> View</span>
-</a>
-
+  </a> 
+  <locator-map #locator ></locator-map> -->
   <div>
-    <a *ngIf="editDetails" (click)="fillLocatorDetails()" class="edit_link"
-      ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
-    >
-    <a *ngIf="!editDetails" (click)="fillLocatorDetails()" class="edit_link"
-      ><span><i class="fa fa-edit fa-fw"></i> Add</span></a
-    >
+    <a *ngIf="editDetails" (click)="fillLocatorDetails()" class="edit_link">
+      <span><i class="fa fa-edit fa-fw"></i> Edit</span>
+    </a>
+    <a *ngIf="!editDetails" (click)="fillLocatorDetails()" class="edit_link">
+      <span><i class="fa fa-edit fa-fw"></i> Add</span>
+    </a>
+    <span class="spacing"></span>
+    <a type="button" (click)="display" data-target="#encounter"
+       data-toggle="modal" class="edit_link" >
+       <span><i class=" glyphicon glyphicon-eye-open smaller-icon"></i> View
+       </span>
+    </a>
   </div>
   <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
     <table class="table table-striped" *ngIf="patient">
@@ -57,10 +52,24 @@ type="button"
       </tbody>
     </table>
   </div>
-<div  id="encounter" class="modal" >
-  <pretty-encounter-viewer class="modal-pretty"
-     [encounter]="patientLocatorEncounter" > 
-  </pretty-encounter-viewer>
-</div>
-  
+
+  <div id="encounter" class="modal" bsModal #staticModal="bs-modal"
+     [config]="{ backdrop: 'static' }" tabindex="-1" role="dialog" 
+      aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">INFORMATION</h4>
+            <button type="button" class="close pull-right" aria-label="Close" 
+             (click)="staticModal.hide()">
+             <span aria-hidden="true">&times;</span>
+            </button>
+            <div>
+              <pretty-encounter-viewer class="modal-pretty" [encounter]="patientLocatorEncounter">
+              </pretty-encounter-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>

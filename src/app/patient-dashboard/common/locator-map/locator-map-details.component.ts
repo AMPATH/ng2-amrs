@@ -1,4 +1,12 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { PrettyEncounterViewerComponent } from '../patient-dashboard/common/formentry/pretty-encounter-viewer.component';
@@ -7,6 +15,8 @@ import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import * as _ from 'lodash';
 @Component({
@@ -23,6 +33,10 @@ export class LocatorMapDetailsComponent implements OnInit {
   public patientLocatorEncounter: any;
   public editDetails = false;
   public patientEncounters: Array<any> = [];
+  @ViewChild('staticModal')
+  public staticModal: ModalDirective;
+  @ViewChild('modal')
+  public modal: ModalComponent;
   @Output() public isBusy = new EventEmitter();
   @Output() public ShowPrettyEncounterViewer = new EventEmitter();
   @Output() public EncounterObservations = new EventEmitter();
@@ -44,6 +58,13 @@ export class LocatorMapDetailsComponent implements OnInit {
   public showDialog() {
     this.display = true;
   }
+  public close() {
+    this.modal.close();
+  }
+  public dismissed() {
+    this.modal.dismiss();
+  }
+
   public showEncounterObservations(encounter) {
     this.display = true;
     this.isBusy.emit(true);
