@@ -93,7 +93,7 @@ export class TxMlReportComponent
     const path = this.router.parseUrl(this.location.path());
     if (path.queryParams['state']) {
       const state = rison.decode(path.queryParams['state']);
-      this.sDate = state.sDAte;
+      this.sDate = state.sDate;
       this.eDate = state.eDate;
       this.locationUuids = state.locations;
       this.month = state.month;
