@@ -110,7 +110,7 @@
         },
         {
           "url": "tx-report",
-          "label": "TX Reports",
+          "label": "Datim Reports",
           "icon": "fa fa-file",
           "isSideBarOpen": false
         },

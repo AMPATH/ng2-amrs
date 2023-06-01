@@ -122,14 +122,14 @@
                       </td>
                       <ng-container *ngFor="let val of col.value">
                         <td
-                          title="Click to View Patientlist kiplekwa"
+                          title="Click to View Patientlist"
                           (click)="setCellSelection(col, val, 0)"
                           class="value"
                         >
                           {{ val.value[0] }}
                         </td>
                         <td
-                          title="Click to View Patientlist kiplekwa"
+                          title="Click to View Patientlist"
                           (click)="setCellSelection(col, val, 1)"
                           class="value"
                         >
@@ -139,7 +139,7 @@
                       <td
                         *ngIf="sectionIndicatorsValues.length > 1"
                         title="Click to View Total Patientlist"
-                        (click)="setCellSelection(col, col.total)"
+                        (click)="setCellSelection(col, col.total, 2)"
                         class="value"
                       >
                         <b>{{ col.total.value }}</b>

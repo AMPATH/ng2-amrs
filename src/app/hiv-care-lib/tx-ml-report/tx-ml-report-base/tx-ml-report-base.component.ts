@@ -13,12 +13,16 @@ export class TxMlReportBaseComponent implements OnInit {
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public prepReportSummaryData: any = [];
+  public txmlReportSummaryData: any = [];
   public columnDefs: any = [];
   public reportName = 'Tx-Ml Report';
   public currentView = 'monthly';
   public currentViewBelow = 'pdf';
   public month: string;
+  public year: number;
+  public quarter: string;
+  public eDate: string;
+  public sDate: string;
 
   public statusError = false;
   public errorMessage = '';
@@ -26,8 +30,11 @@ export class TxMlReportBaseComponent implements OnInit {
   public isLoading = false;
   public reportHead: any;
   public pinnedBottomRowData: any = [];
-  public enabledControls = 'monthControl';
   public _month: string;
+  public _year: number;
+  public _quarter: string;
+  public _sDate: string;
+  public _eDate: string;
   public isReleased = true;
 
   public _locationUuids: any = [];
@@ -68,11 +75,19 @@ export class TxMlReportBaseComponent implements OnInit {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
   }
 
-  public generateReport() {
+  onYearSelected(year: number) {
+    this._year = year;
+  }
+
+  onQuarterSelected(quarter: string) {
+    this._quarter = quarter;
+  }
+
+  public generateReport(): any {
     this.route.parent.parent.params.subscribe((params: any) => {
       this.storeParamsInUrl(params.location_uuid);
     });
-    this.prepReportSummaryData = [];
+    this.txmlReportSummaryData = [];
     this.getTxMlQuarterlyReport(this.params);
   }
 
@@ -81,6 +96,8 @@ export class TxMlReportBaseComponent implements OnInit {
       locationUuids: param,
       _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+      year: this._year,
+      quarter: this._quarter,
       reportName: this.reportName,
       _date: Moment(this._month).format('DD-MM-YYYY')
     };
@@ -100,7 +117,7 @@ export class TxMlReportBaseComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
-        this.prepReportSummaryData = data.result;
+        this.txmlReportSummaryData = data.result;
         this.calculateTotalSummary();
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
@@ -110,11 +127,11 @@ export class TxMlReportBaseComponent implements OnInit {
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.prepReportSummaryData.length > 0) {
+    if (this.txmlReportSummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.prepReportSummaryData, (row) => {
+      _.each(this.txmlReportSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
@@ -144,7 +161,9 @@ export class TxMlReportBaseComponent implements OnInit {
       queryParams: {
         indicators: value.field,
         indicatorHeader: value.headerName,
-        month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+        indicatorGender: value.gender,
+        sDate: this._sDate,
+        eDate: this._eDate,
         locationUuids: value.location,
         currentView: this.currentView
       }

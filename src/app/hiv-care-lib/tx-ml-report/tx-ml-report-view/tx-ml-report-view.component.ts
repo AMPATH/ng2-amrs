@@ -182,12 +182,23 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
     this.gridOptions.columnDefs = defs;
   }
   public setCellSelection(col, val, arrayPosition) {
+    const gender = this.checkGender(arrayPosition);
     const selectedIndicator = {
       headerName: col.headerName,
       field: col.field[arrayPosition],
+      gender: gender,
       location: val.location
     };
     this.CellSelection.emit(selectedIndicator);
+  }
+  public checkGender(arrayPosition) {
+    if (arrayPosition === 0) {
+      return 'Male';
+    } else if (arrayPosition === 1) {
+      return 'Female';
+    } else {
+      return 'Totals';
+    }
   }
   public searchIndicator() {
     this.setColumns(this.sectionDefs);

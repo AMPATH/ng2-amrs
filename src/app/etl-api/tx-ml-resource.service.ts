@@ -19,7 +19,7 @@ export class TxMlResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}txml-quarterly-summary2?endDate=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}txml-quarterly-summary?sDate=${params.sDate}&eDate=${params.eDate}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
@@ -35,12 +35,11 @@ export class TxMlResourceService {
         })
       );
   }
-  public getPrepPatientList(params: any): Observable<any> {
+  public getTxMlPatientList(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}txml-quarterly-summary-patient-list2?endDate=${params.month}&locationUuids=${params.locationUuids}
-      &indicators=${params.indicators}`
+        `${this.url}txml-quarterly-summary-patient-list?sDate=${params.sDate}&endDate=${params.eDate}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
       )
       .pipe(
         catchError((err: any) => {

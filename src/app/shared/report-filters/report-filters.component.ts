@@ -82,6 +82,17 @@ export class ReportFiltersComponent
   @Output() public getSelectedElicitedStartDate = new EventEmitter<any>();
   @Output() public getSelectedElicitedEndDate = new EventEmitter<any>();
   @Output() public onSelectAllPrograms = new EventEmitter<any>();
+  @Output() public selectedYearChange: EventEmitter<number> = new EventEmitter<
+    number
+  >();
+  @Output() public selectedQuarterChange: EventEmitter<
+    string
+  > = new EventEmitter<string>();
+  selectedYear: number;
+  selectedQuarter: string;
+  years: number[] = [];
+  showQuarters = false;
+  quarters: string[] = [];
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -243,6 +254,8 @@ export class ReportFiltersComponent
   public endDateChange = new EventEmitter<Date>();
   private _startDate: Date;
   private _endDate: Date;
+  private _year: number;
+  private _quarter: string;
   private _startWeek: Date;
   private _report: string;
   private _indicators: Array<any> = [];
@@ -345,7 +358,9 @@ export class ReportFiltersComponent
     private _selectDepartmentService: SelectDepartmentService,
     private elementRef: ElementRef,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+    this.years = this.generateYears();
+  }
   public get startDate(): Date {
     return this._startDate;
   }
@@ -588,6 +603,16 @@ export class ReportFiltersComponent
       });
   }
 
+  public generateYears(): number[] {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2011;
+    const yearsCount = currentYear - startYear + 1;
+    return Array.from(
+      { length: yearsCount },
+      (_, index) => currentYear - index
+    );
+  }
+
   public getPrograms() {
     this.programResourceService
       .getPrograms()
@@ -611,6 +636,38 @@ export class ReportFiltersComponent
         this.selectedIndicators = [];
       }
     }
+  }
+
+  checkYear(year: number) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+
+    this.quarters = [];
+
+    if (year === currentYear) {
+      // Show quarters passed so far
+      const currentQuarter = Math.ceil(currentMonth / 3);
+      for (let i = 1; i <= currentQuarter; i++) {
+        this.quarters.push(`Q${i}`);
+      }
+    } else {
+      // Show all quarters for the selected year
+      for (let i = 1; i <= 4; i++) {
+        this.quarters.push(`Q${i}`);
+      }
+    }
+
+    this.selectedQuarter = null;
+    this.showQuarters = true;
+    this.onYearChange(year);
+  }
+
+  onYearChange(year: number) {
+    this._year = year;
+  }
+
+  onQuarterChange(quarter: string) {
+    this._quarter = quarter;
   }
 
   public selectAllPrograms() {
@@ -650,6 +707,8 @@ export class ReportFiltersComponent
   }
 
   public onClickedGenerate() {
+    this.selectedYearChange.emit(this._year);
+    this.selectedQuarterChange.emit(this._quarter);
     this.generateReport.emit();
   }
   public ngAfterViewInit() {

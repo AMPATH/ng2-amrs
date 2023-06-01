@@ -17,7 +17,7 @@ import { TxMlReportBaseComponent } from 'src/app/hiv-care-lib/tx-ml-report/tx-ml
 export class TxMlReportComponent
   extends TxMlReportBaseComponent
   implements OnInit {
-  public enabledControls = 'monthControl,locationControl';
+  public enabledControls = 'quarterlyControl,locationControl';
 
   constructor(
     public router: Router,
@@ -34,13 +34,23 @@ export class TxMlReportComponent
   }
 
   public generateReport() {
+    if (this._year) {
+      const { lowerDate, upperDate } = this.getQuarterDates(
+        this._year,
+        this._quarter
+      );
+      this._sDate = lowerDate;
+      this._eDate = upperDate;
+    }
+
     this.setSelectedLocation();
     this.storeParamsInUrl();
 
     if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
       this.params = {
         locationUuids: this.getSelectedLocations(this.locationUuids),
-        month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+        sDate: this._sDate,
+        eDate: this._eDate
       };
       super.generateReport();
       super.showDraftReportAlert(this._month);
@@ -52,7 +62,8 @@ export class TxMlReportComponent
   public storeParamsInUrl() {
     const state = {
       locationUuids: this.getSelectedLocations(this.locationUuids),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+      sDate: this._sDate,
+      eDate: this._eDate
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
@@ -63,13 +74,29 @@ export class TxMlReportComponent
     this.location.replaceState(path.toString());
   }
 
+  public getQuarterDates(year, quarter) {
+    const quarterNumber = parseInt(quarter.substring(1), 10) - 1;
+    const quarters = [
+      { start: `${parseInt(year, 10) - 1}-12-31`, end: `${year}-03-31` },
+      { start: `${year}-03-31`, end: `${year}-06-30` },
+      { start: `${year}-06-30`, end: `${year}-09-30` },
+      { start: `${year}-09-30`, end: `${year}-12-31` }
+    ];
+
+    return {
+      lowerDate: quarters[quarterNumber].start,
+      upperDate: quarters[quarterNumber].end
+    };
+  }
+
   public loadReportParamsFromUrl() {
     const path = this.router.parseUrl(this.location.path());
-
     if (path.queryParams['state']) {
       const state = rison.decode(path.queryParams['state']);
-      this.month = state.month;
+      this.sDate = state.sDAte;
+      this.eDate = state.eDate;
       this.locationUuids = state.locations;
+      this.month = state.month;
     }
 
     if (path.queryParams['state']) {
