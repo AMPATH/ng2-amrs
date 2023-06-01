@@ -29,6 +29,7 @@ export class TxMlReportBaseComponent implements OnInit {
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
+  public enabledControls = 'monthControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
   public _year: number;
