@@ -77,11 +77,6 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       field: 'sms_receive_time'
     },
     {
-      headerName: 'VL Category',
-      width: 250,
-      field: 'vl_category'
-    },
-    {
       headerName: 'SMS Delivery Status',
       width: 100,
       field: 'sms_delivery_status'
