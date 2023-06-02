@@ -4,3 +4,6 @@ img {
 a img {
   width: 200px;
 }
+.edit-locator-dialog {
+  top: 170px !important;
+}
