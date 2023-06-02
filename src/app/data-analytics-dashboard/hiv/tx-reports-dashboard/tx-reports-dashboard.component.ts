@@ -16,7 +16,7 @@ export class TxReportsDashboardComponent implements OnInit {
   ngOnInit() {
     this.dashboards = [
       {
-        title: 'Tx-Ml Report',
+        title: 'TX-ML Report',
         description: '',
         url: 'tx-ml-report',
         icon: 'fa'
