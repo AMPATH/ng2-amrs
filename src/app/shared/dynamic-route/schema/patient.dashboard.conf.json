@@ -562,6 +562,26 @@
       "shared-routes-class": "mnch",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "POSTNATAL PROGRAM",
+      "programUuid": "d2552058-d7bd-47c6-aed1-480a4308027a",
+      "baseRoute": "d2552058-d7bd-47c6-aed1-480a4308027a",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
+      "programName": "MATERNITY PROGRAM",
+      "programUuid": "01948855-8491-4164-b54f-9b16d174d93e",
+      "baseRoute": "01948855-8491-4164-b54f-9b16d174d93e",
+      "alias": "mnch",
+      "published": true,
+      "shared-routes-class": "mnch",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
