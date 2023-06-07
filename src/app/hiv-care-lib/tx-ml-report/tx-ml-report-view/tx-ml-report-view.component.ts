@@ -241,24 +241,25 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
     }
   }
   public downloadPdf() {
-    this.pdfvalue = this.bodyValues();
-    this.generatePdf()
-      .pipe(take(1))
-      .subscribe(
-        (pdf) => {
-          this.pdfSrc = pdf.pdfSrc;
-          this.pdfMakeProxy = pdf.pdfProxy;
-          this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            this.pdfSrc
-          );
-          this.isBusy = false;
-          this.downloadPdfView();
-        },
-        (err) => {
-          this.errorFlag = true;
-          this.isBusy = false;
-        }
-      );
+    alert('Comming soon. Development in progress.......');
+    // this.pdfvalue = this.bodyValues();
+    // this.generatePdf()
+    //   .pipe(take(1))
+    //   .subscribe(
+    //     (pdf) => {
+    //       this.pdfSrc = pdf.pdfSrc;
+    //       this.pdfMakeProxy = pdf.pdfProxy;
+    //       this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+    //         this.pdfSrc
+    //       );
+    //       this.isBusy = false;
+    //       this.downloadPdfView();
+    //     },
+    //     (err) => {
+    //       this.errorFlag = true;
+    //       this.isBusy = false;
+    //     }
+    //   );
   }
   public generatePdf(): Observable<any> {
     const width: any = ['*', '*'];

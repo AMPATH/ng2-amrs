@@ -10,7 +10,7 @@
             (click)="downloadPdf()"
             [disabled]="!gridOptions"
           >
-            <i class="fa fa-download"> </i> Download Pdf
+            <i class="fa fa-download"> </i> Export to CSV
           </button>
         </div>
       </strong>
@@ -108,7 +108,7 @@
                       ></th>
                     </tr>
                   </ng-container>
-                  <ng-container *ngIf="a !== 0">
+                  <ng-container *ngIf="a !== 0 && i < 16">
                     <tr>
                       <td
                         style="min-width: 150px"
@@ -134,6 +134,51 @@
                           class="value"
                         >
                           {{ val.value[1] }}
+                        </td>
+                      </ng-container>
+                      <td
+                        *ngIf="sectionIndicatorsValues.length > 1"
+                        title="Click to View Total Patientlist"
+                        (click)="setCellSelection(col, col.total, 2)"
+                        class="value"
+                      >
+                        <b>{{ col.total.value }}</b>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngIf="i === 16 && a !== 0">
+                    <tr>
+                      <td style="min-width: 150px"><b>Sub Total</b></td>
+                      <ng-container *ngFor="let val of col.value">
+                        <td
+                          title="Click to View Total Male Patientlist"
+                          (click)="setCellSelection(col, val, 0)"
+                          class="value"
+                        >
+                          <b>{{ val.value[0] }}</b>
+                        </td>
+                        <td
+                          title="Click to View Total Female Patientlist"
+                          (click)="setCellSelection(col, val, 1)"
+                          class="value"
+                        >
+                          <b>{{ val.value[1] }}</b>
+                        </td>
+                      </ng-container>
+                      <td *ngIf="sectionIndicatorsValues.length > 1"></td>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngIf="i === 17 && a !== 0">
+                    <tr>
+                      <td style="min-width: 150px"><b>Facility Total</b></td>
+                      <ng-container *ngFor="let val of col.value">
+                        <td
+                          colspan="2"
+                          title="Click to View Facility Total Patientlist"
+                          (click)="setCellSelection(col, val, 0)"
+                          class="value"
+                        >
+                          <b>{{ val.value[0] }}</b>
                         </td>
                       </ng-container>
                       <td
