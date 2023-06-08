@@ -125,6 +125,8 @@ import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-
 import { TxMlReportBaseComponent } from './tx-ml-report/tx-ml-report-base/tx-ml-report-base.component';
 import { TxMlReportPatientListComponent } from './tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
 import { TxMlReportViewComponent } from './tx-ml-report/tx-ml-report-view/tx-ml-report-view.component';
+import { TxNewReportBaseComponent } from './tx-new-report/tx-new-report-base/tx-new-report-base.component';
+import { TxNewReportPatientListComponent } from './tx-new-report/tx-new-report-patient-list/tx-new-report-patient-list.component';
 
 @NgModule({
   imports: [
@@ -295,7 +297,9 @@ import { TxMlReportViewComponent } from './tx-ml-report/tx-ml-report-view/tx-ml-
     Covid19TabularViewComponent,
     TxMlReportBaseComponent,
     TxMlReportPatientListComponent,
-    TxMlReportViewComponent
+    TxMlReportViewComponent,
+    TxNewReportBaseComponent,
+    TxNewReportPatientListComponent
   ],
   providers: [
     MOHReportService,

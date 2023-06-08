@@ -43,6 +43,8 @@ import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/c
 import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
 import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
 import { TxMlReportPatientListComponent } from 'src/app/hiv-care-lib/tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
+import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-report.component';
+import { TxNewReportPatientListComponent } from 'src/app/hiv-care-lib/tx-new-report/tx-new-report-patient-list/tx-new-report-patient-list.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -248,6 +250,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: TxMlReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'tx-new-report',
+        children: [
+          {
+            path: '',
+            component: TxNewReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxNewReportPatientListComponent
           }
         ]
       }

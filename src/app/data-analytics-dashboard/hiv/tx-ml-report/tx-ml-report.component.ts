@@ -56,7 +56,8 @@ export class TxMlReportComponent
       this.params = {
         locationUuids: this.getSelectedLocations(this.locationUuids),
         sDate: this._sDate,
-        eDate: this._eDate
+        eDate: this._eDate,
+        month: this._month
       };
       super.generateReport();
       super.showDraftReportAlert(this._month);
@@ -69,7 +70,8 @@ export class TxMlReportComponent
     const state = {
       locationUuids: this.getSelectedLocations(this.locationUuids),
       sDate: this._sDate,
-      eDate: this._eDate
+      eDate: this._eDate,
+      month: this._month
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());

@@ -37,6 +37,7 @@ import { ContactTestingComponent } from './contact-testing/contact-testing/conta
 import { DialogModule } from 'primeng/primeng';
 import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
 import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
+import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-report.component';
 
 @NgModule({
   imports: [
@@ -83,7 +84,8 @@ import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
     DataAnalyticsHivGainsAndLossesComponent,
     ContactTestingComponent,
     TxReportsDashboardComponent,
-    TxMlReportComponent
+    TxMlReportComponent,
+    TxNewReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

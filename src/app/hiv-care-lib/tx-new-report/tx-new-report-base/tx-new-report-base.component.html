@@ -1,5 +1,5 @@
 <h4 class="component-title text-success">
-  <span class="fa fa-table"></span>TX_ML Report
+  <span class="fa fa-table"></span>TX_NEW Report
 </h4>
 
 <div class="loader" *ngIf="isLoading">
@@ -15,8 +15,6 @@
         (onMonthChange)="onMonthChange($event)"
         [reportName]="reportName"
         (generateReport)="generateReport()"
-        (selectedYearChange)="onYearSelected($event)"
-        (selectedQuarterChange)="onQuarterSelected($event)"
       >
       </report-filters>
     </p-tabPanel>
@@ -45,7 +43,7 @@
       [selected]="currentViewBelow === 'pdf'"
     >
       <app-tx-ml-report-view
-        [SummaryData]="txmlReportSummaryData"
+        [SummaryData]="txnewReportSummaryData"
         [sectionDefs]="columnDefs"
         (CellSelection)="onIndicatorSelected($event)"
         [reportDetails]="params"

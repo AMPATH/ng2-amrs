@@ -2,20 +2,20 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { TxMlResourceService } from 'src/app/etl-api/tx-ml-resource.service';
+import { TxNewResourceService } from 'src/app/etl-api/tx-new-resource.service';
 @Component({
-  selector: 'app-tx-ml-report-base',
-  templateUrl: './tx-ml-report-base.component.html',
-  styleUrls: ['./tx-ml-report-base.component.css']
+  selector: 'app-tx-new-report-base',
+  templateUrl: './tx-new-report-base.component.html',
+  styleUrls: ['./tx-new-report-base.component.css']
 })
-export class TxMlReportBaseComponent implements OnInit {
+export class TxNewReportBaseComponent implements OnInit {
   @Output()
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public txmlReportSummaryData: any = [];
+  public txnewReportSummaryData: any = [];
   public columnDefs: any = [];
-  public reportName = 'TX_ML Report';
+  public reportName = 'TX_NEW Report';
   public currentView = 'monthly';
   public currentViewBelow = 'pdf';
   public month: string;
@@ -32,10 +32,6 @@ export class TxMlReportBaseComponent implements OnInit {
   public enabledControls = 'monthControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
-  public _year: number;
-  public _quarter: string;
-  public _sDate: string;
-  public _eDate: string;
   public isReleased = true;
 
   public _locationUuids: any = [];
@@ -56,7 +52,7 @@ export class TxMlReportBaseComponent implements OnInit {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public txmlReport: TxMlResourceService
+    public txnewReport: TxNewResourceService
   ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
@@ -76,20 +72,12 @@ export class TxMlReportBaseComponent implements OnInit {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
   }
 
-  onYearSelected(year: number) {
-    this._year = year;
-  }
-
-  onQuarterSelected(quarter: string) {
-    this._quarter = quarter;
-  }
-
   public generateReport(): any {
     this.route.parent.parent.params.subscribe((params: any) => {
       this.storeParamsInUrl(params.location_uuid);
     });
-    this.txmlReportSummaryData = [];
-    this.getTxMlQuarterlyReport(this.params);
+    this.txnewReportSummaryData = [];
+    this.getTxNewReport(this.params);
   }
 
   public storeParamsInUrl(param) {
@@ -97,8 +85,6 @@ export class TxMlReportBaseComponent implements OnInit {
       locationUuids: param,
       _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      year: this._year,
-      quarter: this._quarter,
       reportName: this.reportName,
       _date: Moment(this._month).format('DD-MM-YYYY')
     };
@@ -108,9 +94,9 @@ export class TxMlReportBaseComponent implements OnInit {
     });
   }
 
-  public getTxMlQuarterlyReport(params: any) {
+  public getTxNewReport(params: any) {
     this.isLoading = true;
-    this.txmlReport.getTxMlQuarterlyReport(params).subscribe((data) => {
+    this.txnewReport.getTxNewReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -118,7 +104,7 @@ export class TxMlReportBaseComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
-        this.txmlReportSummaryData = data.result;
+        this.txnewReportSummaryData = data.result;
         this.calculateTotalSummary();
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
@@ -128,11 +114,11 @@ export class TxMlReportBaseComponent implements OnInit {
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.txmlReportSummaryData.length > 0) {
+    if (this.txnewReportSummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.txmlReportSummaryData, (row) => {
+      _.each(this.txnewReportSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
@@ -163,8 +149,6 @@ export class TxMlReportBaseComponent implements OnInit {
         indicators: value.field,
         indicatorHeader: value.headerName,
         indicatorGender: value.gender,
-        sDate: this._sDate,
-        eDate: this._eDate,
         month: this._month,
         locationUuids: value.location,
         currentView: this.currentView

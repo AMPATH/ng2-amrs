@@ -1,19 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-tx-ml-report-view',
-//   templateUrl: './tx-ml-report-view.component.html',
-//   styleUrls: ['./tx-ml-report-view.component.css']
-// })
-// export class TxMlReportViewComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
 import {
   Component,
   OnInit,
