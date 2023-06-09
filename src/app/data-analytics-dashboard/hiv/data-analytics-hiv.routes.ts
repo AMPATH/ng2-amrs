@@ -40,6 +40,7 @@ import { ContactTestingComponent } from './contact-testing/contact-testing/conta
 import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
 import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component';
 import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
+import { PrepMonthlyReportComponent } from './prep-report/prep-monthly-report.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -184,6 +185,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PrepReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'prep-monthly-report',
+        children: [
+          {
+            path: '',
+            component: PrepMonthlyReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PrepMonthlyReportComponent
           }
         ]
       },
