@@ -38,6 +38,7 @@ import { DialogModule } from 'primeng/primeng';
 import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
 import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
 import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-report.component';
+import { TxCurrReportComponent } from './datim-reports/tx-curr-report.component';
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-repor
     ContactTestingComponent,
     TxReportsDashboardComponent,
     TxMlReportComponent,
-    TxNewReportComponent
+    TxNewReportComponent,
+    TxCurrReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

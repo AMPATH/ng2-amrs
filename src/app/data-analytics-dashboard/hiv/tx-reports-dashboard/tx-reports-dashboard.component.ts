@@ -26,6 +26,12 @@ export class TxReportsDashboardComponent implements OnInit {
         description: '',
         url: 'tx-new-report',
         icon: 'fa'
+      },
+      {
+        title: 'TX_CURR Report',
+        description: '',
+        url: 'tx-curr-report',
+        icon: 'fa'
       }
     ];
   }

@@ -109,7 +109,7 @@
           "isSideBarOpen": false
         },
         {
-          "url": "tx-report",
+          "url": "datim-report",
           "label": "Datim Reports",
           "icon": "fa fa-file",
           "isSideBarOpen": false
