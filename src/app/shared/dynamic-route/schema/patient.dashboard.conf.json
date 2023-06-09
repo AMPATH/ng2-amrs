@@ -564,7 +564,7 @@
       "routes": []
     },
     {
-      "programName": "POSTNATAL PROGRAM",
+      "programName": "Postnatal Program",
       "programUuid": "d2552058-d7bd-47c6-aed1-480a4308027a",
       "baseRoute": "d2552058-d7bd-47c6-aed1-480a4308027a",
       "alias": "mnch",
@@ -574,7 +574,7 @@
       "routes": []
     },
     {
-      "programName": "MATERNITY PROGRAM",
+      "programName": "Maternity Program",
       "programUuid": "01948855-8491-4164-b54f-9b16d174d93e",
       "baseRoute": "01948855-8491-4164-b54f-9b16d174d93e",
       "alias": "mnch",
