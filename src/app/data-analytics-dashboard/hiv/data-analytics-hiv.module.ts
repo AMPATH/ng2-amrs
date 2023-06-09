@@ -39,6 +39,7 @@ import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-d
 import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
 import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-report.component';
 import { TxCurrReportComponent } from './datim-reports/tx-curr-report.component';
+import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 
 @NgModule({
   imports: [
@@ -87,7 +88,8 @@ import { TxCurrReportComponent } from './datim-reports/tx-curr-report.component'
     TxReportsDashboardComponent,
     TxMlReportComponent,
     TxNewReportComponent,
-    TxCurrReportComponent
+    TxCurrReportComponent,
+    TxMmdReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
