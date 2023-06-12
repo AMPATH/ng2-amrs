@@ -5336,8 +5336,8 @@
             "display": "ANCINITIAL"
           },
           {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
+            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "display": "MNCH TRIAGE"
           },
           {
             "uuid": "04bdcb6e-63df-42dc-a78c-b6afb155aa89",
@@ -5355,8 +5355,8 @@
             "display": "ANCRETURN"
           },
           {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
+            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "display": "MNCH TRIAGE"
           },
           {
             "uuid": "04bdcb6e-63df-42dc-a78c-b6afb155aa89",
@@ -5402,8 +5402,8 @@
             "display": "PNCADULTINITIAL"
           },
           {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
+            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "display": "MNCH TRIAGE"
           },
           {
             "uuid": "11dc3591-ccd4-4cbd-90a4-f298e98226e3",
@@ -5425,8 +5425,8 @@
             "display": "PNCADULTRETURN"
           },
           {
-            "uuid": "db215741-de99-424a-a109-1f23eb3b680b",
-            "display": "HIVTRIAGE"
+            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "display": "MNCH TRIAGE"
           },
           {
             "uuid": "11dc3591-ccd4-4cbd-90a4-f298e98226e3",
