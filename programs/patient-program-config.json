@@ -5333,10 +5333,10 @@
         "encounterTypes": [
           {
             "uuid": "f5702679-6a16-43bd-8629-4b44c7a78ff1",
-            "display": "ANCINITIAL"
+            "display": "ANC INITIAL"
           },
           {
-            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "uuid": "af5c40e8-8c74-4194-a068-0d5e30664777",
             "display": "MNCH TRIAGE"
           },
           {
@@ -5352,10 +5352,10 @@
         "encounterTypes": [
           {
             "uuid": "26bfc6b7-28d0-41ab-90c5-e101af46d06d",
-            "display": "ANCRETURN"
+            "display": "ANC RETURN"
           },
           {
-            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "uuid": "af5c40e8-8c74-4194-a068-0d5e30664777",
             "display": "MNCH TRIAGE"
           },
           {
@@ -5399,10 +5399,10 @@
         "encounterTypes": [
           {
             "uuid": "ded4ecf7-8129-4a9e-8aa3-a21a7adb7759",
-            "display": "PNCADULTINITIAL"
+            "display": "PNC ADULT INITIAL"
           },
           {
-            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "uuid": "af5c40e8-8c74-4194-a068-0d5e30664777",
             "display": "MNCH TRIAGE"
           },
           {
@@ -5422,10 +5422,10 @@
         "encounterTypes": [
           {
             "uuid": "ded4ecf7-8129-4a9e-8aa3-a21a7adb7759",
-            "display": "PNCADULTRETURN"
+            "display": "PNC ADULTRETURN"
           },
           {
-            "uuid": "c76745f8-9cae-46fa-987d-5e0b40b0b2b3",
+            "uuid": "af5c40e8-8c74-4194-a068-0d5e30664777",
             "display": "MNCH TRIAGE"
           },
           {
