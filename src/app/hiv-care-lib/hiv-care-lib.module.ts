@@ -63,6 +63,11 @@ import { HeiIndicatorsFilterComponent } from './hei-indicators-report/hei-indica
 import { HeiIndicatorsTabularComponent } from './hei-indicators-report/hei-indicators-tabular-component';
 import { HeiIndicatorsPatientListComponent } from './hei-indicators-report/hei-indicators-patient-list.component';
 import { HeiIndicatorsPdfViewComponent } from './hei-indicators-report/hei-indicators-pdf-view.component';
+import { PmtctCalhivRriReportComponent } from './pmtct-calhiv-rri-report/pmtct-calhiv-rri-report.component';
+import { PmtctCalhivPdfViewComponent } from './pmtct-calhiv-rri-report/pmtct-calhiv-pdf-view.component';
+import { PmtctCalhivRriFiltersComponent } from './pmtct-calhiv-rri-report/pmtct-calhiv-filter.component';
+import { PmtctCalhivRriTabularComponent } from './pmtct-calhiv-rri-report/pmtct-calhiv-tabular.component';
+import { PmtctCalhivRriPatientListComponent } from './pmtct-calhiv-rri-report/pmtct-calhiv-patient-list.component';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import { SurgeReportTabularComponent } from './surge-report/surge-report-tabular.component';
 import { SurgeReportBaseComponent } from './surge-report/surge-report-base.component';
@@ -201,6 +206,11 @@ import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
     HeiIndicatorsPdfViewComponent,
+    PmtctCalhivRriReportComponent,
+    PmtctCalhivRriTabularComponent,
+    // PmtctCalhivPdfViewComponent,
+    PmtctCalhivRriFiltersComponent,
+    PmtctCalhivRriPatientListComponent,
     FamilyTestingBaseComponent,
     FamilyTestingPatientlistComponent,
     FamilyTestingTreeComponent,
@@ -268,6 +278,11 @@ import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-
     HeiIndicatorsTabularComponent,
     HeiIndicatorsPatientListComponent,
     HeiIndicatorsPdfViewComponent,
+    PmtctCalhivRriReportComponent,
+    PmtctCalhivRriTabularComponent,
+    // PmtctCalhivPdfViewComponent,
+    PmtctCalhivRriFiltersComponent,
+    PmtctCalhivRriPatientListComponent,
     PatientGainsAndLosesPatientListComponent,
     PatientGainsAndLosesComponent,
     FamilyTestingBaseComponent,

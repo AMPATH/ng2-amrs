@@ -177,6 +177,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "pmtct-calhiv-rri-report",
+          "label": "Pmtct-Calhiv RRI Report",
+          "icon": "fa fa-file",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",

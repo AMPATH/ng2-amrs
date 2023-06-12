@@ -51,6 +51,7 @@ import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/i
 
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
+import { PmtctCalhivRriReportComponent } from 'src/app/hiv-care-lib/pmtct-calhiv-rri-report/pmtct-calhiv-rri-report.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
 import { FamilyTestingBaseComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-base.component';
@@ -109,6 +110,10 @@ const routes: Routes = [
         component: HivSummaryIndicatorsPatientListComponent
       }
     ]
+  },
+  {
+    path: 'pmtct-calhiv-rri-report',
+    component: PmtctCalhivRriReportComponent
   },
   {
     path: 'patients-requiring-vl',
