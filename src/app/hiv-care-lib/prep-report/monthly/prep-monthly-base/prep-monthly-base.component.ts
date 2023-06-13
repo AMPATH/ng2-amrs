@@ -12,6 +12,7 @@ import { PrepMonthlyResourceService } from 'src/app/etl-api/prep-monthly-resourc
 export class PrepMonthlyReportBaseComponent implements OnInit {
   @Output()
   public params: any;
+
   public indicators: string;
   public selectedIndicators = [];
   public prepReportSummaryData: any = [];
@@ -52,14 +53,15 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
     public route: ActivatedRoute,
     public prepReport: PrepMonthlyResourceService
   ) {
-    this.route.queryParams.subscribe((data) => {
-      data.month === undefined
-        ? (this._month = Moment()
-            .subtract(1, 'M')
-            .endOf('month')
-            .format('YYYY-MM-DD'))
-        : (this._month = data.month);
-
+    this.route.queryParams.subscribe((params: any) => {
+      if (params) {
+        params.month === undefined
+          ? (this._month = Moment()
+              .subtract(1, 'M')
+              .endOf('month')
+              .format('YYYY-MM-DD'))
+          : (this._month = params.month);
+      }
       this.showDraftReportAlert(this._month);
     });
   }
@@ -70,29 +72,15 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
   }
 
-  public generateReport() {
-    this.route.parent.parent.params.subscribe((params: any) => {
-      this.storeParamsInUrl(params.location_uuid);
-    });
-    this.prepReportSummaryData = [];
-    this.getPrepMonthlyAggReport(this.params);
-  }
-
-  public storeParamsInUrl(param) {
-    this.params = {
-      locationUuids: param,
-      _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
-    };
+  public storeParamsInUrl(params: any) {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.params
+      queryParams: params
     });
   }
 
   public getPrepMonthlyAggReport(params: any) {
+    this.storeParamsInUrl(params);
     this.isLoading = true;
     this.prepReport.getPrepMonthlyAggReport(params).subscribe((data) => {
       if (data.error) {
@@ -103,54 +91,29 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
         this.prepReportSummaryData = data.result;
-        this.calculateTotalSummary();
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
       }
     });
   }
 
-  public calculateTotalSummary() {
-    const totalsRow = [];
-    if (this.prepReportSummaryData.length > 0) {
-      const totalObj = {
-        location: 'Totals'
-      };
-      _.each(this.prepReportSummaryData, (row) => {
-        Object.keys(row).map((key) => {
-          if (Number.isInteger(row[key]) === true) {
-            if (totalObj[key]) {
-              totalObj[key] = row[key] + totalObj[key];
-            } else {
-              totalObj[key] = row[key];
-            }
-          } else {
-            if (Number.isNaN(totalObj[key])) {
-              totalObj[key] = 0;
-            }
-            if (totalObj[key] === null) {
-              totalObj[key] = 0;
-            }
-            totalObj[key] = 0 + totalObj[key];
-          }
-        });
-      });
-      totalObj.location = 'Totals';
-      totalsRow.push(totalObj);
-      this.pinnedBottomRowData = totalsRow;
-    }
-  }
-  public onIndicatorSelected(value) {
+  public indicatorSelected($event: any) {
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
-        indicators: value.field,
-        indicatorHeader: value.headerName,
-        month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-        locationUuids: value.location,
-        currentView: this.currentView
+        indicators: $event.indicator,
+        indicatorHeader: $event.indicatorHeader,
+        month: $event.month,
+        locationUuids: $event.locationUuids
       }
     });
+  }
+
+  public setParams() {
+    this.params = {
+      locationUuids: this._locationUuids,
+      month: Moment(this._month).format('YYYY-MM-DD')
+    };
   }
 
   public showDraftReportAlert(date) {

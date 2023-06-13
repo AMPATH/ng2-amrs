@@ -45,7 +45,7 @@
       <app-prep-monthly-report-view
         [SummaryData]="prepReportSummaryData"
         [sectionDefs]="columnDefs"
-        (CellSelection)="onIndicatorSelected($event)"
+        (indicatorSelected)="indicatorSelected($event)"
         [reportDetails]="params"
       ></app-prep-monthly-report-view>
     </p-tabPanel>

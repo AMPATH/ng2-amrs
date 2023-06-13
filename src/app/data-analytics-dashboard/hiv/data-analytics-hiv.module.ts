@@ -35,6 +35,7 @@ import { DataAnalyticsMonthlyReportComponent } from './monthly-reports-dashboard
 import { DataAnalyticsHivGainsAndLossesComponent } from './hiv-monthly-gains-and-losses/data-analytics-hiv-gains-and-losses.component';
 import { ContactTestingComponent } from './contact-testing/contact-testing/contact-testing.component';
 import { DialogModule } from 'primeng/primeng';
+import { PrepMonthlyReportPatientListComponent } from 'src/app/hiv-care-lib/prep-report/monthly/prep-monthly-patient-list/prep-monthly-report-patient-list.component';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { DialogModule } from 'primeng/primeng';
     HivSummaryMonthlyIndicatorsComponent,
     SurgeReportComponent,
     PrepReportComponent,
+    PrepMonthlyReportPatientListComponent,
     MOH412HIVDataAnalyticsComponent,
     MOH412HIVDataAnalyticsPatientListComponent,
     IPTReportComponent,

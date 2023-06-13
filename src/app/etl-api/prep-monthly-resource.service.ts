@@ -18,7 +18,7 @@ export class PrepMonthlyResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}prep-monthly-report?endDate=2023-06-30&locationUuids=20bd486d-5c84-44f4-9ffa-2f1c1d9e79f8`
+        `${this.url}prep-monthly-report?endDate=${params.month}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
@@ -38,7 +38,7 @@ export class PrepMonthlyResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}prep-monthly-patient-list?&endDate=${params.eDate}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
+        `${this.url}prep-monthly-report-patient-list?&endDate=${params.month}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
       )
       .pipe(
         catchError((err: any) => {

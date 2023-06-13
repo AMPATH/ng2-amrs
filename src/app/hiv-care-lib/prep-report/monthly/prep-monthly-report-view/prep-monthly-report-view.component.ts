@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
   @Input() SummaryData = [];
   @Input() sectionDefs: any;
-  @Input() reportDetails: any = [];
+  @Input() reportDetails: any;
 
   @Output()
   public indicatorSelected = new EventEmitter();
@@ -29,9 +29,6 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
   public ageGroups = [];
   public genderGroups = [];
   public tableData = [];
-
-  @Output()
-  public CellSelection = new EventEmitter();
 
   constructor() {}
 
@@ -44,14 +41,19 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
     }
   }
 
-  public setCellSelection(col) {
-    this.CellSelection.emit({ cell: col });
+  public setOnCellClicked(whichCell) {
+    const payload = {
+      indicator: whichCell.cell,
+      indicatorHeader: whichCell.cell,
+      month: this.reportDetails.month,
+      locationUuids: this.reportDetails.locationUuids
+    };
+    this.indicatorSelected.emit(payload);
   }
 
   public buildTableBody() {
     this.tableSectionData = this.SummaryData;
     this.tableSectionIndicators = this.sectionDefs;
-    console.log('tableSectionIndicators', this.tableSectionIndicators);
 
     const resultsMap = this.mapPrepMonthlyReportResults();
 

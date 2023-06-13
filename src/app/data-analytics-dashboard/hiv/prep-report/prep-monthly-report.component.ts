@@ -37,12 +37,12 @@ export class PrepMonthlyReportComponent
     this.setSelectedLocation();
     this.storeParamsInUrl();
 
-    if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
+    if (Array.isArray(this._locationUuids) && this._locationUuids.length > 0) {
       this.params = {
-        locationUuids: this.getSelectedLocations(this.locationUuids),
+        locationUuids: this.getSelectedLocations(this._locationUuids),
         month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
       };
-      super.generateReport();
+      super.getPrepMonthlyAggReport(this.params);
       super.showDraftReportAlert(this._month);
     } else {
       this.errorMessage = 'Locations are required!';
@@ -51,7 +51,7 @@ export class PrepMonthlyReportComponent
 
   public storeParamsInUrl() {
     const state = {
-      locationUuids: this.getSelectedLocations(this.locationUuids),
+      locationUuids: this.getSelectedLocations(this._locationUuids),
       month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
     };
     const stateUrl = rison.encode(state);
