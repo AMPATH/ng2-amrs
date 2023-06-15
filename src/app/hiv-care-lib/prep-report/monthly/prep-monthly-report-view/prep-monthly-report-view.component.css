@@ -85,3 +85,7 @@ th {
 .table-content-class {
   overflow-x: scroll;
 }
+
+.background-black {
+  background-color: black;
+}

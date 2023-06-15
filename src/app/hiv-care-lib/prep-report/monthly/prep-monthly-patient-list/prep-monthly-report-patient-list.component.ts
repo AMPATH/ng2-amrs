@@ -10,7 +10,7 @@ import { PrepMonthlyResourceService } from 'src/app/etl-api/prep-monthly-resourc
 })
 export class PrepMonthlyReportPatientListComponent implements OnInit {
   public params: any;
-  public patientData: any;
+  public patientData: any = [];
   public extraColumns: Array<any> = [];
   public isLoading = true;
   public overrideColumns: Array<any> = [];
@@ -44,10 +44,13 @@ export class PrepMonthlyReportPatientListComponent implements OnInit {
   }
 
   private getPatientList(params: any) {
+    this.patientData = [];
     this.prepResource.getPrepMonthlyPatientList(params).subscribe((data) => {
       this.isLoading = false;
-      this.patientData = data.result;
-      this.hasLoadedAll = true;
+      if (data && data.result) {
+        this.patientData = data.result;
+        this.hasLoadedAll = true;
+      }
     });
   }
 

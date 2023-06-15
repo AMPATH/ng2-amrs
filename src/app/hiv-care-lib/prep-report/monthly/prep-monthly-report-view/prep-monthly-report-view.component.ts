@@ -43,7 +43,7 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
 
   public setOnCellClicked(whichCell) {
     const payload = {
-      indicator: whichCell.cell,
+      indicator: [...whichCell.indicators],
       indicatorHeader: whichCell.cell,
       month: this.reportDetails.month,
       locationUuids: this.reportDetails.locationUuids
@@ -95,13 +95,33 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
               rowData: sect.indicator.map((val) => {
                 return {
                   cell: val,
-                  value: resultsMap.get(val)
+                  indicators: [val],
+                  value: resultsMap.get(val) || 0
                 };
               })
             };
           })
         });
       });
+
+      // calculate the total
+      for (const section of this.tableData) {
+        for (const row of section.sectionData) {
+          const row_data = row.rowData;
+          const row_total = row_data.reduce((sum, item) => sum + item.value, 0);
+          const total_cell = [];
+          row_data.forEach((item) => {
+            total_cell.push(item.cell);
+          });
+          row_data.push({
+            cell: 'total',
+            indicators: total_cell,
+            value: row_total
+          });
+        }
+      }
+
+      console.log(this.tableData);
     }
   }
 
