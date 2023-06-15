@@ -194,6 +194,14 @@
       {
         "uuid": "01948855-8491-4164-b54f-9b16d174d93e",
         "name": "MATERNITY CARE PROGRAM"
+      },
+      {
+        "uuid": "781d897a-1359-11df-a1f1-0026b9348838",
+        "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
+      },
+      {
+        "uuid": "96047aaf-7ab3-45e9-be6a-b61810fe617d",
+        "name": "PEP PROGRAM"
       }
     ]
   }
