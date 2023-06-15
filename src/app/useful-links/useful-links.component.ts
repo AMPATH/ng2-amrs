@@ -38,6 +38,10 @@ export class UsefulLinksComponent implements OnInit {
       url:
         'https://ampath.atlassian.net/wiki/spaces/PRN/pages/5079051/MFL+Wiki',
       title: 'MFL Wiki'
+    },
+    {
+      url: 'https://kmhfl.health.go.ke/#/home',
+      title: 'KMFL: Find all health facilities in Kenya'
     }
   ];
   constructor(private linksService: UsefulLinksService) {
@@ -61,8 +65,6 @@ export class UsefulLinksComponent implements OnInit {
       url: this.formVisitSearchUrl + '',
       title: 'Information on Forms / Visit Type'
     });
-
-    console.log('formvisiturl', this.formVisitSearchUrl);
   }
 
   public goBack() {
