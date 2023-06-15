@@ -41,7 +41,7 @@ export class UsefulLinksComponent implements OnInit {
     },
     {
       url: 'https://kmhfl.health.go.ke/#/home',
-      title: 'KMFL: Find all health facilities in Kenya'
+      title: 'KMHFL: Find all health facilities in Kenya'
     }
   ];
   constructor(private linksService: UsefulLinksService) {
