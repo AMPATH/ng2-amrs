@@ -5472,11 +5472,19 @@
         "allowedIf": "programLocation === intendedVisitLocationUuid && gender==='F'",
         "encounterTypes": [
           {
+            "uuid": "1bf4f1f6-8965-4fb4-a7f0-29d31fefb1ac",
+            "display": "MATERNITY ADMISSION"
+          },
+          {
             "uuid": "2b928d9b-84ce-4777-9658-3fba6248b3bc",
             "display": "LABORANDDELIVERY"
           },
           {
-            "uuid": "04bdcb6e-63df-42dc-a78c-b6afb155aa89",
+            "uuid": "e3c2a17f-4d58-4725-b702-a5d75a2231d0",
+            "display": "MATERNITYDISCHARGE"
+          },
+          {
+            "uuid": "23cef3ca-6d78-4134-8030-6a0791754692",
             "display": "MATERNAL DEATH NOTIFICATION"
           }
         ]
