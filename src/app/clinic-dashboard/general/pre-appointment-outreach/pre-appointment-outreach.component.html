@@ -1,0 +1,66 @@
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-list"></span> Pre Appointment Outreach List
+</h4>
+<div class="loader" *ngIf="loadingpreAppointmentOutreachList">
+  <span
+    ><i class="fa fa-spinner fa-spin"></i>Loading pre-appointment outreach
+    list...</span
+  >
+</div>
+<div class="container-fluid">
+  <form class="form-horizontal">
+    <div class="row pre-appointment-outreach-container">
+      <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+        <h4 for="week-selector">
+          <b>Year Week: </b> {{ selectedFormattedWeek }}
+        </h4>
+        <select
+          id="week-selector"
+          class="form-control"
+          name="week-selector"
+          [(ngModel)]="selectedWeek"
+          (ngModelChange)="setSelectedWeek()"
+        >
+          <option *ngFor="let week of weeks" [value]="week.value">
+            {{ week.label }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+        <div>
+          <label for="btn-generate-report"></label>
+          <button
+            type="button"
+          id="btn-generate-report"
+            class="btn btn-primary btn-search btn-filter"
+            (click)="generateReport()"
+          >
+            Generate Patient List<i class="fa fa-gear fa-fw"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="errors" style="color: red !important">
+  <div *ngFor="let error of errors">{{ error.message }}</div>
+</div>
+
+<patient-list
+  [data]="preAppointmentOutreachList"
+  [extraColumns]="extraColumns()"
+></patient-list>
+
+<p
+  class="bg-info"
+  style="padding: 4px"
+  *ngIf="preAppointmentOutreachList.length > 0"
+>
+  <b>
+    <span style="color: green" class="glyphicon glyphicon-ok"
+      >All records loaded
+      {{ '[ ' + preAppointmentOutreachList.length + ']' }}</span
+    ></b
+  >
+</p>
