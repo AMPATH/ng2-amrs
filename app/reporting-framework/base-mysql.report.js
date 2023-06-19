@@ -225,6 +225,10 @@ import * as hiv_cervical_cancer_monthly_summary_lesions_pcf_aggregate from './js
 import * as defaulter_list_aggregate from './json-reports/defaulter-list-aggregate.json';
 import * as defaulter_list_base from './json-reports/defaulter-list-base.json';
 
+// ML Weekly Predictions
+import * as ml_weekly_predictions_aggregate from './json-reports/ml-predictions/ml-weekly-predictions-aggregate.json';
+import * as ml_weekly_predictions_base from './json-reports/ml-predictions/ml-weekly-predictions-base.json';
+
 //clinic clow report
 import * as clinic_flow_provider_statistics_aggregate from './json-reports/clinic-flow-provider-statistics-aggregate.json';
 import * as clinic_flow_provider_statistics_base from './json-reports/clinic-flow-provider-statistics-base.json';
@@ -1270,6 +1274,14 @@ export class BaseMysqlReport {
           resolve({
             main: this.cloneJsonSchema(defaulter_list_aggregate),
             defaulterListBase: this.cloneJsonSchema(defaulter_list_base)
+          });
+          break;
+        case 'mlWeeklyPredictionsAggregate':
+          resolve({
+            main: this.cloneJsonSchema(ml_weekly_predictions_aggregate),
+            mlWeeklyPredictionsBase: this.cloneJsonSchema(
+              ml_weekly_predictions_base
+            )
           });
           break;
         case 'clinicFlowProviderStatisticsAggregate':
