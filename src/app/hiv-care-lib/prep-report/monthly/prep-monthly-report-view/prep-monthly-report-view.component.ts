@@ -24,7 +24,7 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
   public indicatorSelected = new EventEmitter();
 
   public tableSectionIndicators = [];
-  public tableSectionData = [];
+  public tableSectionData: any[] = [];
   public headerMetaData = [];
   public ageGroups = [];
   public genderGroups = [];
@@ -33,7 +33,11 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnInit() {}
+
   public ngOnChanges(changes: SimpleChanges) {
+    // reset variables
+    this.tableSectionIndicators = [];
+    this.tableSectionData = [];
     if (changes.SummaryData) {
       this.tableSectionIndicators = this.sectionDefs;
       this.tableSectionData = this.SummaryData;
@@ -54,6 +58,8 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
   public buildTableBody() {
     this.tableSectionData = this.SummaryData;
     this.tableSectionIndicators = this.sectionDefs;
+
+    this.resetTableVariables();
 
     const resultsMap = this.mapPrepMonthlyReportResults();
 
@@ -92,37 +98,33 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
           sectionData: section.indicators.map((sect) => {
             return {
               rowTitle: sect.label,
-              rowData: sect.indicator.map((val) => {
-                return {
-                  cell: val,
-                  indicators: [val],
-                  value: resultsMap.get(val) || 0
-                };
+              rowData: sect.indicators.map((val) => {
+                if (val.indicator.startsWith('total_')) {
+                  return {
+                    cell: val.label,
+                    indicators: [val.indicator],
+                    value: resultsMap.get(val.indicator) || 0
+                  };
+                } else {
+                  return {
+                    cell: val.label,
+                    indicators: [val.indicator],
+                    value: resultsMap.get(val.indicator) || 0
+                  };
+                }
               })
             };
           })
         });
       });
-
-      // calculate the total
-      for (const section of this.tableData) {
-        for (const row of section.sectionData) {
-          const row_data = row.rowData;
-          const row_total = row_data.reduce((sum, item) => sum + item.value, 0);
-          const total_cell = [];
-          row_data.forEach((item) => {
-            total_cell.push(item.cell);
-          });
-          row_data.push({
-            cell: 'total',
-            indicators: total_cell,
-            value: row_total
-          });
-        }
-      }
-
-      console.log(this.tableData);
     }
+  }
+
+  private resetTableVariables() {
+    this.headerMetaData = [];
+    this.ageGroups = [];
+    this.genderGroups = [];
+    this.tableData = [];
   }
 
   private mapPrepMonthlyReportResults() {

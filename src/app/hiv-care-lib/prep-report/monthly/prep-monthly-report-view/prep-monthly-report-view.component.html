@@ -74,6 +74,8 @@
                 <td *ngFor="let gg of genderGroups">
                   <b>{{ gg }}</b>
                 </td>
+                <td [attr.colspan]="2">
+                  <b *ngIf="genderGroups.length > 1">Total</b>
               </tr>
               <ng-container *ngFor="let data of tableData">
                 <tr>
@@ -88,18 +90,11 @@
                   <ng-container *ngFor="let cell of row.rowData">
                     <td
                       *ngIf="cell.value < 0"
-                      class="background-black"
+                      class="bg-black"
                     ></td>
+
                     <td
                       *ngIf="cell.value >= 0"
-                      title="Click to View Patientlist"
-                      (click)="setOnCellClicked(cell)"
-                      class="value"
-                    >
-                      {{ cell.value }}
-                    </td>
-                    <td
-                      *ngIf="cell.value >= 0 && cell.cell === 'total'"
                       title="Click to View Patientlist"
                       (click)="setOnCellClicked(cell)"
                       class="value"

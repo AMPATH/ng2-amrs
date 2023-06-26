@@ -86,6 +86,12 @@ th {
   overflow-x: scroll;
 }
 
-.background-black {
+.bg-black {
   background-color: black;
+}
+
+.total {
+  font-size: medium;
+  font-weight: bold;
+  text-align: center;
 }

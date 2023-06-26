@@ -68,6 +68,8 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
 
   ngOnInit() {}
 
+  public generateReport() {}
+
   public onMonthChange(value): any {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
   }
@@ -80,6 +82,9 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
   }
 
   public getPrepMonthlyAggReport(params: any) {
+    this.columnDefs = [];
+    this.prepReportSummaryData = [];
+
     this.storeParamsInUrl(params);
     this.isLoading = true;
     this.prepReport.getPrepMonthlyAggReport(params).subscribe((data) => {
