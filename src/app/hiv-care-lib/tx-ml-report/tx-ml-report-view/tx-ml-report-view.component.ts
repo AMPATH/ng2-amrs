@@ -16,6 +16,8 @@ import { first, take } from 'rxjs/operators';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { PDFDocumentProxy } from 'pdfjs-dist';
 import * as _ from 'lodash';
+import { saveAs } from 'file-saver';
+import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-tx-ml-report-view',
@@ -165,11 +167,12 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
 
     this.gridOptions.columnDefs = defs;
   }
-  public setCellSelection(col, val, arrayPosition) {
-    const gender = this.checkGender(arrayPosition);
+  public setCellSelection(col, val, arrayPosition, grid) {
+    const gender = `${grid.headerName} - ${this.checkGender(arrayPosition)}`;
+    const arraypos = arrayPosition === 3 ? 0 : arrayPosition;
     const selectedIndicator = {
       headerName: col.headerName,
-      field: col.field[arrayPosition],
+      field: col.field[arraypos],
       gender: gender,
       location: val.location
     };
@@ -180,8 +183,10 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
       return 'Male';
     } else if (arrayPosition === 1) {
       return 'Female';
+    } else if (arrayPosition === 3) {
+      return 'Facility';
     } else {
-      return 'Totals';
+      return 'Cummulative';
     }
   }
   public searchIndicator() {
@@ -225,6 +230,230 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
     }
   }
   public downloadPdf() {
+    const csvHeader = [
+      [
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ],
+      [
+        'TX_CURR May 2023',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '0_to_1',
+        '',
+        '1_to_4',
+        '',
+        '5_to_9',
+        '',
+        '10_to_14',
+        '',
+        '15_to_19',
+        '',
+        '20_to_24',
+        '',
+        '25_to_29',
+        '',
+        '30_to_34',
+        '',
+        '35_to_39',
+        '',
+        '40_to_44',
+        '',
+        '45_to_49',
+        '',
+        '50_to_54',
+        '',
+        '55_to_59',
+        '',
+        '60_to_64',
+        '',
+        '65 +',
+        ''
+      ],
+      [
+        'clinic_county_1',
+        'Sub County',
+        'clinic',
+        'Facility',
+        'MFL_Code',
+        'Indicator',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'F',
+        'M',
+        'Grand Total'
+      ]
+    ];
+
+    const data = [
+      {
+        clinic_county: 'Bungoma',
+        sub_county: 'Mt Elgon Sub County',
+        clinic: 'Kaborom',
+        facility: 'Kaborom Dispensary',
+        mfl_code: '15910',
+        indicator: 'Active',
+        female_0_to_1: '8',
+        male_0_to_1: '1',
+        female_1_to_4: '68',
+        male_1_to_4: '86',
+        female_5_to_9: '1',
+        male_5_to_9: '6',
+        female_10_to_14: '6',
+        male_10_to_14: '1',
+        female_15_to_19: '6',
+        male_15_to_19: '6',
+        female_20_to_24: '6',
+        male_20_to_24: '2',
+        female_25_to_29: '8',
+        male_25_to_29: '88',
+        female_30_to_34: '66',
+        male_30_to_34: '68',
+        female_35_to_39: '3',
+        male_35_to_39: '1',
+        female_40_to_44: '3',
+        male_40_to_44: '36',
+        female_45_to_49: '4',
+        male_45_to_49: '63',
+        female_50_to_54: '552',
+        male_50_to_54: '22',
+        female_55_to_59: '5',
+        male_55_to_59: '3',
+        female_60_to_64: '',
+        male_60_to_64: '',
+        female_65_plus: '1',
+        male_65_plus: '',
+        grand_total: '36'
+      },
+      {
+        clinic_county: 'Bungoma',
+        sub_county: 'Mt Elgon Sub County',
+        clinic: 'Kaborom',
+        facility: 'Kaborom Dispensary',
+        mfl_code: '15910',
+        indicator: '28 Day Defaulter',
+        female_0_to_1: '2',
+        male_0_to_1: '3',
+        female_1_to_4: '4',
+        male_1_to_4: '1',
+        female_5_to_9: '1',
+        male_5_to_9: '5',
+        female_10_to_14: '6',
+        male_10_to_14: '4',
+        female_15_to_19: '6',
+        male_15_to_19: '6',
+        female_20_to_24: '4',
+        male_20_to_24: '',
+        female_25_to_29: '7',
+        male_25_to_29: '454',
+        female_30_to_34: '45',
+        male_30_to_34: '32',
+        female_35_to_39: '67',
+        male_35_to_39: '46',
+        female_40_to_44: '45',
+        male_40_to_44: '67',
+        female_45_to_49: '5',
+        male_45_to_49: '4',
+        female_50_to_54: '3',
+        male_50_to_54: '3',
+        female_55_to_59: '3',
+        male_55_to_59: '3',
+        female_60_to_64: '3',
+        male_60_to_64: '',
+        female_65_plus: '4',
+        male_65_plus: '4',
+        grand_total: '5'
+      }
+    ];
+
+    const csvData = [csvHeader[0], csvHeader[1], csvHeader[2]];
+    data.forEach((item) => {
+      const row = Object.values(item);
+      csvData.push(row);
+    });
+
+    const csv = Papa.unparse(csvData);
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
+    // Save the file
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'data.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     alert('Comming soon. Development in progress.......');
     // this.pdfvalue = this.bodyValues();
     // this.generatePdf()

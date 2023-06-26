@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { TxCurrResourceService } from 'src/app/etl-api/tx-curr-resource.service';
+import { TxRttResourceService } from 'src/app/etl-api/tx-rtt-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as Moment from 'moment';
 @Component({
-  selector: 'app-tx-curr-report-patient-list',
-  templateUrl: './tx-curr-report-patient-list.component.html',
-  styleUrls: ['./tx-curr-report-patient-list.component.css']
+  selector: 'app-tx-rtt-report-patient-list',
+  templateUrl: './tx-rtt-report-patient-list.component.html',
+  styleUrls: ['./tx-rtt-report-patient-list.component.css']
 })
-export class TxCurrReportPatientListComponent implements OnInit {
+export class TxRttReportPatientListComponent implements OnInit {
   public params: any;
   public patientData: any;
   public extraColumns: Array<any> = [];
@@ -24,7 +24,7 @@ export class TxCurrReportPatientListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private _location: Location,
-    public txCurrResourceService: TxCurrResourceService
+    public txrttResourceService: TxRttResourceService
   ) {}
 
   ngOnInit() {
@@ -45,13 +45,11 @@ export class TxCurrReportPatientListComponent implements OnInit {
   }
 
   private getPatientList(params: any) {
-    this.txCurrResourceService
-      .getTxCurrPatientList(params)
-      .subscribe((data) => {
-        this.isLoading = false;
-        this.patientData = data.results.results;
-        this.hasLoadedAll = true;
-      });
+    this.txrttResourceService.getTxRTTPatientList(params).subscribe((data) => {
+      this.isLoading = false;
+      this.patientData = data.results.results;
+      this.hasLoadedAll = true;
+    });
   }
 
   public addExtraColumns() {

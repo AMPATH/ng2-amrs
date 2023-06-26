@@ -55,17 +55,26 @@ export class TxNewReportPatientListComponent implements OnInit {
   public addExtraColumns() {
     const extraColumns = {
       phone_number: 'Phone',
-      enrollment_date: 'Date Enrolled',
+      enrollment_date: 'Enrolment Date',
       last_appointment: 'Last Appointment',
       prev_rtc_date: 'Previous RTC Date',
-      latest_rtc_date: 'RTC Date',
-      days_since_rtc_date: 'Days missed since RTC',
-      cur_prep_meds_names: 'Current prEp Regimen',
-      hiv_rapid_test: 'HIV Rapid test result',
-      rapid_test_date: 'HIV Rapid test date',
-      population_type: 'Population Type',
-      population_type_category: 'Population Type Category',
-      nearest_center: 'Estate/Nearest Center'
+      latest_rtc_date: 'Latest RTC Date',
+      days_since_rtc_date: 'Days since RTC',
+      cur_status: 'Current Status',
+      arv_first_regimen_names: 'ARV first regimen',
+      arv_first_regimen_start_date: 'First ARV start date',
+      cur_meds: 'Current Regimen',
+      cur_arv_line: 'Current ARV Line',
+      arv_start_date: 'ARV Start Date',
+      latest_vl: 'Latest VL',
+      vl_category: 'VL Category',
+      latest_vl_date: 'Latest VL Date',
+      previous_vl: 'Previous VL',
+      previous_vl_date: 'Previous VL Date',
+      ovcid_id: 'OVCID',
+      transfer_out_date: 'Transfer out date',
+      death_date: 'Death Date',
+      cause_of_death: 'Cause of Death'
     };
 
     for (const indicator in extraColumns) {

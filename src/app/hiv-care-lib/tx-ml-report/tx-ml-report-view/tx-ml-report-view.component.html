@@ -98,8 +98,8 @@
                           let val of gridOptions.columnDefs[0].children[0].value
                         "
                       >
-                        <th>M</th>
                         <th>F</th>
+                        <th>M</th>
                       </ng-container>
                       <th
                         *ngIf="
@@ -123,14 +123,14 @@
                       <ng-container *ngFor="let val of col.value">
                         <td
                           title="Click to View Patientlist"
-                          (click)="setCellSelection(col, val, 0)"
+                          (click)="setCellSelection(col, val, 0, grid)"
                           class="value"
                         >
                           {{ val.value[0] }}
                         </td>
                         <td
                           title="Click to View Patientlist"
-                          (click)="setCellSelection(col, val, 1)"
+                          (click)="setCellSelection(col, val, 1, grid)"
                           class="value"
                         >
                           {{ val.value[1] }}
@@ -139,7 +139,7 @@
                       <td
                         *ngIf="sectionIndicatorsValues.length > 1"
                         title="Click to View Total Patientlist"
-                        (click)="setCellSelection(col, col.total, 2)"
+                        (click)="setCellSelection(col, col.total, 2, grid)"
                         class="value"
                       >
                         <b>{{ col.total.value }}</b>
@@ -152,14 +152,14 @@
                       <ng-container *ngFor="let val of col.value">
                         <td
                           title="Click to View Total Male Patientlist"
-                          (click)="setCellSelection(col, val, 0)"
+                          (click)="setCellSelection(col, val, 0, grid)"
                           class="value"
                         >
                           <b>{{ val.value[0] }}</b>
                         </td>
                         <td
                           title="Click to View Total Female Patientlist"
-                          (click)="setCellSelection(col, val, 1)"
+                          (click)="setCellSelection(col, val, 1, grid)"
                           class="value"
                         >
                           <b>{{ val.value[1] }}</b>
@@ -175,7 +175,7 @@
                         <td
                           colspan="2"
                           title="Click to View Facility Total Patientlist"
-                          (click)="setCellSelection(col, val, 0)"
+                          (click)="setCellSelection(col, val, 3, grid)"
                           class="value"
                         >
                           <b>{{ val.value[0] }}</b>
@@ -184,7 +184,7 @@
                       <td
                         *ngIf="sectionIndicatorsValues.length > 1"
                         title="Click to View Total Patientlist"
-                        (click)="setCellSelection(col, col.total, 2)"
+                        (click)="setCellSelection(col, col.total, 2, grid)"
                         class="value"
                       >
                         <b>{{ col.total.value }}</b>

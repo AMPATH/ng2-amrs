@@ -131,6 +131,8 @@ import { TxCurrReportBaseComponent } from './tx-curr-report/tx-curr-report-base/
 import { TxCurrReportPatientListComponent } from './tx-curr-report/tx-curr-report-patient-list/tx-curr-report-patient-list.component';
 import { TxMmdReportBaseComponent } from './tx-mmd-report/tx-mmd-report-base/tx-mmd-report-base.component';
 import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
+import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
+import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 
 @NgModule({
   imports: [
@@ -307,7 +309,9 @@ import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-p
     TxCurrReportBaseComponent,
     TxCurrReportPatientListComponent,
     TxMmdReportBaseComponent,
-    TxMmdReportPatientListComponent
+    TxMmdReportPatientListComponent,
+    TxRttReportBaseComponent,
+    TxRttReportPatientListComponent
   ],
   providers: [
     MOHReportService,

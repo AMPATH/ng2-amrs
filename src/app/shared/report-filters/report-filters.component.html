@@ -434,12 +434,12 @@
       <div class="date-range" *ngIf="isEnabled('quarterlyControl')">
         <div class="form-group col-md-6">
           <div class="form-row">
-            <label for="year">Year: </label>
+            <label for="year">Reporting Period: </label>
             <ng-select
               [items]="years"
               bindLabel="name"
               bind
-              placeholder="Select year"
+              placeholder="Select period"
               [(ngModel)]="selectedYear"
               (change)="checkYear(selectedYear)"
             >

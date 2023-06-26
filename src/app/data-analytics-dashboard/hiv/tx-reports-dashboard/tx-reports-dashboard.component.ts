@@ -38,6 +38,12 @@ export class TxReportsDashboardComponent implements OnInit {
         description: '',
         url: 'tx-mmd-report',
         icon: 'fa'
+      },
+      {
+        title: 'TX_RTT Report',
+        description: '',
+        url: 'tx-rtt-report',
+        icon: 'fa'
       }
     ];
   }

@@ -2,20 +2,20 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { TxMlResourceService } from 'src/app/etl-api/tx-ml-resource.service';
+import { TxRttResourceService } from 'src/app/etl-api/tx-rtt-resource.service';
 @Component({
-  selector: 'app-tx-ml-report-base',
-  templateUrl: './tx-ml-report-base.component.html',
-  styleUrls: ['./tx-ml-report-base.component.css']
+  selector: 'app-tx-rtt-report-base',
+  templateUrl: './tx-rtt-report-base.component.html',
+  styleUrls: ['./tx-rtt-report-base.component.css']
 })
-export class TxMlReportBaseComponent implements OnInit {
+export class TxRttReportBaseComponent implements OnInit {
   @Output()
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public txmlReportSummaryData: any = [];
+  public txrttReportSummaryData: any = [];
   public columnDefs: any = [];
-  public reportName = 'TX_ML Report';
+  public reportName = 'TX_RTT Report';
   public currentView = 'monthly';
   public currentViewBelow = 'pdf';
   public month: string;
@@ -32,8 +32,6 @@ export class TxMlReportBaseComponent implements OnInit {
   public enabledControls = 'monthControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
-  public _year: string;
-  public _quarter: string;
   public _sDate: string;
   public _eDate: string;
   public isReleased = true;
@@ -56,7 +54,7 @@ export class TxMlReportBaseComponent implements OnInit {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public txmlReport: TxMlResourceService
+    public txrttReport: TxRttResourceService
   ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
@@ -76,20 +74,12 @@ export class TxMlReportBaseComponent implements OnInit {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
   }
 
-  onYearSelected(year: string) {
-    this._year = year;
-  }
-
-  onQuarterSelected(quarter: string) {
-    this._quarter = quarter;
-  }
-
   public generateReport(): any {
     this.route.parent.parent.params.subscribe((params: any) => {
       this.storeParamsInUrl(params.location_uuid);
     });
-    this.txmlReportSummaryData = [];
-    this.getTxMlQuarterlyReport(this.params);
+    this.txrttReportSummaryData = [];
+    this.getTxRTTReport(this.params);
   }
 
   public storeParamsInUrl(param) {
@@ -97,8 +87,6 @@ export class TxMlReportBaseComponent implements OnInit {
       locationUuids: param,
       _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      year: this._year,
-      quarter: this._quarter,
       reportName: this.reportName,
       _date: Moment(this._month).format('DD-MM-YYYY')
     };
@@ -108,9 +96,9 @@ export class TxMlReportBaseComponent implements OnInit {
     });
   }
 
-  public getTxMlQuarterlyReport(params: any) {
+  public getTxRTTReport(params: any) {
     this.isLoading = true;
-    this.txmlReport.getTxMlQuarterlyReport(params).subscribe((data) => {
+    this.txrttReport.getTxRTTReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -118,7 +106,7 @@ export class TxMlReportBaseComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
-        this.txmlReportSummaryData = data.result;
+        this.txrttReportSummaryData = data.result;
         this.calculateTotalSummary();
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
@@ -128,11 +116,11 @@ export class TxMlReportBaseComponent implements OnInit {
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.txmlReportSummaryData.length > 0) {
+    if (this.txrttReportSummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.txmlReportSummaryData, (row) => {
+      _.each(this.txrttReportSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
