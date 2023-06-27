@@ -5329,7 +5329,7 @@
       {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
         "name": "ANC Initial Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstANCVisit && gender==='F'",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstANCVisit && gender==='F' && isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "f5702679-6a16-43bd-8629-4b44c7a78ff1",
@@ -5395,7 +5395,7 @@
       {
         "uuid": "b1a978ca-9315-4ba2-ac2b-84efb9a68c5c",
         "name": "PMTCT Postnatal Initial Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstPNCVisit && gender==='F'",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && isFirstPNCVisit && gender==='F' && isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "ded4ecf7-8129-4a9e-8aa3-a21a7adb7759",

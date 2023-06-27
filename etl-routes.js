@@ -4029,22 +4029,10 @@ module.exports = (function () {
         handler: function (request, reply) {
           if (config.eidSyncOn === true) {
             const labSyncService = new LabSyncService();
-            syncPreproc
-              .processLabSyncReqest(request.query)
-              .then((validRequest) => {
-                if (validRequest) {
-                  labSyncService.syncAllLabsByPatientUuid(
-                    request.query.patientUuId,
-                    reply
-                  );
-                } else {
-                  reply(validRequest);
-                }
-              })
-              .catch((error) => {
-                console.error('ERROR: ', error);
-                reply(error);
-              });
+            labSyncService.syncAllLabsByPatientUuid(
+              request.query.patientUuId,
+              reply
+            );
           } else {
             reply(
               Boom.notImplemented(

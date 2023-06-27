@@ -2968,5 +2968,23 @@
     "county": "West Pokot County",
     "cityVillage": "",
     "eidDisplay": ""
+  },
+  "6394f3c5-0ced-41c1-b9c4-cb29ad322107": {
+    "mrsId": 450,
+    "mrsDisplay": "Kimumu Dispensary",
+    "description": "Kimumu Dispensary",
+    "mflCode": "16349",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "e26cbaf5-fd02-4c4f-a529-7a4dcb5ed5e6": {
+    "mrsId": 451,
+    "mrsDisplay": "Merewet Dispensary",
+    "description": "Merewet Dispensary",
+    "mflCode": "15177",
+    "county": "Uasin Gishu",
+    "cityVillage": "",
+    "eidDisplay": ""
   }
 }
