@@ -180,9 +180,9 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
   }
   public checkGender(arrayPosition) {
     if (arrayPosition === 0) {
-      return 'Male';
-    } else if (arrayPosition === 1) {
       return 'Female';
+    } else if (arrayPosition === 1) {
+      return 'Male';
     } else if (arrayPosition === 3) {
       return 'Facility';
     } else {

@@ -57,11 +57,9 @@ export class TxRttReportPatientListComponent implements OnInit {
       phone_number: 'Phone',
       enrollment_date: 'Enrolment Date',
       last_appointment: 'Last Appointment',
-      prev_rtc_date: 'Previous RTC Date',
       latest_rtc_date: 'Latest RTC Date',
       days_since_rtc_date: 'Days since RTC',
-      cur_status: 'Current Status',
-      arv_first_regimen_names: 'ARV first regimen',
+      arv_first_regimen: 'ARV first regimen',
       arv_first_regimen_start_date: 'First ARV start date',
       cur_meds: 'Current Regimen',
       cur_arv_line: 'Current ARV Line',
@@ -71,10 +69,7 @@ export class TxRttReportPatientListComponent implements OnInit {
       latest_vl_date: 'Latest VL Date',
       previous_vl: 'Previous VL',
       previous_vl_date: 'Previous VL Date',
-      ovcid_id: 'OVCID',
-      transfer_out_date: 'Transfer out date',
-      death_date: 'Death Date',
-      cause_of_death: 'Cause of Death'
+      ovcid_id: 'OVCID'
     };
 
     for (const indicator in extraColumns) {
