@@ -1,0 +1,849 @@
+[
+  {
+    "sectionTitle": "",
+    "indicators": [
+      {
+        "label": "Location",
+        "indicator": "location"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Died",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "female_died_unknown_year",
+          "male_died_unknown_year",
+          "died_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "female_died_less_1_year",
+          "male_died_less_1_year",
+          "died_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "female_died_one_four_year",
+          "male_died_one_four_year",
+          "died_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "female_died_5_9_year",
+          "male_died_5_9_year",
+          "died_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "female_died_10_14_year",
+          "male_died_10_14_year",
+          "died_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "female_died_15_19_year",
+          "male_died_15_19_year",
+          "died_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "female_died_20_24_year",
+          "male_died_20_24_year",
+          "died_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "female_died_25_29_year",
+          "male_died_25_29_year",
+          "died_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "female_died_30_34_year",
+          "male_died_30_34_year",
+          "died_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "female_died_35_39_year",
+          "male_died_35_39_year",
+          "died_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "female_died_40_44_year",
+          "male_died_40_44_year",
+          "died_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "female_died_45_49_year",
+          "male_died_45_49_year",
+          "died_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "female_died_50_54_year",
+          "male_died_50_54_year",
+          "died_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "female_died_55_59_year",
+          "male_died_55_59_year",
+          "died_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "female_died_60_64_year",
+          "male_died_60_64_year",
+          "died_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "female_died_above_65_year",
+          "male_died_above_65_year",
+          "died_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["female_died", "male_died"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["total_died", "placeholder", "total_died"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Interruption in Treatment After being on Treatment for < 3 months",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "female_iit_less_3_unknown_year",
+          "male_iit_less_3_unknown_year",
+          "iit_less_3_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "female_iit_less_3_less_1_year",
+          "male_iit_less_3_less_1_year",
+          "iit_less_3_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "female_iit_less_3_one_four_year",
+          "male_iit_less_3_one_four_year",
+          "iit_less_3_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "female_iit_less_3_5_9_year",
+          "male_iit_less_3_5_9_year",
+          "iit_less_3_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "female_iit_less_3_10_14_year",
+          "male_iit_less_3_10_14_year",
+          "iit_less_3_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "female_iit_less_3_15_19_year",
+          "male_iit_less_3_15_19_year",
+          "iit_less_3_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "female_iit_less_3_20_24_year",
+          "male_iit_less_3_20_24_year",
+          "iit_less_3_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "female_iit_less_3_25_29_year",
+          "male_iit_less_3_25_29_year",
+          "iit_less_3_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "female_iit_less_3_30_34_year",
+          "male_iit_less_3_30_34_year",
+          "iit_less_3_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "female_iit_less_3_35_39_year",
+          "male_iit_less_3_35_39_year",
+          "iit_less_3_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "female_iit_less_3_40_44_year",
+          "male_iit_less_3_40_44_year",
+          "iit_less_3_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "female_iit_less_3_45_49_year",
+          "male_iit_less_3_45_49_year",
+          "iit_less_3_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "female_iit_less_3_50_54_year",
+          "male_iit_less_3_50_54_year",
+          "iit_less_3_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "female_iit_less_3_55_59_year",
+          "male_iit_less_3_55_59_year",
+          "iit_less_3_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "female_iit_less_3_60_64_year",
+          "male_iit_less_3_60_64_year",
+          "iit_less_3_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "female_iit_less_3_above_65_year",
+          "male_iit_less_3_above_65_year",
+          "iit_less_3_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["female_iit_less_3", "male_iit_less_3"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["total_iit_less_3", "placeholder", "total_iit_less_3"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Interruption in Treatment After being on Treatment for 3 - 5 months",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "female_iit_3_5_unknown_year",
+          "male_iit_3_5_unknown_year",
+          "iit_3_5_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "female_iit_3_5_less_1_year",
+          "male_iit_3_5_less_1_year",
+          "iit_3_5_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "female_iit_3_5_one_four_year",
+          "male_iit_3_5_one_four_year",
+          "iit_3_5_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "female_iit_3_5_5_9_year",
+          "male_iit_3_5_5_9_year",
+          "iit_3_5_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "female_iit_3_5_10_14_year",
+          "male_iit_3_5_10_14_year",
+          "iit_3_5_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "female_iit_3_5_15_19_year",
+          "male_iit_3_5_15_19_year",
+          "iit_3_5_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "female_iit_3_5_20_24_year",
+          "male_iit_3_5_20_24_year",
+          "iit_3_5_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "female_iit_3_5_25_29_year",
+          "male_iit_3_5_25_29_year",
+          "iit_3_5_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "female_iit_3_5_30_34_year",
+          "male_iit_3_5_30_34_year",
+          "iit_3_5_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "female_iit_3_5_35_39_year",
+          "male_iit_3_5_35_39_year",
+          "iit_3_5_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "female_iit_3_5_40_44_year",
+          "male_iit_3_5_40_44_year",
+          "iit_3_5_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "female_iit_3_5_45_49_year",
+          "male_iit_3_5_45_49_year",
+          "iit_3_5_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "female_iit_3_5_50_54_year",
+          "male_iit_3_5_50_54_year",
+          "iit_3_5_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "female_iit_3_5_55_59_year",
+          "male_iit_3_5_55_59_year",
+          "iit_3_5_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "female_iit_3_5_60_64_year",
+          "male_iit_3_5_60_64_year",
+          "iit_3_5_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "female_iit_3_5_above_65_year",
+          "male_iit_3_5_above_65_year",
+          "iit_3_5_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["female_iit_3_5", "male_iit_3_5"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["total_iit_3_5", "placeholder", "total_iit_3_5"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Interruption in Treatment After being on Treatment for 6+ months",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "female_iit_6_plus_unknown_year",
+          "male_iit_6_plus_unknown_year",
+          "iit_6_plus_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "female_iit_6_plus_less_1_year",
+          "male_iit_6_plus_less_1_year",
+          "iit_6_plus_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "female_iit_6_plus_one_four_year",
+          "male_iit_6_plus_one_four_year",
+          "iit_6_plus_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "female_iit_6_plus_5_9_year",
+          "male_iit_6_plus_5_9_year",
+          "iit_6_plus_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "female_iit_6_plus_10_14_year",
+          "male_iit_6_plus_10_14_year",
+          "iit_6_plus_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "female_iit_6_plus_15_19_year",
+          "male_iit_6_plus_15_19_year",
+          "iit_6_plus_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "female_iit_6_plus_20_24_year",
+          "male_iit_6_plus_20_24_year",
+          "iit_6_plus_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "female_iit_6_plus_25_29_year",
+          "male_iit_6_plus_25_29_year",
+          "iit_6_plus_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "female_iit_6_plus_30_34_year",
+          "male_iit_6_plus_30_34_year",
+          "iit_6_plus_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "female_iit_6_plus_35_39_year",
+          "male_iit_6_plus_35_39_year",
+          "iit_6_plus_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "female_iit_6_plus_40_44_year",
+          "male_iit_6_plus_40_44_year",
+          "iit_6_plus_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "female_iit_6_plus_45_49_year",
+          "male_iit_6_plus_45_49_year",
+          "iit_6_plus_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "female_iit_6_plus_50_54_year",
+          "male_iit_6_plus_50_54_year",
+          "iit_6_plus_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "female_iit_6_plus_55_59_year",
+          "male_iit_6_plus_55_59_year",
+          "iit_6_plus_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "female_iit_6_plus_60_65_year",
+          "male_iit_6_plus_60_65_year",
+          "iit_6_plus_60_65_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "female_iit_6_plus_above_65_year",
+          "male_iit_6_plus_above_65_year",
+          "iit_6_plus_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["female_iit_6_plus", "male_iit_6_plus"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["total_iit_6_plus", "placeholder", "total_iit_6_plus"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Transferred Out",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "female_to_unknown_year",
+          "male_to_unknown_year",
+          "to_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "female_to_less_1_year",
+          "male_to_less_1_year",
+          "to_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": ["female_to_1_4_year", "male_to_1_4_year", "to_1_4_year"]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": ["female_to_5_9_year", "male_to_5_9_year", "to_5_9_year"]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "female_to_10_14_year",
+          "male_to_10_14_year",
+          "to_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "female_to_15_19_year",
+          "male_to_15_19_year",
+          "to_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "female_to_20_24_year",
+          "male_to_20_24_year",
+          "to_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "female_to_25_29_year",
+          "male_to_25_29_year",
+          "to_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "female_to_30_34_year",
+          "male_to_30_34_year",
+          "to_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "female_to_35_39_year",
+          "male_to_35_39_year",
+          "to_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "female_to_40_44_year",
+          "male_to_40_44_year",
+          "to_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "female_to_45_49_year",
+          "male_to_45_49_year",
+          "to_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "female_to_50_54_year",
+          "male_to_50_54_year",
+          "to_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "female_to_55_59_year",
+          "male_to_55_59_year",
+          "to_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "female_to_60_64_year",
+          "male_to_60_64_year",
+          "to_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "female_to_above_65_year",
+          "male_to_above_65_year",
+          "to_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["female_to", "male_to"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["total_to", "placeholder", "total_to"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Refused (Stopped) Treatment",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "female_rst_unknown_year",
+          "male_rst_unknown_year",
+          "rst_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "female_rst_less_1_year",
+          "male_rst_less_1_year",
+          "rst_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "female_rst_1_4_year",
+          "male_rst_1_4_year",
+          "rst_1_4_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "female_rst_5_9_year",
+          "male_rst_5_9_year",
+          "rst_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "female_rst_10_14_year",
+          "male_rst_10_14_year",
+          "rst_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "female_rst_15_19_year",
+          "male_rst_15_19_year",
+          "rst_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "female_rst_20_24_year",
+          "male_rst_20_24_year",
+          "rst_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "female_rst_25_29_year",
+          "male_rst_25_29_year",
+          "rst_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "female_rst_30_34_year",
+          "male_rst_30_34_year",
+          "rst_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "female_rst_35_39_year",
+          "male_rst_35_39_year",
+          "rst_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "female_rst_40_44_year",
+          "male_rst_40_44_year",
+          "rst_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "female_rst_45_49_year",
+          "male_rst_45_49_year",
+          "rst_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "female_rst_50_54_year",
+          "male_rst_50_54_year",
+          "rst_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "female_rst_55_59_year",
+          "male_rst_55_59_year",
+          "rst_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "female_rst_60_64_year",
+          "male_rst_60_64_year",
+          "rst_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "female_rst_above_65_year",
+          "male_rst_above_65_year",
+          "rst_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["female_rst", "male_rst"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["total_rst", "placeholder", "total_rst"]
+      }
+    ]
+  }
+]

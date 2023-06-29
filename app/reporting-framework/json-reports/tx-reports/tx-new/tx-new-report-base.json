@@ -1,0 +1,494 @@
+{
+  "name": "txnewReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "hm"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "ll",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "hm.location_id = ll.location_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hm.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "ll.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "ll.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "hm.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hm.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hm.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "endDate",
+      "column": "hm.endDate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age >= 0 AND hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age >= 0 AND hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age >= 0 AND hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M' AND hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F' AND hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'F'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.gender = 'M'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.enrolled_this_month = 1),1,0)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hm.location_id IN ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hm.endDate = ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hm.enrolled_this_month = 1"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

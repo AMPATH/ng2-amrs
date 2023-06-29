@@ -1,0 +1,477 @@
+{
+  "name": "txmlIIT35ReportAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "txmlIIT35ReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "txmlIIT35ReportBase",
+      "alias": "iit35b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "iit35b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "iit35b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "iit35b.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_3_5_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.iit_3_5_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_3_5",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.female_iit_3_5)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_3_5",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.male_iit_3_5)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_iit_3_5",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iit35b.total_iit_3_5)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["iit35b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-txml-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

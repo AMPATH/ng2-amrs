@@ -1,0 +1,516 @@
+{
+  "name": "txmlIITabove6ReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "iitabove6hm"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "iitabove6ll",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "iitabove6hm.location_id = iitabove6ll.location_id"
+      }
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "iitabovetx",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "iitabove6hm.person_id = iitabovetx.person_id AND iitabovetx.on_art_this_month = 1"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "iitabove6hm.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "iitabove6hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "iitabove6ll.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "iitabove6ll.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "iitabove6hm.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "iitabove6hm.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "iitabove6hm.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "endDate",
+      "column": "iitabove6hm.endDate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age >= 0 AND iitabove6hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age >= 0 AND iitabove6hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age >= 0 AND iitabove6hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M' AND iitabove6hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F' AND iitabove6hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'F'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter' AND iitabove6hm.gender = 'M'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_iit_6_plus",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitabove6hm.status = 'defaulter'),1,0)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitabove6hm.location_id IN ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitabove6hm.endDate = ?",
+        "parameterName": "eDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitabove6hm.on_art_this_month = 0"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(DATEDIFF(iitabove6hm.rtc_date, iitabove6hm.arv_first_regimen_start_date) >= 180)"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitabovetx.endDate = ?",
+        "parameterName": "sDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitabovetx.location_id IN ?",
+        "parameterName": "locations"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

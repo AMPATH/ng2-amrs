@@ -1,0 +1,10 @@
+{
+  "reports": [
+    "txmlReportAggregate",
+    "txmlIITless3ReportAggregate",
+    "txmlIIT35ReportAggregate",
+    "txmlIITabove6ReportAggregate",
+    "txmltoReportAggregate",
+    "txmlrstReportAggregate"
+  ]
+}

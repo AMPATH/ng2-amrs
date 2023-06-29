@@ -1,0 +1,477 @@
+{
+  "name": "txmlIITabove6ReportAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "txmlIITabove6ReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "txmlIITabove6ReportBase",
+      "alias": "iitabove6b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "iitabove6b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "iitabove6b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "iitabove6b.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_6_plus_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.iit_6_plus_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_6_plus",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.female_iit_6_plus)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_6_plus",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.male_iit_6_plus)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_iit_6_plus",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(iitabove6b.total_iit_6_plus)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["iitabove6b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-txml-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

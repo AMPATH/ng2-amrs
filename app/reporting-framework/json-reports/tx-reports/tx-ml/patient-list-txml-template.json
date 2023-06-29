@@ -1,0 +1,1554 @@
+{
+  "name": "patient_list_txml_template",
+  "version": "1.0",
+  "tag": "patient_list_txml_template",
+  "description": "Txml patient list template",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "c"
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "n",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "c.person_id = n.person_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "nl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "nl.location_id = n.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "flat_identifiers",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "c.person_id = flat_identifiers.patient_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "cl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "cl.location_id = c.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_transfers",
+      "alias": "to",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "to.person_id = n.person_id AND DATE(to.encounter_datetime) = DATE(n.transfer_out_date)"
+      }
+    },
+    {
+      "table": "etl.flat_death_reporting",
+      "alias": "d",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "d.person_id = n.person_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "t1",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "c.person_id = t1.person_id"
+      }
+    },
+    {
+      "table": "amrs.person_name",
+      "alias": "person_name",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = person_name.person_id AND (person_name.voided IS NULL || person_name.voided = 0) AND person_name.preferred = 1"
+      }
+    },
+    {
+      "table": "amrs.patient_identifier",
+      "alias": "id",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = id.patient_id AND (id.voided IS NULL || id.voided = 0) AND id.identifier_type not in(28,43,45)"
+      }
+    },
+    {
+      "table": "amrs.person_attribute",
+      "alias": "contacts",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = contacts.person_id AND (contacts.voided IS NULL || contacts.voided = 0) AND contacts.person_attribute_type_id in (10, 48)"
+      }
+    },
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "fh",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = fh.person_id AND fh.next_clinical_datetime_hiv IS NULL AND fh.is_clinical_encounter = 1 "
+      }
+    },
+    {
+      "table": "amrs.encounter_type",
+      "alias": "et",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fh.encounter_type = et.encounter_type_id"
+      }
+    },
+    {
+      "table": "amrs.person_address",
+      "alias": "pa",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = pa.person_id"
+      }
+    },
+    {
+      "table": "etl.flat_covid_extract",
+      "alias": "ce",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = ce.person_id AND ce.next_encounter_datetime IS NULL"
+      }
+    },
+    {
+      "table": "etl.flat_consent",
+      "alias": "consent",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "consent.person_id = t1.person_id"
+      }
+    },
+    {
+      "table": " etl.flat_cervical_cancer_screening_rc",
+      "alias": "cs",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "cs.person_id = t1.person_id AND cs.next_clinical_datetime_cervical_cancer_screening IS NULL"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "c.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_date",
+      "column": "DATE_FORMAT(n.endDate,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "flat_identifiers.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "flat_identifiers.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "flat_identifiers.nupi"
+    },
+    {
+      "type": "simple_column",
+      "alias": "start_month",
+      "column": "DATE_FORMAT(c.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "end_month",
+      "column": "DATE_FORMAT(n.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "cl.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrollment_date",
+      "column": "DATE_FORMAT(c.enrollment_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "transfer_out_date_v1",
+      "column": "DATE_FORMAT(c.transfer_out_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "cl.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "c.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_location_id",
+      "column": "c.prev_location_id"
+    },
+    {
+      "type": "derived_column",
+      "alias": "on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.on_art_this_month = 1, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "not_on_art_starting",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.on_art_this_month = 0, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "starting_active",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(c.status = 'active', 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead' AND c.location_id = n.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead' AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "dead_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status = 'dead' AND c.cur_arv_meds IS NULL AND c.location_id = n.location_id, 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "death_report_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(d.encounter_datetime,'%Y-%m-%d')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cause_of_death",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "d.cause_of_death = 1548",
+            "value": "HEALTH ISSUES"
+          },
+          {
+            "condition": "d.cause_of_death = 84",
+            "value": "ACCIDENT"
+          },
+          {
+            "condition": "d.cause_of_death = 1572",
+            "value": "MURDER"
+          },
+          {
+            "condition": "d.cause_of_death = 1571",
+            "value": "SUICIDE"
+          },
+          {
+            "condition": "d.cause_of_death = 1593",
+            "value": "PATIENT DIED"
+          },
+          {
+            "condition": "d.cause_of_death = 7257",
+            "value": "MATERNAL DEATH"
+          },
+          {
+            "condition": "d.cause_of_death = 1067",
+            "value": "UNKNOWN"
+          },
+          {
+            "condition": "d.cause_of_death = 16",
+            "value": "DIARRHEA"
+          },
+          {
+            "condition": "d.cause_of_death = 86",
+            "value": "ACCIDENT"
+          },
+          {
+            "condition": "d.cause_of_death = 507",
+            "value": "KAPOSI SARCOMA"
+          },
+          {
+            "condition": "d.cause_of_death = 5041",
+            "value": "HIV STAGING - LYMPHOMA"
+          },
+          {
+            "condition": "d.cause_of_death = 123",
+            "value": "MALARIA"
+          },
+          {
+            "condition": "d.cause_of_death = 60",
+            "value": "MENINGITIS"
+          },
+          {
+            "condition": "d.cause_of_death = 43",
+            "value": "PNEUMONIA"
+          },
+          {
+            "condition": "d.cause_of_death = 60",
+            "value": "MENINGITIS"
+          },
+          {
+            "condition": "d.cause_of_death = 58",
+            "value": "TUBERCULOSIS"
+          },
+          {
+            "condition": "d.cause_of_death = 102",
+            "value": "TOXICITY"
+          },
+          {
+            "condition": "d.cause_of_death = 58",
+            "value": "TUBERCULOSIS"
+          },
+          {
+            "condition": "d.cause_of_death = 10363",
+            "value": "HIV RESULTING IN CANCER DISEASE"
+          },
+          {
+            "condition": "d.cause_of_death = 10364",
+            "value": "HIV RESULTING IN INFECTIOUS OR PARASITIC DISEASE"
+          },
+          {
+            "condition": "d.cause_of_death = 10366",
+            "value": "NATURAL CAUSE"
+          },
+          {
+            "condition": "d.cause_of_death = 10367",
+            "value": "DEATH DUE TO NON NATURAL CAUSE"
+          },
+          {
+            "condition": "d.cause_of_death = 10365",
+            "value": "NON INFECTIOUS HIV RELATED DISEASE"
+          },
+          {
+            "condition": "d.cause_of_death = 10367",
+            "value": "DEATH DUE TO NON NATURAL CAUSE"
+          },
+          {
+            "condition": "d.cause_of_death = 6483",
+            "value": "CANCER"
+          },
+          {
+            "condition": "d.cause_of_death = 903",
+            "value": "HYPERTENSION"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE when n.status = 'transfer_out' then 1 when n.status != 'transfer_out' AND n.location_id != c.location_id then 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id then 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NULL AND n.location_id != c.location_id then 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_date",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN c.transfer_out_this_month = 1 then DATE_FORMAT(c.transfer_out_date,'%Y-%m-%d') WHEN c.transfer_out_this_month = 0 AND n.location_id != c.location_id THEN DATE_FORMAT(c.encounter_date,'%Y-%m-%d') ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN to.transfer_to_location WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN nl.name ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "transfer_out_type",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "c.transfer_out_location_id = 9998 AND cl.parent_location = nl.parent_location",
+            "value": "INTRA-AMPATH"
+          },
+          {
+            "condition": "c.transfer_out_location_id is NULL AND c.transfer_out_date is NOT NULL AND cl.parent_location = nl.parent_location  AND c.location_id != n.location_id",
+            "value": "INTRA-AMPATH"
+          },
+          {
+            "condition": "c.location_id != n.location_id AND cl.parent_location = nl.parent_location",
+            "value": "INTRA-AMPATH"
+          },
+          {
+            "condition": "c.location_id != n.location_id AND NOT (cl.parent_location <=> nl.parent_location)",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "c.location_id != n.location_id AND cl.parent_location != nl.parent_location",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "to.patient_care_status = 9504",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "to.patient_care_status = 1285",
+            "value": "INTER-AMPATH"
+          },
+          {
+            "condition": "to.patient_care_status = 10502",
+            "value": "NON-AMPATH"
+          },
+          {
+            "condition": "to.patient_care_status = 5622",
+            "value": "OTHER"
+          },
+          {
+            "condition": "to.patient_care_status = 1287",
+            "value": "NON-AMPATH"
+          },
+          {
+            "condition": "to.patient_care_status = 9068",
+            "value": "AMPATH, NON-AMRS"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('ltfu') AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('ltfu') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "ltfu_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('ltfu') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('defaulter') AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('defaulter') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "defaulter_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.status IN ('defaulter') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id,1,NULL)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "days_since_rtc_date",
+      "column": "c.days_since_rtc_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen",
+      "column": "c.arv_first_regimen"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_arv_line",
+      "column": "c.cur_arv_line"
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_first_regimen_start_date",
+      "column": "date_format(c.arv_first_regimen_start_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_status",
+      "column": "n.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "death_date",
+      "column": "date_format(c.death_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "days_since_ltfu",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(n.days_since_rtc_date > 90,n.days_since_rtc_date - 90,NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN 1 WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL THEN 1 WHEN n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_not_on_art",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' AND n.cur_arv_meds IS NULL THEN 1 WHEN n.status != 'transfer_out' AND n.cur_arv_meds IS NULL AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "loss_status",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN n.status = 'transfer_out' THEN 'Transfer Out' WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN 'Transfer Out' WHEN n.status = 'dead' AND c.location_id = n.location_id THEN 'Dead' WHEN n.status IN ('ltfu') AND c.location_id = n.location_id THEN 'Ltfu/IIT' WHEN n.status IN ('defaulter') AND c.location_id = n.location_id THEN 'Ltfu/IIT' ELSE NULL END "
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "patient_uuid",
+      "column": "t1.uuid"
+    },
+    {
+      "type": "derived_column",
+      "alias": "uuid",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "t1.uuid"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "t1.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "birthdate",
+      "column": "t1.birthdate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "age",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "person_name",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CONCAT(COALESCE(person_name.given_name, ''), ' ', COALESCE(person_name.middle_name, ''), ' ', COALESCE(person_name.family_name, ''))"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "identifiers",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT id.identifier SEPARATOR ', ')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "phone_number",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " GROUP_CONCAT(DISTINCT contacts.value SEPARATOR ', ')"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_rtc_date",
+      "column": "date_format(fh.rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_vl",
+      "column": "fh.vl_1"
+    },
+    {
+      "type": "derived_column",
+      "alias": "vl_category",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.vl_1 < 50",
+            "value": "LDL"
+          },
+          {
+            "condition": "(fh.vl_1 >= 50 and fh.vl_1 < 200)",
+            "value": "Low Risk Low Level Viremia"
+          },
+          {
+            "condition": "(fh.vl_1 >= 200 and fh.vl_1 < 1000)",
+            "value": "High Risk Low Level Viremia"
+          },
+          {
+            "condition": "(fh.vl_1 > 1000)",
+            "value": "Suspected Treatment Failure"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_vl_date",
+      "column": "date_format(fh.vl_1_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "last_appointment",
+      "column": "CONCAT(COALESCE(DATE_FORMAT(fh.encounter_datetime, '%Y-%m-%d'),''),' ',COALESCE(et.name, ''))"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_meds",
+      "column": "fh.cur_arv_meds"
+    },
+    {
+      "type": "simple_column",
+      "alias": "arv_start_date",
+      "column": "date_format(fh.arv_first_regimen_start_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "previous_vl",
+      "column": "fh.vl_2"
+    },
+    {
+      "type": "simple_column",
+      "alias": "previous_vl_date",
+      "column": "date_format(fh.vl_2_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ipt_start_date",
+      "column": "date_format(fh.ipt_start_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ipt_completion_date",
+      "column": "date_format(fh.ipt_completion_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ipt_stop_date",
+      "column": "date_format(fh.ipt_stop_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "discordant_status",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.discordant_status = 1",
+            "value": "DISCORDANT COUPLE"
+          },
+          {
+            "condition": "fh.discordant_status = 2",
+            "value": "NOT A DISCORDANT COUPLE"
+          },
+          {
+            "condition": "fh.discordant_status = 3",
+            "value": "UNKNOWN"
+          },
+          {
+            "condition": "fh.discordant_status = 4",
+            "value": "NOT APPLICABLE"
+          },
+          {
+            "condition": "fh.discordant_status = 5",
+            "value": "CONCORDANT COUPLE POSITIVE"
+          },
+          {
+            "condition": "fh.discordant_status = 6",
+            "value": "CONCORDANT COUPLE NEGATIVE"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "tb_screening_date",
+      "column": "date_format(fh.tb_screening_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "patient_category",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.patient_category= 9070",
+            "value": "Well"
+          },
+          {
+            "condition": "fh.patient_category= 11550",
+            "value": "UnWell"
+          },
+          {
+            "condition": "fh.patient_category = 0",
+            "value": "N/A"
+          },
+          {
+            "condition": "fh.patient_category IS NULL",
+            "value": "N/A"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "tb_screening_result",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fh.tb_screening_result = 1107",
+            "value": "NONE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6971",
+            "value": "POSSIBLE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 1118",
+            "value": "NOT DONE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6176",
+            "value": "CURRENTLY ON TUBERCULOSIS TREATMENT"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6137",
+            "value": "CONFIRMED"
+          },
+          {
+            "condition": "fh.tb_screening_result = 656",
+            "value": "ISONIAZID"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10678",
+            "value": "NO SIGNS OR SYMPTOMS OF DISEASE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 6621",
+            "value": "NOT ASSESSED"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10767",
+            "value": "ON TREATMENT FOR DISEASE"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10922",
+            "value": "ISONIAZID PREVENTIVE TREATMENT PROGRAM"
+          },
+          {
+            "condition": "fh.tb_screening_result = 10974",
+            "value": "INH PROPHYLAXIS"
+          },
+          {
+            "condition": "else",
+            "value": "null"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "nearest_center",
+      "column": "pa.address3"
+    },
+    {
+      "type": "derived_column",
+      "alias": "covid_19_vaccination_status",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "ce.vaccination_status = 2208",
+            "value": "Fully Vaccinated"
+          },
+          {
+            "condition": "ce.vaccination_status = 11907",
+            "value": "Partially Vaccinated"
+          },
+          {
+            "condition": "ce.person_id IS NULL AND ce.second_dose_vaccine_administered IS NULL AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
+            "value": "Unknown Covid 19 Vaccination"
+          },
+          {
+            "condition": "ce.received_covid_19_vaccine = 1066 AND EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), t1.birthdate)))) >= 15",
+            "value": "Not vaccinated"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "sms_consent_provided",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "consent.patient_sms_consent_provided = 1065",
+            "value": "YES"
+          },
+          {
+            "condition": "consent.patient_sms_consent_provided = 1066",
+            "value": "NO"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "sms_receive_time",
+      "column": "consent.sms_receive_time"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cervical_screening_date",
+      "column": "date_format(cs.encounter_datetime, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "cervical_screening_method",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cs.screening_method = 9434",
+            "value": "VIA or VIA/VILI"
+          },
+          {
+            "condition": "cs.screening_method = 885",
+            "value": "PAP SMEAR"
+          },
+          {
+            "condition": "cs.screening_method = 2322",
+            "value": "HPV"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test IS NOT NULL",
+            "value": "VIA or VIA/VILI"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "cervical_screening_result",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "cs.via_or_via_vili_test_result = 1",
+            "value": "NEGATIVE"
+          },
+          {
+            "condition": "cs.via_or_via_vili_test_result = 2",
+            "value": "POSITIVE"
+          },
+          {
+            "condition": "cs.via_or_via_vili_test_result = 3",
+            "value": "SUSPICIOUS OF CANCER"
+          },
+          {
+            "condition": "cs.hpv_test_result = 1",
+            "value": "NEGATIVE"
+          },
+          {
+            "condition": "cs.hpv_test_result = 2",
+            "value": "POSITIVE"
+          },
+          {
+            "condition": "cs.hpv_test_result = 3",
+            "value": "INDETERMINATE"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 1",
+            "value": "NORMAL"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 2",
+            "value": "ASCUS"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 3",
+            "value": "LSIL"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 4",
+            "value": "HSIL/CIS"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 5",
+            "value": "AGUS"
+          },
+          {
+            "condition": "cs.pap_smear_test_result = 6",
+            "value": "INVASIVE CANCER"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 1115",
+            "value": "NORMAL"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7469",
+            "value": "ACETOWHITE LESION"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 5245",
+            "value": "PALLOR"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7470",
+            "value": "PUNCTUATED CAPILLARIES"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 9591",
+            "value": "OYSTERWHITE LESION"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 9592",
+            "value": "BRIGHT WHITE LESION"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7293",
+            "value": "ULCER"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 6497",
+            "value": "DYSFUNCTIONAL UTERINE BLEEDING"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 7472",
+            "value": "ATYPICAL BLOOD VESSELS"
+          },
+          {
+            "condition": "cs.observations_from_positive_via_or_via_vili_test = 9593",
+            "value": "FRIABLE TISSUE"
+          }
+        ]
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.endDate = ?",
+        "parameterName": "startingMonth"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.location_id in ? ",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "c.status = 'active'"
+      },
+      {
+        "filterType": "expressionColumns",
+        "conditionExpression": "1 = (CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id then 1 ELSE NULL END)",
+        "parameterName": "",
+        "dynamicallyGenerated": true
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id", "t1.person_id"]
+  },
+  "default": {
+    "name": "hivMonthlyLossesBase",
+    "version": "1.0",
+    "tag": "hiv_monthly_losses_base",
+    "description": "",
+    "uses": [],
+    "sources": [
+      {
+        "table": "<<hivMonthlyGainsStartingDatasetSource>>",
+        "alias": "c"
+      },
+      {
+        "table": "<<hivMonthlyGainsEndingDatasetSource>>",
+        "alias": "n",
+        "join": {
+          "type": "LEFT",
+          "joinCondition": "c.person_id = n.person_id AND n.endDate = '{endingMonth}'"
+        }
+      },
+      {
+        "table": "amrs.location",
+        "alias": "nl",
+        "join": {
+          "type": "LEFT",
+          "joinCondition": "nl.location_id = n.location_id"
+        }
+      },
+      {
+        "table": "etl.flat_patient_identifiers_v1",
+        "alias": "flat_identifiers",
+        "join": {
+          "type": "LEFT",
+          "joinCondition": "c.person_id = flat_identifiers.patient_id"
+        }
+      },
+      {
+        "table": "amrs.location",
+        "alias": "cl",
+        "join": {
+          "type": "LEFT",
+          "joinCondition": "cl.location_id = c.location_id"
+        }
+      },
+      {
+        "table": "etl.flat_transfers",
+        "alias": "to",
+        "join": {
+          "type": "LEFT",
+          "joinCondition": "to.person_id = n.person_id AND DATE(to.encounter_datetime) = DATE(n.transfer_out_date)"
+        }
+      },
+      {
+        "table": "etl.flat_death_reporting",
+        "alias": "d",
+        "join": {
+          "type": "LEFT",
+          "joinCondition": "d.person_id = n.person_id"
+        }
+      }
+    ],
+    "columns": [
+      {
+        "type": "simple_column",
+        "alias": "person_id",
+        "column": "c.person_id"
+      },
+      {
+        "type": "simple_column",
+        "alias": "end_date",
+        "column": "DATE_FORMAT(n.endDate,'%Y-%m-%d')"
+      },
+      {
+        "type": "simple_column",
+        "alias": "ccc_number",
+        "column": "flat_identifiers.ccc"
+      },
+      {
+        "type": "simple_column",
+        "alias": "ovcid_id",
+        "column": "flat_identifiers.ovcid"
+      },
+      {
+        "type": "simple_column",
+        "alias": "upi_number",
+        "column": "flat_identifiers.nupi"
+      },
+      {
+        "type": "simple_column",
+        "alias": "start_month",
+        "column": "DATE_FORMAT(c.endDate,'%Y-%m')"
+      },
+      {
+        "type": "simple_column",
+        "alias": "end_month",
+        "column": "DATE_FORMAT(n.endDate,'%Y-%m')"
+      },
+      {
+        "type": "simple_column",
+        "alias": "location",
+        "column": "cl.name"
+      },
+      {
+        "type": "simple_column",
+        "alias": "location_uuid",
+        "column": "cl.uuid"
+      },
+      {
+        "type": "simple_column",
+        "alias": "location_id",
+        "column": "c.location_id"
+      },
+      {
+        "type": "simple_column",
+        "alias": "prev_location_id",
+        "column": "c.prev_location_id"
+      },
+      {
+        "type": "derived_column",
+        "alias": "on_art_starting",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(c.on_art_this_month = 1, 1, NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "not_on_art_starting",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(c.on_art_this_month = 0, 1, NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "starting_active",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(c.status = 'active', 1, NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "dead",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status = 'dead' AND c.location_id = n.location_id, 1, NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "dead_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status = 'dead' AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id, 1, NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "dead_not_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status = 'dead' AND c.cur_arv_meds IS NULL AND c.location_id = n.location_id, 1, NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "death_report_date",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "DATE_FORMAT(d.encounter_datetime,'%Y-%m-%d')"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "cause_of_death",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "caseOptions": [
+            {
+              "condition": "d.cause_of_death = 1548",
+              "value": "HEALTH ISSUES"
+            },
+            {
+              "condition": "d.cause_of_death = 84",
+              "value": "ACCIDENT"
+            },
+            {
+              "condition": "d.cause_of_death = 1572",
+              "value": "MURDER"
+            },
+            {
+              "condition": "d.cause_of_death = 1571",
+              "value": "SUICIDE"
+            },
+            {
+              "condition": "d.cause_of_death = 1593",
+              "value": "PATIENT DIED"
+            },
+            {
+              "condition": "d.cause_of_death = 7257",
+              "value": "MATERNAL DEATH"
+            },
+            {
+              "condition": "d.cause_of_death = 1067",
+              "value": "UNKNOWN"
+            },
+            {
+              "condition": "d.cause_of_death = 16",
+              "value": "DIARRHEA"
+            },
+            {
+              "condition": "d.cause_of_death = 86",
+              "value": "ACCIDENT"
+            },
+            {
+              "condition": "d.cause_of_death = 507",
+              "value": "KAPOSI SARCOMA"
+            },
+            {
+              "condition": "d.cause_of_death = 5041",
+              "value": "HIV STAGING - LYMPHOMA"
+            },
+            {
+              "condition": "d.cause_of_death = 123",
+              "value": "MALARIA"
+            },
+            {
+              "condition": "d.cause_of_death = 60",
+              "value": "MENINGITIS"
+            },
+            {
+              "condition": "d.cause_of_death = 43",
+              "value": "PNEUMONIA"
+            },
+            {
+              "condition": "d.cause_of_death = 60",
+              "value": "MENINGITIS"
+            },
+            {
+              "condition": "d.cause_of_death = 58",
+              "value": "TUBERCULOSIS"
+            },
+            {
+              "condition": "d.cause_of_death = 102",
+              "value": "TOXICITY"
+            },
+            {
+              "condition": "d.cause_of_death = 58",
+              "value": "TUBERCULOSIS"
+            },
+            {
+              "condition": "d.cause_of_death = 10363",
+              "value": "HIV RESULTING IN CANCER DISEASE"
+            },
+            {
+              "condition": "d.cause_of_death = 10364",
+              "value": "HIV RESULTING IN INFECTIOUS OR PARASITIC DISEASE"
+            },
+            {
+              "condition": "d.cause_of_death = 10366",
+              "value": "NATURAL CAUSE"
+            },
+            {
+              "condition": "d.cause_of_death = 10367",
+              "value": "DEATH DUE TO NON NATURAL CAUSE"
+            },
+            {
+              "condition": "d.cause_of_death = 10365",
+              "value": "NON INFECTIOUS HIV RELATED DISEASE"
+            },
+            {
+              "condition": "d.cause_of_death = 10367",
+              "value": "DEATH DUE TO NON NATURAL CAUSE"
+            },
+            {
+              "condition": "d.cause_of_death = 6483",
+              "value": "CANCER"
+            },
+            {
+              "condition": "d.cause_of_death = 903",
+              "value": "HYPERTENSION"
+            }
+          ]
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "transfer_out",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE when n.status = 'transfer_out' then 1 when n.status != 'transfer_out' AND n.location_id != c.location_id then 1 ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "transfer_out_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id then 1 ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "transfer_out_not_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE when n.status = 'transfer_out' AND n.cur_arv_meds IS NULL then 1 when n.status != 'transfer_out' AND n.cur_arv_meds IS NULL AND n.location_id != c.location_id then 1 ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "transfer_out_date",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE WHEN c.transfer_out_this_month = 1 then DATE_FORMAT(c.transfer_out_date,'%Y-%m-%d') WHEN c.transfer_out_this_month = 0 AND n.location_id != c.location_id THEN DATE_FORMAT(c.encounter_date,'%Y-%m-%d') ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "transfer_out_location",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE WHEN n.status = 'transfer_out' THEN to.transfer_to_location WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN nl.name ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "transfer_out_type",
+        "expressionType": "case_statement",
+        "expressionOptions": {
+          "caseOptions": [
+            {
+              "condition": "c.transfer_out_location_id = 9998 AND cl.parent_location = nl.parent_location",
+              "value": "INTRA-AMPATH"
+            },
+            {
+              "condition": "c.transfer_out_location_id is NULL AND c.transfer_out_date is NOT NULL AND cl.parent_location = nl.parent_location  AND c.location_id != n.location_id",
+              "value": "INTRA-AMPATH"
+            },
+            {
+              "condition": "c.location_id != n.location_id AND cl.parent_location = nl.parent_location",
+              "value": "INTRA-AMPATH"
+            },
+            {
+              "condition": "c.location_id != n.location_id AND NOT (cl.parent_location <=> nl.parent_location)",
+              "value": "INTER-AMPATH"
+            },
+            {
+              "condition": "c.location_id != n.location_id AND cl.parent_location != nl.parent_location",
+              "value": "INTER-AMPATH"
+            },
+            {
+              "condition": "to.patient_care_status = 9504",
+              "value": "INTER-AMPATH"
+            },
+            {
+              "condition": "to.patient_care_status = 1285",
+              "value": "INTER-AMPATH"
+            },
+            {
+              "condition": "to.patient_care_status = 10502",
+              "value": "NON-AMPATH"
+            },
+            {
+              "condition": "to.patient_care_status = 5622",
+              "value": "OTHER"
+            },
+            {
+              "condition": "to.patient_care_status = 1287",
+              "value": "NON-AMPATH"
+            },
+            {
+              "condition": "to.patient_care_status = 9068",
+              "value": "AMPATH, NON-AMRS"
+            },
+            {
+              "condition": "else",
+              "value": "null"
+            }
+          ]
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "ltfu",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status IN ('ltfu') AND c.location_id = n.location_id,1,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "ltfu_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status IN ('ltfu') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id,1,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "ltfu_not_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status IN ('ltfu') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id,1,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "defaulter",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status IN ('defaulter') AND c.location_id = n.location_id,1,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "defaulter_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status IN ('defaulter') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id,1,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "defaulter_not_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.status IN ('defaulter') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id,1,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "days_since_ltfu",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "IF(n.days_since_rtc_date > 90,n.days_since_rtc_date - 90,NULL)"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "loss",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE WHEN n.status = 'transfer_out' THEN 1 WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "loss_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE WHEN n.status = 'transfer_out' AND n.cur_arv_meds IS NOT NULL THEN 1 WHEN n.status != 'transfer_out' AND n.cur_arv_meds IS NOT NULL AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND n.cur_arv_meds IS NOT NULL AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "loss_not_on_art",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE WHEN n.status = 'transfer_out' AND n.cur_arv_meds IS NULL THEN 1 WHEN n.status != 'transfer_out' AND n.cur_arv_meds IS NULL AND n.location_id != c.location_id THEN 1 WHEN n.status = 'dead' AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('ltfu') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 WHEN n.status IN ('defaulter') AND n.cur_arv_meds IS NULL AND c.location_id = n.location_id THEN 1 ELSE NULL END"
+        }
+      },
+      {
+        "type": "derived_column",
+        "alias": "loss_status",
+        "expressionType": "simple_expression",
+        "expressionOptions": {
+          "expression": "CASE WHEN n.status = 'transfer_out' THEN 'Transfer Out' WHEN n.status != 'transfer_out' AND n.location_id != c.location_id THEN 'Transfer Out' WHEN n.status = 'dead' AND c.location_id = n.location_id THEN 'Dead' WHEN n.status IN ('ltfu') AND c.location_id = n.location_id THEN 'Ltfu/IIT' WHEN n.status IN ('defaulter') AND c.location_id = n.location_id THEN 'Ltfu/IIT' ELSE NULL END "
+        }
+      }
+    ],
+    "filters": {
+      "conditionJoinOperator": "and",
+      "conditions": [
+        {
+          "filterType": "tableColumns",
+          "conditionExpression": "c.endDate = ?",
+          "parameterName": "startingMonth"
+        },
+        {
+          "filterType": "tableColumns",
+          "conditionExpression": "c.location_id in ? ",
+          "parameterName": "locations"
+        }
+      ]
+    },
+    "groupBy": {
+      "groupParam": "groupByParam",
+      "columns": ["person_id"]
+    }
+  },
+  "paging": {
+    "offSetParam": "offSetParam",
+    "limitParam": "limitParam"
+  }
+}

@@ -1,0 +1,512 @@
+{
+  "name": "txmltoReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "hm"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "ll",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "hm.location_id = ll.location_id"
+      }
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "tx",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "hm.person_id = tx.person_id AND tx.on_art_this_month = 1"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hm.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "ll.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "ll.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "hm.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "hm.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "hm.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "endDate",
+      "column": "hm.endDate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age >= 0 AND hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age >= 0 AND hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age >= 0 AND hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_1_4_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_1_4_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_1_4_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out'AND hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M' AND hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F' AND hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'F'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out' AND hm.gender = 'M'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_to",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((hm.status = 'transfer_out'),1,0)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hm.location_id IN ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hm.endDate = ?",
+        "parameterName": "eDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hm.on_art_this_month = 0"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "tx.endDate = ?",
+        "parameterName": "sDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "tx.location_id IN ?",
+        "parameterName": "locations"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

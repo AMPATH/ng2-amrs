@@ -240,6 +240,53 @@ import * as on_art_15_and_above_base from './json-reports/hiv-monthly-on-art-15-
 import * as covid_19_monthly_report from './json-reports/covid-19/covid-19-monthly-report.json';
 import * as hiv_monthly_not_screened_for_covid_aggregate from './json-reports/hiv-monthly-not-screened-for-covid-aggregate.json';
 import * as hiv_monthly_not_screened_for_covid_base from './json-reports/hiv-monthly-not-screened-for-covid-base.json';
+
+//tx-ml report
+import * as txml_aggregate_report from './json-reports/tx-reports/tx-ml/tx-ml-report-aggregate.json';
+import * as txml_rst_report_aggregate from './json-reports/tx-reports/tx-ml/tx-ml-rst-report-aggregate.json';
+import * as txml_to_report_aggregate from './json-reports/tx-reports/tx-ml/tx-ml-to-report-aggregate.json';
+import * as txml_iitabove6_report_aggregate from './json-reports/tx-reports/tx-ml/tx-ml-iitabove6-report-aggregate.json';
+import * as txml_iit35_report_aggregate from './json-reports/tx-reports/tx-ml/tx-ml-iit35-report-aggregate.json';
+import * as txml_iitless3_report_aggregate from './json-reports/tx-reports/tx-ml/tx-ml-iitless3-report-aggregate.json';
+import * as txml_base_report from './json-reports/tx-reports/tx-ml/tx-ml-report-base.json';
+import * as txml_rst_report_base from './json-reports/tx-reports/tx-ml/tx-ml-rst-report-base.json';
+import * as txml_to_report_base from './json-reports/tx-reports/tx-ml/tx-ml-to-report-base.json';
+import * as txml_iitabove6_report_base from './json-reports/tx-reports/tx-ml/tx-ml-iitabove6-report-base.json';
+import * as txml_iit35_report_base from './json-reports/tx-reports/tx-ml/tx-ml-iit35-report-base.json';
+import * as txml_iitless3_report_base from './json-reports/tx-reports/tx-ml/tx-ml-iitless3-report-base.json';
+import * as patient_list_txml_template from './json-reports/tx-reports/tx-ml/patient-list-txml-template.json';
+import * as txml_summary from './json-reports/txml-summary.json';
+
+//tx-new report
+import * as txnew_aggregate_report from './json-reports/tx-reports/tx-new/tx-new-report-aggregate.json';
+import * as txnew_base_report from './json-reports/tx-reports/tx-new/tx-new-report-base.json';
+import * as txnew_summary from './json-reports/txnew-summary.json';
+
+//tx-curr report
+import * as txcurr_aggregate_report from './json-reports/tx-reports/tx-curr/tx-curr-report-aggregate.json';
+import * as txcurr_base_report from './json-reports/tx-reports/tx-curr/tx-curr-report-base.json';
+import * as txcurr_summary from './json-reports/txcurr-summary.json';
+
+//tx-mmd report
+import * as tx1mms_aggregate_report from './json-reports/tx-reports/tx-mmd/tx-1mms-report-aggregate.json';
+import * as tx1mms_base_report from './json-reports/tx-reports/tx-mmd/tx-1mms-report-base.json';
+import * as tx2mms_aggregate_report from './json-reports/tx-reports/tx-mmd/tx-2mms-report-aggregate.json';
+import * as tx2mms_base_report from './json-reports/tx-reports/tx-mmd/tx-2mms-report-base.json';
+import * as tx3mmd_aggregate_report from './json-reports/tx-reports/tx-mmd/tx-3mmd-report-aggregate.json';
+import * as tx3mmd_base_report from './json-reports/tx-reports/tx-mmd/tx-3mmd-report-base.json';
+import * as tx4mmd_aggregate_report from './json-reports/tx-reports/tx-mmd/tx-4mmd-report-aggregate.json';
+import * as tx4mmd_base_report from './json-reports/tx-reports/tx-mmd/tx-4mmd-report-base.json';
+import * as tx5mmd_aggregate_report from './json-reports/tx-reports/tx-mmd/tx-5mmd-report-aggregate.json';
+import * as tx5mmd_base_report from './json-reports/tx-reports/tx-mmd/tx-5mmd-report-base.json';
+import * as tx6mmd_aggregate_report from './json-reports/tx-reports/tx-mmd/tx-6mmd-report-aggregate.json';
+import * as tx6mmd_base_report from './json-reports/tx-reports/tx-mmd/tx-6mmd-report-base.json';
+import * as txmmd_summary from './json-reports/txmmd-summary.json';
+
+//tx-rtt report
+import * as txrtt_aggregate_report from './json-reports/tx-reports/tx-rtt/tx-rtt-report-aggregate.json';
+import * as txrtt_base_report from './json-reports/tx-reports/tx-rtt/tx-rtt-report-base.json';
+import * as txrtt_summary from './json-reports/txrtt-summary.json';
+
 export class BaseMysqlReport {
   constructor(reportName, params) {
     this.reportName = reportName;
@@ -1272,6 +1319,130 @@ export class BaseMysqlReport {
         case 'covid-19-monthly-report':
           resolve({
             main: this.cloneJsonSchema(covid_19_monthly_report)
+          });
+          break;
+        case 'txmlReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txml_aggregate_report),
+            txmlReportBase: this.cloneJsonSchema(txml_base_report)
+          });
+          break;
+        case 'txmlrstReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txml_rst_report_aggregate),
+            txmlrstReportBase: this.cloneJsonSchema(txml_rst_report_base)
+          });
+          break;
+        case 'txmltoReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txml_to_report_aggregate),
+            txmltoReportBase: this.cloneJsonSchema(txml_to_report_base)
+          });
+          break;
+        case 'txmlIITabove6ReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txml_iitabove6_report_aggregate),
+            txmlIITabove6ReportBase: this.cloneJsonSchema(
+              txml_iitabove6_report_base
+            )
+          });
+          break;
+        case 'txmlIIT35ReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txml_iit35_report_aggregate),
+            txmlIIT35ReportBase: this.cloneJsonSchema(txml_iit35_report_base)
+          });
+          break;
+        case 'txmlIITless3ReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txml_iitless3_report_aggregate),
+            txmlIITless3ReportBase: this.cloneJsonSchema(
+              txml_iitless3_report_base
+            )
+          });
+          break;
+        case 'txml-summary-report':
+          resolve({
+            main: this.cloneJsonSchema(txml_summary)
+          });
+          break;
+        case 'patient-list-txml-template':
+          resolve({
+            main: this.cloneJsonSchema(patient_list_txml_template)
+          });
+          break;
+        case 'txnewReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txnew_aggregate_report),
+            txnewReportBase: this.cloneJsonSchema(txnew_base_report)
+          });
+          break;
+        case 'txnew-summary-report':
+          resolve({
+            main: this.cloneJsonSchema(txnew_summary)
+          });
+          break;
+        case 'txcurrReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txcurr_aggregate_report),
+            txcurrReportBase: this.cloneJsonSchema(txcurr_base_report)
+          });
+          break;
+        case 'txcurr-summary-report':
+          resolve({
+            main: this.cloneJsonSchema(txcurr_summary)
+          });
+          break;
+        case 'tx1mmsReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(tx1mms_aggregate_report),
+            tx1mmsReportBase: this.cloneJsonSchema(tx1mms_base_report)
+          });
+          break;
+        case 'tx2mmsReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(tx2mms_aggregate_report),
+            tx2mmsReportBase: this.cloneJsonSchema(tx2mms_base_report)
+          });
+          break;
+        case 'tx3mmdReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(tx3mmd_aggregate_report),
+            tx3mmdReportBase: this.cloneJsonSchema(tx3mmd_base_report)
+          });
+          break;
+        case 'tx4mmdReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(tx4mmd_aggregate_report),
+            tx4mmdReportBase: this.cloneJsonSchema(tx4mmd_base_report)
+          });
+          break;
+        case 'tx5mmdReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(tx5mmd_aggregate_report),
+            tx5mmdReportBase: this.cloneJsonSchema(tx5mmd_base_report)
+          });
+          break;
+        case 'tx6mmdReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(tx6mmd_aggregate_report),
+            tx6mmdReportBase: this.cloneJsonSchema(tx6mmd_base_report)
+          });
+          break;
+        case 'txmmd-summary-report':
+          resolve({
+            main: this.cloneJsonSchema(txmmd_summary)
+          });
+          break;
+        case 'txrttReportAggregate':
+          resolve({
+            main: this.cloneJsonSchema(txrtt_aggregate_report),
+            txrttReportBase: this.cloneJsonSchema(txrtt_base_report)
+          });
+          break;
+        case 'txrtt-summary-report':
+          resolve({
+            main: this.cloneJsonSchema(txrtt_summary)
           });
           break;
         default:

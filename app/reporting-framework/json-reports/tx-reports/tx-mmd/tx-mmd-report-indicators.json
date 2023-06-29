@@ -1,0 +1,857 @@
+[
+  {
+    "sectionTitle": "",
+    "indicators": [
+      {
+        "label": "Location",
+        "indicator": "location"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "1-MMS",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "1mms_female_unknown_year",
+          "1mms_male_unknown_year",
+          "1mms_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "1mms_female_less_1_year",
+          "1mms_male_less_1_year",
+          "1mms_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "1mms_female_one_four_year",
+          "1mms_male_one_four_year",
+          "1mms_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "1mms_female_5_9_year",
+          "1mms_male_5_9_year",
+          "1mms_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "1mms_female_10_14_year",
+          "1mms_male_10_14_year",
+          "1mms_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "1mms_female_15_19_year",
+          "1mms_male_15_19_year",
+          "1mms_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "1mms_female_20_24_year",
+          "1mms_male_20_24_year",
+          "1mms_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "1mms_female_25_29_year",
+          "1mms_male_25_29_year",
+          "1mms_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "1mms_female_30_34_year",
+          "1mms_male_30_34_year",
+          "1mms_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "1mms_female_35_39_year",
+          "1mms_male_35_39_year",
+          "1mms_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "1mms_female_40_44_year",
+          "1mms_male_40_44_year",
+          "1mms_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "1mms_female_45_49_year",
+          "1mms_male_45_49_year",
+          "1mms_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "1mms_female_50_54_year",
+          "1mms_male_50_54_year",
+          "1mms_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "1mms_female_55_59_year",
+          "1mms_male_55_59_year",
+          "1mms_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "1mms_female_60_64_year",
+          "1mms_male_60_64_year",
+          "1mms_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "1mms_female_above_65_year",
+          "1mms_male_above_65_year",
+          "1mms_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["1mms_female", "1mms_male"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["1mms_total", "placeholder", "1mms_total"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "2-MMS",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "2mms_female_unknown_year",
+          "2mms_male_unknown_year",
+          "2mms_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "2mms_female_less_1_year",
+          "2mms_male_less_1_year",
+          "2mms_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "2mms_female_one_four_year",
+          "2mms_male_one_four_year",
+          "2mms_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "2mms_female_5_9_year",
+          "2mms_male_5_9_year",
+          "2mms_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "2mms_female_10_14_year",
+          "2mms_male_10_14_year",
+          "2mms_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "2mms_female_15_19_year",
+          "2mms_male_15_19_year",
+          "2mms_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "2mms_female_20_24_year",
+          "2mms_male_20_24_year",
+          "2mms_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "2mms_female_25_29_year",
+          "2mms_male_25_29_year",
+          "2mms_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "2mms_female_30_34_year",
+          "2mms_male_30_34_year",
+          "2mms_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "2mms_female_35_39_year",
+          "2mms_male_35_39_year",
+          "2mms_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "2mms_female_40_44_year",
+          "2mms_male_40_44_year",
+          "2mms_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "2mms_female_45_49_year",
+          "2mms_male_45_49_year",
+          "2mms_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "2mms_female_50_54_year",
+          "2mms_male_50_54_year",
+          "2mms_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "2mms_female_55_59_year",
+          "2mms_male_55_59_year",
+          "2mms_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "2mms_female_60_64_year",
+          "2mms_male_60_64_year",
+          "2mms_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "2mms_female_above_65_year",
+          "2mms_male_above_65_year",
+          "2mms_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["2mms_female", "2mms_male"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["2mms_total", "placeholder", "2mms_total"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "3-MMD",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "3mmd_female_unknown_year",
+          "3mmd_male_unknown_year",
+          "3mmd_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "3mmd_female_less_1_year",
+          "3mmd_male_less_1_year",
+          "3mmd_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "3mmd_female_one_four_year",
+          "3mmd_male_one_four_year",
+          "3mmd_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "3mmd_female_5_9_year",
+          "3mmd_male_5_9_year",
+          "3mmd_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "3mmd_female_10_14_year",
+          "3mmd_male_10_14_year",
+          "3mmd_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "3mmd_female_15_19_year",
+          "3mmd_male_15_19_year",
+          "3mmd_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "3mmd_female_20_24_year",
+          "3mmd_male_20_24_year",
+          "3mmd_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "3mmd_female_25_29_year",
+          "3mmd_male_25_29_year",
+          "3mmd_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "3mmd_female_30_34_year",
+          "3mmd_male_30_34_year",
+          "3mmd_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "3mmd_female_35_39_year",
+          "3mmd_male_35_39_year",
+          "3mmd_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "3mmd_female_40_44_year",
+          "3mmd_male_40_44_year",
+          "3mmd_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "3mmd_female_45_49_year",
+          "3mmd_male_45_49_year",
+          "3mmd_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "3mmd_female_50_54_year",
+          "3mmd_male_50_54_year",
+          "3mmd_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "3mmd_female_55_59_year",
+          "3mmd_male_55_59_year",
+          "3mmd_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "3mmd_female_60_64_year",
+          "3mmd_male_60_64_year",
+          "3mmd_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "3mmd_female_above_65_year",
+          "3mmd_male_above_65_year",
+          "3mmd_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["3mmd_female", "3mmd_male"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["3mmd_total", "placeholder", "3mmd_total"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "4-MMD",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "4mmd_female_unknown_year",
+          "4mmd_male_unknown_year",
+          "4mmd_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "4mmd_female_less_1_year",
+          "4mmd_male_less_1_year",
+          "4mmd_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "4mmd_female_one_four_year",
+          "4mmd_male_one_four_year",
+          "4mmd_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "4mmd_female_5_9_year",
+          "4mmd_male_5_9_year",
+          "4mmd_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "4mmd_female_10_14_year",
+          "4mmd_male_10_14_year",
+          "4mmd_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "4mmd_female_15_19_year",
+          "4mmd_male_15_19_year",
+          "4mmd_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "4mmd_female_20_24_year",
+          "4mmd_male_20_24_year",
+          "4mmd_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "4mmd_female_25_29_year",
+          "4mmd_male_25_29_year",
+          "4mmd_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "4mmd_female_30_34_year",
+          "4mmd_male_30_34_year",
+          "4mmd_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "4mmd_female_35_39_year",
+          "4mmd_male_35_39_year",
+          "4mmd_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "4mmd_female_40_44_year",
+          "4mmd_male_40_44_year",
+          "4mmd_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "4mmd_female_45_49_year",
+          "4mmd_male_45_49_year",
+          "4mmd_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "4mmd_female_50_54_year",
+          "4mmd_male_50_54_year",
+          "4mmd_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "4mmd_female_55_59_year",
+          "4mmd_male_55_59_year",
+          "4mmd_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "4mmd_female_60_64_year",
+          "4mmd_male_60_64_year",
+          "4mmd_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "4mmd_female_above_65_year",
+          "4mmd_male_above_65_year",
+          "4mmd_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["4mmd_female", "4mmd_male"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["4mmd_total", "placeholder", "4mmd_total"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "5-MMD",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "5mmd_female_unknown_year",
+          "5mmd_male_unknown_year",
+          "5mmd_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "5mmd_female_less_1_year",
+          "5mmd_male_less_1_year",
+          "5mmd_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "5mmd_female_one_four_year",
+          "5mmd_male_one_four_year",
+          "5mmd_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "5mmd_female_5_9_year",
+          "5mmd_male_5_9_year",
+          "5mmd_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "5mmd_female_10_14_year",
+          "5mmd_male_10_14_year",
+          "5mmd_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "5mmd_female_15_19_year",
+          "5mmd_male_15_19_year",
+          "5mmd_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "5mmd_female_20_24_year",
+          "5mmd_male_20_24_year",
+          "5mmd_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "5mmd_female_25_29_year",
+          "5mmd_male_25_29_year",
+          "5mmd_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "5mmd_female_30_34_year",
+          "5mmd_male_30_34_year",
+          "5mmd_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "5mmd_female_35_39_year",
+          "5mmd_male_35_39_year",
+          "5mmd_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "5mmd_female_40_44_year",
+          "5mmd_male_40_44_year",
+          "5mmd_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "5mmd_female_45_49_year",
+          "5mmd_male_45_49_year",
+          "5mmd_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "5mmd_female_50_54_year",
+          "5mmd_male_50_54_year",
+          "5mmd_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "5mmd_female_55_59_year",
+          "5mmd_male_55_59_year",
+          "5mmd_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "5mmd_female_60_64_year",
+          "5mmd_male_60_64_year",
+          "5mmd_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "5mmd_female_above_65_year",
+          "5mmd_male_above_65_year",
+          "5mmd_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["5mmd_female", "5mmd_male"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["5mmd_total", "placeholder", "5mmd_total"]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "6-MMD",
+    "indicators": [
+      {
+        "label": "Unknown Age",
+        "indicator": [
+          "6mmd_female_unknown_year",
+          "6mmd_male_unknown_year",
+          "6mmd_unknown_year"
+        ]
+      },
+      {
+        "label": "<1 year",
+        "indicator": [
+          "6mmd_female_less_1_year",
+          "6mmd_male_less_1_year",
+          "6mmd_less_1_year"
+        ]
+      },
+      {
+        "label": "1 - 4 years",
+        "indicator": [
+          "6mmd_female_one_four_year",
+          "6mmd_male_one_four_year",
+          "6mmd_one_four_year"
+        ]
+      },
+      {
+        "label": "5 - 9 years",
+        "indicator": [
+          "6mmd_female_5_9_year",
+          "6mmd_male_5_9_year",
+          "6mmd_5_9_year"
+        ]
+      },
+      {
+        "label": "10 - 14 years",
+        "indicator": [
+          "6mmd_female_10_14_year",
+          "6mmd_male_10_14_year",
+          "6mmd_10_14_year"
+        ]
+      },
+      {
+        "label": "15 - 19 years",
+        "indicator": [
+          "6mmd_female_15_19_year",
+          "6mmd_male_15_19_year",
+          "6mmd_15_19_year"
+        ]
+      },
+      {
+        "label": "20 - 24 years",
+        "indicator": [
+          "6mmd_female_20_24_year",
+          "6mmd_male_20_24_year",
+          "6mmd_20_24_year"
+        ]
+      },
+      {
+        "label": "25 - 29 years",
+        "indicator": [
+          "6mmd_female_25_29_year",
+          "6mmd_male_25_29_year",
+          "6mmd_25_29_year"
+        ]
+      },
+      {
+        "label": "30 - 34 years",
+        "indicator": [
+          "6mmd_female_30_34_year",
+          "6mmd_male_30_34_year",
+          "6mmd_30_34_year"
+        ]
+      },
+      {
+        "label": "35 - 39 years",
+        "indicator": [
+          "6mmd_female_35_39_year",
+          "6mmd_male_35_39_year",
+          "6mmd_35_39_year"
+        ]
+      },
+      {
+        "label": "40 - 44 years",
+        "indicator": [
+          "6mmd_female_40_44_year",
+          "6mmd_male_40_44_year",
+          "6mmd_40_44_year"
+        ]
+      },
+      {
+        "label": "45 - 49 years",
+        "indicator": [
+          "6mmd_female_45_49_year",
+          "6mmd_male_45_49_year",
+          "6mmd_45_49_year"
+        ]
+      },
+      {
+        "label": "50 - 54 years",
+        "indicator": [
+          "6mmd_female_50_54_year",
+          "6mmd_male_50_54_year",
+          "6mmd_50_54_year"
+        ]
+      },
+      {
+        "label": "55 - 59 years",
+        "indicator": [
+          "6mmd_female_55_59_year",
+          "6mmd_male_55_59_year",
+          "6mmd_55_59_year"
+        ]
+      },
+      {
+        "label": "60 - 64 years",
+        "indicator": [
+          "6mmd_female_60_64_year",
+          "6mmd_male_60_64_year",
+          "6mmd_60_64_year"
+        ]
+      },
+      {
+        "label": "65+ years",
+        "indicator": [
+          "6mmd_female_above_65_year",
+          "6mmd_male_above_65_year",
+          "6mmd_above_65_year"
+        ]
+      },
+      {
+        "label": "Sub total",
+        "indicator": ["6mmd_female", "6mmd_male"]
+      },
+      {
+        "label": "Total",
+        "indicator": ["6mmd_total", "placeholder", "6mmd_total"]
+      }
+    ]
+  }
+]

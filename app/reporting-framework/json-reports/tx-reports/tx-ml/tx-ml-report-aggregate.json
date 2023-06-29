@@ -1,0 +1,485 @@
+{
+  "name": "txmlReportAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "txmlReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "txmlReportBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_one_four_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "died_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.died_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_died",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_died)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_died",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_died)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_died",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.total_died)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "placeholder",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "0"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-txml-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,516 @@
+{
+  "name": "txmlIITless3ReportBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "iitless3hm"
+    },
+    {
+      "table": "amrs.location",
+      "alias": "iitless3ll",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "iitless3hm.location_id = iitless3ll.location_id"
+      }
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_frozen",
+      "alias": "iitless3tx",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "iitless3hm.person_id = iitless3tx.person_id AND iitless3tx.on_art_this_month = 1"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "iitless3hm.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "iitless3hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "iitless3ll.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "iitless3ll.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "status",
+      "column": "iitless3hm.status"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "iitless3hm.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "iitless3hm.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "endDate",
+      "column": "iitless3hm.endDate"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age < 0),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age >= 0 AND iitless3hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age >= 0 AND iitless3hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age >= 0 AND iitless3hm.age < 1),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_one_four_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 1 AND 4),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 5 AND 9),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 10 AND 14),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 15 AND 19),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 20 AND 24),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 25 AND 29),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 30 AND 34),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 35 AND 39),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 40 AND 44),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 45 AND 49),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 50 AND 54),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 55 AND 59),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age BETWEEN 60 AND 64),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M' AND iitless3hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F' AND iitless3hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "iit_less_3_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.age >= 65),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_iit_less_3",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'F'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_iit_less_3",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter' AND iitless3hm.gender = 'M'),1,0)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_iit_less_3",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((iitless3hm.status = 'defaulter'),1,0)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitless3hm.location_id IN ?",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitless3hm.endDate = ?",
+        "parameterName": "eDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitless3hm.on_art_this_month = 0"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(DATEDIFF(iitless3hm.rtc_date, iitless3hm.arv_first_regimen_start_date) between 1 and 89)"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitless3tx.endDate = ?",
+        "parameterName": "sDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "iitless3tx.location_id IN ?",
+        "parameterName": "locations"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

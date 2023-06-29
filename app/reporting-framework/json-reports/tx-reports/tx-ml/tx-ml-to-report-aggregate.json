@@ -1,0 +1,477 @@
+{
+  "name": "txmltoReportAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "txmltoReportBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "txmltoReportBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "join_location",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "1"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_unknown_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_unknown_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_less_1_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_less_1_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_1_4_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_1_4_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_1_4_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_1_4_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_1_4_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_1_4_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_5_9_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_5_9_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_10_14_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_10_14_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_15_19_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_15_19_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_20_24_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_20_24_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_25_29_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_25_29_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_30_34_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_30_34_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_35_39_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_35_39_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_40_44_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_40_44_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_45_49_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_45_49_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_50_54_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_50_54_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_55_59_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_55_59_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_60_64_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_60_64_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "to_above_65_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.to_above_65_year)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "female_to",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.female_to)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "male_to",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.male_to)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_to",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(b.total_to)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-txml-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}
