@@ -194,6 +194,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "on_tb_tx",
+      "column": "ls.on_tb_tx"
+    },
+    {
+      "type": "simple_column",
       "alias": "birth_date",
       "column": "t5.birthdate"
     },

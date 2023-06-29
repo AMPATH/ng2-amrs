@@ -16,7 +16,7 @@ var serviceDef = {
   newViralLoadPresent: newViralLoadPresent,
   viralLoadErrors: viralLoadErrors,
   pendingViralOrder: pendingViralOrder,
-  inhReminders: inhReminders
+  TPTReminders: TPTReminders
 };
 
 module.exports = serviceDef;
@@ -340,7 +340,8 @@ function qualifiesDifferenciatedReminders(data) {
   return reminders;
 }
 
-function inhReminders(data) {
+function TPTReminders(data) {
+  console.log('data', data);
   let reminders = [];
   let months = 6;
   let treatment = 'INH';
@@ -410,6 +411,24 @@ function inhReminders(data) {
         Moment(data.ipt_completion_date).format('DD-MM-YYYY') +
         ') ',
       title: 'INH Treatment Reminder',
+      type: 'danger',
+      display: {
+        banner: true,
+        toast: true
+      }
+    });
+  }
+
+  // TPT Reminders
+  if (
+    calculateAge(data.birth_date) >= 1 &&
+    !data.ipt_start_date &&
+    !data.on_tb_tx
+  ) {
+    reminders.push({
+      message:
+        'Patients aged one year and above, who have never used TPT and are not on TB treatment, should be initiated on TPT',
+      title: 'TPT Initiation Reminder',
       type: 'danger',
       display: {
         banner: true,
@@ -903,7 +922,7 @@ async function generateReminders(etlResults, eidResults) {
   let qualifies_differenciated_care_reminders = qualifiesDifferenciatedReminders(
     data
   );
-  let inh_reminders = inhReminders(data);
+  let tpt_reminders = TPTReminders(data);
   let vl_reminders = viralLoadReminders(data);
   let cd4_reminder = cd4TestReminder(data);
   let qualifies_enhanced = qualifiesEnhancedReminders(data);
@@ -930,7 +949,7 @@ async function generateReminders(etlResults, eidResults) {
     currentReminder = new_vl.concat(
       vl_Errors,
       pending_vl_orders,
-      inh_reminders,
+      tpt_reminders,
       qualifies_differenciated_care_reminders,
       vl_reminders,
       cd4_reminder,
