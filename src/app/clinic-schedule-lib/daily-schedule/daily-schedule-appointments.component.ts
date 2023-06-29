@@ -68,8 +68,15 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     },
     {
       headerName: 'SMS Consent Provided',
-      width: 150,
-      field: 'sms_consent_provided'
+      field: 'sms_consent_provided',
+      width: 200,
+      cellRenderer: (column: any) => {
+        if (column.value) {
+          return column.value;
+        } else {
+          return 'Not Consented';
+        }
+      }
     },
     {
       headerName: 'SMS Time',
