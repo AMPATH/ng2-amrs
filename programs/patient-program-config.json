@@ -5348,6 +5348,7 @@
       "8c1a3a68-d91d-488d-8663-ad572673232b",
       "781d8768-1359-11df-a1f1-0026b9348838"
     ],
+
     "visitTypes": [
       {
         "uuid": "42de8e7e-24b2-4c16-b62b-137eb2c55ede",
@@ -5475,11 +5476,9 @@
       "patientEncounters",
       "patientEnrollment"
     ],
-
     "enrollmentOptions": {
       "enrollIf": "gender === 'F'"
     },
-
     "incompatibleWith": [
       "52aeb285-fb18-455b-893e-3e53ccc77ceb",
       "d2552058-d7bd-47c6-aed1-480a4308027a",

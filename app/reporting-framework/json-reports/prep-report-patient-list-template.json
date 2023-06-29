@@ -116,6 +116,16 @@
       "column": "fps.inital_prep_start_date"
     },
     {
+      "type": "simple_column",
+      "alias": "initiation_reason",
+      "column": "fps.initiation_reason"
+    },
+    {
+      "type": "simple_column",
+      "alias": "discontinue_reason",
+      "column": "fps.discontinued_reason"
+    },
+    {
       "type": "derived_column",
       "alias": "population_type_category",
       "expressionType": "case_statement",
