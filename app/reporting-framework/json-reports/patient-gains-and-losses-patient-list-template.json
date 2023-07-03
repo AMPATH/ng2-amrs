@@ -223,6 +223,11 @@
       "column": "date_format(fh.ipt_stop_date, '%Y-%m-%d')"
     },
     {
+      "type": "simple_column",
+      "alias": "hiv_diclosure_status",
+      "column": "fh.hiv_disclosure_status_value"
+    },
+    {
       "type": "derived_column",
       "alias": "discordant_status",
       "expressionType": "case_statement",
