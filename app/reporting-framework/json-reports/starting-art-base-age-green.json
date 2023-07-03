@@ -10,6 +10,14 @@
       "alias": "hmsd"
     },
     {
+      "table": "<<hivVlDataSource>>",
+      "alias": "fli",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fli.person_id = hmsd.person_id"
+      }
+    },
+    {
       "table": "amrs.location",
       "alias": "l",
       "join": {
@@ -152,14 +160,14 @@
     {
       "type": "simple_column",
       "alias": "vl_1",
-      "column": "hmsd.vl_1"
+      "column": "fli.vl_1"
     },
     {
       "type": "derived_column",
       "alias": "vl_1_date",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "date_format(hmsd.vl_1_date,'%d-%m-%Y')"
+        "expression": "date_format(fli.vl_1_date,'%d-%m-%Y')"
       }
     }
   ],

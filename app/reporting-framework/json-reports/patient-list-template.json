@@ -9,6 +9,14 @@
       "alias": "t1"
     },
     {
+      "table": "<<hivVlDataSource>>",
+      "alias": "fli",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fli.person_id = t1.person_id"
+      }
+    },
+    {
       "table": "amrs.person_name",
       "alias": "person_name",
       "join": {
@@ -166,7 +174,7 @@
     {
       "type": "simple_column",
       "alias": "latest_vl",
-      "column": "fh.vl_1"
+      "column": "fli.vl_1"
     },
     {
       "type": "derived_column",
@@ -175,19 +183,19 @@
       "expressionOptions": {
         "caseOptions": [
           {
-            "condition": "fh.vl_1 < 50",
+            "condition": "fli.vl_1 < 50",
             "value": "LDL"
           },
           {
-            "condition": "(fh.vl_1 >= 50 and fh.vl_1 < 200)",
+            "condition": "(fli.vl_1 >= 50 and fli.vl_1 < 200)",
             "value": "Low Risk Low Level Viremia"
           },
           {
-            "condition": "(fh.vl_1 >= 200 and fh.vl_1 < 1000)",
+            "condition": "(fli.vl_1 >= 200 and fli.vl_1 < 1000)",
             "value": "High Risk Low Level Viremia"
           },
           {
-            "condition": "(fh.vl_1 > 1000)",
+            "condition": "(fli.vl_1 > 1000)",
             "value": "Suspected Treatment Failure"
           }
         ]
@@ -196,7 +204,7 @@
     {
       "type": "simple_column",
       "alias": "latest_vl_date",
-      "column": "date_format(fh.vl_1_date, '%Y-%m-%d')"
+      "column": "date_format(fli.vl_1_date, '%Y-%m-%d')"
     },
     {
       "type": "simple_column",

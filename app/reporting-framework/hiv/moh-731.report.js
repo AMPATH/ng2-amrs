@@ -14,7 +14,8 @@ export class Moh731Report extends MultiDatasetPatientlistReport {
       params.joinColumnParam = 'join_location';
     }
     params.hivMonthlyDatasetSource = 'etl.hiv_monthly_report_dataset_frozen'; // defaults to frozen
-
+    params.hivVlDataSource =
+      '(SELECT fli.person_id, fli.hiv_viral_load as vl_1, fli.test_datetime as vl_1_date FROM etl.flat_labs_and_imaging fli INNER JOIN (SELECT person_id, MAX(test_datetime) AS max_vl_1_date FROM etl.flat_labs_and_imaging fli where fli.hiv_viral_load is not null GROUP BY person_id) max_dates ON fli.person_id = max_dates.person_id AND fli.test_datetime = max_dates.max_vl_1_date and fli.hiv_viral_load is not null)';
     console.log('creating new moh 731 report service');
     super(reportName, params);
   }
