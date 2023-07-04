@@ -1,17 +1,18 @@
 version: '2'
 services:
-  eid-services:
-    container_name: eid-services
-    image: 10.50.80.56:5005/eid-services
+  etl-prod:
+    container_name: etl-rest-server-prod
+    image: ampathke/etl-services:v2.16.5.2
     environment:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - TZ=Africa/Nairobi
     dns:
-      - 10.50.80.150
+      - 10.50.80.35
       - 8.8.8.8
 
     volumes:
-      - /Users/achachiez/Code/AmpathWorkSpace/etl-rest-server/conf:/opt/etl/conf
+      - /media/data/etl/conf:/opt/etl/conf
+      - /media/data/etl/uploads:/opt/etl/uploads
       # deploy:
       #   mode: replicated
       #   replicas: 1
@@ -19,4 +20,4 @@ services:
       #     constraints:
       #      - node.hostname == upgrade1
     ports:
-      - 8004:8004
+      - 9141:8002
