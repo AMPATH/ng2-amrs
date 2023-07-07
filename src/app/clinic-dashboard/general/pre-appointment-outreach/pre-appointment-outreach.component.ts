@@ -134,6 +134,63 @@ export class PreAppointmentOutreachComponent implements OnInit {
         field: 'vl_category'
       },
       {
+        headerName: 'Follow-up Type',
+        width: 150,
+        field: 'follow_up_type'
+      },
+      {
+        headerName: 'Follow-up Reason',
+        width: 150,
+        field: 'follow_up_reason'
+      },
+      {
+        headerName: 'Follow-up Success',
+        width: 100,
+        field: 'was_follow_up_successful',
+        cellRenderer: (column: any) => {
+          if (column.value === 1) {
+            return 'YES';
+          } else {
+            return 'NOT';
+          }
+        }
+      },
+      {
+        headerName: 'Rescheduled Date',
+        width: 100,
+        field: 'rescheduled_date'
+      },
+      {
+        headerName: 'Contact Reached',
+        width: 100,
+        field: 'contact_reached'
+      },
+      {
+        headerName: 'Attempted Home Visit',
+        width: 100,
+        field: 'attempted_home_visit'
+      },
+      {
+        headerName: 'Reason Not Attempted Home Visit',
+        width: 100,
+        field: 'reason_not_attempted_home_visit'
+      },
+      {
+        headerName: 'Client Found',
+        width: 100,
+        field: 'was_client_found'
+      },
+      {
+        headerName: 'Reason Client Not Found',
+        width: 100,
+        field: 'reason_client_not_found'
+      },
+      {
+        headerName: 'Home Visit Personnel',
+        width: 100,
+        field: 'home_visit_personnel'
+      },
+      {
         headerName: 'COVID-19 Vaccination Status',
         width: 150,
         field: 'covid_19_vaccination_status'
