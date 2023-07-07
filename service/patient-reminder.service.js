@@ -341,7 +341,6 @@ function qualifiesDifferenciatedReminders(data) {
 }
 
 function TPTReminders(data) {
-  console.log('data', data);
   let reminders = [];
   let months = 6;
   let treatment = 'INH';
@@ -902,7 +901,7 @@ function getFPExpiryDate(data) {
 }
 
 async function generateReminders(etlResults, eidResults) {
-  console.log('REMINDERS generateReminders');
+  // console.log('REMINDERS generateReminders');
   let reminders = [];
   let patientReminder;
   if (etlResults && etlResults.length > 0) {
@@ -1024,7 +1023,7 @@ function getCerivalScreeningReminder(personId) {
       })
       .catch((error) => {
         resolve([]);
-        console.log('Error', error);
+        console.error('Error', error);
       });
   });
 }
