@@ -40,6 +40,14 @@
         "type": "LEFT",
         "joinCondition": "p.program_id = pm.program_type_id"
       }
+    },
+    {
+      "table": "etl.pre_appointment_summary",
+      "alias": "pre",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pre.person_id = ml.person_id"
+      }
     }
   ],
   "columns": [
@@ -92,6 +100,69 @@
       "type": "simple_column",
       "alias": "rtc_date",
       "column": "DATE_FORMAT(ml.rtc_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "follow_up_type",
+      "column": "pre.follow_up_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "follow_up_reason",
+      "column": "pre.follow_up_reason"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rescheduled_date",
+      "column": "pre.rescheduled_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reschedule_appointment",
+      "column": "pre.reschedule_appointment"
+    },
+    {
+      "type": "simple_column",
+      "alias": "contact_reached",
+      "column": "pre.contact_reached_phone_follow_up"
+    },
+    {
+      "type": "simple_column",
+      "alias": "attempted_home_visit",
+      "column": "pre.attempted_home_visit"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reason_not_attempted_home_visit",
+      "column": "pre.reason_not_attempted_home_visit"
+    },
+    {
+      "type": "simple_column",
+      "alias": "was_client_found",
+      "column": "pre.was_client_found"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reason_client_not_found",
+      "column": "pre.reason_client_not_found"
+    },
+    {
+      "type": "simple_column",
+      "alias": "home_visit_personnel",
+      "column": "pre.home_visit_personnel"
+    },
+    {
+      "type": "derived_column",
+      "alias": "was_follow_up_successful",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pre.is_successful_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "comments",
+      "column": "pre.comments"
     }
   ],
   "filters": {
@@ -122,6 +193,10 @@
       },
       {
         "column": "ml.prediction_generated_date",
+        "order": "desc"
+      },
+      {
+        "column": "pre.encounter_datetime",
         "order": "desc"
       }
     ]
