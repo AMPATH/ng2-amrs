@@ -27,6 +27,7 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public newList: any;
   public selected: any;
   public refresh = false;
+
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
 
@@ -69,6 +70,19 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.generateGrid();
   }
 
+  private moreRowStyles(params: any): any {
+    if (
+      params.data.was_follow_up_successful === 1 &&
+      params.data.rescheduled_date === null
+    ) {
+      return { 'background-color': 'green', color: 'white' };
+    } else if (params.data.rescheduled_date !== null) {
+      return { 'background-color': 'yellow', color: 'white' };
+    } else {
+      return {};
+    }
+  }
+
   public generateGrid() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
@@ -108,70 +122,15 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
       if (this.dataSource) {
         this.gridOptions.api.setDatasource(this.dataSource);
       }
-      this.gridOptions.getRowStyle = (params) => {
-        return {
-          'font-size': '14px',
-          cursor: 'pointer'
-        };
+
+      const commonRowStyles = {
+        'font-size': '14px',
+        cursor: 'pointer'
       };
 
-      // this.gridOptions.getRowHeight = function (params) {
-      //   let dataLength = 0;
-      //   if (params.data) {
-      //     if (params.data.identifiers) {
-      //       dataLength = params.data.identifiers.length;
-      //     }
-
-      //     if (params.data.person_name) {
-      //       if (dataLength > 0) {
-      //         if (dataLength > 0 && params.data.person_name.length > dataLength) {
-      //           dataLength = params.data.person_name.length;
-      //         }
-      //       } else {
-      //         dataLength = params.data.person_name.length;
-      //       }
-      //     }
-
-      //     if (params.data.rtc_date) {
-      //       if (dataLength > 0) {
-      //         if (dataLength > 0 && params.data.rtc_date.length > dataLength) {
-      //           dataLength = params.data.rtc_date.length;
-      //         }
-      //       } else {
-      //         dataLength = params.data.rtc_date.length;
-      //       }
-      //     }
-
-      //     if (params.data.last_appointment) {
-      //       if (dataLength > 0) {
-      //         if (dataLength > 0 && params.data.last_appointment.length > dataLength) {
-      //           dataLength = params.data.last_appointment.length;
-      //         }
-      //       } else {
-      //         dataLength = params.data.last_appointment.length;
-      //       }
-      //     }
-
-      //     if (params.data.filed_id) {
-      //       if (dataLength > 0) {
-      //         if (dataLength > 0 && params.data.filed_id.length > dataLength) {
-      //           dataLength = params.data.filed_id.length;
-      //         }
-      //       } else {
-      //         dataLength = params.data.filed_id.length;
-      //       }
-
-      //     }
-      //   }
-
-      //   if (dataLength > 0) {
-      //     return 20 * (Math.floor(dataLength / 15) + 1);
-
-      //   } else {
-      //     return 20;
-      //   }
-
-      // };
+      this.gridOptions.getRowStyle = (params) => {
+        return Object.assign({}, commonRowStyles, this.moreRowStyles(params));
+      };
     };
   }
 

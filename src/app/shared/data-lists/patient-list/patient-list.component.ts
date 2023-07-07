@@ -64,7 +64,6 @@ export class PatientListComponent implements OnInit {
   get rowData() {
     const d: any = this.data || [];
     let count = 1;
-    // console.log('Data', this.data);
     _.forEach(d, (row) => {
       if (!row['person_name']) {
         row['person_name'] =
@@ -76,9 +75,6 @@ export class PatientListComponent implements OnInit {
       }
       count++;
     });
-
-    // console.log('Filtered Data', this.data);
-
     return this.data || [];
   }
 
