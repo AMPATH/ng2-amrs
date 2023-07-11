@@ -72,12 +72,13 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
 
   private moreRowStyles(params: any): any {
     if (
+      params &&
       params.data.was_follow_up_successful === 1 &&
       params.data.rescheduled_date === null
     ) {
       return { 'background-color': 'green', color: 'white' };
     } else if (params.data.rescheduled_date !== null) {
-      return { 'background-color': 'yellow', color: 'white' };
+      return { 'background-color': 'yellow' };
     } else {
       return {};
     }

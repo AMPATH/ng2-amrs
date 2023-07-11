@@ -8,6 +8,7 @@ import { PreAppointmentOutreachResourceService } from 'src/app/etl-api/pre-appoi
 interface ReportParams {
   locationUuids: string;
   yearWeek: string;
+  processOutcome: number;
 }
 
 @Component({
@@ -26,6 +27,22 @@ export class PreAppointmentOutreachComponent implements OnInit {
   public weeks: any[] = [];
   public selectedWeek: string;
   public selectedFormattedWeek: string;
+
+  // constants
+  private ALL = 'All';
+  private FOLLOW_UP_SUCCESSFUL = 'Follow-up Successful';
+  private FAILED_FOLLOW_UP_ATTEMPT = 'Failed Follow-up Attempt';
+
+  public filterTypeOptions: any[] = [
+    this.ALL,
+    this.FOLLOW_UP_SUCCESSFUL,
+    this.FAILED_FOLLOW_UP_ATTEMPT
+  ];
+  public selectedFilterType = 'All'; // defaults to All
+  // TODO refactor this later
+  public mappedSelectedFilterType = -1;
+  public explainedFilterType =
+    'All patients predicted to be at either a high or medium risk of missing their appointments.';
 
   constructor(
     private clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -65,6 +82,29 @@ export class PreAppointmentOutreachComponent implements OnInit {
     this.selectedFormattedWeek = this.weeks.find(
       (week) => week.value === this.selectedWeek
     ).label;
+  }
+
+  public setSelectedFilterType() {
+    switch (this.selectedFilterType) {
+      case this.ALL:
+        // TODO refactor this later
+        this.mappedSelectedFilterType = -1;
+        this.explainedFilterType =
+          'All patients predicted to be at either a high or medium risk of missing their appointments.';
+        break;
+      case this.FOLLOW_UP_SUCCESSFUL:
+        this.mappedSelectedFilterType = 1;
+        this.explainedFilterType =
+          'Patients who have successfully been contacted/reached';
+        break;
+      case this.FAILED_FOLLOW_UP_ATTEMPT:
+        this.mappedSelectedFilterType = 0;
+        this.explainedFilterType =
+          'Patient for whom follow-up attempts have been unsuccessful.';
+        break;
+      default:
+        this.explainedFilterType = '';
+    }
   }
 
   public extraColumns() {
@@ -151,7 +191,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
           if (column.value === 1) {
             return 'YES';
           } else {
-            return 'NOT';
+            return 'NO';
           }
         }
       },
@@ -206,7 +246,8 @@ export class PreAppointmentOutreachComponent implements OnInit {
   public getReportParams(): ReportParams {
     return {
       locationUuids: this.locationUuids,
-      yearWeek: this.selectedWeek
+      yearWeek: this.selectedWeek,
+      processOutcome: this.mappedSelectedFilterType
     };
   }
 
@@ -224,7 +265,8 @@ export class PreAppointmentOutreachComponent implements OnInit {
                 relativeTo: this.route,
                 queryParams: {
                   locationUuids: this.locationUuids,
-                  yearWeek: this.selectedWeek
+                  yearWeek: this.selectedWeek,
+                  processOutcome: this.mappedSelectedFilterType
                 }
               });
             }

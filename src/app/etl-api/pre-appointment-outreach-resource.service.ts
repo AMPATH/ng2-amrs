@@ -17,9 +17,14 @@ export class PreAppointmentOutreachResourceService {
   }
 
   public getWeeklyPredictionsPatientList(params: any) {
-    const urlParams: HttpParams = new HttpParams()
+    let urlParams: HttpParams = new HttpParams()
       .set('locationUuids', params.locationUuids)
       .set('yearWeek', params.yearWeek);
+
+    if (params.processOutcome !== -1) {
+      urlParams = urlParams.set('processOutcome', params.processOutcome);
+    }
+
     const url = this.getUrl('ml-weekly-predictions');
     const request = this.http
       .get<any>(url, {
