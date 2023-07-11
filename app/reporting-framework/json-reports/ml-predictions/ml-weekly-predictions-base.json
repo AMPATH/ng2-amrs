@@ -180,6 +180,11 @@
       },
       {
         "filterType": "tableColumns",
+        "conditionExpression": "(if((pre.is_successful_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)) = ?",
+        "parameterName": "processOutcome"
+      },
+      {
+        "filterType": "tableColumns",
         "conditionExpression": "ml.predicted_risk is not null"
       }
     ]
