@@ -51,6 +51,7 @@ export class FormSubmissionService {
     optionalArg?: any
   ): Observable<any> {
     console.log('ola', form);
+    console.log('ola', form);
     // create payload batch to be submitted on concurrently
     this.optionalSubmissionArgs = optionalArg;
     const payloadBatch: Array<Observable<any>> = this.createPayloadBatch(
