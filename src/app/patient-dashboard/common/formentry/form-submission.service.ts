@@ -233,7 +233,7 @@ export class FormSubmissionService {
     payload: any
   ): Observable<any> {
     const personAddrPayload: any = {
-      payload
+      addresses: payload
     };
     if (form.valueProcessingInfo.personUuid) {
       return this.personResourceService.saveUpdatePerson(
@@ -300,12 +300,6 @@ export class FormSubmissionService {
       case 'personAttribute':
         errors.push(
           'Person Attribute Error: ' +
-            this.generateUserFriendlyErrorMessage(response)
-        );
-        break;
-      case 'personAddress':
-        errors.push(
-          'Person Address Error: ' +
             this.generateUserFriendlyErrorMessage(response)
         );
         break;

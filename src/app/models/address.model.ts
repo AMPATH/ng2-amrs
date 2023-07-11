@@ -97,4 +97,53 @@ export class PersonAddress extends BaseModel {
   public set postalCode(v: string) {
     this._openmrsModel.postalCode = v;
   }
+  @serializable()
+  public get address8(): string {
+    return this._openmrsModel.address8;
+  }
+  public set address8(v: string) {
+    this._openmrsModel.address8 = v;
+  }
+  @serializable()
+  public get address9(): string {
+    return this._openmrsModel.address9;
+  }
+  public set address9(v: string) {
+    this._openmrsModel.address9 = v;
+  }
+  @serializable()
+  public get address10(): string {
+    return this._openmrsModel.address10;
+  }
+  public set address10(v: string) {
+    this._openmrsModel.address10 = v;
+  }
+  @serializable()
+  public get address11(): string {
+    return this._openmrsModel.address11;
+  }
+  public set address11(v: string) {
+    this._openmrsModel.address11 = v;
+  }
+  @serializable()
+  public get address12(): string {
+    return this._openmrsModel.address12;
+  }
+  public set address12(v: string) {
+    this._openmrsModel.address12 = v;
+  }
+  @serializable()
+  public get address13(): string {
+    return this._openmrsModel.address13;
+  }
+  public set address13(v: string) {
+    this._openmrsModel.address13 = v;
+  }
+  @serializable()
+  public get address14(): string {
+    return this._openmrsModel.address14;
+  }
+  public set address14(v: string) {
+    this._openmrsModel.address14 = v;
+  }
 }

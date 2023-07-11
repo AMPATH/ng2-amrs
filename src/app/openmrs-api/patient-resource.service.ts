@@ -16,7 +16,7 @@ export class PatientResourceService {
     'causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),' +
     'attributes:(uuid,display,value,attributeType,dateCreated,dateChanged),preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,' +
     'stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5' +
-    ',address6,address7,address15)))';
+    ',address6,address7,address15,address8,address9,address10,address11,address12,address13,address14)))';
 
   constructor(
     protected http: HttpClient,
