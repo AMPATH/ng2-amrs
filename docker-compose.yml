@@ -2,7 +2,7 @@ version: '2'
 services:
   etl-prod:
     container_name: etl-rest-server-prod
-    image: ampathke/etl-services:v2.16.5.2
+    image: ampathke/etl-services:<tag>
     environment:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - TZ=Africa/Nairobi
@@ -11,8 +11,8 @@ services:
       - 8.8.8.8
 
     volumes:
-      - /media/data/etl/conf:/opt/etl/conf
-      - /media/data/etl/uploads:/opt/etl/uploads
+      - <source_directory>:/opt/etl/conf
+      - <source_directory>:/opt/etl/uploads
       # deploy:
       #   mode: replicated
       #   replicas: 1
@@ -20,4 +20,4 @@ services:
       #     constraints:
       #      - node.hostname == upgrade1
     ports:
-      - 9141:8002
+      - <server_port>:8002

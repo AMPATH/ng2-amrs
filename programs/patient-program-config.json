@@ -5372,7 +5372,7 @@
       {
         "uuid": "02e3ce61-fa24-445e-a1f0-6e3299142966",
         "name": "ANC Return Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstANCVisit && gender==='F'",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && (!isFirstAMPATHHIVVisit || !isFirstANCVisit)  && gender==='F'",
         "encounterTypes": [
           {
             "uuid": "26bfc6b7-28d0-41ab-90c5-e101af46d06d",
@@ -5446,10 +5446,10 @@
       {
         "uuid": "0b1b6194-d2d5-4e4b-9f7c-c3b778ccc354",
         "name": "PMTCT Postnatal Return Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid && !isFirstPNCVisit && gender==='F'",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && (!isFirstAMPATHHIVVisit || !isFirstPNCVisit) && gender==='F'",
         "encounterTypes": [
           {
-            "uuid": "ded4ecf7-8129-4a9e-8aa3-a21a7adb7759",
+            "uuid": "db215741-de99-424a-a109-1f23eb3b680b",
             "display": "PNC ADULTRETURN"
           },
           {
