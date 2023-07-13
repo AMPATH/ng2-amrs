@@ -39,8 +39,10 @@ jobs:
         run: npm run prettier:check
       - name: Build prod
         run: npm run build-prod
+      - name: Create dist directory
+        run: mkdir -p ./dist
       - name: Publish to dist folder
-        run: cp -R ./path/to/publish/file ./dist/
+        run: cp -R ./dist/
       # - name: Run headless tests
       #   uses: GabrielBB/xvfb-action@v1
       #   with:
