@@ -36,13 +36,11 @@ jobs:
       - name: Linting
         run: npm run lint
       - name: Prettier check
-        run: npm run prettier:check
-      - name: Build prod
-        run: npm run build-prod
+        run: npm run prettier:check      
       - name: Create dist directory
         run: mkdir -p ./dist
-      - name: Publish to dist folder
-        run: cp -R ./dist/ ./dist/$GITHUB_REF_SLUG
+      - name: Build prod
+        run: npm run build-prod
       # - name: Run headless tests
       #   uses: GabrielBB/xvfb-action@v1
       #   with:
