@@ -42,7 +42,7 @@ jobs:
       - name: Create dist directory
         run: mkdir -p ./dist
       - name: Publish to dist folder
-        run: cp -R ./dist/
+        run: cp -R ./dist/ ./dist/$GITHUB_REF_SLUG
       # - name: Run headless tests
       #   uses: GabrielBB/xvfb-action@v1
       #   with:
