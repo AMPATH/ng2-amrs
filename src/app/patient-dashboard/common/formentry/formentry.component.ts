@@ -168,6 +168,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     public userDefaultPropertiesService: UserDefaultPropertiesService,
     public patientConsentResourceService: PatientConsentResourceService,
     private covid19Service: Covid19ResourceService,
+    private propertyLocationService: UserDefaultPropertiesService
     private personAddressAdapter: PersonAddressAdapter
   ) {}
 
@@ -1425,11 +1426,37 @@ export class FormentryComponent implements OnInit, OnDestroy {
 
   private handleFormReferrals(data: any) {
     this.shouldShowPatientReferralsDialog(data);
+    const dcExit = this.form.searchNodeByQuestionId('dcCarePlan');
+    const referredToLocation = this.form.searchNodeByQuestionId('location');
+    if (
+      dcExit.length &&
+      _.first(dcExit).control.value === 'a8af50f4-1350-11df-a1f1-0026b9348838'
+    ) {
+      this.isReferral = true;
+      localStorage.setItem(
+        'referralProgram',
+        '781d85b0-1359-11df-a1f1-0026b9348838'
+      );
+      localStorage.setItem(
+        'referralLocation',
+        _.first(referredToLocation).control.value
+      );
+      localStorage.setItem(
+        'refLocation',
+        this.propertyLocationService.getCurrentUserDefaultLocationObject()
+          .display
+      );
+      localStorage.setItem('refProgram', 'Standard HIV Treatment');
+    }
+    console.log('Iam here', dcExit, _.first(referredToLocation).control.value);
     if (this.isReferral) {
       const referralProgram = localStorage.getItem('referralProgram');
+      this.refProgram = referralProgram;
+      this.refLocation = this.encounterLocation;
       const referralInfo = {
         programUuid: referralProgram,
-        submittedEncounter: this.submittedEncounter
+        submittedEncounter: this.submittedEncounter,
+        referredToLocation: referredToLocation
       };
       this.referralsHandler
         .handleProgramReferral(this.patient, referralInfo)
