@@ -39,6 +39,11 @@ jobs:
         run: npm run prettier:check
       - name: Build prod
         run: npm run build-prod
+     - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-files
+          path: dist
       # - name: Run headless tests
       #   uses: GabrielBB/xvfb-action@v1
       #   with:
