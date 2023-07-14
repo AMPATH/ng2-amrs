@@ -89,8 +89,7 @@ const mockReferralsData: ReturnValue = {
   encounterDatetime: null,
   providerUuid: 'provider-uuid',
   locationUuid: 'location-uuid',
-  hivReferralLocationUuid: 'hiv-ref-location-uuid',
-  hasExitDCOutcome: false
+  hivReferralLocationUuid: 'hiv-ref-location-uuid'
 };
 
 const mockRefProgram: ReferredProgram = {

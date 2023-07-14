@@ -62,8 +62,6 @@ export class FormentryReferralsHandlerService {
             });
           }
         );
-    } else if (values.hasExitDCOutcome) {
-      // Generate a completion and re-enrollment on standard hiv payload
     } else {
       subject.next({
         success: true,
@@ -219,8 +217,7 @@ export class FormentryReferralsHandlerService {
       encounterDatetime: null,
       providerUuid: '',
       locationUuid: '',
-      hivReferralLocationUuid: '',
-      hasExitDCOutcome: false
+      hivReferralLocationUuid: ''
     };
 
     const formUuid = form.schema.uuid ? form.schema.uuid : '';
@@ -228,7 +225,6 @@ export class FormentryReferralsHandlerService {
     // has differentiaded care referal;
     const referrals_1 = this.getQuestionValue(form, 'referrals');
     const internalMvmentData = this.getQuestionValue(form, 'careType');
-    const dcOutcomeDataQstnAns = this.getQuestionValue(form, 'dcCarePlan');
     const interMovementQstnAns = this.getQuestionValue(form, 'internalMove');
     // validating if selected option is DC care and referrals is blank. Adult and youth forms are different
     const referrals =
@@ -245,11 +241,6 @@ export class FormentryReferralsHandlerService {
     // has selected yes for internal movement
     if (interMovementQstnAns === 'a899b35c-1350-11df-a1f1-0026b9348838') {
       returnValue.hasInterFacilityReferral = true;
-    }
-
-    // Has Dc outcome as Exit
-    if (dcOutcomeDataQstnAns === 'a8af50f4-1350-11df-a1f1-0026b9348838') {
-      returnValue.hasExitDCOutcome = true;
     }
 
     // has transition referral

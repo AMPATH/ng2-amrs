@@ -16,5 +16,4 @@ export interface ReturnValue {
   providerUuid: string;
   locationUuid: string;
   hivReferralLocationUuid: string;
-  hasExitDCOutcome: boolean;
 }
