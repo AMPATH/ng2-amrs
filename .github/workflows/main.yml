@@ -39,6 +39,10 @@ jobs:
         run: npm run prettier:check
       - name: Build prod
         run: npm run build-prod
+      - name: Rename build file
+        run: |
+          BRANCH_NAME=$(echo "${{ github.ref }}" | awk -F"/" '{print $3}')
+          mv dist/build-file.ext dist/$BRANCH_NAME.ext
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
