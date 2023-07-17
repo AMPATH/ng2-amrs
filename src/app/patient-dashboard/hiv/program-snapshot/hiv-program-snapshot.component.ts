@@ -244,7 +244,11 @@ export class HivProgramSnapshotComponent implements OnInit {
     this.predictionResourceService
       .getPatientPrediction(patientUuid)
       .subscribe((result) => {
-        if (result) {
+        if (
+          result &&
+          result.predicted_prob_disengage &&
+          result.predicted_risk
+        ) {
           this.hasPredictedScore = true;
           this.prediction = result;
         }
@@ -637,6 +641,7 @@ export class HivProgramSnapshotComponent implements OnInit {
         break;
       default:
         predictionAlert.label = false;
+        predictionAlert['label-info'] = true;
         break;
     }
 
