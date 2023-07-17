@@ -80,6 +80,7 @@ import { ClinicFlowService } from './service/clinic-flow-service';
 import { getPatientCovidVaccinationStatus } from './service/covid-19/covid-19-vaccination-summary';
 import { Covid19MonthlyReport } from './service/covid-19/covid-19-monthly-report';
 import { MlWeeklyPredictionsService } from './service/ml-weekly-predictions.service';
+import { getPatientPredictedScore } from './service/predictions/ml-prediction-service';
 
 module.exports = (function () {
   var routes = [
@@ -6265,6 +6266,31 @@ module.exports = (function () {
             allowUnknown: true
           }
         }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/predicted-score',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.patientUuid) {
+            const patientUuid = request.query.patientUuid;
+            getPatientPredictedScore(patientUuid)
+              .then((results) => {
+                reply(results);
+              })
+              .catch((error) => {
+                reply(Boom.internal('An error occured', error));
+              });
+          } else {
+            reply(Boom.internal('Request misssing patient uuid'));
+          }
+        },
+        description: 'Patient predicted score of missing appointment.',
+        notes: 'Returns the patients predictions data.',
+        tags: ['api']
       }
     }
   ];
