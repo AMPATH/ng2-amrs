@@ -42,7 +42,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
   // TODO refactor this later
   public mappedSelectedFilterType = -1;
   public explainedFilterType =
-    'All patients predicted to be at either a high or medium risk of missing their appointments.';
+    'All patients predicted to be at either a high or medium risk.';
 
   constructor(
     private clinicDashboardCacheService: ClinicDashboardCacheService,
@@ -90,7 +90,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
         // TODO refactor this later
         this.mappedSelectedFilterType = -1;
         this.explainedFilterType =
-          'All patients predicted to be at either a high or medium risk of missing their appointments.';
+          'All patients predicted to be at either a high or medium risk.';
         break;
       case this.FOLLOW_UP_SUCCESSFUL:
         this.mappedSelectedFilterType = 1;
@@ -129,6 +129,11 @@ export class PreAppointmentOutreachComponent implements OnInit {
         headerName: 'Predicted Risk',
         width: 120,
         field: 'predicted_risk'
+      },
+      {
+        headerName: 'Predicted Score',
+        width: 120,
+        field: 'predicted_prob_disengage'
       },
       {
         headerName: 'Prediction Generated Date',

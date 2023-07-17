@@ -54,6 +54,19 @@
           >
         </p>
       </div>
+      <div
+        class="alert-div"
+        *ngIf="hasPredictedScore"
+        style="display: inline-block"
+      >
+        <p [ngClass]="getPredictionAlertColorCoded(prediction.predicted_risk)">
+          <span class="hiv-alert"
+            >Predicted Score : {{ prediction.predicted_prob_disengage }}({{
+              prediction.predicted_risk
+            }})</span
+          >
+        </p>
+      </div>
       <div class="alert-div" style="display: inline-block">
         <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
           <span class="hiv-alert" [style.background-color]="viralloadColor"

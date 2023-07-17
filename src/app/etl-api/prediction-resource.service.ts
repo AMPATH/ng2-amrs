@@ -5,30 +5,22 @@ import { DataCacheService } from '../shared/services/data-cache.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
-export class PreAppointmentOutreachResourceService {
+export class PredictionResourceService {
   constructor(
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService,
     private cacheService: DataCacheService
   ) {}
 
-  private getUrl(reportName: string): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + reportName;
-  }
+  public getPatientPrediction(patientUuid: string) {
+    const urlParams: HttpParams = new HttpParams().set(
+      'patientUuid',
+      patientUuid
+    );
 
-  public getWeeklyPredictionsPatientList(params: any) {
-    let urlParams: HttpParams = new HttpParams()
-      .set('locationUuids', params.locationUuids)
-      .set('yearWeek', params.yearWeek);
-
-    if (params.processOutcome === 1) {
-      urlParams = urlParams.set('successfulOutcome', params.processOutcome);
-    }
-    if (params.processOutcome === 0) {
-      urlParams = urlParams.set('failedOutcome', '1');
-    }
-
-    const url = this.getUrl('ml-weekly-predictions');
+    const url = `${this.appSettingsService
+      .getEtlRestbaseurl()
+      .trim()}predicted-score`;
     const request = this.http
       .get<any>(url, {
         params: urlParams
