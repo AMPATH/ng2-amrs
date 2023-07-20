@@ -79,6 +79,8 @@ import { DefaulterListService } from './service/defaulter-list-service';
 import { ClinicFlowService } from './service/clinic-flow-service';
 import { getPatientCovidVaccinationStatus } from './service/covid-19/covid-19-vaccination-summary';
 import { Covid19MonthlyReport } from './service/covid-19/covid-19-monthly-report';
+import { MlWeeklyPredictionsService } from './service/ml-weekly-predictions.service';
+import { getPatientPredictedScore } from './service/predictions/ml-prediction-service';
 
 module.exports = (function () {
   var routes = [
@@ -6209,6 +6211,85 @@ module.exports = (function () {
         description: 'COVID-19 Monthly Report Patient List',
         notes:
           'Returns patient list of vaccinated i.e fully,partial and not vaccinated',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/ml-weekly-predictions',
+      config: {
+        auth: 'simple',
+        handler: function (request, reply) {
+          if (request.query.locationUuids) {
+            request.query.reportName = 'defaulter-list';
+            preRequest.resolveLocationIdsToLocationUuids(request, function () {
+              let requestParams = Object.assign(
+                {},
+                request.query,
+                request.params
+              );
+
+              const mlWeeklyPredictionsService = new MlWeeklyPredictionsService();
+
+              mlWeeklyPredictionsService
+                .getPatientListReport(requestParams)
+                .then((results) => {
+                  _.each(results.result, (item) => {
+                    item.cur_meds = etlHelpers.getARVNames(item.cur_meds);
+                  });
+                  reply(results);
+                })
+                .catch((err) => {
+                  reply(Boom.internal('An error occured', err));
+                });
+            });
+          }
+        },
+        plugins: {
+          hapiAuthorization: {
+            role: privileges.canViewClinicDashBoard
+          },
+          openmrsLocationAuthorizer: {
+            locationParameter: [
+              {
+                type: 'query',
+                name: 'locationUuids' //name of the location parameter
+              }
+            ]
+          }
+        },
+        description: "Get a location's ml weekly predictions list.",
+        notes: "Returns a location's ml weekly predictions list.",
+        tags: ['api'],
+        validate: {
+          options: {
+            allowUnknown: true
+          }
+        }
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/predicted-score',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          if (request.query.patientUuid) {
+            const patientUuid = request.query.patientUuid;
+            getPatientPredictedScore(patientUuid)
+              .then((results) => {
+                reply(results);
+              })
+              .catch((error) => {
+                reply(Boom.internal('An error occured', error));
+              });
+          } else {
+            reply(Boom.internal('Request misssing patient uuid'));
+          }
+        },
+        description: 'Patient predicted score of missing appointment.',
+        notes: 'Returns the patients predictions data.',
         tags: ['api']
       }
     }

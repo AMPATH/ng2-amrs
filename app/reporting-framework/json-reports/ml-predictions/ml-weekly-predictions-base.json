@@ -1,0 +1,214 @@
+{
+  "name": "mlWeeklyPredictionsBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "predictions.ml_weekly_predictions",
+      "alias": "ml"
+    },
+    {
+      "table": "etl.flat_hiv_summary_v15b",
+      "alias": "de",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "de.encounter_id = ml.encounter_id"
+      }
+    },
+    {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "fi",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "de.person_id = fi.patient_id"
+      }
+    },
+    {
+      "table": "etl.program_visit_map",
+      "alias": "pm",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "de.visit_type = pm.visit_type_id"
+      }
+    },
+    {
+      "table": "amrs.program",
+      "alias": "p",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "p.program_id = pm.program_type_id"
+      }
+    },
+    {
+      "table": "etl.pre_appointment_summary",
+      "alias": "pre",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pre.person_id = ml.person_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "ml.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "fi.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "fi.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "fi.nupi"
+    },
+    {
+      "type": "simple_column",
+      "alias": "program",
+      "column": "p.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "predicted_risk",
+      "column": "ml.predicted_risk"
+    },
+    {
+      "type": "simple_column",
+      "alias": "week",
+      "column": "ml.week"
+    },
+    {
+      "type": "simple_column",
+      "alias": "predicted_prob_disengage",
+      "column": "ml.predicted_prob_disengage"
+    },
+    {
+      "type": "simple_column",
+      "alias": "prediction_generated_date",
+      "column": "DATE_FORMAT(ml.prediction_generated_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rtc_date",
+      "column": "DATE_FORMAT(ml.rtc_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "follow_up_type",
+      "column": "pre.follow_up_type"
+    },
+    {
+      "type": "simple_column",
+      "alias": "follow_up_reason",
+      "column": "pre.follow_up_reason"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rescheduled_date",
+      "column": "pre.rescheduled_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reschedule_appointment",
+      "column": "pre.reschedule_appointment"
+    },
+    {
+      "type": "simple_column",
+      "alias": "contact_reached",
+      "column": "pre.contact_reached_phone_follow_up"
+    },
+    {
+      "type": "simple_column",
+      "alias": "attempted_home_visit",
+      "column": "pre.attempted_home_visit"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reason_not_attempted_home_visit",
+      "column": "pre.reason_not_attempted_home_visit"
+    },
+    {
+      "type": "simple_column",
+      "alias": "was_client_found",
+      "column": "pre.was_client_found"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reason_client_not_found",
+      "column": "pre.reason_client_not_found"
+    },
+    {
+      "type": "simple_column",
+      "alias": "home_visit_personnel",
+      "column": "pre.home_visit_personnel"
+    },
+    {
+      "type": "derived_column",
+      "alias": "was_follow_up_successful",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pre.is_successful_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "comments",
+      "column": "pre.comments"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "ml.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "ml.week = ?",
+        "parameterName": "yearWeek"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(if((pre.is_successful_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)) = ?",
+        "parameterName": "successfulOutcome"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "(if((pre.is_successful_phone_follow_up = 'NO' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'NO')), 1, 0)) = ?",
+        "parameterName": "failedOutcome"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "ml.predicted_risk is not null"
+      }
+    ]
+  },
+  "orderBy": {
+    "orderByParam": "orderByParam",
+    "columns": [
+      {
+        "column": "ml.predicted_prob_disengage",
+        "order": "desc"
+      },
+      {
+        "column": "ml.prediction_generated_date",
+        "order": "desc"
+      },
+      {
+        "column": "pre.encounter_datetime",
+        "order": "desc"
+      }
+    ]
+  }
+}

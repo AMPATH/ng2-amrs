@@ -792,6 +792,17 @@
             "display": "COVIDSCREENING"
           }
         ]
+      },
+      {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
       }
     ]
   },
@@ -1941,6 +1952,17 @@
         ]
       },
       {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
+      },
+      {
         "uuid": "d7fdac11-2df0-4f18-968e-ad5e064bedf1",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [
@@ -2310,6 +2332,17 @@
         ]
       },
       {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
+      },
+      {
         "uuid": "9cbec0ea-9091-4a1d-9d2d-a3bbc295a04f",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [
@@ -2515,6 +2548,16 @@
         ]
       },
       {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
+      },
+      {
         "uuid": "c2c3cde9-5a3f-4fc3-8976-1c4d29ad0dbe",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [
@@ -2713,6 +2756,16 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
           }
         ]
       },
@@ -3084,6 +3137,17 @@
           {
             "uuid": "8010fabc-2e58-4160-a201-fce9c609d2fa",
             "display": "COVIDASSESSMENT"
+          }
+        ]
+      },
+      {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
           }
         ]
       },
@@ -4093,6 +4157,17 @@
         ]
       },
       {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
+      },
+      {
         "uuid": "40353c46-cd54-4629-a5d1-0a1f1108b19f",
         "name": "Inpatient peer visit",
         "encounterTypes": [
@@ -4217,6 +4292,16 @@
           {
             "uuid": "afabceae-61d4-42b6-8f6a-fff48a7797ea",
             "display": "COVIDCASEREPORTING"
+          }
+        ]
+      },
+      {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
           }
         ]
       },
@@ -4587,6 +4672,16 @@
         ]
       },
       {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
+      },
+      {
         "uuid": "0b26e1ca-8b32-40e9-af4d-aa1c2cc68a58",
         "name": "Phone Follow Up Visit",
         "encounterTypes": [
@@ -4817,6 +4912,16 @@
         ]
       },
       {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
+          }
+        ]
+      },
+      {
         "uuid": "8ec3bb23-6d7d-4638-9b2a-16b070760e34",
         "name": "HEI Phone Follow Up Visit",
         "encounterTypes": [
@@ -4906,6 +5011,17 @@
           {
             "uuid": "3339810c-4980-4325-9825-0f0ed0c2da4a",
             "display": "CDMSCREENINGCONFIRMATORY"
+          }
+        ]
+      },
+      {
+        "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
+        "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
+            "display": "PRE APPOINTMENT FOLLOW UP"
           }
         ]
       },
