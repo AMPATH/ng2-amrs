@@ -60,6 +60,11 @@ export class PatientListColumns {
   public static hivColumns() {
     return [
       {
+        headerName: 'VL Category',
+        width: 150,
+        field: 'vl_category'
+      },
+      {
         headerName: 'Phone Number',
         width: 150,
         field: 'phone_number'
@@ -100,24 +105,14 @@ export class PatientListColumns {
         field: 'cur_meds'
       },
       {
-        headerName: 'Latest VL',
+        headerName: 'Previous VL',
         width: 75,
         field: 'latest_vl'
       },
       {
-        headerName: 'Latest VL Date',
-        width: 150,
-        field: 'latest_vl_date'
-      },
-      {
-        headerName: 'Previous VL',
-        width: 75,
-        field: 'previous_vl'
-      },
-      {
         headerName: 'Previous VL Date',
         width: 150,
-        field: 'previous_vl_date'
+        field: 'latest_vl_date'
       },
       {
         headerName: 'Nearest Center',

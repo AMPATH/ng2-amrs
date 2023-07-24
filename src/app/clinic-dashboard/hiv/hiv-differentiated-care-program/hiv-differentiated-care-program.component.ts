@@ -118,6 +118,11 @@ export class HivDifferentiatedCareComponent implements OnInit {
         field: 'latest_vl'
       },
       {
+        headerName: 'VL Category',
+        width: 100,
+        field: 'vl_category'
+      },
+      {
         headerName: 'Latest VL Date',
         width: 150,
         field: 'latest_vl_date'
