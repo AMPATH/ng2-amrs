@@ -131,9 +131,12 @@ export class PreAppointmentOutreachComponent implements OnInit {
         field: 'predicted_risk'
       },
       {
-        headerName: 'Predicted Score',
+        headerName: 'Predicted Score (%)',
         width: 120,
-        field: 'predicted_prob_disengage'
+        field: 'predicted_prob_disengage',
+        cellRenderer: (column: any) => {
+          return (column.value * 100).toFixed(2);
+        }
       },
       {
         headerName: 'Prediction Generated Date',

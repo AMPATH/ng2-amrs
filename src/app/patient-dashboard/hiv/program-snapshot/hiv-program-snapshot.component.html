@@ -61,7 +61,8 @@
       >
         <p [ngClass]="getPredictionAlertColorCoded(prediction.predicted_risk)">
           <span class="hiv-alert"
-            >Appointment No-show Risk : {{ (prediction.predicted_prob_disengage * 100).toFixed(2) }}%({{
+            >Appointment No-show Risk :
+            {{ (prediction.predicted_prob_disengage * 100).toFixed(2) }}%({{
               prediction.predicted_risk
             }})</span
           >
