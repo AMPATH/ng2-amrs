@@ -3,14 +3,17 @@
     <thead>
       <tr>
         <th>Encounter Type</th>
+        <th>Encounter Type</th>
         <th>Encounter Date</th>
         <th>RTC Date</th>
+        <th>Days Missed</th>
         <th>Days Missed</th>
         <th *ngIf="hasMedicationRtc">Medication Pick up Date</th>
         <th>ARV Meds</th>
         <th>CD4 Count</th>
         <th>Viral Load</th>
         <th>WHO Stage</th>
+        <th>Status</th>
         <th>Status</th>
         <th *ngIf="hasMdtSessionNo">EAC</th>
       </tr>
@@ -25,8 +28,20 @@
       }"
     >
       <td>{{ hivSummary.encounter_type_name }}</td>
+      <td>{{ hivSummary.encounter_type_name }}</td>
       <td>{{ hivSummary.encounter_datetime | date: 'dd-MM-yyyy' }}</td>
       <td>{{ hivSummary.rtc_date | date: 'dd-MM-yyyy' }}</td>
+      <td>
+        {{
+          (hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+            (1000 * 60 * 60 * 24) >
+          0
+            ? (hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+              (1000 * 60 * 60 * 24)
+            : 0
+        }}
+      </td>
+
       <td>
         {{
           (hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
@@ -41,6 +56,8 @@
       <td *ngIf="hasMedicationRtc">
         {{ hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
       </td>
+      <!-- <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
+      <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td> -->
       <!-- <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
       <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td> -->
       <td>{{ hivSummary.cur_arv_meds }}</td>
@@ -62,29 +79,7 @@
       </td>
       <td>{{ hivSummary.cur_who_stage }}</td>
       <td *ngIf="hasMdtSessionNo">{{ hivSummary.mdt_session_number }}</td>
-      <td>
-        {{
-          ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-            (1000 * 60 * 60 * 24) >
-            0) &&
-          ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-            (1000 * 60 * 60 * 24) <=
-            5)
-            ? 'missed'
-            : ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-                (1000 * 60 * 60 * 24) >
-                4 )&&
-              ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-                (1000 * 60 * 60 * 24) <=
-                28)
-            ? 'defaulter'
-            : ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-                (1000 * 60 * 60 * 24) >
-              28)
-            ? 'LTFU'
-            : ''
-        }}
-      </td>
+      <td>{{ 'Active' }}</td>
       <!-- TO BE EDITED-->
     </tr>
   </table>

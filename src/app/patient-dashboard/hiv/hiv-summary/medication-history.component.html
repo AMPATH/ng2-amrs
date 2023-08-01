@@ -3,11 +3,16 @@
     <thead>
       <tr>
         <th>Change Date</th>
+        <th>Change Date</th>
         <th>Previous VL</th>
         <th>Previous Vl Date</th>
         <th>DST</th>
         <th>DST Date</th>
+        <th>DST</th>
+        <th>DST Date</th>
         <th>Current Regimen</th>
+        <th>ARV Line</th>
+        <th>Reason</th>
         <th>ARV Line</th>
         <th>Reason</th>
       </tr>
@@ -16,11 +21,11 @@
       <td>{{ encounter.encounter_datetime }}</td>
       <td>{{ (encounter.previousViralLoad | zeroVl) || ' ' }}</td>
       <td>{{ encounter.previous_vl_date }}</td>
-      <td>{{  ' ' }}</td>
-      <td>{{ ' ' }}</td>
+      <td>{{ (encounter.previousViralLoad | zeroVl) || ' ' }}</td>
+      <td>{{ encounter.previous_vl_date }}</td>
       <td>{{ encounter.current_regimen || '&nbsp;' }}</td>
-      <td>{{ encounter.cur_arv_line || '&nbsp;' }}</td>
-      <td>{{ encounter.reason_for_regimen_change || '&nbsp;' }}</td>
+      <td>{{ '1'|| '&nbsp;' }}</td>
+      <td>{{ 'Viral Load spike' || '&nbsp;' }}</td>
     </tr>
   </table>
 </div>
