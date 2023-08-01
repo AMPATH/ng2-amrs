@@ -30,6 +30,9 @@ interface Covid19StatusSummary {
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
+  @Input() birthdate: any;
+  public lastPCRStatus: string;
+  public isHEI: boolean = false;
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
   public subscription: Subscription[] = [];
@@ -159,7 +162,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   public loadHivSummary(patientUuid) {
     const summarySub = this.hivSummaryService
-      .getHivSummary(patientUuid, 0, 1, false)
+      .getHivSummary(patientUuid, 0, 1, false, this.birthdate)
       .subscribe(
         (data) => {
           if (data) {
@@ -234,6 +237,20 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           }
           this.getPatientEligibility(this.hivSummary);
           this.loadingHivSummary = false;
+
+          if (this.isHEI === true) {
+            if (this.hivSummary.hiv_dna_pcr_resulted === '664') {
+              this.lastPCRStatus = 'NEGATIVE';
+            } else if (this.hivSummary.hiv_dna_pcr_resulted === '703') {
+              this.lastPCRStatus = 'POSITIVE';
+            } else if (this.hivSummary.hiv_dna_pcr_resulted === '1118') {
+              this.lastPCRStatus = 'NOT DONE';
+            } else if (this.hivSummary.hiv_dna_pcr_resulted === '1138') {
+              this.lastPCRStatus = 'INDETERMINATE';
+            } else {
+              this.lastPCRStatus = 'UNKNOWN';
+            }
+          }
         },
         (err) => {
           this.loadingHivSummary = false;
@@ -280,7 +297,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   private getPatientEligibility(summary) {
     if (summary) {
-      if (this.patient.person.gender === 'M') {
+      if (Moment().diff(Moment(this.birthdate), 'months') <= 18) {
+        this.ineligibiltyReason = 'An Infant';
+        this.eligiblePatient = false;
+        this.isHEI = true;
+      } else if (this.patient.person.gender === 'M') {
         this.ineligibiltyReason = 'Male Patient';
         this.eligiblePatient = false;
       } else if (

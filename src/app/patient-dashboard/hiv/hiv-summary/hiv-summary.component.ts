@@ -14,8 +14,10 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   lowViremia: boolean;
   highViremia: boolean;
   patientUuid: string;
+  age: any;
   gbvScreeningLabel: String;
   gbvScreeningResult: any;
+  patient: any;
   public subscription = new Subscription();
 
   constructor(
@@ -26,15 +28,17 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.loadHivSummary();
     this.getPatient();
+    this.loadHivSummary();
   }
 
   public getPatient() {
     const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
+          this.patient = patient;
           this.patientUuid = patient.person.uuid;
+          this.age = patient.person.age;
           patient.person.age > 19
             ? (this.gbvScreeningLabel = 'GBV Screening')
             : (this.gbvScreeningLabel = 'VAC Screening');
@@ -50,7 +54,13 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   public loadHivSummary() {
     this.patientService.currentlyLoadedPatientUuid
       .flatMap((patientUuid) =>
-        this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false)
+        this.hivSummaryService.getHivSummary(
+          patientUuid,
+          0,
+          1,
+          false,
+          this.patient.person.birthdate
+        )
       )
       .subscribe((data: any) => {
         if (data) {

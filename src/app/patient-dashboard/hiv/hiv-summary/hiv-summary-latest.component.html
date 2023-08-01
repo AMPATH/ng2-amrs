@@ -6,7 +6,26 @@
   </button>
   {{ error.message }}
 </div>
-
+<div *ngIf="isHEI; else standardHIVTreatment">
+  <ul class="list-group">
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Last Appt Date: {{hivSummary?.prev_rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> RTC Date: {{hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Date of enrollment: {{hivSummary?.date_enrolled | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Current weight: </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Last PCR status: {{lastPCRStatus}} </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Current ART Prophylaxis: {{hivSummary?.cur_arv_meds}}
+    </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Current PCP Prophylaxis: </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> Infant Feeding Method:{{ hivSummary?.infant_feeding_method }}
+    </li>
+    <li class="list-group-item {{ colorCode }}" style="font-size: large"> HEI outcome at 18 months: {{hivSummary?.hei_outcome == null ? "Still Under 18 Months" : hivSummary?.hei_outcome}}
+    </li>
+  </ul>
+</div>
+<ng-template #standardHIVTreatment>
 <div>
   <ul class="list-group">
     <li
@@ -34,9 +53,7 @@
       </span>
     </li>
     <li
-      *ngIf="
-        covid19VaccinationSummary &&
-        covid19VaccinationSummary.vaccination_status.length > 0
+      *ngIf="covid19VaccinationSummary && covid19VaccinationSummary?.vaccination_status?.length > 0
       "
       class="list-group-item"
       style="font-size: large"
@@ -75,7 +92,7 @@
     <li
       *ngIf="
         covid19VaccinationSummary &&
-        covid19VaccinationSummary.covid_screening_outcome_this_visit.length > 0
+        covid19VaccinationSummary?.covid_screening_outcome_this_visit?.length > 0
       "
       class="list-group-item"
       style="font-size: large"
@@ -255,3 +272,4 @@
     </li>
   </ul>
 </div>
+</ng-template>

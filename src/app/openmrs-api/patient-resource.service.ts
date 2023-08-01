@@ -60,7 +60,6 @@ export class PatientResourceService {
       'v',
       v && v.length > 0 ? v : this.v
     );
-
     return this.http.get(url, {
       params: params
     });

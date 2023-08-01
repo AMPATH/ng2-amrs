@@ -148,7 +148,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public getHivSummary(patientUuid: string) {
     this.loadingData = true;
     this.hivSummaryResourceService
-      .getHivSummary(patientUuid, 0, 10)
+      .getHivSummary(patientUuid, 0, 10, false, this.patient.person.birthdate)
       .pipe(take(1))
       .subscribe((results) => {
         let latestVlResult: any;
