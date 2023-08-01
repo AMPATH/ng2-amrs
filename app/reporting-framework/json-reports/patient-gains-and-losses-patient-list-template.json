@@ -79,6 +79,14 @@
         "type": "LEFT",
         "joinCondition": "cs.person_id = t1.person_id AND cs.next_clinical_datetime_cervical_cancer_screening IS NULL"
       }
+    },
+    {
+      "table": "(SELECT fli.person_id, fli.hiv_viral_load as vl_1, fli.test_datetime as vl_1_date FROM etl.flat_labs_and_imaging fli INNER JOIN (SELECT person_id, MAX(test_datetime) AS max_vl_1_date FROM etl.flat_labs_and_imaging fli where fli.hiv_viral_load is not null GROUP BY person_id) max_dates ON fli.person_id = max_dates.person_id AND fli.test_datetime = max_dates.max_vl_1_date and fli.hiv_viral_load is not null)",
+      "alias": "fli_latest_vl",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "fli_latest_vl.person_id = t1.person_id"
+      }
     }
   ],
   "columns": [
@@ -150,7 +158,7 @@
     {
       "type": "simple_column",
       "alias": "latest_vl",
-      "column": "fh.vl_1"
+      "column": "fli_latest_vl.vl_1"
     },
     {
       "type": "derived_column",
@@ -180,7 +188,7 @@
     {
       "type": "simple_column",
       "alias": "latest_vl_date",
-      "column": "date_format(fh.vl_1_date, '%Y-%m-%d')"
+      "column": "date_format(fli_latest_vl.vl_1_date, '%Y-%m-%d')"
     },
     {
       "type": "simple_column",
