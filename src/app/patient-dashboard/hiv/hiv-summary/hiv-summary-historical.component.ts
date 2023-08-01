@@ -1,7 +1,7 @@
 /* tslint:disable:no-inferrable-types */
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import * as Moment from 'moment';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../../models/patient.model';
@@ -26,6 +26,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
   public hasMedicationRtc = false;
   public hasMdtSessionNo = false;
   isHEIActive: boolean;
+  public daysMissed = 0;
 
   constructor(
     private hivSummaryService: HivSummaryService,
@@ -99,6 +100,14 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                       'med_pickup_rtc_date'
                     );
                   }
+                  const prev_rtc = new Date(hivsum.prev_rtc_date);
+                  const encounter_date = new Date(hivsum.encounter_datetime);
+                  const startDate = Moment(encounter_date, 'YYYY-MM-DD');
+                  const endDate = Moment(prev_rtc, 'YYYY-MM-DD');
+                  const dateDiffInDays = endDate.diff(startDate, 'days');
+                  if (dateDiffInDays > 0) {
+                    this.daysMissed = dateDiffInDays;
+                  }
                   if (this.hasMdtSessionNo === false) {
                     this.hasMdtSessionNo = this.hasColumnData(
                       data[r],
@@ -109,6 +118,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
               }
               const size: number = data.length;
               this.nextStartIndex = this.nextStartIndex + size;
+
               this.isLoading = false;
             } else {
               this.dataLoaded = true;

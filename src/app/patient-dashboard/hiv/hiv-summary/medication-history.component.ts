@@ -30,6 +30,7 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
         this.encounters = this.convertPreviousVlValueTostring(
           medication.result
         );
+        console.log(this.encounters);
       });
   }
 
