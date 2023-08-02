@@ -14,10 +14,11 @@ import { BehaviorSubject } from 'rxjs';
 import { AgGridNg2 } from 'ag-grid-angular';
 
 @Component({
-  selector: 'generic-list',
-  templateUrl: './generic-list.component.html'
+  selector: 'pre-appointment-patient-list',
+  templateUrl: './pre-appointment-patient-list.component.html'
 })
-export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
+export class PreAppointmentPatientListComponent
+  implements OnInit, OnDestroy, OnChanges {
   /*  tslint:disable:no-output-on-prefix */
   public gridOptions: GridOptions;
   @Input() public columns: any;
@@ -70,6 +71,20 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
     this.generateGrid();
   }
 
+  private moreRowStyles(params: any): any {
+    if (
+      params &&
+      params.data.was_follow_up_successful === 1 &&
+      params.data.rescheduled_date === null
+    ) {
+      return { 'background-color': 'green', color: 'white' };
+    } else if (params.data.rescheduled_date !== null) {
+      return { 'background-color': 'yellow' };
+    } else {
+      return {};
+    }
+  }
+
   public generateGrid() {
     this.gridOptions = {} as GridOptions;
     this.gridOptions.columnDefs = this.columns;
@@ -115,8 +130,8 @@ export class GenericListComponent implements OnInit, OnDestroy, OnChanges {
         cursor: 'pointer'
       };
 
-      this.gridOptions.getRowStyle = () => {
-        return Object.assign({}, commonRowStyles);
+      this.gridOptions.getRowStyle = (params) => {
+        return Object.assign({}, commonRowStyles, this.moreRowStyles(params));
       };
     };
   }
