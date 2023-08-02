@@ -16,6 +16,9 @@ import * as Moment from 'moment';
 })
 export class PatientsRequiringVLReportFiltersComponent implements OnInit {
   @Output()
+  public monthChange = new EventEmitter<any>();
+
+  @Output()
   public generateReport = new EventEmitter();
 
   @Output()
@@ -33,6 +36,25 @@ export class PatientsRequiringVLReportFiltersComponent implements OnInit {
   public get startDate(): Date {
     return this._startDate;
   }
+
+  private _month: Date;
+  public get month(): Date {
+    return this._month;
+  }
+
+  @Input()
+  public set month(v: Date) {
+    this._month = v;
+    this.monthChange.emit(this.month);
+  }
+
+  public get monthString(): string {
+    return this.month ? Moment(this.month).format('YYYY-MM') : null;
+  }
+  public set monthString(v: string) {
+    this.month = new Date(v);
+  }
+
   @Input()
   public set startDate(v: Date) {
     // console.log('changing date', v);

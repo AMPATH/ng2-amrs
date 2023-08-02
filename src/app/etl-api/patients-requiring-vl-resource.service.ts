@@ -17,6 +17,7 @@ export class PatientsRequiringVLResourceService {
   }
 
   public getPatientList(
+    month: string,
     startDate: string,
     endDate: string,
     locationUuids: string,
@@ -34,6 +35,7 @@ export class PatientsRequiringVLResourceService {
     const urlParams: HttpParams = new HttpParams()
       .set('startDate', startDate)
       .set('endDate', endDate)
+      .set('reportMonth', month)
       .set('locationUuids', locationUuids)
       .set('startIndex', startIndex)
       .set('limit', limit);
