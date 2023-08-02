@@ -7,7 +7,7 @@
         <div class="btn-group pull-right">
           <button
             class="btn btn-primary"
-            (click)="downloadPdf()"
+            (click)="downloadCSV()"
             [disabled]="!gridOptions"
           >
             <i class="fa fa-download"> </i> Export to CSV
@@ -108,7 +108,7 @@
                       ></th>
                     </tr>
                   </ng-container>
-                  <ng-container *ngIf="a !== 0 && i < 16">
+                  <ng-container *ngIf="a !== 0 && i < 15">
                     <tr>
                       <td
                         style="min-width: 150px"
@@ -146,7 +146,7 @@
                       </td>
                     </tr>
                   </ng-container>
-                  <ng-container *ngIf="i === 16 && a !== 0">
+                  <ng-container *ngIf="i === 15 && a !== 0">
                     <tr>
                       <td style="min-width: 150px"><b>Sub Total</b></td>
                       <ng-container *ngFor="let val of col.value">
@@ -168,7 +168,7 @@
                       <td *ngIf="sectionIndicatorsValues.length > 1"></td>
                     </tr>
                   </ng-container>
-                  <ng-container *ngIf="i === 17 && a !== 0">
+                  <ng-container *ngIf="i === 16 && a !== 0">
                     <tr>
                       <td style="min-width: 150px"><b>Facility Total</b></td>
                       <ng-container *ngFor="let val of col.value">
