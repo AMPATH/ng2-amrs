@@ -7,7 +7,7 @@ const def = {
 
 function getPatientQualifiedDcVisits(patientUuid) {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT 
+    const sql = `SELECT
     p.person_id,
     latest_medication_visit.*,
     latest_standard_visit.*,
@@ -32,13 +32,13 @@ function getPatientQualifiedDcVisits(patientUuid) {
                                 AND latest_standard_visit.latest_standard_visit is null THEN @recent_dc_enrolment_program_manager:=1
            WHEN latest_new_dc_enrollment_date.latest_new_dc_enrollment_date > latest_standard_visit.latest_standard_visit
                                 AND latest_medication_visit.latest_medication_visit is null THEN @recent_dc_enrolment_program_manager:=1
-        WHEN latest_new_dc_enrollment_date.latest_new_dc_enrollment_date is not null and latest_medication_visit.latest_medication_visit is null 
+        WHEN latest_new_dc_enrollment_date.latest_new_dc_enrollment_date is not null and latest_medication_visit.latest_medication_visit is null
                                 AND latest_standard_visit.latest_standard_visit is null then @recent_dc_enrolment_program_manager:=1
        ELSE @recent_dc_enrolment_program_manager:=0
     END AS 'recent_dc_enrolment_program_manager',
     @recent_dc_enrolment_program_manager,
     CASE
-       WHEN @recent_dc_enrolment = 1 THEN 1 
+       WHEN @recent_dc_enrolment = 1 THEN 1
        WHEN @recent_dc_enrolment_program_manager = 1 THEN 0
        WHEN latest_standard_visit.latest_standard_visit > latest_medication_visit.latest_medication_visit THEN 1
        WHEN latest_standard_visit.latest_standard_visit is not null AND latest_medication_visit.latest_medication_visit is NULL THEN 1
@@ -55,7 +55,7 @@ function getPatientQualifiedDcVisits(patientUuid) {
 FROM
     amrs.person p
     LEFT JOIN (
-    SELECT 
+    SELECT
     e.patient_id,
     e.encounter_datetime as 'latest_medication_visit'
 FROM
@@ -69,21 +69,21 @@ FROM
     order by encounter_datetime desc limit 1
     ) latest_medication_visit on (latest_medication_visit.patient_id = p.person_id)
     LEFT JOIN (
-    SELECT 
+    SELECT
     e.patient_id,
     e.encounter_datetime AS 'latest_standard_visit'
 FROM
     amrs.encounter e
     join amrs.person p on (e.patient_id = p.person_id)
     join amrs.visit v on (e.visit_id = v.visit_id)
-    where e.encounter_type in (2)
-    AND v.visit_type_id in (59)
+    where e.encounter_type in (2, 106)
+    AND v.visit_type_id in (59,2, 9, 15)
     AND e.voided = 0
     AND p.uuid = '${patientUuid}'
     order by encounter_datetime desc limit 1
     ) latest_standard_visit on (latest_standard_visit.patient_id = p.person_id)
     LEFT JOIN (
-    SELECT 
+    SELECT
     e.patient_id,
     e.encounter_datetime AS 'latest_dc_enrolment_visit'
 FROM
