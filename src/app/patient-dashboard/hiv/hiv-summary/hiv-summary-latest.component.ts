@@ -31,7 +31,6 @@ interface Covid19StatusSummary {
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
   @Input() birthdate: any;
-  public lastPCRStatus: string;
   public isHEI: boolean = false;
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
@@ -237,20 +236,6 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           }
           this.getPatientEligibility(this.hivSummary);
           this.loadingHivSummary = false;
-
-          if (this.isHEI === true) {
-            if (this.hivSummary.hiv_dna_pcr_resulted === '664') {
-              this.lastPCRStatus = 'NEGATIVE';
-            } else if (this.hivSummary.hiv_dna_pcr_resulted === '703') {
-              this.lastPCRStatus = 'POSITIVE';
-            } else if (this.hivSummary.hiv_dna_pcr_resulted === '1118') {
-              this.lastPCRStatus = 'NOT DONE';
-            } else if (this.hivSummary.hiv_dna_pcr_resulted === '1138') {
-              this.lastPCRStatus = 'INDETERMINATE';
-            } else {
-              this.lastPCRStatus = 'UNKNOWN';
-            }
-          }
         },
         (err) => {
           this.loadingHivSummary = false;
@@ -371,5 +356,43 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           this.covid19VaccinationSummary = result;
         }
       });
+  }
+  public getLastPCRStatus(): string {
+    if (this.hivSummary.hiv_dna_pcr_resulted === '664') {
+      return 'NEGATIVE';
+    } else if (this.hivSummary.hiv_dna_pcr_resulted === '703') {
+      return 'POSITIVE';
+    } else if (this.hivSummary.hiv_dna_pcr_resulted === '1118') {
+      return 'NOT DONE';
+    } else if (this.hivSummary.hiv_dna_pcr_resulted === '1138') {
+      return 'INDETERMINATE';
+    } else {
+      return 'UNKNOWN';
+    }
+  }
+  public getInfantFeedingMethod(): string {
+    const INFANT_FEEDING_METHODS = [
+      '',
+      'EXPRESSED BREASTMILK',
+      'WEANED',
+      'INFANT FORMULA',
+      'BREASTFEEDING PREDOMINATELY',
+      'MIXED FEEDING',
+      'BREASTFEEDING EXCLUSIVELY',
+      'COW MILK',
+      'REGULAR FOOD',
+      'BREASTFEEDING',
+      'LIQUID FOODS OTHER THAN BREAST MILK',
+      'WATER',
+      'SOLID FOOD',
+      'UJI',
+      'OTHER NON-CODED',
+      'COMPLEMENTARY FEEDING',
+      'PLUMPY NUT',
+      'NEVER BREASTFED',
+      'CHILD ON REPLACEMENT FEEDING'
+    ];
+
+    return INFANT_FEEDING_METHODS[this.hivSummary.infant_feeding_method];
   }
 }
