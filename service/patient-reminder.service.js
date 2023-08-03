@@ -25,7 +25,7 @@ function viralLoadReminders(data) {
   let reminders = [];
 
   let labMessage = 'Last viral load: none';
-  let requires = 'Patient requires viral load test. ';
+  let requires = 'Patient requires viral load test';
   if (data.last_vl_date) {
     labMessage =
       'Last viral load: ' +
@@ -45,7 +45,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'Patients who are between 0-24 years old and 3 months after ART initiation ' +
+        '.Patients who are between 0-24 years old and 3 months after ART initiation ' +
         'require a viral load test.' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -59,7 +59,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'Patients who are between 0-24 years old ' +
+        '.Patients who are between 0-24 years old ' +
         'require a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -73,7 +73,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'A Patient with Viral Load that is more than 200 requires a viral load test every 3 months. ' +
+        '.A Patient with Viral Load that is more than 200 requires a viral load test every 3 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
       type: 'danger',
@@ -87,7 +87,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'Patients older than 25 years and newly on ART require ' +
+        '.Patients older than 25 years and newly on ART require ' +
         'a viral load test after 12 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -104,7 +104,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'Patients older than 25 years and on ART for more than 1 year require ' +
+        '.Patients older than 25 years and on ART for more than 1 year require ' +
         'a viral load test every year. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -118,7 +118,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'Patients older than 25 years and 3 months after ART initiation require a viral load test. ' +
+        '.Patients older than 25 years and 3 months after ART initiation require a viral load test. ' +
         labMessage,
       title: 'Viral Load Reminder',
       type: 'danger',
@@ -131,7 +131,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'A Patient with Viral Load that is more than 200 requires a viral load test every 3 months. ' +
+        '.A Patient with Viral Load that is more than 200 requires a viral load test every 3 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
       type: 'danger',
@@ -145,7 +145,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'A pregnant or breastfeeding patient with vl > 200 requires ' +
+        '.A pregnant or breastfeeding patient with vl > 200 requires ' +
         'a viral load test every 3 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -159,7 +159,7 @@ function viralLoadReminders(data) {
     reminders.push({
       message:
         requires +
-        'A pregnant or breastfeeding patient requires ' +
+        '.A pregnant or breastfeeding patient requires ' +
         'a viral load test every 6 months. ' +
         labMessage,
       title: 'Viral Load Reminder',
@@ -173,7 +173,10 @@ function viralLoadReminders(data) {
   // all patients
   else if (data.needs_vl_coded === 7) {
     reminders.push({
-      message: requires + ' 3 months after Regimen Modification ' + labMessage,
+      message:
+        requires +
+        '3 months after Regimen Change done on ' +
+        Moment(data.last_encounter_date).format('DD-MM-YYYY'),
       title: 'Viral Load Reminder',
       type: 'danger',
       display: {
@@ -185,70 +188,123 @@ function viralLoadReminders(data) {
 
   return reminders;
 }
+
 function cd4TestReminder(data) {
   let reminders = [];
-
+  let suspected =
+    'Suspected Treatment Failure: Viral load is: ' + data.viral_load + '.';
+  if (data.viral_load < 1000) {
+    suspected = '';
+  }
   switch (data.get_cd4_count_coded) {
     case 1:
-      reminders.push({
-        message: 'Patient requires a baseline CD4',
-        title: 'CD4 Reminder',
-        type: 'success',
-        display: {
-          banner: true,
-          toast: true
-        }
-      });
+      if (data.next_rtc_duration > 3) {
+        reminders.push({
+          message:
+            suspected +
+            ' Patient requires a baseline CD4 test and has missed clinic by more than 3 months.',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      } else {
+        reminders.push({
+          message: suspected + ' Patient requires a baseline CD4',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      }
       break;
     case 2:
-      reminders.push({
-        message:
-          'Patient requires CD4. Latest CD4 is  ' +
-          data.latest_cd4_count +
-          ', done ' +
-          data.months_since_cd4_count +
-          ' months ago.',
-        title: 'CD4 Reminder',
-        type: 'success',
-        display: {
-          banner: true,
-          toast: true
-        }
-      });
+      if (data.months_since_cd4_count > 6) {
+        reminders.push({
+          message:
+            suspected +
+            ' Patient requires CD4 test. Latest CD4 is  ' +
+            data.latest_cd4_count +
+            ', done (' +
+            Moment(data.latest_CD4_Date).format('DD-MM-YYYY') +
+            ') ' +
+            data.months_since_cd4_count +
+            ' months ago.',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      } else if (!data.months_since_cd4_count) {
+        reminders.push({
+          message: suspected + ' Patient requires CD4 test.',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      }
       break;
     case 3:
-      reminders.push({
-        message:
-          'Patient requires CD4 confirmation. Previous CD4 was ' +
-          data.previous_cd4_count +
-          ' Latest CD4 is  ' +
-          data.latest_cd4_count +
-          ', done ' +
-          data.months_since_cd4_count +
-          ' months ago.',
-        title: 'CD4 Reminder',
-        type: 'success',
-        display: {
-          banner: true,
-          toast: true
-        }
-      });
+      if (!data.latest_cd4_count) {
+        reminders.push({
+          message:
+            suspected +
+            ' Patient requires a baseline CD4 test and has missed clinic by more than 3 months.',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      } else {
+        reminders.push({
+          message:
+            suspected +
+            ' Patient requires CD4 test. Patient missed clinic by more than 3 months. Latest CD4 is  ' +
+            data.latest_cd4_count +
+            ', and latest CD4 done on (' +
+            Moment(data.latest_CD4_Date).format('DD-MM-YYYY') +
+            ') ' +
+            data.months_since_cd4_count +
+            ' months ago.',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      }
       break;
     case 4:
-      reminders.push({
-        message:
-          'Patient requires CD4 confirmation. First CD4 is  ' +
-          data.latest_cd4_count +
-          ', done ' +
-          data.months_since_cd4_count +
-          ' months ago.',
-        title: 'CD4 Reminder',
-        type: 'success',
-        display: {
-          banner: true,
-          toast: true
-        }
-      });
+      if (data.months_since_cd4_count >= 6) {
+        reminders.push({
+          message:
+            ' Patient on cryptococcal treatment, requires CD4 test.  Latest CD4 is  ' +
+            data.latest_cd4_count +
+            ', done (' +
+            Moment(data.latest_CD4_Date).format('DD-MM-YYYY') +
+            ') ' +
+            data.months_since_cd4_count +
+            ' months ago.',
+          title: 'CD4 Reminder',
+          type: 'success',
+          display: {
+            banner: true,
+            toast: true
+          }
+        });
+      }
       break;
     default:
   }

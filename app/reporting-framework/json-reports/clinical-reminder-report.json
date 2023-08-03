@@ -110,6 +110,14 @@
         "type": "left",
         "joinCondition": "t1.person_id = t7.patient_id AND t7.program_id = 27 AND t7.date_completed IS NULL"
       }
+    },
+    {
+      "table": "etl.flat_hiv_summary_ext",
+      "alias": "t11",
+      "join": {
+        "type": "left",
+        "joinCondition": "t11.encounter_id = t1.encounter_id "
+      }
     }
   ],
   "columns": [
@@ -168,7 +176,7 @@
       "alias": "get_cd4_count_coded",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "CASE WHEN ls.cd4_1 IS NULL THEN 1 WHEN (ls.cd4_1 <= 200) AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') > 6) THEN 2 WHEN (ls.cd4_1 > 200 AND ls.cd4_2 <= 200) AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') > 6) THEN 3 WHEN ls.cd4_2 IS NULL AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') > 6) THEN 4   ELSE 0 END"
+        "expression": "CASE WHEN ls.arv_start_date >= '2023-04-01' AND ls.cd4_1 IS NULL THEN 1 WHEN (ls.vl_1 > 1000) THEN 2 WHEN (TIMESTAMPDIFF(MONTH, ls.rtc_date, '{referenceDate}') >= 3) THEN 3 WHEN ( t11.on_cm_treatment = 1 AND t11.cm_treatment_end_date IS NULL) AND (TIMESTAMPDIFF(MONTH, ls.cd4_1_date, '{referenceDate}') >= 6) THEN 4 ELSE 0 END"
       }
     },
     {
@@ -185,6 +193,14 @@
       "expressionType": "simple_expression",
       "expressionOptions": {
         "expression": "case when timestampdiff(day,ls.cd4_order_date, '{referenceDate}') > 30 and ls.cd4_1_date is null or ls.cd4_order_date > ls.cd4_1_date then timestampdiff(day,ls.cd4_order_date, '{referenceDate}') else 0 end "
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "next_rtc_duration",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "TIMESTAMPDIFF(MONTH, ls.rtc_date, '{referenceDate}')"
       }
     },
     {
@@ -207,6 +223,11 @@
       "type": "simple_column",
       "alias": "last_encounter_date",
       "column": "ls.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "latest_CD4_Date",
+      "column": "ls.cd4_1_date"
     },
     {
       "type": "simple_column",
@@ -238,6 +259,7 @@
       "alias": "arv_start_date",
       "column": "t1.arv_start_date"
     },
+
     {
       "type": "simple_column",
       "alias": "cur_arv_meds",
