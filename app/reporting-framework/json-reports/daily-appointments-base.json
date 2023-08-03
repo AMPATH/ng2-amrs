@@ -66,6 +66,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "hiv_disclosure_status",
+      "column": "fh.hiv_disclosure_status_value"
+    },
+    {
+      "type": "simple_column",
       "alias": "encounter_type",
       "column": "t2.encounter_type"
     },

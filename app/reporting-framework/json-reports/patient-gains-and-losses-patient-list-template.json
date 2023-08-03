@@ -232,7 +232,7 @@
     },
     {
       "type": "simple_column",
-      "alias": "hiv_diclosure_status",
+      "alias": "hiv_disclosure_status",
       "column": "fh.hiv_disclosure_status_value"
     },
     {
