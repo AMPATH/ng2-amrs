@@ -18,6 +18,14 @@
       }
     },
     {
+      "table": "ndwr.mfl_codes",
+      "alias": "mc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "mc.location_id = hm.location_id"
+      }
+    },
+    {
       "table": "etl.hiv_monthly_report_dataset_frozen",
       "alias": "tx",
       "join": {
@@ -36,6 +44,21 @@
       "type": "simple_column",
       "alias": "location_id",
       "column": "hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "mfl_code",
+      "column": "mc.mfl_code"
+    },
+    {
+      "type": "simple_column",
+      "alias": "county",
+      "column": "ll.state_province"
+    },
+    {
+      "type": "simple_column",
+      "alias": "facility",
+      "column": "mc.Facility"
     },
     {
       "type": "simple_column",
@@ -66,30 +89,6 @@
       "type": "simple_column",
       "alias": "endDate",
       "column": "hm.endDate"
-    },
-    {
-      "type": "derived_column",
-      "alias": "male_died_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.status = 'Dead' AND hm.gender = 'M' AND hm.age < 0),1,0)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "female_died_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.status = 'Dead' AND hm.gender = 'F' AND hm.age < 0),1,0)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "died_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.status = 'Dead' AND hm.age < 0),1,0)"
-      }
     },
     {
       "type": "derived_column",

@@ -12,14 +12,6 @@
     "sectionTitle": "Died",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_died_unknown_year",
-          "male_died_unknown_year",
-          "died_unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": [
           "female_died_less_1_year",
@@ -152,14 +144,6 @@
   {
     "sectionTitle": "Interruption in Treatment After being on Treatment for < 3 months",
     "indicators": [
-      {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_iit_less_3_unknown_year",
-          "male_iit_less_3_unknown_year",
-          "iit_less_3_unknown_year"
-        ]
-      },
       {
         "label": "<1 year",
         "indicator": [
@@ -294,14 +278,6 @@
     "sectionTitle": "Interruption in Treatment After being on Treatment for 3 - 5 months",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_iit_3_5_unknown_year",
-          "male_iit_3_5_unknown_year",
-          "iit_3_5_unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": [
           "female_iit_3_5_less_1_year",
@@ -435,14 +411,6 @@
     "sectionTitle": "Interruption in Treatment After being on Treatment for 6+ months",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_iit_6_plus_unknown_year",
-          "male_iit_6_plus_unknown_year",
-          "iit_6_plus_unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": [
           "female_iit_6_plus_less_1_year",
@@ -549,9 +517,9 @@
       {
         "label": "60 - 64 years",
         "indicator": [
-          "female_iit_6_plus_60_65_year",
-          "male_iit_6_plus_60_65_year",
-          "iit_6_plus_60_65_year"
+          "female_iit_6_plus_60_64_year",
+          "male_iit_6_plus_60_64_year",
+          "iit_6_plus_60_64_year"
         ]
       },
       {
@@ -575,14 +543,6 @@
   {
     "sectionTitle": "Transferred Out",
     "indicators": [
-      {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_to_unknown_year",
-          "male_to_unknown_year",
-          "to_unknown_year"
-        ]
-      },
       {
         "label": "<1 year",
         "indicator": [
@@ -708,14 +668,6 @@
   {
     "sectionTitle": "Refused (Stopped) Treatment",
     "indicators": [
-      {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_rst_unknown_year",
-          "male_rst_unknown_year",
-          "rst_unknown_year"
-        ]
-      },
       {
         "label": "<1 year",
         "indicator": [

@@ -37,32 +37,23 @@
     },
     {
       "type": "simple_column",
+      "alias": "mfl_code",
+      "column": "b.mfl_code"
+    },
+    {
+      "type": "simple_column",
+      "alias": "county",
+      "column": "b.county"
+    },
+    {
+      "type": "simple_column",
+      "alias": "facility",
+      "column": "b.facility"
+    },
+    {
+      "type": "simple_column",
       "alias": "location",
       "column": "b.location"
-    },
-    {
-      "type": "derived_column",
-      "alias": "male_died_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "SUM(b.male_died_unknown_year)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "female_died_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "SUM(b.female_died_unknown_year)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "died_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "SUM(b.died_unknown_year)"
-      }
     },
     {
       "type": "derived_column",

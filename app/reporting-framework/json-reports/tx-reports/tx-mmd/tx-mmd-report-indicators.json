@@ -12,14 +12,6 @@
     "sectionTitle": "1-MMS",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "1mms_female_unknown_year",
-          "1mms_male_unknown_year",
-          "1mms_unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": [
           "1mms_female_less_1_year",
@@ -152,14 +144,6 @@
   {
     "sectionTitle": "2-MMS",
     "indicators": [
-      {
-        "label": "Unknown Age",
-        "indicator": [
-          "2mms_female_unknown_year",
-          "2mms_male_unknown_year",
-          "2mms_unknown_year"
-        ]
-      },
       {
         "label": "<1 year",
         "indicator": [
@@ -294,14 +278,6 @@
     "sectionTitle": "3-MMD",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "3mmd_female_unknown_year",
-          "3mmd_male_unknown_year",
-          "3mmd_unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": [
           "3mmd_female_less_1_year",
@@ -434,14 +410,6 @@
   {
     "sectionTitle": "4-MMD",
     "indicators": [
-      {
-        "label": "Unknown Age",
-        "indicator": [
-          "4mmd_female_unknown_year",
-          "4mmd_male_unknown_year",
-          "4mmd_unknown_year"
-        ]
-      },
       {
         "label": "<1 year",
         "indicator": [
@@ -576,14 +544,6 @@
     "sectionTitle": "5-MMD",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "5mmd_female_unknown_year",
-          "5mmd_male_unknown_year",
-          "5mmd_unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": [
           "5mmd_female_less_1_year",
@@ -716,14 +676,6 @@
   {
     "sectionTitle": "6-MMD",
     "indicators": [
-      {
-        "label": "Unknown Age",
-        "indicator": [
-          "6mmd_female_unknown_year",
-          "6mmd_male_unknown_year",
-          "6mmd_unknown_year"
-        ]
-      },
       {
         "label": "<1 year",
         "indicator": [

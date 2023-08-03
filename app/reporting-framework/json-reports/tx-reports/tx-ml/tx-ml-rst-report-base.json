@@ -18,6 +18,22 @@
       }
     },
     {
+      "table": "amrs.obs",
+      "alias": "o",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "hm.encounter_id = o.encounter_id"
+      }
+    },
+    {
+      "table": "ndwr.mfl_codes",
+      "alias": "mc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "mc.location_id = hm.location_id"
+      }
+    },
+    {
       "table": "etl.hiv_monthly_report_dataset_frozen",
       "alias": "tx",
       "join": {
@@ -36,6 +52,21 @@
       "type": "simple_column",
       "alias": "location_id",
       "column": "hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "mfl_code",
+      "column": "mc.mfl_code"
+    },
+    {
+      "type": "simple_column",
+      "alias": "county",
+      "column": "ll.state_province"
+    },
+    {
+      "type": "simple_column",
+      "alias": "facility",
+      "column": "mc.Facility"
     },
     {
       "type": "simple_column",
@@ -66,30 +97,6 @@
       "type": "simple_column",
       "alias": "endDate",
       "column": "hm.endDate"
-    },
-    {
-      "type": "derived_column",
-      "alias": "male_rst_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.status = 'ltfu' AND hm.gender = 'M' AND hm.age < 0),1,0)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "female_rst_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.status = 'ltfu' AND hm.gender = 'F' AND hm.age < 0),1,0)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "rst_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.status = 'ltfu' AND hm.age < 0),1,0)"
-      }
     },
     {
       "type": "derived_column",
@@ -502,6 +509,10 @@
         "filterType": "tableColumns",
         "conditionExpression": "tx.location_id IN ?",
         "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "o.concept_id = 1252 and o.value_coded in (843,983,102,5622,1253,1434,7043,58,7061,7076,1504,1267,1065,1066,7391,7877,1664,44,1930,8296,8297,5240,1679,8308,8389,6419,6295,6451,7065,1259,10395) and o.voided = 0"
       }
     ]
   },

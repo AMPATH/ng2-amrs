@@ -13,7 +13,7 @@
   "sources": [
     {
       "dataSet": "txmlIITless3ReportBase",
-      "alias": "iitless3b"
+      "alias": "b"
     }
   ],
   "columns": [
@@ -28,48 +28,39 @@
     {
       "type": "simple_column",
       "alias": "location_uuid",
-      "column": "iitless3b.location_uuid"
+      "column": "b.location_uuid"
     },
     {
       "type": "simple_column",
       "alias": "location_id",
-      "column": "iitless3b.location_id"
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "mfl_code",
+      "column": "b.mfl_code"
+    },
+    {
+      "type": "simple_column",
+      "alias": "county",
+      "column": "b.county"
+    },
+    {
+      "type": "simple_column",
+      "alias": "facility",
+      "column": "b.facility"
     },
     {
       "type": "simple_column",
       "alias": "location",
-      "column": "iitless3b.location"
-    },
-    {
-      "type": "derived_column",
-      "alias": "male_iit_less_3_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_unknown_year)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "female_iit_less_3_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_unknown_year)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "iit_less_3_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_unknown_year)"
-      }
+      "column": "b.location"
     },
     {
       "type": "derived_column",
       "alias": "male_iit_less_3_less_1_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_less_1_year)"
+        "expression": "SUM(b.male_iit_less_3_less_1_year)"
       }
     },
     {
@@ -77,7 +68,7 @@
       "alias": "female_iit_less_3_less_1_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_less_1_year)"
+        "expression": "SUM(b.female_iit_less_3_less_1_year)"
       }
     },
     {
@@ -85,7 +76,7 @@
       "alias": "iit_less_3_less_1_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_less_1_year)"
+        "expression": "SUM(b.iit_less_3_less_1_year)"
       }
     },
     {
@@ -93,7 +84,7 @@
       "alias": "male_iit_less_3_one_four_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_one_four_year)"
+        "expression": "SUM(b.male_iit_less_3_one_four_year)"
       }
     },
     {
@@ -101,7 +92,7 @@
       "alias": "female_iit_less_3_one_four_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_one_four_year)"
+        "expression": "SUM(b.female_iit_less_3_one_four_year)"
       }
     },
     {
@@ -109,7 +100,7 @@
       "alias": "iit_less_3_one_four_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_one_four_year)"
+        "expression": "SUM(b.iit_less_3_one_four_year)"
       }
     },
     {
@@ -117,7 +108,7 @@
       "alias": "male_iit_less_3_5_9_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_5_9_year)"
+        "expression": "SUM(b.male_iit_less_3_5_9_year)"
       }
     },
     {
@@ -125,7 +116,7 @@
       "alias": "female_iit_less_3_5_9_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_5_9_year)"
+        "expression": "SUM(b.female_iit_less_3_5_9_year)"
       }
     },
     {
@@ -133,7 +124,7 @@
       "alias": "iit_less_3_5_9_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_5_9_year)"
+        "expression": "SUM(b.iit_less_3_5_9_year)"
       }
     },
     {
@@ -141,7 +132,7 @@
       "alias": "male_iit_less_3_10_14_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_10_14_year)"
+        "expression": "SUM(b.male_iit_less_3_10_14_year)"
       }
     },
     {
@@ -149,7 +140,7 @@
       "alias": "female_iit_less_3_10_14_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_10_14_year)"
+        "expression": "SUM(b.female_iit_less_3_10_14_year)"
       }
     },
     {
@@ -157,7 +148,7 @@
       "alias": "iit_less_3_10_14_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_10_14_year)"
+        "expression": "SUM(b.iit_less_3_10_14_year)"
       }
     },
     {
@@ -165,7 +156,7 @@
       "alias": "male_iit_less_3_15_19_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_15_19_year)"
+        "expression": "SUM(b.male_iit_less_3_15_19_year)"
       }
     },
     {
@@ -173,7 +164,7 @@
       "alias": "female_iit_less_3_15_19_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_15_19_year)"
+        "expression": "SUM(b.female_iit_less_3_15_19_year)"
       }
     },
     {
@@ -181,7 +172,7 @@
       "alias": "iit_less_3_15_19_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_15_19_year)"
+        "expression": "SUM(b.iit_less_3_15_19_year)"
       }
     },
     {
@@ -189,7 +180,7 @@
       "alias": "male_iit_less_3_20_24_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_20_24_year)"
+        "expression": "SUM(b.male_iit_less_3_20_24_year)"
       }
     },
     {
@@ -197,7 +188,7 @@
       "alias": "female_iit_less_3_20_24_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_20_24_year)"
+        "expression": "SUM(b.female_iit_less_3_20_24_year)"
       }
     },
     {
@@ -205,7 +196,7 @@
       "alias": "iit_less_3_20_24_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_20_24_year)"
+        "expression": "SUM(b.iit_less_3_20_24_year)"
       }
     },
     {
@@ -213,7 +204,7 @@
       "alias": "male_iit_less_3_25_29_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_25_29_year)"
+        "expression": "SUM(b.male_iit_less_3_25_29_year)"
       }
     },
     {
@@ -221,7 +212,7 @@
       "alias": "female_iit_less_3_25_29_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_25_29_year)"
+        "expression": "SUM(b.female_iit_less_3_25_29_year)"
       }
     },
     {
@@ -229,7 +220,7 @@
       "alias": "iit_less_3_25_29_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_25_29_year)"
+        "expression": "SUM(b.iit_less_3_25_29_year)"
       }
     },
     {
@@ -237,7 +228,7 @@
       "alias": "male_iit_less_3_30_34_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_30_34_year)"
+        "expression": "SUM(b.male_iit_less_3_30_34_year)"
       }
     },
     {
@@ -245,7 +236,7 @@
       "alias": "female_iit_less_3_30_34_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_30_34_year)"
+        "expression": "SUM(b.female_iit_less_3_30_34_year)"
       }
     },
     {
@@ -253,7 +244,7 @@
       "alias": "iit_less_3_30_34_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_30_34_year)"
+        "expression": "SUM(b.iit_less_3_30_34_year)"
       }
     },
     {
@@ -261,7 +252,7 @@
       "alias": "male_iit_less_3_35_39_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_35_39_year)"
+        "expression": "SUM(b.male_iit_less_3_35_39_year)"
       }
     },
     {
@@ -269,7 +260,7 @@
       "alias": "female_iit_less_3_35_39_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_35_39_year)"
+        "expression": "SUM(b.female_iit_less_3_35_39_year)"
       }
     },
     {
@@ -277,7 +268,7 @@
       "alias": "iit_less_3_35_39_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_35_39_year)"
+        "expression": "SUM(b.iit_less_3_35_39_year)"
       }
     },
     {
@@ -285,7 +276,7 @@
       "alias": "male_iit_less_3_40_44_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_40_44_year)"
+        "expression": "SUM(b.male_iit_less_3_40_44_year)"
       }
     },
     {
@@ -293,7 +284,7 @@
       "alias": "female_iit_less_3_40_44_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_40_44_year)"
+        "expression": "SUM(b.female_iit_less_3_40_44_year)"
       }
     },
     {
@@ -301,7 +292,7 @@
       "alias": "iit_less_3_40_44_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_40_44_year)"
+        "expression": "SUM(b.iit_less_3_40_44_year)"
       }
     },
     {
@@ -309,7 +300,7 @@
       "alias": "male_iit_less_3_45_49_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_45_49_year)"
+        "expression": "SUM(b.male_iit_less_3_45_49_year)"
       }
     },
     {
@@ -317,7 +308,7 @@
       "alias": "female_iit_less_3_45_49_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_45_49_year)"
+        "expression": "SUM(b.female_iit_less_3_45_49_year)"
       }
     },
     {
@@ -325,7 +316,7 @@
       "alias": "iit_less_3_45_49_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_45_49_year)"
+        "expression": "SUM(b.iit_less_3_45_49_year)"
       }
     },
     {
@@ -333,7 +324,7 @@
       "alias": "male_iit_less_3_50_54_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_50_54_year)"
+        "expression": "SUM(b.male_iit_less_3_50_54_year)"
       }
     },
     {
@@ -341,7 +332,7 @@
       "alias": "female_iit_less_3_50_54_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_50_54_year)"
+        "expression": "SUM(b.female_iit_less_3_50_54_year)"
       }
     },
     {
@@ -349,7 +340,7 @@
       "alias": "iit_less_3_50_54_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_50_54_year)"
+        "expression": "SUM(b.iit_less_3_50_54_year)"
       }
     },
     {
@@ -357,7 +348,7 @@
       "alias": "male_iit_less_3_55_59_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_55_59_year)"
+        "expression": "SUM(b.male_iit_less_3_55_59_year)"
       }
     },
     {
@@ -365,7 +356,7 @@
       "alias": "female_iit_less_3_55_59_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_55_59_year)"
+        "expression": "SUM(b.female_iit_less_3_55_59_year)"
       }
     },
     {
@@ -373,7 +364,7 @@
       "alias": "iit_less_3_55_59_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_55_59_year)"
+        "expression": "SUM(b.iit_less_3_55_59_year)"
       }
     },
     {
@@ -381,7 +372,7 @@
       "alias": "male_iit_less_3_60_64_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_60_64_year)"
+        "expression": "SUM(b.male_iit_less_3_60_64_year)"
       }
     },
     {
@@ -389,7 +380,7 @@
       "alias": "female_iit_less_3_60_64_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_60_64_year)"
+        "expression": "SUM(b.female_iit_less_3_60_64_year)"
       }
     },
     {
@@ -397,7 +388,7 @@
       "alias": "iit_less_3_60_64_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_60_64_year)"
+        "expression": "SUM(b.iit_less_3_60_64_year)"
       }
     },
     {
@@ -405,7 +396,7 @@
       "alias": "male_iit_less_3_above_65_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3_above_65_year)"
+        "expression": "SUM(b.male_iit_less_3_above_65_year)"
       }
     },
     {
@@ -413,7 +404,7 @@
       "alias": "female_iit_less_3_above_65_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3_above_65_year)"
+        "expression": "SUM(b.female_iit_less_3_above_65_year)"
       }
     },
     {
@@ -421,7 +412,7 @@
       "alias": "iit_less_3_above_65_year",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.iit_less_3_above_65_year)"
+        "expression": "SUM(b.iit_less_3_above_65_year)"
       }
     },
     {
@@ -429,7 +420,7 @@
       "alias": "female_iit_less_3",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.female_iit_less_3)"
+        "expression": "SUM(b.female_iit_less_3)"
       }
     },
     {
@@ -437,7 +428,7 @@
       "alias": "male_iit_less_3",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.male_iit_less_3)"
+        "expression": "SUM(b.male_iit_less_3)"
       }
     },
     {
@@ -445,13 +436,13 @@
       "alias": "total_iit_less_3",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "SUM(iitless3b.total_iit_less_3)"
+        "expression": "SUM(b.total_iit_less_3)"
       }
     }
   ],
   "groupBy": {
     "groupParam": "groupByParam",
-    "columns": ["iitless3b.location_id"],
+    "columns": ["b.location_id"],
     "excludeParam": "excludeParam"
   },
   "transFormDirectives": {

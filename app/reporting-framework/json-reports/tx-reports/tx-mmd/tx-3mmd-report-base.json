@@ -18,6 +18,14 @@
       }
     },
     {
+      "table": "ndwr.mfl_codes",
+      "alias": "mc",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "mc.location_id = hm.location_id"
+      }
+    },
+    {
       "table": "etl.flat_hiv_summary_v15b",
       "alias": "fhs",
       "join": {
@@ -36,6 +44,21 @@
       "type": "simple_column",
       "alias": "location_id",
       "column": "hm.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "mfl_code",
+      "column": "mc.mfl_code"
+    },
+    {
+      "type": "simple_column",
+      "alias": "county",
+      "column": "ll.state_province"
+    },
+    {
+      "type": "simple_column",
+      "alias": "facility",
+      "column": "mc.Facility"
     },
     {
       "type": "simple_column",
@@ -66,30 +89,6 @@
       "type": "simple_column",
       "alias": "endDate",
       "column": "hm.endDate"
-    },
-    {
-      "type": "derived_column",
-      "alias": "3mmd_male_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.gender = 'M' AND hm.age < 0),1,0)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "3mmd_female_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.gender = 'F' AND hm.age < 0),1,0)"
-      }
-    },
-    {
-      "type": "derived_column",
-      "alias": "3mmd_unknown_year",
-      "expressionType": "simple_expression",
-      "expressionOptions": {
-        "expression": "if((hm.age < 0),1,0)"
-      }
     },
     {
       "type": "derived_column",
@@ -495,7 +494,7 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "fhs.med_pickup_rtc_date IS NULL AND DATEDIFF(hm.rtc_date, hm.encounter_date) BETWEEN 61 AND 90 OR fhs.med_pickup_rtc_date IS NOT NULL"
+        "conditionExpression": "fhs.med_pickup_rtc_date IS NULL AND DATEDIFF(hm.rtc_date, hm.encounter_date) BETWEEN 84 AND 111 OR fhs.med_pickup_rtc_date IS NOT NULL"
       }
     ]
   },

@@ -12,14 +12,6 @@
     "sectionTitle": "TX_CURR Report",
     "indicators": [
       {
-        "label": "Unknown Age",
-        "indicator": [
-          "female_unknown_year",
-          "male_unknown_year",
-          "unknown_year"
-        ]
-      },
-      {
         "label": "<1 year",
         "indicator": ["female_less_1_year", "male_less_1_year", "less_1_year"]
       },
