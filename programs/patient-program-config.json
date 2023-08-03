@@ -803,6 +803,18 @@
             "display": "PRE APPOINTMENT FOLLOW UP"
           }
         ]
+      },
+      {
+        "uuid": "0ee7598d-2345-4740-8627-f166cf5d3dc5",
+        "name": "HIV Mental health screening Visit",
+        "allowedIf": "age > 24",
+        "message": "Patient has to be 25 years and above",
+        "encounterTypes": [
+          {
+            "uuid": "37770eca-8a2f-48d6-b3c8-54af0fa989c2",
+            "display": "HIVMENTALHEALTHSCREENING"
+          }
+        ]
       }
     ]
   },
