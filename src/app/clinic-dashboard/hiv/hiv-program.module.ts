@@ -7,8 +7,7 @@ import {
   MatTabsModule,
   MatSlideToggleModule,
   MatDatepickerModule,
-  MatNativeDateModule,
-  MatDatepickerToggle
+  MatNativeDateModule
 } from '@angular/material';
 import {
   TabViewModule,
@@ -26,7 +25,6 @@ import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { clinicDashboardHivRouting } from './hiv-program.routes';
 import { HivCareLibModule } from '../../hiv-care-lib/hiv-care-lib.module';
 import { EtlApi } from '../../etl-api/etl-api.module';
-import { HivModuleComponent } from './hiv-program.component';
 import { DepartmentProgramFilterModule } from './../../department-program-filter/department-program-filter.module';
 import { PatientStatusChangeVisualizationContainerComponent } from './patient-status-change-visualization/patient-status-change-visualization.container.component';
 import { PatientStatusChangeVisualizationComponent } from './patient-status-change-visualization/patient-status-change-visualization.component';
@@ -82,6 +80,8 @@ import { OncologyProgramModule } from './../../oncology-care-lib/oncology-care-l
 import { IptReportComponent } from './ipt-report/ipt-report.component';
 import { DefaulterListFilterComponent } from './../general/defaulter-list/defaulter-list-filter-component';
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
+import { PreAppointmentOutreachResourceService } from 'src/app/etl-api/pre-appointment-outreach-resource.service';
+import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
 
 @NgModule({
   imports: [
@@ -182,9 +182,13 @@ import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-
     MOH412ClinicDashboardPatientListComponent,
     IptReportComponent,
     DefaulterListFilterComponent,
-    ClinicDashboardCovid19ReportComponent
+    ClinicDashboardCovid19ReportComponent,
+    PreAppointmentOutreachComponent
   ],
-  providers: [ClinicalSummaryVisualizationService],
+  providers: [
+    ClinicalSummaryVisualizationService,
+    PreAppointmentOutreachResourceService
+  ],
   entryComponents: [PatientStatusDatalistCellComponent]
 })
 export class HivProgramModule {}

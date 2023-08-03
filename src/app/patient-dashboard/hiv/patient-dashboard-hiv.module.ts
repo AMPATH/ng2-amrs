@@ -37,6 +37,7 @@ import { PocHttpInteceptor } from 'src/app/shared/services/poc-http-interceptor'
 import { GeneXpertResourceService } from './genexpert-images/genexpert-images-resource.service';
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.service';
+import { PredictionResourceService } from 'src/app/etl-api/prediction-resource.service';
 
 @NgModule({
   imports: [
@@ -77,6 +78,7 @@ import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.se
   providers: [
     GeneXpertResourceService,
     HivSummaryService,
+    PredictionResourceService,
     HivSummaryResourceService,
     {
       provide: HTTP_INTERCEPTORS,

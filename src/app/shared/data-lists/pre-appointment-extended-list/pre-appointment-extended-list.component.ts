@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { PatientListColumns } from '../patient-list/patient-list-columns.data';
 const _ = require('lodash');
 
 @Component({
-  selector: 'patient-list',
-  templateUrl: './patient-list.component.html'
+  selector: 'pre-appointment-extended-list',
+  templateUrl: './pre-appointment-extended-list.component.html'
 })
-export class PatientListComponent implements OnInit {
+export class PreAppointmentExtendedListComponent implements OnInit {
   @Input() public extraColumns: any;
   @Input() public overrideColumns: any;
   @Input() public data: any = [];

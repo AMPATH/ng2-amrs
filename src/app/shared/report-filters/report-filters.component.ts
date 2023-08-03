@@ -615,8 +615,8 @@ export class ReportFiltersComponent
       const nextYear = year + 1;
       const financialYear = `${year}/${nextYear.toString()}`;
 
-      // Exclude the current/following year period if the current month is not July or after
-      if (year < currentYear || (year === currentYear && currentMonth >= 7)) {
+      // Exclude the current/following year period if the current month is not October or after
+      if (year < currentYear || (year === currentYear && currentMonth >= 10)) {
         financialYears.push(financialYear);
       }
     }

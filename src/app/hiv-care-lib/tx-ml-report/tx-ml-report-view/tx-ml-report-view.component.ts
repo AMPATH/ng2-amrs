@@ -28,6 +28,7 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
   @Input() SummaryData = [];
   @Input() sectionDefs: any;
   @Input() reportDetails: any = [];
+  @Input() reportHeader: any;
 
   @Output()
   public indicatorSelected = new EventEmitter();
@@ -106,6 +107,9 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
         this.sectionIndicatorsValues.forEach((element) => {
           const val = {
             location: element['location_uuid'],
+            mfl_code: element['mfl_code'],
+            county: element['county'],
+            facility: element['facility'],
             value: [['-'], ['-']]
           };
           if (isArrayIndicator) {
@@ -229,251 +233,97 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
       this.setColumns(this.sectionDefs);
     }
   }
-  public downloadPdf() {
-    const csvHeader = [
-      [
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        ''
-      ],
-      [
-        'TX_CURR May 2023',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '0_to_1',
-        '',
-        '1_to_4',
-        '',
-        '5_to_9',
-        '',
-        '10_to_14',
-        '',
-        '15_to_19',
-        '',
-        '20_to_24',
-        '',
-        '25_to_29',
-        '',
-        '30_to_34',
-        '',
-        '35_to_39',
-        '',
-        '40_to_44',
-        '',
-        '45_to_49',
-        '',
-        '50_to_54',
-        '',
-        '55_to_59',
-        '',
-        '60_to_64',
-        '',
-        '65 +',
-        ''
-      ],
-      [
-        'clinic_county_1',
-        'Sub County',
-        'clinic',
-        'Facility',
-        'MFL_Code',
-        'Indicator',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'F',
-        'M',
-        'Grand Total'
-      ]
-    ];
+  public downloadCSV() {
+    const title = this.reportHeader;
+    const array = JSON.parse(JSON.stringify(this.gridOptions.columnDefs));
+    const regex = /TX_MMD|TX_ML/;
 
-    const data = [
-      {
-        clinic_county: 'Bungoma',
-        sub_county: 'Mt Elgon Sub County',
-        clinic: 'Kaborom',
-        facility: 'Kaborom Dispensary',
-        mfl_code: '15910',
-        indicator: 'Active',
-        female_0_to_1: '8',
-        male_0_to_1: '1',
-        female_1_to_4: '68',
-        male_1_to_4: '86',
-        female_5_to_9: '1',
-        male_5_to_9: '6',
-        female_10_to_14: '6',
-        male_10_to_14: '1',
-        female_15_to_19: '6',
-        male_15_to_19: '6',
-        female_20_to_24: '6',
-        male_20_to_24: '2',
-        female_25_to_29: '8',
-        male_25_to_29: '88',
-        female_30_to_34: '66',
-        male_30_to_34: '68',
-        female_35_to_39: '3',
-        male_35_to_39: '1',
-        female_40_to_44: '3',
-        male_40_to_44: '36',
-        female_45_to_49: '4',
-        male_45_to_49: '63',
-        female_50_to_54: '552',
-        male_50_to_54: '22',
-        female_55_to_59: '5',
-        male_55_to_59: '3',
-        female_60_to_64: '',
-        male_60_to_64: '',
-        female_65_plus: '1',
-        male_65_plus: '',
-        grand_total: '36'
-      },
-      {
-        clinic_county: 'Bungoma',
-        sub_county: 'Mt Elgon Sub County',
-        clinic: 'Kaborom',
-        facility: 'Kaborom Dispensary',
-        mfl_code: '15910',
-        indicator: '28 Day Defaulter',
-        female_0_to_1: '2',
-        male_0_to_1: '3',
-        female_1_to_4: '4',
-        male_1_to_4: '1',
-        female_5_to_9: '1',
-        male_5_to_9: '5',
-        female_10_to_14: '6',
-        male_10_to_14: '4',
-        female_15_to_19: '6',
-        male_15_to_19: '6',
-        female_20_to_24: '4',
-        male_20_to_24: '',
-        female_25_to_29: '7',
-        male_25_to_29: '454',
-        female_30_to_34: '45',
-        male_30_to_34: '32',
-        female_35_to_39: '67',
-        male_35_to_39: '46',
-        female_40_to_44: '45',
-        male_40_to_44: '67',
-        female_45_to_49: '5',
-        male_45_to_49: '4',
-        female_50_to_54: '3',
-        male_50_to_54: '3',
-        female_55_to_59: '3',
-        male_55_to_59: '3',
-        female_60_to_64: '3',
-        male_60_to_64: '',
-        female_65_plus: '4',
-        male_65_plus: '4',
-        grand_total: '5'
-      }
-    ];
+    const data = [];
+    array[0].children[0].value.forEach(function (item, index) {
+      array.slice(1).forEach(function (filteredItem, index1) {
+        const obj = {};
+        obj['County'] = index1 === 0 ? item.county : '';
+        obj['Clinic'] = index1 === 0 ? item.value[0] : '';
+        obj['Facility'] = index1 === 0 ? item.facility : '';
+        obj['Mfl Code'] = index1 === 0 ? item.mfl_code : '';
+        if (regex.test(title)) {
+          obj['Indicator'] = filteredItem.headerName;
+        }
 
-    const csvData = [csvHeader[0], csvHeader[1], csvHeader[2]];
-    data.forEach((item) => {
-      const row = Object.values(item);
-      csvData.push(row);
+        filteredItem.children.forEach(function (ageSeg) {
+          if (!ageSeg.headerName.includes('Total')) {
+            obj[`${ageSeg.headerName} (Female)`] = Array.isArray(
+              ageSeg.value[index].value[0]
+            )
+              ? JSON.stringify(ageSeg.value[index].value[0][0])
+              : ageSeg.value[index].value[0];
+            obj[`${ageSeg.headerName} (Male)`] = Array.isArray(
+              ageSeg.value[index].value[0]
+            )
+              ? JSON.stringify(ageSeg.value[index].value[1][0])
+              : ageSeg.value[index].value[0];
+          } else {
+            obj[`${ageSeg.headerName}`] = Array.isArray(
+              ageSeg.value[index].value[0]
+            )
+              ? JSON.stringify(ageSeg.value[index].value[0][0])
+              : ageSeg.value[index].value[0];
+          }
+        });
+        data.push(obj);
+      });
     });
 
-    const csv = Papa.unparse(csvData);
+    this.exportToCSV(data, title);
+  }
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  public exportToCSV(data, title) {
+    let titleaddons;
+    if (
+      this.reportDetails.year !== undefined &&
+      this.reportDetails.year !== null
+    ) {
+      const { quarter, year } = this.reportDetails;
+      titleaddons = `${title} for ${quarter} - ${year}`;
+    } else {
+      const date = new Date(this.reportDetails.month);
+      const formattedDate = date.toLocaleString('en-US', {
+        month: 'long',
+        year: 'numeric'
+      });
+      titleaddons = `${title} for ${formattedDate}`;
+    }
 
-    // Save the file
+    const csvRows = [];
+
+    // Add a blank row
+    csvRows.push('');
+
+    // Title row
+    csvRows.push(titleaddons);
+
+    // Header row
+    const headers = Object.keys(data[0]);
+    csvRows.push(headers.join(','));
+
+    // Data rows
+    data.forEach((row) => {
+      const values = Object.values(row);
+      csvRows.push(values.join(','));
+    });
+
+    // Combine rows into a single string
+    const csvString = csvRows.join('\n');
+
+    // Create a download link for the CSV file
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'data.csv');
-    link.style.visibility = 'hidden';
+    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);
+    link.download = `${title}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    alert('Comming soon. Development in progress.......');
-    // this.pdfvalue = this.bodyValues();
-    // this.generatePdf()
-    //   .pipe(take(1))
-    //   .subscribe(
-    //     (pdf) => {
-    //       this.pdfSrc = pdf.pdfSrc;
-    //       this.pdfMakeProxy = pdf.pdfProxy;
-    //       this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-    //         this.pdfSrc
-    //       );
-    //       this.isBusy = false;
-    //       this.downloadPdfView();
-    //     },
-    //     (err) => {
-    //       this.errorFlag = true;
-    //       this.isBusy = false;
-    //     }
-    //   );
   }
+
   public generatePdf(): Observable<any> {
     const width: any = ['*', '*'];
     this.sectionIndicatorsValues.forEach((element) => {

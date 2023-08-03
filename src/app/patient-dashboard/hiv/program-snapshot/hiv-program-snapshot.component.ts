@@ -14,6 +14,7 @@ import { UserDefaultPropertiesService } from '../../../user-default-properties/u
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
 import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
+import { PredictionResourceService } from 'src/app/etl-api/prediction-resource.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -113,6 +114,10 @@ export class HivProgramSnapshotComponent implements OnInit {
   public gbvScreeningLabel: String;
   public eligibleForCovidVaccine = false;
 
+  // IIT Predictions
+  public hasPredictedScore = false;
+  public prediction: any;
+
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
@@ -120,6 +125,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
     private covid19Service: Covid19ResourceService,
+    private predictionResourceService: PredictionResourceService,
     private patientReminderService: PatientReminderService
   ) {}
 
@@ -131,6 +137,7 @@ export class HivProgramSnapshotComponent implements OnInit {
         } else {
           this.hasData = false;
           this.getHivSummary(patientUuid);
+          this.getPredictedScore(patientUuid);
           this.getPatientCervicalScreeningSummary(patientUuid);
           this.getPatientCovid19VaccinationStatus(patientUuid);
           this.patient.person.age > 19
@@ -231,6 +238,21 @@ export class HivProgramSnapshotComponent implements OnInit {
           console.error('Error resolving locations', error);
         }
       );
+  }
+
+  public getPredictedScore(patientUuid: string) {
+    this.predictionResourceService
+      .getPatientPrediction(patientUuid)
+      .subscribe((result) => {
+        if (
+          result &&
+          result.predicted_prob_disengage &&
+          result.predicted_risk
+        ) {
+          this.hasPredictedScore = true;
+          this.prediction = result;
+        }
+      });
   }
 
   public getViralLoadCategory(latestViralLoad: any) {
@@ -598,6 +620,32 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.covid19VaccinationSummary = result;
         }
       });
+  }
+
+  public getPredictionAlertColorCoded(prediction: string): Alert {
+    const predictionAlert: Alert = {
+      label: false,
+      'label-warning': false,
+      'label-danger': false,
+      'label-success': false,
+      'label-not-assessed': false
+    };
+    switch (prediction) {
+      case 'High Risk':
+        predictionAlert.label = true;
+        predictionAlert['label-danger'] = true;
+        break;
+      case 'Medium Risk':
+        predictionAlert.label = true;
+        predictionAlert['label-warning'] = true;
+        break;
+      default:
+        predictionAlert.label = false;
+        predictionAlert['label-info'] = true;
+        break;
+    }
+
+    return predictionAlert;
   }
 
   public getCovidVaccinationAlert(vaccinationStatusCode: string): Alert {
