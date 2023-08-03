@@ -18,25 +18,23 @@ module.exports = (function () {
     var includeNonClinicalEncounter = Boolean(true || false);
     var whereClause =
       includeNonClinicalEncounter === true
-        ? ['uuid = ?', uuid]
+        ? ['t1.uuid = ?', uuid]
         : [
-            'uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)',
+            't1.uuid = ?  and t1.encounter_type in (1,2,3,4,17,21,110,117,99999)',
             uuid
           ];
     var queryParts = {
-      columns: request.query.fields || '*,  t3.*',
-      columns: request.query.fields || '*, t3.*',
+      columns:
+        request.query.fields ||
+        't1.*,  t3.cm_result,t3.cm_result_date, t3.cm_test, t3.cm_treatment_end_date, t3.cm_treatment_phase, t3.cm_treatment_start_date',
+
       table: 'etl.flat_hiv_summary_v15b',
       where: whereClause,
       leftOuterJoins: [
         ['etl.flat_hiv_summary_ext', 't3', 't1.encounter_id = t3.encounter_id']
       ],
-      leftOuterJoins: [
-        ['etl.flat_hiv_summary_ext', 't3', 't1.encounter_id = t3.encounter_id']
-      ],
       order: order || [
         {
-          column: 't1.encounter_datetime',
           column: 't1.encounter_datetime',
           asc: false
         }

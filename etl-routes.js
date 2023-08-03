@@ -1260,7 +1260,6 @@ module.exports = (function () {
         },
         handler: function (request, reply) {
           dao.getPatientHivSummary(request).then((summary) => {
-            // console.log('Summary', summary);
             if (summary.result && summary.result.length > 0) {
               const transformed = etlHelpers.transformMedicalRefillToClinical(
                 summary.result

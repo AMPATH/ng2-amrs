@@ -198,7 +198,7 @@ function cd4TestReminder(data) {
   }
   switch (data.get_cd4_count_coded) {
     case 1:
-      if (data.next_rtc_duration > 3) {
+      if (data.next_rtc_duration && data.next_rtc_duration >= 3) {
         reminders.push({
           message:
             suspected +
@@ -223,7 +223,7 @@ function cd4TestReminder(data) {
       }
       break;
     case 2:
-      if (data.months_since_cd4_count > 6) {
+      if (data.months_since_cd4_count && data.months_since_cd4_count > 6) {
         reminders.push({
           message:
             suspected +
