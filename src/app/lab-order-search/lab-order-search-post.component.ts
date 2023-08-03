@@ -197,17 +197,19 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   }
 
   public loadHivSummary(patientUuid) {
-    this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false).subscribe(
-      (data) => {
-        this.hivSummary = data && data.length > 0 ? data[0] : null;
-        this.isBusy = false;
-      },
-      (err) => {
-        this.error =
-          'An error occured while loading Hiv Summary. Please try again.';
-        this.isBusy = false;
-      }
-    );
+    this.hivSummaryService
+      .getHivSummary(patientUuid, 0, 1, false, this.patient.person.birthdate)
+      .subscribe(
+        (data) => {
+          this.hivSummary = data && data.length > 0 ? data[0] : null;
+          this.isBusy = false;
+        },
+        (err) => {
+          this.error =
+            'An error occured while loading Hiv Summary. Please try again.';
+          this.isBusy = false;
+        }
+      );
   }
 
   public displayDnaPcrInputs() {

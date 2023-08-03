@@ -30,6 +30,8 @@ interface Covid19StatusSummary {
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
+  @Input() birthdate: any;
+  public isHEI: boolean = false;
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
   public subscription: Subscription[] = [];
@@ -159,7 +161,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   public loadHivSummary(patientUuid) {
     const summarySub = this.hivSummaryService
-      .getHivSummary(patientUuid, 0, 1, false)
+      .getHivSummary(patientUuid, 0, 1, false, this.birthdate)
       .subscribe(
         (data) => {
           if (data) {
@@ -280,7 +282,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   private getPatientEligibility(summary) {
     if (summary) {
-      if (this.patient.person.gender === 'M') {
+      if (Moment().diff(Moment(this.birthdate), 'months') <= 18) {
+        this.ineligibiltyReason = 'An Infant';
+        this.eligiblePatient = false;
+        this.isHEI = true;
+      } else if (this.patient.person.gender === 'M') {
         this.ineligibiltyReason = 'Male Patient';
         this.eligiblePatient = false;
       } else if (
@@ -350,5 +356,62 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           this.covid19VaccinationSummary = result;
         }
       });
+  }
+
+  public getLastPCRStatus(): string {
+    if (this.hivSummary.hiv_dna_pcr_resulted === '664') {
+      return 'NEGATIVE';
+    } else if (this.hivSummary.hiv_dna_pcr_resulted === '703') {
+      return 'POSITIVE';
+    } else if (this.hivSummary.hiv_dna_pcr_resulted === '1118') {
+      return 'NOT DONE';
+    } else if (this.hivSummary.hiv_dna_pcr_resulted === '1138') {
+      return 'INDETERMINATE';
+    } else {
+      return 'UNKNOWN';
+    }
+  }
+
+  public getInfantFeedingMethod(): string {
+    const INFANT_FEEDING_METHODS = [
+      '',
+      'EXPRESSED BREASTMILK',
+      'WEANED',
+      'INFANT FORMULA',
+      'BREASTFEEDING PREDOMINATELY',
+      'MIXED FEEDING',
+      'BREASTFEEDING EXCLUSIVELY',
+      'COW MILK',
+      'REGULAR FOOD',
+      'BREASTFEEDING',
+      'LIQUID FOODS OTHER THAN BREAST MILK',
+      'WATER',
+      'SOLID FOOD',
+      'UJI',
+      'OTHER NON-CODED',
+      'COMPLEMENTARY FEEDING',
+      'PLUMPY NUT',
+      'NEVER BREASTFED',
+      'CHILD ON REPLACEMENT FEEDING'
+    ];
+
+    return INFANT_FEEDING_METHODS[this.hivSummary.infant_feeding_method];
+  }
+
+  public getHEIOutcome(): string {
+    const HEI_OUT_COME = [
+      'STILL UNDER 18 MONTHS',
+      'PATIENT TRANSFERRED OUT',
+      'LOST TO FOLLOWUP',
+      'PATIENT DIED',
+      'OTHER NON-CODED',
+      'DISCHARGED AT 18 MONTHS',
+      'HIV COMPREHENSIVE CARE UNIT'
+    ];
+
+    const index =
+      this.hivSummary.hei_outcome !== null ? this.hivSummary.hei_outcome : 0;
+
+    return HEI_OUT_COME[index];
   }
 }

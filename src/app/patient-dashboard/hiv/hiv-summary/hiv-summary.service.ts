@@ -16,16 +16,17 @@ export class HivSummaryService {
     patientUuid: string,
     startIndex: number,
     limit: number,
-    includeNonClinicalEncounter?: boolean
+    includeNonClinicalEncounter?: boolean,
+    dob?: any
   ): Observable<any> {
     const hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
-
     this.hivSummaryResourceService
       .getHivSummary(
         patientUuid,
         startIndex,
-        this.limit,
-        includeNonClinicalEncounter
+        limit,
+        includeNonClinicalEncounter,
+        dob
       )
       .pipe(take(1))
       .subscribe(

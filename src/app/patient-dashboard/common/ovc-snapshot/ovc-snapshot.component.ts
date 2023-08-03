@@ -90,7 +90,7 @@ export class OvcSnapshotComponent implements OnInit {
   public getHivSummary(patient) {
     this.loadingData = true;
     this.hivSummaryResourceService
-      .getHivSummary(patient.uuid, 0, 10)
+      .getHivSummary(patient.uuid, 0, 10, false, this.patient.person.birthdate)
       .pipe(take(1))
       .subscribe((results) => {
         let latestVlResult: any;
