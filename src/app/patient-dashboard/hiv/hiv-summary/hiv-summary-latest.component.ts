@@ -357,6 +357,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
         }
       });
   }
+
   public getLastPCRStatus(): string {
     if (this.hivSummary.hiv_dna_pcr_resulted === '664') {
       return 'NEGATIVE';
@@ -370,6 +371,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       return 'UNKNOWN';
     }
   }
+
   public getInfantFeedingMethod(): string {
     const INFANT_FEEDING_METHODS = [
       '',
@@ -394,5 +396,22 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     ];
 
     return INFANT_FEEDING_METHODS[this.hivSummary.infant_feeding_method];
+  }
+
+  public getHEIOutcome(): string {
+    const HEI_OUT_COME = [
+      'STILL UNDER 18 MONTHS',
+      'PATIENT TRANSFERRED OUT',
+      'LOST TO FOLLOWUP',
+      'PATIENT DIED',
+      'OTHER NON-CODED',
+      'DISCHARGED AT 18 MONTHS',
+      'HIV COMPREHENSIVE CARE UNIT'
+    ];
+
+    const index =
+      this.hivSummary.hei_outcome !== null ? this.hivSummary.hei_outcome : 0;
+
+    return HEI_OUT_COME[index];
   }
 }
