@@ -176,8 +176,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestVl = latestVlResult.vl_1;
 
           this.patientCareStatus = results[0].patient_care_status;
-          this.hivDisclosureStatus =
-            results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
+          this.hivDisclosureStatus = results[0].hiv_disclosure_status_value;
 
           this.gbvScreeningResult = this.checkGbvScreening(
             results[0].gbv_screening_result
