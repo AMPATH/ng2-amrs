@@ -1,19 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PatientListColumns } from './patient-list-columns.data';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { PatientListColumns } from '../patient-list/patient-list-columns.data';
 const _ = require('lodash');
 
 @Component({
-  selector: 'patient-list',
-  templateUrl: './patient-list.component.html'
+  selector: 'pre-appointment-extended-list',
+  templateUrl: './pre-appointment-extended-list.component.html'
 })
-export class PatientListComponent implements OnInit {
+export class PreAppointmentExtendedListComponent implements OnInit {
   @Input() public extraColumns: any;
   @Input() public overrideColumns: any;
   @Input() public data: any = [];
   @Input() public newList: any;
-  @Input() public excludecolumns: boolean;
   public loadedTab: any;
   @Input()
   set options(value) {
@@ -58,13 +57,6 @@ export class PatientListComponent implements OnInit {
     if (this.hivColumns) {
       const loadHivColumns = PatientListColumns.hivColumns();
       columns = _.concat(columns, loadHivColumns as Array<object>);
-    }
-
-    if (this.excludecolumns) {
-      const columnsToExclude = ['latest_vl', 'latest_vl_date'];
-      columns = _.filter(columns, (col) => {
-        return !_.includes(columnsToExclude, col['field']);
-      });
     }
     return columns;
   }

@@ -1,7 +1,5 @@
-import { Covid19ReportComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HivModuleComponent } from './hiv-program.component';
 import { Moh731ReportComponent } from './moh-731/moh-731-report.component';
 import { HivSummaryIndicatorComponent } from './hiv-summary-indicators/hiv-summary-indicator.component';
 import { HivSummaryIndicatorsPatientListComponent } from '../../hiv-care-lib/hiv-summary-indicators/patient-list.component';
@@ -52,7 +50,6 @@ import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/i
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
-import { FamilyTestingComponent } from './family-testing/family-testing.component';
 import { FamilyTestingBaseComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-base.component';
 import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
 import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component';
@@ -61,6 +58,7 @@ import { MOH412ClinicDashboardComponent } from './moh-412-report/moh-412-clinic-
 import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-412-clinic-dashboard-patient-list.component';
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
+import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
 
 const routes: Routes = [
   {
@@ -471,6 +469,10 @@ const routes: Routes = [
         component: HeiIndicatorsPatientListComponent
       }
     ]
+  },
+  {
+    path: 'pre-appoinment-outreach',
+    component: PreAppointmentOutreachComponent
   },
   {
     path: 'family-testing',
