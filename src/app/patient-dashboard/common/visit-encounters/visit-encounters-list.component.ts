@@ -204,7 +204,9 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
         visitsArray[dateInt] = visitObject;
       }
 
-      visitsArray[dateInt][dateString].encounters.push(encounterObj);
+      if (visitsArray[dateInt][dateString]) {
+        visitsArray[dateInt][dateString].encounters.push(encounterObj);
+      }
 
       this.singleEncounterVisits.push(singleVisitEncounterObject);
 

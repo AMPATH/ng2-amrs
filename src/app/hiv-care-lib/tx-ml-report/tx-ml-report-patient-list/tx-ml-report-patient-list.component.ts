@@ -28,7 +28,6 @@ export class TxMlReportPatientListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.addExtraColumns();
     this.route.queryParams.subscribe(
       (params) => {
         if (params && params.sDate) {
@@ -42,6 +41,7 @@ export class TxMlReportPatientListComponent implements OnInit {
         console.error('Error', error);
       }
     );
+    this.addExtraColumns();
   }
 
   private getPatientList(params: any) {
@@ -69,12 +69,20 @@ export class TxMlReportPatientListComponent implements OnInit {
       latest_vl_date: 'Latest VL Date',
       previous_vl: 'Previous VL',
       previous_vl_date: 'Previous VL Date',
-      ovcid_id: 'OVCID',
-      transfer_out_date_v1: 'Transfer out date',
-      death_date: 'Death Date',
-      cause_of_death: 'Cause of Death'
+      ovcid_id: 'OVCID'
     };
 
+    const status = this.selectedIndicatorGender.split(' - ')[0];
+    if (status === 'Died') {
+      Object.assign(extraColumns, {
+        death_date: 'Death Date',
+        cause_of_death: 'Cause of Death'
+      });
+    } else if (status === 'Transferred Out') {
+      Object.assign(extraColumns, {
+        transfer_out_date_v1: 'Transfer out date'
+      });
+    }
     for (const indicator in extraColumns) {
       if (indicator) {
         this.extraColumns.push({
