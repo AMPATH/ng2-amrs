@@ -9,7 +9,7 @@
 
 <div *ngIf="isHEI === false; else HEI">
   <ul class="list-group">
-    <li 
+    <li
       *ngIf="eligiblePatient"
       class="list-group-item"
       style="font-size: large"
@@ -18,10 +18,12 @@
         *ngIf="hivSummary?.contraceptive_method?.period === 'Short term'"
         class="glyphicon glyphicon-warning-sign warning_text"
       ></span>
-      <span *ngIf="hivSummary?.contraceptive_method?.period === null"
+      <span
+        *ngIf="hivSummary?.contraceptive_method?.period === null"
         class="glyphicon glyphicon-warning-sign text-danger"
       ></span>
-      <span [ngClass]="{
+      <span
+        [ngClass]="{
           warning_text:
             hivSummary?.contraceptive_method?.period === 'Short term',
           'text-danger': hivSummary?.contraceptive_method?.period === null
@@ -31,34 +33,54 @@
         {{ '(' + hivSummary?.contraceptive_method?.name + ')' | titlecase }}
       </span>
     </li>
-    <li *ngIf="covid19VaccinationSummary && covid19VaccinationSummary?.vaccination_status?.length > 0
-      " class="list-group-item" style="font-size: large">
+    <li
+      *ngIf="
+        covid19VaccinationSummary &&
+        covid19VaccinationSummary?.vaccination_status?.length > 0
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
       <p>
         COVID-19 Assessment Status:
         <span>
           {{ covid19VaccinationSummary?.vaccination_status }}
         </span>
-        <span style="text-transform: capitalize" *ngIf="covid19VaccinationSummary?.first_dose_vaccine_administered">
+        <span
+          style="text-transform: capitalize"
+          *ngIf="covid19VaccinationSummary?.first_dose_vaccine_administered"
+        >
           ({{ covid19VaccinationSummary.first_dose_vaccine_administered }} :
           {{ covid19VaccinationSummary.date_given_first_dose }})
         </span>
-        <span style="text-transform: capitalize" *ngIf="covid19VaccinationSummary?.second_dose_vaccine_administered">
+        <span
+          style="text-transform: capitalize"
+          *ngIf="covid19VaccinationSummary?.second_dose_vaccine_administered"
+        >
           ({{ covid19VaccinationSummary.second_dose_vaccine_administered }} :
           {{ covid19VaccinationSummary.date_given_second_dose }})
         </span>
-        <span style="
+        <span
+          style="
             text-transform: capitalize;
             color: red;
             padding: 2px 2px 2px 2px;
-          " *ngIf="covid19VaccinationSummary?.vaccination_status_code_message">
+          "
+          *ngIf="covid19VaccinationSummary?.vaccination_status_code_message"
+        >
           {{ covid19VaccinationSummary.vaccination_status_code_message }}
         </span>
       </p>
     </li>
-    <li *ngIf="
+    <li
+      *ngIf="
         covid19VaccinationSummary &&
-        covid19VaccinationSummary?.covid_screening_outcome_this_visit?.length > 0
-      " class="list-group-item" style="font-size: large">
+        covid19VaccinationSummary?.covid_screening_outcome_this_visit?.length >
+          0
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
       <p>
         COVID-19 Screening Outcome:
         <span>
@@ -66,12 +88,16 @@
         </span>
       </p>
     </li>
-    <li *ngIf="ovcStatus" class="list-group-item {{ colorCode }}" style="font-size: large">
+    <li
+      *ngIf="ovcStatus"
+      class="list-group-item {{ colorCode }}"
+      style="font-size: large"
+    >
       OVC Status: ({{ ovcStatus }})
     </li>
-    <li 
+    <li
       class="list-group-item"
-      style="font-size: large" 
+      style="font-size: large"
       *ngIf="!eligiblePatient"
     >
       Contraception Method:
@@ -92,28 +118,38 @@
     <li class="list-group-item" style="font-size: large">
       RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
     </li>
-    <li *ngIf="
+    <li
+      *ngIf="
         hivSummary?.med_pickup_rtc_date &&
         hivSummary?.med_pickup_rtc_date !== null
-      " class="list-group-item" style="font-size: large">
+      "
+      class="list-group-item"
+      style="font-size: large"
+    >
       Medication Pick Up Date:
       {{ hivSummary?.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
     </li>
     <li class="list-group-item" style="font-size: large">
       Last Viral Load: {{ hivSummary?.vl_1 | zeroVl }} ({{
-      hivSummary?.vl_1_date
-      ? (hivSummary?.vl_1_date | date: 'dd-MM-yyyy')
-      : 'None'
+        hivSummary?.vl_1_date
+          ? (hivSummary?.vl_1_date | date: 'dd-MM-yyyy')
+          : 'None'
       }})
       <br />
-      <i style="font-size: smaller" class="text-muted" *ngIf="hivSummary?.isPendingViralLoad?.status">
+      <i
+        style="font-size: smaller"
+        class="text-muted"
+        *ngIf="hivSummary?.isPendingViralLoad?.status"
+      >
         There is a Pending Viral Load Test Ordered on:
-        <span [ngClass]="
+        <span
+          [ngClass]="
             hivSummary?.isPendingViralLoad.status === true &&
             hivSummary?.isPendingViralLoad.days > 30
               ? 'text-danger'
               : ''
-          ">
+          "
+        >
           {{ hivSummary?.vl_order_date | date: 'dd-MM-yyyy' }}
         </span>
       </i>
@@ -125,15 +161,22 @@
           : 'None'
       }})
       <br />
-      <i style="font-size: smaller" class="text-muted" *ngIf="hivSummary?.isPendingCD4?.status">
+      <i
+        style="font-size: smaller"
+        class="text-muted"
+        *ngIf="hivSummary?.isPendingCD4?.status"
+      >
         There is a Pending CD4 Count Test Ordered on:
-        <span [ngClass]="
+        <span
+          [ngClass]="
             hivSummary?.isPendingCD4.status === true &&
             hivSummary?.isPendingCD4.days > 30
               ? 'text-danger'
               : ''
-          ">
-          {{ hivSummary?.cd4_order_date | date: 'dd-MM-yyyy' }}</span>
+          "
+        >
+          {{ hivSummary?.cd4_order_date | date: 'dd-MM-yyyy' }}</span
+        >
       </i>
     </li>
     <li class="list-group-item" style="font-size: large">
@@ -165,10 +208,12 @@
     <li class="list-group-item" style="font-size: large">
       TPT End Date :
       {{ hivSummary?.ipt_completion_date | date: 'dd-MM-yyyy' }}
-      <span *ngIf="
+      <span
+        *ngIf="
           hivSummary?.ipt_start_date &&
           !isEmptyDate(hivSummary?.ipt_completion_date)
-        ">
+        "
+      >
         Not completed
       </span>
     </li>
@@ -183,7 +228,8 @@
       TB Treatment End Date:
       {{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}
     </li>
-    <li *ngIf="
+    <li
+      *ngIf="
         hivSummary?.mdt_session_number &&
         hivSummary?.mdt_session_number !== null
       "
@@ -192,7 +238,7 @@
     >
       EAC Session: {{ hivSummary?.mdt_session_number }}
     </li>
-    <li 
+    <li
       *ngIf="cervicalScreeningSummary && cervicalScreeningSummary.length > 0"
       class="list-group-item"
       style="font-size: large"
@@ -214,24 +260,20 @@
 <ng-template #HEI>
   <ul class="list-group">
     <li class="list-group-item" style="font-size: large">
-      Last Appt Date: {{hivSummary?.prev_rtc_date | date:
-      'dd-MM-yyyy' }}
+      Last Appt Date: {{ hivSummary?.prev_rtc_date | date: 'dd-MM-yyyy' }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      RTC Date: {{hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
+      RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Date of enrollment: {{hivSummary?.date_enrolled | date:
-      'dd-MM-yyyy' }}
+      Date of enrollment: {{ hivSummary?.date_enrolled | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">Current weight:</li>
+    <li class="list-group-item" style="font-size: large">
+      Last PCR status: {{ getLastPCRStatus() }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Current weight:
-    </li>
-    <li class="list-group-item" style="font-size: large">
-      Last PCR status: {{getLastPCRStatus()}}
-    </li>
-    <li class="list-group-item" style="font-size: large">
-      Current ART Prophylaxis: {{hivSummary?.cur_arv_meds}}
+      Current ART Prophylaxis: {{ hivSummary?.cur_arv_meds }}
     </li>
     <li class="list-group-item" style="font-size: large">
       Current PCP Prophylaxis:
