@@ -3,9 +3,13 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import * as Moment from 'moment';
+import { PatientService } from '../patient-dashboard/services/patient.service';
+import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 
 @Injectable()
 export class HivSummaryResourceService {
+  public months: string;
   constructor(
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService
@@ -19,7 +23,8 @@ export class HivSummaryResourceService {
     patientUuid: string,
     startIndex: number,
     limit: number,
-    includeNonClinicalEncounter?: boolean
+    includeNonClinicalEncounter?: boolean,
+    dob?: any
   ): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
@@ -33,6 +38,7 @@ export class HivSummaryResourceService {
     if (includeNonClinicalEncounter !== undefined) {
       includeNonClinicalEncounter = false;
     }
+    this.months = Moment().diff(Moment(dob), 'months').toString();
 
     const params: HttpParams = new HttpParams()
       .set('startIndex', (startIndex as any) as string)
@@ -40,7 +46,8 @@ export class HivSummaryResourceService {
       .set(
         'includeNonClinicalEncounter',
         (includeNonClinicalEncounter as any) as string
-      );
+      )
+      .set('age', (this.months as any) as string);
 
     return this.http
       .get<any>(url, {

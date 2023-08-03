@@ -54,7 +54,13 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
         if (patient) {
           this.patient = patient;
           this.hivSummaryService
-            .getHivSummary(patient.uuid, 0, 1, false)
+            .getHivSummary(
+              patient.uuid,
+              0,
+              1,
+              false,
+              this.patient.person.birthdate
+            )
             .subscribe((data) => {
               if (data) {
                 for (const summary of data) {

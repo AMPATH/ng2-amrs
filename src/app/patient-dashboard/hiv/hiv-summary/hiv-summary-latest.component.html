@@ -7,7 +7,7 @@
   {{ error.message }}
 </div>
 
-<div>
+<div *ngIf="isHEI === false; else HEI">
   <ul class="list-group">
     <li
       *ngIf="eligiblePatient"
@@ -36,7 +36,7 @@
     <li
       *ngIf="
         covid19VaccinationSummary &&
-        covid19VaccinationSummary.vaccination_status.length > 0
+        covid19VaccinationSummary?.vaccination_status?.length > 0
       "
       class="list-group-item"
       style="font-size: large"
@@ -75,7 +75,7 @@
     <li
       *ngIf="
         covid19VaccinationSummary &&
-        covid19VaccinationSummary.covid_screening_outcome_this_visit.length > 0
+        covid19VaccinationSummary?.covid_screening_outcome_this_visit?.length > 0
       "
       class="list-group-item"
       style="font-size: large"
@@ -255,3 +255,32 @@
     </li>
   </ul>
 </div>
+<ng-template #HEI>
+  <ul class="list-group">
+    <li class="list-group-item" style="font-size: large">
+      Last Appt Date: {{ hivSummary?.prev_rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Date of enrollment: {{ hivSummary?.date_enrolled | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">Current weight:</li>
+    <li class="list-group-item" style="font-size: large">
+      Last PCR status: {{ getLastPCRStatus() }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Current ART Prophylaxis: {{ hivSummary?.cur_arv_meds }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Current PCP Prophylaxis:
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Infant Feeding Method: {{ getInfantFeedingMethod() }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      HEI outcome at 18 months: {{ getHEIOutcome() }}
+    </li>
+  </ul>
+</ng-template>
