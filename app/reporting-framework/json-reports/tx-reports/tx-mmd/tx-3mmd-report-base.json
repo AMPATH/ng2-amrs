@@ -490,11 +490,11 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "hm.status = 'active'"
+        "conditionExpression": "hm.status = 'active' AND hm.on_art_this_month = 1"
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "fhs.med_pickup_rtc_date IS NULL AND DATEDIFF(hm.rtc_date, hm.encounter_date) BETWEEN 84 AND 111 OR fhs.med_pickup_rtc_date IS NOT NULL"
+        "conditionExpression": "((fhs.med_pickup_rtc_date IS NOT NULL) OR (fhs.med_pickup_rtc_date IS NULL AND DATEDIFF(hm.rtc_date, hm.encounter_date) BETWEEN 84 AND 111))"
       }
     ]
   },
