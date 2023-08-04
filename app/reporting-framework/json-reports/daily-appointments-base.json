@@ -66,11 +66,6 @@
     },
     {
       "type": "simple_column",
-      "alias": "hiv_disclosure_status",
-      "column": "fh.hiv_disclosure_status_value"
-    },
-    {
-      "type": "simple_column",
       "alias": "encounter_type",
       "column": "t2.encounter_type"
     },
@@ -130,6 +125,11 @@
       "type": "simple_column",
       "alias": "arv_first_regimen_start_date",
       "column": "date_format(fhs.arv_first_regimen_start_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "hiv_disclosure_status",
+      "column": "fhs.hiv_disclosure_status_value"
     }
   ],
   "indexDirectives": [
