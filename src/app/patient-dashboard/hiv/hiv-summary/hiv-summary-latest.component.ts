@@ -164,6 +164,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       .getHivSummary(patientUuid, 0, 1, false, this.birthdate)
       .subscribe(
         (data) => {
+          console.log('hiv-summary: ', data);
           if (data) {
             for (const summary of data) {
               // check if encounter is clinical
@@ -359,14 +360,31 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public getLastPCRStatus(): string {
-    if (this.hivSummary.hiv_dna_pcr_resulted === '664') {
+    let last_pcr_status: number;
+
+    if (this.hivSummary.hiv_dna_pcr_resulted !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_resulted;
+    } else if (this.hivSummary.hiv_dna_pcr_4 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_4;
+    } else if (this.hivSummary.hiv_dna_pcr_3 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_3;
+    } else if (this.hivSummary.hiv_dna_pcr_2 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_2;
+    } else if (this.hivSummary.hiv_dna_pcr_1 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_1;
+    } else {
+      last_pcr_status = null;
+    }
+    if (last_pcr_status === 664) {
       return 'NEGATIVE';
-    } else if (this.hivSummary.hiv_dna_pcr_resulted === '703') {
+    } else if (last_pcr_status === 703) {
       return 'POSITIVE';
-    } else if (this.hivSummary.hiv_dna_pcr_resulted === '1118') {
+    } else if (last_pcr_status === 1118) {
       return 'NOT DONE';
-    } else if (this.hivSummary.hiv_dna_pcr_resulted === '1138') {
+    } else if (last_pcr_status === 1138) {
       return 'INDETERMINATE';
+    } else if (last_pcr_status === 1304) {
+      return 'POOR SAMPLE QUALITY';
     } else {
       return 'UNKNOWN';
     }
