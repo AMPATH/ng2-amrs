@@ -81,7 +81,7 @@
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width">
-          <p>Location: {{ latestEncounterLocation?.name }}</p>
+          <p>Location: {{ latestEncounterLocation?.name ? latestEncounterLocation?.name : patientData.clinic }}</p>
         </div>
       </div>
       <div class="snapshot-body">
