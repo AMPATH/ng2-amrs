@@ -65,7 +65,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
               if (data) {
                 for (const summary of data) {
                   this.patientClinicalSummaryResource
-                    .fetchPatientSummary(patient.uuid)
+                    .fetchPatientSummary(patient.uuid, patient.person.birthdate)
                     .pipe(take(1))
                     .subscribe(
                       (pdfDependencies) => {
