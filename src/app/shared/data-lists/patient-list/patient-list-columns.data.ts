@@ -107,12 +107,12 @@ export class PatientListColumns {
       {
         headerName: 'Previous VL',
         width: 75,
-        field: 'latest_vl'
+        field: 'previous_vl'
       },
       {
         headerName: 'Previous VL Date',
         width: 150,
-        field: 'latest_vl_date'
+        field: 'previous_vl_date'
       },
       {
         headerName: 'Nearest Center',

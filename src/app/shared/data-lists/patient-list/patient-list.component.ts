@@ -61,7 +61,7 @@ export class PatientListComponent implements OnInit {
     }
 
     if (this.excludecolumns) {
-      const columnsToExclude = ['latest_vl', 'latest_vl_date'];
+      const columnsToExclude = ['previous_vl', 'previous_vl_date'];
       columns = _.filter(columns, (col) => {
         return !_.includes(columnsToExclude, col['field']);
       });
