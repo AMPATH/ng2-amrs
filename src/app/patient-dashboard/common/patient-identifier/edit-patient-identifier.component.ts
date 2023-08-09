@@ -163,7 +163,9 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             '22ee6ad7-58fb-4382-9af2-c6a553f3d56a', // NAT ID
             '5b91df4a-db7d-4c52-ac85-ac519420d82e', // BHIM ID
             'ace5f7c7-c5f4-4e77-a077-5588a682a0d6', // OVCID number
-            '91099b3f-69be-4607-a309-bd358d85af46' //  PrEP
+            '91099b3f-69be-4607-a309-bd358d85af46', //  PrEP
+            'f2668649-1fc9-4c09-94b0-6db2655729ec', //  ANC/PNC
+            '328d1e06-268c-4a6b-b292-c15e12c470c9' //  Maternity
           ],
           _id.identifierType.uuid
         );
