@@ -289,6 +289,18 @@ export class PatientCreationService {
         format: '^\\d{6,8}$',
         checkdigit: 0,
         val: 'ace5f7c7-c5f4-4e77-a077-5588a682a0d6'
+      },
+      {
+        label: 'ANC/PNC',
+        format: '^\\d{4}/\\d{2}/\\d{5}$',
+        checkdigit: 0,
+        val: 'f2668649-1fc9-4c09-94b0-6db2655729ec'
+      },
+      {
+        label: 'Maternity',
+        format: '^\\d{4}/\\d{2}/\\d{5}$',
+        checkdigit: 0,
+        val: '328d1e06-268c-4a6b-b292-c15e12c470c9'
       }
     ];
   }
