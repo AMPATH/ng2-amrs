@@ -26,12 +26,16 @@ module.exports = (function () {
     var queryParts = {
       columns:
         request.query.fields ||
-        't1.*,  t3.cm_result,t3.cm_result_date, t3.cm_test, t3.cm_treatment_end_date, t3.cm_treatment_phase, t3.cm_treatment_start_date',
-
+        'fli.vl_1_date as latest_vl_date,fli.vl_1 as latest_vl,t1.*, t3.cm_result,t3.cm_result_date, t3.cm_test, t3.cm_treatment_end_date, t3.cm_treatment_phase, t3.cm_treatment_start_date',
       table: 'etl.flat_hiv_summary_v15b',
       where: whereClause,
       leftOuterJoins: [
-        ['etl.flat_hiv_summary_ext', 't3', 't1.encounter_id = t3.encounter_id']
+        ['etl.flat_hiv_summary_ext', 't3', 't1.encounter_id = t3.encounter_id'],
+        [
+          '(SELECT fli.person_id, fli.hiv_viral_load as vl_1, fli.test_datetime as vl_1_date FROM etl.flat_labs_and_imaging fli INNER JOIN ( SELECT person_id, MAX(test_datetime) AS max_vl_1_date, max(encounter_id) as encounter_id FROM etl.flat_labs_and_imaging fli where fli.hiv_viral_load is not null GROUP BY person_id ) max_dates ON fli.person_id = max_dates.person_id AND fli.encounter_id = max_dates.encounter_id)',
+          'fli',
+          'fli.person_id = t1.person_id'
+        ]
       ],
       order: order || [
         {
