@@ -110,8 +110,7 @@
             <p [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }">
               Last Viral Load: {{ patientData?.latest_vl | zeroVl }}
               <ng-container *ngIf="patientData.latest_vl !== undefined">
-                (<span>{{ patientData?.latest_vl_date | date: 'dd-MM-yyyy' }}</span
-                >)
+                (<span>{{ patientData?.latest_vl_date | date: 'dd-MM-yyyy' }}</span>)
               </ng-container>
             </p>
             <p>
