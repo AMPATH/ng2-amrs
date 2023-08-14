@@ -10,7 +10,10 @@ export class HivPatientClinicalSummaryResourceService {
     protected appSettingsService: AppSettingsService
   ) {}
 
-  public fetchPatientSummary(patientUuid: string, dob?: any): Observable<any> {
+  public fetchPatientSummary(
+    patientUuid: string,
+    isHEIActive?: any
+  ): Observable<any> {
     const api: string =
       this.appSettingsService.getEtlServer() +
       '/patient/' +
@@ -20,7 +23,7 @@ export class HivPatientClinicalSummaryResourceService {
     const params: HttpParams = new HttpParams()
       .set('startIndex', (0 as any) as string)
       .set('limit', (20 as any) as string)
-      .set('age', (Moment().diff(Moment(dob), 'months') as any) as string);
+      .set('isHEIActive', (isHEIActive as any) as string);
 
     return this.http.get(api, { params: params });
   }

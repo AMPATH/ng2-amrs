@@ -24,7 +24,7 @@ export class HivSummaryResourceService {
     startIndex: number,
     limit: number,
     includeNonClinicalEncounter?: boolean,
-    dob?: any
+    isHEIActive?: any
   ): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
@@ -38,7 +38,7 @@ export class HivSummaryResourceService {
     if (includeNonClinicalEncounter !== undefined) {
       includeNonClinicalEncounter = false;
     }
-    this.months = Moment().diff(Moment(dob), 'months').toString();
+    // this.months = Moment().diff(Moment(dob), 'months').toString();
 
     const params: HttpParams = new HttpParams()
       .set('startIndex', (startIndex as any) as string)
@@ -47,8 +47,7 @@ export class HivSummaryResourceService {
         'includeNonClinicalEncounter',
         (includeNonClinicalEncounter as any) as string
       )
-      .set('age', (this.months as any) as string);
-
+      .set('isHEIActive', (isHEIActive as any) as string);
     return this.http
       .get<any>(url, {
         params: params

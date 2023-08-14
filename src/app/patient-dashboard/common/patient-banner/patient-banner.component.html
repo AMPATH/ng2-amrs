@@ -531,7 +531,7 @@
                         <hiv-summary-latest
                           *ngIf="relationship"
                           [patientUuid]="relationship.relatedPerson.uuid"
-                          [birthdate]="relationship.relatedPerson.birthdate"
+                          [isHEIActive]="isHEIActive"
                         >
                         </hiv-summary-latest>
                       </mat-tab>

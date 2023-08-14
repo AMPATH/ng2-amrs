@@ -17,7 +17,7 @@ export class HivSummaryService {
     startIndex: number,
     limit: number,
     includeNonClinicalEncounter?: boolean,
-    dob?: any
+    isHEIActive?: any
   ): Observable<any> {
     const hivSummary: BehaviorSubject<any> = new BehaviorSubject(null);
     this.hivSummaryResourceService
@@ -26,7 +26,7 @@ export class HivSummaryService {
         startIndex,
         limit,
         includeNonClinicalEncounter,
-        dob
+        isHEIActive
       )
       .pipe(take(1))
       .subscribe(

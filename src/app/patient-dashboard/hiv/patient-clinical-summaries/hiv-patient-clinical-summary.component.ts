@@ -26,6 +26,7 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
   public summaryEndDate: any = null;
   public errorFlag = false;
   private subscription: Subscription;
+  isHEIActive: boolean;
 
   constructor(
     private patientClinicalSummary: HivPatientClinicalSummaryService,
@@ -53,19 +54,19 @@ export class HivPatientClinicalSummaryComponent implements OnInit, OnDestroy {
         this.patient = new Patient({});
         if (patient) {
           this.patient = patient;
+          this.isHEIActive = patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.hivSummaryService
-            .getHivSummary(
-              patient.uuid,
-              0,
-              1,
-              false,
-              this.patient.person.birthdate
-            )
+            .getHivSummary(patient.uuid, 0, 1, false, this.isHEIActive)
             .subscribe((data) => {
               if (data) {
                 for (const summary of data) {
                   this.patientClinicalSummaryResource
-                    .fetchPatientSummary(patient.uuid, patient.person.birthdate)
+                    .fetchPatientSummary(patient.uuid, this.isHEIActive)
                     .pipe(take(1))
                     .subscribe(
                       (pdfDependencies) => {

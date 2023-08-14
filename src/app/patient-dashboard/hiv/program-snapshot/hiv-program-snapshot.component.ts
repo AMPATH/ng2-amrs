@@ -123,6 +123,8 @@ export class HivProgramSnapshotComponent implements OnInit {
   public hasPredictedScore = false;
   public prediction: any;
 
+  public isHEIActive = false;
+
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
@@ -140,6 +142,12 @@ export class HivProgramSnapshotComponent implements OnInit {
         if (_.isNil(this.patient)) {
           this.hasError = true;
         } else {
+          this.isHEIActive = this.patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.hasData = false;
           this.getHivSummary(patientUuid);
           this.getPredictedScore(patientUuid);
@@ -160,7 +168,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public getHivSummary(patientUuid: string) {
     this.loadingData = true;
     this.hivSummaryResourceService
-      .getHivSummary(patientUuid, 0, 10, false, this.patient.person.birthdate)
+      .getHivSummary(patientUuid, 0, 10, false, this.isHEIActive)
       .pipe(take(1))
       .subscribe((results) => {
         let latestVlResult: any;

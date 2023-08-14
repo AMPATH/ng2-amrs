@@ -7,7 +7,7 @@
   {{ error.message }}
 </div>
 
-<div *ngIf="isHEI === false; else HEI">
+<div *ngIf="isHEIActive === false && hivSummary">
   <ul class="list-group">
     <li
       *ngIf="eligiblePatient"
@@ -256,7 +256,7 @@
     </li>
   </ul>
 </div>
-<ng-template #HEI>
+<div *ngIf="isHEIActive === true && hivSummary">
   <ul class="list-group">
     <li class="list-group-item" style="font-size: large">
       Last Appt Date: {{ hivSummary?.prev_rtc_date | date: 'dd-MM-yyyy' }}
@@ -277,7 +277,7 @@
       Current ART Prophylaxis: {{ hivSummary?.cur_arv_meds }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Current PCP Prophylaxis:
+      Current PCP Prophylaxis: {{ get_pcp_prophylaxis() }}
     </li>
     <li class="list-group-item" style="font-size: large">
       Infant Feeding Method: {{ getInfantFeedingMethod() }}
@@ -286,4 +286,8 @@
       HEI outcome at 18 months: {{ getHEIOutcome() }}
     </li>
   </ul>
-</ng-template>
+</div>
+<div *ngIf="hivSummary == null">
+  <br />
+  <p>Loading patient data....</p>
+</div>

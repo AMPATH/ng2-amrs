@@ -113,7 +113,7 @@
           <div class="col-md-6 col-xs-12">
             <p>ARV Regimen: {{ patientData?.cur_arv_meds }}</p>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12" *ngIf="!isHEIActive">
             <p [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }">
               Last Viral Load: {{ patientData?.latest_vl | zeroVl }}
               <ng-container *ngIf="patientData.latest_vl !== undefined">
@@ -148,7 +148,7 @@
           <div class="col-md-6 col-xs-12">
             <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
 
-            <p>
+            <p *ngIf="!isHEIActive">
               Disclosure Status:
               <span style="text-transform: capitalize">
                 {{ hivDisclosureStatus }}
@@ -199,7 +199,10 @@
               </p>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
+          <div
+            class="col-md-6 col-xs-12"
+            *ngIf="showCareStatus && !isHEIActive"
+          >
             <p>
               Care Status:
               <span style="text-transform: capitalize">
