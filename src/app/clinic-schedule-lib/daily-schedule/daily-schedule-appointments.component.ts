@@ -44,7 +44,7 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
     {
       headerName: 'Hiv Disclosure Status',
       width: 250,
-      field: 'hiv_diclosure_status'
+      field: 'hiv_disclosure_status'
     },
     {
       headerName: 'TB Screening Date',

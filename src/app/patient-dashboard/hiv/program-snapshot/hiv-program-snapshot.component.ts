@@ -95,7 +95,12 @@ export class HivProgramSnapshotComponent implements OnInit {
   public moriskyDenominator: any = '';
   public moriskyRating: any = '';
   public isMoriskyScorePoorOrInadequate = false;
+  public showCMSummary = false;
   public hivDisclosureStatus: any;
+  public cm_treatment_start_date?: Date;
+  public cm_treatment_status: any = '';
+  public cm_treatment_phase: any = '';
+  public cm_treatment_end_date?: Date;
   public latestCervicalScreeningSummary = [];
   public cervicalScreeningSummary = [];
   public covid19VaccinationSummary: Covid19StatusSummary = {
@@ -171,8 +176,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestVl = latestVlResult.vl_1;
 
           this.patientCareStatus = results[0].patient_care_status;
-          this.hivDisclosureStatus =
-            results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
+          this.hivDisclosureStatus = results[0].hiv_disclosure_status_value;
 
           this.gbvScreeningResult = this.checkGbvScreening(
             results[0].gbv_screening_result
@@ -186,6 +190,28 @@ export class HivProgramSnapshotComponent implements OnInit {
         const transferEncounterIndex = this.getIndexOfTransferEncounter(
           results
         );
+        // Add cryptoccocal status
+        let cm_treatment_summary: any;
+        cm_treatment_summary = this.getPatientCMTreatmentStatus(results);
+        if (cm_treatment_summary) {
+          if (cm_treatment_summary.on_cm_treatment === 1) {
+            this.showCMSummary = true;
+          }
+          this.cm_treatment_start_date =
+            cm_treatment_summary.cm_treatment_start_date;
+          this.cm_treatment_status =
+            cm_treatment_summary.on_cm_treatment === 1 ? 'On Treatment' : '';
+          this.cm_treatment_end_date =
+            cm_treatment_summary.cm_treatment_end_date;
+          this.cm_treatment_phase =
+            cm_treatment_summary.cm_treatment_phase === 1
+              ? 'Induction'
+              : cm_treatment_summary.cm_treatment_phase === 2
+              ? 'Consolidation'
+              : cm_treatment_summary.cm_treatment_phase === 3
+              ? 'Maintenance'
+              : '';
+        }
 
         // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
         this.hasSubsequentClinicalEncounter =
@@ -679,5 +705,16 @@ export class HivProgramSnapshotComponent implements OnInit {
     }
 
     return alert;
+  }
+  public getPatientCMTreatmentStatus(hivSummaryData: any) {
+    const latestStatus = _.orderBy(
+      hivSummaryData,
+      (hivSummary) => {
+        return moment(hivSummary.cm_treatment_start_date);
+      },
+      ['desc']
+    );
+
+    return latestStatus[0];
   }
 }
