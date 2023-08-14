@@ -171,7 +171,6 @@ export class HivProgramSnapshotComponent implements OnInit {
         this.hasLoadedData = true;
 
         if (results[0]) {
-          console.log(results[0]);
           latestVlResult = this.getlatestVlResult(results);
           latestVlDate = latestVlResult.vl_1_date;
           latestVl = latestVlResult.vl_1;
