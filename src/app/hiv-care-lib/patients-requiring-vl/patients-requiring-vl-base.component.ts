@@ -62,7 +62,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
   public extraColumns() {
     return [
       {
-        headerName: 'Most Recent VL',
+        headerName: 'Latest VL',
         field: 'current_vl',
         width: 110,
         cellStyle: {
@@ -73,7 +73,7 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
         }
       },
       {
-        headerName: 'Most Recent VL Date',
+        headerName: 'Latest VL Date',
         field: 'current_vl_date',
         width: 140,
         cellStyle: {
@@ -91,14 +91,6 @@ export class PatientsRequiringVLBaseComponent implements OnInit {
       {
         headerName: 'Days Since Last Order',
         field: 'days_since_last_order',
-        width: 170,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'VL Category',
-        field: 'vl_category',
         width: 170,
         cellStyle: {
           'white-space': 'normal'
