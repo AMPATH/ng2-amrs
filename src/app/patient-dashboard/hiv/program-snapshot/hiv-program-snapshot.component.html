@@ -9,6 +9,7 @@
       No patient data to generate HIV program snapshot
     </p>
   </div>
+
   <div *ngIf="!hasError && hasData && displayProgram">
     <div class="row">
       <div *ngIf="gbvScreeningResult" style="display: inline-block">
@@ -137,6 +138,57 @@
         <div class="col-md-12">
           <div class="col-md-6 col-xs-12">
             <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
+
+            <p>
+              Disclosure Status:
+              <span style="text-transform: capitalize">
+                {{ hivDisclosureStatus }}
+              </span>
+            </p>
+            <div *ngIf="covid19VaccinationSummary?.vaccination_status">
+              <p>
+                COVID-19 Vaccination Status:
+                <span>
+                  {{ covid19VaccinationSummary?.vaccination_status }}
+                </span>
+                <span
+                  style="text-transform: capitalize"
+                  *ngIf="
+                    covid19VaccinationSummary?.first_dose_vaccine_administered
+                  "
+                >
+                  ({{
+                    covid19VaccinationSummary.first_dose_vaccine_administered
+                  }}
+                  : {{ covid19VaccinationSummary.date_given_first_dose }})
+                </span>
+                <span
+                  style="text-transform: capitalize"
+                  *ngIf="
+                    covid19VaccinationSummary?.second_dose_vaccine_administered
+                  "
+                >
+                  ({{
+                    covid19VaccinationSummary.second_dose_vaccine_administered
+                  }}
+                  : {{ covid19VaccinationSummary.date_given_second_dose }})
+                </span>
+                <span
+                  style="
+                    text-transform: capitalize;
+                    color: red;
+                    padding: 2px 2px 2px 2px;
+                  "
+                  *ngIf="
+                    covid19VaccinationSummary?.vaccination_status_code_message
+                  "
+                >
+                  {{
+                    covid19VaccinationSummary.vaccination_status_code_message
+                  }}
+                </span>
+              </p>
+            </div>
           </div>
           <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
             <p>
@@ -145,6 +197,26 @@
                 {{ resolvedCareStatus }}
               </span>
             </p>
+            <div *ngIf="showCMSummary">
+              <p>
+                <span>
+                  Date Started Cryptococcal Treatment:
+                  {{ cm_treatment_start_date | date: 'dd-MM-yyyy' }}
+                </span>
+              </p>
+              <p>
+                <span style="text-transform: capitalize">
+                  Cryptococcal Status: {{ cm_treatment_status }}, (Phase :
+                  {{ cm_treatment_phase }})
+                </span>
+              </p>
+              <p>
+                <span style="text-transform: capitalize">
+                  Date completed cryptococcal treatment:
+                  {{ cm_treatment_end_date | date: 'dd-MM-yyyy' }}
+                </span>
+              </p>
+            </div>
           </div>
           <div
             class="col-md-6 col-xs-12"
@@ -155,59 +227,8 @@
               {{ patientData?.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
             </p>
           </div>
-          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
-            <p>
-              Disclosure Status:
-              <span style="text-transform: capitalize">
-                {{ hivDisclosureStatus }}
-              </span>
-            </p>
-          </div>
-          <div
-            class="col-md-12 col-xs-12"
-            *ngIf="covid19VaccinationSummary?.vaccination_status"
-          >
-            <p>
-              COVID-19 Vaccination Status:
-              <span>
-                {{ covid19VaccinationSummary?.vaccination_status }}
-              </span>
-              <span
-                style="text-transform: capitalize"
-                *ngIf="
-                  covid19VaccinationSummary?.first_dose_vaccine_administered
-                "
-              >
-                ({{
-                  covid19VaccinationSummary.first_dose_vaccine_administered
-                }}
-                : {{ covid19VaccinationSummary.date_given_first_dose }})
-              </span>
-              <span
-                style="text-transform: capitalize"
-                *ngIf="
-                  covid19VaccinationSummary?.second_dose_vaccine_administered
-                "
-              >
-                ({{
-                  covid19VaccinationSummary.second_dose_vaccine_administered
-                }}
-                : {{ covid19VaccinationSummary.date_given_second_dose }})
-              </span>
-              <span
-                style="
-                  text-transform: capitalize;
-                  color: red;
-                  padding: 2px 2px 2px 2px;
-                "
-                *ngIf="
-                  covid19VaccinationSummary?.vaccination_status_code_message
-                "
-              >
-                {{ covid19VaccinationSummary.vaccination_status_code_message }}
-              </span>
-            </p>
-          </div>
+        </div>
+        <div class="col-md-12">
           <div class="col-md-12" *ngIf="cervicalScreeningSummary.length > 0">
             <div class="col-md-12 col-xs-12">
               <p>
@@ -225,32 +246,37 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-md-12"
-          *ngIf="hasMoriskyScore && !isMoriskyScorePoorOrInadequate"
-        >
-          <div class="col-md-6 col-xs-12">
-            <p>
-              Morisky Score:
-              <span style="font-weight: 500; padding: 2px 2px 2px 2px">
-                {{ moriskyScore }}{{ moriskyDenominator }} -
-                {{ moriskyRating }}</span
-              >
-            </p>
+        <div class="col-md-12">
+          <div
+            class="col-md-6"
+            *ngIf="hasMoriskyScore && !isMoriskyScorePoorOrInadequate"
+          >
+            <div class="col-md-6 col-xs-12">
+              <p>
+                Morisky Score:
+                <span style="font-weight: 500; padding: 2px 2px 2px 2px">
+                  {{ moriskyScore }}{{ moriskyDenominator }} -
+                  {{ moriskyRating }}</span
+                >
+              </p>
+            </div>
           </div>
-        </div>
-        <div
-          class="col-md-12"
-          *ngIf="hasMoriskyScore && isMoriskyScorePoorOrInadequate"
-        >
-          <div class="col-md-6 col-xs-12">
-            <p>
-              Morisky Score:
-              <span class="score" style="color: red; padding: 2px 2px 2px 2px">
-                {{ moriskyScore }}{{ moriskyDenominator }} -
-                {{ moriskyRating }}</span
-              >
-            </p>
+          <div
+            class="col-md-6"
+            *ngIf="hasMoriskyScore && isMoriskyScorePoorOrInadequate"
+          >
+            <div class="col-md-6 col-xs-12">
+              <p>
+                Morisky Score:
+                <span
+                  class="score"
+                  style="color: red; padding: 2px 2px 2px 2px"
+                >
+                  {{ moriskyScore }}{{ moriskyDenominator }} -
+                  {{ moriskyRating }}</span
+                >
+              </p>
+            </div>
           </div>
         </div>
         <div class="clear"></div>
