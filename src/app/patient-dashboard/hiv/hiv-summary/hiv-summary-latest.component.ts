@@ -1,6 +1,12 @@
 /* tslint:disable:no-inferrable-types */
 import { take } from 'rxjs/operators/take';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  SimpleChanges
+} from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
@@ -30,8 +36,7 @@ interface Covid19StatusSummary {
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
-  @Input() birthdate: any;
-  public isHEI: boolean = false;
+  @Input() isHEIActive: boolean = false;
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
   public subscription: Subscription[] = [];
@@ -161,7 +166,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   public loadHivSummary(patientUuid) {
     const summarySub = this.hivSummaryService
-      .getHivSummary(patientUuid, 0, 1, false, this.birthdate)
+      .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe(
         (data) => {
           if (data) {
@@ -282,10 +287,9 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   private getPatientEligibility(summary) {
     if (summary) {
-      if (Moment().diff(Moment(this.birthdate), 'months') <= 18) {
+      if (this.isHEIActive) {
         this.ineligibiltyReason = 'An Infant';
         this.eligiblePatient = false;
-        this.isHEI = true;
       } else if (this.patient.person.gender === 'M') {
         this.ineligibiltyReason = 'Male Patient';
         this.eligiblePatient = false;
@@ -430,5 +434,15 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       this.hivSummary.hei_outcome !== null ? this.hivSummary.hei_outcome : 0;
 
     return HEI_OUT_COME[index];
+  }
+  public get_pcp_prophylaxis(): string {
+    const pcp = this.hivSummary.pcp_prophylaxis;
+    if (pcp === 92) {
+      return 'ACZONE';
+    }
+    if (pcp === 916) {
+      return 'SEPTRIN';
+    }
+    return 'NONE';
   }
 }

@@ -7,18 +7,18 @@
 </h4>
 <div>
   <p-tabView>
-    <p-tabPanel header="HIV Summary" *ngIf="age > 18">
+    <p-tabPanel header="HIV Summary" *ngIf="!isHEIActive">
       <hiv-summary-latest
         *ngIf="patientUuid"
         [patientUuid]="patientUuid"
-        [birthdate]="patient.person.birthdate"
+        [isHEIActive]="isHEIActive"
       ></hiv-summary-latest>
     </p-tabPanel>
-    <p-tabPanel header="HEI Summary" *ngIf="age <= 18">
+    <p-tabPanel header="HEI Summary" *ngIf="isHEIActive">
       <hiv-summary-latest
         *ngIf="patientUuid"
         [patientUuid]="patientUuid"
-        [birthdate]="patient.person.birthdate"
+        [isHEIActive]="isHEIActive"
       ></hiv-summary-latest>
     </p-tabPanel>
     <p-tabPanel header="Historical HIV Summary">

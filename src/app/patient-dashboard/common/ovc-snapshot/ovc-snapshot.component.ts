@@ -38,6 +38,7 @@ export class OvcSnapshotComponent implements OnInit {
   public exitReason: any;
   nonEnrollmentFormFilled = false;
   nonEnrollmentReason: string;
+  isHEIActive: boolean;
   constructor(
     private patientService: PatientService,
     private hivSummaryResourceService: HivSummaryResourceService,
@@ -49,6 +50,12 @@ export class OvcSnapshotComponent implements OnInit {
       (patient) => {
         this.patient = new Patient({});
         if (patient) {
+          this.isHEIActive = patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.programManagerUrl =
             '/patient-dashboard/patient/' +
             patient.uuid +
@@ -90,7 +97,7 @@ export class OvcSnapshotComponent implements OnInit {
   public getHivSummary(patient) {
     this.loadingData = true;
     this.hivSummaryResourceService
-      .getHivSummary(patient.uuid, 0, 10, false, this.patient.person.birthdate)
+      .getHivSummary(patient.uuid, 0, 10, false, this.isHEIActive)
       .pipe(take(1))
       .subscribe((results) => {
         let latestVlResult: any;

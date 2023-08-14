@@ -25,6 +25,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
   public nextStartIndex: number = 0;
   public hasMedicationRtc = false;
   public hasMdtSessionNo = false;
+  isHEIActive: boolean;
 
   constructor(
     private hivSummaryService: HivSummaryService,
@@ -46,6 +47,12 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
     const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
+          this.isHEIActive = patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.patient = patient;
           this.patientUuid = this.patient.person.uuid;
           this.loadHivSummary(this.patientUuid, this.nextStartIndex);
@@ -77,13 +84,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
 
   public loadHivSummary(patientUuid, nextStartIndex) {
     const summarySub = this.hivSummaryService
-      .getHivSummary(
-        patientUuid,
-        nextStartIndex,
-        20,
-        false,
-        this.patient.person.birthdate
-      )
+      .getHivSummary(patientUuid, nextStartIndex, 20, false, this.isHEIActive)
       .subscribe(
         (data) => {
           if (data) {

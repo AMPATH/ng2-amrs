@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -25,6 +25,7 @@ import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.se
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { environment } from 'src/environments/environment';
+import { PatientProgramService } from '../../programs/patient-programs.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -62,6 +63,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public displayContacts = false;
   public contactsExist = false;
   public patientEncounters: Array<any> = [];
+  public isSelectedRelationProgramHEI = false;
+  public isHEIActive = false;
 
   constructor(
     private patientService: PatientService,
@@ -72,7 +75,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private propertyLocationService: UserDefaultPropertiesService,
     private familyTestingService: FamilyTestingService,
     private encounterResourceService: EncounterResourceService,
-    private personAttributeResourceService: PersonAttributeResourceService
+    private personAttributeResourceService: PersonAttributeResourceService,
+    private patientProgramService: PatientProgramService
   ) {}
 
   public ngOnInit() {
@@ -191,6 +195,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
 
   public openRelationshipModal(template: TemplateRef<any>, relationship) {
     this.relationship = relationship;
+    this.getSelectedRelationshipProgram(relationship.relatedPerson.uuid);
     this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
@@ -332,6 +337,17 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           if (encounter.form) {
             return encounter.form.uuid === familyAndPartnerTestingFormUuid;
           }
+        });
+      });
+  }
+
+  public getSelectedRelationshipProgram(relatedPersonUuid: string) {
+    this.patientProgramService
+      .loadProgramsPatientIsEnrolledIn(relatedPersonUuid)
+      .pipe(take(1))
+      .subscribe((programs) => {
+        this.isHEIActive = programs.some((program: { programUuid: string }) => {
+          return program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b';
         });
       });
   }

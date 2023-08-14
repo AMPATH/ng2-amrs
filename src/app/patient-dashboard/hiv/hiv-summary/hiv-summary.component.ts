@@ -21,6 +21,8 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   patient: any;
   public subscription = new Subscription();
 
+  isHEIActive = false;
+
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
     private hivSummaryService: HivSummaryService,
@@ -37,6 +39,12 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
     const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
+          this.isHEIActive = patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.patientUuid = patient.person.uuid;
           this.patient = patient;
           this.age = Moment().diff(Moment(patient.person.birthdate), 'months');
@@ -60,7 +68,7 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
           0,
           1,
           false,
-          this.patient.person.birthdate
+          this.isHEIActive
         )
       )
       .subscribe((data: any) => {
