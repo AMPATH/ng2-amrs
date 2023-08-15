@@ -79,7 +79,29 @@
       </td>
       <td>{{ hivSummary.cur_who_stage }}</td>
       <td *ngIf="hasMdtSessionNo">{{ hivSummary.mdt_session_number }}</td>
-      <td>{{ 'Active' }}</td>
+      <td>
+        {{
+          ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+            (1000 * 60 * 60 * 24) >
+            0) &&
+          ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+            (1000 * 60 * 60 * 24) <=
+            5)
+            ? 'missed'
+            : ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+                (1000 * 60 * 60 * 24) >
+                4 )&&
+              ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+                (1000 * 60 * 60 * 24) <=
+                28)
+            ? 'defaulter'
+            : ((hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
+                (1000 * 60 * 60 * 24) >
+              28)
+            ? 'LTFU'
+            : ''
+        }}
+      </td>
       <!-- TO BE EDITED-->
     </tr>
   </table>
