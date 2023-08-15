@@ -816,7 +816,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -2010,7 +2010,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -2400,7 +2400,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -2628,6 +2628,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -2844,6 +2845,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -3239,7 +3241,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -4271,7 +4273,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -4410,6 +4412,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -4790,6 +4793,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -5042,6 +5046,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
+        "allowedIf": "MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
@@ -5145,7 +5150,7 @@
       {
         "uuid": "6bdec0cd-d3fb-41da-9ef3-20076f349dc1",
         "name": "Pre Appointment Follow Up Visit",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
+        "allowedIf": "programLocation === intendedVisitLocationUuid && MlLocations",
         "encounterTypes": [
           {
             "uuid": "d5e2d3b3-2061-4721-86f1-5852cde6475a",
