@@ -6,6 +6,7 @@ import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../../models/patient.model';
 import { Subscription } from 'rxjs';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hiv-summary-historical',
@@ -25,6 +26,8 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
   public nextStartIndex: number = 0;
   public hasMedicationRtc = false;
   public hasMdtSessionNo = false;
+  public showMissedDays: boolean;
+  public patientStatus: any;
   public daysMissed = 0;
 
   constructor(
@@ -103,10 +106,19 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                   const encounter_date = new Date(hivsum.encounter_datetime);
                   const startDate = Moment(encounter_date, 'YYYY-MM-DD');
                   const endDate = Moment(prev_rtc, 'YYYY-MM-DD');
+                  const specificDate = Moment('2005-01-01');
+                  console.log('Data', data);
+
+                  if (endDate < specificDate) {
+                    this.showMissedDays = false;
+                  } else {
+                    this.showMissedDays = true;
+                  }
                   const dateDiffInDays = endDate.diff(startDate, 'days');
                   if (dateDiffInDays > 0) {
                     this.daysMissed = dateDiffInDays;
                   }
+
                   if (this.hasMdtSessionNo === false) {
                     this.hasMdtSessionNo = this.hasColumnData(
                       data[r],
@@ -135,6 +147,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
       );
     this.subscription.push(summarySub);
   }
+
   public loadMoreHivSummary() {
     this.isLoading = true;
     this.loadHivSummary(this.patientUuid, this.nextStartIndex);

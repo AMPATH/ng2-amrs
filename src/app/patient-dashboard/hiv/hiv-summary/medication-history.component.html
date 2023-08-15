@@ -19,8 +19,8 @@
       <td>{{ (encounter.previousViralLoad | zeroVl) || ' ' }}</td>
       <td>{{ encounter.previous_vl_date }}</td>
       <td>{{ encounter.current_regimen || '&nbsp;' }}</td>
-      <td>{{ '1'|| '&nbsp;' }}</td>
-      <td>{{ 'Viral Load spike' || '&nbsp;' }}</td>
+      <td>{{ encounter.cur_arv_line || '&nbsp;' }}</td>
+      <td>{{ encounter.reason_for_regimen_change || '&nbsp;' }}</td>
     </tr>
   </table>
 </div>
