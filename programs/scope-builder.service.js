@@ -17,7 +17,17 @@ function buildScope(dataDictionary) {
     retroSpective: false,
     screenedForCovidToday: false
   };
-
+  // Restrict to Pilot locations
+  scope.MlLocations = [
+    '08feb8ae-1352-11df-a1f1-0026b9348838',
+    '08feb9a8-1352-11df-a1f1-0026b9348838',
+    '08fec60a-1352-11df-a1f1-0026b9348838',
+    '090090d4-1352-11df-a1f1-0026b9348838',
+    'db2bdd7c-5fe6-4ea3-adc1-d2d8dfb3d658',
+    '17c97881-90e5-43c8-b8a3-cc0322f89a89',
+    'e9f515c2-7c48-4099-ac76-41db9977f96f',
+    'f7aabb83-7915-4c24-88b2-bcde8b3a9977'
+  ].includes(dataDictionary.intendedVisitLocationUuid);
   if (dataDictionary.patient) {
     buildPatientScopeMembers(scope, dataDictionary.patient);
   }
