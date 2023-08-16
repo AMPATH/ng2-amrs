@@ -108,7 +108,6 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                   const startDate = Moment(encounter_date, 'YYYY-MM-DD');
                   const endDate = Moment(prev_rtc, 'YYYY-MM-DD');
                   const specificDate = Moment('2005-01-01');
-                  console.log('Data', data);
 
                   if (endDate < specificDate) {
                     this.showMissedDays = false;
