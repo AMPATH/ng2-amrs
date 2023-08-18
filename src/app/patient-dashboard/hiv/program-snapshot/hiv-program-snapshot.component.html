@@ -69,7 +69,7 @@
           >
         </p>
       </div>
-      <div class="alert-div" style="display: inline-block">
+      <div *ngIf="!isHEIActive" class="alert-div" style="display: inline-block">
         <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
           <span class="hiv-alert" [style.background-color]="viralloadColor"
             >VL Category: {{ this.viralLoadCategory }}</span
@@ -93,12 +93,24 @@
       </div>
       <div class="snapshot-body">
         <div class="col-md-12">
-          <div class="col-md-6 col-xs-12">
+          <div
+            [ngClass]="
+              isHEIActive === true
+                ? 'col-md-12 col-xs-12'
+                : 'col-md-6 col-xs-12'
+            "
+          >
             <p>
               Date: {{ patientData?.encounter_datetime | date: 'dd-MM-yyyy' }}
             </p>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div
+            [ngClass]="
+              isHEIActive === true
+                ? 'col-md-12 col-xs-12'
+                : 'col-md-6 col-xs-12'
+            "
+          >
             <p>
               Type:
               {{
