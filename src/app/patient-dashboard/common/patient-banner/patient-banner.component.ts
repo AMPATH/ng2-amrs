@@ -195,7 +195,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
 
   public openRelationshipModal(template: TemplateRef<any>, relationship) {
     this.relationship = relationship;
-    this.getSelectedRelationshipProgram(relationship.relatedPerson.uuid);
+    this.isHEIActive = relationship.programs[26].isEnrolled;
     this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
@@ -248,7 +248,17 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(take(1))
       .subscribe(
         (results) => {
-          this.relationships = results;
+          // this.relationships = results;
+          for (let i = 0; i < results.length; i++) {
+            this.patientProgramService
+              .getCurrentlyEnrolledPatientPrograms(results[i].relatedPersonUuid)
+              .pipe(take(1))
+              .subscribe((programs) => {
+                const rel = results[i];
+                rel['programs'] = programs; // attach relationship to programs
+                this.relationships[i] = rel;
+              });
+          }
         },
         (err) => {
           console.error(err);
@@ -337,17 +347,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           if (encounter.form) {
             return encounter.form.uuid === familyAndPartnerTestingFormUuid;
           }
-        });
-      });
-  }
-
-  public getSelectedRelationshipProgram(relatedPersonUuid: string) {
-    this.patientProgramService
-      .loadProgramsPatientIsEnrolledIn(relatedPersonUuid)
-      .pipe(take(1))
-      .subscribe((programs) => {
-        this.isHEIActive = programs.some((program: { programUuid: string }) => {
-          return program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b';
         });
       });
   }

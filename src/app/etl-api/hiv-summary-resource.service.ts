@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import * as Moment from 'moment';
-import { PatientService } from '../patient-dashboard/services/patient.service';
-import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 
 @Injectable()
 export class HivSummaryResourceService {
@@ -38,7 +35,6 @@ export class HivSummaryResourceService {
     if (includeNonClinicalEncounter !== undefined) {
       includeNonClinicalEncounter = false;
     }
-    // this.months = Moment().diff(Moment(dob), 'months').toString();
 
     const params: HttpParams = new HttpParams()
       .set('startIndex', (startIndex as any) as string)

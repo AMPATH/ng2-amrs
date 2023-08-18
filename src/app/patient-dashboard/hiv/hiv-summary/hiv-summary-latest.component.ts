@@ -165,6 +165,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public loadHivSummary(patientUuid) {
+    console.log('isHEIACTIVE: ', this.isHEIActive);
     const summarySub = this.hivSummaryService
       .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe(
@@ -362,6 +363,26 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       });
   }
 
+  public getLastPCRDate(): string {
+    let last_pcr_date: string;
+
+    if (this.hivSummary.hiv_dna_pcr_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_date;
+    } else if (this.hivSummary.hiv_dna_pcr_4_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_4_date;
+    } else if (this.hivSummary.hiv_dna_pcr_3_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_3_date;
+    } else if (this.hivSummary.hiv_dna_pcr_2_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_2_date;
+    } else if (this.hivSummary.hiv_dna_pcr_1_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_1_date;
+    } else {
+      last_pcr_date = 'NONE';
+    }
+
+    return last_pcr_date.slice(0, 10);
+  }
+
   public getLastPCRStatus(): string {
     let last_pcr_status: number;
 
@@ -389,13 +410,13 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     } else if (last_pcr_status === 1304) {
       return 'POOR SAMPLE QUALITY';
     } else {
-      return 'UNKNOWN';
+      return 'NONE';
     }
   }
 
   public getInfantFeedingMethod(): string {
     const INFANT_FEEDING_METHODS = [
-      '',
+      'NONE',
       'EXPRESSED BREASTMILK',
       'WEANED',
       'INFANT FORMULA',
@@ -421,7 +442,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   public getHEIOutcome(): string {
     const HEI_OUT_COME = [
-      'STILL UNDER 18 MONTHS',
+      'NONE',
       'PATIENT TRANSFERRED OUT',
       'LOST TO FOLLOWUP',
       'PATIENT DIED',
@@ -435,7 +456,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
     return HEI_OUT_COME[index];
   }
-  public get_pcp_prophylaxis(): string {
+  public getPCPprophylaxis(): string {
     const pcp = this.hivSummary.pcp_prophylaxis;
     if (pcp === 92) {
       return 'ACZONE';
