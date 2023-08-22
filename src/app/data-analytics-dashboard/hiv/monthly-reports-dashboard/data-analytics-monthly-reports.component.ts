@@ -44,6 +44,12 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
         description: '',
         url: 'patient-gains-and-losses',
         icon: 'fa'
+      },
+      {
+        title: 'Mnch Monthly Report',
+        description: '',
+        url: 'mnch-report',
+        icon: 'fa'
       }
     ];
   }

@@ -53,7 +53,7 @@ import { TxMmdReportPatientListComponent } from 'src/app/hiv-care-lib/tx-mmd-rep
 import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
 import { TxRttReportPatientListComponent } from 'src/app/hiv-care-lib/tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
-
+import { MnchReportComponent } from 'src/app/clinic-dashboard/hiv/mnch-report/mnch-report.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -250,6 +250,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PatientGainsAndLosesPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'mnch-report',
+        children: [
+          {
+            path: '',
+            component: MnchReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PrepReportPatientListComponent
           }
         ]
       }
