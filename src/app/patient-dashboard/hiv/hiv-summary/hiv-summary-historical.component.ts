@@ -88,6 +88,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if (data) {
+            console.log('dataenc: ', data, 'length: ', data.length);
             if (data.length > 0) {
               for (const r in data) {
                 if (data.hasOwnProperty(r)) {

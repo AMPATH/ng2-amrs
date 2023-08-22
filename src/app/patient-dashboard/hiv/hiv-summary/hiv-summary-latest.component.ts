@@ -165,12 +165,12 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public loadHivSummary(patientUuid) {
-    console.log('isHEIACTIVE: ', this.isHEIActive);
     const summarySub = this.hivSummaryService
       .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe(
         (data) => {
           if (data) {
+            this.loadingHivSummary = true;
             for (const summary of data) {
               // check if encounter is clinical
               if (summary.is_clinical_encounter === 1) {
