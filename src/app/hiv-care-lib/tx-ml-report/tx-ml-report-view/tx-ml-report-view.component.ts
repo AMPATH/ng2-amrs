@@ -462,6 +462,7 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
         body.push(sec);
       });
     });
+    console.log(body);
     return body;
   }
 
