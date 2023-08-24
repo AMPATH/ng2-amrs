@@ -103,8 +103,24 @@ export class MOHReportService {
       _.each(section.indicators, (sectionIndicator: any, index) => {
         sectionIndicatorLabels.push([sectionIndicator.label]);
         let indicatorValue = '-';
+        let f_indicatorValue = '-';
+        let m_indicatorValue = '-';
+        const m_indicatorDefinition = sectionIndicator.indicator[0];
         const indicatorDefinition = sectionIndicator.indicator;
+        const f_indicatorDefinition = sectionIndicator.indicator[1];
 
+        if (
+          rowData[m_indicatorDefinition] ||
+          rowData[m_indicatorDefinition] === 0
+        ) {
+          m_indicatorValue = rowData[m_indicatorDefinition];
+        }
+        if (
+          rowData[m_indicatorDefinition] ||
+          rowData[m_indicatorDefinition] === 0
+        ) {
+          f_indicatorValue = rowData[m_indicatorDefinition];
+        }
         if (
           rowData[indicatorDefinition] ||
           rowData[indicatorDefinition] === 0
@@ -113,6 +129,8 @@ export class MOHReportService {
         }
         sectionIndicatorValues.push([
           sectionIndicator.ref,
+          m_indicatorValue + '',
+          f_indicatorValue + '',
           indicatorValue + ''
         ]);
       });
@@ -126,6 +144,7 @@ export class MOHReportService {
       const reportSection = this.generateReportSection(sectionData);
       mainReportObject.content.push(reportSection);
     });
+    console.log(mainReportObject);
     return mainReportObject;
   }
 
@@ -257,12 +276,27 @@ export class MOHReportService {
             [
               {
                 table: {
-                  widths: ['*'],
+                  widths: [310, 10, 10, 55, 30, 30],
                   body: [
                     [
                       {
                         text: sectionData.sectionHead,
                         style: 'sectionhead'
+                      },
+                      {
+                        text: ''
+                      },
+                      {
+                        text: ''
+                      },
+                      {
+                        text: ''
+                      },
+                      {
+                        text: 'F'
+                      },
+                      {
+                        text: 'M'
                       }
                     ]
                   ]
@@ -292,7 +326,8 @@ export class MOHReportService {
                     [
                       {
                         table: {
-                          widths: [50, '*'],
+                          widths: [50, 30, 30, 30],
+
                           body: sectionData.sectionDataValues
                         }
                       }
