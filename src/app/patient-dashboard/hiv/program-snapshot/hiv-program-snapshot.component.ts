@@ -171,7 +171,6 @@ export class HivProgramSnapshotComponent implements OnInit {
       .getHivSummary(patientUuid, 0, 10, false, this.isHEIActive)
       .pipe(take(1))
       .subscribe((results) => {
-        console.log('program snapxshot:: ', results);
         let latestVlResult: any;
         let latestVlDate = '';
         let latestVl = null;
