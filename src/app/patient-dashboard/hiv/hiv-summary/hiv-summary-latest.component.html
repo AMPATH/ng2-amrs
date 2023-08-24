@@ -259,7 +259,7 @@
 <div *ngIf="isHEIActive === true && hivSummary">
   <ul class="list-group">
     <li class="list-group-item" style="font-size: large">
-      Last Appt Date: {{ hivSummary?.prev_rtc_date | date: 'dd-MM-yyyy' }}
+      Last Appt Date: {{ hivSummary?.prev_rtc_date < 0 ? 'NONE' : hivSummary?.prev_rtc_date  | date: 'dd-MM-yyyy' }}
     </li>
     <li class="list-group-item" style="font-size: large">
       RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
@@ -268,7 +268,7 @@
       Date of enrollment: {{ hivSummary?.date_enrolled | date: 'dd-MM-yyyy' }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Current weight (kg): {{ hivSummary?.weight }}
+      Current weight (kg): {{ hivSummary?.weight !== null ? hivSummary?.weight : "NONE"}}
     </li>
     <li class="list-group-item" style="font-size: large">
       Last PCR status: {{ getLastPCRStatus() }}

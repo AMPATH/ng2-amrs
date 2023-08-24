@@ -364,7 +364,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public getLastPCRDate(): string {
-    let last_pcr_date: string;
+    let last_pcr_date: string = 'NONE';
 
     if (this.hivSummary.hiv_dna_pcr_date !== null) {
       last_pcr_date = this.hivSummary.hiv_dna_pcr_date;
@@ -377,7 +377,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     } else if (this.hivSummary.hiv_dna_pcr_1_date !== null) {
       last_pcr_date = this.hivSummary.hiv_dna_pcr_1_date;
     } else {
-      last_pcr_date = 'NONE';
+      return 'NONE';
     }
 
     return last_pcr_date.slice(0, 10);
