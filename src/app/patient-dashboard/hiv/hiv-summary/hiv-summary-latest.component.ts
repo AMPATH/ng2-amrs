@@ -364,7 +364,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public getLastPCRDate(): string {
-    let last_pcr_date: string = 'NONE';
+    let last_pcr_date: string = '';
 
     if (this.hivSummary.hiv_dna_pcr_date !== null) {
       last_pcr_date = this.hivSummary.hiv_dna_pcr_date;
@@ -377,7 +377,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     } else if (this.hivSummary.hiv_dna_pcr_1_date !== null) {
       last_pcr_date = this.hivSummary.hiv_dna_pcr_1_date;
     } else {
-      return 'NONE';
+      return '';
     }
 
     return last_pcr_date.slice(0, 10);
@@ -442,7 +442,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   public getHEIOutcome(): string {
     const HEI_OUT_COME = [
-      'NONE',
+      '',
       'PATIENT TRANSFERRED OUT',
       'LOST TO FOLLOWUP',
       'PATIENT DIED',

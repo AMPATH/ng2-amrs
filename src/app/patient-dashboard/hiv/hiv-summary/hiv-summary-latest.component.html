@@ -261,9 +261,10 @@
     <li class="list-group-item" style="font-size: large">
       Last Appt Date:
       {{
-        hivSummary?.prev_rtc_date < 0
-          ? 'NONE'
-          : (hivSummary?.prev_rtc_date | date: 'dd-MM-yyyy')
+        (hivSummary?.prev_rtc_date < 0
+          ? hivSummary?.date_enrolled
+          : hivSummary?.prev_rtc_date
+        ) | date: 'dd-MM-yyyy'
       }}
     </li>
     <li class="list-group-item" style="font-size: large">
