@@ -433,6 +433,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
         const idType = this.identifierType.val
           ? this.identifierType.val
           : this.identifierType.value;
+
         this.patientResourceService
           .searchPatient(this.patientIdentifier)
           .pipe(take(1))
@@ -440,6 +441,7 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
             if (result.length > 0 && this.identifierHasChanged()) {
               _.each(result, (ids) => {
                 _.each(ids.identifiers, (id) => {
+                  console.log('This is ID', idType, id);
                   if (
                     id.identifier === this.patientIdentifier &&
                     id.identifierType.uuid === idType
@@ -451,8 +453,6 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
                     parentIdTypes.includes(idType)
                   ) {
                     return (hasSameIdTypeAndValue = false);
-                  } else {
-                    hasSameIdTypeAndValue = true;
                   }
                 });
               });
