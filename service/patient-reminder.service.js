@@ -84,19 +84,24 @@ function viralLoadReminders(data) {
     });
   } // adults
   else if (isAdult && data.needs_vl_coded === 3) {
-    reminders.push({
-      message:
-        requires +
-        '.Patients older than 25 years and newly on ART require ' +
-        'a viral load test after 12 months. ' +
-        labMessage,
-      title: 'Viral Load Reminder',
-      type: 'danger',
-      display: {
-        banner: true,
-        toast: true
-      }
-    });
+    if (
+      (data.viral_load > 200 && data.months_since_last_vl_date > 3) ||
+      (data.viral_load < 200 && data.months_since_last_vl_date > 6)
+    ) {
+      reminders.push({
+        message:
+          requires +
+          '.Patients older than 25 years and newly on ART require ' +
+          'a viral load test after 12 months. ' +
+          labMessage,
+        title: 'Viral Load Reminder',
+        type: 'danger',
+        display: {
+          banner: true,
+          toast: true
+        }
+      });
+    }
   } else if (
     isAdult &&
     (data.needs_vl_coded === 8) & (data.months_since_last_vl_date >= 12)
