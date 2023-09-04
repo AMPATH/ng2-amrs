@@ -59,6 +59,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     second_dose_vaccine_administered: '',
     covid_screening_outcome_this_visit: ''
   };
+  public lastPCRDate: string;
+  public lastPCRStatus: string;
+  public infantFeedingMethod: string;
+  public heiOutCome: string;
+  public pcpProphylaxis: string;
 
   constructor(
     private hivSummaryService: HivSummaryService,
@@ -238,6 +243,13 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
               //   Replace the lab data with latest lab results that may not be clinical
               this.hivSummary.vl_1_date = filtered.vl_1_date;
               this.hivSummary.vl_1 = filtered.vl_1;
+            }
+            if (this.isHEIActive) {
+              this.lastPCRDate = this.getLastPCRDate();
+              this.lastPCRStatus = this.getLastPCRStatus();
+              this.infantFeedingMethod = this.getInfantFeedingMethod();
+              this.heiOutCome = this.getHEIOutcome();
+              this.pcpProphylaxis = this.getPCPprophylaxis();
             }
           }
           this.getPatientEligibility(this.hivSummary);

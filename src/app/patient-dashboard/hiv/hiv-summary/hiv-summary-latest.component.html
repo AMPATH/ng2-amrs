@@ -7,7 +7,7 @@
   {{ error.message }}
 </div>
 
-<div *ngIf="isHEIActive === false && hivSummary">
+<div *ngIf="!isHEIActive">
   <ul class="list-group">
     <li
       *ngIf="eligiblePatient"
@@ -256,7 +256,7 @@
     </li>
   </ul>
 </div>
-<div *ngIf="isHEIActive === true && hivSummary">
+<div *ngIf="isHEIActive">
   <ul class="list-group">
     <li class="list-group-item" style="font-size: large">
       Last Appt Date:
@@ -278,26 +278,22 @@
       {{ hivSummary?.weight !== null ? hivSummary?.weight : 'NONE' }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Last PCR status: {{ getLastPCRStatus() }}
+      Last PCR status: {{ lastPCRStatus }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Last PCR Date: {{ getLastPCRDate() | date: 'dd-MM-yyyy' }}
+      Last PCR Date: {{ lastPCRDate | date: 'dd-MM-yyyy' }}
     </li>
     <li class="list-group-item" style="font-size: large">
       Current ART Prophylaxis: {{ hivSummary?.cur_arv_meds }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Current PCP Prophylaxis: {{ getPCPprophylaxis() }}
+      Current PCP Prophylaxis: {{ pcpProphylaxis }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      Infant Feeding Method: {{ getInfantFeedingMethod() }}
+      Infant Feeding Method: {{ infantFeedingMethod }}
     </li>
     <li class="list-group-item" style="font-size: large">
-      HEI outcome at 18 months: {{ getHEIOutcome() }}
+      HEI outcome at 18 months: {{ heiOutCome }}
     </li>
   </ul>
-</div>
-<div *ngIf="!hivSummary">
-  <br />
-  <p>Loading patient data....</p>
 </div>
