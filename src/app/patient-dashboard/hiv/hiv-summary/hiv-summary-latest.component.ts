@@ -1,12 +1,6 @@
 /* tslint:disable:no-inferrable-types */
 import { take } from 'rxjs/operators/take';
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  SimpleChanges
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
