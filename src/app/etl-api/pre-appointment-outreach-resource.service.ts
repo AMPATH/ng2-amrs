@@ -27,6 +27,9 @@ export class PreAppointmentOutreachResourceService {
     if (params.processOutcome === 0) {
       urlParams = urlParams.set('failedOutcome', '1');
     }
+    if (params.processOutcome === 2) {
+      urlParams = urlParams.set('unknownOutcome', '0');
+    }
 
     const url = this.getUrl('ml-weekly-predictions');
     const request = this.http

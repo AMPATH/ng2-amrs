@@ -32,11 +32,13 @@ export class PreAppointmentOutreachComponent implements OnInit {
   private ALL = 'All';
   private FOLLOW_UP_SUCCESSFUL = 'Follow-up Successful';
   private FAILED_FOLLOW_UP_ATTEMPT = 'Failed Follow-up Attempt';
+  private NO_FOLLOW_UP_ATTEMPT = 'Follow-up Not Attempted';
 
   public filterTypeOptions: any[] = [
     this.ALL,
     this.FOLLOW_UP_SUCCESSFUL,
-    this.FAILED_FOLLOW_UP_ATTEMPT
+    this.FAILED_FOLLOW_UP_ATTEMPT,
+    this.NO_FOLLOW_UP_ATTEMPT
   ];
   public selectedFilterType = 'All'; // defaults to All
   // TODO refactor this later
@@ -101,6 +103,11 @@ export class PreAppointmentOutreachComponent implements OnInit {
         this.mappedSelectedFilterType = 0;
         this.explainedFilterType =
           'Patient for whom follow-up attempts have been unsuccessful.';
+        break;
+      case this.NO_FOLLOW_UP_ATTEMPT:
+        this.mappedSelectedFilterType = 2;
+        this.explainedFilterType =
+          'Patients for whom there has been no follow-up attempt.';
         break;
       default:
         this.explainedFilterType = '';
