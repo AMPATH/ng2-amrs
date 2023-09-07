@@ -190,6 +190,11 @@
       },
       {
         "filterType": "tableColumns",
+        "conditionExpression": "(if((pre.is_successful_phone_follow_up IS NULL AND pre.attempted_home_visit IS NULL AND pre.was_client_found IS NULL), 0, 1)) = ?",
+        "parameterName": "unknownOutcome"
+      },
+      {
+        "filterType": "tableColumns",
         "conditionExpression": "ml.predicted_risk is not null"
       }
     ]
