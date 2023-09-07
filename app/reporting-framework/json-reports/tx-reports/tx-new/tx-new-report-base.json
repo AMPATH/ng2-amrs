@@ -463,7 +463,7 @@
       "alias": "total",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((hm.enrolled_this_month = 1),1,0)"
+        "expression": "if((hm.started_art_this_month = 1),1,0)"
       }
     }
   ],
@@ -482,7 +482,7 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "hm.enrolled_this_month = 1"
+        "conditionExpression": "hm.started_art_this_month = 1"
       }
     ]
   },
