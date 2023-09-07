@@ -169,7 +169,6 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if (data) {
-            console.log('latest-data: ', data);
             for (const summary of data) {
               // check if encounter is clinical
               if (summary.is_clinical_encounter === 1) {
