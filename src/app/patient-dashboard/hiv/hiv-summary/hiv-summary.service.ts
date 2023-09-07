@@ -24,7 +24,7 @@ export class HivSummaryService {
       .getHivSummary(
         patientUuid,
         startIndex,
-        limit,
+        this.limit,
         includeNonClinicalEncounter,
         isHEIActive
       )
