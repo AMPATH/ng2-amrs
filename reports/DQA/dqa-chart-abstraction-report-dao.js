@@ -110,9 +110,7 @@ export class DQAChartAbstractionDAO {
           LEFT JOIN
           amrs.patient_identifier np ON (t1.person_id = np.patient_id and np.identifier_type in (45) AND np.voided = 0)
         left join amrs.patient_program p on (p.patient_id = h.person_id and p.program_id in (4,9) and p.date_completed is null and p.voided = 0)
-        WHERE h.status = "active"
-        AND e.height IS NOT NULL
-        AND e.weight IS NOT NULL
+        WHERE h.status = "active" and visit_this_month=1 
       AND h.endDate >= '` +
       startDate +
       `'
