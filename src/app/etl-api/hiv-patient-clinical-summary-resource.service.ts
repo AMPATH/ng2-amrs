@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import * as Moment from 'moment';
 @Injectable()
 export class HivPatientClinicalSummaryResourceService {
   constructor(
