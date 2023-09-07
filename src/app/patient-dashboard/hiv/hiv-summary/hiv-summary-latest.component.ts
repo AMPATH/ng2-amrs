@@ -169,7 +169,6 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if (data) {
-            this.loadingHivSummary = true;
             for (const summary of data) {
               // check if encounter is clinical
               if (summary.is_clinical_encounter === 1) {
@@ -370,22 +369,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   }
 
   public getLastPCRDate(): string {
-    let last_pcr_date: string = '';
-
-    if (this.hivSummary.hiv_dna_pcr_date !== null) {
-      last_pcr_date = this.hivSummary.hiv_dna_pcr_date;
-    } else if (this.hivSummary.hiv_dna_pcr_4_date !== null) {
-      last_pcr_date = this.hivSummary.hiv_dna_pcr_4_date;
-    } else if (this.hivSummary.hiv_dna_pcr_3_date !== null) {
-      last_pcr_date = this.hivSummary.hiv_dna_pcr_3_date;
-    } else if (this.hivSummary.hiv_dna_pcr_2_date !== null) {
-      last_pcr_date = this.hivSummary.hiv_dna_pcr_2_date;
-    } else if (this.hivSummary.hiv_dna_pcr_1_date !== null) {
-      last_pcr_date = this.hivSummary.hiv_dna_pcr_1_date;
-    } else {
-      return '';
-    }
-
+    const last_pcr_date = this.hivSummary.hiv_dna_pcr_date;
     return last_pcr_date.slice(0, 10);
   }
 

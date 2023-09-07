@@ -263,9 +263,10 @@
       {{
         (hivSummary?.prev_rtc_date < 0
           ? hivSummary?.date_enrolled
-          : hivSummary?.prev_rtc_date
+          : hivSummary?.encounter_datetime
         ) | date: 'dd-MM-yyyy'
       }}
+      ({{ hivSummary?.encounter_type_name }})
     </li>
     <li class="list-group-item" style="font-size: large">
       RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
