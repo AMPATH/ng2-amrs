@@ -62,6 +62,10 @@ export class PatientRoutesFactory {
     model.renderingInfo = {
       icon: 'fa fa-square-o'
     };
+    if (routInfo.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b') {
+      routInfo.routes[3].label = 'HEI Summary';
+      routInfo.routes[3].icon = 'fa fa-child';
+    }
     this.createProgramChildRoutes(routInfo.routes, model);
     return model;
   }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-
 @Injectable()
 export class HivPatientClinicalSummaryResourceService {
   constructor(
@@ -10,7 +9,10 @@ export class HivPatientClinicalSummaryResourceService {
     protected appSettingsService: AppSettingsService
   ) {}
 
-  public fetchPatientSummary(patientUuid: string): Observable<any> {
+  public fetchPatientSummary(
+    patientUuid: string,
+    isHEIActive?: any
+  ): Observable<any> {
     const api: string =
       this.appSettingsService.getEtlServer() +
       '/patient/' +
@@ -18,8 +20,9 @@ export class HivPatientClinicalSummaryResourceService {
       '/hiv-patient-clinical-summary';
 
     const params: HttpParams = new HttpParams()
-      .set('startIndex', (0 as any) as string)
-      .set('limit', (20 as any) as string);
+      .set('startIndex', '0')
+      .set('limit', '20')
+      .set('isHEIActive', isHEIActive ? isHEIActive.toSting() : '');
 
     return this.http.get(api, { params: params });
   }

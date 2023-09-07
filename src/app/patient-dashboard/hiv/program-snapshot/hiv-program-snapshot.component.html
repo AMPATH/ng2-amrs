@@ -69,7 +69,7 @@
           >
         </p>
       </div>
-      <div class="alert-div" style="display: inline-block">
+      <div *ngIf="!isHEIActive" class="alert-div" style="display: inline-block">
         <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
           <span class="hiv-alert" [style.background-color]="viralloadColor"
             >VL Category: {{ this.viralLoadCategory }}</span
@@ -81,17 +81,36 @@
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width">
-          <p>Location: {{ latestEncounterLocation?.name }}</p>
+          <p>
+            Location:
+            {{
+              latestEncounterLocation?.name
+                ? latestEncounterLocation?.name
+                : patientData.clinic
+            }}
+          </p>
         </div>
       </div>
       <div class="snapshot-body">
         <div class="col-md-12">
-          <div class="col-md-6 col-xs-12">
+          <div
+            [ngClass]="
+              isHEIActive === true
+                ? 'col-md-12 col-xs-12'
+                : 'col-md-6 col-xs-12'
+            "
+          >
             <p>
               Date: {{ patientData?.encounter_datetime | date: 'dd-MM-yyyy' }}
             </p>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div
+            [ngClass]="
+              isHEIActive === true
+                ? 'col-md-12 col-xs-12'
+                : 'col-md-6 col-xs-12'
+            "
+          >
             <p>
               Type:
               {{
@@ -106,7 +125,7 @@
           <div class="col-md-6 col-xs-12">
             <p>ARV Regimen: {{ patientData?.cur_arv_meds }}</p>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12" *ngIf="!isHEIActive">
             <p [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }">
               Last Viral Load: {{ patientData?.latest_vl | zeroVl }}
               <ng-container *ngIf="patientData.latest_vl !== undefined">
@@ -141,7 +160,7 @@
           <div class="col-md-6 col-xs-12">
             <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
 
-            <p>
+            <p *ngIf="!isHEIActive">
               Disclosure Status:
               <span style="text-transform: capitalize">
                 {{ hivDisclosureStatus }}
@@ -192,7 +211,10 @@
               </p>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
+          <div
+            class="col-md-6 col-xs-12"
+            *ngIf="showCareStatus && !isHEIActive"
+          >
             <p>
               Care Status:
               <span style="text-transform: capitalize">
