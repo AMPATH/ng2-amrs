@@ -1,0 +1,24 @@
+.collapsible-list {
+  list-style: none;
+  padding: 0;
+}
+
+.item-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #d9edf7;
+  border: 1px solid #00acd6;
+}
+
+.collapse-icon {
+  font-weight: bold;
+}
+
+.item-details {
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}

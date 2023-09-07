@@ -1,3 +1,29 @@
-<p>
-  drug-order-list works!
-</p>
+<mat-card>
+  <section>
+    <h4 class="text-capitalize">Drug Orders</h4>
+    <hr>
+    <ul class="collapsible-list">
+      <li *ngFor="let item of drugOrderlist">
+        <div class="item-header" (click)="toggleItem(item)">
+          Order No.: {{ item.orderNumber }} => Order date: {{ item.dateActivated | date:'dd/MM/yyyy' }};
+          <span class="collapse-icon">{{ item.isCollapsed ? '+' : '-' }}</span>
+        </div>
+        <div class="item-details" [hidden]="item.isCollapsed">
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Order Details</h5>
+                <hr>                
+                <p>Details: {{ item.display}}</p>
+                <p>Details: {{ item.display}}</p>
+                <p>Details: {{ item.display}}</p>
+              </div>
+              <div class="col-md-8">
+                <p>Weka table</p>
+              </div>
+            </div>
+        </div>
+        <br>
+      </li>
+    </ul>
+  </section>
+</mat-card>

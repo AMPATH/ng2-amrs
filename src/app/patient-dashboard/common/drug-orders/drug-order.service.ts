@@ -55,4 +55,13 @@ export class DrugOrderService {
 
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
+
+  public getOrdersForPatient(patientUuid: string): Observable<any> {
+    const url = `https://ngx.ampath.or.ke/amrs/ws/rest/v1/order?patient=${patientUuid}`;
+    return this.http.get(url);
+  }
+
+  public getDetailsFromLink(linkUri: string): Observable<any> {
+    return this.http.get(linkUri);
+  }
 }
