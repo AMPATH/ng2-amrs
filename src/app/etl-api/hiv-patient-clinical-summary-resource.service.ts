@@ -22,7 +22,7 @@ export class HivPatientClinicalSummaryResourceService {
     const params: HttpParams = new HttpParams()
       .set('startIndex', '0')
       .set('limit', '20')
-      .set('isHEIActive', isHEIActive ? isHEIActive.toSting() : '');
+      .set('isHEIActive', (isHEIActive as any) as string);
 
     return this.http.get(api, { params: params });
   }
