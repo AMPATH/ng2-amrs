@@ -128,14 +128,13 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     this.processPatientIdentifiers().then((identifiers: any) => {
       this.patientIdentifers = identifiers;
     });
-    this.isHEIActive = this.order.patient.enrolledPrograms.some((program) => {
-      return (
-        program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
-        program.isEnrolled === true
-      );
-    });
     this.patient = this.order.patient;
     this.person = new Person(this.order.patient.person);
+    if (Moment().diff(Moment(this.person.birthdate), 'months') <= 18) {
+      this.isHEIActive = true;
+    } else {
+      this.isHEIActive = false;
+    }
     this.searchIdentifiers = this.labOrdersSearchHelperService.searchIdentifiers(
       this.order.patient.identifiers
     );
