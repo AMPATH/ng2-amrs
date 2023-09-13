@@ -278,11 +278,29 @@
       Current weight (kg):
       {{ hivSummary?.weight !== null ? hivSummary?.weight : 'NONE' }}
     </li>
-    <li class="list-group-item" style="font-size: large">
+    <!-- <li class="list-group-item" style="font-size: large">
       Last PCR status: {{ lastPCRStatus }}
     </li>
     <li class="list-group-item" style="font-size: large">
       Last PCR Date: {{ lastPCRDate | date: 'dd-MM-yyyy' }}
+    </li> -->
+    <li *ngIf="hivSummary?.hiv_dna_pcr_1" class="list-group-item" style="font-size: large">
+      PCR 1
+      <div>Age PCR Done: {{ pcrSnapShop?.hiv_dna_pcr_1_at }}M</div>
+      <div>PCR Results: {{ pcrSnapShop?.hiv_dna_pcr_1}}</div>
+      <div>Date Done: {{hivSummary?.hiv_dna_pcr_1_date | date: 'dd-MM-yyyy' }}</div>
+    </li>
+    <li *ngIf="hivSummary?.hiv_dna_pcr_2" class="list-group-item" style="font-size: large">
+      PCR 2
+      <div>Age PCR Done: {{ pcrSnapShop?.hiv_dna_pcr_2_at }}M</div>
+      <div>PCR Results: {{ pcrSnapShop?.hiv_dna_pcr_2}}</div>
+      <div>Date Done: {{hivSummary?.hiv_dna_pcr_2_date | date: 'dd-MM-yyyy' }}</div>
+    </li>
+    <li *ngIf="hivSummary?.hiv_dna_pcr_3" class="list-group-item" style="font-size: large">
+      PCR 3
+      <div>Age PCR Done: {{ pcrSnapShop?.hiv_dna_pcr_3_at }}M</div>
+      <div>PCR Results: {{ pcrSnapShop?.hiv_dna_pcr_3 }}</div>
+      <div>Date Done: {{hivSummary?.hiv_dna_pcr_3_date | date: 'dd-MM-yyyy' }}</div>
     </li>
     <li class="list-group-item" style="font-size: large">
       Current ART Prophylaxis: {{ hivSummary?.cur_arv_meds }}

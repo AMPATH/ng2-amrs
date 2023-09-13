@@ -58,6 +58,14 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   public infantFeedingMethod: string;
   public heiOutCome: string;
   public pcpProphylaxis: string;
+  public pcrSnapShop = {
+    hiv_dna_pcr_1: null,
+    hiv_dna_pcr_1_at: null,
+    hiv_dna_pcr_2: null,
+    hiv_dna_pcr_2_at: null,
+    hiv_dna_pcr_3: null,
+    hiv_dna_pcr_3_at: null
+  };
 
   constructor(
     private hivSummaryService: HivSummaryService,
@@ -238,11 +246,13 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
               this.hivSummary.vl_1 = filtered.vl_1;
             }
             if (this.isHEIActive) {
+              console.log(this.hivSummary);
               this.lastPCRDate = this.getLastPCRDate();
               this.lastPCRStatus = this.getLastPCRStatus();
               this.infantFeedingMethod = this.getInfantFeedingMethod();
               this.heiOutCome = this.getHEIOutcome();
               this.pcpProphylaxis = this.getPCPprophylaxis();
+              this.getHEIPCRSnapshot();
             }
           }
           this.getPatientEligibility(this.hivSummary);
@@ -468,5 +478,51 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
       return 'SEPTRIN';
     }
     return 'NONE';
+  }
+
+  private pcr_status_helper(pcr_status: number): string {
+    if (pcr_status === 664) {
+      return 'NEGATIVE';
+    } else if (pcr_status === 703) {
+      return 'POSITIVE';
+    } else if (pcr_status === 1118) {
+      return 'NOT DONE';
+    } else if (pcr_status === 1138) {
+      return 'INDETERMINATE';
+    } else if (pcr_status === 1304) {
+      return 'POOR SAMPLE QUALITY';
+    } else {
+      return 'NONE';
+    }
+  }
+
+  private calculate_age_by_pcr_date(pcr_date: string): number {
+    const age = Moment(pcr_date).diff(
+      Moment(this.hivSummary.birth_date),
+      'months'
+    );
+    return age;
+  }
+
+  public getHEIPCRSnapshot(): void {
+    this.pcrSnapShop.hiv_dna_pcr_1 = this.pcr_status_helper(
+      this.hivSummary.hiv_dna_pcr_1
+    );
+    this.pcrSnapShop.hiv_dna_pcr_2 = this.pcr_status_helper(
+      this.hivSummary.hiv_dna_pcr_2
+    );
+    this.pcrSnapShop.hiv_dna_pcr_3 = this.pcr_status_helper(
+      this.hivSummary.hiv_dna_pcr_3
+    );
+
+    this.pcrSnapShop.hiv_dna_pcr_1_at = this.calculate_age_by_pcr_date(
+      this.hivSummary.hiv_dna_pcr_1_date
+    );
+    this.pcrSnapShop.hiv_dna_pcr_2_at = this.calculate_age_by_pcr_date(
+      this.hivSummary.hiv_dna_pcr_2_date
+    );
+    this.pcrSnapShop.hiv_dna_pcr_3_at = this.calculate_age_by_pcr_date(
+      this.hivSummary.hiv_dna_pcr_3_date
+    );
   }
 }
