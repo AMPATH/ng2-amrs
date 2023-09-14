@@ -60,13 +60,15 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title pull-left">INFORMATION</h4>
+            <div class="modal-nav-header">
+            <h4 class="modal-title pull-left py-4">LOCATOR MAP INFO</h4>
             <button type="button" class="close pull-right" aria-label="Close" 
              (click)="staticModal.hide()" data-dismiss="modal">
              <span aria-hidden="true">&times;</span>
             </button>
+            </div>
             <div>
-              <pretty-encounter-viewer class="modal-pretty" [encounter]="patientLocatorEncounter">
+              <pretty-encounter-viewer class="modal-pretty" [encounter]="patientLocatorEncounter" [fromLocatorMap]=true>
               </pretty-encounter-viewer>
             </div>
           </div>

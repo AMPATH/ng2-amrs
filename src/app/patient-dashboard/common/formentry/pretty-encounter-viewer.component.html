@@ -1,10 +1,15 @@
 <div *ngIf="form && selectedEncounter && !error" id="encounter" >
-  <encounter-renderer
+  <div *ngIf="fromLocatorMap">
+    <app-locator-pretty-viewer [locatorData]="locatorData"></app-locator-pretty-viewer>
+  </div>
+  <div *ngIf="!fromLocatorMap">
+    <encounter-renderer
     [encounter]="selectedEncounter"
     [form]="form"
-  > </encounter-renderer>
+   > 
+</encounter-renderer>
+  </div>
 </div>
-
 <div *ngIf="error" class="text-center">
   {{ errorMessage }}
 </div>
