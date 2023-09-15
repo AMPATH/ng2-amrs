@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-locator-pretty-viewer',
@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LocatorPrettyViewerComponent implements OnInit {
   @Input() locatorData: any;
+
   data: any;
   constructor() {}
 

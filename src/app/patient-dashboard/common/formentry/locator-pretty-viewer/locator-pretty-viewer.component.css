@@ -23,3 +23,14 @@ p {
   margin-top: 18px;
   width: 100%;
 }
+
+.wrapper {
+  padding-bottom: 32px;
+}
+
+.btn-print {
+  font-size: 24px;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+}
