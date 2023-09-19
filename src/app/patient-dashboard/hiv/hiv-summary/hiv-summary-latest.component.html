@@ -7,7 +7,7 @@
   {{ error.message }}
 </div>
 
-<div>
+<div *ngIf="!isHEIActive">
   <ul class="list-group">
     <li
       *ngIf="eligiblePatient"
@@ -36,7 +36,7 @@
     <li
       *ngIf="
         covid19VaccinationSummary &&
-        covid19VaccinationSummary.vaccination_status.length > 0
+        covid19VaccinationSummary?.vaccination_status?.length > 0
       "
       class="list-group-item"
       style="font-size: large"
@@ -75,7 +75,8 @@
     <li
       *ngIf="
         covid19VaccinationSummary &&
-        covid19VaccinationSummary.covid_screening_outcome_this_visit.length > 0
+        covid19VaccinationSummary?.covid_screening_outcome_this_visit?.length >
+          0
       "
       class="list-group-item"
       style="font-size: large"
@@ -252,6 +253,48 @@
     >
       Cervical Cancer Screening Result:
       {{ latestCervicalScreeningSummary?.via_test_result }}
+    </li>
+  </ul>
+</div>
+<div *ngIf="isHEIActive">
+  <ul class="list-group">
+    <li class="list-group-item" style="font-size: large">
+      Last Appt Date:
+      {{
+        (hivSummary?.prev_rtc_date < 0
+          ? hivSummary?.date_enrolled
+          : hivSummary?.encounter_datetime
+        ) | date: 'dd-MM-yyyy'
+      }}
+      ({{ hivSummary?.encounter_type_name }})
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Date of enrollment: {{ hivSummary?.date_enrolled | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Current weight (kg):
+      {{ hivSummary?.weight !== null ? hivSummary?.weight : 'NONE' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Last PCR status: {{ lastPCRStatus }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Last PCR Date: {{ lastPCRDate | date: 'dd-MM-yyyy' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Current ART Prophylaxis: {{ hivSummary?.cur_arv_meds }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Current PCP Prophylaxis: {{ pcpProphylaxis }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Infant Feeding Method: {{ infantFeedingMethod }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      HEI outcome at 18 months: {{ heiOutCome }}
     </li>
   </ul>
 </div>

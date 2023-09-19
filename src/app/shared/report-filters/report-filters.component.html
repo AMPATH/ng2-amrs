@@ -431,6 +431,37 @@
         </div>
         <div class="clear-fix clear"></div>
       </div>
+      <div class="date-range" *ngIf="isEnabled('quarterlyControl')">
+        <div class="form-group col-md-6">
+          <div class="form-row">
+            <label for="year">Reporting Period: </label>
+            <ng-select
+              [items]="years"
+              bindLabel="name"
+              bind
+              placeholder="Select period"
+              [(ngModel)]="selectedYear"
+              (change)="checkYear(selectedYear)"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="form-row">
+            <label for="quarter">Quarter: </label>
+            <ng-select
+              [items]="quarters"
+              bindLabel="name"
+              bind
+              placeholder="Select quarter"
+              [(ngModel)]="selectedQuarter"
+              (change)="onQuarterChange(selectedQuarter)"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="clear-fix clear"></div>
+      </div>
     </div>
   </div>
   <div

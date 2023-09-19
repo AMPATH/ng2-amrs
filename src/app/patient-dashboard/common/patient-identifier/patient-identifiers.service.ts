@@ -160,6 +160,18 @@ export class PatientIdentifierService {
         format: '^\\d{5}-\\d{4}-\\d{5}$',
         checkdigit: 0,
         val: '91099b3f-69be-4607-a309-bd358d85af46'
+      },
+      {
+        label: 'ANC/PNC',
+        format: '^\\d{4}/\\d{2}/\\d{5}$',
+        checkdigit: 0,
+        val: 'f2668649-1fc9-4c09-94b0-6db2655729ec'
+      },
+      {
+        label: 'Maternity',
+        format: '^\\d{4}/\\d{2}/\\d{5}$',
+        checkdigit: 0,
+        val: '328d1e06-268c-4a6b-b292-c15e12c470c9'
       }
     ];
   }

@@ -1,38 +1,36 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "chrome",
-            "request": "attach",
-            "name": "Unit tests",
-            "address": "localhost",
-            "port": 9333,
-            "sourceMaps": true,
-            "webRoot": "${workspaceRoot}"
-        },
-        {
-            "name": "ng serve",
-            "type": "chrome",
-            "request": "launch",
-            "url": "http://localhost:3000/#",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "name": "npm run test",
-            "type": "chrome",
-            "request": "launch",
-            "url": "http://localhost:9876/debug.html",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "name": "ng e2e",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceFolder}/node_modules/protractor/bin/protractor",
-            "protocol": "inspector",
-            "args": [
-                "${workspaceFolder}/e2e/protractor.conf.js"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Unit tests",
+      "address": "localhost",
+      "port": 9333,
+      "sourceMaps": true,
+      "webRoot": "${workspaceRoot}"
+    },
+    {
+      "name": "ng serve",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/#",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "npm run test",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:9876/debug.html",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "ng e2e",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/protractor/bin/protractor",
+      "protocol": "inspector",
+      "args": ["${workspaceFolder}/e2e/protractor.conf.js"]
+    }
+  ]
 }

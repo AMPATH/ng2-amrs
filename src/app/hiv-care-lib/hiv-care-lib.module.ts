@@ -122,6 +122,17 @@ import { Covid19ReportComponent } from './covid-19-report/covid-19-report.compon
 import { Covid19ReportFiltersComponent } from './covid-19-report/covid-19-report-filters/covid-19-report-filters.component';
 import { Covid19ReportPatientListComponent } from './covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
 import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-view/covid-19-tabular-view.component';
+import { TxMlReportBaseComponent } from './tx-ml-report/tx-ml-report-base/tx-ml-report-base.component';
+import { TxMlReportPatientListComponent } from './tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
+import { TxMlReportViewComponent } from './tx-ml-report/tx-ml-report-view/tx-ml-report-view.component';
+import { TxNewReportBaseComponent } from './tx-new-report/tx-new-report-base/tx-new-report-base.component';
+import { TxNewReportPatientListComponent } from './tx-new-report/tx-new-report-patient-list/tx-new-report-patient-list.component';
+import { TxCurrReportBaseComponent } from './tx-curr-report/tx-curr-report-base/tx-curr-report-base.component';
+import { TxCurrReportPatientListComponent } from './tx-curr-report/tx-curr-report-patient-list/tx-curr-report-patient-list.component';
+import { TxMmdReportBaseComponent } from './tx-mmd-report/tx-mmd-report-base/tx-mmd-report-base.component';
+import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
+import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
+import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 
 @NgModule({
   imports: [
@@ -216,7 +227,8 @@ import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-
     Covid19ReportComponent,
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
-    Covid19TabularViewComponent
+    Covid19TabularViewComponent,
+    TxMlReportViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -288,7 +300,18 @@ import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-
     Covid19ReportComponent,
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
-    Covid19TabularViewComponent
+    Covid19TabularViewComponent,
+    TxMlReportBaseComponent,
+    TxMlReportPatientListComponent,
+    TxMlReportViewComponent,
+    TxNewReportBaseComponent,
+    TxNewReportPatientListComponent,
+    TxCurrReportBaseComponent,
+    TxCurrReportPatientListComponent,
+    TxMmdReportBaseComponent,
+    TxMmdReportPatientListComponent,
+    TxRttReportBaseComponent,
+    TxRttReportPatientListComponent
   ],
   providers: [
     MOHReportService,

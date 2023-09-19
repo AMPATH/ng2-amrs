@@ -30,6 +30,7 @@ interface Covid19StatusSummary {
 })
 export class HivSummaryLatestComponent implements OnInit, OnDestroy {
   @Input() patientUuid: string;
+  @Input() isHEIActive: boolean = false;
   public loadingHivSummary: boolean = false;
   public hivSummary: any;
   public subscription: Subscription[] = [];
@@ -52,6 +53,11 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
     second_dose_vaccine_administered: '',
     covid_screening_outcome_this_visit: ''
   };
+  public lastPCRDate: string;
+  public lastPCRStatus: string;
+  public infantFeedingMethod: string;
+  public heiOutCome: string;
+  public pcpProphylaxis: string;
 
   constructor(
     private hivSummaryService: HivSummaryService,
@@ -159,7 +165,7 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   public loadHivSummary(patientUuid) {
     const summarySub = this.hivSummaryService
-      .getHivSummary(patientUuid, 0, 1, false)
+      .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe(
         (data) => {
           if (data) {
@@ -181,15 +187,25 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
                 if (summary.ipt_start_date != null) {
                   switch (summary.tb_prophylaxis_medication) {
                     case '607':
-                      this.iptProphylaxisMedication = '3HP';
+                      this.iptProphylaxisMedication =
+                        'Isoniazid 300mg and Rifapentine 300mg (3HP)';
                       break;
                     case '608':
+                      this.iptProphylaxisMedication =
+                        'Rifampicin 70mg and Isonaizid 50mg (3RH)';
+                      break;
                     case '282':
-                      this.iptProphylaxisMedication = '3RH';
+                      this.iptProphylaxisMedication =
+                        'Rifampicin 150mg and Isonaizid 75mg (3RH)';
+                      break;
+                    case '59':
+                      this.iptProphylaxisMedication = 'Isoniazid 100mg (6H)';
+                      break;
+                    case '60':
+                      this.iptProphylaxisMedication = 'Isoniazid 300mg (6H)';
                       break;
                     default:
-                      this.iptProphylaxisMedication = 'Isoniazid';
-                      break;
+                      this.iptProphylaxisMedication = '';
                   }
                 }
                 break;
@@ -220,6 +236,13 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
               //   Replace the lab data with latest lab results that may not be clinical
               this.hivSummary.vl_1_date = filtered.vl_1_date;
               this.hivSummary.vl_1 = filtered.vl_1;
+            }
+            if (this.isHEIActive) {
+              this.lastPCRDate = this.getLastPCRDate();
+              this.lastPCRStatus = this.getLastPCRStatus();
+              this.infantFeedingMethod = this.getInfantFeedingMethod();
+              this.heiOutCome = this.getHEIOutcome();
+              this.pcpProphylaxis = this.getPCPprophylaxis();
             }
           }
           this.getPatientEligibility(this.hivSummary);
@@ -270,7 +293,10 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
 
   private getPatientEligibility(summary) {
     if (summary) {
-      if (this.patient.person.gender === 'M') {
+      if (this.isHEIActive) {
+        this.ineligibiltyReason = 'An Infant';
+        this.eligiblePatient = false;
+      } else if (this.patient.person.gender === 'M') {
         this.ineligibiltyReason = 'Male Patient';
         this.eligiblePatient = false;
       } else if (
@@ -340,5 +366,107 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
           this.covid19VaccinationSummary = result;
         }
       });
+  }
+
+  public getLastPCRDate(): string {
+    let last_pcr_date: string = '';
+
+    if (this.hivSummary.hiv_dna_pcr_4_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_4_date;
+    } else if (this.hivSummary.hiv_dna_pcr_3_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_3_date;
+    } else if (this.hivSummary.hiv_dna_pcr_2_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_2_date;
+    } else if (this.hivSummary.hiv_dna_pcr_1_date !== null) {
+      last_pcr_date = this.hivSummary.hiv_dna_pcr_1_date;
+    } else {
+      return '';
+    }
+
+    return last_pcr_date;
+  }
+
+  public getLastPCRStatus(): string {
+    let last_pcr_status: number;
+
+    if (this.hivSummary.hiv_dna_pcr_resulted !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_resulted;
+    } else if (this.hivSummary.hiv_dna_pcr_4 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_4;
+    } else if (this.hivSummary.hiv_dna_pcr_3 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_3;
+    } else if (this.hivSummary.hiv_dna_pcr_2 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_2;
+    } else if (this.hivSummary.hiv_dna_pcr_1 !== null) {
+      last_pcr_status = this.hivSummary.hiv_dna_pcr_1;
+    } else {
+      last_pcr_status = null;
+    }
+    if (last_pcr_status === 664) {
+      return 'NEGATIVE';
+    } else if (last_pcr_status === 703) {
+      return 'POSITIVE';
+    } else if (last_pcr_status === 1118) {
+      return 'NOT DONE';
+    } else if (last_pcr_status === 1138) {
+      return 'INDETERMINATE';
+    } else if (last_pcr_status === 1304) {
+      return 'POOR SAMPLE QUALITY';
+    } else {
+      return 'NONE';
+    }
+  }
+
+  public getInfantFeedingMethod(): string {
+    const INFANT_FEEDING_METHODS = [
+      'NONE',
+      'EXPRESSED BREASTMILK',
+      'WEANED',
+      'INFANT FORMULA',
+      'BREASTFEEDING PREDOMINATELY',
+      'MIXED FEEDING',
+      'BREASTFEEDING EXCLUSIVELY',
+      'COW MILK',
+      'REGULAR FOOD',
+      'BREASTFEEDING',
+      'LIQUID FOODS OTHER THAN BREAST MILK',
+      'WATER',
+      'SOLID FOOD',
+      'UJI',
+      'OTHER NON-CODED',
+      'COMPLEMENTARY FEEDING',
+      'PLUMPY NUT',
+      'NEVER BREASTFED',
+      'CHILD ON REPLACEMENT FEEDING'
+    ];
+
+    return INFANT_FEEDING_METHODS[this.hivSummary.infant_feeding_method];
+  }
+
+  public getHEIOutcome(): string {
+    const HEI_OUT_COME = [
+      '',
+      'PATIENT TRANSFERRED OUT',
+      'LOST TO FOLLOWUP',
+      'PATIENT DIED',
+      'OTHER NON-CODED',
+      'DISCHARGED AT 18 MONTHS',
+      'HIV COMPREHENSIVE CARE UNIT'
+    ];
+
+    const index =
+      this.hivSummary.hei_outcome !== null ? this.hivSummary.hei_outcome : 0;
+
+    return HEI_OUT_COME[index];
+  }
+  public getPCPprophylaxis(): string {
+    const pcp = this.hivSummary.pcp_prophylaxis;
+    if (pcp === 92) {
+      return 'ACZONE';
+    }
+    if (pcp === 916) {
+      return 'SEPTRIN';
+    }
+    return 'NONE';
   }
 }

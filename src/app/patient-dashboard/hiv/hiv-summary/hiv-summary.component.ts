@@ -4,6 +4,7 @@ import { HivSummaryService } from './hiv-summary.service';
 import { PatientService } from '../../services/patient.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import * as Moment from 'moment';
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 @Component({
   selector: 'app-hiv-summary',
@@ -16,7 +17,11 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   patientUuid: string;
   gbvScreeningLabel: String;
   gbvScreeningResult: any;
+  age: any;
+  patient: any;
   public subscription = new Subscription();
+
+  isHEIActive = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -26,15 +31,23 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.loadHivSummary();
     this.getPatient();
+    this.loadHivSummary();
   }
 
   public getPatient() {
     const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient) {
+          this.isHEIActive = patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.patientUuid = patient.person.uuid;
+          this.patient = patient;
+          this.age = Moment().diff(Moment(patient.person.birthdate), 'months');
           patient.person.age > 19
             ? (this.gbvScreeningLabel = 'GBV Screening')
             : (this.gbvScreeningLabel = 'VAC Screening');
@@ -50,7 +63,13 @@ export class HivSummaryComponent implements OnInit, OnDestroy {
   public loadHivSummary() {
     this.patientService.currentlyLoadedPatientUuid
       .flatMap((patientUuid) =>
-        this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false)
+        this.hivSummaryService.getHivSummary(
+          patientUuid,
+          0,
+          1,
+          false,
+          this.isHEIActive
+        )
       )
       .subscribe((data: any) => {
         if (data) {
