@@ -1,4 +1,4 @@
-<div *ngIf="data" class="wrapper-container">
+<div *ngIf="data" class="wrapper-container" id="wrapper-container">
   <div>
     <div class="wrapper">
       <span _ngcontent-c44="" (click)="generatePDF()" class="btn-print glyphicon text-primary glyphicon-print "></span>
@@ -85,36 +85,41 @@
           <tbody>
             <tr>
               <td>
-                <strong>Official name of client : </strong> Test Mutwol Test
+                <strong>Official name of client : </strong> 
+                {{extractValueFromDisplay(data.person?.attributes[26]?.display)}}
               </td>
-              <td><strong>Name commonly called : </strong>Kimeli test</td>
+              <td><strong>Name commonly called : </strong>
+                {{extractValueFromDisplay(data.person?.attributes[31]?.display)}}
+              </td>
             </tr>
             <tr>
               <td>
-                <strong>{{ data.person?.attributes[3]?.display }}</strong>
+                <strong>Tribe : </strong>
+                {{ extractValueFromDisplay(data.person?.attributes[3]?.display) }}
               </td>
               <td>
                 <strong>Phone number : </strong>
-                {{ data.person?.attributes[1]?.display }}
+                {{ extractValueFromDisplay(data.person?.attributes[1]?.display) }}
               </td>
             </tr>
             <tr>
               <td>
-                <strong>{{ data.person?.attributes[11]?.display }}</strong>
+                <strong>Alternative Phone No. :</strong>
+                {{ extractValueFromDisplay(data.person?.attributes[11]?.display) }}
               </td>
               <td>
                 <strong>Occupation : </strong
-                >{{ data.person?.attributes[13]?.display }}
+                >{{ extractValueFromDisplay(data.person?.attributes[13]?.display) }}
               </td>
             </tr>
             <tr>
               <td>
                 <strong>Relationship: </strong
-                >{{ data.person?.attributes[10]?.display }}
+                >{{ extractValueFromDisplay(data.person?.attributes[10]?.display) }}
               </td>
               <td>
-                <strong>Location </strong
-                >{{ data.person?.attributes[66]?.display }}
+                <strong>Location :</strong
+                >{{ extractValueFromDisplay(data.person?.attributes[66]?.display) }}
               </td>
             </tr>
           </tbody>
@@ -137,36 +142,34 @@
               <tr>
                 <td>
                   <strong>Town : </strong>
-                  {{ data.person.attributes[111]?.display }}
+                  {{ extractValueFromDisplay(data.person.attributes[111]?.display )}}
                 </td>
                 <td>
                   <strong>Institution/Business: </strong
-                  >{{ data.person?.attributes[110]?.display }}
+                  >{{ extractValueFromDisplay(data.person?.attributes[110]?.display) }}
                 </td>
               </tr>
               <tr>
                 <td>
                   <strong
-                    >Location :
-                    {{ data.person?.attributes[12]?.display }}</strong
-                  >
+                    >Location : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[12]?.display )}}
                 </td>
                 <td>
                   <strong>Department/section : </strong
-                  >{{ data.person?.attributes[18]?.display }}
+                  >{{ extractValueFromDisplay(data.person?.attributes[18]?.display )}}
                 </td>
               </tr>
               <tr>
                 <td>
                   <strong>well known name : </strong
-                  >{{ data.person?.attributes[112]?.display }}
+                  >{{ extractValueFromDisplay(data.person?.attributes[112]?.display) }}
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <!--
-    </div>
+        </div>     
+      </div>
     <div>
       <h6 class="header">Rural Direction</h6>
     </div>
@@ -182,19 +185,19 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>General route : </strong> {{data.person.attributes[20].display}}</td>
-              <td><strong>Nearest centre: </strong>{{data.person.attributes[69].display}}</td>
+              <td><strong>General route : </strong> {{ extractValueFromDisplay(data.person.attributes[20].display)}}</td>
+              <td><strong>Nearest centre: </strong>{{ extractValueFromDisplay(data.person.attributes[69].display)}}</td>
             </tr>
             <tr>
-              <td><strong>Stage : </strong>{{data.person.attributes[70].display}}</td>
-              <td><strong>Village : </strong> {{data.person.attributes[71].display}}</td>
+              <td><strong>Stage : </strong>{{ extractValueFromDisplay(data.person.attributes[70].display)}}</td>
+              <td><strong>Village : </strong> {{ extractValueFromDisplay(data.person.attributes[71].display)}}</td>
             </tr>
             <tr>
-              <td><strong>Nearest landmark : </strong>{{data.person.attributes[72].display}}</td>
-              <td><strong>Homestead name : </strong>{{data.person.attributes[73].display}}</td>
+              <td><strong>Nearest landmark : </strong>{{ extractValueFromDisplay(data.person.attributes[72].display)}}</td>
+              <td><strong>Homestead name : </strong>{{ extractValueFromDisplay(data.person.attributes[73].display)}}</td>
             </tr>
             <tr>
-              <td><strong>Whom to ask :</strong>{{data.person.attributes[74].display}}</td>
+              <td><strong>Whom to ask :</strong>{{ extractValueFromDisplay(data.person.attributes[74].display)}}</td>
             </tr>
           </tbody>
         </table>
@@ -215,31 +218,33 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>Town : </strong> {{data.person.attributes[66].display}}</td>
-              <td><strong>Estate: </strong>{{data.person.attributes[67].display}}</td>
+              <td><strong>Town : </strong> {{ extractValueFromDisplay(data.person.attributes[66].display)}}</td>
+              <td><strong>Estate: </strong>{{ extractValueFromDisplay(data.person.attributes[67].display)}}</td>
             </tr>
             <tr>
-              <td><strong>Stage : </strong>{{data.person.attributes[17].display}}</td>
-              <td><strong>Section : </strong> {{data.person.attributes[68].display}}</td>
+              <td><strong>Stage : </strong>{{ extractValueFromDisplay(data.person.attributes[17].display)}}</td>
+              <td><strong>Section : </strong> {{ extractValueFromDisplay(data.person.attributes[68].display)}}</td>
             </tr>
             <tr>
-              <td><strong>Nearest landmark : </strong>{{data.person.attributes[7].display}}</td>
-              <td><strong>Plot name: </strong>{{data.person.attributes[15].display}}</td>
+              <td><strong>Nearest landmark : </strong>{{ extractValueFromDisplay(data.person.attributes[7].display)}}</td>
+              <td><strong>Plot name: </strong>{{ extractValueFromDisplay(data.person.attributes[15].display)}}</td>
             </tr>
             <tr>
-              <td><strong>Landlord : </strong>{{data.person.attributes[16].display}}</td>
+              <td><strong>Landlord : </strong>{{ extractValueFromDisplay(data.person.attributes[16].display)}}</td>
               <td>
-                <strong>Nearest well known neighbor: </strong>{{data.person.attributes[14].display}}
+                <strong>Nearest well known neighbor: </strong>{{ extractValueFromDisplay(data.person.attributes[14].display)}}
               </td>
             </tr>
             <tr>
-              <td><strong>Whom to ask :</strong> 1222</td>
+              <td><strong>Whom to ask :</strong> 
+                {{extractValueFromDisplay(data.person.attributes[85].display)}}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div> -->
-      </div>
+    </div>
+    </div>
 
       <div class="self-container">
         <p>Spouse Details</p>
@@ -257,21 +262,21 @@
                 <tr>
                   <td>
                     <strong>Name of Spouse : </strong>
-                    {{ data.person?.attributes[4]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[4]?.display )}}
                   </td>
                   <td>
                     <strong>Name commonly called : </strong
-                    >{{ data.person?.attributes[76]?.display }}
+                    >{{ extractValueFromDisplay(data.person?.attributes[76]?.display) }}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Tribe : </strong
-                    >{{ data.person?.attributes[77]?.display }}
+                    >{{ extractValueFromDisplay(data.person?.attributes[77]?.display) }}
                   </td>
                   <td>
                     <strong>Phone number : </strong>
-                    {{ data.person?.attributes[5]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[5]?.display )}}
                   </td>
                 </tr>
               </tbody>
@@ -294,37 +299,37 @@
                   <tr>
                     <td>
                       <strong>General route : </strong>
-                      {{ data.person?.attributes[86]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[86]?.display) }}
                     </td>
                     <td>
                       <strong>Nearest centre: </strong
-                      >{{ data.person?.attributes[87]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[87]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Stage : </strong
-                      >{{ data.person?.attributes[88]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[88]?.display) }}
                     </td>
                     <td>
                       <strong>Village : </strong>
-                      {{ data.person?.attributes[89]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[89]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Nearest landmark : </strong
-                      >{{ data.person?.attributes[90]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[90]?.display) }}
                     </td>
                     <td>
                       <strong>Homestead name : </strong>
-                      {{ data.person?.attributes[91]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[91]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Whom to ask :</strong>
-                      {{ data.person?.attributes[92]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[92]?.display) }}
                     </td>
                   </tr>
                 </tbody>
@@ -348,47 +353,47 @@
                   <tr>
                     <td>
                       <strong>Town : </strong>
-                      {{ data.person?.attributes[78]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[78]?.display )}}
                     </td>
                     <td>
                       <strong>Estate: </strong
-                      >{{ data.person?.attributes[75]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[75]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Stage : </strong
-                      >{{ data.person?.attributes[79]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[79]?.display )}}
                     </td>
                     <td>
                       <strong>Section : </strong>
-                      {{ data.person?.attributes[80]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[80]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Nearest landmark : </strong
-                      >{{ data.person?.attributes[81]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[81]?.display )}}
                     </td>
                     <td>
                       <strong>Plot name: </strong
-                      >{{ data.person?.attributes[82]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[82]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Landlord : </strong
-                      >{{ data.person?.attributes[83]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[83]?.display )}}
                     </td>
                     <td>
                       <strong>Nearest well known neighbor: </strong
-                      >{{ data.person?.attributes[84]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[84]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Whom to ask :</strong
-                      >{{ data.person?.attributes[85]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[85]?.display )}}
                     </td>
                   </tr>
                 </tbody>
@@ -411,21 +416,21 @@
                 <tr>
                   <td>
                     <strong>Name of next of kin : </strong>
-                    {{ data.person?.attributes[2]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[2]?.display )}}
                   </td>
                   <td>
                     <strong>Name commonly called : </strong
-                    >{{ data.person?.attributes[34]?.display }}
+                    >{{ extractValueFromDisplay(data.person?.attributes[34]?.display) }}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Tribe : </strong>
-                    {{ data.person?.attributes[35]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[35]?.display) }}
                   </td>
                   <td>
                     <strong>Phone number : </strong>
-                    {{ data.person?.attributes[6]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[6]?.display )}}
                   </td>
                 </tr>
               </tbody>
@@ -448,37 +453,37 @@
                   <tr>
                     <td>
                       <strong>General route : </strong>
-                      {{ data.person?.attributes[96]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[96]?.display) }}
                     </td>
                     <td>
                       <strong>Nearest centre: </strong
-                      >{{ data.person?.attributes[36]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[36]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Stage : </strong
-                      >{{ data.person?.attributes[97]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[97]?.display) }}
                     </td>
                     <td>
                       <strong>Village : </strong>
-                      {{ data.person?.attributes[56]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[56]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Nearest landmark : </strong
-                      >{{ data.person?.attributes[98]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[98]?.display) }}
                     </td>
                     <td>
                       <strong>Homestead name : </strong>
-                      {{ data.person?.attributes[58]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[58]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Whom to ask :</strong
-                      >{{ data.person?.attributes[99]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[99]?.display) }}
                     </td>
                   </tr>
                 </tbody>
@@ -503,47 +508,47 @@
                   <tr>
                     <td>
                       <strong>Town : </strong>
-                      {{ data.person?.attributes[30]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[30]?.display) }}
                     </td>
                     <td>
                       <strong>Estate: </strong
-                      >{{ data.person?.attributes[57]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[57]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Stage : </strong
-                      >{{ data.person?.attributes[93]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[93]?.display) }}
                     </td>
                     <td>
                       <strong>Section : </strong>
-                      {{ data.person?.attributes[59]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[59]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Nearest landmark : </strong
-                      >{{ data.person?.attributes[64]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[64]?.display) }}
                     </td>
                     <td>
                       <strong>Plot name: </strong
-                      >{{ data.person?.attributes[38]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[38]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Landlord : </strong
-                      >{{ data.person?.attributes[94]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[94]?.display) }}
                     </td>
                     <td>
                       <strong>Nearest well known neighbor: </strong
-                      >{{ data.person?.attributes[37]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[37]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Whom to ask :</strong>
-                      {{ data.person?.attributes[95]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[95]?.display) }}
                     </td>
                   </tr>
                 </tbody>
@@ -566,26 +571,26 @@
                 <tr>
                   <td>
                     <strong>Treatment supporter name : </strong>
-                    {{ data.person?.attributes[8]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[8]?.display )}}
                   </td>
                   <td>
                     <strong>Common name: </strong
-                    >{{ data.person?.attributes[41]?.display }}
+                    >{{ extractValueFromDisplay(data.person?.attributes[41]?.display) }}
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Tribe : </strong>
-                    {{ data.person?.attributes[42]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[42]?.display) }}
                   </td>
                   <td>
                     <strong>Phone number : </strong>
-                    {{ data.person?.attributes[9]?.display }}
+                    {{ extractValueFromDisplay(data.person?.attributes[9]?.display )}}
                   </td>
                 </tr>
                 <tr>
-                  <td><strong>Relationship : </strong> grandParent</td>
-                  <td><strong>Religious affiliation: </strong> Protestant</td>
+                  <td><strong>Relationship : </strong> {{extractValueFromDisplay(data.person?.attributes[10]?.display)}}</td>
+                  <td><strong>Religious affiliation: </strong> {{extractValueFromDisplay(data.person?.attributes[49]?.display)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -605,37 +610,37 @@
                   <tr>
                     <td>
                       <strong>General route : </strong>
-                      {{ data.person?.attributes[103]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[103]?.display) }}
                     </td>
                     <td>
                       <strong>Nearest centre: </strong
-                      >{{ data.person?.attributes[44]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[44]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Stage : </strong
-                      >{{ data.person?.attributes[104]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[104]?.display) }}
                     </td>
                     <td>
                       <strong>Village : </strong>
-                      {{ data.person?.attributes[60]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[60]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Nearest landmark : </strong>
-                      {{ data.person?.attributes[105]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[105]?.display) }}
                     </td>
                     <td>
                       <strong>Homestead name : </strong>
-                      {{ data.person?.attributes[62]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[62]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Whom to ask :</strong
-                      >{{ data.person?.attributes[106]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[106]?.display) }}
                     </td>
                   </tr>
                 </tbody>
@@ -657,27 +662,27 @@
                   <tr>
                     <td>
                       <strong>Town : </strong>
-                      {{ data.person?.attributes[47]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[47]?.display )}}
                     </td>
                     <td>
                       <strong>Institution/Business: </strong
-                      >{{ data.person?.attributes[107]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[107]?.display) }}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Location : </strong
-                      >{{ data.person?.attributes[108]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[108]?.display) }}
                     </td>
                     <td>
                       <strong>Department/section : </strong>
-                      {{ data.person?.attributes[48]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[48]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>well known name : </strong
-                      >{{ data.person?.attributes[109]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[109]?.display) }}
                     </td>
                   </tr>
                 </tbody>
@@ -700,44 +705,44 @@
                   <tr>
                     <td>
                       <strong>Town : </strong>
-                      {{ data.person?.attributes[43]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[43]?.display )}}
                     </td>
                     <td>
                       <strong>Estate: </strong
-                      >{{ data.person?.attributes[63]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[63]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Stage : </strong
-                      >{{ data.person?.attributes[100]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[100]?.display) }}
                     </td>
                     <td>
                       <strong>Section : </strong>
-                      {{ data.person?.attributes[61]?.display }}
+                      {{ extractValueFromDisplay(data.person?.attributes[61]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Nearest landmark : </strong
-                      >{{ data.person?.attributes[65]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[65]?.display )}}
                     </td>
                     <td><strong>Plot name: </strong>Kwa Mohhamed</td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Landlord : </strong
-                      >{{ data.person?.attributes[101]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[101]?.display) }}
                     </td>
                     <td>
                       <strong>Nearest well known neighbor: </strong
-                      >{{ data.person?.attributes[45]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[45]?.display )}}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Whom to ask: </strong
-                      >{{ data.person?.attributes[102]?.display }}
+                      >{{ extractValueFromDisplay(data.person?.attributes[102]?.display) }}
                     </td>
                   </tr>
                 </tbody>
@@ -747,5 +752,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
