@@ -1,6 +1,5 @@
 <h4 class="component-title">
   <span class="fa fa-medkit"></span> HIV Summary
-
   <span *ngIf="gbvScreeningResult" class="hiv-alert" style="background: orange"
     >{{ gbvScreeningLabel }}: {{ gbvScreeningResult }}</span
   >
@@ -33,8 +32,10 @@
     <p-tabPanel header="Previous Visit Summary">
       <previous-visit-details></previous-visit-details>
     </p-tabPanel>
-    <p-tabPanel header="AHD Events">
-      <medication-change-history></medication-change-history>
+    <p-tabPanel header="AHD Events Summary">
+      <app-ahd-events-summary
+      
+      ></app-ahd-events-summary>
     </p-tabPanel>
   </p-tabView>
 </div>

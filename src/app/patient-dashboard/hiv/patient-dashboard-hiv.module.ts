@@ -38,6 +38,7 @@ import { GeneXpertResourceService } from './genexpert-images/genexpert-images-re
 import { HivSummaryService } from './hiv-summary/hiv-summary.service';
 import { HivSummaryResourceService } from '../../etl-api/hiv-summary-resource.service';
 import { PredictionResourceService } from 'src/app/etl-api/prediction-resource.service';
+import { AhdEventsSummaryComponent } from './hiv-summary/ahd-events-summary/ahd-events-summary.component';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { PredictionResourceService } from 'src/app/etl-api/prediction-resource.s
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
     PreviousVisitComponent,
-    GeneXpertImagesComponent
+    GeneXpertImagesComponent,
+    AhdEventsSummaryComponent
   ],
   providers: [
     GeneXpertResourceService,
