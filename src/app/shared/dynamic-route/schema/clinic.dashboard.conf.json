@@ -62,6 +62,12 @@
       "alias": "hiv",
       "routes": [
         {
+          "url": "pre-appoinment-outreach",
+          "label": "Pre-appoinment Outreach",
+          "icon": "fa fa-list",
+          "isSideBarOpen": false
+        },
+        {
           "url": "daily-schedule",
           "label": "Daily Schedule",
           "icon": "fa fa-calendar-o",

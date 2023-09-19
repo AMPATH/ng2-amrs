@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { RoutesProviderService } from '../../../shared/dynamic-route/route-config-provider.service';
 import { RouteModel } from '../../../shared/dynamic-route/route.model';
 import { Patient } from '../../../models/patient.model';
+import * as Moment from 'moment';
 @Injectable()
 export class PatientRoutesFactory {
   constructor(public routesProvider: RoutesProviderService) {}
@@ -16,6 +17,19 @@ export class PatientRoutesFactory {
     patientRoutesConfig = this.processSharedRoutes(patientRoutesConfig);
 
     const routes: RouteModel[] = [];
+    if (Moment().diff(Moment(patient.person.birthdate), 'months') <= 18) {
+      patientRoutesConfig.sharedRoutes.hiv[3] = {
+        url: 'hiv-summary',
+        label: 'HEI Summary',
+        icon: 'fa fa-child'
+      };
+    } else {
+      patientRoutesConfig.sharedRoutes.hiv[3] = {
+        url: 'hiv-summary',
+        label: 'HIV Summary',
+        icon: 'fa fa-medkit'
+      };
+    }
     if (Array.isArray(patientRoutesConfig['programs'])) {
       for (const program of patientRoutesConfig.programs) {
         if (

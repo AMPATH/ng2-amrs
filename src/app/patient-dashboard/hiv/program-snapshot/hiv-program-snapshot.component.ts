@@ -14,6 +14,7 @@ import { UserDefaultPropertiesService } from '../../../user-default-properties/u
 import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/cervical-cancer-screening-summary-resource.service';
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
 import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
+import { PredictionResourceService } from 'src/app/etl-api/prediction-resource.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -94,7 +95,12 @@ export class HivProgramSnapshotComponent implements OnInit {
   public moriskyDenominator: any = '';
   public moriskyRating: any = '';
   public isMoriskyScorePoorOrInadequate = false;
+  public showCMSummary = false;
   public hivDisclosureStatus: any;
+  public cm_treatment_start_date?: Date;
+  public cm_treatment_status: any = '';
+  public cm_treatment_phase: any = '';
+  public cm_treatment_end_date?: Date;
   public latestCervicalScreeningSummary = [];
   public cervicalScreeningSummary = [];
   public covid19VaccinationSummary: Covid19StatusSummary = {
@@ -113,6 +119,12 @@ export class HivProgramSnapshotComponent implements OnInit {
   public gbvScreeningLabel: String;
   public eligibleForCovidVaccine = false;
 
+  // IIT Predictions
+  public hasPredictedScore = false;
+  public prediction: any;
+
+  public isHEIActive = false;
+
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
@@ -120,6 +132,7 @@ export class HivProgramSnapshotComponent implements OnInit {
     private userDefaultPropertiesService: UserDefaultPropertiesService,
     private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
     private covid19Service: Covid19ResourceService,
+    private predictionResourceService: PredictionResourceService,
     private patientReminderService: PatientReminderService
   ) {}
 
@@ -129,8 +142,15 @@ export class HivProgramSnapshotComponent implements OnInit {
         if (_.isNil(this.patient)) {
           this.hasError = true;
         } else {
+          this.isHEIActive = this.patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.hasData = false;
           this.getHivSummary(patientUuid);
+          this.getPredictedScore(patientUuid);
           this.getPatientCervicalScreeningSummary(patientUuid);
           this.getPatientCovid19VaccinationStatus(patientUuid);
           this.patient.person.age > 19
@@ -148,7 +168,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public getHivSummary(patientUuid: string) {
     this.loadingData = true;
     this.hivSummaryResourceService
-      .getHivSummary(patientUuid, 0, 10)
+      .getHivSummary(patientUuid, 0, 10, false, this.isHEIActive)
       .pipe(take(1))
       .subscribe((results) => {
         let latestVlResult: any;
@@ -164,8 +184,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           latestVl = latestVlResult.vl_1;
 
           this.patientCareStatus = results[0].patient_care_status;
-          this.hivDisclosureStatus =
-            results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
+          this.hivDisclosureStatus = results[0].hiv_disclosure_status_value;
 
           this.gbvScreeningResult = this.checkGbvScreening(
             results[0].gbv_screening_result
@@ -179,6 +198,28 @@ export class HivProgramSnapshotComponent implements OnInit {
         const transferEncounterIndex = this.getIndexOfTransferEncounter(
           results
         );
+        // Add cryptoccocal status
+        let cm_treatment_summary: any;
+        cm_treatment_summary = this.getPatientCMTreatmentStatus(results);
+        if (cm_treatment_summary) {
+          if (cm_treatment_summary.on_cm_treatment === 1) {
+            this.showCMSummary = true;
+          }
+          this.cm_treatment_start_date =
+            cm_treatment_summary.cm_treatment_start_date;
+          this.cm_treatment_status =
+            cm_treatment_summary.on_cm_treatment === 1 ? 'On Treatment' : '';
+          this.cm_treatment_end_date =
+            cm_treatment_summary.cm_treatment_end_date;
+          this.cm_treatment_phase =
+            cm_treatment_summary.cm_treatment_phase === 1
+              ? 'Induction'
+              : cm_treatment_summary.cm_treatment_phase === 2
+              ? 'Consolidation'
+              : cm_treatment_summary.cm_treatment_phase === 3
+              ? 'Maintenance'
+              : '';
+        }
 
         // Did the patient have a clinical encounter following their transfer encounter i.e. did they return to care?
         this.hasSubsequentClinicalEncounter =
@@ -231,6 +272,21 @@ export class HivProgramSnapshotComponent implements OnInit {
           console.error('Error resolving locations', error);
         }
       );
+  }
+
+  public getPredictedScore(patientUuid: string) {
+    this.predictionResourceService
+      .getPatientPrediction(patientUuid)
+      .subscribe((result) => {
+        if (
+          result &&
+          result.predicted_prob_disengage &&
+          result.predicted_risk
+        ) {
+          this.hasPredictedScore = true;
+          this.prediction = result;
+        }
+      });
   }
 
   public getViralLoadCategory(latestViralLoad: any) {
@@ -600,6 +656,32 @@ export class HivProgramSnapshotComponent implements OnInit {
       });
   }
 
+  public getPredictionAlertColorCoded(prediction: string): Alert {
+    const predictionAlert: Alert = {
+      label: false,
+      'label-warning': false,
+      'label-danger': false,
+      'label-success': false,
+      'label-not-assessed': false
+    };
+    switch (prediction) {
+      case 'High Risk':
+        predictionAlert.label = true;
+        predictionAlert['label-danger'] = true;
+        break;
+      case 'Medium Risk':
+        predictionAlert.label = true;
+        predictionAlert['label-warning'] = true;
+        break;
+      default:
+        predictionAlert.label = false;
+        predictionAlert['label-info'] = true;
+        break;
+    }
+
+    return predictionAlert;
+  }
+
   public getCovidVaccinationAlert(vaccinationStatusCode: string): Alert {
     const alert: Alert = {
       label: false,
@@ -631,5 +713,16 @@ export class HivProgramSnapshotComponent implements OnInit {
     }
 
     return alert;
+  }
+  public getPatientCMTreatmentStatus(hivSummaryData: any) {
+    const latestStatus = _.orderBy(
+      hivSummaryData,
+      (hivSummary) => {
+        return moment(hivSummary.cm_treatment_start_date);
+      },
+      ['desc']
+    );
+
+    return latestStatus[0];
   }
 }

@@ -1,0 +1,755 @@
+<div *ngIf="data" class="wrapper-container" id="wrapper-container">
+  <div>
+    <div class="wrapper">
+      <span _ngcontent-c44="" (click)="generatePDF()" class="btn-print glyphicon text-primary glyphicon-print "></span>
+    </div>
+    <div>
+      <div>
+        <p>Encounter Details</p>
+        <ul>
+          <li>
+            Date completed: <strong>{{ data?.obs[0]?.obsDatetime }}</strong>
+          </li>
+          <li>Provider: 1565-1 - <strong>Robai Kadanya Kisia</strong></li>
+          <li>Facility name: <strong>Location Test</strong></li>
+        </ul>
+      </div>
+      <div>
+        <p>Clients/Patient's Information</p>
+        <ul>
+          <li>
+            Marital status: <strong>{{ data.obs[1].value.display }}</strong>
+          </li>
+          <li>Place of work: <strong>Iten</strong></li>
+          <li>
+            Religious affiliation & location:
+            <strong>{{ data.obs[9].value.display }}</strong>
+          </li>
+          <li>
+            Patient/Client category:
+            <strong>{{ data.obs[3].value.display }}</strong>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <p>Other Personal Information</p>
+        <ul>
+          <li>
+            No of children: <strong>{{ data.obs[6].value }}</strong>
+          </li>
+          <li>
+            No of siblings: <strong>{{ data.obs[4].value }}</strong>
+          </li>
+          <li>
+            Names of family members who know about the status of the client:
+            <strong>{{ data.obs[10].value }}</strong>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <p>Locator Information</p>
+        <ul>
+          <li>
+            Client/Parent/Guardians preferred place of contact:
+            <strong>{{ data.obs[11].value.display }}</strong>
+          </li>
+          <li>
+            Time: - <strong>{{ data.obs[12].value.display }}</strong>
+          </li>
+          <li>
+            Physical Description of the patient/client/Guardian:
+            <strong>{{ data?.obs[13]?.value }}</strong>
+          </li>
+          <li>
+            Additional comments:
+            <strong>{{ data?.obs[0]?.value }}</strong>
+          </li>
+          <li>
+            Indicate if patient is from AMPATH catchment area:
+            <strong>{{ data?.obs[7]?.value?.display }}</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p>Residence and Personal Information</p>
+    <div>
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong>Official name of client : </strong> 
+                {{extractValueFromDisplay(data.person?.attributes[26]?.display)}}
+              </td>
+              <td><strong>Name commonly called : </strong>
+                {{extractValueFromDisplay(data.person?.attributes[31]?.display)}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Tribe : </strong>
+                {{ extractValueFromDisplay(data.person?.attributes[3]?.display) }}
+              </td>
+              <td>
+                <strong>Phone number : </strong>
+                {{ extractValueFromDisplay(data.person?.attributes[1]?.display) }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Alternative Phone No. :</strong>
+                {{ extractValueFromDisplay(data.person?.attributes[11]?.display) }}
+              </td>
+              <td>
+                <strong>Occupation : </strong
+                >{{ extractValueFromDisplay(data.person?.attributes[13]?.display) }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Relationship: </strong
+                >{{ extractValueFromDisplay(data.person?.attributes[10]?.display) }}
+              </td>
+              <td>
+                <strong>Location :</strong
+                >{{ extractValueFromDisplay(data.person?.attributes[66]?.display) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h6 class="header">Place of Work</h6>
+      </div>
+      <div>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Town : </strong>
+                  {{ extractValueFromDisplay(data.person.attributes[111]?.display )}}
+                </td>
+                <td>
+                  <strong>Institution/Business: </strong
+                  >{{ extractValueFromDisplay(data.person?.attributes[110]?.display) }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong
+                    >Location : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[12]?.display )}}
+                </td>
+                <td>
+                  <strong>Department/section : </strong
+                  >{{ extractValueFromDisplay(data.person?.attributes[18]?.display )}}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>well known name : </strong
+                  >{{ extractValueFromDisplay(data.person?.attributes[112]?.display) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>     
+      </div>
+    <div>
+      <h6 class="header">Rural Direction</h6>
+    </div>
+    <div>
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>General route : </strong> {{ extractValueFromDisplay(data.person.attributes[20].display)}}</td>
+              <td><strong>Nearest centre: </strong>{{ extractValueFromDisplay(data.person.attributes[69].display)}}</td>
+            </tr>
+            <tr>
+              <td><strong>Stage : </strong>{{ extractValueFromDisplay(data.person.attributes[70].display)}}</td>
+              <td><strong>Village : </strong> {{ extractValueFromDisplay(data.person.attributes[71].display)}}</td>
+            </tr>
+            <tr>
+              <td><strong>Nearest landmark : </strong>{{ extractValueFromDisplay(data.person.attributes[72].display)}}</td>
+              <td><strong>Homestead name : </strong>{{ extractValueFromDisplay(data.person.attributes[73].display)}}</td>
+            </tr>
+            <tr>
+              <td><strong>Whom to ask :</strong>{{ extractValueFromDisplay(data.person.attributes[74].display)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h6 class="header">Urban Direction</h6>
+    </div>
+    <div>
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Town : </strong> {{ extractValueFromDisplay(data.person.attributes[66].display)}}</td>
+              <td><strong>Estate: </strong>{{ extractValueFromDisplay(data.person.attributes[67].display)}}</td>
+            </tr>
+            <tr>
+              <td><strong>Stage : </strong>{{ extractValueFromDisplay(data.person.attributes[17].display)}}</td>
+              <td><strong>Section : </strong> {{ extractValueFromDisplay(data.person.attributes[68].display)}}</td>
+            </tr>
+            <tr>
+              <td><strong>Nearest landmark : </strong>{{ extractValueFromDisplay(data.person.attributes[7].display)}}</td>
+              <td><strong>Plot name: </strong>{{ extractValueFromDisplay(data.person.attributes[15].display)}}</td>
+            </tr>
+            <tr>
+              <td><strong>Landlord : </strong>{{ extractValueFromDisplay(data.person.attributes[16].display)}}</td>
+              <td>
+                <strong>Nearest well known neighbor: </strong>{{ extractValueFromDisplay(data.person.attributes[14].display)}}
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Whom to ask :</strong> 
+                {{extractValueFromDisplay(data.person.attributes[85].display)}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+      <div class="self-container">
+        <p>Spouse Details</p>
+        <div>
+          <div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Name of Spouse : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[4]?.display )}}
+                  </td>
+                  <td>
+                    <strong>Name commonly called : </strong
+                    >{{ extractValueFromDisplay(data.person?.attributes[76]?.display) }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Tribe : </strong
+                    >{{ extractValueFromDisplay(data.person?.attributes[77]?.display) }}
+                  </td>
+                  <td>
+                    <strong>Phone number : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[5]?.display )}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h6 class="header">Rural Direction</h6>
+          </div>
+          <div>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>General route : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[86]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Nearest centre: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[87]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Stage : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[88]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Village : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[89]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Nearest landmark : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[90]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Homestead name : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[91]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Whom to ask :</strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[92]?.display) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h6 class="header">Urban Direction</h6>
+          </div>
+          <div>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Town : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[78]?.display )}}
+                    </td>
+                    <td>
+                      <strong>Estate: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[75]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Stage : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[79]?.display )}}
+                    </td>
+                    <td>
+                      <strong>Section : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[80]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Nearest landmark : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[81]?.display )}}
+                    </td>
+                    <td>
+                      <strong>Plot name: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[82]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Landlord : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[83]?.display )}}
+                    </td>
+                    <td>
+                      <strong>Nearest well known neighbor: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[84]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Whom to ask :</strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[85]?.display )}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p>Next of Kin Details</p>
+        <div>
+          <div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Name of next of kin : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[2]?.display )}}
+                  </td>
+                  <td>
+                    <strong>Name commonly called : </strong
+                    >{{ extractValueFromDisplay(data.person?.attributes[34]?.display) }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Tribe : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[35]?.display) }}
+                  </td>
+                  <td>
+                    <strong>Phone number : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[6]?.display )}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h6 class="header">Rural Direction</h6>
+          </div>
+          <div>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>General route : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[96]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Nearest centre: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[36]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Stage : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[97]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Village : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[56]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Nearest landmark : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[98]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Homestead name : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[58]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Whom to ask :</strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[99]?.display) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h6 class="header">Urban Direction</h6>
+          </div>
+          <div>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Town : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[30]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Estate: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[57]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Stage : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[93]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Section : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[59]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Nearest landmark : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[64]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Plot name: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[38]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Landlord : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[94]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Nearest well known neighbor: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[37]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Whom to ask :</strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[95]?.display) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p>Treatment supporter name</p>
+        <div>
+          <div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Treatment supporter name : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[8]?.display )}}
+                  </td>
+                  <td>
+                    <strong>Common name: </strong
+                    >{{ extractValueFromDisplay(data.person?.attributes[41]?.display) }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Tribe : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[42]?.display) }}
+                  </td>
+                  <td>
+                    <strong>Phone number : </strong>
+                    {{ extractValueFromDisplay(data.person?.attributes[9]?.display )}}
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Relationship : </strong> {{extractValueFromDisplay(data.person?.attributes[10]?.display)}}</td>
+                  <td><strong>Religious affiliation: </strong> {{extractValueFromDisplay(data.person?.attributes[49]?.display)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h6 class="header">Rural Direction</h6>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>General route : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[103]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Nearest centre: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[44]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Stage : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[104]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Village : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[60]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Nearest landmark : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[105]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Homestead name : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[62]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Whom to ask :</strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[106]?.display) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h6 class="header">Place of Work</h6>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Town : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[47]?.display )}}
+                    </td>
+                    <td>
+                      <strong>Institution/Business: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[107]?.display) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Location : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[108]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Department/section : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[48]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>well known name : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[109]?.display) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h6 class="header">Urban Direction</h6>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Town : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[43]?.display )}}
+                    </td>
+                    <td>
+                      <strong>Estate: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[63]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Stage : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[100]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Section : </strong>
+                      {{ extractValueFromDisplay(data.person?.attributes[61]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Nearest landmark : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[65]?.display )}}
+                    </td>
+                    <td><strong>Plot name: </strong>Kwa Mohhamed</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Landlord : </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[101]?.display) }}
+                    </td>
+                    <td>
+                      <strong>Nearest well known neighbor: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[45]?.display )}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Whom to ask: </strong
+                      >{{ extractValueFromDisplay(data.person?.attributes[102]?.display) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
