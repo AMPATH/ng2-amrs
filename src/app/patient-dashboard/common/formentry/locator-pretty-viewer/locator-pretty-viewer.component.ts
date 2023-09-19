@@ -26,16 +26,13 @@ export class LocatorPrettyViewerComponent implements OnInit {
           person
         };
       }
-      console.log('person', this.data.person);
     }
   }
 
   generatePDF() {
     const printContents = document.getElementById('wrapper-container');
 
-    // Check if the element exists
     if (!printContents) {
-      console.error('Element with id "wrapper-container" not found.');
       return;
     }
 
