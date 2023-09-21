@@ -49,6 +49,12 @@ export class MonthlyReportComponent implements OnInit {
         description: '',
         url: 'covid-19-monthly-report',
         icon: 'fa'
+      },
+      {
+        title: 'NCD Monthly Report',
+        description: '',
+        url: 'plhiv-ncd-monthly-report',
+        icon: 'fa'
       }
     ];
   }
