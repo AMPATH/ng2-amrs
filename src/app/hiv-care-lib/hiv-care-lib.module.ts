@@ -134,6 +134,13 @@ import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-p
 import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 
+import { NcdReportBaseComponent } from './ncd-report-base/ncd-report-base.component';
+import { NcdReportBaseFiltersComponent } from './ncd-report-base/ncd-report-base-filters/ncd-report-base-filters.component';
+import { NcdReportPatientListComponent } from './ncd-report-base/ncd-report-patient-list/ncd-report-patient-list.component';
+import { NcdReportComponent } from '../clinic-dashboard/hiv/ncd-report/ncd-report.component';
+import { NcdReportTableComponent } from './ncd-report-base/ncd-report-table/ncd-report-table.component';
+import { NcdReportDashboardViewComponent } from './ncd-report-base/ncd-report-dashboard-view/ncd-report-dashboard-view.component';
+
 @NgModule({
   imports: [
     RouterModule,
@@ -228,7 +235,10 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
-    TxMlReportViewComponent
+    TxMlReportViewComponent,
+    NcdReportBaseComponent,
+    NcdReportBaseFiltersComponent,
+    NcdReportPatientListComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -311,7 +321,13 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     TxMmdReportBaseComponent,
     TxMmdReportPatientListComponent,
     TxRttReportBaseComponent,
-    TxRttReportPatientListComponent
+    TxRttReportPatientListComponent,
+    // NcdReportComponent,
+    NcdReportBaseComponent,
+    NcdReportBaseFiltersComponent,
+    NcdReportPatientListComponent,
+    NcdReportTableComponent,
+    NcdReportDashboardViewComponent
   ],
   providers: [
     MOHReportService,

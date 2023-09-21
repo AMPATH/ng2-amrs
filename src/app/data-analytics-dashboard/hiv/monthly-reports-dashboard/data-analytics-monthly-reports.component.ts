@@ -38,6 +38,12 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
         description: '',
         url: 'patient-gains-and-losses',
         icon: 'fa'
+      },
+      {
+        title: 'NCD Monthly Report',
+        description: '',
+        url: 'plhiv-ncd-monthly-report',
+        icon: 'fa'
       }
     ];
   }
