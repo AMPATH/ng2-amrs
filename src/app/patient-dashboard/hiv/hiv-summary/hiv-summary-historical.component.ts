@@ -27,8 +27,8 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
   public hasMedicationRtc = false;
   public hasMdtSessionNo = false;
   public showMissedDays: boolean;
-  public patientStatus: any;
-  public daysMissed = 0;
+  public daysMissed: any;
+  isHEIActive: boolean;
 
   constructor(
     private hivSummaryService: HivSummaryService,

@@ -216,6 +216,11 @@ export class PreAppointmentOutreachComponent implements OnInit {
         field: 'rescheduled_date'
       },
       {
+        headerName: 'Failed Phone Attempts',
+        width: 100,
+        field: 'failed_phone_attempts'
+      },
+      {
         headerName: 'Contact Reached',
         width: 100,
         field: 'contact_reached'
