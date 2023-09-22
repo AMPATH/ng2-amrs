@@ -2,20 +2,21 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
-import { PrepResourceService } from 'src/app/etl-api/prep-resource.service';
+import { PlhivNcdReportService } from 'src/app/etl-api/plhiv-ncd-report.service';
+
 @Component({
-  selector: 'prep-report-base',
-  templateUrl: './prep-report-base.component.html',
-  styleUrls: ['./prep-report-base.component.css']
+  selector: 'app-plhiv-ncd-report-base',
+  templateUrl: './plhiv-ncd-report-base.component.html',
+  styleUrls: ['./plhiv-ncd-report-base.component.css']
 })
-export class PrepReportBaseComponent implements OnInit {
+export class PlhivNcdReportBaseComponent implements OnInit {
   @Output()
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
   public prepReportSummaryData: any = [];
   public columnDefs: any = [];
-  public reportName = 'PrEP Report';
+  public reportName = 'PLHIV NCD Report';
   public currentView = 'monthly';
   public currentViewBelow = 'pdf';
   public month: string;
@@ -48,7 +49,7 @@ export class PrepReportBaseComponent implements OnInit {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public prepReport: PrepResourceService
+    public plhivNcdReportService: PlhivNcdReportService
   ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
@@ -73,7 +74,7 @@ export class PrepReportBaseComponent implements OnInit {
       this.storeParamsInUrl(params.location_uuid);
     });
     this.prepReportSummaryData = [];
-    this.getPrepMonthlyReport(this.params);
+    this.getPlhivNcdMonthlyReport(this.params);
   }
 
   public storeParamsInUrl(param) {
@@ -90,23 +91,25 @@ export class PrepReportBaseComponent implements OnInit {
     });
   }
 
-  public getPrepMonthlyReport(params: any) {
+  public getPlhivNcdMonthlyReport(params: any) {
     this.isLoading = true;
-    this.prepReport.getPrepMonthlyReport(params).subscribe((data) => {
-      console.log('data-prep--> ', data);
-      if (data.error) {
-        this.showInfoMessage = true;
-        this.errorMessage = `There has been an error while loading the report, please retry again`;
-        this.isLoading = false;
-      } else {
-        this.showInfoMessage = false;
-        this.columnDefs = data.sectionDefinitions;
-        this.prepReportSummaryData = data.result;
-        this.calculateTotalSummary();
-        this.isLoading = false;
-        this.showDraftReportAlert(this._month);
-      }
-    });
+    this.plhivNcdReportService
+      .getPlhivNcdMonthlyReport(params)
+      .subscribe((data) => {
+        console.log('data-prep--> ', data);
+        if (data.error) {
+          this.showInfoMessage = true;
+          this.errorMessage = `There has been an error while loading the report, please retry again`;
+          this.isLoading = false;
+        } else {
+          this.showInfoMessage = false;
+          this.columnDefs = data.sectionDefinitions;
+          this.prepReportSummaryData = data.result;
+          this.calculateTotalSummary();
+          this.isLoading = false;
+          this.showDraftReportAlert(this._month);
+        }
+      });
   }
 
   public calculateTotalSummary() {

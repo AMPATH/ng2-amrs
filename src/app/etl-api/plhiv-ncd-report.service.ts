@@ -9,7 +9,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 @Injectable({
   providedIn: 'root'
 })
-export class NcdReportService {
+export class PlhivNcdReportService {
   public get url(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim();
   }
@@ -17,7 +17,7 @@ export class NcdReportService {
     public http: HttpClient,
     public appSettingsService: AppSettingsService
   ) {}
-  public getNCDReport(params: any): Observable<any> {
+  public getPlhivNcdMonthlyReport(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
@@ -37,7 +37,7 @@ export class NcdReportService {
         })
       );
   }
-  public getNCDPatientList(params: any): Observable<any> {
+  public getPlhivNcdPatientList(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
