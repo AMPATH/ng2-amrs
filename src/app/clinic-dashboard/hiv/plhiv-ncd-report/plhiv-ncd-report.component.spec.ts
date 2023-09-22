@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NcdReportBaseComponent } from './ncd-report-base.component';
+import { PlhivNcdReportComponent } from './plhiv-ncd-report.component';
 
-describe('NcdReportBaseComponent', () => {
-  let component: NcdReportBaseComponent;
-  let fixture: ComponentFixture<NcdReportBaseComponent>;
+describe('PlhivNcdReportComponent', () => {
+  let component: PlhivNcdReportComponent;
+  let fixture: ComponentFixture<PlhivNcdReportComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NcdReportBaseComponent]
+      declarations: [PlhivNcdReportComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NcdReportBaseComponent);
+    fixture = TestBed.createComponent(PlhivNcdReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

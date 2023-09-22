@@ -134,12 +134,9 @@ import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-p
 import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 
-import { NcdReportBaseComponent } from './ncd-report-base/ncd-report-base.component';
-import { NcdReportBaseFiltersComponent } from './ncd-report-base/ncd-report-base-filters/ncd-report-base-filters.component';
-import { NcdReportPatientListComponent } from './ncd-report-base/ncd-report-patient-list/ncd-report-patient-list.component';
-import { NcdReportComponent } from '../clinic-dashboard/hiv/ncd-report/ncd-report.component';
-import { NcdReportTableComponent } from './ncd-report-base/ncd-report-table/ncd-report-table.component';
-import { NcdReportDashboardViewComponent } from './ncd-report-base/ncd-report-dashboard-view/ncd-report-dashboard-view.component';
+import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report/plhiv-ncd-report.component';
+import { PlhivNcdReportPatientListComponent } from './plhiv-ncd-report/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list.component';
+import { PlhivNcdReportBaseComponent } from './plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component';
 
 @NgModule({
   imports: [
@@ -235,10 +232,7 @@ import { NcdReportDashboardViewComponent } from './ncd-report-base/ncd-report-da
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
-    TxMlReportViewComponent,
-    NcdReportBaseComponent,
-    NcdReportBaseFiltersComponent,
-    NcdReportPatientListComponent
+    TxMlReportViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -322,12 +316,9 @@ import { NcdReportDashboardViewComponent } from './ncd-report-base/ncd-report-da
     TxMmdReportPatientListComponent,
     TxRttReportBaseComponent,
     TxRttReportPatientListComponent,
-    // NcdReportComponent,
-    NcdReportBaseComponent,
-    NcdReportBaseFiltersComponent,
-    NcdReportPatientListComponent,
-    NcdReportTableComponent,
-    NcdReportDashboardViewComponent
+    PlhivNcdReportComponent,
+    PlhivNcdReportPatientListComponent,
+    PlhivNcdReportBaseComponent
   ],
   providers: [
     MOHReportService,
