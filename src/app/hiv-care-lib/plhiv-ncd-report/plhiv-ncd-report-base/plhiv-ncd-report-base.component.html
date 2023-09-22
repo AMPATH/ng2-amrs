@@ -1,5 +1,5 @@
 <h4 class="component-title text-success">
-  <span class="fa fa-table"></span>PrEP Report
+  <span class="fa fa-bar-chart"></span>Non communicable disease report for PLHIV
 </h4>
 
 <div class="loader" *ngIf="isLoading">
@@ -39,7 +39,7 @@
   <p-tabView>
     <p-tabPanel
       header="Report View"
-      leftIcon="fa-file-pdf-o"
+      bottomIcon="fa-file-pdf-o"
       [selected]="currentViewBelow === 'pdf'"
     >
       <app-report-view

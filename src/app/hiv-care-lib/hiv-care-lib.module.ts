@@ -134,9 +134,8 @@ import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-p
 import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 
-import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report/plhiv-ncd-report.component';
-import { PlhivNcdReportPatientListComponent } from './plhiv-ncd-report/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list.component';
 import { PlhivNcdReportBaseComponent } from './plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component';
+import { PlhivNcdReportPatientListComponent } from './plhiv-ncd-report/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list.component';
 
 @NgModule({
   imports: [
@@ -316,7 +315,6 @@ import { PlhivNcdReportBaseComponent } from './plhiv-ncd-report/plhiv-ncd-report
     TxMmdReportPatientListComponent,
     TxRttReportBaseComponent,
     TxRttReportPatientListComponent,
-    PlhivNcdReportComponent,
     PlhivNcdReportPatientListComponent,
     PlhivNcdReportBaseComponent
   ],
