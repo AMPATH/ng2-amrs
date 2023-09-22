@@ -59,8 +59,8 @@ import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
-import { NcdReportComponent } from './ncd-report/ncd-report.component';
-import { NcdReportPatientListComponent } from 'src/app/hiv-care-lib/ncd-report-base/ncd-report-patient-list/ncd-report-patient-list.component';
+import { PlhivNcdReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list.component';
+import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report.component';
 
 const routes: Routes = [
   {
@@ -423,11 +423,11 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: NcdReportComponent
+            component: PlhivNcdReportComponent
           },
           {
             path: 'patient-list',
-            component: NcdReportPatientListComponent
+            component: PlhivNcdReportPatientListComponent
           }
         ]
       },
@@ -449,11 +449,11 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: NcdReportComponent
+            component: PlhivNcdReportComponent
           },
           {
             path: 'ncd-report-patientlist',
-            component: NcdReportPatientListComponent
+            component: PlhivNcdReportPatientListComponent
           }
         ]
       },

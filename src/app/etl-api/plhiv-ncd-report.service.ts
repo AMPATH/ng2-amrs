@@ -21,7 +21,7 @@ export class PlhivNcdReportService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}plhiv-ncd-report?endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
+        `${this.url}plhiv-ncd-monthly-summary?endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
@@ -39,9 +39,10 @@ export class PlhivNcdReportService {
   }
   public getPlhivNcdPatientList(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
+    console.log('params-service:>>', params);
     return this.http
       .get(
-        `${this.url}plhiv-ncd-patient-list?indicators=${params.indicators}&endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
+        `${this.url}plhiv-ncd-monthly-summary-patient-list?indicators=${params.indicators}&endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {

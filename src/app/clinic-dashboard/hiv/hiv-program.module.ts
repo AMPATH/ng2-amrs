@@ -82,7 +82,6 @@ import { DefaulterListFilterComponent } from './../general/defaulter-list/defaul
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { PreAppointmentOutreachResourceService } from 'src/app/etl-api/pre-appointment-outreach-resource.service';
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
-import { NcdReportComponent } from './ncd-report/ncd-report.component';
 import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report.component';
 
 @NgModule({
@@ -139,8 +138,7 @@ import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report.com
     MOH412ClinicDashboardComponent,
     MOH412ClinicDashboardPatientListComponent,
     DefaulterListFilterComponent,
-    ClinicDashboardCovid19ReportComponent,
-    NcdReportComponent
+    ClinicDashboardCovid19ReportComponent
   ],
   declarations: [
     Moh731ReportComponent,
@@ -187,7 +185,6 @@ import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report.com
     DefaulterListFilterComponent,
     ClinicDashboardCovid19ReportComponent,
     PreAppointmentOutreachComponent,
-    NcdReportComponent,
     PlhivNcdReportComponent
   ],
   providers: [

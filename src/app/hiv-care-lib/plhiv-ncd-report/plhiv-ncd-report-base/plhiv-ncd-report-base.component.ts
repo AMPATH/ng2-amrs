@@ -96,7 +96,6 @@ export class PlhivNcdReportBaseComponent implements OnInit {
     this.plhivNcdReportService
       .getPlhivNcdMonthlyReport(params)
       .subscribe((data) => {
-        console.log('data-prep--> ', data);
         if (data.error) {
           this.showInfoMessage = true;
           this.errorMessage = `There has been an error while loading the report, please retry again`;
