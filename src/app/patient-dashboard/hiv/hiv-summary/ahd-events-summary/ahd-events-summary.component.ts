@@ -25,7 +25,7 @@ export class AhdEventsSummaryComponent implements OnInit {
 
   ngOnInit() {}
 
-  public getPatientTbStatus(hivSummaryData: any) {
+  public getPatientTbTreatmentStatus(hivSummaryData: any) {
     const latestStatus = _.orderBy(
       hivSummaryData,
       (hivSummary) => {
