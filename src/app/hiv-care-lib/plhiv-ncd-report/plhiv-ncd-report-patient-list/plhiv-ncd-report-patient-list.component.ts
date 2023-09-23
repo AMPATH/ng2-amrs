@@ -59,21 +59,21 @@ export class PlhivNcdReportPatientListComponent implements OnInit {
 
   public addExtraColumns() {
     const extraColumns = {
-      phone_number: 'Phone',
-      enrollment_date: 'Date Enrolled',
-      last_appointment: 'Last Appointment',
-      prev_rtc_date: 'Previous RTC Date',
-      latest_rtc_date: 'RTC Date',
-      days_since_rtc_date: 'Days missed since RTC',
-      cur_prep_meds_names: 'Current prEp Regimen',
-      initiation_reason: 'Reason for Initiation',
-      hiv_rapid_test: 'HIV Rapid test result',
-      rapid_test_date: 'HIV Rapid test date',
-      population_type: 'Population Type',
-      discontinue_reason: 'Reason for Discontinued',
-      ovcid_id: 'OVCID',
-      population_type_category: 'Population Type Category',
-      nearest_center: 'Estate/Nearest Center'
+      // phone_number: 'Phone',
+      // enrollment_date: 'Date Enrolled',
+      // last_appointment: 'Last Appointment',
+      // prev_rtc_date: 'Previous RTC Date',
+      // latest_rtc_date: 'RTC Date',
+      // days_since_rtc_date: 'Days missed since RTC',
+      // cur_prep_meds_names: 'Current prEp Regimen',
+      // initiation_reason: 'Reason for Initiation',
+      // hiv_rapid_test: 'HIV Rapid test result',
+      // rapid_test_date: 'HIV Rapid test date',
+      // population_type: 'Population Type',
+      // discontinue_reason: 'Reason for Discontinued',
+      // ovcid_id: 'OVCID',
+      // population_type_category: 'Population Type Category',
+      // nearest_center: 'Estate/Nearest Center'
     };
 
     for (const indicator in extraColumns) {
