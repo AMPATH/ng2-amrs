@@ -1,29 +1,46 @@
 import { HivSummaryComponent } from './../hiv-summary.component';
-import { Component, OnInit } from '@angular/core';
-import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
-import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { PatientService } from '../../services/patient.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { HivSummaryResourceService } from 'src/app/etl-api/hiv-summary-resource.service';
+import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
+import { Patient } from 'src/app/models/patient.model';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-ahd-events-summary',
   templateUrl: './ahd-events-summary.component.html',
-  styleUrls: ['./ahd-events-summary.component.css']
+  styleUrls: ['./ahd-events-summary.component.css'],
+  providers: [HivSummaryResourceService]
 })
 export class AhdEventsSummaryComponent implements OnInit {
-  public encounters = [];
-  public patient: any;
-  public errors: any;
-  public subscription: Subscription;
+  // public tbTreatmentSummary: any = '';
+  public tbTreatmentStartDate?: Date;
+  public tbTreatmentEndDate?: Date;
+  public showTbTreatment: boolean;
 
   constructor(
     private patientService: PatientService,
-    private hivSummaryResourceService: HivSummaryResourceService,
-    private encounterResourceService: EncounterResourceService
+    private hivSummaryResourceService: HivSummaryResourceService
   ) {}
 
   ngOnInit() {}
+
+  public getPatientHivSummary(patientUuid: string) {
+    this.hivSummaryResourceService
+      .getHivSummary(patientUuid, 0, 10)
+      .subscribe((results) => {
+        let tb_treatment_summary: any;
+        tb_treatment_summary = this.getPatientTbTreatmentStatus(results);
+        if (tb_treatment_summary) {
+          if (tb_treatment_summary.on_tb_treatment === 1) {
+            this.showTbTreatment = true;
+          }
+          this.tbTreatmentStartDate = tb_treatment_summary.tb_tx_start_date;
+          this.tbTreatmentStartDate = tb_treatment_summary.tb_tx_start_date;
+        }
+      });
+  }
 
   public getPatientTbTreatmentStatus(hivSummaryData: any) {
     const latestStatus = _.orderBy(
@@ -33,22 +50,6 @@ export class AhdEventsSummaryComponent implements OnInit {
       },
       ['desc']
     );
-  }
-
-  public getPatient() {
-    const reportName = 'ahd-events-summary';
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
-        if (patient) {
-          this.patient = patient;
-        }
-      },
-      (err) => {
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching ahd events'
-        });
-      }
-    );
+    return latestStatus[0];
   }
 }
