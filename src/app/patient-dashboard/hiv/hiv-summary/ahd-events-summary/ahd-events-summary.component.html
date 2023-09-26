@@ -1,3 +1,41 @@
-<p>
-  ahd-events-summary works!
-</p>
+<!-- <div class="ahd-summary">
+  <div *ngIf="hasError">
+    <p class="alert alert-error text-error">
+      Error generating hiv program snapshot
+    </p>
+  </div>
+
+  <div>
+    <h2>AHD EVENTSs SUMMARY</h2>
+  </div>
+
+  <div>
+    <div class="row">
+      <div *ngIf="getHivSummary" style="display: inline-block">
+        <p>
+          <span class="hiv-alert" style="background: orange"
+            >{{ gbvScreeningLabel }}: POSITIVE</span
+          >
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</div> -->
+<div>
+  <table class="table table-hover table-striped table-responsive">
+    <thead>
+      <tr>
+        <th>TB Start Date</th>
+        <th>TB End Date</th>
+        <th>Outcome</th>
+      </tr>
+    </thead>
+    <tr>
+      <td>{{ tbTreatmentStartDate }}</td>
+      <td>{{ tbTreatmentEndDate }}</td>
+      <td>{{ tbTreatmentEndDate }}</td>
+    </tr>
+  </table>
+</div>
