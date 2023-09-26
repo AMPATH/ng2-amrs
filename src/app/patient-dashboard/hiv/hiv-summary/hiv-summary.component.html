@@ -6,7 +6,7 @@
 </h4>
 <div>
   <p-tabView>
-    <p-tabPanel header="HIV Summary" *ngIf="!isHEIActive">
+    <p-tabPanel header="HIV Summary" (click)="isVisible = false" *ngIf="!isHEIActive">
       <hiv-summary-latest
         *ngIf="patientUuid"
         [patientUuid]="patientUuid"
@@ -15,8 +15,7 @@
     </p-tabPanel>
     <p-tabPanel header="HEI Summary" *ngIf="isHEIActive">
       <hiv-summary-latest
-        *ngIf="patientUuid"
-        [patientUuid]="patientUuid"
+        *ngIf="isVisble"
         [isHEIActive]="isHEIActive"
       ></hiv-summary-latest>
     </p-tabPanel>
@@ -33,9 +32,7 @@
       <previous-visit-details></previous-visit-details>
     </p-tabPanel>
     <p-tabPanel header="AHD Events Summary">
-      <app-ahd-events-summary
-      
-      ></app-ahd-events-summary>
+      <app-ahd-events-summary ></app-ahd-events-summary>
     </p-tabPanel>
   </p-tabView>
 </div>

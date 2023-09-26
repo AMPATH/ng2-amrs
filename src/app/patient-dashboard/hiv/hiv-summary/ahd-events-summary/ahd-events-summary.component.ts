@@ -15,6 +15,8 @@ import * as _ from 'lodash';
 })
 export class AhdEventsSummaryComponent implements OnInit {
   // public tbTreatmentSummary: any = '';
+  @Input() public patient: Patient;
+  public hasError = false;
   public tbTreatmentStartDate?: Date;
   public tbTreatmentEndDate?: Date;
   public showTbTreatment: boolean;
@@ -24,12 +26,25 @@ export class AhdEventsSummaryComponent implements OnInit {
     private hivSummaryResourceService: HivSummaryResourceService
   ) {}
 
-  ngOnInit() {}
+  public ngOnInit() {
+    _.delay(
+      (patientUuid) => {
+        if (_.isNil(this.patient)) {
+          this.hasError = true;
+        } else {
+          this.getPatientHivSummary(patientUuid);
+        }
+      },
+      0,
+      this.patient.uuid
+    );
+  }
 
   public getPatientHivSummary(patientUuid: string) {
     this.hivSummaryResourceService
       .getHivSummary(patientUuid, 0, 10)
       .subscribe((results) => {
+        console.log('HivSummary' + results);
         let tb_treatment_summary: any;
         tb_treatment_summary = this.getPatientTbTreatmentStatus(results);
         if (tb_treatment_summary) {
