@@ -9,6 +9,7 @@ export class LocatorPrettyViewerComponent implements OnInit {
   @Input() locatorData: any;
 
   data: any;
+  mappedAttributes: any;
   constructor() {}
 
   ngOnInit() {
@@ -20,13 +21,44 @@ export class LocatorPrettyViewerComponent implements OnInit {
       const { obs, patient } = this.locatorData.existingOrders;
 
       if (patient) {
-        const { person } = patient;
+        const {
+          person: { attributes }
+        } = patient;
         this.data = {
           obs,
-          person
+          attributes
         };
       }
     }
+    this.mappedAttributes = this.generateMappings(this.data);
+  }
+
+  generateMappings(data: any) {
+    const mappings = {
+      obs: {},
+      attributes: {}
+    };
+
+    if (data) {
+      for (const type of ['obs', 'attributes']) {
+        if (data[type]) {
+          for (const item of data[type]) {
+            if (type === 'obs' && item.concept.name.display) {
+              mappings[type][item.concept.name.display] =
+                item.value.display || item.value;
+            } else if (type === 'attributes' && item.display) {
+              const parts = item.display.split('=');
+              if (parts.length === 2) {
+                mappings[type][parts[0].trim()] = parts[1].trim();
+              } else {
+                mappings[type][item.display] = item.display;
+              }
+            }
+          }
+        }
+      }
+    }
+    return mappings;
   }
 
   generatePDF() {
@@ -60,10 +92,5 @@ export class LocatorPrettyViewerComponent implements OnInit {
       popupWin.print();
       popupWin.close();
     });
-  }
-
-  extractValueFromDisplay(display: string): string {
-    const parts = display.split('=');
-    return parts.length === 2 ? parts[1].trim() : display;
   }
 }
