@@ -11,7 +11,7 @@
             Follow Up Date: <strong>{{ mappedAttributes.obs['PLANNED FOLLOW-UP DATE'] }}</strong>
           </li>
           <li>Date Of Last Follow-Up : <strong>{{mappedAttributes.obs['DATE OF LAST FOLLOW-UP']}}</strong></li>
-          <li>Facility name: <strong>Location Test</strong></li>
+          <li>Case Manager: <strong>{{mappedAttributes.attributes['Case Manager']}}</strong></li>
         </ul>
       </div>
       <div>
@@ -20,14 +20,14 @@
           <li>
             Marital status: <strong>{{ mappedAttributes.obs['CIVIL STATUS']}}</strong>
           </li>
-          <li>Place of work: <strong>null</strong></li>
+          <li>Health Center: <strong>{{mappedAttributes.attributes['Health Center']}}</strong></li>
           <li>
             Religious affiliation & location:
             <strong>{{ mappedAttributes.obs.RELIGION }}</strong>
           </li>
           <li>
             Patient/Client category:
-            <strong>null</strong>
+            <strong>{{mappedAttributes.obs['PATIENT TYPE']}}</strong>
           </li>
         </ul>
       </div>
@@ -613,7 +613,7 @@
                     </td>
                     <td>
                       <strong>Nearest centre: </strong
-                      >null
+                      >{{mappedAttributes.attributes['Treatment supporter rural nearest shopping Centre']}}
                     </td>
                   </tr>
                   <tr>
@@ -630,10 +630,6 @@
                     <td>
                       <strong>Nearest landmark : </strong>
                       {{ mappedAttributes.attributes['Treatment Supporter Rural Landmark'] }}
-                    </td>
-                    <td>
-                      <strong>Homestead name : </strong>
-                      homestead name (null)
                     </td>
                   </tr>
                   <tr>

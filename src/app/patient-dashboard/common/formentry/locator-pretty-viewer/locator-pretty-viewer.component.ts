@@ -31,6 +31,7 @@ export class LocatorPrettyViewerComponent implements OnInit {
       }
     }
     this.mappedAttributes = this.generateMappings(this.data);
+    console.log('mappedAttributes', this.mappedAttributes);
   }
 
   generateMappings(data: any) {
