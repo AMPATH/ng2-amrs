@@ -18,7 +18,8 @@ const availableKeys = {
   patientEncounters: getPatientEncounters,
   isPatientTransferredOut: checkTransferOut,
   dcQualifedVisits: getQualifiedDcVisits,
-  latestCovidAssessment: getLatestCovidAssessment
+  latestCovidAssessment: getLatestCovidAssessment,
+  isViremicHighVL: getLatestVL
 };
 
 const def = {
@@ -31,7 +32,8 @@ const def = {
   getPatientEncounters: getPatientEncounters,
   checkTransferOut: checkTransferOut,
   dcQualifedVisits: getQualifiedDcVisits,
-  getLatestCovidAssessment: getLatestCovidAssessment
+  getLatestCovidAssessment: getLatestCovidAssessment,
+  isViremicHighVL: getLatestVL
 };
 
 module.exports = def;
@@ -191,6 +193,25 @@ function getLatestCovidAssessment(patientUuid) {
           resolve(screeningDate);
         } else {
           resolve('');
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+function getLatestVL(patientUuid) {
+  return new Promise((resolve, reject) => {
+    etlHivSummary
+      .getPatientLastVL(patientUuid)
+      .then((result) => {
+        if (result.size > 0) {
+          const isViremic =
+            result.result[0].hiv_viral_load > 200 ? true : false;
+          resolve(isViremic);
+        } else {
+          resolve(false);
         }
       })
       .catch((error) => {

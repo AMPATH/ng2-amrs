@@ -4547,7 +4547,8 @@
       "patientEnrollment",
       "isPatientTransferredOut",
       "patientEncounters",
-      "latestCovidAssessment"
+      "latestCovidAssessment",
+      "isViremicHighVL"
     ],
     "enrollmentOptions": {
       "requiredProgramQuestions": [
@@ -4603,25 +4604,25 @@
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN",
-            "allowedIf": "screenedForCovidToday && age > 24",
+            "allowedIf": "!isViremicHighVL && age > 24",
             "errors": {
-              "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
+              "viremiaError": "To access clinical forms kindly fill Enhanced Adherence Encounter Form"
             }
           },
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN",
-            "allowedIf": "screenedForCovidToday && age >= 10 && age <= 24",
+            "allowedIf": "!isViremicHighVL && age >= 10 && age <= 24",
             "errors": {
-              "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
+              "viremiaError": "To access clinical forms kindly fill Enhanced Adherence Encounter Form"
             }
           },
           {
             "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSRETURN",
-            "allowedIf": "screenedForCovidToday && age <= 14",
+            "allowedIf": "!isViremicHighVL && age <= 14",
             "errors": {
-              "covidError": "To access clinical forms kindly fill Covid 19 Assessment Form"
+              "viremiaError": "To access clinical forms kindly fill Enhanced Adherence Encounter Form"
             }
           },
           {

@@ -15,7 +15,8 @@ function buildScope(dataDictionary) {
     qualifiesMedicationRefillVisit: false,
     lastCovidScreeningDate: '',
     retroSpective: false,
-    screenedForCovidToday: false
+    screenedForCovidToday: false,
+    isViremicHighVL: false
   };
   let isStandardDcVisit = false;
 
@@ -155,7 +156,13 @@ function buildScope(dataDictionary) {
       }
     }
   }
-
+  // Add Restrictions For Users who are not Suppressed vl > 200 System to Restrict Filling of Enhance Adherance Form
+  if (
+    dataDictionary.programUuid === 'c4246ff0-b081-460c-bcc5-b0678012659e' &&
+    dataDictionary.isViremicHighVL
+  ) {
+    scope.isViremicHighVL = true;
+  }
   // add other methods to build the scope objects
   return scope;
 }

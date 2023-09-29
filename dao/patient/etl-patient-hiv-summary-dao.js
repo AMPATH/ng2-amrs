@@ -4,7 +4,8 @@ var db = require('../../etl-db');
 
 var def = {
   getPatientHivSummary: getPatientHivSummary,
-  getPatientLastEncounter: getPatientLastEncounter
+  getPatientLastEncounter: getPatientLastEncounter,
+  getPatientLastVL: getPatientLastVL
 };
 
 module.exports = def;
@@ -59,5 +60,23 @@ function getPatientLastEncounter(patientUuid) {
     ]
   };
 
+  return db.queryDb(queryObject);
+}
+function getPatientLastVL(patientUuid) {
+  var whereClause = ['uuid = ? and hiv_viral_load is not null ', patientUuid];
+
+  var queryObject = {
+    columns: 'MAX(test_datetime),hiv_viral_load',
+    table: 'etl.flat_labs_and_imaging',
+    where: whereClause,
+    order: [
+      {
+        column: 'test_datetime',
+        asc: false
+      }
+    ],
+    limit: 1,
+    group: ['person_id', 'test_datetime']
+  };
   return db.queryDb(queryObject);
 }
