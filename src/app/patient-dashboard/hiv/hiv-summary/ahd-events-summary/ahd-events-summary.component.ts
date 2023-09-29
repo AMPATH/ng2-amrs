@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { HivSummaryService } from '../hiv-summary.service';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
-import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 import { Patient } from 'src/app/models/patient.model';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
@@ -15,12 +14,13 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   // public tbTreatmentSummary: any = '';
   // @Input() public patient: Patient;
   public patientUuid: any;
-  isHEIActive: boolean;
+  public patient: Patient;
+  isHEIActive = false;
   public hasError = false;
   public hivSummary: any;
-  public patient: Patient;
   public subscription: Subscription[] = [];
   public errors: any = [];
+  public loadingAhdSummary = false;
 
   constructor(
     private patientService: PatientService,
@@ -29,37 +29,37 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.loadPatient();
-    this.getPatientHivSummary(this.patientUuid);
-    console.log('ngOnInit patientuuid: ', this.patientUuid);
   }
 
   public loadPatient() {
-    this.patientService.currentlyLoadedPatient.subscribe((patient) => {
-      console.log('patient==> ', patient);
-      this.patientUuid = patient.person.uuid;
-    });
-    // this.patientResourceService.
-    // getPatientByUuid(this.patientUuid).subscribe(
-    //   (data: Patient) => {
-    //     console.log("patient: ", data)
-    //     this.patient = data;
-    //   },
-    //   (err) => {
-    //     this.loadingAhdSummary = false;
-    //     this.errors.push({
-    //       id: 'AHD Summary',
-    //       message:
-    //         'An error occured while loading AHD Summary. Please try again.'
-    //     });
-    //   });
+    this.loadingAhdSummary = true;
+    const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
+      (patient) => {
+        console.log('patient==> ', patient);
+        if (patient) {
+          this.patient = patient;
+          this.patientUuid = patient.person.uuid;
+          this.getPatientHivSummary(this.patientUuid);
+        }
+        this.loadingAhdSummary = false;
+      },
+      (err) => {
+        this.loadingAhdSummary = true;
+        this.errors.push({
+          id: 'patient',
+          message: 'error fetching patient'
+        });
+      }
+    );
+    this.subscription.push(patientSub);
   }
 
   public getPatientHivSummary(patientUuid) {
-    console.log('getpatientpatientuuid' + patientUuid);
+    console.log('HIVSUm getpatientpatientuuid ; ' + patientUuid);
     const summary = this.hivSummaryService
       .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe((data) => {
-        console.log(data);
+        console.log('HIV SUMMARY DATA: ', data);
         if (data) {
           for (const result of data) {
             console.log('results' + result);
