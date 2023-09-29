@@ -164,6 +164,13 @@
           >To access clinical forms kindly fill Covid 19 Assessment Form</strong
         >
       </div>
+      <div
+      class="alert alert-danger"
+      *ngIf="isAdultReturnVisitBeforeInitialVisit"
+      style="margin-top: 10px"
+      >
+        <strong>Oops! You cannot schedule an Adult return visit for a date that comes before the initial visit</strong>
+      </div>
     </div>
   </div>
   <span style="padding: 10px"></span>

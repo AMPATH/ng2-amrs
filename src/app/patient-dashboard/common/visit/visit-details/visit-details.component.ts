@@ -34,6 +34,7 @@ export class VisitDetailsComponent implements OnInit {
     '3bb41949-6596-4ff9-a54f-d3d7883a69ed';
   public qualifiesForCovidScreening = false;
   public isRetrospectiveVisit = false;
+  public isAdultReturnVisitBeforeInitialVisit = false;
 
   public get visitEncounters(): any[] {
     const mappedEncounters: Encounter[] = new Array<Encounter>();
@@ -226,8 +227,19 @@ export class VisitDetailsComponent implements OnInit {
           Array.isArray(visitType.encounterTypes.disallowedEncounters)
         ) {
           visitType.encounterTypes.disallowedEncounters.forEach((e) => {
-            if (e.errors && e.errors.covidError != null) {
+            if (
+              e.errors &&
+              e.errors.covidError != null &&
+              !this.isRetrospectiveVisit
+            ) {
               this.qualifiesForCovidScreening = true;
+            }
+            if (
+              e.errors &&
+              e.errors.isAdultReturnVisitBeforeInitialVisit != null &&
+              this.isRetrospectiveVisit
+            ) {
+              this.isAdultReturnVisitBeforeInitialVisit = true;
             }
           });
         }
