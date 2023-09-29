@@ -6,8 +6,6 @@ import * as rison from 'rison-node';
 import * as Moment from 'moment';
 
 import { DataAnalyticsDashboardService } from '../../services/data-analytics-dashboard.services';
-import { PrepResourceService } from 'src/app/etl-api/prep-resource.service';
-import { PrepReportBaseComponent } from './../../../hiv-care-lib/prep-report/prep-report-base/prep-report-base.component';
 import { PlhivNcdReportBaseComponent } from 'src/app/hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component';
 import { PlhivNcdReportService } from 'src/app/etl-api/plhiv-ncd-report.service';
 

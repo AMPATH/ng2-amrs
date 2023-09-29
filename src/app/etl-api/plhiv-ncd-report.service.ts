@@ -33,7 +33,6 @@ export class PlhivNcdReportService {
           return Observable.of(errorObj);
         }),
         map((response: Response) => {
-          console.log('data-list-response: >>', response);
           return response;
         })
       );
