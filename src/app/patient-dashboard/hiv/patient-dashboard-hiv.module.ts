@@ -65,7 +65,8 @@ import { AhdEventsSummaryComponent } from './hiv-summary/ahd-events-summary/ahd-
     HivSummaryHistoricalComponent,
     MedicationHistoryComponent,
     PatientMonthlyStatusComponent,
-    PreviousVisitComponent
+    PreviousVisitComponent,
+    AhdEventsSummaryComponent
   ],
   declarations: [
     HivPatientClinicalSummaryComponent,
