@@ -246,7 +246,6 @@ export class HivSummaryLatestComponent implements OnInit, OnDestroy {
               this.hivSummary.vl_1 = filtered.vl_1;
             }
             if (this.isHEIActive) {
-              console.log(this.hivSummary);
               this.lastPCRDate = this.getLastPCRDate();
               this.lastPCRStatus = this.getLastPCRStatus();
               this.infantFeedingMethod = this.getInfantFeedingMethod();
