@@ -1,70 +1,80 @@
-import { HivSummaryComponent } from './../hiv-summary.component';
-import { Component, OnInit, Input } from '@angular/core';
-import { HivSummaryResourceService } from 'src/app/etl-api/hiv-summary-resource.service';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { HivSummaryService } from '../hiv-summary.service';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
+import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 import { Patient } from 'src/app/models/patient.model';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-ahd-events-summary',
   templateUrl: './ahd-events-summary.component.html',
-  styleUrls: ['./ahd-events-summary.component.css'],
-  providers: [HivSummaryResourceService]
+  styleUrls: ['./ahd-events-summary.component.css']
 })
-export class AhdEventsSummaryComponent implements OnInit {
+export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   // public tbTreatmentSummary: any = '';
-  @Input() public patient: Patient;
+  // @Input() public patient: Patient;
+  public patientUuid: any;
+  isHEIActive: boolean;
   public hasError = false;
-  public tbTreatmentStartDate?: Date;
-  public tbTreatmentEndDate?: Date;
-  public showTbTreatment: boolean;
+  public hivSummary: any;
+  public patient: Patient;
+  public subscription: Subscription[] = [];
+  public errors: any = [];
 
   constructor(
     private patientService: PatientService,
-    private hivSummaryResourceService: HivSummaryResourceService
+    private hivSummaryService: HivSummaryService
   ) {}
 
   public ngOnInit() {
-    _.delay(
-      (patientUuid) => {
-        if (_.isNil(this.patient)) {
-          this.hasError = true;
-        } else {
-          this.getPatientHivSummary(patientUuid);
-        }
-      },
-      0,
-      this.patient.uuid
-    );
+    this.loadPatient();
+    this.getPatientHivSummary(this.patientUuid);
+    console.log('ngOnInit patientuuid: ', this.patientUuid);
   }
 
-  public getPatientHivSummary(patientUuid: string) {
-    this.hivSummaryResourceService
-      .getHivSummary(patientUuid, 0, 10)
-      .subscribe((results) => {
-        console.log('HivSummary' + results);
-        let tb_treatment_summary: any;
-        tb_treatment_summary = this.getPatientTbTreatmentStatus(results);
-        if (tb_treatment_summary) {
-          if (tb_treatment_summary.on_tb_treatment === 1) {
-            this.showTbTreatment = true;
+  public loadPatient() {
+    this.patientService.currentlyLoadedPatient.subscribe((patient) => {
+      console.log('patient==> ', patient);
+      this.patientUuid = patient.person.uuid;
+    });
+    // this.patientResourceService.
+    // getPatientByUuid(this.patientUuid).subscribe(
+    //   (data: Patient) => {
+    //     console.log("patient: ", data)
+    //     this.patient = data;
+    //   },
+    //   (err) => {
+    //     this.loadingAhdSummary = false;
+    //     this.errors.push({
+    //       id: 'AHD Summary',
+    //       message:
+    //         'An error occured while loading AHD Summary. Please try again.'
+    //     });
+    //   });
+  }
+
+  public getPatientHivSummary(patientUuid) {
+    console.log('getpatientpatientuuid' + patientUuid);
+    const summary = this.hivSummaryService
+      .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
+      .subscribe((data) => {
+        console.log(data);
+        if (data) {
+          for (const result of data) {
+            console.log('results' + result);
+            if (result.is_clinical_encounter === 1) {
+              this.hivSummary = result;
+            }
           }
-          this.tbTreatmentStartDate = tb_treatment_summary.tb_tx_start_date;
-          this.tbTreatmentStartDate = tb_treatment_summary.tb_tx_start_date;
         }
       });
+    this.subscription.push(summary);
   }
 
-  public getPatientTbTreatmentStatus(hivSummaryData: any) {
-    const latestStatus = _.orderBy(
-      hivSummaryData,
-      (hivSummary) => {
-        return moment(hivSummary.tb_treatment_start_date);
-      },
-      ['desc']
-    );
-    return latestStatus[0];
+  public ngOnDestroy() {
+    this.subscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 }
