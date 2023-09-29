@@ -21,7 +21,7 @@ export class PlhivNcdReportService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}plhiv-ncd-monthly-summary?endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
+        `${this.url}plhiv-ncd-monthly-summary?endDate=${params.month}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
@@ -33,16 +33,17 @@ export class PlhivNcdReportService {
           return Observable.of(errorObj);
         }),
         map((response: Response) => {
+          console.log('data-list-response: >>', response);
           return response;
         })
       );
   }
   public getPlhivNcdPatientList(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
-    console.log('params-service:>>', params);
     return this.http
       .get(
-        `${this.url}plhiv-ncd-monthly-summary-patient-list?indicators=${params.indicators}&endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
+        `${this.url}plhiv-ncd-monthly-summary-patient-list?endDate=${params.month}&locationUuids=${params.locationUuids}
+        &indicators=${params.indicators}`
       )
       .pipe(
         catchError((err: any) => {

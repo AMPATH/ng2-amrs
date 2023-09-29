@@ -6,8 +6,7 @@ import { PlhivNcdReportService } from 'src/app/etl-api/plhiv-ncd-report.service'
 @Component({
   selector: 'app-plhiv-ncd-report',
   templateUrl:
-    '../../../hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component.html',
-  styleUrls: ['./plhiv-ncd-report.component.css']
+    '../../../hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component.html'
 })
 export class PlhivNcdReportComponent
   extends PlhivNcdReportBaseComponent

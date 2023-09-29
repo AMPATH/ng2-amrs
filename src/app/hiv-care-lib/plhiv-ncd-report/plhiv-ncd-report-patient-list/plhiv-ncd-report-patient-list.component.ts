@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PrepResourceService } from 'src/app/etl-api/prep-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as Moment from 'moment';

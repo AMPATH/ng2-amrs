@@ -43,7 +43,7 @@
       [selected]="currentViewBelow === 'pdf'"
     >
       <app-report-view
-        [SummaryData]="prepReportSummaryData"
+        [SummaryData]="plhivNcdReportSummaryData"
         [sectionDefs]="columnDefs"
         (CellSelection)="onIndicatorSelected($event)"
         [reportDetails]="params"

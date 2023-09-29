@@ -53,6 +53,8 @@ import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
 import { TxRttReportPatientListComponent } from 'src/app/hiv-care-lib/tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 import { NcdReportComponent } from 'src/app/clinic-dashboard/hiv/ncd-report/ncd-report.component';
 import { NcdReportPatientListComponent } from 'src/app/hiv-care-lib/ncd-report-base/ncd-report-patient-list/ncd-report-patient-list.component';
+import { PlhivNcdReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-patient-list/plhiv-ncd-report-patient-list.component';
+import { PlhivNcdReportComponent } from './plhiv-ncd-report/plhiv-ncd-report.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -238,20 +240,20 @@ const routes: Routes = [
             component: PatientGainsAndLosesPatientListComponent
           }
         ]
+      },
+      {
+        path: 'plhiv-ncd-monthly-report',
+        children: [
+          {
+            path: '',
+            component: PlhivNcdReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PlhivNcdReportPatientListComponent
+          }
+        ]
       }
-      // {
-      //   path: 'plhiv-ncd-monthly-report',
-      //   children: [
-      //     {
-      //       path: '',
-      //       component: NcdReportComponent
-      //     },
-      //     {
-      //       path: 'ncd-report-patientlist',
-      //       component: NcdReportPatientListComponent
-      //     }
-      //   ]
-      // }
     ]
   },
   {

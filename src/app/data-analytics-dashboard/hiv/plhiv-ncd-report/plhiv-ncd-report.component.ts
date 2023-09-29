@@ -8,25 +8,27 @@ import * as Moment from 'moment';
 import { DataAnalyticsDashboardService } from '../../services/data-analytics-dashboard.services';
 import { PrepResourceService } from 'src/app/etl-api/prep-resource.service';
 import { PrepReportBaseComponent } from './../../../hiv-care-lib/prep-report/prep-report-base/prep-report-base.component';
+import { PlhivNcdReportBaseComponent } from 'src/app/hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component';
+import { PlhivNcdReportService } from 'src/app/etl-api/plhiv-ncd-report.service';
 
 @Component({
   selector: 'app-plhiv-ncd-report',
-  templateUrl: './plhiv-ncd-report.component.html',
-  styleUrls: ['./plhiv-ncd-report.component.css']
+  templateUrl:
+    './../../../hiv-care-lib/plhiv-ncd-report/plhiv-ncd-report-base/plhiv-ncd-report-base.component.html'
 })
 export class PlhivNcdReportComponent
-  extends PrepReportBaseComponent
+  extends PlhivNcdReportBaseComponent
   implements OnInit {
   public enabledControls = 'monthControl,locationControl';
 
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public prepResourceService: PrepResourceService,
+    public plhivNcdResourceService: PlhivNcdReportService,
     private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
     private location: Location
   ) {
-    super(router, route, prepResourceService);
+    super(router, route, plhivNcdResourceService);
   }
 
   public ngOnInit() {
