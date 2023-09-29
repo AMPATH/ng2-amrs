@@ -1,14 +1,74 @@
 <div>
-  <table class="table table-hover table-striped table-responsive">
-    <thead>
+
+  <div>
+    <table class="table table-hover table-striped table-responsive" >
+      <thead>
+        <tr>
+          <th>TB Start Date</th>
+          <th>TB End Date</th>
+        </tr> 
+      </thead>
       <tr>
-        <th>TB Start Date</th>
-        <th>TB End Date</th>
+        <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
       </tr>
-    </thead>
-    <tr>
-      <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
-      <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
-    </tr>
-  </table>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Cryptococall Start Date</th>
+          <th>Cryptococall End Date</th>
+        </tr>
+      </thead>
+      <tr>
+        <td> </td>
+        <td> </td>
+      </tr>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>PCP Start Date</th>
+          <th>PCP End Date</th>
+        </tr>
+      </thead>
+      <tr>
+        <td>{{ hivSummary?.pcp_prophylaxis_start_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ hivSummary?.pcp_prophylaxis_end_date | date: 'dd-MM-yyyy' }}</td>
+      </tr>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Toxoplasmosis Start Date</th>
+          <th>Toxoplasmosis End Date</th>
+        </tr>
+      </thead>
+      <tr>
+        <td> </td>
+        <td> </td>
+      </tr>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Kaposis Sarcoma Start Date</th>
+          <th>Kaposis Sarcoma End Date</th>
+        </tr>
+      </thead>
+      <tr>
+        <td> </td>
+        <td> </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- <div >
+    <p class="mx-8" >NO AHD SUMMARY DATA!</p>
+  </div> -->
+
 </div>
