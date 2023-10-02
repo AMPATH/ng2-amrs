@@ -1,33 +1,52 @@
 <div *ngIf="data" class="wrapper-container" id="wrapper-container">
   <div>
     <div class="wrapper">
-      <span _ngcontent-c44="" (click)="generatePDF()" class="btn-print glyphicon text-primary glyphicon-print "></span>
+      <span
+        _ngcontent-c44=""
+        (click)="generatePDF()"
+        class="btn-print glyphicon text-primary glyphicon-print"
+      ></span>
     </div>
     <div>
       <div>
         <p>Encounter Details</p>
         <ul>
           <li>
-            Follow Up Date: <strong>{{ mappedAttributes.obs['PLANNED FOLLOW-UP DATE'] }}</strong>
+            Follow Up Date:
+            <strong>{{
+              mappedAttributes.obs['PLANNED FOLLOW-UP DATE']
+            }}</strong>
           </li>
-          <li>Date Of Last Follow-Up : <strong>{{mappedAttributes.obs['DATE OF LAST FOLLOW-UP']}}</strong></li>
-          <li>Case Manager: <strong>{{mappedAttributes.attributes['Case Manager']}}</strong></li>
+          <li>
+            Date Of Last Follow-Up :
+            <strong>{{
+              mappedAttributes.obs['DATE OF LAST FOLLOW-UP']
+            }}</strong>
+          </li>
+          <li>
+            Case Manager:
+            <strong>{{ mappedAttributes.attributes['Case Manager'] }}</strong>
+          </li>
         </ul>
       </div>
       <div>
         <p>Clients/Patient's Information</p>
         <ul>
           <li>
-            Marital status: <strong>{{ mappedAttributes.obs['CIVIL STATUS']}}</strong>
+            Marital status:
+            <strong>{{ mappedAttributes.obs['CIVIL STATUS'] }}</strong>
           </li>
-          <li>Health Center: <strong>{{mappedAttributes.attributes['Health Center']}}</strong></li>
+          <li>
+            Health Center:
+            <strong>{{ mappedAttributes.attributes['Health Center'] }}</strong>
+          </li>
           <li>
             Religious affiliation & location:
             <strong>{{ mappedAttributes.obs.RELIGION }}</strong>
           </li>
           <li>
             Patient/Client category:
-            <strong>{{mappedAttributes.obs['PATIENT TYPE']}}</strong>
+            <strong>{{ mappedAttributes.obs['PATIENT TYPE'] }}</strong>
           </li>
         </ul>
       </div>
@@ -35,14 +54,20 @@
         <p>Other Personal Information</p>
         <ul>
           <li>
-            No of children: <strong>{{ mappedAttributes.obs['NUMBER OF CHILDREN LIVING IN HOME']}}</strong>
+            No of children:
+            <strong>{{
+              mappedAttributes.obs['NUMBER OF CHILDREN LIVING IN HOME']
+            }}</strong>
           </li>
           <li>
-            No of siblings: <strong>{{ mappedAttributes.obs['NUMBER OF SIBLINGS']}}</strong>
+            No of siblings:
+            <strong>{{ mappedAttributes.obs['NUMBER OF SIBLINGS'] }}</strong>
           </li>
           <li>
             Names of family members who know about the status of the client:
-            <strong>{{ mappedAttributes.obs['HIV STATUS DICLOSURE TO HOUSEHOLD MEMBERS'] }}</strong>
+            <strong>{{
+              mappedAttributes.obs['HIV STATUS DICLOSURE TO HOUSEHOLD MEMBERS']
+            }}</strong>
           </li>
         </ul>
       </div>
@@ -51,22 +76,31 @@
         <ul>
           <li>
             Client/Parent/Guardians preferred place of contact:
-            <strong>{{ mappedAttributes.obs['PREFERRED PLACE OF CONTACT'] }}</strong>
+            <strong>{{
+              mappedAttributes.obs['PREFERRED PLACE OF CONTACT']
+            }}</strong>
           </li>
           <li>
-            Time: - <strong>{{ mappedAttributes.obs["PREFERRED DAY AND TIME OF CONTACT, CODED"] }}</strong>
+            Time: -
+            <strong>{{
+              mappedAttributes.obs['PREFERRED DAY AND TIME OF CONTACT, CODED']
+            }}</strong>
           </li>
           <li>
             Physical Description of the patient/client/Guardian:
-            <strong>{{ mappedAttributes.obs["PHYSICAL EXAM NOTE, FREETEXT"] }}</strong>
+            <strong>{{
+              mappedAttributes.obs['PHYSICAL EXAM NOTE, FREETEXT']
+            }}</strong>
           </li>
           <li>
             Additional comments:
-            <strong>{{ mappedAttributes.obs['CLINICAL COMMENTS, GENERAL'] }}</strong>
+            <strong>{{
+              mappedAttributes.obs['CLINICAL COMMENTS, GENERAL']
+            }}</strong>
           </li>
           <li>
             Indicate if patient is from AMPATH catchment area:
-            <strong>{{ mappedAttributes.obs["AMPATH CATCHMENT AREA"] }}</strong>
+            <strong>{{ mappedAttributes.obs['AMPATH CATCHMENT AREA'] }}</strong>
           </li>
         </ul>
       </div>
@@ -85,10 +119,11 @@
           <tbody>
             <tr>
               <td>
-                <strong>Official name of client : </strong> 
+                <strong>Official name of client : </strong>
                 {{ mappedAttributes.attributes['Caregiver Name'] }}
               </td>
-              <td><strong>Name commonly called : </strong>
+              <td>
+                <strong>Name commonly called : </strong>
                 {{ mappedAttributes.attributes['Caregiver common name'] }}
               </td>
             </tr>
@@ -105,7 +140,11 @@
             <tr>
               <td>
                 <strong>Alternative Phone No. :</strong>
-                {{ mappedAttributes.attributes['Alternative contact phone number'] }}
+                {{
+                  mappedAttributes.attributes[
+                    'Alternative contact phone number'
+                  ]
+                }}
               </td>
               <td>
                 <strong>Occupation : </strong
@@ -142,7 +181,7 @@
               <tr>
                 <td>
                   <strong>Town : </strong>
-                  {{ mappedAttributes.attributes['Workplace']}}
+                  {{ mappedAttributes.attributes['Workplace'] }}
                 </td>
                 <td>
                   <strong>Institution/Business: </strong
@@ -151,9 +190,8 @@
               </tr>
               <tr>
                 <td>
-                  <strong
-                    >Location : </strong>
-                    {{ mappedAttributes.attributes['Workplace Location'] }}
+                  <strong>Location : </strong>
+                  {{ mappedAttributes.attributes['Workplace Location'] }}
                 </td>
                 <td>
                   <strong>Department/section : </strong
@@ -168,86 +206,174 @@
               </tr>
             </tbody>
           </table>
-        </div>     
+        </div>
       </div>
-    <div>
-      <h6 class="header">Rural Direction</h6>
-    </div>
-    <div>
       <div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>General route : </strong> {{ mappedAttributes.attributes['Driving Route']}}</td>
-              <td><strong>Nearest centre: </strong>{{  mappedAttributes.attributes['Rural nearest shopping centre']}}</td> 
-            </tr>
-            <tr>
-              <td><strong>Stage : </strong>{{ mappedAttributes.attributes['Rural bus stage']}}</td> 
-              <td><strong>Village : </strong> {{ mappedAttributes.attributes['Rural village'] }}</td> 
-            </tr>
-            <tr>
-              <td><strong>Nearest landmark : </strong>{{ mappedAttributes.attributes['Rural landmark']}}</td> 
-              <td><strong>Homestead name : </strong>{{ mappedAttributes.attributes['Rural homestead']}}</td>
-            </tr>
-            <tr>
-              <td><strong>Whom to ask :</strong>{{ mappedAttributes.attributes['Rural person reporting information']}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <h6 class="header">Rural Direction</h6>
       </div>
-    </div>
-    <div>
-      <h6 class="header">Urban Direction (check)</h6>
-    </div>
-    <div>
       <div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Town : </strong> {{ mappedAttributes.attributes['Client residence'] }}</td>
-              <td><strong>Estate: </strong>{{ mappedAttributes.attributes['Client urban estate'] }}</td>
-            </tr>
-            <tr>
-              <td><strong>Stage : </strong>{{ mappedAttributes.attributes['Bus Stage']}}</td>
-              <td><strong>Section : </strong> {{ mappedAttributes.attributes['Client urban section']}}</td>
-            </tr>
-            <tr>
-              <td><strong>Nearest landmark : </strong>{{ mappedAttributes.attributes['Landmark']}}</td>
-              <td><strong>Plot name: </strong>{{ mappedAttributes.attributes['Plot number'] }}</td>
-            </tr>
-            <tr>
-              <td><strong>Landlord : </strong>{{ mappedAttributes.attributes['Landlord name']}}</td>
-              <td>
-                <strong>Health Center : </strong>{{ mappedAttributes.attributes['Health Center'] }} 
-              </td>
-            </tr>
-            <!-- <tr>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>General route : </strong>
+                  {{ mappedAttributes.attributes['Driving Route'] }}
+                </td>
+                <td>
+                  <strong>Nearest centre: </strong
+                  >{{
+                    mappedAttributes.attributes['Rural nearest shopping centre']
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Stage : </strong
+                  >{{ mappedAttributes.attributes['Rural bus stage'] }}
+                </td>
+                <td>
+                  <strong>Village : </strong>
+                  {{ mappedAttributes.attributes['Rural village'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Nearest landmark : </strong
+                  >{{ mappedAttributes.attributes['Rural landmark'] }}
+                </td>
+                <td>
+                  <strong>Homestead name : </strong
+                  >{{ mappedAttributes.attributes['Rural homestead'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Whom to ask :</strong
+                  >{{
+                    mappedAttributes.attributes[
+                      'Rural person reporting information'
+                    ]
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h6 class="header">Urban Direction (check)</h6>
+      </div>
+      <div>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Town : </strong>
+                  {{ mappedAttributes.attributes['Client residence'] }}
+                </td>
+                <td>
+                  <strong>Estate: </strong
+                  >{{ mappedAttributes.attributes['Client urban estate'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Stage : </strong
+                  >{{ mappedAttributes.attributes['Bus Stage'] }}
+                </td>
+                <td>
+                  <strong>Section : </strong>
+                  {{ mappedAttributes.attributes['Client urban section'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Nearest landmark : </strong
+                  >{{ mappedAttributes.attributes['Landmark'] }}
+                </td>
+                <td>
+                  <strong>Plot name: </strong
+                  >{{ mappedAttributes.attributes['Plot number'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Landlord : </strong
+                  >{{ mappedAttributes.attributes['Landlord name'] }}
+                </td>
+                <td>
+                  <strong>Health Center : </strong
+                  >{{ mappedAttributes.attributes['Health Center'] }}
+                </td>
+              </tr>
+              <!-- <tr>
               <td><strong>Whom to ask :</strong> 
                 {{extractValueFromDisplay(data.person.attributes[85].display)}}
               </td>
             </tr> -->
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </div>
 
-      <div class="self-container">
-        <p>Spouse Details</p>
+    <div class="self-container">
+      <p>Spouse Details</p>
+      <div>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Name of Spouse : </strong>
+                  {{ mappedAttributes.attributes['Partner Name'] }}
+                </td>
+                <td>
+                  <strong>Name commonly called : </strong
+                  >{{ mappedAttributes.attributes['Partner common name'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Tribe : </strong
+                  >{{ mappedAttributes.attributes['Partner tribe'] }}
+                </td>
+                <td>
+                  <strong>Phone number : </strong>
+                  {{
+                    mappedAttributes.attributes['Partner Contact Phone Number']
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h6 class="header">Rural Direction</h6>
+        </div>
         <div>
           <div>
             <table class="table table-striped">
@@ -261,147 +387,59 @@
               <tbody>
                 <tr>
                   <td>
-                    <strong>Name of Spouse : </strong>
-                    {{ mappedAttributes.attributes['Partner Name'] }}
+                    <strong>General route : </strong>
+                    {{
+                      mappedAttributes.attributes['Partner rural general route']
+                    }}
                   </td>
                   <td>
-                    <strong>Name commonly called : </strong
-                    >{{ mappedAttributes.attributes['Partner common name'] }}
+                    <strong>Nearest centre: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Partner rural nearest shopping centre'
+                      ]
+                    }}
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <strong>Tribe : </strong
-                    >{{ mappedAttributes.attributes['Partner tribe'] }} 
+                    <strong>Stage : </strong
+                    >{{
+                      mappedAttributes.attributes['Partner rural bus stage']
+                    }}
                   </td>
                   <td>
-                    <strong>Phone number : </strong>
-                    {{ mappedAttributes.attributes['Partner Contact Phone Number']}}
+                    <strong>Village : </strong>
+                    {{ mappedAttributes.attributes['Partner rural village'] }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Nearest landmark : </strong
+                    >{{ mappedAttributes.attributes['Partner rural landmark'] }}
+                  </td>
+                  <td>
+                    <strong>Homestead name : </strong>
+                    {{ mappedAttributes.attributes['Partner rural homestead'] }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Whom to ask :</strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Partner rural person reporting information'
+                      ]
+                    }}
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div>
-            <h6 class="header">Rural Direction</h6>
-          </div>
-          <div>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>General route : </strong>
-                      {{ mappedAttributes.attributes['Partner rural general route'] }} 
-                    </td>
-                    <td>
-                      <strong>Nearest centre: </strong
-                      >{{ mappedAttributes.attributes['Partner rural nearest shopping centre'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Stage : </strong
-                      >{{ mappedAttributes.attributes['Partner rural bus stage'] }}
-                    </td>
-                    <td>
-                      <strong>Village : </strong>
-                      {{ mappedAttributes.attributes['Partner rural village'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Nearest landmark : </strong
-                      >{{ mappedAttributes.attributes['Partner rural landmark'] }}
-                    </td>
-                    <td>
-                      <strong>Homestead name : </strong>
-                      {{ mappedAttributes.attributes['Partner rural homestead'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Whom to ask :</strong>
-                      {{ mappedAttributes.attributes['Partner rural person reporting information'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div>
-            <h6 class="header">Urban Direction</h6>
-          </div>
-          <div>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>Town : </strong>
-                      {{ mappedAttributes.attributes['Partner urban residence']}}
-                    </td>
-                    <td>
-                      <strong>Estate: </strong
-                      >{{ mappedAttributes.attributes['Partner urban section']}}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Stage : </strong
-                      >{{ mappedAttributes.attributes['Partner urban bus stage'] }}
-                    </td>
-                    <td>
-                      <strong>Section : </strong>
-                      {{ mappedAttributes.attributes['Partner urban section'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Nearest landmark : </strong
-                      >{{ mappedAttributes.attributes['Partner urban landmark'] }}
-                    </td>
-                    <td>
-                      <strong>Plot name: </strong
-                      >{{ mappedAttributes.attributes['Plot number'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Landlord : </strong
-                      >{{ mappedAttributes.attributes['Partner urban landlord name']}}
-                    </td>
-                    <td>
-                      <strong>Nearest well known neighbor: </strong
-                      >{{ mappedAttributes.attributes['Partner urban well known neighbor name'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Whom to ask :</strong
-                      >{{ mappedAttributes.attributes['Partner urban person reporting information'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
-        <p>Next of Kin Details</p>
+        <div>
+          <h6 class="header">Urban Direction</h6>
+        </div>
         <div>
           <div>
             <table class="table table-striped">
@@ -415,148 +453,109 @@
               <tbody>
                 <tr>
                   <td>
-                    <strong>Name of next of kin : </strong>
-                    {{ mappedAttributes.attributes['Next of Kin name']}}
+                    <strong>Town : </strong>
+                    {{ mappedAttributes.attributes['Partner urban residence'] }}
                   </td>
                   <td>
-                    <strong>Name commonly called : </strong
-                    >{{ mappedAttributes.attributes['Next of Kin Common Name'] }}
+                    <strong>Estate: </strong
+                    >{{ mappedAttributes.attributes['Partner urban section'] }}
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <strong>Tribe : </strong>
-                    {{ mappedAttributes.attributes['Next of Kin Tribe'] }}
+                    <strong>Stage : </strong
+                    >{{
+                      mappedAttributes.attributes['Partner urban bus stage']
+                    }}
                   </td>
                   <td>
-                    <strong>Phone number : </strong>
-                    {{ mappedAttributes.attributes['Next of Kin Contact Phone Number'] }}
+                    <strong>Section : </strong>
+                    {{ mappedAttributes.attributes['Partner urban section'] }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Nearest landmark : </strong
+                    >{{ mappedAttributes.attributes['Partner urban landmark'] }}
+                  </td>
+                  <td>
+                    <strong>Plot name: </strong
+                    >{{ mappedAttributes.attributes['Plot number'] }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Landlord : </strong
+                    >{{
+                      mappedAttributes.attributes['Partner urban landlord name']
+                    }}
+                  </td>
+                  <td>
+                    <strong>Nearest well known neighbor: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Partner urban well known neighbor name'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Whom to ask :</strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Partner urban person reporting information'
+                      ]
+                    }}
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div>
-            <h6 class="header">Rural Direction</h6>
-          </div>
-          <div>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>General route : </strong>
-                      {{ mappedAttributes.attributes['Next of kin rural general route'] }}
-                    </td>
-                    <td>
-                      <strong>Nearest centre: </strong
-                      >{{ mappedAttributes.attributes['Next of Kin rural nearest shopping Centre'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Stage : </strong
-                      >{{ mappedAttributes.attributes['Next of kin rural bus stage'] }}
-                    </td>
-                    <td>
-                      <strong>Village : </strong>
-                      {{ mappedAttributes.attributes['Next of kin Rural Village'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Nearest landmark : </strong
-                      >{{ mappedAttributes.attributes['Next of kin rural landmark'] }}
-                    </td>
-                    <td>
-                      <strong>Homestead name : </strong>
-                      {{ mappedAttributes.attributes['Next of kin rural Homestead'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Whom to ask :</strong
-                      >{{ mappedAttributes.attributes['Next of kin rural person reporting information'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div>
-            <h6 class="header">Urban Direction</h6>
-          </div>
-          <div>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>Town : </strong>
-                      {{ mappedAttributes.attributes['Next of kin urban residence'] }}
-                    </td>
-                    <td>
-                      <strong>Estate: </strong
-                      >{{ mappedAttributes.attributes['Next of Kin Urban Estate'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Stage : </strong
-                      >{{ mappedAttributes.attributes['Next of kin urban bus stage']}}
-                    </td>
-                    <td>
-                      <strong>Section : </strong>
-                      {{ mappedAttributes.attributes['Next of Kin Urban Section'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Nearest landmark : </strong
-                      >{{ mappedAttributes.attributes['Next of Kin Urban Landmark']}}
-                    </td>
-                    <td>
-                      <strong>Plot name / Number: </strong
-                      >{{ mappedAttributes.attributes['Next of kin urban plot number'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Landlord : </strong
-                      >{{ mappedAttributes.attributes['Next of kin urban landlord name'] }}
-                    </td>
-                    <td>
-                      <strong>Nearest well known neighbor: </strong
-                      >{{ mappedAttributes.attributes['Next of Kin urban well known neighbor name'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Whom to ask :</strong>
-                      {{ mappedAttributes.attributes['Next of kin urban person reporting information'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
-        <p>Treatment supporter name</p>
+      </div>
+      <p>Next of Kin Details</p>
+      <div>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Name of next of kin : </strong>
+                  {{ mappedAttributes.attributes['Next of Kin name'] }}
+                </td>
+                <td>
+                  <strong>Name commonly called : </strong
+                  >{{ mappedAttributes.attributes['Next of Kin Common Name'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Tribe : </strong>
+                  {{ mappedAttributes.attributes['Next of Kin Tribe'] }}
+                </td>
+                <td>
+                  <strong>Phone number : </strong>
+                  {{
+                    mappedAttributes.attributes[
+                      'Next of Kin Contact Phone Number'
+                    ]
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h6 class="header">Rural Direction</h6>
+        </div>
         <div>
           <div>
             <table class="table table-striped">
@@ -570,181 +569,441 @@
               <tbody>
                 <tr>
                   <td>
-                    <strong>Treatment supporter name : </strong>
-                    {{ mappedAttributes.attributes['Treatment Supporter Name'] }}
+                    <strong>General route : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Next of kin rural general route'
+                      ]
+                    }}
                   </td>
                   <td>
-                    <strong>Common name: </strong
-                    >{{ mappedAttributes.attributes['Treatment Supporter common name'] }}
+                    <strong>Nearest centre: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Next of Kin rural nearest shopping Centre'
+                      ]
+                    }}
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <strong>Tribe : </strong>
-                    {{ mappedAttributes.attributes['Treatment supporter tribe'] }}
+                    <strong>Stage : </strong
+                    >{{
+                      mappedAttributes.attributes['Next of kin rural bus stage']
+                    }}
                   </td>
                   <td>
-                    <strong>Phone number : </strong>
-                    {{ mappedAttributes.attributes['Treatment Supporter Contact Phone Number'] }}
+                    <strong>Village : </strong>
+                    {{
+                      mappedAttributes.attributes['Next of kin Rural Village']
+                    }}
                   </td>
                 </tr>
                 <tr>
-                  <td><strong>Location of worship: </strong> {{ mappedAttributes.attributes['Treatment Supporter location of religious worship']}}</td>
+                  <td>
+                    <strong>Nearest landmark : </strong
+                    >{{
+                      mappedAttributes.attributes['Next of kin rural landmark']
+                    }}
+                  </td>
+                  <td>
+                    <strong>Homestead name : </strong>
+                    {{
+                      mappedAttributes.attributes['Next of kin rural Homestead']
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Whom to ask :</strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Next of kin rural person reporting information'
+                      ]
+                    }}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+        </div>
+        <div>
+          <h6 class="header">Urban Direction</h6>
+        </div>
+        <div>
           <div>
-            <h6 class="header">Rural Direction</h6>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>General route : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter Rural General Route'] }}
-                    </td>
-                    <td>
-                      <strong>Nearest centre: </strong
-                      >{{mappedAttributes.attributes['Treatment supporter rural nearest shopping Centre']}}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Stage : </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter Rural Bus Stage'] }}
-                    </td>
-                    <td>
-                      <strong>Village : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter Village'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Nearest landmark : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter Rural Landmark'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Whom to ask :</strong
-                      >{{ mappedAttributes.attributes['Treatment Support Rural Person Reporting Info'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Town : </strong>
+                    {{
+                      mappedAttributes.attributes['Next of kin urban residence']
+                    }}
+                  </td>
+                  <td>
+                    <strong>Estate: </strong
+                    >{{
+                      mappedAttributes.attributes['Next of Kin Urban Estate']
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Stage : </strong
+                    >{{
+                      mappedAttributes.attributes['Next of kin urban bus stage']
+                    }}
+                  </td>
+                  <td>
+                    <strong>Section : </strong>
+                    {{
+                      mappedAttributes.attributes['Next of Kin Urban Section']
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Nearest landmark : </strong
+                    >{{
+                      mappedAttributes.attributes['Next of Kin Urban Landmark']
+                    }}
+                  </td>
+                  <td>
+                    <strong>Plot name / Number: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Next of kin urban plot number'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Landlord : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Next of kin urban landlord name'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Nearest well known neighbor: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Next of Kin urban well known neighbor name'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Whom to ask :</strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Next of kin urban person reporting information'
+                      ]
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
+      </div>
+      <p>Treatment supporter name</p>
+      <div>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Treatment supporter name : </strong>
+                  {{ mappedAttributes.attributes['Treatment Supporter Name'] }}
+                </td>
+                <td>
+                  <strong>Common name: </strong
+                  >{{
+                    mappedAttributes.attributes[
+                      'Treatment Supporter common name'
+                    ]
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Tribe : </strong>
+                  {{ mappedAttributes.attributes['Treatment supporter tribe'] }}
+                </td>
+                <td>
+                  <strong>Phone number : </strong>
+                  {{
+                    mappedAttributes.attributes[
+                      'Treatment Supporter Contact Phone Number'
+                    ]
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Location of worship: </strong>
+                  {{
+                    mappedAttributes.attributes[
+                      'Treatment Supporter location of religious worship'
+                    ]
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h6 class="header">Rural Direction</h6>
           <div>
-            <h6 class="header">Place of Work</h6>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>Town : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter workplace']}}
-                    </td>
-                    <td>
-                      <strong>Institution/Business: </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter Workplace Institution']}}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Location : </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter workplace'] }}
-                    </td>
-                    <td>
-                      <strong>Department/section : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter workplace Department']}}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>well known name : </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter Workplace Known Name'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>General route : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Rural General Route'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Nearest centre: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment supporter rural nearest shopping Centre'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Stage : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Rural Bus Stage'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Village : </strong>
+                    {{
+                      mappedAttributes.attributes['Treatment Supporter Village']
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Nearest landmark : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Rural Landmark'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Whom to ask :</strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Support Rural Person Reporting Info'
+                      ]
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
+        <div>
+          <h6 class="header">Place of Work</h6>
           <div>
-            <h6 class="header">Urban Direction</h6>
-            <div>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <strong>Town : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter Urban Residence']}}
-                    </td>
-                    <td>
-                      <strong>Estate: </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter Urban Estate'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Stage : </strong
-                      >{{ mappedAttributes.attributes['Treatment supporter urban bus stage'] }}
-                    </td>
-                    <td>
-                      <strong>Section : </strong>
-                      {{ mappedAttributes.attributes['Treatment Supporter Urban Section'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Nearest landmark : </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter Urban Landmark'] }}
-                    </td>
-                    <td><strong>Plot name: </strong>{{ mappedAttributes.attributes['Treatment Supporter Urban Plot number'] }}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Landlord : </strong
-                      >{{ mappedAttributes.attributes['Treatment Supporter urban landlord'] }}
-                    </td>
-                    <td>
-                      <strong>Nearest well known neighbor: </strong
-                      >{{ mappedAttributes.attributes['Treatment supporter urban well known neighbour'] }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Whom to ask: </strong
-                      >{{ mappedAttributes.attributes['Treatment Support Urban Person Reporting Info'] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Town : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter workplace'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Institution/Business: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Workplace Institution'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Location : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter workplace'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Department/section : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter workplace Department'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>well known name : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Workplace Known Name'
+                      ]
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h6 class="header">Urban Direction</h6>
+          <div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Town : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Urban Residence'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Estate: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Urban Estate'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Stage : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment supporter urban bus stage'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Section : </strong>
+                    {{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Urban Section'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Nearest landmark : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Urban Landmark'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Plot name: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter Urban Plot number'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Landlord : </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Supporter urban landlord'
+                      ]
+                    }}
+                  </td>
+                  <td>
+                    <strong>Nearest well known neighbor: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment supporter urban well known neighbour'
+                      ]
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Whom to ask: </strong
+                    >{{
+                      mappedAttributes.attributes[
+                        'Treatment Support Urban Person Reporting Info'
+                      ]
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </div>

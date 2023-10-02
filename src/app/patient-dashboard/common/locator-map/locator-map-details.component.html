@@ -1,5 +1,9 @@
-<p-dialog header = "Locator-Map" [(visible)]="display"
- styleClass="edit-identifier-dialog" class="edit_link">
+<p-dialog
+  header="Locator-Map"
+  [(visible)]="display"
+  styleClass="edit-identifier-dialog"
+  class="edit_link"
+>
   <div class="container-fluid"></div>
 </p-dialog>
 <div class="row patient-info-row">
@@ -9,7 +13,7 @@
   ><span><i class="fa fa-plus fa-fw"></i> Add  </span>
   </a> 
   <locator-map #locator ></locator-map> -->
-  <div class >
+  <div class>
     <span class="spacing"></span>
     <a *ngIf="editDetails" (click)="fillLocatorDetails()" class="edit_link">
       <span><i class="fa fa-edit fa-fw"></i> Edit</span>
@@ -18,10 +22,16 @@
       <span><i class="fa fa-edit fa-fw"></i> Add</span>
     </a>
     <span class="spacing"></span>
-    <a type="button" (click)="display" data-target="#encounter"
-       data-toggle="modal" class="edit_link" >
-       <span><i class=" glyphicon glyphicon-eye-open smaller-icon"></i> View
-       </span>
+    <a
+      type="button"
+      (click)="(display)"
+      data-target="#encounter"
+      data-toggle="modal"
+      class="edit_link"
+    >
+      <span
+        ><i class="glyphicon glyphicon-eye-open smaller-icon"></i> View
+      </span>
     </a>
   </div>
   <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
@@ -37,7 +47,7 @@
         <tr>
           <td><strong>Landmark : </strong> {{ landmark }}</td>
           <td><strong>Workplace : </strong>{{ workplace }}</td>
-          </tr>
+        </tr>
         <tr>
           <td>
             <strong>Well Known Neighbour : </strong>{{ nearestNeighbour }}
@@ -54,25 +64,42 @@
     </table>
   </div>
 
-  <div id="encounter" class="modal" bsModal #staticModal="bs-modal"
-     [config]="{ backdrop: 'static' }" tabindex="-1" role="dialog" 
-      aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-nav-header">
+  <div
+    id="encounter"
+    class="modal"
+    bsModal
+    #staticModal="bs-modal"
+    [config]="{ backdrop: 'static' }"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="mySmallModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-nav-header">
             <h4 class="modal-title pull-left py-4">LOCATOR MAP INFO</h4>
-            <button type="button" class="close pull-right" aria-label="Close" 
-             (click)="staticModal.hide()" data-dismiss="modal">
-             <span aria-hidden="true">&times;</span>
+            <button
+              type="button"
+              class="close pull-right"
+              aria-label="Close"
+              (click)="staticModal.hide()"
+              data-dismiss="modal"
+            >
+              <span aria-hidden="true">&times;</span>
             </button>
-            </div>
-            <div>
-              <pretty-encounter-viewer class="modal-pretty" [encounter]="patientLocatorEncounter" [fromLocatorMap]=true>
-              </pretty-encounter-viewer>
-            </div>
+          </div>
+          <div>
+            <pretty-encounter-viewer
+              class="modal-pretty"
+              [encounter]="patientLocatorEncounter"
+              [fromLocatorMap]="true"
+            >
+            </pretty-encounter-viewer>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </div>
