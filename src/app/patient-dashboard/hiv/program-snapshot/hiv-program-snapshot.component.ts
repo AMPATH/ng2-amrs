@@ -124,6 +124,10 @@ export class HivProgramSnapshotComponent implements OnInit {
   public prediction: any;
 
   public isHEIActive = false;
+  public age_of_ped_on_last_pcr: number;
+  public last_pcr_status: string;
+  public last_pcr_date: string;
+  public infant_feeding_method: string;
 
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
@@ -250,6 +254,15 @@ export class HivProgramSnapshotComponent implements OnInit {
           if (this.patientData.location_uuid) {
             this.resolveLastEncounterLocation(this.patientData.location_uuid);
           }
+        }
+        if (this.isHEIActive) {
+          this.last_pcr_date = this.getLastPCRDate();
+          this.last_pcr_status = this.getLastPCRStatus();
+          this.infant_feeding_method = this.getInfantFeedingMethod();
+          this.age_of_ped_on_last_pcr = moment(this.last_pcr_date).diff(
+            moment(this.patientData.birth_date),
+            'months'
+          );
         }
       });
   }
@@ -724,5 +737,80 @@ export class HivProgramSnapshotComponent implements OnInit {
     );
 
     return latestStatus[0];
+  }
+
+  public getLastPCRDate(): string {
+    let last_pcr_date = '';
+
+    if (this.patientData.hiv_dna_pcr_4_date !== null) {
+      last_pcr_date = this.patientData.hiv_dna_pcr_4_date;
+    } else if (this.patientData.hiv_dna_pcr_3_date !== null) {
+      last_pcr_date = this.patientData.hiv_dna_pcr_3_date;
+    } else if (this.patientData.hiv_dna_pcr_2_date !== null) {
+      last_pcr_date = this.patientData.hiv_dna_pcr_2_date;
+    } else if (this.patientData.hiv_dna_pcr_1_date !== null) {
+      last_pcr_date = this.patientData.hiv_dna_pcr_1_date;
+    } else {
+      return '';
+    }
+
+    return last_pcr_date;
+  }
+
+  public getLastPCRStatus(): string {
+    let last_pcr_status: number;
+
+    if (this.patientData.hiv_dna_pcr_resulted !== null) {
+      last_pcr_status = this.patientData.hiv_dna_pcr_resulted;
+    } else if (this.patientData.hiv_dna_pcr_4 !== null) {
+      last_pcr_status = this.patientData.hiv_dna_pcr_4;
+    } else if (this.patientData.hiv_dna_pcr_3 !== null) {
+      last_pcr_status = this.patientData.hiv_dna_pcr_3;
+    } else if (this.patientData.hiv_dna_pcr_2 !== null) {
+      last_pcr_status = this.patientData.hiv_dna_pcr_2;
+    } else if (this.patientData.hiv_dna_pcr_1 !== null) {
+      last_pcr_status = this.patientData.hiv_dna_pcr_1;
+    } else {
+      last_pcr_status = null;
+    }
+    if (last_pcr_status === 664) {
+      return 'NEGATIVE';
+    } else if (last_pcr_status === 703) {
+      return 'POSITIVE';
+    } else if (last_pcr_status === 1118) {
+      return 'NOT DONE';
+    } else if (last_pcr_status === 1138) {
+      return 'INDETERMINATE';
+    } else if (last_pcr_status === 1304) {
+      return 'POOR SAMPLE QUALITY';
+    } else {
+      return 'NONE';
+    }
+  }
+
+  public getInfantFeedingMethod(): string {
+    const INFANT_FEEDING_METHODS = [
+      'NONE',
+      'EXPRESSED BREASTMILK',
+      'WEANED',
+      'INFANT FORMULA',
+      'BREASTFEEDING PREDOMINATELY',
+      'MIXED FEEDING',
+      'BREASTFEEDING EXCLUSIVELY',
+      'COW MILK',
+      'REGULAR FOOD',
+      'BREASTFEEDING',
+      'LIQUID FOODS OTHER THAN BREAST MILK',
+      'WATER',
+      'SOLID FOOD',
+      'UJI',
+      'OTHER NON-CODED',
+      'COMPLEMENTARY FEEDING',
+      'PLUMPY NUT',
+      'NEVER BREASTFED',
+      'CHILD ON REPLACEMENT FEEDING'
+    ];
+
+    return INFANT_FEEDING_METHODS[this.patientData.infant_feeding_method];
   }
 }
