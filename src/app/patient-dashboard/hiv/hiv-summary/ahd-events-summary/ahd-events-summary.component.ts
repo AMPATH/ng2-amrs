@@ -11,8 +11,6 @@ import * as _ from 'lodash';
   styleUrls: ['./ahd-events-summary.component.css']
 })
 export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
-  // public tbTreatmentSummary: any = '';
-  // @Input() public patient: Patient;
   public patientUuid: any;
   public patient: Patient;
   isHEIActive = false;
@@ -38,7 +36,7 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
         console.log('patient==> ', patient);
         if (patient) {
           this.patient = patient;
-          this.patientUuid = patient.person.uuid;
+          this.patientUuid = this.patient.person.uuid;
           this.getPatientHivSummary(this.patientUuid);
         }
         this.loadingAhdSummary = false;
