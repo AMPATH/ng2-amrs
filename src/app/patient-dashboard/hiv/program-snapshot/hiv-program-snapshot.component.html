@@ -130,7 +130,7 @@
               *ngIf="isHEIActive"
               [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }"
             >
-              Age PCR Done: {{ age_of_ped_on_last_pcr }}M
+              Age PCR Done: {{ age_of_ped_on_last_pcr }}
             </p>
             <p>
               <i
@@ -217,7 +217,7 @@
             <p>
               PCR Results:
               <span style="text-transform: capitalize">
-                {{ 'NEGATIVE' }}
+                {{ last_pcr_status }}
               </span>
             </p>
           </div>
