@@ -9,7 +9,7 @@
         </tr> 
       </thead>
       <tr>
-        <td>{{ hivSummary?.tb_tx_start_date  }}</td>
+        <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy'  }}</td>
         <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
       </tr>
     </table>
