@@ -70,7 +70,7 @@
             }}</strong>
           </li>
           <li>
-            Name of well known child: 
+            Name of well known child:
             <strong>{{
               mappedAttributes.attributes['Well Known Child Name']
             }}</strong>
@@ -330,7 +330,7 @@
                   >{{ mappedAttributes.attributes['Landlord name'] }}
                 </td>
                 <td>
-                  <strong>Whom to ask :</strong> 
+                  <strong>Whom to ask :</strong>
                   {{ mappedAttributes.attributes['Well known neighbour name'] }}
                 </td>
               </tr>
@@ -487,7 +487,9 @@
                   </td>
                   <td>
                     <strong>Plot name: </strong
-                    >{{ mappedAttributes.attributes['Partner rural plot number'] }}
+                    >{{
+                      mappedAttributes.attributes['Partner rural plot number']
+                    }}
                   </td>
                 </tr>
                 <tr>
@@ -769,19 +771,11 @@
               <tr>
                 <td>
                   <strong>Religious affliation: </strong>
-                  {{
-                    mappedAttributes.attributes[
-                      'RELIGION'
-                    ]
-                  }}
+                  {{ mappedAttributes.attributes['RELIGION'] }}
                 </td>
                 <td>
                   <strong>Relationship : </strong
-                  >{{
-                    mappedAttributes.attributes[
-                      'GRANDPARENT'
-                    ]
-                  }}
+                  >{{ mappedAttributes.attributes['GRANDPARENT'] }}
                 </td>
               </tr>
             </tbody>
