@@ -142,7 +142,9 @@ import { TxMmdReportBaseComponent } from './tx-mmd-report/tx-mmd-report-base/tx-
 import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
 import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
-import { PlhivNcdV2ReportBaseComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-base/plhiv-ncd-v2-report-base.component';
+import { AhdReportBaseComponent } from './ahd-monthly-report/ahd-report-base/ahd-report-base.component';
+import { AhdReportViewComponent } from './ahd-monthly-report/ahd-report-view/ahd-report-view.component';
+import { AhdMonthlyReportPatientlistComponent } from './ahd-monthly-report/ahd-monthly-report-patientlist/ahd-monthly-report-patientlist.component';import { PlhivNcdV2ReportBaseComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-base/plhiv-ncd-v2-report-base.component';
 import { PlhivNcdV2ReportPatientListComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-view/plhiv-ncd-v2-report-view.component';
 
@@ -247,6 +249,7 @@ import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v
     Covid19TabularViewComponent,
     PrepMonthlyReportViewComponent,
     TxMlReportViewComponent,
+    AhdReportViewComponent,
     PlhivNcdV2ReportViewComponent
   ],
   declarations: [
@@ -339,6 +342,9 @@ import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v
     TxMmdReportPatientListComponent,
     TxRttReportBaseComponent,
     TxRttReportPatientListComponent,
+    AhdReportBaseComponent,
+    AhdReportViewComponent,
+    AhdMonthlyReportPatientlistComponent,
     PlhivNcdV2ReportBaseComponent,
     PlhivNcdV2ReportPatientListComponent,
     PlhivNcdV2ReportViewComponent
