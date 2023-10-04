@@ -49,6 +49,37 @@
             <strong>{{ mappedAttributes.obs['PATIENT TYPE'] }}</strong>
           </li>
         </ul>
+        <h4>For Peds Only</h4>
+        <ul>
+          <li>
+            Are any parents dead?
+            <strong>{{ mappedAttributes.obs['PARENT WHO IS DEAD'] }} </strong>
+          </li>
+          <li>
+            Who does the patient live with?
+            <strong>{{
+              mappedAttributes.obs['PERSON THE CHILD CURRENTLY LIVING WITH']
+            }}</strong>
+          </li>
+          <li>
+            Where is the child living, temporarily (Specify) ?
+            <strong>{{
+              mappedAttributes.obs['CHILD TEMPORARY RESIDENCE']
+            }}</strong>
+          </li>
+          <li>
+            Where is the child living, permanent residence (Specify) ?
+            <strong>{{
+              mappedAttributes.obs['CHILD PERMANENT RESIDENCE']
+            }}</strong>
+          </li>
+          <li>
+            Whom does the information belongs to ?
+            <strong>{{
+              mappedAttributes.obs['PERSON TO WHOM INFORMATION BELONGS']
+            }}</strong>
+          </li>
+        </ul>
       </div>
       <div>
         <p>Other Personal Information</p>
@@ -170,7 +201,11 @@
               </td>
               <td>
                 <strong>Location :</strong
-                >{{ mappedAttributes.attributes['Client residence'] }}
+                >{{
+                  mappedAttributes.attributes[
+                    'Caregiver location of religious worship'
+                  ]
+                }}
               </td>
             </tr>
           </tbody>
@@ -330,8 +365,18 @@
                   >{{ mappedAttributes.attributes['Landlord name'] }}
                 </td>
                 <td>
-                  <strong>Whom to ask :</strong>
+                  <strong>Nearest well Known neighbour :</strong>
                   {{ mappedAttributes.attributes['Well known neighbour name'] }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Whom to ask :</strong
+                  >{{
+                    mappedAttributes.attributes[
+                      'Urban person reporting information'
+                    ]
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -728,7 +773,7 @@
           </div>
         </div>
       </div>
-      <p>Treatment supporter name</p>
+      <p>Treatment supporter</p>
       <div>
         <div>
           <table class="table table-striped">
@@ -742,7 +787,7 @@
             <tbody>
               <tr>
                 <td>
-                  <strong>Treatment supporter : </strong>
+                  <strong>Treatment supporter name : </strong>
                   {{ mappedAttributes.attributes['Treatment Supporter Name'] }}
                 </td>
                 <td>
@@ -771,7 +816,7 @@
               <tr>
                 <td>
                   <strong>Religious affliation: </strong>
-                  {{ mappedAttributes.attributes['RELIGION'] }}
+                  {{ mappedAttributes.obs['RELIGION'] }}
                 </td>
                 <td>
                   <strong>Relationship : </strong
