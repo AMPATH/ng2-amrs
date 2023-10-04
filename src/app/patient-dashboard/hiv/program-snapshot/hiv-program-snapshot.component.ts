@@ -124,7 +124,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public prediction: any;
 
   public isHEIActive = false;
-  public age_of_ped_on_last_pcr: number;
+  public age_of_ped_on_last_pcr: string;
   public last_pcr_status: string;
   public last_pcr_date: string;
   public infant_feeding_method: string;
@@ -256,13 +256,18 @@ export class HivProgramSnapshotComponent implements OnInit {
           }
         }
         if (this.isHEIActive) {
-          this.last_pcr_date = this.getLastPCRDate();
-          this.last_pcr_status = this.getLastPCRStatus();
           this.infant_feeding_method = this.getInfantFeedingMethod();
-          this.age_of_ped_on_last_pcr = moment(this.last_pcr_date).diff(
-            moment(this.patientData.birth_date),
-            'months'
-          );
+          this.last_pcr_date = this.getLastPCRDate();
+          if (this.last_pcr_date === '') {
+            this.age_of_ped_on_last_pcr = '';
+            this.last_pcr_status = '';
+          } else {
+            this.last_pcr_status = this.getLastPCRStatus();
+            this.age_of_ped_on_last_pcr =
+              moment(this.last_pcr_date)
+                .diff(moment(this.patientData.birth_date), 'months')
+                .toString() + 'M';
+          }
         }
       });
   }
