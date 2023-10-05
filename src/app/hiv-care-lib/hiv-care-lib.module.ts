@@ -127,6 +127,10 @@ import { Covid19ReportComponent } from './covid-19-report/covid-19-report.compon
 import { Covid19ReportFiltersComponent } from './covid-19-report/covid-19-report-filters/covid-19-report-filters.component';
 import { Covid19ReportPatientListComponent } from './covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
 import { Covid19TabularViewComponent } from './covid-19-report/covid-19-tabular-view/covid-19-tabular-view.component';
+import { PrepMonthlyResourceService } from '../etl-api/prep-monthly-resource.service';
+import { PrepMonthlyReportComponent } from '../data-analytics-dashboard/hiv/prep-report/prep-monthly-report.component';
+import { PrepMonthlyReportBaseComponent } from './prep-report/monthly/prep-monthly-base/prep-monthly-base.component';
+import { PrepMonthlyReportViewComponent } from './prep-report/monthly/prep-monthly-report-view/prep-monthly-report-view.component';
 import { TxMlReportBaseComponent } from './tx-ml-report/tx-ml-report-base/tx-ml-report-base.component';
 import { TxMlReportPatientListComponent } from './tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
 import { TxMlReportViewComponent } from './tx-ml-report/tx-ml-report-view/tx-ml-report-view.component';
@@ -238,6 +242,7 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
+    PrepMonthlyReportViewComponent,
     TxMlReportViewComponent
   ],
   declarations: [
@@ -316,6 +321,9 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
+    PrepMonthlyReportComponent,
+    PrepMonthlyReportBaseComponent,
+    PrepMonthlyReportViewComponent,
     TxMlReportBaseComponent,
     TxMlReportPatientListComponent,
     TxMlReportViewComponent,
@@ -330,6 +338,7 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
   ],
   providers: [
     MOHReportService,
+    PrepMonthlyResourceService,
     LocationResourceService,
     ClinicalSummaryVisualizationService,
     RetentionReportResourceService,
