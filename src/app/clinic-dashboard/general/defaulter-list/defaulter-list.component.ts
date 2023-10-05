@@ -112,9 +112,19 @@ export class DefaulterListComponent implements OnInit {
         width: 150
       },
       {
+        headerName: 'Outreach Follow-up',
+        width: 150,
+        field: 'outreach_follow_up'
+      },
+      {
         headerName: 'Latest VL',
         width: 75,
         field: 'latest_vl'
+      },
+      {
+        headerName: 'VL Category',
+        width: 150,
+        field: 'vl_category'
       },
       {
         headerName: 'Latest VL Date',

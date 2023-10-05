@@ -41,6 +41,7 @@ interface Identifier {
 })
 export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public _order: any = null;
+  isHEIActive: any;
   @Input()
   set order(order: any) {
     this.selectedLabLocation = null;
@@ -129,6 +130,11 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     });
     this.patient = this.order.patient;
     this.person = new Person(this.order.patient.person);
+    if (Moment().diff(Moment(this.person.birthdate), 'months') <= 18) {
+      this.isHEIActive = true;
+    } else {
+      this.isHEIActive = false;
+    }
     this.searchIdentifiers = this.labOrdersSearchHelperService.searchIdentifiers(
       this.order.patient.identifiers
     );
@@ -197,17 +203,19 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   }
 
   public loadHivSummary(patientUuid) {
-    this.hivSummaryService.getHivSummary(patientUuid, 0, 1, false).subscribe(
-      (data) => {
-        this.hivSummary = data && data.length > 0 ? data[0] : null;
-        this.isBusy = false;
-      },
-      (err) => {
-        this.error =
-          'An error occured while loading Hiv Summary. Please try again.';
-        this.isBusy = false;
-      }
-    );
+    this.hivSummaryService
+      .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
+      .subscribe(
+        (data) => {
+          this.hivSummary = data && data.length > 0 ? data[0] : null;
+          this.isBusy = false;
+        },
+        (err) => {
+          this.error =
+            'An error occured while loading Hiv Summary. Please try again.';
+          this.isBusy = false;
+        }
+      );
   }
 
   public displayDnaPcrInputs() {

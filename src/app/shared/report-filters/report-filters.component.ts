@@ -74,6 +74,7 @@ export class ReportFiltersComponent
   @Output() public startingMonthChange = new EventEmitter<any>();
   @Output() public endingMonthChange = new EventEmitter<any>();
   @Output() public locationTypeChange = new EventEmitter<any>();
+  @Output() public quarterChange = new EventEmitter<any>();
   @Output() public patientTypeChange = new EventEmitter<any>();
   @Output() public sampleSizeChange = new EventEmitter<any>();
   @Output() public onIsEligibleChange = new EventEmitter<any>();
@@ -82,6 +83,17 @@ export class ReportFiltersComponent
   @Output() public getSelectedElicitedStartDate = new EventEmitter<any>();
   @Output() public getSelectedElicitedEndDate = new EventEmitter<any>();
   @Output() public onSelectAllPrograms = new EventEmitter<any>();
+  @Output() public selectedYearChange: EventEmitter<string> = new EventEmitter<
+    string
+  >();
+  @Output() public selectedQuarterChange: EventEmitter<
+    string
+  > = new EventEmitter<string>();
+  selectedYear: string;
+  selectedQuarter: string;
+  years: string[] = [];
+  showQuarters = false;
+  quarters: string[] = [];
   public genderOptions: Array<any> = [
     {
       value: 'F',
@@ -243,6 +255,8 @@ export class ReportFiltersComponent
   public endDateChange = new EventEmitter<Date>();
   private _startDate: Date;
   private _endDate: Date;
+  private _year: string;
+  private _quarter: string;
   private _startWeek: Date;
   private _report: string;
   private _indicators: Array<any> = [];
@@ -345,7 +359,9 @@ export class ReportFiltersComponent
     private _selectDepartmentService: SelectDepartmentService,
     private elementRef: ElementRef,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+    this.years = this.generateYears();
+  }
   public get startDate(): Date {
     return this._startDate;
   }
@@ -588,6 +604,26 @@ export class ReportFiltersComponent
       });
   }
 
+  public generateYears() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const startYear = 2012;
+    const financialYears = [];
+
+    for (let year = startYear; year <= currentYear; year++) {
+      const nextYear = year + 1;
+      const financialYear = `${year}/${nextYear.toString()}`;
+
+      // Exclude the current/following year period if the current month is not October or after
+      if (year < currentYear || (year === currentYear && currentMonth >= 10)) {
+        financialYears.push(financialYear);
+      }
+    }
+
+    return financialYears.reverse();
+  }
+
   public getPrograms() {
     this.programResourceService
       .getPrograms()
@@ -611,6 +647,99 @@ export class ReportFiltersComponent
         this.selectedIndicators = [];
       }
     }
+  }
+
+  checkYear(year: string) {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Month index starts from 0
+    this.quarters = [];
+
+    const currentPeriod = this.getCurrentPeriod();
+    if (year === currentPeriod) {
+      for (let i = 1; i <= 4; i++) {
+        let quarterdesc = '';
+        let isQuarterComplete = false;
+
+        switch (i) {
+          case 1:
+            quarterdesc = `Q${i} (October - December)`;
+            isQuarterComplete = true;
+            break;
+          case 2:
+            quarterdesc = `Q${i} (January - March)`;
+            isQuarterComplete = currentMonth >= 4;
+            break;
+          case 3:
+            quarterdesc = `Q${i} (April - June)`;
+            isQuarterComplete = currentMonth >= 7;
+            break;
+          case 4:
+            quarterdesc = `Q${i} (July - September)`;
+            isQuarterComplete = currentMonth >= 10;
+            break;
+          default:
+            break;
+        }
+
+        if (isQuarterComplete) {
+          this.quarters.push(`${quarterdesc}`);
+        }
+      }
+    } else {
+      for (let i = 1; i <= 4; i++) {
+        let quarterdesc = '';
+
+        switch (i) {
+          case 1:
+            quarterdesc = `Q${i} (October - December)`;
+            break;
+          case 2:
+            quarterdesc = `Q${i} (January - March)`;
+            break;
+          case 3:
+            quarterdesc = `Q${i} (April - June)`;
+            break;
+          case 4:
+            quarterdesc = `Q${i} (July - September)`;
+            break;
+          default:
+            break;
+        }
+
+        this.quarters.push(`${quarterdesc}`);
+      }
+    }
+
+    this.selectedQuarter = null;
+    this.showQuarters = true;
+    this.onYearChange(year);
+  }
+
+  getCurrentPeriod() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Month index starts from 0
+    const currentYear = currentDate.getFullYear();
+    const financialYearEndMonth = 9; // September
+
+    if (currentMonth < financialYearEndMonth) {
+      // Current year financial year
+      const startYear = currentYear - 1;
+      const endYear = currentYear.toString();
+      return `${startYear}/${endYear}`;
+    } else {
+      // Next year financial year
+      const startYear = currentYear;
+      const endYear = (currentYear + 1).toString();
+      return `${startYear}/${endYear}`;
+    }
+  }
+
+  onYearChange(year: string) {
+    this._year = year;
+  }
+
+  onQuarterChange(quarter: string) {
+    this._quarter = quarter;
   }
 
   public selectAllPrograms() {
@@ -650,6 +779,8 @@ export class ReportFiltersComponent
   }
 
   public onClickedGenerate() {
+    this.selectedYearChange.emit(this._year);
+    this.selectedQuarterChange.emit(this._quarter);
     this.generateReport.emit();
   }
   public ngAfterViewInit() {
@@ -714,7 +845,9 @@ export class ReportFiltersComponent
   public onlocationTypeChange($event: any): void {
     this.locationTypeChange.emit($event.value);
   }
-
+  public onquarterChange($event: any): void {
+    this.quarterChange.emit($event.value);
+  }
   public onpatientTypeChange($event: any): void {
     this.patientTypeChange.emit($event.value);
   }

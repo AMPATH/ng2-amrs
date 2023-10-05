@@ -42,6 +42,11 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       field: 'covid_19_vaccination_status'
     },
     {
+      headerName: 'Hiv Disclosure Status',
+      width: 250,
+      field: 'hiv_disclosure_status'
+    },
+    {
       headerName: 'TB Screening Date',
       width: 150,
       field: 'tb_screening_date'
@@ -84,14 +89,19 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       field: 'sms_receive_time'
     },
     {
-      headerName: 'VL Category',
-      width: 250,
-      field: 'vl_category'
-    },
-    {
       headerName: 'SMS Delivery Status',
       width: 100,
       field: 'sms_delivery_status'
+    },
+    {
+      headerName: 'Latest VL',
+      width: 75,
+      field: 'latest_vl'
+    },
+    {
+      headerName: 'Latest VL Date',
+      width: 150,
+      field: 'latest_vl_date'
     }
   ];
   public errors: any[] = [];

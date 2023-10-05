@@ -42,6 +42,18 @@ import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/co
 import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
 import { PrepMonthlyReportComponent } from './prep-report/prep-monthly-report.component';
 import { PrepMonthlyReportPatientListComponent } from 'src/app/hiv-care-lib/prep-report/monthly/prep-monthly-patient-list/prep-monthly-report-patient-list.component';
+import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
+import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
+import { TxMlReportPatientListComponent } from 'src/app/hiv-care-lib/tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
+import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-report.component';
+import { TxNewReportPatientListComponent } from 'src/app/hiv-care-lib/tx-new-report/tx-new-report-patient-list/tx-new-report-patient-list.component';
+import { TxCurrReportPatientListComponent } from 'src/app/hiv-care-lib/tx-curr-report/tx-curr-report-patient-list/tx-curr-report-patient-list.component';
+import { TxCurrReportComponent } from './datim-reports/tx-curr-report.component';
+import { TxMmdReportPatientListComponent } from 'src/app/hiv-care-lib/tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
+import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
+import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
+import { TxRttReportPatientListComponent } from 'src/app/hiv-care-lib/tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
+
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -238,6 +250,80 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PatientGainsAndLosesPatientListComponent
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'datim-report',
+    children: [
+      {
+        path: '',
+        component: TxReportsDashboardComponent
+      },
+      {
+        path: 'tx-ml-report',
+        children: [
+          {
+            path: '',
+            component: TxMlReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxMlReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'tx-new-report',
+        children: [
+          {
+            path: '',
+            component: TxNewReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxNewReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'tx-curr-report',
+        children: [
+          {
+            path: '',
+            component: TxCurrReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxCurrReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'tx-mmd-report',
+        children: [
+          {
+            path: '',
+            component: TxMmdReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxMmdReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'tx-rtt-report',
+        children: [
+          {
+            path: '',
+            component: TxRttReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: TxRttReportPatientListComponent
           }
         ]
       }

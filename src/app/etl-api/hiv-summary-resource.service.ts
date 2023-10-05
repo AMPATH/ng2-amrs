@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class HivSummaryResourceService {
+  public months: string;
   constructor(
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService
@@ -19,7 +20,8 @@ export class HivSummaryResourceService {
     patientUuid: string,
     startIndex: number,
     limit: number,
-    includeNonClinicalEncounter?: boolean
+    includeNonClinicalEncounter?: boolean,
+    isHEIActive?: any
   ): Observable<any> {
     let url = this.getUrl();
     url += '/' + patientUuid + '/hiv-summary';
@@ -40,8 +42,8 @@ export class HivSummaryResourceService {
       .set(
         'includeNonClinicalEncounter',
         (includeNonClinicalEncounter as any) as string
-      );
-
+      )
+      .set('isHEIActive', (isHEIActive as any) as string);
     return this.http
       .get<any>(url, {
         params: params

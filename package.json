@@ -1,6 +1,6 @@
 {
   "name": "ngx-amrs",
-  "version": "2.16.5-SNAPSHOT",
+  "version": "2.17.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 3000",
@@ -108,6 +108,7 @@
     "ngx-select": "^0.0.1",
     "ngx-toastr": "^9.1.1",
     "ngx-webcam": "^0.2.5",
+    "papaparse": "^5.4.1",
     "pdfjs-dist": "~1.7.308",
     "pdfkit": "^0.8.0",
     "pdfmake": "0.1.25",

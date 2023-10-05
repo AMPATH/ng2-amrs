@@ -126,6 +126,17 @@ import { PrepMonthlyResourceService } from '../etl-api/prep-monthly-resource.ser
 import { PrepMonthlyReportComponent } from '../data-analytics-dashboard/hiv/prep-report/prep-monthly-report.component';
 import { PrepMonthlyReportBaseComponent } from './prep-report/monthly/prep-monthly-base/prep-monthly-base.component';
 import { PrepMonthlyReportViewComponent } from './prep-report/monthly/prep-monthly-report-view/prep-monthly-report-view.component';
+import { TxMlReportBaseComponent } from './tx-ml-report/tx-ml-report-base/tx-ml-report-base.component';
+import { TxMlReportPatientListComponent } from './tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
+import { TxMlReportViewComponent } from './tx-ml-report/tx-ml-report-view/tx-ml-report-view.component';
+import { TxNewReportBaseComponent } from './tx-new-report/tx-new-report-base/tx-new-report-base.component';
+import { TxNewReportPatientListComponent } from './tx-new-report/tx-new-report-patient-list/tx-new-report-patient-list.component';
+import { TxCurrReportBaseComponent } from './tx-curr-report/tx-curr-report-base/tx-curr-report-base.component';
+import { TxCurrReportPatientListComponent } from './tx-curr-report/tx-curr-report-patient-list/tx-curr-report-patient-list.component';
+import { TxMmdReportBaseComponent } from './tx-mmd-report/tx-mmd-report-base/tx-mmd-report-base.component';
+import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
+import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
+import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 
 @NgModule({
   imports: [
@@ -221,7 +232,8 @@ import { PrepMonthlyReportViewComponent } from './prep-report/monthly/prep-month
     Covid19ReportFiltersComponent,
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
-    PrepMonthlyReportViewComponent
+    PrepMonthlyReportViewComponent,
+    TxMlReportViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -296,7 +308,18 @@ import { PrepMonthlyReportViewComponent } from './prep-report/monthly/prep-month
     Covid19TabularViewComponent,
     PrepMonthlyReportComponent,
     PrepMonthlyReportBaseComponent,
-    PrepMonthlyReportViewComponent
+    PrepMonthlyReportViewComponent,
+    TxMlReportBaseComponent,
+    TxMlReportPatientListComponent,
+    TxMlReportViewComponent,
+    TxNewReportBaseComponent,
+    TxNewReportPatientListComponent,
+    TxCurrReportBaseComponent,
+    TxCurrReportPatientListComponent,
+    TxMmdReportBaseComponent,
+    TxMmdReportPatientListComponent,
+    TxRttReportBaseComponent,
+    TxRttReportPatientListComponent
   ],
   providers: [
     MOHReportService,

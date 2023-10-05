@@ -76,7 +76,9 @@
                 </td>
                 <td [attr.colspan]="2">
                   <b *ngIf="genderGroups.length > 1">Total</b>
+                </td>
               </tr>
+
               <ng-container *ngFor="let data of tableData">
                 <tr>
                   <td [attr.colspan]="40" class="header">
@@ -88,10 +90,7 @@
                     <b>{{ row.rowTitle }}</b>
                   </td>
                   <ng-container *ngFor="let cell of row.rowData">
-                    <td
-                      *ngIf="cell.value < 0"
-                      class="bg-black"
-                    ></td>
+                    <td *ngIf="cell.value < 0" class="bg-black"></td>
 
                     <td
                       *ngIf="cell.value >= 0"
