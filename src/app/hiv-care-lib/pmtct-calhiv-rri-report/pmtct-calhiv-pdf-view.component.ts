@@ -58,7 +58,6 @@ export class PmtctCalhivPdfViewComponent implements OnInit, OnChanges {
   public setRowData(results) {
     const sectionDefs = this.sectionDefs;
     _.each(results, (result: any) => {
-      // console.log('result', result);
       this.locations.push(result.location);
       Object.keys(result).forEach((key, index) => {
         _.each(sectionDefs, (sectionDef: any) => {

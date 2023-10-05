@@ -1,62 +1,61 @@
 <div class="wrapper">
-    <div class="panel panel-info">
-      <div class="panel-heading" style="min-height: 50px !important">
-        <strong class="text-primary">
-          <span class="fa fa-file-pdf-o"> </span>
-          RRI Report
-          <span *ngIf="locations.length > 0"
-            >for {{ params.startDate }} to {{ params.endDate }}
-          </span>
-          <div class="btn-group pull-right">
-            <button class="btn btn-primary" (click)="downloadPdf()">
-              <i class="fa fa-download"> </i> Download Pdf
-            </button>
-          </div>
-        </strong>
-      </div>
-      <div
-        id="contentToConvert"
-        class="panel-body"
-        style="background-color: #ffffff"
-      >
+  <div class="panel panel-info">
+    <div class="panel-heading" style="min-height: 50px !important">
+      <strong class="text-primary">
+        <span class="fa fa-file-pdf-o"> </span>
+        RRI Report
+        <span *ngIf="locations.length > 0"
+          >for {{ params.startDate }} to {{ params.endDate }}
+        </span>
+        <div class="btn-group pull-right">
+          <button class="btn btn-primary" (click)="downloadPdf()">
+            <i class="fa fa-download"> </i> Download Pdf
+          </button>
+        </div>
+      </strong>
+    </div>
+    <div
+      id="contentToConvert"
+      class="panel-body"
+      style="background-color: #ffffff"
+    >
+      <table class="fixed" style="width: 100%">
+        <tr>
+          <th [attr.colspan]="2"><b class="section-title"></b></th>
+        </tr>
+        <tr>
+          <td><b>Locations</b></td>
+          <td *ngFor="let location of locations">
+            <b>{{ location }}</b>
+          </td>
+        </tr>
+      </table>
+      <div *ngFor="let section of sectionDefs">
         <table class="fixed" style="width: 100%">
           <tr>
-            <th [attr.colspan]="2"><b class="section-title"></b></th>
+            <th [attr.colspan]="2">
+              <b class="section-title">{{ section.sectionTitle }}</b>
+            </th>
           </tr>
-          <tr>
-            <td><b>Locations</b></td>
-            <td *ngFor="let location of locations">
-              <b>{{ location }}</b>
+          <tr *ngFor="let indicator of section.indicators">
+            <td class="section-data" title="{{ indicator.label }}">
+              {{ indicator.label }}
+            </td>
+            <td
+              title="Click to View Patientlist"
+              *ngFor="let locationData of indicator.data"
+              class="section-data"
+            >
+              <span
+                class="value"
+                (click)="viewPatientList(locationData, indicator.indicator)"
+                >{{ locationData[indicator.indicator] }}</span
+              >
             </td>
           </tr>
         </table>
-        <div *ngFor="let section of sectionDefs">
-          <table class="fixed" style="width: 100%">
-            <tr>
-              <th [attr.colspan]="2">
-                <b class="section-title">{{ section.sectionTitle }}</b>
-              </th>
-            </tr>
-            <tr *ngFor="let indicator of section.indicators">
-              <td class="section-data" title="{{ indicator.label }}">
-                {{ indicator.label }}
-              </td>
-              <td
-                title="Click to View Patientlist"
-                *ngFor="let locationData of indicator.data"
-                class="section-data"
-              >
-                <span
-                  class="value"
-                  (click)="viewPatientList(locationData, indicator.indicator)"
-                  >{{ locationData[indicator.indicator] }}</span
-                >
-              </td>
-            </tr>
-          </table>
-        </div>
       </div>
-      <div class="panel-footer" style="min-height: 50px"></div>
     </div>
+    <div class="panel-footer" style="min-height: 50px"></div>
   </div>
-  
+</div>
