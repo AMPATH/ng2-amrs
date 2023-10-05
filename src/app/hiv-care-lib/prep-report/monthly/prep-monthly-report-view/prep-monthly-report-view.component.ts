@@ -88,6 +88,13 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
         }
       );
 
+      // Find the first occurrence of 'F' in the original array
+      const firstFIndex = this.genderGroups.indexOf('F');
+
+      this.genderGroups = this.genderGroups
+        .slice(firstFIndex)
+        .concat(this.genderGroups.slice(0, firstFIndex));
+
       // Table data
       // Remove the first two sections
       const allData = this.tableSectionIndicators.slice(2);
@@ -117,6 +124,28 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
           })
         });
       });
+
+      // Create new arrays to store the rearranged data
+      const rearrangedSectionData = [];
+
+      // Iterate through the sectionData array
+      this.tableData.forEach((section) => {
+        section.sectionData.forEach((item) => {
+          const rowData = item.rowData;
+          // console.log('rowData', rowData);
+          // map through the rowData array
+          rowData.map((row) => {
+            console.log('row', typeof row);
+          });
+          // console.log('rowData', rowData);
+        });
+
+        // rearrangedSectionData.push(section);
+      });
+
+      // console.log('rearrangedSectionData', rearrangedSectionData);
+
+      // this.tableData = rearrangedSectionData;
     }
   }
 
