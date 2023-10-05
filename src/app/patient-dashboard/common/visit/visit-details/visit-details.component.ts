@@ -257,7 +257,8 @@ export class VisitDetailsComponent implements OnInit {
 
         if (
           Array.isArray(viremiaEncounterFilter) &&
-          viremiaEncounterFilter.length === 0
+          viremiaEncounterFilter.length === 0 &&
+          !this.isRetrospectiveVisit
         ) {
           this.isViremicHighVL = true;
         }

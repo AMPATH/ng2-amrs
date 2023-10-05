@@ -166,12 +166,21 @@
       </div>
       <div
         class="alert alert-danger"
+        *ngIf="isViremicHighVL"
+        style="margin-top: 10px"
+      >
+        <strong
+          >To access clinical forms kindly fill Enhanced Adherence Encounter
+          Form</strong
+        >
+      </div>
+      <div
+        class="alert alert-danger"
         *ngIf="isAdultReturnVisitBeforeInitialVisit"
         style="margin-top: 10px"
       >
         <strong
-          >Oops! You cannot schedule an Adult return visit for a date that comes
-          before the initial visit!</strong
+          >You cannot fill an adult return visit form for a date earlier than the initial visit!</strong
         >
       </div>
     </div>
