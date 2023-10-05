@@ -1,19 +1,19 @@
 <div>
-
   <div>
-    <table class="table table-hover table-striped table-responsive" >
+    <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
           <th>TB Start Date</th>
           <th>TB End Date</th>
-        </tr> 
+        </tr>
       </thead>
-      <tr>
-        <td>{{ hivSummary?.tb_tx_start_date | date: 'dd-MM-yyyy'  }}</td>
-        <td>{{ hivSummary?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
+      <tr *ngFor="let ahd of ahdSummary">
+        <!-- <td>{{ hivSummary | json }}</td> -->
+        <td>{{ ahd?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ ahd?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
       </tr>
     </table>
-  
+    <!--   
     <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
@@ -21,9 +21,9 @@
           <th>Cryptococall End Date</th>
         </tr>
       </thead>
-      <tr>
-        <td> {{ hivSummary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
-        <td> {{ hivSummary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
+      <tr *ngFor="let summary of hivSummary">
+        <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
+        <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
       </tr>
     </table>
   
@@ -34,9 +34,9 @@
           <th>PCP End Date</th>
         </tr>
       </thead>
-      <tr>
-        <td>{{ hivSummary?.pcp_prophylaxis_start_date | date: 'dd-MM-yyyy' }}</td>
-        <td>{{ hivSummary?.pcp_prophylaxis_end_date | date: 'dd-MM-yyyy' }}</td>
+      <tr *ngFor="let summary of hivSummary">
+        <td>{{ summary?.pcp_prophylaxis_start_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ summary?.pcp_prophylaxis_end_date | date: 'dd-MM-yyyy' }}</td>
       </tr>
     </table>
   
@@ -64,11 +64,10 @@
         <td> </td>
         <td> </td>
       </tr>
-    </table>
+    </table> -->
   </div>
 
   <!-- <div >
     <p class="mx-8" >NO AHD SUMMARY DATA!</p>
   </div> -->
-
 </div>

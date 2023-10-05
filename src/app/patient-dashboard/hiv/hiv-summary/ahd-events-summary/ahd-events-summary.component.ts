@@ -15,10 +15,13 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   public patient: Patient;
   isHEIActive = false;
   public hasError = false;
-  public hivSummary: any;
+  public dataLoaded = false;
+  public ahdSummary: Array<any> = [];
   public subscription: Subscription[] = [];
   public errors: any = [];
   public loadingAhdSummary = false;
+  public isLoading: boolean;
+  public nextStartIndex = 0;
 
   constructor(
     private patientService: PatientService,
@@ -33,7 +36,6 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
     this.loadingAhdSummary = true;
     const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
-        console.log('patient==> ', patient);
         if (patient) {
           this.patient = patient;
           this.patientUuid = this.patient.person.uuid;
@@ -53,17 +55,23 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   }
 
   public getPatientHivSummary(patientUuid) {
-    console.log('HIVSUm getpatientpatientuuid ; ' + patientUuid);
     const summary = this.hivSummaryService
       .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe((data) => {
-        console.log('HIV SUMMARY DATA: ', data);
         if (data) {
-          for (const result of data) {
-            console.log('results' + result);
-            if (result.is_clinical_encounter === 1) {
-              this.hivSummary = result;
+          if (data.length > 0) {
+            for (const result in data) {
+              if (data.hasOwnProperty(result)) {
+                const hivsum = data[result];
+                this.ahdSummary.push(hivsum);
+              }
             }
+            const size: number = data.length;
+            this.nextStartIndex = this.nextStartIndex + size;
+
+            this.isLoading = false;
+          } else {
+            this.dataLoaded = true;
           }
         }
       });
