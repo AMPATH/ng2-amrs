@@ -1,0 +1,214 @@
+{
+  "name": "pmtctRriDataSetBase",
+  "version": "1.0",
+  "tag": "pmtct_rri_dataset_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.pmtct_rri_dataset",
+      "alias": "prd"
+    },
+    {
+      "table": "etl.dates",
+      "alias": "dts",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "prd.encounter_datetime <= dts.endDate and coalesce(prd.death_date, out_of_care) is null"
+      }
+    },
+    {
+      "table": "etl.hiv_monthly_report_dataset_v1_2",
+      "alias": "fhs",
+      "join": {
+        "type": "inner",
+        "joinCondition": "prd.person_id = fhs.person_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "prd.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "p",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "p.person_id = prd.person_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "derived_column",
+      "alias": "vl_done_past_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": " CASE WHEN prd.cur_arv_meds IS NOT NULL AND (prd.latest_vl_test_date IS NULL  OR TIMESTAMPDIFF(MONTH, prd.latest_vl_test_date, prd.encounter_datetime) >= 6) THEN 1  ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN prd.is_pregnant = 1 THEN 1  ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "breastfeeding",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "  CASE WHEN prd.is_mother_breastfeeding = 1 THEN 1  ELSE NULL  END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "pregnant_and_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN prd.is_pregnant = 1 AND prd.cur_arv_meds IS NOT NULL THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "breastfeeding_and_on_arvs",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN prd.is_mother_breastfeeding = 1 AND prd.cur_arv_meds IS NOT NULL THEN 1 ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "virally_unsuppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "CASE WHEN TIMESTAMPDIFF(MONTH, DATE(prd.latest_vl_test_date), DATE(dts.endDate)) <= 6 AND prd.latest_viral_load >= 200 THEN 1  ELSE NULL END"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "age_range",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "extract(year from (from_days(datediff(now(),p.birthdate)))) >= 15",
+            "value": "15_and_above"
+          },
+          {
+            "condition": "else",
+            "value": "below_15"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "MONTH(prd.encounter_datetime)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "reporting_month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "date_format(prd.encounter_datetime, '%m/%Y')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "encounter_year",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "YEAR(prd.encounter_datetime)"
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "prd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "encounter_datetime",
+      "column": "prd.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "prd.encounter_datetime"
+    },
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "p.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "gender",
+      "column": "p.gender"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "prd.age"
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prd.encounter_datetime >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prd.encounter_datetime <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "fhs.endDate=?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "l.uuid in (?)",
+        "parameterName": "locationUuids"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(prd.encounter_datetime,p.birthdate)/365) >= 0"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "round(datediff(prd.encounter_datetime,p.birthdate)/365) <= 120"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["prd.person_id"],
+    "excludeParam": "excludeParam"
+  }
+}

@@ -38,6 +38,19 @@ import * as starting_art_aggregation_age15 from './json-reports/starting-art-agg
 import * as starting_art_base_age15 from './json-reports/starting-art-base-age15.json';
 import * as starting_art_disaggregation_age15 from './json-reports/starting-art-disaggregation-age15.json';
 
+//PMTC RRI
+// import * as pmtc_rri_dataset_base from './json-reports/rri/pmtct-rri-dataset-base.json';
+import * as pmtct_rri from './json-reports/rri/pmtct-rri.json';
+import * as pmtct_rri_cal_hiv_aggregate from './json-reports/rri/pmtct-rri-cal-hiv-aggregate.json';
+import * as pmtct_rri_pbfw_aggregate from './json-reports/rri/pmtct-rri-pbfw-aggregate.json';
+import * as pmtct_rri_wra_aggregate from './json-reports/rri/pmtct-rri-wra-aggregate.json';
+import * as pmtct_rri_hei_aggregate from './json-reports/rri/hei-infant-rri-testing-aggregate.json';
+import * as pmtc_rri_hei_dataset_base from './json-reports/rri/hei-infant-rri-testing-base.json';
+import * as pmtc_rri_calhiv_dataset_base from './json-reports/rri/pmtct-rri-calhiv-dataset-base.json';
+import * as pmtc_rri__pbfw_dataset_base from './json-reports/rri/pmtct-rri-pbfw-dataset-base.json';
+import * as pmtct_rri_patient_list_template from './json-reports/rri/pmtct_rri_patient_list_template.json';
+import * as pmtc_rri_wra_dataset_base from './json-reports/rri/pmtct-rri-wra-dataset-base.json';
+
 import * as starting_art_aggregation_age_green from './json-reports/starting-art-aggregation-age-green.json';
 import * as starting_art_base_age_green from './json-reports/starting-art-base-age-green.json';
 import * as starting_art_disaggregation_age_green from './json-reports/starting-art-disaggregation-age-green.json';
@@ -142,6 +155,7 @@ import * as prep_dataset_report from './json-reports/prep-dataset-report.json';
 import * as ltfu_surge_baseline_report from './json-reports/ltfus-surge-baseline-base.json';
 import * as ltfu_surge_baseline_aggregate_report from './json-reports/ltfus-surge-baseline-aggregate.json';
 import * as prep_report_patient_list_template from './json-reports/prep-report-patient-list-template.json';
+import * as pmtct_rri_report_patient_list_template from './json-reports/rri/pmtct_rri_patient_list_template.json';
 
 import * as hiv_latest_clinical_encounter_date_base from './json-reports/hiv-latest-clinical-encounter-date-base.json';
 import * as prep_monthly_summary from './json-reports/prep-monthly-summary.json';
@@ -396,7 +410,7 @@ export class BaseMysqlReport {
 
               that.reportQuery = sqlQuery;
               // run query
-              // console.log('Query', sqlQuery);
+              console.log('Query', sqlQuery);
               that
                 .executeReportQuery(that.reportQuery)
                 .then((result) => {
@@ -466,6 +480,11 @@ export class BaseMysqlReport {
         case 'prep-report-patient-list-template':
           resolve({
             main: this.cloneJsonSchema(prep_report_patient_list_template)
+          });
+          break;
+        case 'pmtct-rri-report-patient-list-template':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri_report_patient_list_template)
           });
           break;
         case 'mainDatasetAggregate':
@@ -848,6 +867,51 @@ export class BaseMysqlReport {
         case 'cdmPatientSummary':
           resolve({
             main: this.cloneJsonSchema(cdm_dataset_base)
+          });
+          break;
+        // PMTCT-RRI
+        case 'pmtct_rri_aggregate_summary':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri)
+          });
+          break;
+        case 'pmtctrripatientlisttemplate':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri_patient_list_template)
+          });
+          break;
+        case 'pmtctRriCalhivAggregate':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri_cal_hiv_aggregate),
+            pmtctRriCalhivDataSetBase: this.cloneJsonSchema(
+              pmtc_rri_calhiv_dataset_base
+            )
+          });
+          break;
+
+        case 'pmtctRriPbfwAggregate':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri_pbfw_aggregate),
+            pmtctRriPbfwDataSetBase: this.cloneJsonSchema(
+              pmtc_rri__pbfw_dataset_base
+            )
+          });
+          break;
+
+        case 'pmtctRriWraAggregate':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri_wra_aggregate),
+            pmtctRriWraDataSetBase: this.cloneJsonSchema(
+              pmtc_rri_wra_dataset_base
+            )
+          });
+          break;
+        case 'pmtctRriHeiAggregate':
+          resolve({
+            main: this.cloneJsonSchema(pmtct_rri_hei_aggregate),
+            heiInfantRriTestingBase: this.cloneJsonSchema(
+              pmtc_rri_hei_dataset_base
+            )
           });
           break;
         case 'clinicalReminderReport':
@@ -1739,8 +1803,6 @@ export class BaseMysqlReport {
   }
 
   generateReportQuery(reportSchemas, params) {
-    // console.log('Passed params', params)
-    // console.log('report schemas', JSON.stringify(reportSchemas, null, 4));
     let jSql = this.getJson2Sql(reportSchemas, params);
     return new Promise((resolve, reject) => {
       try {
@@ -1757,7 +1819,6 @@ export class BaseMysqlReport {
   }
 
   executeReportQuery(sqlQuery) {
-    // console.log('Executing Query', sqlQuery);
     let runner = this.getSqlRunner();
     return new Promise((resolve, reject) => {
       runner

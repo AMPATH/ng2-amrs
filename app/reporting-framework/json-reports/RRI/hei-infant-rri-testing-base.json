@@ -1,0 +1,168 @@
+{
+  "name": "heiInfantRriTestingBase",
+  "version": "1.0",
+  "tag": "hei_infant_rri_testing_base",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.pmtct_rri_dataset",
+      "alias": "prd"
+    },
+    {
+      "table": "etl.hei_monthly_report_dataset",
+      "alias": "hmd",
+      "join": {
+        "type": "inner",
+        "joinCondition": "prd.person_id = hmd.person_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "inner",
+        "joinCondition": "hmd.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "etl.flat_hei_summary",
+      "alias": "fhs",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "hmd.person_id = fhs.person_id AND fhs.next_clinical_datetime_hiv IS NULL"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "hmd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "prd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "hmd.clinic"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "hmd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reporting_month",
+      "column": "DATE_FORMAT(hmd.endDate,'%Y-%m')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "DATE_FORMAT(hmd.endDate,'%Y-%m')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "initial_pcr_less_than_8_wks",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.initial_pcr_this_month is null AND hmd.age_in_months < 2  ,NULL,1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "initial_pcr_8_wks_to_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.initial_pcr_this_month is null AND hmd.age_in_months between 2 and 12,NULL,1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "initial_pcr_less_than_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.initial_pcr_this_month is null AND hmd.age_in_months < 12,NULL,1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "second_pcr_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.second_pcr_this_month is null AND hmd.age_in_months = 6,NULL,1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "third_pcr_12_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.third_pcr_this_month is null AND hmd.age_in_months = 12,NULL,1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "antibody_at_18_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.initial_antibody_screening_this_month is null AND hmd.age_in_months = 18,NULL,1)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "antibody_post_18_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "IF(hmd.initial_antibody_screening_this_month is null AND hmd.age_in_months > 18,NULL,1)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prd.encounter_datetime >= ?",
+        "parameterName": "startDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prd.encounter_datetime <= ?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prd.encounter_type in (115)"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmd.endDate=?",
+        "parameterName": "endDate"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "prd.age <=20"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "hmd.location_id in (?)",
+        "parameterName": "locations"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["prd.person_id"],
+    "excludeParam": "excludeParam"
+  }
+}

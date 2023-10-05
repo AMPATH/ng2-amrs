@@ -1,0 +1,92 @@
+[
+  {
+    "sectionTitle": "HEI Infant Missed PCR Testing",
+    "indicators": [
+      {
+        "label": "Initial PCR < 8wks",
+        "ref": "HV02-44",
+        "indicator": "initial_pcr_less_than_8_wks"
+      },
+      {
+        "label": "Initial PCR >= 8wks-12mnths",
+        "ref": "HV02-45",
+        "indicator": "initial_pcr_8_wks_to_12_months"
+      },
+      {
+        "label": "Initial PCR < 12 mnths_Total",
+        "ref": "HV02-46",
+        "indicator": "initial_pcr_less_than_12_months"
+      },
+      {
+        "label": "Second PCR at 6 months",
+        "ref": "",
+        "indicator": "second_pcr_6_months"
+      },
+      {
+        "label": "Third PCR at 12 months",
+        "ref": "",
+        "indicator": "third_pcr_12_months"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "CALHIV Missed Viral Load Test",
+    "indicators": [
+      {
+        "label": "Total CALHIV",
+        "ref": "",
+        "indicator": "all_calhiv"
+      },
+      {
+        "label": "CALHIV Without Valid VL",
+        "ref": "",
+        "indicator": "calhiv_vl_done_past_6_months"
+      },
+      {
+        "label": "CALHIV With Unsuppressed VL",
+        "ref": "",
+        "indicator": "calhiv_virally_unsuppressed"
+      },
+      {
+        "label": "CALHIV Without DTG Based Regimen",
+        "ref": "",
+        "indicator": "regimen"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "PBFW Missed Viral Load Test",
+    "indicators": [
+      {
+        "label": "Total Positive PBFW",
+        "ref": "",
+        "indicator": "all_pbfw"
+      },
+      {
+        "label": "PBFW Without Valid VL",
+        "ref": "",
+        "indicator": "pbfw_vl_done_past_6_months"
+      },
+      {
+        "label": "PBFW With Unsuppressed VL",
+        "ref": "",
+        "indicator": "pbfw_virally_unsuppressed"
+      }
+    ]
+  },
+  {
+    "sectionTitle": "WRA Missed Viral Load Test",
+    "indicators": [
+      {
+        "label": "Total WRA",
+        "ref": "",
+        "indicator": "all_wra"
+      },
+      {
+        "label": "WRA Without contact",
+        "ref": "",
+        "indicator": "wra_vl_done_past_6_months"
+      }
+    ]
+  }
+]

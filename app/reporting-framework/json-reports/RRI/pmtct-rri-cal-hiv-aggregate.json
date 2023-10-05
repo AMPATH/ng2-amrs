@@ -1,0 +1,84 @@
+{
+  "name": "pmtctRriCalhivAggregate",
+  "version": "1.0",
+  "tag": "pmtct_rri_cal_hiv_aggregate",
+  "uses": [
+    {
+      "name": "pmtctRriCalhivDataSetBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "pmtctRriCalhivDataSetBase",
+      "alias": "prd_base"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "Reporting_Month",
+      "column": "prd_base.reporting_month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "prd_base.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_Name",
+      "column": "prd_base.location"
+    },
+    {
+      "type": "derived_column",
+      "alias": "all_calhiv",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "COUNT(prd_base.person_id)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "calhiv_vl_done_past_6_months",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(prd_base.calhiv_vl_done_past_6_months)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "calhiv_virally_unsuppressed",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "SUM(prd_base.calhiv_virally_unsuppressed)"
+      }
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["prd_base.location_id", "prd_base.reporting_month"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "pmtct-rri-report-patient-list-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}
