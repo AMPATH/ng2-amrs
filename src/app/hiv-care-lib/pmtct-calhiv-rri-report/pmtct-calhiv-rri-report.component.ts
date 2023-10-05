@@ -1,4 +1,4 @@
-import { HeiReportService } from './../../etl-api/hei-report.service';
+import { PmtctCalhivRriReportService } from './../../etl-api/pmtct-calhiv-rri-report.service';
 import { take } from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -6,13 +6,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as Moment from 'moment';
 
 @Component({
-  selector: 'hei-indicators-report',
-  templateUrl: './hei-indicators-report.component.html',
-  styleUrls: ['./hei-indicators-report.component.css']
+  selector: 'pmtct-calhiv-rri-report',
+  templateUrl: './pmtct-calhiv-rri-report.component.html',
+  styleUrls: ['./pmtct-calhiv-rri-report.component.css']
 })
-export class HeiIndicatorsReportComponent implements OnInit {
+export class PmtctCalhivRriReportComponent implements OnInit {
   @Input() locations = '';
-  public summaryTitle = 'HEI Monthly Summary Report';
+  public summaryTitle = 'RRI Monthly Summary Report';
   public params = {
     startDate: '',
     endDate: '',
@@ -30,8 +30,8 @@ export class HeiIndicatorsReportComponent implements OnInit {
     message: '',
     isError: false
   };
-  public heiSummary: any = [];
-  public heiOutcomeSummary: any;
+  public rriSummary: any = [];
+  public rriOutcomeSummary: any;
   public sectionDefs: any;
   public outcomeSectionDefs: any;
   public currentView = 'pdf';
@@ -39,21 +39,21 @@ export class HeiIndicatorsReportComponent implements OnInit {
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
-    private _heiReportService: HeiReportService
+    private _pmtctCalhivRriReportService: PmtctCalhivRriReportService
   ) {}
 
   public ngOnInit() {}
 
   public selectedFilter($event) {
     this.setParams($event);
-    this.getHeiSummary(this.params);
+    this.getRriSummary(this.params);
   }
 
   public setParams(filterParams: any) {
     this.params = {
       startDate: filterParams.startDate,
       endDate: filterParams.endDate,
-      locationUuids: this.locations,
+      locationUuids: filterParams.locationUuids,
       displayTabluarFilters: true,
       reportName: this.summaryTitle,
       _date: Moment(filterParams.startDate).format('MMMM YYYY')
@@ -74,12 +74,12 @@ export class HeiIndicatorsReportComponent implements OnInit {
     };
   }
 
-  public getHeiSummary(params: any) {
+  public getRriSummary(params: any) {
     this.loading();
-    this._heiReportService.getHeiIndicatorsReport(params).subscribe(
+    this._pmtctCalhivRriReportService.getRriIndicatorsReport(params).subscribe(
       (result: any) => {
         if (result) {
-          this.heiSummary = result.result;
+          this.rriSummary = result.result;
           this.sectionDefs = result.sectionDefinitions;
           this.endLoading();
         }
@@ -96,11 +96,17 @@ export class HeiIndicatorsReportComponent implements OnInit {
 
   public onTabChanged($event) {}
 
-  public setCellSelection($event, $event2) {
+  public setCellSelectionRri($event, $event2) {
     this.viewPatientList($event);
   }
 
   public viewPatientList(data) {
+    this._route.parent.params.subscribe((result: any) => {
+      if (result) {
+        data.location = result.location_uuid;
+      }
+    });
+
     const params: any = {
       locationUuids: data.location,
       indicators: data.field,
