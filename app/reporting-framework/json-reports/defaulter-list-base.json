@@ -14,7 +14,15 @@
       "alias": "de",
       "join": {
         "type": "LEFT",
-        "joinCondition": "de.encounter_id = fd.encounter_id"
+        "joinCondition": "de.encounter_id = fd.encounter_id "
+      }
+    },
+    {
+      "table": "(SELECT MAX(am.encounter_datetime) AS max_encounter_datetime, am.encounter_datetime, am.encounter_type, am.patient_id, fd.person_id , fd.rtc_date FROM etl.flat_defaulters fd INNER JOIN amrs.encounter am on (am.patient_id = fd.person_id) WHERE am.encounter_type = 21 group by am.patient_id)",
+      "alias": "am",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "am.patient_id = fd.person_id"
       }
     },
     {
@@ -82,6 +90,14 @@
       "type": "simple_column",
       "alias": "rtc_date",
       "column": "DATE_FORMAT(fd.rtc_date,'%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "outreach_follow_up",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "case when max_encounter_datetime >= fd.rtc_date  then 'Yes' else 'No' end"
+      }
     }
   ],
   "filters": {
