@@ -1,0 +1,27 @@
+{
+  "patientListCols": [
+    {
+      "headerName": "CCC Number",
+      "field": "ccc_number",
+      "width": 150,
+      "pinned": true
+    },
+    {
+      "headerName": "NUPI Identifier",
+      "field": "upi_number",
+      "width": 150,
+      "pinned": true
+    },
+    {
+      "headerName": "Patient Uuid",
+      "field": "patient_uuid",
+      "width": 100,
+      "hide": true
+    },
+    {
+      "headerName": "Gender",
+      "field": "gender",
+      "width": 100
+    }
+  ]
+}

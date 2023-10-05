@@ -1,0 +1,186 @@
+{
+  "name": "sharedNeedlesPrepAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "sharedNeedlesPrepBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "sharedNeedlesPrepBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "b.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "b.month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_15_19_male",
+      "column": "sum(b.kk_pwid_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_15_19_female",
+      "column": "sum(b.kk_pwid_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_20_24_male",
+      "column": "sum(b.kk_pwid_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_20_24_female",
+      "column": "sum(b.kk_pwid_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_25_29_male",
+      "column": "sum(b.kk_pwid_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_25_29_female",
+      "column": "sum(b.kk_pwid_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_30_34_male",
+      "column": "sum(b.kk_pwid_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_30_34_female",
+      "column": "sum(b.kk_pwid_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_35_39_male",
+      "column": "sum(b.kk_pwid_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_35_39_female",
+      "column": "sum(b.kk_pwid_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_40_44_male",
+      "column": "sum(b.kk_pwid_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_40_44_female",
+      "column": "sum(b.kk_pwid_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_45_49_male",
+      "column": "sum(b.kk_pwid_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_45_49_female",
+      "column": "sum(b.kk_pwid_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_50_54_male",
+      "column": "sum(b.kk_pwid_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_50_54_female",
+      "column": "sum(b.kk_pwid_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_55_59_male",
+      "column": "sum(b.kk_pwid_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_55_59_female",
+      "column": "sum(b.kk_pwid_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_60_64_male",
+      "column": "sum(b.kk_pwid_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_60_64_female",
+      "column": "sum(b.kk_pwid_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_above_65_male",
+      "column": "sum(b.kk_pwid_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "kk_pwid_above_65_female",
+      "column": "sum(b.kk_pwid_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_kk_pwid",
+      "column": "sum(b.total_kk_pwid)"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-with-contacts-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

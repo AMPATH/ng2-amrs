@@ -1,0 +1,1116 @@
+{
+  "name": "discontinuedPrepAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "discontinuedPrepBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "discontinuedPrepBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "b.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "b.month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "discontinued_prep_this_month",
+      "column": "sum(b.discontinued_prep_this_month)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_15_19_female",
+      "column": "sum(b.st_tg_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_15_19_male",
+      "column": "sum(b.st_tg_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_20_24_female",
+      "column": "sum(b.st_tg_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_20_24_male",
+      "column": "sum(b.st_tg_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_25_29_female",
+      "column": "sum(b.st_tg_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_25_29_male",
+      "column": "sum(b.st_tg_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_30_34_female",
+      "column": "sum(b.st_tg_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_30_34_male",
+      "column": "sum(b.st_tg_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_35_39_female",
+      "column": "sum(b.st_tg_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_35_39_male",
+      "column": "sum(b.st_tg_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_40_44_female",
+      "column": "sum(b.st_tg_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_40_44_male",
+      "column": "sum(b.st_tg_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_45_49_female",
+      "column": "sum(b.st_tg_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_45_49_male",
+      "column": "sum(b.st_tg_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_50_54_female",
+      "column": "sum(b.st_tg_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_50_54_male",
+      "column": "sum(b.st_tg_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_55_59_female",
+      "column": "sum(b.st_tg_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_55_59_male",
+      "column": "sum(b.st_tg_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_60_64_female",
+      "column": "sum(b.st_tg_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_60_64_male",
+      "column": "sum(b.st_tg_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_above_65_female",
+      "column": "sum(b.st_tg_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_tg_above_65_male",
+      "column": "sum(b.st_tg_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_tg",
+      "column": "sum(b.total_st_tg)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_15_19_female",
+      "column": "sum(b.st_agyw_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_15_19_male",
+      "column": "sum(b.st_agyw_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_20_24_female",
+      "column": "sum(b.st_agyw_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_20_24_male",
+      "column": "sum(b.st_agyw_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_25_29_female",
+      "column": "sum(b.st_agyw_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_25_29_male",
+      "column": "sum(b.st_agyw_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_30_34_female",
+      "column": "sum(b.st_agyw_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_30_34_male",
+      "column": "sum(b.st_agyw_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_35_39_female",
+      "column": "sum(b.st_agyw_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_35_39_male",
+      "column": "sum(b.st_agyw_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_40_44_female",
+      "column": "sum(b.st_agyw_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_40_44_male",
+      "column": "sum(b.st_agyw_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_45_49_female",
+      "column": "sum(b.st_agyw_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_45_49_male",
+      "column": "sum(b.st_agyw_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_50_54_female",
+      "column": "sum(b.st_agyw_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_50_54_male",
+      "column": "sum(b.st_agyw_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_55_59_female",
+      "column": "sum(b.st_agyw_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_55_59_male",
+      "column": "sum(b.st_agyw_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_60_64_female",
+      "column": "sum(b.st_agyw_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_60_64_male",
+      "column": "sum(b.st_agyw_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_above_65_female",
+      "column": "sum(b.st_agyw_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_agyw_above_65_male",
+      "column": "sum(b.st_agyw_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_agyw",
+      "column": "sum(b.total_st_agyw)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_15_19_female",
+      "column": "sum(b.st_msm_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_15_19_male",
+      "column": "sum(b.st_msm_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_20_24_female",
+      "column": "sum(b.st_msm_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_20_24_male",
+      "column": "sum(b.st_msm_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_25_29_female",
+      "column": "sum(b.st_msm_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_25_29_male",
+      "column": "sum(b.st_msm_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_30_34_female",
+      "column": "sum(b.st_msm_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_30_34_male",
+      "column": "sum(b.st_msm_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_35_39_female",
+      "column": "sum(b.st_msm_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_35_39_male",
+      "column": "sum(b.st_msm_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_40_44_female",
+      "column": "sum(b.st_msm_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_40_44_male",
+      "column": "sum(b.st_msm_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_45_49_female",
+      "column": "sum(b.st_msm_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_45_49_male",
+      "column": "sum(b.st_msm_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_50_54_female",
+      "column": "sum(b.st_msm_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_50_54_male",
+      "column": "sum(b.st_msm_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_55_59_female",
+      "column": "sum(b.st_msm_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_55_59_male",
+      "column": "sum(b.st_msm_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_60_64_female",
+      "column": "sum(b.st_msm_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_60_64_male",
+      "column": "sum(b.st_msm_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_above_65_female",
+      "column": "sum(b.st_msm_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_msm_above_65_male",
+      "column": "sum(b.st_msm_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_msm",
+      "column": "sum(b.total_st_msm)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_15_19_female",
+      "column": "sum(b.st_mahr_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_15_19_male",
+      "column": "sum(b.st_mahr_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_20_24_female",
+      "column": "sum(b.st_mahr_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_20_24_male",
+      "column": "sum(b.st_mahr_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_25_29_female",
+      "column": "sum(b.st_mahr_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_25_29_male",
+      "column": "sum(b.st_mahr_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_30_34_female",
+      "column": "sum(b.st_mahr_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_30_34_male",
+      "column": "sum(b.st_mahr_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_35_39_female",
+      "column": "sum(b.st_mahr_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_35_39_male",
+      "column": "sum(b.st_mahr_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_40_44_female",
+      "column": "sum(b.st_mahr_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_40_44_male",
+      "column": "sum(b.st_mahr_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_45_49_female",
+      "column": "sum(b.st_mahr_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_45_49_male",
+      "column": "sum(b.st_mahr_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_50_54_female",
+      "column": "sum(b.st_mahr_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_50_54_male",
+      "column": "sum(b.st_mahr_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_55_59_female",
+      "column": "sum(b.st_mahr_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_55_59_male",
+      "column": "sum(b.st_mahr_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_60_64_female",
+      "column": "sum(b.st_mahr_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_60_64_male",
+      "column": "sum(b.st_mahr_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_above_65_female",
+      "column": "sum(b.st_mahr_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_mahr_above_65_male",
+      "column": "sum(b.st_mahr_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_mahr",
+      "column": "sum(b.total_st_mahr)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_15_19_female",
+      "column": "sum(b.st_fsw_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_15_19_male",
+      "column": "sum(b.st_fsw_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_20_24_female",
+      "column": "sum(b.st_fsw_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_20_24_male",
+      "column": "sum(b.st_fsw_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_25_29_female",
+      "column": "sum(b.st_fsw_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_25_29_male",
+      "column": "sum(b.st_fsw_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_30_34_female",
+      "column": "sum(b.st_fsw_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_30_34_male",
+      "column": "sum(b.st_fsw_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_35_39_female",
+      "column": "sum(b.st_fsw_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_35_39_male",
+      "column": "sum(b.st_fsw_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_40_44_female",
+      "column": "sum(b.st_fsw_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_40_44_male",
+      "column": "sum(b.st_fsw_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_45_49_female",
+      "column": "sum(b.st_fsw_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_45_49_male",
+      "column": "sum(b.st_fsw_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_50_54_female",
+      "column": "sum(b.st_fsw_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_50_54_male",
+      "column": "sum(b.st_fsw_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_55_59_female",
+      "column": "sum(b.st_fsw_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_55_59_male",
+      "column": "sum(b.st_fsw_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_60_64_female",
+      "column": "sum(b.st_fsw_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_60_64_male",
+      "column": "sum(b.st_fsw_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_above_65_female",
+      "column": "sum(b.st_fsw_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_fsw_above_65_male",
+      "column": "sum(b.st_fsw_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_fsw",
+      "column": "sum(b.total_st_fsw)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_15_19_female",
+      "column": "sum(b.st_pwid_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_15_19_male",
+      "column": "sum(b.st_pwid_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_20_24_female",
+      "column": "sum(b.st_pwid_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_20_24_male",
+      "column": "sum(b.st_pwid_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_25_29_female",
+      "column": "sum(b.st_pwid_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_25_29_male",
+      "column": "sum(b.st_pwid_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_30_34_female",
+      "column": "sum(b.st_pwid_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_30_34_male",
+      "column": "sum(b.st_pwid_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_35_39_female",
+      "column": "sum(b.st_pwid_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_35_39_male",
+      "column": "sum(b.st_pwid_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_40_44_female",
+      "column": "sum(b.st_pwid_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_40_44_male",
+      "column": "sum(b.st_pwid_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_45_49_female",
+      "column": "sum(b.st_pwid_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_45_49_male",
+      "column": "sum(b.st_pwid_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_50_54_female",
+      "column": "sum(b.st_pwid_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_50_54_male",
+      "column": "sum(b.st_pwid_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_55_59_female",
+      "column": "sum(b.st_pwid_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_55_59_male",
+      "column": "sum(b.st_pwid_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_60_64_female",
+      "column": "sum(b.st_pwid_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_60_64_male",
+      "column": "sum(b.st_pwid_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_above_65_female",
+      "column": "sum(b.st_pwid_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pwid_above_65_male",
+      "column": "sum(b.st_pwid_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_pwid",
+      "column": "sum(b.total_st_pwid)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_15_19_female",
+      "column": "sum(b.st_ow_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_15_19_male",
+      "column": "sum(b.st_ow_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_20_24_female",
+      "column": "sum(b.st_ow_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_20_24_male",
+      "column": "sum(b.st_ow_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_25_29_female",
+      "column": "sum(b.st_ow_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_25_29_male",
+      "column": "sum(b.st_ow_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_30_34_female",
+      "column": "sum(b.st_ow_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_30_34_male",
+      "column": "sum(b.st_ow_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_35_39_female",
+      "column": "sum(b.st_ow_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_35_39_male",
+      "column": "sum(b.st_ow_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_40_44_female",
+      "column": "sum(b.st_ow_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_40_44_male",
+      "column": "sum(b.st_ow_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_45_49_female",
+      "column": "sum(b.st_ow_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_45_49_male",
+      "column": "sum(b.st_ow_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_50_54_female",
+      "column": "sum(b.st_ow_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_50_54_male",
+      "column": "sum(b.st_ow_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_55_59_female",
+      "column": "sum(b.st_ow_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_55_59_male",
+      "column": "sum(b.st_ow_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_60_64_female",
+      "column": "sum(b.st_ow_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_60_64_male",
+      "column": "sum(b.st_ow_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_above_65_female",
+      "column": "sum(b.st_ow_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_ow_above_65_male",
+      "column": "sum(b.st_ow_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_ow",
+      "column": "sum(b.total_st_ow)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_15_19_female",
+      "column": "sum(b.st_sdc_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_15_19_male",
+      "column": "sum(b.st_sdc_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_20_24_female",
+      "column": "sum(b.st_sdc_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_20_24_male",
+      "column": "sum(b.st_sdc_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_25_29_female",
+      "column": "sum(b.st_sdc_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_25_29_male",
+      "column": "sum(b.st_sdc_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_30_34_female",
+      "column": "sum(b.st_sdc_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_30_34_male",
+      "column": "sum(b.st_sdc_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_35_39_female",
+      "column": "sum(b.st_sdc_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_35_39_male",
+      "column": "sum(b.st_sdc_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_40_44_female",
+      "column": "sum(b.st_sdc_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_40_44_male",
+      "column": "sum(b.st_sdc_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_45_49_female",
+      "column": "sum(b.st_sdc_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_45_49_male",
+      "column": "sum(b.st_sdc_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_50_54_female",
+      "column": "sum(b.st_sdc_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_50_54_male",
+      "column": "sum(b.st_sdc_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_55_59_female",
+      "column": "sum(b.st_sdc_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_55_59_male",
+      "column": "sum(b.st_sdc_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_60_64_female",
+      "column": "sum(b.st_sdc_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_60_64_male",
+      "column": "sum(b.st_sdc_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_above_65_female",
+      "column": "sum(b.st_sdc_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_sdc_above_65_male",
+      "column": "sum(b.st_sdc_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_sdc",
+      "column": "sum(b.total_st_sdc)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_15_19_female",
+      "column": "sum(b.st_pbfw_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_15_19_male",
+      "column": "sum(b.st_pbfw_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_20_24_female",
+      "column": "sum(b.st_pbfw_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_20_24_male",
+      "column": "sum(b.st_pbfw_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_25_29_female",
+      "column": "sum(b.st_pbfw_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_25_29_male",
+      "column": "sum(b.st_pbfw_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_30_34_female",
+      "column": "sum(b.st_pbfw_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_30_34_male",
+      "column": "sum(b.st_pbfw_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_35_39_female",
+      "column": "sum(b.st_pbfw_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_35_39_male",
+      "column": "sum(b.st_pbfw_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_40_44_female",
+      "column": "sum(b.st_pbfw_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_40_44_male",
+      "column": "sum(b.st_pbfw_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_45_49_female",
+      "column": "sum(b.st_pbfw_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_45_49_male",
+      "column": "sum(b.st_pbfw_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_50_54_female",
+      "column": "sum(b.st_pbfw_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_50_54_male",
+      "column": "sum(b.st_pbfw_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_55_59_female",
+      "column": "sum(b.st_pbfw_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_55_59_male",
+      "column": "sum(b.st_pbfw_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_60_64_female",
+      "column": "sum(b.st_pbfw_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_60_64_male",
+      "column": "sum(b.st_pbfw_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_above_65_female",
+      "column": "sum(b.st_pbfw_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "st_pbfw_above_65_male",
+      "column": "sum(b.st_pbfw_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_st_pbfw",
+      "column": "sum(b.total_st_pbfw)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_discontinued_prep_this_month",
+      "column": "sum(b.total_discontinued_prep_this_month)"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-with-contacts-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

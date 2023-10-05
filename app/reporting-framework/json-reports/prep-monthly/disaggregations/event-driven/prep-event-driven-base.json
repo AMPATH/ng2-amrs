@@ -1,0 +1,295 @@
+{
+  "name": "eventDrivenPrepBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.prep_monthly_report_dataset_v5",
+      "alias": "pd"
+    },
+    {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "fi",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pd.person_id = fi.patient_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "pd.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "per",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "pd.person_id = per.person_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "pd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "fi.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "fi.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "fi.nupi"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "pd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "pd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "population_type",
+      "column": "pd.population_type"
+    },
+    {
+      "type": "derived_column",
+      "alias": "month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(pd.endDate,'%Y-%m')"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_15_19_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1 AND pd.gender = 'M' AND (pd.age between 15 AND 19)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_15_19_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_20_24_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 20 AND 24)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_20_24_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_25_29_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 25 AND 29)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_25_29_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_30_34_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 30 AND 34)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_30_34_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_35_39_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 35 AND 39)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_35_39_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_40_44_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 40 AND 44)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_40_44_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_45_49_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 45 AND 49)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_45_49_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_50_54_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 50 AND 54)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_50_54_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_55_59_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 55 AND 59)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_55_59_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_60_64_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age between 60 AND 64)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_60_64_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_above_65_male",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1  AND pd.gender = 'M' AND (pd.age >= 65)), 1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "edp_mhr_above_65_female",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.person_id is not null), -1, NULL)"
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "total_edp_mhr",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "if((pd.enrolled_in_prep_this_month = 1 AND pd.is_event_driven_prep = 1 ), 1, NULL)"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pd.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pd.endDate = ?",
+        "parameterName": "endDate"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

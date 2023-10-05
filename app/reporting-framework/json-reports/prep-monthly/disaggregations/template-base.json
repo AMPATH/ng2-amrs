@@ -1,0 +1,111 @@
+{
+  "name": "eligibleForPrepBase",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [],
+  "sources": [
+    {
+      "table": "etl.prep_monthly_report_dataset_v5",
+      "alias": "pd"
+    },
+    {
+      "table": "etl.flat_patient_identifiers_v1",
+      "alias": "fi",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pd.person_id = fi.patient_id"
+      }
+    },
+    {
+      "table": "amrs.location",
+      "alias": "l",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "pd.location_id = l.location_id"
+      }
+    },
+    {
+      "table": "amrs.person",
+      "alias": "per",
+      "join": {
+        "type": "INNER",
+        "joinCondition": "pd.person_id = per.person_id"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "pd.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ccc_number",
+      "column": "fi.ccc"
+    },
+    {
+      "type": "simple_column",
+      "alias": "ovcid_id",
+      "column": "fi.ovcid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "upi_number",
+      "column": "fi.nupi"
+    },
+    {
+      "type": "simple_column",
+      "alias": "age",
+      "column": "pd.age"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "pd.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "l.name"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "l.uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "population_type",
+      "column": "pd.population_type"
+    },
+    {
+      "type": "derived_column",
+      "alias": "month",
+      "expressionType": "simple_expression",
+      "expressionOptions": {
+        "expression": "DATE_FORMAT(pd.endDate,'%Y-%m')"
+      }
+    }
+  ],
+  "filters": {
+    "conditionJoinOperator": "and",
+    "conditions": [
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pd.location_id in (?)",
+        "parameterName": "locations"
+      },
+      {
+        "filterType": "tableColumns",
+        "conditionExpression": "pd.endDate = ?",
+        "parameterName": "endDate"
+      }
+    ]
+  },
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["person_id"]
+  }
+}

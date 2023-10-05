@@ -1,0 +1,1111 @@
+{
+  "name": "tooManyHIVTestsPrepAggregate",
+  "version": "1.0",
+  "tag": "",
+  "description": "",
+  "uses": [
+    {
+      "name": "tooManyHIVTestsPrepBase",
+      "version": "1.0",
+      "type": "dataset_def"
+    }
+  ],
+  "sources": [
+    {
+      "dataSet": "tooManyHIVTestsPrepBase",
+      "alias": "b"
+    }
+  ],
+  "columns": [
+    {
+      "type": "simple_column",
+      "alias": "person_id",
+      "column": "b.person_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "month",
+      "column": "b.month"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_id",
+      "column": "b.location_id"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location_uuid",
+      "column": "b.location_uuid"
+    },
+    {
+      "type": "simple_column",
+      "alias": "location",
+      "column": "b.location"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_15_19_male",
+      "column": "sum(b.rr_tg_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_15_19_female",
+      "column": "sum(b.rr_tg_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_20_24_male",
+      "column": "sum(b.rr_tg_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_20_24_female",
+      "column": "sum(b.rr_tg_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_25_29_male",
+      "column": "sum(b.rr_tg_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_25_29_female",
+      "column": "sum(b.rr_tg_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_30_34_male",
+      "column": "sum(b.rr_tg_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_30_34_female",
+      "column": "sum(b.rr_tg_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_35_39_male",
+      "column": "sum(b.rr_tg_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_35_39_female",
+      "column": "sum(b.rr_tg_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_40_44_male",
+      "column": "sum(b.rr_tg_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_40_44_female",
+      "column": "sum(b.rr_tg_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_45_49_male",
+      "column": "sum(b.rr_tg_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_45_49_female",
+      "column": "sum(b.rr_tg_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_50_54_male",
+      "column": "sum(b.rr_tg_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_50_54_female",
+      "column": "sum(b.rr_tg_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_55_59_male",
+      "column": "sum(b.rr_tg_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_55_59_female",
+      "column": "sum(b.rr_tg_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_60_64_male",
+      "column": "sum(b.rr_tg_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_60_64_female",
+      "column": "sum(b.rr_tg_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_above_65_male",
+      "column": "sum(b.rr_tg_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_tg_above_65_female",
+      "column": "sum(b.rr_tg_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_tg",
+      "column": "sum(b.total_rr_tg)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_15_19_male",
+      "column": "sum(b.rr_msm_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_15_19_female",
+      "column": "sum(b.rr_msm_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_20_24_male",
+      "column": "sum(b.rr_msm_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_20_24_female",
+      "column": "sum(b.rr_msm_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_25_29_male",
+      "column": "sum(b.rr_msm_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_25_29_female",
+      "column": "sum(b.rr_msm_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_30_34_male",
+      "column": "sum(b.rr_msm_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_30_34_female",
+      "column": "sum(b.rr_msm_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_35_39_male",
+      "column": "sum(b.rr_msm_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_35_39_female",
+      "column": "sum(b.rr_msm_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_40_44_male",
+      "column": "sum(b.rr_msm_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_40_44_female",
+      "column": "sum(b.rr_msm_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_45_49_male",
+      "column": "sum(b.rr_msm_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_45_49_female",
+      "column": "sum(b.rr_msm_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_50_54_male",
+      "column": "sum(b.rr_msm_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_50_54_female",
+      "column": "sum(b.rr_msm_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_55_59_male",
+      "column": "sum(b.rr_msm_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_55_59_female",
+      "column": "sum(b.rr_msm_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_60_64_male",
+      "column": "sum(b.rr_msm_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_60_64_female",
+      "column": "sum(b.rr_msm_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_above_65_male",
+      "column": "sum(b.rr_msm_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_msm_above_65_female",
+      "column": "sum(b.rr_msm_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_msm",
+      "column": "sum(b.total_rr_msm)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_15_19_male",
+      "column": "sum(b.rr_agyw_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_15_19_female",
+      "column": "sum(b.rr_agyw_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_20_24_male",
+      "column": "sum(b.rr_agyw_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_20_24_female",
+      "column": "sum(b.rr_agyw_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_25_29_male",
+      "column": "sum(b.rr_agyw_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_25_29_female",
+      "column": "sum(b.rr_agyw_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_30_34_male",
+      "column": "sum(b.rr_agyw_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_30_34_female",
+      "column": "sum(b.rr_agyw_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_35_39_male",
+      "column": "sum(b.rr_agyw_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_35_39_female",
+      "column": "sum(b.rr_agyw_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_40_44_male",
+      "column": "sum(b.rr_agyw_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_40_44_female",
+      "column": "sum(b.rr_agyw_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_45_49_male",
+      "column": "sum(b.rr_agyw_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_45_49_female",
+      "column": "sum(b.rr_agyw_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_50_54_male",
+      "column": "sum(b.rr_agyw_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_50_54_female",
+      "column": "sum(b.rr_agyw_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_55_59_male",
+      "column": "sum(b.rr_agyw_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_55_59_female",
+      "column": "sum(b.rr_agyw_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_60_64_male",
+      "column": "sum(b.rr_agyw_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_60_64_female",
+      "column": "sum(b.rr_agyw_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_above_65_male",
+      "column": "sum(b.rr_agyw_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_agyw_above_65_female",
+      "column": "sum(b.rr_agyw_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_agyw",
+      "column": "sum(b.total_rr_agyw)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_15_19_male",
+      "column": "sum(b.rr_mhr_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_15_19_female",
+      "column": "sum(b.rr_mhr_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_20_24_male",
+      "column": "sum(b.rr_mhr_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_20_24_female",
+      "column": "sum(b.rr_mhr_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_25_29_male",
+      "column": "sum(b.rr_mhr_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_25_29_female",
+      "column": "sum(b.rr_mhr_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_30_34_male",
+      "column": "sum(b.rr_mhr_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_30_34_female",
+      "column": "sum(b.rr_mhr_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_35_39_male",
+      "column": "sum(b.rr_mhr_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_35_39_female",
+      "column": "sum(b.rr_mhr_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_40_44_male",
+      "column": "sum(b.rr_mhr_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_40_44_female",
+      "column": "sum(b.rr_mhr_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_45_49_male",
+      "column": "sum(b.rr_mhr_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_45_49_female",
+      "column": "sum(b.rr_mhr_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_50_54_male",
+      "column": "sum(b.rr_mhr_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_50_54_female",
+      "column": "sum(b.rr_mhr_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_55_59_male",
+      "column": "sum(b.rr_mhr_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_55_59_female",
+      "column": "sum(b.rr_mhr_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_60_64_male",
+      "column": "sum(b.rr_mhr_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_60_64_female",
+      "column": "sum(b.rr_mhr_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_above_65_male",
+      "column": "sum(b.rr_mhr_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_mhr_above_65_female",
+      "column": "sum(b.rr_mhr_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_mhr",
+      "column": "sum(b.total_rr_mhr)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_15_19_male",
+      "column": "sum(b.rr_fsw_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_15_19_female",
+      "column": "sum(b.rr_fsw_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_20_24_male",
+      "column": "sum(b.rr_fsw_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_20_24_female",
+      "column": "sum(b.rr_fsw_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_25_29_male",
+      "column": "sum(b.rr_fsw_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_25_29_female",
+      "column": "sum(b.rr_fsw_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_30_34_male",
+      "column": "sum(b.rr_fsw_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_30_34_female",
+      "column": "sum(b.rr_fsw_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_35_39_male",
+      "column": "sum(b.rr_fsw_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_35_39_female",
+      "column": "sum(b.rr_fsw_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_40_44_male",
+      "column": "sum(b.rr_fsw_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_40_44_female",
+      "column": "sum(b.rr_fsw_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_45_49_male",
+      "column": "sum(b.rr_fsw_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_45_49_female",
+      "column": "sum(b.rr_fsw_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_50_54_male",
+      "column": "sum(b.rr_fsw_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_50_54_female",
+      "column": "sum(b.rr_fsw_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_55_59_male",
+      "column": "sum(b.rr_fsw_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_55_59_female",
+      "column": "sum(b.rr_fsw_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_60_64_male",
+      "column": "sum(b.rr_fsw_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_60_64_female",
+      "column": "sum(b.rr_fsw_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_above_65_male",
+      "column": "sum(b.rr_fsw_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_fsw_above_65_female",
+      "column": "sum(b.rr_fsw_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_fsw",
+      "column": "sum(b.total_rr_fsw)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_15_19_male",
+      "column": "sum(b.rr_pwid_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_15_19_female",
+      "column": "sum(b.rr_pwid_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_20_24_male",
+      "column": "sum(b.rr_pwid_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_20_24_female",
+      "column": "sum(b.rr_pwid_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_25_29_male",
+      "column": "sum(b.rr_pwid_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_25_29_female",
+      "column": "sum(b.rr_pwid_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_30_34_male",
+      "column": "sum(b.rr_pwid_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_30_34_female",
+      "column": "sum(b.rr_pwid_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_35_39_male",
+      "column": "sum(b.rr_pwid_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_35_39_female",
+      "column": "sum(b.rr_pwid_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_40_44_male",
+      "column": "sum(b.rr_pwid_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_40_44_female",
+      "column": "sum(b.rr_pwid_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_45_49_male",
+      "column": "sum(b.rr_pwid_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_45_49_female",
+      "column": "sum(b.rr_pwid_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_50_54_male",
+      "column": "sum(b.rr_pwid_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_50_54_female",
+      "column": "sum(b.rr_pwid_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_55_59_male",
+      "column": "sum(b.rr_pwid_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_55_59_female",
+      "column": "sum(b.rr_pwid_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_60_64_male",
+      "column": "sum(b.rr_pwid_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_60_64_female",
+      "column": "sum(b.rr_pwid_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_above_65_male",
+      "column": "sum(b.rr_pwid_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pwid_above_65_female",
+      "column": "sum(b.rr_pwid_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_pwid",
+      "column": "sum(b.total_rr_pwid)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_15_19_male",
+      "column": "sum(b.rr_ow_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_15_19_female",
+      "column": "sum(b.rr_ow_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_20_24_male",
+      "column": "sum(b.rr_ow_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_20_24_female",
+      "column": "sum(b.rr_ow_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_25_29_male",
+      "column": "sum(b.rr_ow_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_25_29_female",
+      "column": "sum(b.rr_ow_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_30_34_male",
+      "column": "sum(b.rr_ow_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_30_34_female",
+      "column": "sum(b.rr_ow_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_35_39_male",
+      "column": "sum(b.rr_ow_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_35_39_female",
+      "column": "sum(b.rr_ow_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_40_44_male",
+      "column": "sum(b.rr_ow_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_40_44_female",
+      "column": "sum(b.rr_ow_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_45_49_male",
+      "column": "sum(b.rr_ow_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_45_49_female",
+      "column": "sum(b.rr_ow_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_50_54_male",
+      "column": "sum(b.rr_ow_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_50_54_female",
+      "column": "sum(b.rr_ow_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_55_59_male",
+      "column": "sum(b.rr_ow_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_55_59_female",
+      "column": "sum(b.rr_ow_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_60_64_male",
+      "column": "sum(b.rr_ow_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_60_64_female",
+      "column": "sum(b.rr_ow_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_above_65_male",
+      "column": "sum(b.rr_ow_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_ow_above_65_female",
+      "column": "sum(b.rr_ow_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_ow",
+      "column": "sum(b.total_rr_ow)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_15_19_male",
+      "column": "sum(b.rr_sc_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_15_19_female",
+      "column": "sum(b.rr_sc_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_20_24_male",
+      "column": "sum(b.rr_sc_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_20_24_female",
+      "column": "sum(b.rr_sc_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_25_29_male",
+      "column": "sum(b.rr_sc_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_25_29_female",
+      "column": "sum(b.rr_sc_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_30_34_male",
+      "column": "sum(b.rr_sc_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_30_34_female",
+      "column": "sum(b.rr_sc_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_35_39_male",
+      "column": "sum(b.rr_sc_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_35_39_female",
+      "column": "sum(b.rr_sc_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_40_44_male",
+      "column": "sum(b.rr_sc_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_40_44_female",
+      "column": "sum(b.rr_sc_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_45_49_male",
+      "column": "sum(b.rr_sc_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_45_49_female",
+      "column": "sum(b.rr_sc_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_50_54_male",
+      "column": "sum(b.rr_sc_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_50_54_female",
+      "column": "sum(b.rr_sc_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_55_59_male",
+      "column": "sum(b.rr_sc_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_55_59_female",
+      "column": "sum(b.rr_sc_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_60_64_male",
+      "column": "sum(b.rr_sc_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_60_64_female",
+      "column": "sum(b.rr_sc_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_above_65_male",
+      "column": "sum(b.rr_sc_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_sc_above_65_female",
+      "column": "sum(b.rr_sc_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_sc",
+      "column": "sum(b.total_rr_sc)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_15_19_male",
+      "column": "sum(b.rr_pbfw_15_19_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_15_19_female",
+      "column": "sum(b.rr_pbfw_15_19_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_20_24_male",
+      "column": "sum(b.rr_pbfw_20_24_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_20_24_female",
+      "column": "sum(b.rr_pbfw_20_24_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_25_29_male",
+      "column": "sum(b.rr_pbfw_25_29_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_25_29_female",
+      "column": "sum(b.rr_pbfw_25_29_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_30_34_male",
+      "column": "sum(b.rr_pbfw_30_34_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_30_34_female",
+      "column": "sum(b.rr_pbfw_30_34_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_35_39_male",
+      "column": "sum(b.rr_pbfw_35_39_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_35_39_female",
+      "column": "sum(b.rr_pbfw_35_39_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_40_44_male",
+      "column": "sum(b.rr_pbfw_40_44_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_40_44_female",
+      "column": "sum(b.rr_pbfw_40_44_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_45_49_male",
+      "column": "sum(b.rr_pbfw_45_49_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_45_49_female",
+      "column": "sum(b.rr_pbfw_45_49_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_50_54_male",
+      "column": "sum(b.rr_pbfw_50_54_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_50_54_female",
+      "column": "sum(b.rr_pbfw_50_54_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_55_59_male",
+      "column": "sum(b.rr_pbfw_55_59_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_55_59_female",
+      "column": "sum(b.rr_pbfw_55_59_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_60_64_male",
+      "column": "sum(b.rr_pbfw_60_64_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_60_64_female",
+      "column": "sum(b.rr_pbfw_60_64_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_above_65_male",
+      "column": "sum(b.rr_pbfw_above_65_male)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rr_pbfw_above_65_female",
+      "column": "sum(b.rr_pbfw_above_65_female)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_rr_pbfw",
+      "column": "sum(b.total_rr_pbfw)"
+    },
+    {
+      "type": "simple_column",
+      "alias": "total_reason_for_discontinuation_many_tests",
+      "column": "sum(b.total_reason_for_discontinuation_many_tests)"
+    }
+  ],
+  "groupBy": {
+    "groupParam": "groupByParam",
+    "columns": ["b.location_id"],
+    "excludeParam": "excludeParam"
+  },
+  "transFormDirectives": {
+    "joinColumn": "location_id",
+    "joinColumnParam": "",
+    "skipColumns": [""],
+    "disaggregationColumns": []
+  },
+  "dynamicJsonQueryGenerationDirectives": {
+    "patientListGenerator": {
+      "useTemplate": "patient-list-with-contacts-template",
+      "useTemplateVersion": "1.0",
+      "generatingDirectives": {
+        "joinDirectives": {
+          "joinType": "INNER",
+          "joinCondition": "<<base_column>> = <<template_column>>",
+          "baseColumn": "person_id",
+          "templateColumn": "person_id"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "reports": [
+    "eligibleForPrepAggregate",
+    "reasonForInitiationPrepAggregate",
+    "newForPrepAggregate",
+    "eventDrivenPrepAggregate",
+    "restartingPrepAggregate",
+    "whileOnPrepAggregate",
+    "discontinuedPrepAggregate",
+    "gbvPrepAggregate",
+    "transactionalSexPrepAggregate",
+    "recentSTIPrepAggregate",
+    "recurrentUseOfPepPrepAggregate",
+    "inconsistentOrNoCondomUsePrepAggregate",
+    "otherReasonsForPrepAggregate",
+    "sharedNeedlesPrepAggregate",
+    "testedHIVPositivePrepAggregate",
+    "lowRiskForHIVPrepAggregate",
+    "prepSideEffectsAggregate",
+    "nonAdherencePrepAggregate",
+    "viralSuppressionOfHIVPositivePartnerPrepAggregate",
+    "tooManyHIVTestsPrepAggregate",
+    "partnerRefusalPrepAggregate",
+    "partnerViolencePrepAggregate",
+    "diedPrepAggregate",
+    "transferOutsPrepAggregate",
+    "missedDrugPickupsPrepAggregate",
+    "anyOtherReasonPrepAggregate"
+  ]
+}
