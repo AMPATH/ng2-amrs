@@ -70,6 +70,8 @@ import { ClinicDashboardRetentionReportComponent } from './retention-report/clin
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
+import { ClinicDashboardPmtctRriReportComponent } from './clinic-dashboard-pmtct-rri-report/clinic-dashboard-pmtct-rri-report.component';
+
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { FamilyTestingComponent } from './family-testing/family-testing.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
@@ -133,6 +135,7 @@ import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outr
     RangeSliderComponent,
     RouterModule,
     ClinicDashboardHeiReportComponent,
+    ClinicDashboardPmtctRriReportComponent,
     ClinicDashboardGainsAndLossesComponent,
     MOH412ClinicDashboardComponent,
     MOH412ClinicDashboardPatientListComponent,
@@ -175,6 +178,7 @@ import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outr
     ClinicDashboardCaseManagementComponent,
     PrepReportComponent,
     ClinicDashboardHeiReportComponent,
+    ClinicDashboardPmtctRriReportComponent,
     HIVListsMicroFrontendComponent,
     FamilyTestingComponent,
     ClinicDashboardGainsAndLossesComponent,
