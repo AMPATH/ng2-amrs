@@ -93,6 +93,7 @@ import { EditDemographicsComponent } from './patient-info/edit-demographics.comp
 import { VisitPeriodComponent } from './visit/visit-period/visit-period.component';
 import { LocatorMapComponent } from './locator-map/locator-map.component';
 import { SecurePipe } from './locator-map/secure.pipe';
+import { LocatorMapDetailsComponent } from './locator-map/locator-map-details.component';
 import { CohortMemberModule } from '../../patient-list-cohort/cohort-member/cohort-member.module';
 import { EditHealtCenterComponent } from './patient-info/edit-healthcenter.component';
 import { VisitEncountersListComponent } from './visit-encounters/visit-encounters-list.component';
@@ -213,6 +214,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
     VisitSummaryComponent,
     LocatorMapComponent,
     SecurePipe,
+    LocatorMapDetailsComponent,
     VisitEncountersListComponent,
     VisitEncountersComponent,
     VisitDetailsComponent,
@@ -270,6 +272,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
     TodayVisitsComponent,
     LocatorMapComponent,
     SecurePipe,
+    LocatorMapDetailsComponent,
     AgePipe,
     VisitEncountersListComponent,
     VisitEncountersComponent,

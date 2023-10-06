@@ -64,9 +64,8 @@
           </ul>
         </div>
         <div class="obs-wrapper" *ngIf="pretty">
-          <pretty-encounter-viewer
-            [encounter]="selectedEncounter"
-          ></pretty-encounter-viewer>
+          <pretty-encounter-viewer [encounter]="selectedEncounter">
+          </pretty-encounter-viewer>
         </div>
       </div>
     </div>
