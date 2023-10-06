@@ -2,7 +2,6 @@
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Moment from 'moment';
-import * as Moment from 'moment';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../../models/patient.model';
@@ -15,6 +14,7 @@ import { result } from 'lodash';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
+  isHEIActive = false;
   public loadingHivSummary: boolean = false;
   public hivSummaries: Array<any> = [];
   public patient: Patient;
@@ -130,7 +130,6 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
               }
               const size: number = data.length;
               this.nextStartIndex = this.nextStartIndex + size;
-
 
               this.isLoading = false;
             } else {
