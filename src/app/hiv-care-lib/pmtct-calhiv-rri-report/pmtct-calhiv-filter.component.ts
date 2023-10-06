@@ -5,17 +5,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as Moment from 'moment';
 
 @Component({
-  selector: 'hei-indicators-filter',
-  templateUrl: './hei-indicators-filter.component.html',
-  styleUrls: ['./hei-indicators-filter.component.css']
+  selector: 'pmtct-calhiv-filters',
+  templateUrl: './pmtct-calhiv-filter.component.html',
+  styleUrls: []
 })
-export class HeiIndicatorsFilterComponent implements OnInit {
+export class PmtctCalhivRriFiltersComponent implements OnInit {
   public showLocationsControl = false;
   public isMonthMode = true;
   public showIsAggregateControl = false;
   public endDateString = '';
   public startDateString = '';
   public monthString = '';
+  public locationUuid: any;
   public locationUuids = [];
   public params = {
     locationUuids: [],
@@ -52,6 +53,7 @@ export class HeiIndicatorsFilterComponent implements OnInit {
       endDate: '',
       locationUuids: []
     };
+
     if (params.startDate) {
       if (params.endDate) {
         newParams.endDate = params.endDate;
@@ -64,7 +66,6 @@ export class HeiIndicatorsFilterComponent implements OnInit {
         this.locations = params.locationUuids;
         newParams.locationUuids = params.locationUuids;
       }
-
       this.params = newParams;
       this.selectedFilter.emit(this.params);
     }
@@ -77,6 +78,7 @@ export class HeiIndicatorsFilterComponent implements OnInit {
   public setQueryParams() {
     this.params = {
       locationUuids: this.locations,
+
       startDate: Moment(this.monthString, 'YYYY-MM')
         .startOf('month')
         .format('YYYY-MM-DD'),
@@ -84,6 +86,7 @@ export class HeiIndicatorsFilterComponent implements OnInit {
         .endOf('month')
         .format('YYYY-MM-DD')
     };
+
     this.passParamsToUrl(this.params);
   }
 

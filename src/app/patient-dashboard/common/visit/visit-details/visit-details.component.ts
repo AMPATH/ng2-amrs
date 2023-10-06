@@ -33,6 +33,7 @@ export class VisitDetailsComponent implements OnInit {
   public retrospectiveAttributeTypeUuid =
     '3bb41949-6596-4ff9-a54f-d3d7883a69ed';
   public qualifiesForCovidScreening = false;
+  public isViremicHighVL = false;
   public isRetrospectiveVisit = false;
 
   public get visitEncounters(): any[] {
@@ -226,10 +227,31 @@ export class VisitDetailsComponent implements OnInit {
           Array.isArray(visitType.encounterTypes.disallowedEncounters)
         ) {
           visitType.encounterTypes.disallowedEncounters.forEach((e) => {
-            if (e.errors && e.errors.covidError != null) {
+            if (
+              e.errors &&
+              e.errors.covidError &&
+              e.errors.covidError != null
+            ) {
               this.qualifiesForCovidScreening = true;
             }
           });
+        }
+        // Check if their are allowed Viremia clinical encounters already capture in the allowed visits.
+        const viremiaEncounterFilter = visitType.encounterTypes.allowedEncounters.filter(
+          (encounterType) => {
+            return [
+              '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
+              '4e7553b4-373d-452f-bc89-3f4ad9a01ce7',
+              '8d5b3108-c2cc-11de-8d13-0010c6dffd0f'
+            ].includes(encounterType.uuid);
+          }
+        );
+
+        if (
+          Array.isArray(viremiaEncounterFilter) &&
+          viremiaEncounterFilter.length === 0
+        ) {
+          this.isViremicHighVL = true;
         }
 
         if (
