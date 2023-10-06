@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { HivSummaryService } from '../hiv-summary.service';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
 import { Patient } from 'src/app/models/patient.model';
@@ -16,20 +17,31 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   isHEIActive = false;
   public hasError = false;
   public dataLoaded = false;
+  public tb_start_date;
+  public tb_end_date;
+  public uniqueDates = [];
   public ahdSummary: Array<any> = [];
+  public ahd: any;
+  public formattedahdSummary: Array<any> = [];
   public subscription: Subscription[] = [];
   public errors: any = [];
   public loadingAhdSummary = false;
   public isLoading: boolean;
-  public nextStartIndex = 0;
 
   constructor(
     private patientService: PatientService,
-    private hivSummaryService: HivSummaryService
+    private hivSummaryService: HivSummaryService,
+    private datePipe: DatePipe
   ) {}
 
   public ngOnInit() {
     this.loadPatient();
+  }
+
+  public ngOnDestroy() {
+    this.subscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   public loadPatient() {
@@ -63,24 +75,32 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
             for (const result in data) {
               if (data.hasOwnProperty(result)) {
                 const hivsum = data[result];
+                const tb_start_date = hivsum.tb_tx_start_date;
+                const tb_end_date = hivsum.tb_tx_start_date;
+
+                if (!this.uniqueDates.includes(tb_start_date)) {
+                  this.uniqueDates.push(tb_start_date);
+                }
+
+                if (!this.uniqueDates.includes(tb_end_date)) {
+                  this.uniqueDates.push(tb_end_date);
+                }
+
+                console.log('uniqueDates', this.uniqueDates);
                 this.ahdSummary.push(hivsum);
+                console.log('this.ahdSummary', this.ahdSummary);
               }
             }
-            const size: number = data.length;
-            this.nextStartIndex = this.nextStartIndex + size;
-
-            this.isLoading = false;
-          } else {
-            this.dataLoaded = true;
           }
+          this.isLoading = false;
+        } else {
+          this.dataLoaded = true;
         }
       });
     this.subscription.push(summary);
   }
 
-  public ngOnDestroy() {
-    this.subscription.forEach((sub) => {
-      sub.unsubscribe();
-    });
+  formatDate(date: string): string {
+    return this.datePipe.transform(date, 'dd-MM-yyyy') || '';
   }
 }
