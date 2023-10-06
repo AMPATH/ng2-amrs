@@ -103,6 +103,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                       'med_pickup_rtc_date'
                     );
                   }
+
                   const prev_rtc = new Date(hivsum.prev_rtc_date);
                   const encounter_date = new Date(hivsum.encounter_datetime);
                   const startDate = Moment(encounter_date, 'YYYY-MM-DD');
