@@ -230,6 +230,7 @@ export class VisitDetailsComponent implements OnInit {
           visitType.encounterTypes.disallowedEncounters.forEach((e) => {
             if (
               e.errors &&
+              e.errors.covidError &&
               e.errors.covidError != null &&
               !this.isRetrospectiveVisit
             ) {
