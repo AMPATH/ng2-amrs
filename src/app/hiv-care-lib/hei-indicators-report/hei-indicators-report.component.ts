@@ -1,8 +1,8 @@
+import { HeiReportService } from './../../etl-api/hei-report.service';
 import { take } from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HeiReportService } from './../../etl-api/hei-report.service';
 import * as Moment from 'moment';
 
 @Component({

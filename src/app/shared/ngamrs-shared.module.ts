@@ -76,6 +76,7 @@ import { KibanaVizComponent } from './kibana-viz/kibana-viz.component';
 import { SnakeCaseToTitlePipe } from './pipes/snake-case-to-title.pipe';
 import { ProgramSnapshotNegativesComponent } from '../patient-dashboard/hiv/program-snapshot-negatives/program-snapshot-negatives.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { LocatorPrettyViewerComponent } from '../patient-dashboard/common/formentry/locator-pretty-viewer/locator-pretty-viewer.component';
 
 @NgModule({
   imports: [
@@ -177,7 +178,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     MatIconModule,
     MatExpansionModule,
     MatTooltipModule,
-    SnakeCaseToTitlePipe
+    SnakeCaseToTitlePipe,
+    LocatorPrettyViewerComponent
   ],
   declarations: [
     DisplayErrorComponent,
@@ -197,7 +199,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     PatientEncounterObservationsComponent,
     PrettyEncounterViewerComponent,
     CdmProgramSnapshotComponent,
-
+    LocatorPrettyViewerComponent,
     SnakeCaseToTitlePipe
   ],
   providers: [

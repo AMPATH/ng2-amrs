@@ -84,7 +84,6 @@ export class HeiIndicatorsFilterComponent implements OnInit {
         .endOf('month')
         .format('YYYY-MM-DD')
     };
-
     this.passParamsToUrl(this.params);
   }
 

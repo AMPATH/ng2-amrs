@@ -49,6 +49,11 @@ import { IptReportPatientListComponent } from 'src/app/hiv-care-lib/ipt-report/i
 
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { HeiIndicatorsPatientListComponent } from './../../hiv-care-lib/hei-indicators-report/hei-indicators-patient-list.component';
+// pmtct-rri reports
+import { PmtctCalhivRriReportComponent } from 'src/app/hiv-care-lib/pmtct-calhiv-rri-report/pmtct-calhiv-rri-report.component';
+import { PmtctCalhivRriPatientListComponent } from 'src/app/hiv-care-lib/pmtct-calhiv-rri-report/pmtct-calhiv-patient-list.component';
+import { ClinicDashboardPmtctRriReportComponent } from './clinic-dashboard-pmtct-rri-report/clinic-dashboard-pmtct-rri-report.component';
+
 import { HIVListsMicroFrontendComponent } from './hiv-lists-microfrontend-report/hiv-lists-microfrontend.component';
 import { FamilyTestingBaseComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-base.component';
 import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
@@ -296,6 +301,19 @@ const routes: Routes = [
           { path: 'location', component: ClinicFlowLocationStatsComponent },
           { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
         ]
+      },
+      {
+        path: 'pmtct-rri-report',
+        children: [
+          { path: 'visits', component: ClinicFlowVisitsComponent },
+          { path: 'summary', component: ClinicFlowSummaryComponent },
+          {
+            path: 'provider-stats',
+            component: ClinicFlowProviderStatsComponent
+          },
+          { path: 'location', component: ClinicFlowLocationStatsComponent },
+          { path: '', redirectTo: 'summary', pathMatch: 'prefix' }
+        ]
       }
     ]
   },
@@ -467,6 +485,20 @@ const routes: Routes = [
       {
         path: 'patient-list',
         component: HeiIndicatorsPatientListComponent
+      }
+    ]
+  },
+
+  {
+    path: 'pmtct-rri-report',
+    children: [
+      {
+        path: '',
+        component: ClinicDashboardPmtctRriReportComponent
+      },
+      {
+        path: 'patient-list',
+        component: PmtctCalhivRriPatientListComponent
       }
     ]
   },
