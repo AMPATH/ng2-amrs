@@ -38,6 +38,7 @@ import { HivDifferentiatedCareResourceService } from './hiv-differentiated-care-
 import { SurgeResourceService } from './surge-resource.service';
 import { PatientEducationService } from './patient-education.service';
 import { HeiReportService } from './hei-report.service';
+import { PmtctCalhivRriReportService } from './pmtct-calhiv-rri-report.service';
 import { CervicalCancerScreeningSummaResourceService } from './cervical-cancer-screening-summary-resource.service';
 import { MOH412ResourceService } from './moh-412-resource.service';
 import { ClinicFlowResourceService } from './clinic-flow-resource.service';
@@ -86,6 +87,7 @@ import { LocationUnitsService } from './location-units.service';
     HivDifferentiatedCareResourceService,
     SurgeResourceService,
     HeiReportService,
+    PmtctCalhivRriReportService,
     PatientEducationService,
     CervicalCancerScreeningSummaResourceService,
     MOH412ResourceService,

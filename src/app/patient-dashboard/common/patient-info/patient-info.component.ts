@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class PatientInfoComponent implements OnInit, OnDestroy {
   public patient: Patient;
   public subs: Subscription[] = [];
+  public display = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
