@@ -55,6 +55,12 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
     this.indicatorSelected.emit(payload);
   }
 
+  swapIndices(arr: any[]) {
+    for (let i = 0; i < arr.length - 1; i += 2) {
+      [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+    }
+  }
+
   public buildTableBody() {
     this.tableSectionData = this.SummaryData;
     this.tableSectionIndicators = this.sectionDefs;
@@ -103,6 +109,7 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
         this.tableData.push({
           sectionTitle: section.sectionTitle,
           sectionData: section.indicators.map((sect) => {
+            this.swapIndices(sect.indicators);
             return {
               rowTitle: sect.label,
               rowData: sect.indicators.map((val) => {
@@ -124,28 +131,6 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
           })
         });
       });
-
-      // Create new arrays to store the rearranged data
-      const rearrangedSectionData = [];
-
-      // Iterate through the sectionData array
-      this.tableData.forEach((section) => {
-        section.sectionData.forEach((item) => {
-          const rowData = item.rowData;
-          // console.log('rowData', rowData);
-          // map through the rowData array
-          rowData.map((row) => {
-            console.log('row', typeof row);
-          });
-          // console.log('rowData', rowData);
-        });
-
-        // rearrangedSectionData.push(section);
-      });
-
-      // console.log('rearrangedSectionData', rearrangedSectionData);
-
-      // this.tableData = rearrangedSectionData;
     }
   }
 

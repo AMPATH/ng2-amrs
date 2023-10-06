@@ -96,7 +96,6 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
         this.prepReportSummaryData = data.result;
-        console.log('prepData', this.prepReportSummaryData);
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
       }
