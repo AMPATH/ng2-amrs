@@ -1,0 +1,73 @@
+<div>
+  <div>
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>TB Start Date</th>
+          <th>TB End Date</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let ahd of uniqueDates">
+        <!-- <td>{{ hivSummary | json }}</td> -->
+        <td>{{ ahd?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ ahd?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
+      </tr>
+    </table>
+    <!--   
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Cryptococall Start Date</th>
+          <th>Cryptococall End Date</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let summary of hivSummary">
+        <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
+        <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
+      </tr>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>PCP Start Date</th>
+          <th>PCP End Date</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let summary of hivSummary">
+        <td>{{ summary?.pcp_prophylaxis_start_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ summary?.pcp_prophylaxis_end_date | date: 'dd-MM-yyyy' }}</td>
+      </tr>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Toxoplasmosis Start Date</th>
+          <th>Toxoplasmosis End Date</th>
+        </tr>
+      </thead>
+      <tr>
+        <td> </td>
+        <td> </td>
+      </tr>
+    </table>
+  
+    <table class="table table-hover table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Kaposis Sarcoma Start Date</th>
+          <th>Kaposis Sarcoma End Date</th>
+        </tr>
+      </thead>
+      <tr>
+        <td> </td>
+        <td> </td>
+      </tr>
+    </table> -->
+  </div>
+
+  <!-- <div >
+    <p class="mx-8" >NO AHD SUMMARY DATA!</p>
+  </div> -->
+</div>
