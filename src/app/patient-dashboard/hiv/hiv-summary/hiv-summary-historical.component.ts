@@ -2,6 +2,7 @@
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Moment from 'moment';
+import * as Moment from 'moment';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryService } from './hiv-summary.service';
 import { Patient } from '../../../models/patient.model';
@@ -29,7 +30,6 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
   public showMissedDays: boolean;
   public patientStatus: any;
   public daysMissed = 0;
-  isHEIActive: boolean;
 
   constructor(
     private hivSummaryService: HivSummaryService,
@@ -108,6 +108,7 @@ export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
                   const startDate = Moment(encounter_date, 'YYYY-MM-DD');
                   const endDate = Moment(prev_rtc, 'YYYY-MM-DD');
                   const specificDate = Moment('2005-01-01');
+                  console.log('Data', data);
 
                   if (endDate < specificDate) {
                     this.showMissedDays = false;

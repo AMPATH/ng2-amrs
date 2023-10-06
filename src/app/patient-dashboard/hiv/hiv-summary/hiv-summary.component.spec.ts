@@ -13,6 +13,7 @@ import { HivSummaryLatestComponent } from './hiv-summary-latest.component';
 import { TabViewModule } from 'primeng/primeng';
 import { HivSummaryHistoricalComponent } from './hiv-summary-historical.component';
 import { MedicationHistoryComponent } from './medication-history.component';
+import { AhdEventsSummaryComponent } from './ahd-events-summary/ahd-events-summary.component';
 import { HivPatientClinicalSummaryComponent } from '../patient-clinical-summaries/hiv-patient-clinical-summary.component';
 import { PreviousVisitComponent } from './previous-visit.component';
 import { ZeroVlPipe } from './../../../shared/pipes/zero-vl-pipe';
@@ -54,7 +55,8 @@ describe('Component: Hiv Summary', () => {
         HivPatientClinicalSummaryComponent,
         PreviousVisitComponent,
         ZeroVlPipe,
-        PdfViewerComponent
+        PdfViewerComponent,
+        AhdEventsSummaryComponent
       ]
     });
   });

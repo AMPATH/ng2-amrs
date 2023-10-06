@@ -1,6 +1,5 @@
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { MedicationHistoryResourceService } from '../../../etl-api/medication-history-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { Subscription } from 'rxjs';
