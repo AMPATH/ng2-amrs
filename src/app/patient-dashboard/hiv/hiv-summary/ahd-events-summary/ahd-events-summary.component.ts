@@ -17,6 +17,12 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   isHEIActive = false;
   public hasError = false;
   public dataLoaded = false;
+  public toxoplasmosisStartDates: Array<any> = [];
+  public toxoplasmosisEndDates: Array<any> = [];
+  public kaposisStartDates: Array<any> = [];
+  public kaposisEndDates: Array<any> = [];
+  public pcpStartDates: Array<any> = [];
+  public pcpEndDates: Array<any> = [];
   public tbStartdates: Array<any> = [];
   public tbEnddates: Array<any> = [];
   public cryptococallStartDates: Array<any> = [];
@@ -87,12 +93,60 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
                   this.tbEnddates.push(tb_end_date);
                 }
 
-                if (!this.cryptococallStartDates.includes(tb_start_date)) {
-                  this.tbStartdates.push(tb_start_date);
+                if (
+                  !this.cryptococallStartDates.includes(
+                    hivsum.cm_treatment_start_date
+                  )
+                ) {
+                  this.tbStartdates.push(hivsum.cm_treatment_start_date);
                 }
 
-                if (!this.cryptococallEndDates.includes(tb_end_date)) {
-                  this.tbEnddates.push(tb_end_date);
+                if (
+                  !this.cryptococallEndDates.includes(
+                    hivsum.cm_treatment_end_date
+                  )
+                ) {
+                  this.tbEnddates.push(hivsum.cm_treatment_end_date);
+                }
+
+                if (
+                  !this.pcpStartDates.includes(
+                    hivsum.pcp_prophylaxis_start_date
+                  )
+                ) {
+                  this.pcpStartDates.push(hivsum.pcp_prophylaxis_start_date);
+                }
+
+                if (
+                  !this.pcpEndDates.includes(hivsum.pcp_prophylaxis_end_date)
+                ) {
+                  this.pcpEndDates.push(hivsum.pcp_prophylaxis_end_date);
+                }
+
+                if (
+                  !this.toxoplasmosisStartDates.includes(
+                    hivsum.toxoplasmosis_start_date
+                  )
+                ) {
+                  this.pcpStartDates.push(hivsum.toxoplasmosis_start_date);
+                }
+
+                if (
+                  !this.toxoplasmosisEndDates.includes(
+                    hivsum.toxoplasmosis_end_date
+                  )
+                ) {
+                  this.pcpEndDates.push(hivsum.toxoplasmosis_end_date);
+                }
+
+                if (
+                  !this.kaposisStartDates.includes(hivsum.kaposis_start_date)
+                ) {
+                  this.pcpStartDates.push(hivsum.kaposis_start_date);
+                }
+
+                if (!this.kaposisEndDates.includes(hivsum.kaposis_end_date)) {
+                  this.pcpEndDates.push(hivsum.kaposis_end_date);
                 }
 
                 this.ahdSummary.push(hivsum);
