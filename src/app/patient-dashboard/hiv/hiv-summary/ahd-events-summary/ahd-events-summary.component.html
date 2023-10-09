@@ -7,10 +7,10 @@
           <th>TB End Date</th>
         </tr>
       </thead>
-      <tr *ngFor="let ahd of uniqueDates">
+      <tr >
         <!-- <td>{{ hivSummary | json }}</td> -->
-        <td>{{ ahd?.tb_tx_start_date | date: 'dd-MM-yyyy' }}</td>
-        <td>{{ ahd?.tb_tx_end_date | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ uniqueDates[0] | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ uniqueDates[0] | date: 'dd-MM-yyyy' }}</td>
       </tr>
     </table>
     <!--   
