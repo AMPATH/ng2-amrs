@@ -14,7 +14,7 @@ import { result } from 'lodash';
   styleUrls: ['./hiv-summary.component.css']
 })
 export class HivSummaryHistoricalComponent implements OnInit, OnDestroy {
-  isHEIActive = false;
+  public isHEIActive = false;
   public loadingHivSummary: boolean = false;
   public hivSummaries: Array<any> = [];
   public patient: Patient;

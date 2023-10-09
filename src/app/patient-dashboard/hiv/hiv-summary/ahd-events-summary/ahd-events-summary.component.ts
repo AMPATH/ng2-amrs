@@ -17,6 +17,7 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   isHEIActive = false;
   public hasError = false;
   public dataLoaded = false;
+  public uniqueDates: Array<any> = [];
   public ahdSummary: Array<any> = [];
   public ahd: any;
   public formattedahdSummary: Array<any> = [];
@@ -74,17 +75,16 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
                 const hivsum = data[result];
                 const tb_start_date = hivsum.tb_tx_start_date;
                 const tb_end_date = hivsum.tb_tx_start_date;
-                const uniqueDates = [];
 
-                if (!uniqueDates.includes(tb_start_date)) {
-                  uniqueDates.push(tb_start_date);
+                if (!this.uniqueDates.includes(tb_start_date)) {
+                  this.uniqueDates.push(tb_start_date);
                 }
 
-                if (!uniqueDates.includes(tb_end_date)) {
-                  uniqueDates.push(tb_end_date);
+                if (!this.uniqueDates.includes(tb_end_date)) {
+                  this.uniqueDates.push(tb_end_date);
                 }
 
-                console.log('uniqueDates', uniqueDates);
+                console.log('uniqueDates', this.uniqueDates);
                 this.ahdSummary.push(hivsum);
                 console.log('this.ahdSummary', this.ahdSummary);
               }
