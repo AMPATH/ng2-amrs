@@ -7,14 +7,13 @@
           <th>TB End Date</th>
         </tr>
       </thead>
-      <tr >
-        <!-- <td>{{ hivSummary | json }}</td> -->
-        <td>{{ uniqueDates[0] | date: 'dd-MM-yyyy' }}</td>
-        <td>{{ uniqueDates[0] | date: 'dd-MM-yyyy' }}</td>
+      <tr>
+        <td *ngFor="let startDate of tbStartdates">{{ startDate | date: 'dd-MM-yyyy' }}</td>
+        <td *ngFor="let endDate of tbEnddates">{{ endDate | date: 'dd-MM-yyyy' }}</td>
       </tr>
     </table>
-    <!--   
-    <table class="table table-hover table-striped table-responsive">
+      
+    <!-- <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
           <th>Cryptococall Start Date</th>
@@ -25,9 +24,9 @@
         <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
         <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
       </tr>
-    </table>
+    </table> -->
   
-    <table class="table table-hover table-striped table-responsive">
+    <!-- <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
           <th>PCP Start Date</th>
@@ -39,8 +38,8 @@
         <td>{{ summary?.pcp_prophylaxis_end_date | date: 'dd-MM-yyyy' }}</td>
       </tr>
     </table>
-  
-    <table class="table table-hover table-striped table-responsive">
+   -->
+    <!-- <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
           <th>Toxoplasmosis Start Date</th>
@@ -52,8 +51,8 @@
         <td> </td>
       </tr>
     </table>
-  
-    <table class="table table-hover table-striped table-responsive">
+   -->
+    <!-- <table class="table table-hover table-striped table-responsive">
       <thead>
         <tr>
           <th>Kaposis Sarcoma Start Date</th>
