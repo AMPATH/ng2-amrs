@@ -7,7 +7,7 @@
   <div class="container-fluid"></div>
 </p-dialog>
 
-<!--<div class="loader" *ngIf="loading">
+<div class="loader" *ngIf="loading">
   <span><i class="fa fa-spinner fa-spin"> </i>Loading...</span>
 </div>
 <div class="row">
@@ -15,7 +15,8 @@
     <div
       *ngIf="imageSaved"
       class="alert alert-success alert-dismissible"
-      role="alert">
+      role="alert"
+    >
       <button
         type="button"
         class="close"
@@ -41,8 +42,8 @@
       </button>
       Image not saved try again;
     </div>
-    <div> -->
-<!-- [singleFile]="singleFileInput"  
+  <!--  <div>
+      [singleFile]="singleFileInput"
       <lib-file-uploader
         [(ngModel)]="dataModel"
         [srcUrl]="pdfUrl"
@@ -51,7 +52,7 @@
         (_onClear)="clearPhoto()"
         (fileChanged)="uploadFile($event)"
       ></lib-file-uploader>
-    </div>
+    </div>-->
   </div>
   <div *ngIf="dataModel" class="col-md-12">
     <span
@@ -71,4 +72,4 @@
       style="display: block"
     ></pdf-viewer>
   </div>
-</div> -->
+</div>
