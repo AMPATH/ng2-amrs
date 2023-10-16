@@ -17,17 +17,17 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
   isHEIActive = false;
   public hasError = false;
   public dataLoaded = false;
-  public toxoplasmosisStartDates: Array<any> = [];
-  public toxoplasmosisEndDates: Array<any> = [];
-  public kaposisStartDates: Array<any> = [];
-  public kaposisEndDates: Array<any> = [];
-  public pcpStartDates: Array<any> = [];
-  public pcpEndDates: Array<any> = [];
-  public tbStartdates: Array<any> = [];
-  public tbEnddates: Array<any> = [];
-  public cryptococallStartDates: Array<any> = [];
-  public cryptococallEndDates: Array<any> = [];
-  public ahdSummary: Array<any> = [];
+  public toxoplasmosisStartDates: any = [];
+  public toxoplasmosisEndDates: any = [];
+  public kaposisStartDates: any = [];
+  public kaposisEndDates: any = [];
+  public pcpStartDates: any = [];
+  public pcpEndDates: any = [];
+  public tbStartdates: any = [];
+  public tbEnddates: any = [];
+  public cryptococallStartDates: any = [];
+  public cryptococallEndDates: any = [];
+  public ahdSummary: any = [];
   public ahd: any;
   public subscription: Subscription[] = [];
   public errors: any = [];
@@ -76,21 +76,26 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
     const summary = this.hivSummaryService
       .getHivSummary(patientUuid, 0, 1, false, this.isHEIActive)
       .subscribe((data) => {
+        // this.tbStartdates = [];
         if (data) {
+          console.log('tb-history: ', data);
           if (data.length > 0) {
             for (const result in data) {
               if (data.hasOwnProperty(result)) {
                 const hivsum = data[result];
-                const tb_start_date = hivsum.tb_tx_start_date;
-                const tb_end_date = hivsum.tb_tx_end_date;
-
-                if (!this.tbStartdates.includes(tb_start_date)) {
-                  this.tbStartdates.push(tb_start_date);
-                  console.log('this.tbStartdates', this.tbStartdates);
+                console.log('hivsum.tb_tx_start_date: ', hivsum);
+                if (
+                  hivsum.tb_tx_start_date !== null &&
+                  !this.tbStartdates.includes(hivsum.tb_tx_start_date)
+                ) {
+                  this.tbStartdates = [
+                    ...this.tbStartdates,
+                    hivsum.tb_tx_start_date
+                  ];
                 }
 
-                if (!this.tbEnddates.includes(tb_end_date)) {
-                  this.tbEnddates.push(tb_end_date);
+                if (!this.tbEnddates.includes(hivsum.tb_tx_end_date)) {
+                  this.tbEnddates.push(hivsum.tb_tx_end_date);
                 }
 
                 if (
@@ -98,7 +103,9 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
                     hivsum.cm_treatment_start_date
                   )
                 ) {
-                  this.tbStartdates.push(hivsum.cm_treatment_start_date);
+                  this.cryptococallStartDates.push(
+                    hivsum.cm_treatment_start_date
+                  );
                 }
 
                 if (
@@ -106,7 +113,7 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
                     hivsum.cm_treatment_end_date
                   )
                 ) {
-                  this.tbEnddates.push(hivsum.cm_treatment_end_date);
+                  this.cryptococallEndDates.push(hivsum.cm_treatment_end_date);
                 }
 
                 if (
@@ -128,7 +135,9 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
                     hivsum.toxoplasmosis_start_date
                   )
                 ) {
-                  this.pcpStartDates.push(hivsum.toxoplasmosis_start_date);
+                  this.toxoplasmosisStartDates.push(
+                    hivsum.toxoplasmosis_start_date
+                  );
                 }
 
                 if (
@@ -136,32 +145,30 @@ export class AhdEventsSummaryComponent implements OnInit, OnDestroy {
                     hivsum.toxoplasmosis_end_date
                   )
                 ) {
-                  this.pcpEndDates.push(hivsum.toxoplasmosis_end_date);
+                  this.toxoplasmosisEndDates.push(
+                    hivsum.toxoplasmosis_end_date
+                  );
                 }
 
                 if (
                   !this.kaposisStartDates.includes(hivsum.kaposis_start_date)
                 ) {
-                  this.pcpStartDates.push(hivsum.kaposis_start_date);
+                  this.kaposisStartDates.push(hivsum.kaposis_start_date);
                 }
 
                 if (!this.kaposisEndDates.includes(hivsum.kaposis_end_date)) {
-                  this.pcpEndDates.push(hivsum.kaposis_end_date);
+                  this.kaposisEndDates.push(hivsum.kaposis_end_date);
                 }
-
-                this.ahdSummary.push(hivsum);
               }
             }
           }
+          console.log('stx: ', this.tbStartdates);
+          console.log('tbend: ', this.tbEnddates);
           this.isLoading = false;
         } else {
           this.dataLoaded = true;
         }
       });
     this.subscription.push(summary);
-  }
-
-  formatDate(date: string): string {
-    return this.datePipe.transform(date, 'dd-MM-yyyy') || '';
   }
 }

@@ -1,72 +1,86 @@
 <div>
   <div>
-    <table class="table table-hover table-striped table-responsive">
+      <table class="table table-hover table-striped  table-responsive" *ngIf="tbStartdates.length > 0 || tbEnddates.length > 0">
+        <thead>
+         <tr>
+           <th>TB Start Date </th>
+           <th>TB End Date </th>
+ 
+         </tr>
+        </thead>
+       <tbody>
+         <tr>
+           <td *ngFor="let startDate of tbStartdates">{{ startDate | date: 'dd-MM-yyyy' }}</td>
+           <td *ngFor="let endDate of tbEnddates">{{ endDate | date: 'dd-MM-yyyy' }}</td>
+         </tr>
+       </tbody>
+     </table>
+   
+
+    <table class="table table-hover table-striped table-responsive" *ngIf="cryptococallStartDates != null || cryptococallEndDates != null">
       <thead>
         <tr>
-          <th>TB Start Date</th>
-          <th>TB End Date</th>
+          <th>Cryptococcal Start Date : </th>
+          <th>Cryptococcal End Date : </th>
+          
         </tr>
       </thead>
-      <tr>
-        <td *ngFor="let startDate of tbStartdates">{{ startDate | date: 'dd-MM-yyyy' }}</td>
-        <td *ngFor="let endDate of tbEnddates">{{ endDate | date: 'dd-MM-yyyy' }}</td>
+     <tbody>
+      <tr >
+        <td *ngFor="let startDate of cryptococallStartDates"> {{ startDate | date: 'dd-MM-yyyy' }} </td>
+        <td *ngFor="let endDate of cryptococallEndDates"> {{  endDate | date: 'dd-MM-yyyy' }} </td>
       </tr>
+     </tbody>
     </table>
-      
-    <!-- <table class="table table-hover table-striped table-responsive">
-      <thead>
-        <tr>
-          <th>Cryptococall Start Date</th>
-          <th>Cryptococall End Date</th>
-        </tr>
-      </thead>
-      <tr *ngFor="let summary of hivSummary">
-        <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
-        <td> {{ summary?.cm_treatment_start_date | date: 'dd-MM-yyyy' }} </td>
-      </tr>
-    </table> -->
   
-    <!-- <table class="table table-hover table-striped table-responsive">
-      <thead>
+    <table class="table table-hover table-striped table-responsive" *ngIf="pcpStartDates || pcpEndDates">
+      <thead >
         <tr>
           <th>PCP Start Date</th>
           <th>PCP End Date</th>
         </tr>
       </thead>
-      <tr *ngFor="let summary of hivSummary">
-        <td>{{ summary?.pcp_prophylaxis_start_date | date: 'dd-MM-yyyy' }}</td>
-        <td>{{ summary?.pcp_prophylaxis_end_date | date: 'dd-MM-yyyy' }}</td>
-      </tr>
-    </table>
-   -->
-    <!-- <table class="table table-hover table-striped table-responsive">
-      <thead>
-        <tr>
-          <th>Toxoplasmosis Start Date</th>
-          <th>Toxoplasmosis End Date</th>
-        </tr>
-      </thead>
+     <tbody>
       <tr>
-        <td> </td>
-        <td> </td>
+        <td *ngFor="let startDate of pcpStartDates">{{ startDate | date: 'dd-MM-yyyy' }}</td>
+        <td *ngFor="let endDate of pcpEndDates">{{ endDate | date: 'dd-MM-yyyy' }}</td>
       </tr>
+     </tbody>
     </table>
-   -->
-    <!-- <table class="table table-hover table-striped table-responsive">
+    
+       <table class="table table-hover table-striped table-responsive" *ngIf="toxoplasmosisStartDates != null || toxoplasmosisEndDates != null">
+        <thead>
+          <tr>
+            <th>Toxoplasmosis Start Date</th>
+            <th>Toxoplasmosis End Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let startDate of toxoplasmosisStartDates">{{ startDate | date: 'dd-MM-yyyy' }}</td>
+            <td *ngFor="let startDate of toxoplasmosisEndDates">{{ endDate | date: 'dd-MM-yyyy' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+   <table class="table table-hover table-striped table-responsive" *ngIf="kaposisStartDates != null || kaposisEndDates != null">
       <thead>
         <tr>
           <th>Kaposis Sarcoma Start Date</th>
           <th>Kaposis Sarcoma End Date</th>
         </tr>
       </thead>
-      <tr>
-        <td> </td>
-        <td> </td>
-      </tr>
-    </table> -->
+      <tbody>
+        <tr>
+          <td *ngFor="let startDate of kaposisStartDates">{{ startDate | date: 'dd-MM-yyyy' }}</td>
+          <td *ngFor="let startDate of kaposisEndDates">{{ endDate | date: 'dd-MM-yyyy' }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- <div >
+  <!-- <div *ngIf="" >
     <p class="mx-8" >NO AHD SUMMARY DATA!</p>
   </div> -->
+
 </div>

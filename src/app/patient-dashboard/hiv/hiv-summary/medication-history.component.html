@@ -3,19 +3,11 @@
     <thead>
       <tr>
         <th>Change Date</th>
-<<<<<<< HEAD
-=======
         <th>Change Date</th>
->>>>>>> d6e6f7f2406f67b42cbfdd3c47692c17b7a405fd
         <th>Previous VL</th>
         <th>Previous Vl Date</th>
         <th>DST</th>
         <th>DST Date</th>
-<<<<<<< HEAD
-        <th>Current Regimen</th>
-        <th>ARV Line</th>
-        <th>Reason</th>
-=======
         <th>DST</th>
         <th>DST Date</th>
         <th>Current Regimen</th>
@@ -23,20 +15,14 @@
         <th>Reason</th>
         <th>ARV Line</th>
         <th>Reason</th>
->>>>>>> d6e6f7f2406f67b42cbfdd3c47692c17b7a405fd
       </tr>
     </thead>
     <tr *ngFor="let encounter of encounters">
       <td>{{ encounter.encounter_datetime }}</td>
       <td>{{ (encounter.previousViralLoad | zeroVl) || ' ' }}</td>
       <td>{{ encounter.previous_vl_date }}</td>
-<<<<<<< HEAD
-      <td>{{  ' ' }}</td>
-      <td>{{ ' ' }}</td>
-=======
       <td>{{ (encounter.previousViralLoad | zeroVl) || ' ' }}</td>
       <td>{{ encounter.previous_vl_date }}</td>
->>>>>>> d6e6f7f2406f67b42cbfdd3c47692c17b7a405fd
       <td>{{ encounter.current_regimen || '&nbsp;' }}</td>
       <td>{{ encounter.cur_arv_line || '&nbsp;' }}</td>
       <td>{{ encounter.reason_for_regimen_change || '&nbsp;' }}</td>
