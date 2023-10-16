@@ -1,8 +1,23 @@
 /* .header {
     display: flex;
     justify-content: space-between;
+} */
+/* 
+table tbody tr,
+table thead tr{
+    display: flex;
+    flex-direction: row;
+    
+} */
+table tbody tr td,
+table thead tr th {
+  width: 50%;
 }
-.theader {
-    background-color: bisque;
-    width: 100%;
+
+/* table tbody tr td{
+    background-color: blue;
+} */
+
+/* .ahd {
+    max-width: 100%;
 } */
