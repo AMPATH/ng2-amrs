@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'medication-change-history',
   templateUrl: './medication-history.component.html',
-  styleUrls: []
+  styleUrls: ['./medication-history.component.css']
 })
 export class MedicationHistoryComponent implements OnInit, OnDestroy {
   public encounters = [];
@@ -29,7 +29,6 @@ export class MedicationHistoryComponent implements OnInit, OnDestroy {
         this.encounters = this.convertPreviousVlValueTostring(
           medication.result
         );
-        console.log(this.encounters);
       });
   }
 
