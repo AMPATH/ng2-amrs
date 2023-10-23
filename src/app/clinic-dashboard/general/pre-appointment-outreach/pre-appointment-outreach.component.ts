@@ -216,9 +216,16 @@ export class PreAppointmentOutreachComponent implements OnInit {
         field: 'rescheduled_date'
       },
       {
-        headerName: 'Failed Phone Attempts',
+        headerName: 'No. of Failed Phone Attempts',
         width: 100,
-        field: 'failed_phone_attempts'
+        field: 'number_of_failed_phone_attempts',
+        cellRenderer: (column: any) => {
+          if (column.value === 1) {
+            return '1';
+          } else {
+            return '0';
+          }
+        }
       },
       {
         headerName: 'Contact Reached',
@@ -278,6 +285,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
         .getWeeklyPredictionsPatientList(this.getReportParams())
         .subscribe(
           (result: any) => {
+            console.log('result', result);
             this.loadingpreAppointmentOutreachList = false;
             if (result) {
               this.preAppointmentOutreachList = result;
