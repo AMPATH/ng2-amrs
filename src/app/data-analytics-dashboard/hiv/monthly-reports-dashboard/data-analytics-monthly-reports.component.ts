@@ -16,9 +16,15 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
   ngOnInit() {
     this.dashboards = [
       {
-        title: 'PrEP Monthly Report',
+        title: 'PrEP Monthly Report (deprecated)',
         description: '',
         url: 'prep-report',
+        icon: 'fa'
+      },
+      {
+        title: 'New PrEP Monthly Report',
+        description: '',
+        url: 'prep-monthly-report',
         icon: 'fa'
       },
       {

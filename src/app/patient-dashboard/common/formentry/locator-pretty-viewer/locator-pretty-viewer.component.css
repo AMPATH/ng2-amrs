@@ -1,0 +1,43 @@
+p {
+  padding: 8px;
+  background-color: rgba(29, 112, 219, 0.842);
+  color: #fff;
+  border-radius: 3px;
+}
+
+h4 {
+  padding: 8px;
+  color: #fff;
+  background-color: yellowgreen;
+  border-radius: 2px;
+}
+
+.header {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 20px;
+  color: rgb(5, 102, 212);
+  display: block;
+  width: 100%;
+}
+
+.wrapper-container {
+  margin-top: 18px;
+  width: 100%;
+}
+
+.self-container {
+  margin-top: 18px;
+  width: 100%;
+}
+
+.wrapper {
+  padding-bottom: 32px;
+}
+
+.btn-print {
+  font-size: 24px;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+}
