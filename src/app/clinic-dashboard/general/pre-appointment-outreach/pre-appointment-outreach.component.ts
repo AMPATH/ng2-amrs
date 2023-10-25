@@ -218,14 +218,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
       {
         headerName: 'No. of Failed Phone Attempts',
         width: 100,
-        field: 'number_of_failed_phone_attempts',
-        cellRenderer: (column: any) => {
-          if (column.value === 1) {
-            return '1';
-          } else {
-            return '0';
-          }
-        }
+        field: 'number_of_failed_phone_attempts'
       },
       {
         headerName: 'Contact Reached',
