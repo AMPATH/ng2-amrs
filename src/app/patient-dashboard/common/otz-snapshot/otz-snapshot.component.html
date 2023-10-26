@@ -1,0 +1,163 @@
+<div class="program">
+  <div class="enrolled">
+    <div class="program-header-wrapper">
+      <h2 class="program-header">
+        OTZ Program (enrolled on {{ dateEnrolled }})
+      </h2>
+    </div>
+    <div class="otz-header" *ngIf="otzEnrollment">
+      <ul class="otz-nav-header">
+        <li
+          [ngStyle]="{
+            'background-color': selectedItem === 'summary' ? 'DodgerBlue' : '',
+            color: selectedItem === 'summary' ? 'white' : ''
+          }"
+          (click)="selectedItem = 'summary'"
+        >
+          Summary
+        </li>
+        <li
+          [ngStyle]="{
+            'background-color':
+              selectedItem === 'appointments' ? 'MediumSeaGreen' : '',
+            color: selectedItem === 'appointments' ? 'white' : ''
+          }"
+          (click)="selectedItem = 'appointments'"
+        >
+          Appointments
+        </li>
+        <li
+          [ngStyle]="{
+            'background-color': selectedItem === 'adherence' ? 'Tomato' : '',
+            color: selectedItem === 'adherence' ? 'white' : ''
+          }"
+          (click)="selectedItem = 'adherence'"
+        >
+          Adherence
+        </li>
+        <li
+          [ngStyle]="{
+            'background-color':
+              selectedItem === 'viral-load' ? 'SlateBlue' : '',
+            color: selectedItem === 'viral-load' ? 'white' : ''
+          }"
+          (click)="selectedItem = 'viral-load'"
+        >
+          Viral load
+        </li>
+      </ul>
+
+      <button class="btn btn-info">Enroll patient to OTZ Group</button>
+    </div>
+    <div class="otz-content" *ngIf="otzEnrollment">
+      <ng-container *ngIf="selectedItem === 'summary'">
+        <div class="otz-content-wrapper">
+          <ul>
+            <li>Last Encounter Date:</li>
+            <li>ARV Regimen:</li>
+            <li>RTC Date:</li>
+            <li>Module:</li>
+            <li>Last Viral Load:</li>
+            <li>Last Viral Load Date:</li>
+            <li>Viral Load Categorization:</li>
+          </ul>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedItem === 'appointments'">
+        <div>
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-blue">
+              <tr class="table-primary">
+                <th class="theader-appoint" scope="col">Latest appointment</th>
+                <th class="theader-appoint" scope="col">Visit type</th>
+                <th class="theader-appoint" scope="col">Latest RTC</th>
+                <th class="theader-appoint" scope="col">
+                  Medication pick-up date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-active">
+                <th scope="row">2023/11/12</th>
+                <td>initial visit</td>
+                <td>2023/11/15</td>
+                <td>11/14/2023</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedItem === 'adherence'">
+        <div>
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-blue">
+              <tr class="table-primary">
+                <th class="theader-appoint" scope="col">Encounter Date</th>
+                <th class="theader-appoint" scope="col">Adherence type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-active">
+                <th scope="row">2023/11/12</th>
+                <td>adherence type</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedItem === 'viral-load'">
+        <div>
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-blue">
+              <tr class="table-primary">
+                <th class="theader-appoint" scope="col">Date</th>
+                <th class="theader-appoint" scope="col">Viral Load</th>
+                <th class="theader-appoint" scope="col">Viral Load Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-active">
+                <th scope="row">20/02/2023</th>
+                <td>0</td>
+                <td class="ldl-col">LDL</td>
+              </tr>
+              <tr class="table-active">
+                <th scope="row">20/02/2022</th>
+                <td>150</td>
+                <td class="low-risk-col">Low Risk Low Level Viremia</td>
+              </tr>
+              <tr class="table-active">
+                <th scope="row">20/02/2021</th>
+                <td>500</td>
+                <td class="high-risk-col">High Risk Low Level Viremia</td>
+              </tr>
+              <tr class="table-active">
+                <th scope="row">20/02/2020</th>
+                <td>10000</td>
+                <td class="treatment-col">Suspected Treatment Failure</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+    <div class="program-footer">
+      <div class="input-group">
+        <div class="ui-grid-col-12 buttons">
+          <a
+            class="btn btn-success"
+            routerLink="{{ programManagerUrl }}"
+            *ngIf="!otzEnrollment"
+            >Enroll</a
+          >
+          <a
+            class="btn btn-danger"
+            routerLink="{{ programManagerUrl }}"
+            *ngIf="otzEnrollment"
+            >Exit</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
