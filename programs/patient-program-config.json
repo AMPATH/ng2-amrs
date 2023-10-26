@@ -2078,6 +2078,48 @@
       }
     ]
   },
+  "203571d6-a4f2-4953-9e8b-e1105e2340f5": {
+    "name": "OTZ PROGRAM",
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "c2380050-5e55-4d93-9f4f-cc4cd9d59dc0",
+            "name": "AMPATH POC OTZ Exit Form V1.0",
+            "required": true
+          }
+        ]
+      }
+    },
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "6eeb09be-040f-4018-ab03-c42bb1aadf58",
+        "name": "OTZ Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "OTZENROLLMENTFORM"
+          }
+        ]
+      }
+    ]
+  },
   "781d8768-1359-11df-a1f1-0026b9348837": {
     "name": "DERMATOLOGY PROGRAM",
     "enrollmentOptions": {
