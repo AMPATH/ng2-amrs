@@ -142,12 +142,19 @@
     minWidth="300"
     closeresponsive="true"
   >
-    <p class="text-success" style="margin-bottom: 10px">
+    <p *ngIf="!isOtzProgram" class="text-success" style="margin-bottom: 10px">
       <span class="fa-stack fa-lg">
         <i class="fa fa-circle-thin fa-stack-2x"></i>
         <i class="fa fa-info fa-stack-1x"></i>
       </span>
       Form submitted successfully.
+    </p>
+    <p *ngIf="isOtzProgram" class="text-success" style="margin-bottom: 10px">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle-thin fa-stack-2x"></i>
+        <i class="fa fa-info fa-stack-1x"></i>
+      </span>
+      Patient has been enrolled to OTZ program.
     </p>
     <order-list [submittedOrdersModel]="submittedOrders"></order-list>
     <div *ngIf="diffCareReferralStatus">

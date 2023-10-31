@@ -53,13 +53,39 @@
       <ng-container *ngIf="selectedItem === 'summary'">
         <div class="otz-content-wrapper">
           <ul>
-            <li>Last Encounter Date:</li>
-            <li>ARV Regimen:</li>
-            <li>RTC Date:</li>
+            <li>
+              Last Encounter Date:
+              <strong>{{ patientData?.encounter_datetime }}</strong>
+            </li>
+            <li>
+              ARV Regimen: <strong>{{ patientData?.arv_first_regimen }}</strong>
+            </li>
+            <li>
+              RTC Date: <strong>{{ patientData?.rtc_date }}</strong>
+            </li>
             <li>Module:</li>
-            <li>Last Viral Load:</li>
-            <li>Last Viral Load Date:</li>
-            <li>Viral Load Categorization:</li>
+            <li>
+              Last Viral Load:
+              <span
+                ><strong>{{ patientData?.vl_1 | zeroVl }}</strong></span
+              >
+            </li>
+            <li>
+              Last Viral Load Date:
+              <span>
+                <strong>
+                  {{ patientData?.vl_1_date | date: 'dd-MM-yyyy' }}
+                </strong>
+              </span>
+            </li>
+            <li>
+              Viral Load Categorization:
+              <span>
+                <strong>
+                  {{ viralLoadCategory }}
+                </strong>
+              </span>
+            </li>
           </ul>
         </div>
       </ng-container>
@@ -78,10 +104,14 @@
             </thead>
             <tbody>
               <tr class="table-active">
-                <th scope="row">2023/11/12</th>
-                <td>initial visit</td>
-                <td>2023/11/15</td>
-                <td>11/14/2023</td>
+                <th scope="row">
+                  {{ patientData?.prev_rtc_date | date: 'dd-MM-yyyy' }}
+                </th>
+                <td>{{ patientData?.encounter_type_name }}</td>
+                <td>{{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</td>
+                <td>
+                  {{ patientData?.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -116,25 +146,31 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="table-active">
-                <th scope="row">20/02/2023</th>
-                <td>0</td>
-                <td class="ldl-col">LDL</td>
-              </tr>
-              <tr class="table-active">
-                <th scope="row">20/02/2022</th>
-                <td>150</td>
-                <td class="low-risk-col">Low Risk Low Level Viremia</td>
-              </tr>
-              <tr class="table-active">
-                <th scope="row">20/02/2021</th>
-                <td>500</td>
-                <td class="high-risk-col">High Risk Low Level Viremia</td>
-              </tr>
-              <tr class="table-active">
-                <th scope="row">20/02/2020</th>
-                <td>10000</td>
-                <td class="treatment-col">Suspected Treatment Failure</td>
+              <tr class="table-active" *ngFor="let item of viralLoadHistory">
+                <th scope="row">
+                  {{ item.test_datetime | date: 'dd-MM-yyyy' }}
+                </th>
+                <td>{{ item.hiv_viral_load }}</td>
+                <td
+                  [ngClass]="{
+                    'ldl-col': item.hiv_viral_load <= 50,
+                    'low-risk-col':
+                      item.hiv_viral_load > 50 && item.hiv_viral_load <= 200,
+                    'high-risk-col':
+                      item.hiv_viral_load > 200 && item.hiv_viral_load <= 500,
+                    'treatment-col': item.hiv_viral_load > 500
+                  }"
+                >
+                  {{
+                    item.hiv_viral_load <= 50
+                      ? 'LDL'
+                      : item.hiv_viral_load <= 200
+                      ? 'Low Risk Low Level Viremia'
+                      : item.hiv_viral_load <= 500
+                      ? 'High Risk Low Level Viremia'
+                      : 'Suspected Treatment Failure'
+                  }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -152,7 +188,7 @@
           >
           <a
             class="btn btn-danger"
-            routerLink="{{ programManagerUrl }}"
+            routerLink="{{ otzProgramExit }}"
             *ngIf="otzEnrollment"
             >Exit</a
           >

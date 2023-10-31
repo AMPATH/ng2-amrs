@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Patient } from 'src/app/models/patient.model';
 import { PatientService } from '../../services/patient.service';
 import { HivSummaryResourceService } from 'src/app/etl-api/hiv-summary-resource.service';
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
+import { LabsResourceService } from 'src/app/etl-api/labs-resource.service';
 import { take } from 'rxjs/operators';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -18,22 +20,26 @@ export class OtzSnapshotComponent implements OnInit {
   patient: Patient;
   otzEnrollment = false;
   programManagerUrl: any;
+  otzProgramExit: any;
   dateEnrolled: any;
   dateCompleted: any;
   loadingData: boolean;
   hasLoadedData: boolean;
   patientCareStatus: any;
-  hivDisclosureStatus: string;
   clinicalEncounters: any;
   patientData: any;
-  isVirallyUnsuppressed: boolean;
   hasData: boolean;
   isHEIActive: boolean;
+  viralLoadCategory: string;
+  viralLoadHistory: any[];
 
   constructor(
     private patientService: PatientService,
     private hivSummaryResourceService: HivSummaryResourceService,
-    private _encounterResource: EncounterResourceService
+    private labsResourceService: LabsResourceService,
+    private _encounterResource: EncounterResourceService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -41,14 +47,23 @@ export class OtzSnapshotComponent implements OnInit {
       (patient) => {
         this.patient = new Patient({});
         if (patient) {
+          this.isHEIActive = patient.enrolledPrograms.some((program) => {
+            return (
+              program.programUuid === 'a8e7c30d-6d2f-401c-bb52-d4433689a36b' &&
+              program.isEnrolled === true
+            );
+          });
           this.programManagerUrl =
             '/patient-dashboard/patient/' +
             patient.uuid +
             '/general/general/program-manager/new-program';
+          this.otzProgramExit =
+            '/patient-dashboard/patient/' +
+            patient.uuid +
+            '/general/general/formentry/c2380050-5e55-4d93-9f4f-cc4cd9d59dc0';
           this.getOtzEnrollments(patient.enrolledPrograms);
-          // this.retrieveNonEnrollmentandExitEncounter(patient);
-          // this.retrieveHivDisclosureStatus(patient);
-          // this.getHivSummary(patient);
+          this.getHivSummary(patient);
+          this.getHistoricalPatientLabResults(patient);
         }
       }
     );
@@ -86,12 +101,9 @@ export class OtzSnapshotComponent implements OnInit {
           latestVlResult = this.getlatestVlResult(results);
           latestVlDate = latestVlResult.vl_1_date;
           latestVl = latestVlResult.vl_1;
-          latestVl = latestVlResult.vl_1;
           this.patientCareStatus = results[0].patient_care_status;
-          this.hivDisclosureStatus =
-            results[0].hiv_status_disclosed === 1 ? 'Yes' : 'No';
         }
-        this.clinicalEncounters = this.clinicalEncounters(results);
+        this.clinicalEncounters = this.getClinicalEncounters(results);
         this.patientData = _.first(this.clinicalEncounters);
         const patientDataCopy = this.patientData;
 
@@ -101,19 +113,66 @@ export class OtzSnapshotComponent implements OnInit {
             vl_1_date: latestVlDate,
             vl_1: latestVl
           });
-          // flag red if VL > 1000 && (vl_1_date > (arv_start_date + 6 months))
-          if (
-            (this.patientData.vl_1 > 1000 &&
-              moment(this.patientData.vl_1_date) >
-                moment(this.patientData.arv_start_date).add(6, 'months')) ||
-            this.patientData.prev_arv_line !== this.patientData.cur_arv_line
-          ) {
-            this.isVirallyUnsuppressed = true;
-          }
           this.hasData = true;
+        }
+        if (latestVl) {
+          this.viralLoadCategory = this.getCategory(latestVl);
         }
       });
   }
+
+  private getCategory(value: number): string {
+    if (value <= 50) {
+      return 'LDL';
+    } else if (value <= 200) {
+      return 'Low Risk Low Level Viremia';
+    } else if (value <= 500) {
+      return 'High Risk Low Level Viremia';
+    } else {
+      return 'Suspected Treatment Failure';
+    }
+  }
+
+  public getHistoricalPatientLabResults(patient) {
+    this.labsResourceService
+      .getHistoricalPatientLabResults(patient.uuid, {
+        startIndex: '0',
+        limit: '20'
+      })
+      .pipe(take(1))
+      .subscribe((results) => {
+        this.getViralLoadHistory(results);
+      });
+  }
+
+  private getViralLoadHistory(labResults: any[]): any {
+    const filteredArray = labResults.filter((item) => {
+      return item.hiv_viral_load !== null && item.test_datetime !== null;
+    });
+
+    filteredArray.sort((a, b) => {
+      const dateA = new Date(a.test_datetime).getTime();
+      const dateB = new Date(b.test_datetime).getTime();
+      return dateB - dateA;
+    });
+
+    const result = filteredArray.map((item) => {
+      return {
+        hiv_viral_load: item.hiv_viral_load,
+        test_datetime: item.test_datetime
+      };
+    });
+    this.viralLoadHistory = result;
+  }
+
+  private getClinicalEncounters(summaries: any[]): any[] {
+    if (summaries) {
+      return _.filter(summaries, (summary: any) => {
+        return summary.is_clinical_encounter === 1;
+      });
+    }
+  }
+
   private getlatestVlResult(hivSummaryData) {
     const orderByVlDate = _.orderBy(
       hivSummaryData,

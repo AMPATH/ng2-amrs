@@ -53,6 +53,7 @@ import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.int
 
 // constants
 import { FormUuids } from './../../../constants/forms.constants';
+import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
 
 interface RefProgram {
   uuid: string;
@@ -139,6 +140,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     status: '',
     message: ''
   };
+  public isOtzProgram = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -167,7 +169,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     public userDefaultPropertiesService: UserDefaultPropertiesService,
     public patientConsentResourceService: PatientConsentResourceService,
     private covid19Service: Covid19ResourceService,
-    private propertyLocationService: UserDefaultPropertiesService
+    private propertyLocationService: UserDefaultPropertiesService,
+    private programManagerService: ProgramManagerService
   ) {}
 
   public ngOnInit() {
@@ -1271,6 +1274,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.handleSuccessfulFormSubmission(data);
           this.formSubmissionService.setSubmitStatus(false);
           this.enableSubmitBtn();
+          if (this.formUuid === 'e2c0990c-4d2b-4c09-806f-cffe50a8fc27') {
+            this.isOtzProgram = true;
+            this.enrollPatientToOtzProgram();
+          }
         },
         (err) => {
           console.error('error', err);
@@ -1280,6 +1287,30 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.formSubmissionService.setSubmitStatus(false);
         }
       );
+  }
+
+  private enrollPatientToOtzProgram() {
+    const formattedDate = new Date(this.extractEncounterDate())
+      .toISOString()
+      .slice(0, 10);
+    const payload = {
+      programUuid: '203571d6-a4f2-4953-9e8b-e1105e2340f5',
+      patient: this.patient,
+      dateEnrolled: formattedDate,
+      dateCompleted: '',
+      location: this.encounterLocation.value,
+      enrollmentUuid: ''
+    };
+
+    this.programManagerService.enrollPatient(payload).subscribe(
+      (enrollment) => {
+        console.log('response', enrollment);
+        this.isBusyIndicator(false);
+      },
+      (error) => {
+        console.log('error', error);
+      }
+    );
   }
 
   private checkDuplicate(payloadTypes) {

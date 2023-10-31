@@ -48,7 +48,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public isStaging = true;
   public ovcEnrollment = false;
-  public otzEnrollment = false;
+  public otzEnrollmentBtn = false;
   public isPatientVerified = false;
   public verificationStatus = false;
   modalRef: BsModalRef;
@@ -312,7 +312,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         program.concept.uuid === 'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
     );
     if (otz.length > 0 && otz[0].isEnrolled) {
-      this.otzEnrollment = true;
+      this.otzEnrollmentBtn = true;
     }
   }
 
