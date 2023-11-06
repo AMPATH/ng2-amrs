@@ -1,0 +1,202 @@
+<div class="wrapper">
+  <div *ngIf="reportDetails" class="panel panel-info">
+    <div class="panel-heading" style="min-height: 50px !important">
+      <strong class="text-primary">
+        <span class="fa fa-file-pdf-o"> </span>
+        {{ reportDetails.reportName }}
+        <div class="btn-group pull-right">
+          <button
+            class="btn btn-primary"
+            (click)="downloadCSV()"
+            [disabled]="!gridOptions"
+          >
+            <i class="fa fa-download"> </i> Export to CSV
+          </button>
+        </div>
+      </strong>
+    </div>
+    <div>
+      <div class="row" *ngIf="reportDetails.displayTabularFilters">
+        <div class="col-md-5 col-sm-12 padding">
+          <label for="">Search :</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input
+              #searchBoxL
+              id="search-box-loc"
+              [(ngModel)]="selectedResult"
+              (ngModelChange)="searchIndicator()"
+              placeholder="search indicator"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 padding pull-right">
+          <div class="ui-grid-row ui-fluid">
+            <div class="ui-grid-col-12 pull-right">
+              <label for="">Filters :</label>
+              <p-multiSelect
+                [options]="headers"
+                [(ngModel)]="selectedIndicatorsList"
+                (onChange)="selectedIndicators()"
+              >
+              </p-multiSelect>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="contentToConvert"
+        class="panel-body table-content-class"
+        style="background-color: #ffffff"
+      >
+        <div *ngIf="SummaryData.length > 0">
+          <ng-container
+            *ngFor="let grid of gridOptions.columnDefs; let a = index"
+          >
+            <table>
+              <thead></thead>
+              <tbody>
+                <ng-container *ngFor="let col of grid.children; let i = index">
+                  <ng-container *ngIf="i === 0 && a !== 0">
+                    <tr>
+                      <th
+                        [attr.colspan]="
+                          gridOptions.columnDefs[0].children[0].value.length *
+                            2 +
+                          3
+                        "
+                        class="header"
+                      >
+                        <b>{{ grid.headerName }}</b>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th style="min-width: 150px">Location</th>
+                      <th
+                        colspan="2"
+                        *ngFor="
+                          let val of gridOptions.columnDefs[0].children[0].value
+                        "
+                      >
+                        {{ val.value[0] }}
+                      </th>
+                      <th
+                        *ngIf="
+                          gridOptions.columnDefs[0].children[0].value.length > 1
+                        "
+                      >
+                        <b>Total</b>
+                      </th>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                      <th></th>
+                      <ng-container
+                        *ngFor="
+                          let val of gridOptions.columnDefs[0].children[0].value
+                        "
+                      >
+                        <th>F</th>
+                        <th>M</th>
+                      </ng-container>
+                      <th
+                        *ngIf="
+                          gridOptions.columnDefs[0].children[0].value.length > 1
+                        "
+                      ></th>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngIf="a !== 0 && i < 15">
+                    <tr>
+                      <td
+                        style="min-width: 150px"
+                        title="{{ col.description }}"
+                      >
+                        <i
+                          *ngIf="col.headerName !== 'locations'"
+                          class="fa fa-info-circle"
+                        ></i>
+                        &nbsp;&nbsp;{{ col.headerName }}
+                      </td>
+                      <ng-container *ngFor="let val of col.value">
+                        <td
+                          title="Click to View Patientlist"
+                          (click)="setCellSelection(col, val, 0, grid)"
+                          class="value"
+                        >
+                          {{ val.value[0] }}
+                        </td>
+                        <td
+                          title="Click to View Patientlist"
+                          (click)="setCellSelection(col, val, 1, grid)"
+                          class="value"
+                        >
+                          {{ val.value[1] }}
+                        </td>
+                      </ng-container>
+                      <td
+                        *ngIf="sectionIndicatorsValues.length > 1"
+                        title="Click to View Total Patientlist"
+                        (click)="setCellSelection(col, col.total, 2, grid)"
+                        class="value"
+                      >
+                        <b>{{ col.total.value }}</b>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngIf="i === 15 && a !== 0">
+                    <tr>
+                      <td style="min-width: 150px"><b>Sub Total</b></td>
+                      <ng-container *ngFor="let val of col.value">
+                        <td
+                          title="Click to View Total Male Patientlist"
+                          (click)="setCellSelection(col, val, 0, grid)"
+                          class="value"
+                        >
+                          <b>{{ val.value[0] }}</b>
+                        </td>
+                        <td
+                          title="Click to View Total Female Patientlist"
+                          (click)="setCellSelection(col, val, 1, grid)"
+                          class="value"
+                        >
+                          <b>{{ val.value[1] }}</b>
+                        </td>
+                      </ng-container>
+                      <td *ngIf="sectionIndicatorsValues.length > 1"></td>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngIf="i === 16 && a !== 0">
+                    <tr>
+                      <td style="min-width: 150px"><b>Facility Total</b></td>
+                      <ng-container *ngFor="let val of col.value">
+                        <td
+                          colspan="2"
+                          title="Click to View Facility Total Patientlist"
+                          (click)="setCellSelection(col, val, 3, grid)"
+                          class="value"
+                        >
+                          <b>{{ val.value[0] }}</b>
+                        </td>
+                      </ng-container>
+                      <td
+                        *ngIf="sectionIndicatorsValues.length > 1"
+                        title="Click to View Total Patientlist"
+                        (click)="setCellSelection(col, col.total, 2, grid)"
+                        class="value"
+                      >
+                        <b>{{ col.total.value }}</b>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+            </table>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
