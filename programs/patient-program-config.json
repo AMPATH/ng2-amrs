@@ -2109,12 +2109,13 @@
     "incompatibleWith": [],
     "visitTypes": [
       {
-        "uuid": "6eeb09be-040f-4018-ab03-c42bb1aadf58",
+        "uuid": "d3d5fd4a-508c-4610-97b7-5197a0bdb88d",
         "name": "OTZ Visit ",
+        "groupVisit": true,
         "encounterTypes": [
           {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "OTZENROLLMENTFORM"
+            "uuid": "76680613-2974-4d89-9b85-6b0a4bf56267",
+            "display": "OTZACTIVITY"
           }
         ]
       }
