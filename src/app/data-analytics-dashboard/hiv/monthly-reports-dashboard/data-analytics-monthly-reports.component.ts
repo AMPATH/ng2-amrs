@@ -44,6 +44,12 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
         description: '',
         url: 'patient-gains-and-losses',
         icon: 'fa'
+      },
+      {
+        title: 'Plhiv Ncd v2 report',
+        description: '',
+        url: 'plhiv-ncd-v2-monthly-report',
+        icon: 'fa'
       }
     ];
   }
