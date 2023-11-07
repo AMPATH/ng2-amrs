@@ -60,7 +60,7 @@ export class OtzSnapshotComponent implements OnInit {
           this.otzProgramExit =
             '/patient-dashboard/patient/' +
             patient.uuid +
-            '/general/general/formentry/c2380050-5e55-4d93-9f4f-cc4cd9d59dc0';
+            '/general/general/formentry/ab16711d-890d-4128-95ce-0e955babd711';
           this.getOtzEnrollments(patient.enrolledPrograms);
           this.getHivSummary(patient);
           this.getHistoricalPatientLabResults(patient);

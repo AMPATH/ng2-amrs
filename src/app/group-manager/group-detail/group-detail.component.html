@@ -366,7 +366,11 @@
         >
           <ng-container *ngFor="let item of visitTypes">
             <option
-              *ngIf="item.display.toLowerCase().includes('community')"
+              *ngIf="
+                isOtzProgram
+                  ? item.display.toLowerCase().includes('otz')
+                  : item.display.toLowerCase().includes('community')
+              "
               [value]="item.uuid"
             >
               {{ item.display }}

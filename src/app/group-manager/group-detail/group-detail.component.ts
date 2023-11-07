@@ -28,6 +28,31 @@ import { RisonService } from '../../shared/services/rison-service';
 import { HttpClient } from '@angular/common/http';
 import { flatMap, map } from 'rxjs/operators';
 
+interface Obs {
+  display: string;
+  uuid: string;
+}
+
+interface Encounter {
+  obs: Obs[];
+}
+
+interface Visit {
+  encounters: Encounter[];
+  patient: { uuid: string };
+}
+
+interface CohortMemberVisit {
+  visit: Visit;
+}
+
+interface CohortVisit {
+  uuid: string;
+  display: string;
+  description: string;
+  cohortMemberVisits: CohortMemberVisit[];
+}
+
 @Component({
   selector: 'group-detail',
   templateUrl: './group-detail.component.html',
@@ -83,6 +108,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public isFiltered = true;
   public subscriptions = new Subscription();
   public visitType = '0d608b80-1cb5-4c85-835a-29072683ca27';
+  public otzVisitType = 'd3d5fd4a-508c-4610-97b7-5197a0bdb88d';
   public currentMonth = Moment().month() + 1;
   public today = {
     year: Moment().year(),
@@ -109,6 +135,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public visitStartedToday: boolean;
   public visitStartedRetro: boolean;
   public showEnrollmentButton = false;
+  public isOtzProgram = false;
+  public isActivityForm = false;
   public enrollMentModel = {
     enrollMentUrl: [],
     queryParams: {}
@@ -178,6 +206,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             date: this.today,
             jsdate: new Date()
           };
+          const isOtz =
+            this.group.attributes.find((a) => {
+              return a.cohortAttributeType.name === 'programUuid';
+            }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
+          this.isOtzProgram = isOtz;
           this.checkIfTodayVisitStarted(this.cohortVisits);
           this.generateMembersData(res.cohortMembers, res.cohortVisits);
         },
@@ -386,14 +419,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public saveGroupVisit() {
     this.savingVisit = true;
     const groupVisit = {
-      visitType: this.visitType,
+      visitType: this.isOtzProgram ? this.otzVisitType : this.visitType,
       location: this.group.location.uuid,
       startDate: this.groupVisitDate.jsdate,
       cohort: this.group.uuid
     };
     this.communityGroupService.startGroupVisit(groupVisit).subscribe(
       (result) => {
-        this.showSuccessModal('Visit started successfully!');
+        this.showSuccessModal(
+          `${this.isOtzProgram ? 'OTZ' : ''} Visit started successfully!`
+        );
         this.savingVisit = false;
         this.closeModal(this.startGroupVisitModal);
         this.reloadData();
@@ -453,6 +488,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private generateRowData(cohortMembers, cohortVisits) {
     const membersData = [];
+    const stringsToCheck = [
+      'OTZ ORIENTATION: YES',
+      'OTZ PARTICIPATION: YES',
+      'OTZ LEADERSHIP',
+      'OTZ FUTURE DECISION MAKING',
+      'OTZ HIV STATUS DISCLOSURE',
+      'OTZ TREATMENT LITERACY',
+      'OTZ SRH',
+      'OTZ BEYOND THIRD 90'
+    ];
     for (const member of cohortMembers) {
       const memberRow = {
         name: member.person.display,
@@ -469,11 +514,43 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           cohortVisit
         );
         memberRow[`group_visit_${i}_uuid`] = cohortVisit.uuid;
+        // memberRow[`mod${i}`: stringsToCheck[i]] = this.isOtzVisit(cohortVisit, member.person.uuid, stringsToCheck);
+        const modProperties = {};
+        for (let j = 1; j < stringsToCheck.length; j++) {
+          const stringToCheck = stringsToCheck[j - 1];
+          modProperties[`mod${j}`] = this.isOtzVisit(
+            cohortVisit,
+            member.person.uuid,
+            stringToCheck
+          );
+        }
+        Object.assign(memberRow, modProperties);
         i++;
       }
       membersData.push(memberRow);
     }
     return membersData;
+  }
+
+  private isOtzVisit(
+    cohortVisit: CohortVisit,
+    patient_uuid: string,
+    stringsToCheck: any
+  ) {
+    let isActivityForm = false;
+    const { cohortMemberVisits } = cohortVisit;
+    cohortMemberVisits.forEach((visit) => {
+      if (visit.visit.patient.uuid === patient_uuid) {
+        visit.visit.encounters.forEach((encounter) => {
+          encounter.obs.forEach((obs) => {
+            if (stringsToCheck.includes(obs.display)) {
+              isActivityForm = true;
+            }
+          });
+        });
+      }
+    });
+    return isActivityForm;
   }
 
   onGroupDetailsChanged(updatedGroup) {
@@ -507,19 +584,39 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
     let index = 0;
-    for (const cohortVisit of cohortVisits) {
-      columns.push({
-        headerName: `${this.datePipe.transform(cohortVisit.startDate)} Meeting`,
-        field: `group_visit_${index}`,
-        cellRenderer: (column) => {
-          if (column.value) {
-            return `<i class="fa fa-check text-success"></i>`;
-          } else {
-            return `<i class="fa fa-times text-danger"></i>`;
+    if (!this.isOtzProgram) {
+      for (const cohortVisit of cohortVisits) {
+        columns.push({
+          headerName: `${this.datePipe.transform(
+            cohortVisit.startDate
+          )} Meeting`,
+          field: `group_visit_${index}`,
+          cellRenderer: (column) => {
+            if (column.value) {
+              return `<i class="fa fa-check text-success"></i>`;
+            } else {
+              return `<i class="fa fa-times text-danger"></i>`;
+            }
           }
-        }
-      });
-      index = index + 1;
+        });
+        index = index + 1;
+      }
+    }
+
+    if (this.isOtzProgram) {
+      for (let i = 1; i <= 8; i++) {
+        columns.push({
+          headerName: `Mod ${i}`,
+          field: `mod${i}`,
+          cellRenderer: (column) => {
+            if (column.value) {
+              return `<i class="fa fa-check text-success"></i>`;
+            } else {
+              return `<i class="fa fa-times text-danger"></i>`;
+            }
+          }
+        });
+      }
     }
     return columns;
   }
