@@ -84,7 +84,7 @@ export class PreAppointmentPatientListComponent
       params.data.follow_up_type !== null &&
       params.data.was_follow_up_successful === 0
     ) {
-      return { 'background-color': 'maroon', color: 'white' };
+      return { 'background-color': 'pink' };
     } else {
       return {};
     }
