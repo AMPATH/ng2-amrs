@@ -85,3 +85,6 @@ th {
 .table-content-class {
   overflow-x: scroll;
 }
+.total {
+  text-align: center;
+}

@@ -26,11 +26,18 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
 
   @Output()
   public indicatorSelected = new EventEmitter();
-  private _rowDefs: Array<any>;
   public test = [];
   public gridOptions: any = {
     columnDefs: []
   };
+  public grandParent = {
+    colspan: '0',
+    value: '',
+    description: '',
+    indicator: '-',
+    children: []
+  };
+  public grid = [];
   public pdfvalue: any;
   public pdfSrc: string = null;
   public isBusy = false;
@@ -49,15 +56,88 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
   @Output()
   public CellSelection = new EventEmitter();
 
-  constructor(private domSanitizer: DomSanitizer) {}
+  constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.grandParent['children'] = [];
+  }
 
   public ngOnChanges(changes: SimpleChanges) {
+    this.grandParent['children'] = [];
+    this.grid = [];
     if (changes.SummaryData) {
       this.sectionIndicatorsValues = this.SummaryData;
-      this.setColumns(this.sectionDefs);
+      // this.setColumns(this.sectionDefs);
+      this.buildGrid(this.sectionDefs, this.sectionIndicatorsValues);
     }
+  }
+
+  private calculateMaxColSpan(sections: Array<any>, index: number) {
+    if (sections[index].indicators[3].label === 'Header') {
+      return sections[index].indicators[3].indicator.length;
+    }
+    return sections[index].indicators[2].indicator.length;
+  }
+  private buildGrid(sections: Array<any>, data: Array<any>) {
+    for (let i = 0; i < sections.length; i++) {
+      const maxColSpan = this.calculateMaxColSpan(sections, i);
+      const grand = {
+        colspan: maxColSpan + 1,
+        indicator: '-',
+        value: sections[i].sectionTitle,
+        children: []
+      };
+      for (let j = 0; j < data.length; j++) {
+        this.grandParent['colspan'] = maxColSpan + 1;
+        this.grandParent['indicator'] = '-';
+        this.grandParent['value'] = sections[i].sectionTitle;
+        for (const element of sections[i].indicators) {
+          const parent = {
+            colspan: '1',
+            value: element.label,
+            description: '',
+            indicator:
+              element.indicator === 'location' ? element.indicator : '-',
+            children: []
+          };
+          if (Array.isArray(element.indicator)) {
+            const cellSpanLength = element.indicator.length;
+            for (const ch of element.indicator) {
+              const child = {
+                colspan: `${maxColSpan / cellSpanLength}`,
+                indicator:
+                  element.label === 'State' ||
+                  element.label === 'Status' ||
+                  element.label === 'Header'
+                    ? '-'
+                    : ch,
+                value:
+                  element.label === 'State' ||
+                  element.label === 'Status' ||
+                  element.label === 'Header'
+                    ? ch
+                    : data[j][ch] || 0,
+
+                description: ''
+              };
+              parent.children.push(child);
+            }
+          } else {
+            const child = {
+              colspan: `${maxColSpan}`,
+              indicator: element.indicator,
+              value: data[j][element.indicator] || 0,
+              description: ''
+            };
+            parent.children.push(child);
+          }
+          this.grandParent['children'].push(parent);
+          grand['children'].push(parent);
+        }
+      }
+      this.grid.push(grand);
+    }
+    console.log(JSON.stringify(this.grid));
   }
 
   public setColumns(sectionsData: Array<any>) {
@@ -231,7 +311,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
   public downloadCSV() {
     const title = this.reportHeader;
     const array = JSON.parse(JSON.stringify(this.gridOptions.columnDefs));
-    const regex = /TX_MMD|TX_ML/;
+    const regex = /PLHIV_NCD_V2/;
 
     const data = [];
     array[0].children[0].value.forEach(function (item, index) {
@@ -321,7 +401,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
 
   public generatePdf(): Observable<any> {
     const width: any = ['*', '*'];
-    this.sectionIndicatorsValues.forEach((element) => {
+    this.sectionIndicatorsValues.forEach(() => {
       width.push('*');
     });
     const dd: any = {
@@ -347,7 +427,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
             body: this.pdfvalue
           },
           layout: {
-            fillColor: function (rowIndex, node, columnIndex) {
+            fillColor: function (rowIndex) {
               return rowIndex % 2 === 0 ? '#CCCCCC' : null;
             }
           }

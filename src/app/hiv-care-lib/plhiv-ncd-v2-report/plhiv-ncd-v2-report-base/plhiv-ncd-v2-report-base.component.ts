@@ -14,7 +14,7 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public plhivNcdReportSummaryData: any = [];
+  public plhivNcdV2ReportSummaryData: any = [];
   public columnDefs: any = [];
   public reportName = 'PLHIV_NCD_V2 Report';
   public currentView = 'monthly';
@@ -89,7 +89,7 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
     this.route.parent.parent.params.subscribe((params: any) => {
       this.storeParamsInUrl(params.location_uuid);
     });
-    this.plhivNcdReportSummaryData = [];
+    this.plhivNcdV2ReportSummaryData = [];
     this.getPLHIVNCDv2MonthlyReport(this.params);
   }
 
@@ -121,7 +121,7 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
         } else {
           this.showInfoMessage = false;
           this.columnDefs = data.sectionDefinitions;
-          this.plhivNcdReportSummaryData = data.result;
+          this.plhivNcdV2ReportSummaryData = data.result;
           this.calculateTotalSummary();
           this.isLoading = false;
           this.showDraftReportAlert(this._month);
@@ -131,11 +131,11 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.plhivNcdReportSummaryData.length > 0) {
+    if (this.plhivNcdV2ReportSummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.plhivNcdReportSummaryData, (row) => {
+      _.each(this.plhivNcdV2ReportSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
