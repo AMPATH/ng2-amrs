@@ -31,6 +31,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     columnDefs: []
   };
   public grid = [];
+  public maxGridSpan = 0;
   public pdfvalue: any;
   public pdfSrc: string = null;
   public isBusy = false;
@@ -60,7 +61,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     if (changes.SummaryData) {
       this.sectionIndicatorsValues = this.SummaryData;
       // this.setColumns(this.sectionDefs);
-      this.buildGrid(this.sectionDefs, this.sectionIndicatorsValues);
+      this.processData(this.sectionDefs, this.sectionIndicatorsValues);
     }
   }
 
@@ -70,7 +71,8 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     }
     return sections[index].indicators[2].indicator.length;
   }
-  private buildGrid(sections: Array<any>, data: Array<any>) {
+  private processData(sections: Array<any>, data: Array<any>) {
+    this.maxGridSpan = data.length;
     for (let i = 0; i < sections.length; i++) {
       const maxColSpan = this.calculateMaxColSpan(sections, i);
       const grand = {
@@ -81,20 +83,35 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
         children: []
       };
       for (let j = 0; j < data.length; j++) {
+        let k = 0;
         for (const element of sections[i].indicators) {
           const parent = {
+            id: 0,
             colspan: '1',
-            value: element.label,
+            value: '',
             description: '',
-            indicator:
-              element.indicator === 'location' ? element.indicator : '-',
+            indicator: '-',
             children: []
           };
+          let isParentAvailable = true;
+          if (typeof grand['children'][k] === 'undefined') {
+            parent['id'] = k;
+            parent['colspan'] = '1';
+            parent['value'] = element.label;
+            parent['description'] = '';
+            parent['indicator'] =
+              element.indicator === 'location' ? element.indicator : '-';
+            parent['children'] = [];
+            isParentAvailable = false;
+          }
+          let m = 0;
+          const children = [];
           if (Array.isArray(element.indicator)) {
             const cellSpanLength = element.indicator.length;
             for (const ch of element.indicator) {
               const child = {
-                colspan: `${maxColSpan / cellSpanLength}`,
+                id: m,
+                colspan: maxColSpan / cellSpanLength,
                 indicator:
                   element.label === 'State' ||
                   element.label === 'Status' ||
@@ -110,24 +127,31 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
 
                 description: ''
               };
-              parent.children.push(child);
+              children.push(child);
+              m++;
             }
           } else {
             const child = {
-              colspan: `${maxColSpan}`,
+              id: m,
+              colspan: maxColSpan,
               indicator: element.indicator,
               value: data[j][element.indicator] || 0,
               description: ''
             };
-            parent.children.push(child);
+            children.push(child);
           }
-          grand['children'].push(parent);
+          if (!isParentAvailable) {
+            parent.children.push(children);
+            grand['children'].push(parent);
+            isParentAvailable = true;
+          } else {
+            grand['children'][k]['children'].push(children);
+          }
+          k++;
         }
       }
       this.grid.push(grand);
     }
-    console.log(JSON.stringify(this.grid));
-    console.log(this.grid);
   }
 
   public setColumns(sectionsData: Array<any>) {
