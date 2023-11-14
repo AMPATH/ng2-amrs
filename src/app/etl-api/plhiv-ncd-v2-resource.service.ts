@@ -33,7 +33,6 @@ export class PlhivNcdV2ResourceService {
           return Observable.of(errorObj);
         }),
         map((response: Response) => {
-          console.log('prepp: ', response);
           return response;
         })
       );

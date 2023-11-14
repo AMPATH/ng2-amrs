@@ -163,7 +163,7 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
-        indicators: value.field,
+        indicators: value.indicator,
         indicatorHeader: value.headerName,
         indicatorGender: value.gender,
         sDate: this._sDate,

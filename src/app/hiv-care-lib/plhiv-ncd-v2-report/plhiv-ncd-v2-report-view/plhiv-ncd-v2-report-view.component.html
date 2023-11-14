@@ -53,6 +53,9 @@
       >
         <ng-container *ngFor="let grand of grid">
           <table>
+            <!-- <colgroup>
+              <col style="width: 40px;">
+            </colgroup> -->
             <thead class="header">
               <tr>
                 <td [attr.colspan]="grand.colspan * maxGridSpan">
@@ -65,7 +68,7 @@
                 <tr>
                   <ng-container>
                     <td [attr.colspan]="parent.colspan * maxGridSpan">
-                      {{ parent.value }}
+                      <b>{{ parent.value }}</b>
                     </td>
                   </ng-container>
                   <ng-container *ngFor="let children of parent.children">
@@ -73,6 +76,7 @@
                       <td
                         [attr.colspan]="child.colspan"
                         title="Click to View Patientlist"
+                        (click)="setCellSelection(child)"
                         class="value"
                       >
                         {{ child.value }}

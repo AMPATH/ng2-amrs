@@ -32,6 +32,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
   };
   public grid = [];
   public maxGridSpan = 0;
+  public indicatorHeaderwidth = 0;
   public pdfvalue: any;
   public pdfSrc: string = null;
   public isBusy = false;
@@ -83,6 +84,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
         children: []
       };
       for (let j = 0; j < data.length; j++) {
+        const location = data[j]['location_uuid'];
         let k = 0;
         for (const element of sections[i].indicators) {
           const parent = {
@@ -103,6 +105,10 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
               element.indicator === 'location' ? element.indicator : '-';
             parent['children'] = [];
             isParentAvailable = false;
+            const len = element.label.length;
+            if (this.indicatorHeaderwidth < len) {
+              this.indicatorHeaderwidth = len;
+            }
           }
           let m = 0;
           const children = [];
@@ -111,6 +117,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
             for (const ch of element.indicator) {
               const child = {
                 id: m,
+                location: location,
                 colspan: maxColSpan / cellSpanLength,
                 indicator:
                   element.label === 'State' ||
@@ -133,6 +140,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
           } else {
             const child = {
               id: m,
+              location: location,
               colspan: maxColSpan,
               indicator: element.indicator,
               value: data[j][element.indicator] || 0,
@@ -260,28 +268,20 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
 
     this.gridOptions.columnDefs = defs;
   }
-  public setCellSelection(col, val, arrayPosition, grid) {
-    const gender = `${grid.headerName} - ${this.checkGender(arrayPosition)}`;
-    const arraypos = arrayPosition === 3 ? 0 : arrayPosition;
+  public setCellSelection(cell: any) {
+    console.log(cell);
+    // const gender = `${grid.headerName} - ${this.checkGender(arrayPosition)}`;
+    // const arraypos = arrayPosition === 3 ? 0 : arrayPosition;
     const selectedIndicator = {
-      headerName: col.headerName,
-      field: col.field[arraypos],
-      gender: gender,
-      location: val.location
+      headerName: 'headerName',
+      indicator: cell.indicator,
+      gender: 'gender',
+      location: cell.location
     };
+
     this.CellSelection.emit(selectedIndicator);
   }
-  public checkGender(arrayPosition) {
-    if (arrayPosition === 0) {
-      return 'Female';
-    } else if (arrayPosition === 1) {
-      return 'Male';
-    } else if (arrayPosition === 3) {
-      return 'Facility';
-    } else {
-      return 'Cummulative';
-    }
-  }
+
   public searchIndicator() {
     this.setColumns(this.sectionDefs);
     if (this.selectedResult.length > 0) {
@@ -310,17 +310,18 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
       this.setColumns(this.sectionDefs);
     }
   }
-  public selectedIndicators() {
-    this.setColumns(this.sectionDefs);
-    const value = [];
-    if (this.selectedIndicatorsList.length) {
-      this.selectedIndicatorsList.forEach((indicator) => {
-        value.push(this.gridOptions.columnDefs[indicator]);
-      });
-      this.gridOptions.columnDefs = value;
-    } else {
-      this.setColumns(this.sectionDefs);
-    }
+  public selectedIndicators(cell) {
+    console.log(cell);
+    // this.setColumns(this.sectionDefs);
+    // const value = [];
+    // if (this.selectedIndicatorsList.length) {
+    //   this.selectedIndicatorsList.forEach((indicator) => {
+    //     value.push(this.gridOptions.columnDefs[indicator]);
+    //   });
+    //   this.gridOptions.columnDefs = value;
+    // } else {
+    //   this.setColumns(this.sectionDefs);
+    // }
   }
   public downloadCSV() {
     const title = this.reportHeader;
