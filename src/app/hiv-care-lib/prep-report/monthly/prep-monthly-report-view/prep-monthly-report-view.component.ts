@@ -55,6 +55,12 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
     this.indicatorSelected.emit(payload);
   }
 
+  swapIndices(arr: any[]) {
+    for (let i = 0; i < arr.length - 1; i += 2) {
+      [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+    }
+  }
+
   public buildTableBody() {
     this.tableSectionData = this.SummaryData;
     this.tableSectionIndicators = this.sectionDefs;
@@ -88,6 +94,13 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
         }
       );
 
+      // Find the first occurrence of 'F' in the original array
+      const firstFIndex = this.genderGroups.indexOf('F');
+
+      this.genderGroups = this.genderGroups
+        .slice(firstFIndex)
+        .concat(this.genderGroups.slice(0, firstFIndex));
+
       // Table data
       // Remove the first two sections
       const allData = this.tableSectionIndicators.slice(2);
@@ -96,6 +109,7 @@ export class PrepMonthlyReportViewComponent implements OnInit, OnChanges {
         this.tableData.push({
           sectionTitle: section.sectionTitle,
           sectionData: section.indicators.map((sect) => {
+            this.swapIndices(sect.indicators);
             return {
               rowTitle: sect.label,
               rowData: sect.indicators.map((val) => {
