@@ -424,6 +424,12 @@ function TPTReminders(data) {
     data.inh_treatment_days_remaining < 150
   ) {
     showReminder = true;
+  } else if (
+    data.is_on_inh_treatment &&
+    data.inh_treatment_days_remaining <= 30 &&
+    data.inh_treatment_days_remaining > 0
+  ) {
+    showReminder = true;
   }
   // INH Treatment Reminder - last month
   try {
@@ -432,7 +438,7 @@ function TPTReminders(data) {
         message:
           'Patient started ' +
           months +
-          ' months' +
+          ' months ' +
           treatment +
           ' treatment on (' +
           Moment(data.ipt_start_date).format('DD-MM-YYYY') +
@@ -442,7 +448,7 @@ function TPTReminders(data) {
           '). ' +
           data.inh_treatment_days_remaining +
           ' days remaining.',
-        title: 'INH Treatment Reminder',
+        title: 'TPT Treatment Reminder',
         type: 'danger',
         display: {
           banner: true,
@@ -453,32 +459,6 @@ function TPTReminders(data) {
   } catch (e) {
     console.log(e);
   }
-  // INH Treatment Reminder - last month
-  if (
-    data.is_on_inh_treatment &&
-    data.inh_treatment_days_remaining <= 30 &&
-    data.inh_treatment_days_remaining > 0
-  ) {
-    reminders.push({
-      message:
-        'Patient started ' +
-        months +
-        ' month ' +
-        treatment +
-        'treatment since (' +
-        Moment(data.ipt_start_date).format('DD-MM-YYYY') +
-        '). Expected to end on (' +
-        Moment(data.ipt_completion_date).format('DD-MM-YYYY') +
-        ') ',
-      title: 'INH Treatment Reminder',
-      type: 'danger',
-      display: {
-        banner: true,
-        toast: true
-      }
-    });
-  }
-
   // TPT Reminders
   if (
     calculateAge(data.birth_date) >= 1 &&
@@ -761,11 +741,11 @@ function getIptCompletionReminder(data) {
       message:
         'Patient started ' +
         months +
-        ' month IPT on ' +
+        ' month TPT on ' +
         Moment(data.ipt_start_date).format('DD-MM-YYYY') +
         ' and was supposed to be completed on ' +
         Moment(data.ipt_start_date).add(months, 'months').format('DD-MM-YYYY'),
-      title: 'IPT Completion Reminder',
+      title: 'TPT Completion Reminder',
       type: 'danger',
       display: {
         banner: true,
@@ -773,7 +753,7 @@ function getIptCompletionReminder(data) {
       }
     });
   } else {
-    console.info.call('No IPT Completion Reminder For Selected Patient');
+    console.info.call('No TPT Completion Reminder For Selected Patient');
   }
 
   return reminders;
