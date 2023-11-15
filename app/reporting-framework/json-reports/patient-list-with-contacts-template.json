@@ -103,6 +103,14 @@
         "type": "LEFT",
         "joinCondition": "delivery_report.person_id = t1.person_id and DATE_FORMAT(delivery_report.date_created, '%Y-%m-%d')='{startDate}'"
       }
+    },
+    {
+      "table": "etl.flat_prep_summary_v1_1",
+      "alias": "fps",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "t1.person_id = fps.person_id AND fps.next_encounter_datetime IS NULL AND fps.encounter_type NOT IN (99999)"
+      }
     }
   ],
   "columns": [
@@ -141,6 +149,112 @@
       "expressionOptions": {
         "expression": "extract(year from (from_days(datediff(now(),t1.birthdate))))"
       }
+    },
+    {
+      "type": "simple_column",
+      "alias": "prev_rtc_date",
+      "column": "date_format(fps.prev_rtc_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cur_prep_meds_names",
+      "column": "fps.cur_prep_meds_names"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rapid_test_date",
+      "column": "date_format(fps.hiv_rapid_test_date, '%Y-%m-%d')"
+    },
+    {
+      "type": "derived_column",
+      "alias": "hiv_rapid_test",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fps.hiv_rapid_test_result = 703",
+            "value": "Positive"
+          },
+          {
+            "condition": "fps.hiv_rapid_test_result = 664",
+            "value": "Negative"
+          },
+          {
+            "condition": "fps.hiv_rapid_test_result = 1138",
+            "value": "Indeterminate"
+          },
+          {
+            "condition": "fps.hiv_rapid_test_result = 1304",
+            "value": "Poor sample quality"
+          },
+          {
+            "condition": "fps.hiv_rapid_test_result = 1067",
+            "value": "Unknown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "derived_column",
+      "alias": "population_type_category",
+      "expressionType": "case_statement",
+      "expressionOptions": {
+        "caseOptions": [
+          {
+            "condition": "fps.sub_population_type = 1",
+            "value": "MSM"
+          },
+          {
+            "condition": "fps.sub_population_type = 2",
+            "value": "MSW"
+          },
+          {
+            "condition": "fps.sub_population_type = 3",
+            "value": "FSW"
+          },
+          {
+            "condition": "fps.sub_population_type = 4",
+            "value": "IDU"
+          },
+          {
+            "condition": "fps.sub_population_type = 5",
+            "value": "TRANS WOMAN"
+          },
+          {
+            "condition": "fps.sub_population_type = 6",
+            "value": "TRANS MAN"
+          },
+          {
+            "condition": "fps.sub_population_type = 7",
+            "value": "FISHER FOLK"
+          },
+          {
+            "condition": "fps.sub_population_type = 8",
+            "value": "CSW"
+          },
+          {
+            "condition": "fps.sub_population_type = 9",
+            "value": "DISPLACED PERSONS"
+          },
+          {
+            "condition": "fps.sub_population_type = 10",
+            "value": "Military and other"
+          },
+          {
+            "condition": "fps.sub_population_type = 12",
+            "value": "TRUCK/LORRY DRIVER"
+          },
+          {
+            "condition": "fps.sub_population_type = 13",
+            "value": "NIDU"
+          }
+        ]
+      }
+    },
+    {
+      "type": "simple_column",
+      "alias": "enrollment_date",
+      "column": "date_format(fps.enrollment_date, '%Y-%m-%d')"
     },
     {
       "type": "derived_column",
