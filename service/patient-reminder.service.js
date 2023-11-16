@@ -463,7 +463,8 @@ function TPTReminders(data) {
   if (
     calculateAge(data.birth_date) >= 1 &&
     !data.ipt_start_date &&
-    !data.on_tb_tx
+    !data.on_tb_tx &&
+    !(data.tb_tx_start_date && !data.tb_tx_end_date)
   ) {
     reminders.push({
       message:
