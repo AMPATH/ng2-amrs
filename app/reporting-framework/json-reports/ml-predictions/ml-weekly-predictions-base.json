@@ -46,7 +46,16 @@
       "alias": "pre",
       "join": {
         "type": "LEFT",
-        "joinCondition": "pre.person_id = ml.person_id"
+        "joinCondition": "pre.person_id = ml.person_id and(DATEDIFF(ml.start_date, pre.encounter_datetime) <= 7)"
+      }
+    },
+
+    {
+      "table": "( select max(is_successful_phone_follow_up) as latest_phone_follow_up, person_id, follow_up_type from  etl.pre_appointment_summary group by person_id )",
+      "alias": "s",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pre.person_id = s.person_id"
       }
     }
   ],
@@ -180,12 +189,12 @@
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "(if((pre.is_successful_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)) = ?",
+        "conditionExpression": "(if((latest_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)) = ?",
         "parameterName": "successfulOutcome"
       },
       {
         "filterType": "tableColumns",
-        "conditionExpression": "(if((pre.is_successful_phone_follow_up = 'NO' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'NO')), 1, 0)) = ?",
+        "conditionExpression": "(if((latest_phone_follow_up = 'NO' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'NO')), 1, 0)) = ?",
         "parameterName": "failedOutcome"
       },
       {
