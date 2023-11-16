@@ -4444,7 +4444,7 @@
           {
             "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "display": "ADULTRETURN",
-            "allowedIf": "!isViremicHighVL && age > 24",
+            "allowedIf": "age > 24",
             "errors": {
               "viremiaError": "To access clinical forms kindly fill Enhanced Adherence Encounter Form"
             }
@@ -4452,7 +4452,7 @@
           {
             "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
             "display": "YOUTHRETURN",
-            "allowedIf": "!isViremicHighVL && age >= 10 && age <= 24",
+            "allowedIf": "age >= 10 && age <= 24",
             "errors": {
               "viremiaError": "To access clinical forms kindly fill Enhanced Adherence Encounter Form"
             }
@@ -4460,7 +4460,7 @@
           {
             "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
             "display": "PEDSRETURN",
-            "allowedIf": "!isViremicHighVL && age <= 14",
+            "allowedIf": "age <= 14",
             "errors": {
               "viremiaError": "To access clinical forms kindly fill Enhanced Adherence Encounter Form"
             }
