@@ -29,7 +29,13 @@ function buildScope(dataDictionary) {
     'db2bdd7c-5fe6-4ea3-adc1-d2d8dfb3d658',
     '17c97881-90e5-43c8-b8a3-cc0322f89a89',
     'e9f515c2-7c48-4099-ac76-41db9977f96f',
-    'f7aabb83-7915-4c24-88b2-bcde8b3a9977'
+    'f7aabb83-7915-4c24-88b2-bcde8b3a9977',
+    '08feae7c-1352-11df-a1f1-0026b9348838',
+    '1ce5034b-f05d-46b6-910f-fc959e091641',
+    '29124daf-6422-4896-b70e-daad3b252c9d',
+    '08fec42a-1352-11df-a1f1-0026b9348838',
+    'a36c86bb-7ca3-4319-8674-28c66ba14deb',
+    '345514ae-8f37-42fc-9bbe-993828c2910d'
   ].includes(dataDictionary.intendedVisitLocationUuid);
   if (dataDictionary.patient) {
     buildPatientScopeMembers(scope, dataDictionary.patient);
@@ -93,7 +99,13 @@ function buildScope(dataDictionary) {
       'db2bdd7c-5fe6-4ea3-adc1-d2d8dfb3d658',
       '17c97881-90e5-43c8-b8a3-cc0322f89a89',
       'e9f515c2-7c48-4099-ac76-41db9977f96f',
-      'f7aabb83-7915-4c24-88b2-bcde8b3a9977'
+      'f7aabb83-7915-4c24-88b2-bcde8b3a9977',
+      '08feae7c-1352-11df-a1f1-0026b9348838',
+      '1ce5034b-f05d-46b6-910f-fc959e091641',
+      '29124daf-6422-4896-b70e-daad3b252c9d',
+      '08fec42a-1352-11df-a1f1-0026b9348838',
+      'a36c86bb-7ca3-4319-8674-28c66ba14deb',
+      '345514ae-8f37-42fc-9bbe-993828c2910d'
     ].includes(dataDictionary.intendedVisitLocationUuid);
   }
 
