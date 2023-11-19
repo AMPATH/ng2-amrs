@@ -2112,6 +2112,8 @@
         "uuid": "d3d5fd4a-508c-4610-97b7-5197a0bdb88d",
         "name": "OTZ Visit ",
         "groupVisit": true,
+        "allowedIf": "age >= 9 && age <= 19",
+        "message": "Patient has to be between the age of 9 and 19",
         "encounterTypes": [
           {
             "uuid": "76680613-2974-4d89-9b85-6b0a4bf56267",

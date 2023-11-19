@@ -81,6 +81,7 @@ import { getPatientCovidVaccinationStatus } from './service/covid-19/covid-19-va
 import { Covid19MonthlyReport } from './service/covid-19/covid-19-monthly-report';
 import { MlWeeklyPredictionsService } from './service/ml-weekly-predictions.service';
 import { getPatientPredictedScore } from './service/predictions/ml-prediction-service';
+import { CohortModuleService } from './app/otz/cohort-module.service';
 
 module.exports = (function () {
   var routes = [
@@ -6289,6 +6290,31 @@ module.exports = (function () {
         },
         description: 'Patient predicted score of missing appointment.',
         notes: 'Returns the patients predictions data.',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/cohort-modules/{cohortUuid}',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          const { cohortUuid } = request.params;
+          console.log('req', cohortUuid);
+          const cohortService = new CohortModuleService();
+          cohortService
+            .getCohortOtzModules(cohortUuid)
+            .then(function (cohortUsers) {
+              reply(cohortUsers);
+            })
+            .catch(function (error) {
+              reply(new Boom(500, 'Internal server error.', '', '', error));
+            });
+        },
+        description: 'Get cohort modules for otz cohort group',
+        notes:
+          'Api endpoint that returns cohort users based on the cohort uuid',
         tags: ['api']
       }
     }
