@@ -76,6 +76,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
   public currentMonth = Moment().month() + 1;
   public providerSuggest: Subject<any> = new Subject();
   public editLeaderForm: FormGroup;
+  public validOTZProgram = false;
   public endDate = {
     date: {
       month: this.currentMonth,
@@ -716,6 +717,9 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
       const sub = this.programService.getProgramByUuid(program.value).subscribe(
         (prog) => {
           this.program = prog;
+          if (this.program.name === 'OTZ PROGRAM') {
+            this.validOTZProgram = true;
+          }
         },
         (error) => {
           console.log(error);

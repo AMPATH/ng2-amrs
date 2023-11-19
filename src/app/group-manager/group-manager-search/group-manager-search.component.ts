@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  TemplateRef,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 import * as _ from 'lodash';
@@ -45,6 +52,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   public gridOptions: GridOptions = this.getGridOptions();
   public filterText = '';
   hideGroupsInCurrentFacility: boolean;
+  public isOTZprogram = false;
 
   constructor(
     private groupService: CommunityGroupService,
@@ -240,6 +248,30 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           caseSensitive: false
         }
       },
+      ...(!this.isOTZprogram
+        ? [
+            {
+              headerName: 'OTZ Champion',
+              field: 'otzChampion',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            },
+            {
+              headerName: 'Group Activity',
+              field: 'groupActivity',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            }
+          ]
+        : []),
       {
         headerName: 'Actions',
         field: 'endDate',

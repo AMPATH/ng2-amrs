@@ -20,6 +20,7 @@ export class OtzSnapshotComponent implements OnInit {
   patient: Patient;
   otzEnrollment = false;
   programManagerUrl: any;
+  groupManagerUrl: any;
   otzProgramExit: any;
   dateEnrolled: any;
   dateCompleted: any;
@@ -32,6 +33,7 @@ export class OtzSnapshotComponent implements OnInit {
   isHEIActive: boolean;
   viralLoadCategory: string;
   viralLoadHistory: any[];
+  isPatientEligibleForOtz = false;
 
   constructor(
     private patientService: PatientService,
@@ -61,7 +63,9 @@ export class OtzSnapshotComponent implements OnInit {
             '/patient-dashboard/patient/' +
             patient.uuid +
             '/general/general/formentry/ab16711d-890d-4128-95ce-0e955babd711';
-          this.getOtzEnrollments(patient.enrolledPrograms);
+          this.groupManagerUrl =
+            '/clinic-dashboard/18c343eb-b353-462a-9139-b16606e6b6c2/hiv/group-manager';
+          this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getHivSummary(patient);
           this.getHistoricalPatientLabResults(patient);
         }
@@ -73,7 +77,10 @@ export class OtzSnapshotComponent implements OnInit {
     this.selectedItem = item;
   }
 
-  private getOtzEnrollments(enrolledPrograms) {
+  private getOtzEnrollments(age, enrolledPrograms) {
+    if (age >= 9 && age <= 19) {
+      this.isPatientEligibleForOtz = true;
+    }
     const otz = enrolledPrograms.filter(
       (program) =>
         program.concept.uuid === 'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
@@ -106,6 +113,7 @@ export class OtzSnapshotComponent implements OnInit {
         this.clinicalEncounters = this.getClinicalEncounters(results);
         this.patientData = _.first(this.clinicalEncounters);
         const patientDataCopy = this.patientData;
+        console.log('patientDAta', this.patientData);
 
         if (!_.isNil(this.patientData)) {
           // assign latest vl and vl_1_date

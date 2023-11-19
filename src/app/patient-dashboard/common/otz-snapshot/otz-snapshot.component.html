@@ -1,5 +1,8 @@
 <div class="program">
-  <div class="enrolled">
+  <div *ngIf="!isPatientEligibleForOtz" class="enrolled">
+    <p>Patient not eligible for OTZ Program (age 9 and 19)</p>
+  </div>
+  <div *ngIf="isPatientEligibleForOtz" class="enrolled">
     <div class="program-header-wrapper">
       <h2 class="program-header">
         OTZ Program (enrolled on {{ dateEnrolled }})
@@ -47,7 +50,9 @@
         </li>
       </ul>
 
-      <button class="btn btn-info">Enroll patient to OTZ Group</button>
+      <button routerLink="{{ groupManagerUrl }}" class="btn btn-info">
+        Enroll patient to OTZ Group
+      </button>
     </div>
     <div class="otz-content" *ngIf="otzEnrollment">
       <ng-container *ngIf="selectedItem === 'summary'">
@@ -128,8 +133,8 @@
             </thead>
             <tbody>
               <tr class="table-active">
-                <th scope="row">2023/11/12</th>
-                <td>adherence type</td>
+                <th scope="row">{{ patientData?.encounter_datetime }}</th>
+                <td>{{ patientData?.cur_arv_adherence }}</td>
               </tr>
             </tbody>
           </table>

@@ -349,12 +349,21 @@
         <div class="col-xs-10">
           <mat-radio-group (change)="onDefaultLeadershipTypeChanged($event)">
             <mat-radio-button
+              *ngIf="validOTZProgram"
+              value="peer"
+              [checked]="defaultLeadershipType == 'peer'"
+              color="primary"
+              >OTZ Champion</mat-radio-button
+            >
+            <mat-radio-button
+              *ngIf="!validOTZProgram"
               value="peer"
               [checked]="defaultLeadershipType == 'peer'"
               color="primary"
               >Peer Leadership</mat-radio-button
             >
             <mat-radio-button
+              *ngIf="!validOTZProgram"
               value="staff"
               [checked]="defaultLeadershipType !== 'peer'"
               color="primary"

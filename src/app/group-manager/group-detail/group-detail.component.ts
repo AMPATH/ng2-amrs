@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap';
 import { BsModalRef } from 'ngx-bootstrap';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, forkJoin } from 'rxjs';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
@@ -24,33 +24,22 @@ import { SuccessModalComponent } from '../modals/success-modal.component';
 import { GridOptions } from 'ag-grid';
 import { GroupTransferModalComponent } from '../modals/group-transfer-modal.component';
 import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/services/retrospective-data-entry.service';
+import { CohortOtzModuleResourceService } from 'src/app/etl-api/cohort-otz-module-resource.service';
+import { ObsResourceService } from '../../openmrs-api/obs-resource.service';
 import { RisonService } from '../../shared/services/rison-service';
 import { HttpClient } from '@angular/common/http';
 import { flatMap, map } from 'rxjs/operators';
 
-interface Obs {
-  display: string;
-  uuid: string;
-}
-
-interface Encounter {
-  obs: Obs[];
-}
-
-interface Visit {
-  encounters: Encounter[];
-  patient: { uuid: string };
-}
-
-interface CohortMemberVisit {
-  visit: Visit;
-}
-
-interface CohortVisit {
-  uuid: string;
-  display: string;
-  description: string;
-  cohortMemberVisits: CohortMemberVisit[];
+interface MemberType {
+  name: any;
+  person_uuid: any;
+  identifiers: any;
+  contacts: any;
+  member_since: string;
+  member_to: string;
+  mod1?: any;
+  mod2?: any;
+  mod3?: any;
 }
 
 @Component({
@@ -67,6 +56,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   errorMessage: string;
   enrollmentErrorMessage: string;
   validatingEnrollment: boolean;
+  patientModels: any[] = [];
+
   public successMessage: string;
   @ViewChild(AgGridNg2) dataGrid: AgGridNg2;
   @ViewChild('startGroupVisitModal') startGroupVisitModal: TemplateRef<any>;
@@ -137,6 +128,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public showEnrollmentButton = false;
   public isOtzProgram = false;
   public isActivityForm = false;
+  public otzModule = [];
+  public cohortVisitArray = [];
   public enrollMentModel = {
     enrollMentUrl: [],
     queryParams: {}
@@ -152,6 +145,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private modalService: BsModalService,
     private risonService: RisonService,
     private retrospectiveService: RetrospectiveDataEntryService,
+    private obsResourceService: ObsResourceService,
+    private cohortOtzModuleResourceService: CohortOtzModuleResourceService,
+
     private http: HttpClient
   ) {}
 
@@ -181,46 +177,87 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   public loadGroup() {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
-    this.subscriptions.add(
-      this.communityGroupService.getGroupByUuid(uuid).subscribe(
-        (res) => {
-          this.group = res;
-          _.forEach(this.group.cohortMembers, (member) => {
-            member['phoneNumber'] = _.filter(
-              member.patient.person.attributes,
-              (attribute) =>
-                attribute.attributeType.uuid ===
-                '72a759a8-1359-11df-a1f1-0026b9348838'
-            )[0];
-          });
-          this.activeMembers = _.filter(
-            res.cohortMembers,
-            (member) => !member.endDate
-          );
-          this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
-            return Math.abs(
-              new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-            );
-          });
-          this.groupVisitDate = {
-            date: this.today,
-            jsdate: new Date()
-          };
-          const isOtz =
-            this.group.attributes.find((a) => {
-              return a.cohortAttributeType.name === 'programUuid';
-            }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
-          this.isOtzProgram = isOtz;
-          this.checkIfTodayVisitStarted(this.cohortVisits);
-          this.generateMembersData(res.cohortMembers, res.cohortVisits);
-        },
-        (error) => {
-          this.errorMessage =
-            'An error occurred while trying to load the group, please check your connection and refresh the page.';
-          this.error = true;
-        }
-      )
-    );
+    const dcOtzSubs = forkJoin([
+      this.communityGroupService.getGroupByUuid(uuid),
+      this.cohortOtzModuleResourceService.getCohortOtzModule(uuid)
+    ]);
+    dcOtzSubs.subscribe((results) => {
+      console.log('results', results);
+      const res = results[0];
+      this.otzModule = results[1].result;
+      this.group = res;
+      _.forEach(this.group.cohortMembers, (member) => {
+        member['phoneNumber'] = _.filter(
+          member.patient.person.attributes,
+          (attribute) =>
+            attribute.attributeType.uuid ===
+            '72a759a8-1359-11df-a1f1-0026b9348838'
+        )[0];
+      });
+      this.activeMembers = _.filter(
+        res.cohortMembers,
+        (member) => !member.endDate
+      );
+      this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
+        return Math.abs(
+          new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+        );
+      });
+      this.groupVisitDate = {
+        date: this.today,
+        jsdate: new Date()
+      };
+      const isOtz =
+        this.group.attributes.find((a) => {
+          return a.cohortAttributeType.name === 'programUuid';
+        }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
+      this.isOtzProgram = isOtz;
+      this.checkIfTodayVisitStarted(this.cohortVisits);
+      this.generateMembersData(res.cohortMembers, res.cohortVisits);
+    });
+    // this.subscriptions.add(
+    //   this.communityGroupService.getGroupByUuid(uuid).subscribe(
+    //     (res) => {
+    //       this.group = res;
+    //       _.forEach(this.group.cohortMembers, (member) => {
+    //         member['phoneNumber'] = _.filter(
+    //           member.patient.person.attributes,
+    //           (attribute) =>
+    //             attribute.attributeType.uuid ===
+    //             '72a759a8-1359-11df-a1f1-0026b9348838'
+    //         )[0];
+    //       });
+    //       this.activeMembers = _.filter(
+    //         res.cohortMembers,
+    //         (member) => !member.endDate
+    //       );
+    //       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
+    //         return Math.abs(
+    //           new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+    //         );
+    //       });
+    //       this.groupVisitDate = {
+    //         date: this.today,
+    //         jsdate: new Date()
+    //       };
+    //       const isOtz =
+    //         this.group.attributes.find((a) => {
+    //           return a.cohortAttributeType.name === 'programUuid';
+    //         }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
+    //         this.cohortOtzModuleResourceService.getCohortOtzModule(this.group.uuid).subscribe((res) => {
+    //           console.log('res', res);
+    //         });
+    //         this.isOtzProgram = isOtz;
+    //         this.checkIfTodayVisitStarted(this.cohortVisits);
+    //         this.generateMembersData(res.cohortMembers, res.cohortVisits);
+    //     },
+    //     (error) => {
+    //       this.errorMessage =
+    //         'An error occurred while trying to load the group, please check your connection and refresh the page.';
+    //       this.error = true;
+    //     }
+    //   )
+    // );
   }
 
   public checkIfTodayVisitStarted(cohortVisits: any[]) {
@@ -488,18 +525,19 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private generateRowData(cohortMembers, cohortVisits) {
     const membersData = [];
-    const stringsToCheck = [
+    const cohortMemberVisit = [];
+    const conceptStrings = [
       'OTZ ORIENTATION: YES',
       'OTZ PARTICIPATION: YES',
-      'OTZ LEADERSHIP',
-      'OTZ FUTURE DECISION MAKING',
-      'OTZ HIV STATUS DISCLOSURE',
-      'OTZ TREATMENT LITERACY',
-      'OTZ SRH',
-      'OTZ BEYOND THIRD 90'
+      'OTZ LEADERSHIP: YES',
+      'OTZ TREATMENT LITERACY: YES',
+      'OTZ FUTURE DECISION MAKING: YES',
+      'TRANSITION TO ADULT CARE: YES',
+      'OTZ SRH: YES',
+      'OTZ BEYOND THIRD 90: YES'
     ];
     for (const member of cohortMembers) {
-      const memberRow = {
+      const memberRow: MemberType = {
         name: member.person.display,
         person_uuid: member.person.uuid,
         identifiers: member.allIdentifiers,
@@ -507,6 +545,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         member_since: this.datePipe.transform(member.startDate),
         member_to: this.datePipe.transform(member.endDate)
       };
+
       let i = 0;
       for (const cohortVisit of cohortVisits) {
         memberRow[`group_visit_${i}`] = this.patientPresent(
@@ -514,43 +553,77 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           cohortVisit
         );
         memberRow[`group_visit_${i}_uuid`] = cohortVisit.uuid;
-        // memberRow[`mod${i}`: stringsToCheck[i]] = this.isOtzVisit(cohortVisit, member.person.uuid, stringsToCheck);
-        const modProperties = {};
-        for (let j = 1; j < stringsToCheck.length; j++) {
-          const stringToCheck = stringsToCheck[j - 1];
-          modProperties[`mod${j}`] = this.isOtzVisit(
-            cohortVisit,
-            member.person.uuid,
-            stringToCheck
-          );
+        if (cohortVisit.cohortMemberVisits.length > 0) {
+          cohortMemberVisit.push(cohortVisit.cohortMemberVisits);
+          // if(cohortMemberVisit.includes(cohortVisit.cohortMemberVisits)) {
+          //   cohortMemberVisit.push(cohortVisit.cohortMemberVisits)
+          // }
         }
-        Object.assign(memberRow, modProperties);
         i++;
       }
+      const newArray = this.getVisitsArray(cohortMemberVisit);
+      console.log('newArray', newArray);
+      for (let j = 0; j < conceptStrings.length; j++) {
+        const concept = conceptStrings[j];
+        newArray.forEach((item) => {
+          if (item.patient_uuid === member.person.uuid) {
+            const value = item.obs.some((obs) => obs.display === concept);
+            memberRow[`mod${j + 1}`] = value;
+          }
+        });
+      }
+
       membersData.push(memberRow);
     }
     return membersData;
   }
 
-  private isOtzVisit(
-    cohortVisit: CohortVisit,
-    patient_uuid: string,
-    stringsToCheck: any
-  ) {
-    let isActivityForm = false;
-    const { cohortMemberVisits } = cohortVisit;
-    cohortMemberVisits.forEach((visit) => {
-      if (visit.visit.patient.uuid === patient_uuid) {
-        visit.visit.encounters.forEach((encounter) => {
-          encounter.obs.forEach((obs) => {
-            if (stringsToCheck.includes(obs.display)) {
-              isActivityForm = true;
-            }
-          });
-        });
-      }
+  private getVisitsArray(cohortVisitArray) {
+    const filteredArray = [];
+
+    cohortVisitArray.forEach((items) => {
+      items.forEach((item) => {
+        if (item.visit.encounters.length > 0) {
+          const newObject = {
+            patient_uuid: item.visit.patient.uuid,
+            obs: item.visit.encounters.map((enc) => enc.obs)
+          };
+
+          filteredArray.push(newObject);
+        }
+      });
     });
-    return isActivityForm;
+
+    const uniqueObsMap = new Map();
+
+    filteredArray.forEach((patient) => {
+      const { patient_uuid, obs } = patient;
+
+      let uniqueObsArray = uniqueObsMap.get(patient_uuid) || [];
+
+      const flattenedObs = [].concat(...obs);
+      const uniqueObs = flattenedObs.filter(
+        (obsItem, index, self) =>
+          index === self.findIndex((t) => t.uuid === obsItem.uuid)
+      );
+
+      uniqueObsArray = uniqueObsArray.concat(uniqueObs);
+      uniqueObsMap.set(patient_uuid, uniqueObsArray);
+    });
+
+    uniqueObsMap.forEach((obsArray, patient_uuid) => {
+      const uniqueNestedObs = obsArray.filter((obsItem, index, self) => {
+        return index === self.findIndex((t) => t.uuid === obsItem.uuid);
+      });
+
+      uniqueObsMap.set(patient_uuid, uniqueNestedObs);
+    });
+
+    const resultArray = Array.from(uniqueObsMap, ([patient_uuid, obs]) => ({
+      patient_uuid,
+      obs
+    }));
+    return resultArray;
   }
 
   onGroupDetailsChanged(updatedGroup) {

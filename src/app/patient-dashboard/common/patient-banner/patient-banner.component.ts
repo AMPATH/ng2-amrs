@@ -49,6 +49,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public isStaging = true;
   public ovcEnrollment = false;
   public otzEnrollmentBtn = false;
+  public isPatientEligibleForOtz = false;
   public isPatientVerified = false;
   public verificationStatus = false;
   modalRef: BsModalRef;
@@ -91,7 +92,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
           this.getVerificationStatus();
-          this.getOtzEnrollments(patient.enrolledPrograms);
+          this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getOvcEnrollments(
             patient.enrolledPrograms,
             patient.person.birthdate
@@ -306,7 +307,10 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private getOtzEnrollments(enrolledPrograms) {
+  private getOtzEnrollments(age, enrolledPrograms) {
+    if (age >= 9 && age <= 19) {
+      this.isPatientEligibleForOtz = true;
+    }
     const otz = enrolledPrograms.filter(
       (program) =>
         program.concept.uuid === 'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'

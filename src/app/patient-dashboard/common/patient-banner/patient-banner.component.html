@@ -404,7 +404,11 @@
             </span>
           </span>
           <span
-            *ngIf="patient?.person.display && !otzEnrollmentBtn"
+            *ngIf="
+              patient?.person.display &&
+              !otzEnrollmentBtn &&
+              isPatientEligibleForOtz
+            "
             style="
               padding: 1px;
               cursor: pointer;
