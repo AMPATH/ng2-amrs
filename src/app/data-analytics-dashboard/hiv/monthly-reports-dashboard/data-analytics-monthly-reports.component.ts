@@ -46,7 +46,7 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
         icon: 'fa'
       },
       {
-        title: 'Plhiv Ncd v2 report',
+        title: 'PLHIV NCD Report',
         description: '',
         url: 'plhiv-ncd-v2-monthly-report',
         icon: 'fa'

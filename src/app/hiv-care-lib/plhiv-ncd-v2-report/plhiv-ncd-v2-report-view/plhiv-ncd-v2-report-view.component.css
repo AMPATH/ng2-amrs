@@ -4,6 +4,7 @@ table {
   white-space: nowrap;
   border-collapse: separate;
   margin: 5px;
+  overflow-x: auto;
 }
 
 .header {
@@ -18,12 +19,14 @@ td {
   text-align: centre;
   font-size: auto;
 }
+
 th {
   padding: 10px;
   border: 1px solid #090909;
   text-align: left;
   font-size: 11px;
 }
+
 .first {
   padding: 10px;
   position: absolute;
@@ -31,6 +34,7 @@ th {
   text-align: left;
   font-size: 18px;
 }
+
 .labels tr td {
   background-color: #2cc16a;
   font-weight: bold;
@@ -40,6 +44,7 @@ th {
 .label tr td label {
   display: block;
 }
+
 caption {
   padding-top: inherit;
   padding-bottom: 8px;
@@ -53,13 +58,20 @@ caption {
 [data-toggle='toggle'] {
   display: none;
 }
+
 .value {
   cursor: pointer;
 }
+
+.value-disabled {
+  cursor: not-allowed;
+}
+
 .value:hover {
   background-color: #337ab7a8;
   color: white;
 }
+
 .padding {
   margin: 2.5px;
 }
@@ -82,9 +94,15 @@ th {
   margin-top: -1px;
   /*compensate for top border*/
 }
+
 .table-content-class {
   overflow-x: scroll;
 }
+
 .total {
   text-align: center;
+}
+
+.bg-black {
+  background-color: #272626;
 }

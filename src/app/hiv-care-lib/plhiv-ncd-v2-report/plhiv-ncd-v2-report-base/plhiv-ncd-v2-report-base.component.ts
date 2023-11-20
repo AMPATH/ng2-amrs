@@ -165,8 +165,6 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
       queryParams: {
         indicators: $event.indicator,
         indicatorHeader: $event.headerName,
-        // indicatorGender: value.gender,
-        // sDate: this._sDate,
         eDate: this._eDate,
         month: this._month,
         locationUuids: $event.location,

@@ -61,7 +61,6 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     this.grid = [];
     if (changes.SummaryData) {
       this.sectionIndicatorsValues = this.SummaryData;
-      // this.setColumns(this.sectionDefs);
       this.processData(this.sectionDefs, this.sectionIndicatorsValues);
     }
   }
@@ -124,15 +123,16 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
                   element.label === 'Status' ||
                   element.label === 'Header'
                     ? '-'
-                    : ch,
+                    : ch.type,
                 value:
                   element.label === 'State' ||
                   element.label === 'Status' ||
                   element.label === 'Header'
                     ? ch
-                    : data[j][ch] || 0,
+                    : data[j][ch.type] || 0,
 
-                description: ''
+                description: ch.description,
+                required: ch.required || 1
               };
               children.push(child);
               m++;
@@ -142,9 +142,13 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
               id: m,
               location: location,
               colspan: maxColSpan,
-              indicator: element.indicator,
-              value: data[j][element.indicator] || 0,
-              description: ''
+              indicator: element.indicator.type || element.indicator,
+              value:
+                data[j][element.indicator.type] ||
+                data[j][element.indicator] ||
+                0,
+              description: element.indicator.description,
+              required: element.indicator.required || 1
             };
             children.push(child);
           }
@@ -269,17 +273,53 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     this.gridOptions.columnDefs = defs;
   }
   public setCellSelection(cell: any) {
-    console.log(cell);
-    // const gender = `${grid.headerName} - ${this.checkGender(arrayPosition)}`;
-    // const arraypos = arrayPosition === 3 ? 0 : arrayPosition;
     const selectedIndicator = {
-      headerName: 'headerName',
+      headerName: cell.description,
       indicator: cell.indicator,
       gender: 'gender',
+      required: cell.required,
       location: cell.location
     };
 
     this.CellSelection.emit(selectedIndicator);
+  }
+
+  public getTitleText(child: any): string {
+    if (
+      child.required === '0' ||
+      child.indicator === '-' ||
+      child.indicator === 'location'
+    ) {
+      return child.indicator === '-' || child.indicator === 'location'
+        ? ''
+        : 'Not Applicable';
+    } else {
+      return 'Click to View Patientlist';
+    }
+  }
+
+  public handleClick(child: any): void {
+    if (
+      child.required === '0' ||
+      child.indicator === '-' ||
+      child.indicator === 'location'
+    ) {
+      return null;
+    } else {
+      this.setCellSelection(child);
+    }
+  }
+
+  public getNgClass(child: any): string {
+    return child.indicator === '-' ||
+      child.indicator === 'location' ||
+      child.required === '0'
+      ? ''
+      : 'value';
+  }
+
+  public getChildValue(child: any): string {
+    return child.required === '0' ? '-' : child.value;
   }
 
   public searchIndicator() {
@@ -311,7 +351,6 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     }
   }
   public selectedIndicators(cell) {
-    console.log(cell);
     // this.setColumns(this.sectionDefs);
     // const value = [];
     // if (this.selectedIndicatorsList.length) {
