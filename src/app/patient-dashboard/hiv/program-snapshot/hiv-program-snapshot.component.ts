@@ -299,7 +299,9 @@ export class HivProgramSnapshotComponent implements OnInit {
         if (
           result &&
           result.predicted_prob_disengage &&
-          result.predicted_risk
+          result.predicted_risk &&
+          result.predicted_risk &&
+          result.observed_rtc_date === null
         ) {
           this.hasPredictedScore = true;
           this.prediction = result;
