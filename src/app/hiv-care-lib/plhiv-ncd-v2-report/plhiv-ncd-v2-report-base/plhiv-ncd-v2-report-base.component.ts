@@ -159,17 +159,17 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
       this.pinnedBottomRowData = totalsRow;
     }
   }
-  public onIndicatorSelected(value) {
+  public onIndicatorSelected($event) {
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
-        indicators: value.indicator,
-        indicatorHeader: value.headerName,
-        indicatorGender: value.gender,
-        sDate: this._sDate,
+        indicators: $event.indicator,
+        indicatorHeader: $event.headerName,
+        // indicatorGender: value.gender,
+        // sDate: this._sDate,
         eDate: this._eDate,
         month: this._month,
-        locationUuids: value.location,
+        locationUuids: $event.location,
         currentView: this.currentView
       }
     });
