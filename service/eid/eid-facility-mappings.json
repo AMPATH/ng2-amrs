@@ -2834,6 +2834,33 @@
     "cityVillage": "",
     "eidDisplay": ""
   },
+  "0cc1e6c8-69a5-4b78-932d-6170fcfb98fe": {
+    "mrsId": 496,
+    "mrsDisplay": "Bravo Module-Turbo",
+    "description": "Bravo Module-Turbo",
+    "mflCode": "15753",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "a844aa95-e9a6-416b-942b-ac07c1ef84fe": {
+    "mrsId": 497,
+    "mrsDisplay": "Maisha Module-Turbo",
+    "description": "Maisha Module-Turbo",
+    "mflCode": "15753",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
+  "c22318da-d854-43fa-bd1e-8cb7d1d16ebf": {
+    "mrsId": 498,
+    "mrsDisplay": "Victor's Module-Turbo",
+    "description": "Victor's Module-Turbo",
+    "mflCode": "15753",
+    "county": "Uasin Gishu County",
+    "cityVillage": "",
+    "eidDisplay": ""
+  },
   "469bb74e-18a4-4d74-872e-55fcebe12dc7": {
     "mrsId": 328,
     "mrsDisplay": "Soy  MCH",
