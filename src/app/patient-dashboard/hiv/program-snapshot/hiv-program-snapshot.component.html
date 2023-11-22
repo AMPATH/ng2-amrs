@@ -57,7 +57,7 @@
       </div>
       <div
         class="alert-div"
-        *ngIf="hasPredictedScore"
+        *ngIf="hasPredictedScore && patientData?.encounter_datetime < prediction.prediction_generated_date "
         style="display: inline-block"
       >
         <p [ngClass]="getPredictionAlertColorCoded(prediction.predicted_risk)">
