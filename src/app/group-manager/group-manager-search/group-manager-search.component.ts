@@ -47,8 +47,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   public routeLoading = false;
   fetchingGroups: boolean;
   previousLocationUuid: string;
-  columnDefs = this.generateColumns();
   rowData: any;
+  columnDefs = this.generateColumns();
   public gridOptions: GridOptions = this.getGridOptions();
   public filterText = '';
   hideGroupsInCurrentFacility: boolean;
@@ -114,6 +114,30 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
       this.subscription.add(sub);
     } else {
       this.rowData = this.groupsInCurrentFacility;
+    }
+  }
+
+  public showOTZGroupsInFacilty() {
+    this.rowData = [];
+    this.fetchingGroups = true;
+    this.isOTZprogram = true;
+    const locationUuid = this.router.url.split('/')[2];
+    if (locationUuid !== this.previousLocationUuid) {
+      this.fetchingGroups = true;
+      const sub = this.groupService
+        .getGroupsByLocationUuid(locationUuid)
+        .subscribe((res) => {
+          this.groupsInCurrentFacility = res.map((result) => new Group(result));
+          this.hideGroupsInCurrentFacility = false;
+          this.fetchingGroups = false;
+          this.previousLocationUuid = locationUuid;
+          this.rowData = this.groupsInCurrentFacility;
+        });
+      this.columnDefs = this.generateColumns();
+      this.subscription.add(sub);
+    } else {
+      this.rowData = this.groupsInCurrentFacility;
+      this.isOTZprogram = true;
     }
   }
 
@@ -248,7 +272,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           caseSensitive: false
         }
       },
-      ...(!this.isOTZprogram
+      ...(this.isOTZprogram
         ? [
             {
               headerName: 'OTZ Champion',

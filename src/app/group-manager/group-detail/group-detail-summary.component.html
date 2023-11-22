@@ -195,10 +195,23 @@
             >
             <div class="col-xs-10">
               <mat-radio-group formControlName="leadershipType">
-                <mat-radio-button value="peer" color="primary"
+                <mat-radio-button
+                  *ngIf="validOTZProgram"
+                  value="peer"
+                  [checked]="defaultLeadershipType == 'peer'"
+                  color="primary"
+                  >OTZ Champion</mat-radio-button
+                >
+                <mat-radio-button
+                  *ngIf="!validOTZProgram"
+                  value="peer"
+                  color="primary"
                   >Peer Leadership</mat-radio-button
                 >
-                <mat-radio-button value="staff" color="primary"
+                <mat-radio-button
+                  *ngIf="!validOTZProgram"
+                  value="staff"
+                  color="primary"
                   >Community Staff Leadership</mat-radio-button
                 >
               </mat-radio-group>

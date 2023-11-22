@@ -64,7 +64,9 @@ export class OtzSnapshotComponent implements OnInit {
             patient.uuid +
             '/general/general/formentry/ab16711d-890d-4128-95ce-0e955babd711';
           this.groupManagerUrl =
-            '/clinic-dashboard/18c343eb-b353-462a-9139-b16606e6b6c2/hiv/group-manager';
+            '/patient-dashboard/patient/' +
+            patient.uuid +
+            '/general/general/group-enrollment';
           this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getHivSummary(patient);
           this.getHistoricalPatientLabResults(patient);

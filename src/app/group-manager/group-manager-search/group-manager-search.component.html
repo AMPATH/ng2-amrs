@@ -53,8 +53,28 @@
             margin-left: 15px;
           "
         >
-          <span class="fa fa-eye"></span> View All Groups In This Facility
-          <i *ngIf="fetchingGroups" class="fa fa-spinner fa-spin"></i>
+          <span class="fa fa-eye"></span> View All DC Groups In This Facility
+          <i
+            *ngIf="fetchingGroups && !isOTZprogram"
+            class="fa fa-spinner fa-spin"
+          ></i>
+        </button>
+        <button
+          mat-raised-button
+          (click)="showOTZGroupsInFacilty()"
+          style="
+            background: rgb(245, 245, 245);
+            border-radius: 10px;
+            color: #31708f;
+            font-weight: 700;
+            margin-left: 15px;
+          "
+        >
+          <span class="fa fa-eye"></span> View All OTZ Groups In This Facility
+          <i
+            *ngIf="fetchingGroups && isOTZprogram"
+            class="fa fa-spinner fa-spin"
+          ></i>
         </button>
       </div>
     </div>

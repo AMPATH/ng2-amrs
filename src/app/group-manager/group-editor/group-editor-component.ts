@@ -119,6 +119,14 @@ export class GroupEditorComponent implements OnInit {
       });
   }
 
+  private autoGenerateOTZGroupNumber() {
+    this._communityService
+      .generateGroupNumber(this.facility.value ? this.facility.value : '')
+      .subscribe((res: any) => {
+        this.groupNo = res.groupNumber.replace(/DC/g, 'OTZ');
+      });
+  }
+
   public setUpProviderTypeAhead() {
     this.providerSuggest
       .pipe(
@@ -195,7 +203,6 @@ export class GroupEditorComponent implements OnInit {
       this.creatingGroup.emit(true);
       this.saving = true;
       if (this.editType.toLowerCase() === 'edit') {
-        console.log(this.editType);
         this.updateGroup();
       }
       if (this.editType.toLowerCase() === 'create') {
@@ -440,5 +447,13 @@ export class GroupEditorComponent implements OnInit {
   public onFacilityChanged(event) {
     this.facility = event;
     this.autoGenerateGroupNumber();
+  }
+
+  public onProgramChanged(event) {
+    if (event.value === '203571d6-a4f2-4953-9e8b-e1105e2340f5') {
+      this.autoGenerateOTZGroupNumber();
+    } else {
+      this.autoGenerateGroupNumber();
+    }
   }
 }

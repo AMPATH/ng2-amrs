@@ -126,6 +126,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public visitStartedToday: boolean;
   public visitStartedRetro: boolean;
   public showEnrollmentButton = false;
+  public showOTZEnrollmentMsg = false;
   public isOtzProgram = false;
   public isActivityForm = false;
   public otzModule = [];
@@ -182,7 +183,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cohortOtzModuleResourceService.getCohortOtzModule(uuid)
     ]);
     dcOtzSubs.subscribe((results) => {
-      console.log('results', results);
       const res = results[0];
       this.otzModule = results[1].result;
       this.group = res;
@@ -215,49 +215,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.checkIfTodayVisitStarted(this.cohortVisits);
       this.generateMembersData(res.cohortMembers, res.cohortVisits);
     });
-    // this.subscriptions.add(
-    //   this.communityGroupService.getGroupByUuid(uuid).subscribe(
-    //     (res) => {
-    //       this.group = res;
-    //       _.forEach(this.group.cohortMembers, (member) => {
-    //         member['phoneNumber'] = _.filter(
-    //           member.patient.person.attributes,
-    //           (attribute) =>
-    //             attribute.attributeType.uuid ===
-    //             '72a759a8-1359-11df-a1f1-0026b9348838'
-    //         )[0];
-    //       });
-    //       this.activeMembers = _.filter(
-    //         res.cohortMembers,
-    //         (member) => !member.endDate
-    //       );
-    //       this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
-    //         return Math.abs(
-    //           new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-    //         );
-    //       });
-    //       this.groupVisitDate = {
-    //         date: this.today,
-    //         jsdate: new Date()
-    //       };
-    //       const isOtz =
-    //         this.group.attributes.find((a) => {
-    //           return a.cohortAttributeType.name === 'programUuid';
-    //         }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
-    //         this.cohortOtzModuleResourceService.getCohortOtzModule(this.group.uuid).subscribe((res) => {
-    //           console.log('res', res);
-    //         });
-    //         this.isOtzProgram = isOtz;
-    //         this.checkIfTodayVisitStarted(this.cohortVisits);
-    //         this.generateMembersData(res.cohortMembers, res.cohortVisits);
-    //     },
-    //     (error) => {
-    //       this.errorMessage =
-    //         'An error occurred while trying to load the group, please check your connection and refresh the page.';
-    //       this.error = true;
-    //     }
-    //   )
-    // );
   }
 
   public checkIfTodayVisitStarted(cohortVisits: any[]) {
@@ -562,12 +519,13 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         i++;
       }
       const newArray = this.getVisitsArray(cohortMemberVisit);
-      console.log('newArray', newArray);
       for (let j = 0; j < conceptStrings.length; j++) {
         const concept = conceptStrings[j];
         newArray.forEach((item) => {
           if (item.patient_uuid === member.person.uuid) {
-            const value = item.obs.some((obs) => obs.display === concept);
+            const value = item.obs.some(
+              (obs: { display: string }) => obs.display === concept
+            );
             memberRow[`mod${j + 1}`] = value;
           }
         });
@@ -722,6 +680,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             break;
           case !validation.notEnrolledInGroupProgram.found:
             this.validatingEnrollment = false;
+            this.validateAge(patient);
             this.showEnrollButton(patient);
             break;
           case validation.enrolledInAnotherGroupInSameProgram.found:
@@ -777,6 +736,14 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       enrollMentUrl,
       queryParams
     };
+  }
+
+  private validateAge(patient) {
+    if (patient._person.age >= 9 && patient._person.age <= 19) {
+      this.showOTZEnrollmentMsg = true;
+    } else {
+      this.showOTZEnrollmentMsg = false;
+    }
   }
   private enrollPatientToGroup(group: Group, patient: Patient) {
     this.communityGroupMemberService
