@@ -222,7 +222,7 @@
     {
       "type": "simple_column",
       "alias": "last_encounter_date",
-      "column": "ls.encounter_datetime"
+      "column": "t1.encounter_datetime"
     },
     {
       "type": "simple_column",
