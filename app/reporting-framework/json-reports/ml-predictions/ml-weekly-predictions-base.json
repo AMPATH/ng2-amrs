@@ -165,7 +165,7 @@
       "alias": "was_follow_up_successful",
       "expressionType": "simple_expression",
       "expressionOptions": {
-        "expression": "if((pre.is_successful_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)"
+        "expression": "if((latest_phone_follow_up = 'YES' OR (pre.attempted_home_visit = 'YES' AND pre.was_client_found = 'YES')), 1, 0)"
       }
     },
     {
