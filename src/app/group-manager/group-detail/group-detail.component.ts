@@ -30,18 +30,6 @@ import { RisonService } from '../../shared/services/rison-service';
 import { HttpClient } from '@angular/common/http';
 import { flatMap, map } from 'rxjs/operators';
 
-interface MemberType {
-  name: any;
-  person_uuid: any;
-  identifiers: any;
-  contacts: any;
-  member_since: string;
-  member_to: string;
-  mod1?: any;
-  mod2?: any;
-  mod3?: any;
-}
-
 @Component({
   selector: 'group-detail',
   templateUrl: './group-detail.component.html',
@@ -131,6 +119,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public isActivityForm = false;
   public otzModule = [];
   public cohortVisitArray = [];
+  public hivSummary: any;
   public enrollMentModel = {
     enrollMentUrl: [],
     queryParams: {}
@@ -237,9 +226,33 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public generateMembersData(cohortMembers, cohortVisits) {
     this.membersData = [];
     this.columns = [];
-    const members = this.generateMemberObject(cohortMembers);
-    this.membersData = this.generateRowData(members, cohortVisits);
-    this.columns = this.generateColumns(cohortVisits);
+    const memberUuids = this.generatePatientUuids(cohortMembers);
+    this.cohortOtzModuleResourceService
+      .getPatientsLatestHivSummaries(memberUuids)
+      .subscribe((result) => {
+        const summaryMap = this.generateSummaryObject(result);
+        const members = this.generateMemberObject(cohortMembers);
+        this.membersData = this.generateRowData(
+          members,
+          cohortVisits,
+          summaryMap
+        );
+        this.columns = this.generateColumns(cohortVisits);
+      });
+  }
+
+  public generatePatientUuids(cohortMembers) {
+    return cohortMembers.map((member) => {
+      return member.patient.person.uuid;
+    });
+  }
+
+  public generateSummaryObject(hivSummaries) {
+    const summaryMap = new Map();
+    hivSummaries.forEach((summary) => {
+      summaryMap.set(summary.uuid, summary);
+    });
+    return summaryMap;
   }
 
   public gridOnCellClick($event) {
@@ -480,7 +493,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     return present;
   }
 
-  private generateRowData(cohortMembers, cohortVisits) {
+  private generateRowData(cohortMembers, cohortVisits, summaryMap) {
     const membersData = [];
     const cohortMemberVisit = [];
     const conceptStrings = [
@@ -494,13 +507,31 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       'OTZ BEYOND THIRD 90: YES'
     ];
     for (const member of cohortMembers) {
-      const memberRow: MemberType = {
+      const memberRow = {
         name: member.person.display,
         person_uuid: member.person.uuid,
         identifiers: member.allIdentifiers,
         contacts: member.person.patientPhoneNumber,
         member_since: this.datePipe.transform(member.startDate),
-        member_to: this.datePipe.transform(member.endDate)
+        member_to: this.datePipe.transform(member.endDate),
+        latest_vl: summaryMap.has(member.person.uuid)
+          ? summaryMap.get(member.person.uuid).latest_vl
+          : '',
+        latest_vl_date: summaryMap.has(member.person.uuid)
+          ? summaryMap.get(member.person.uuid).latest_vl_date
+          : '',
+        vl_category: summaryMap.has(member.person.uuid)
+          ? this.getVlCategory(summaryMap.get(member.person.uuid).latest_vl)
+          : '',
+        latest_rtc: summaryMap.has(member.person.uuid)
+          ? summaryMap.get(member.person.uuid).rtc_date
+          : '',
+        latest_appointment_date: summaryMap.has(member.person.uuid)
+          ? summaryMap.get(member.person.uuid).latest_appointment
+          : '',
+        adherence_type: summaryMap.has(member.person.uuid)
+          ? summaryMap.get(member.person.uuid).adherence
+          : ''
       };
 
       let i = 0;
@@ -512,9 +543,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         memberRow[`group_visit_${i}_uuid`] = cohortVisit.uuid;
         if (cohortVisit.cohortMemberVisits.length > 0) {
           cohortMemberVisit.push(cohortVisit.cohortMemberVisits);
-          // if(cohortMemberVisit.includes(cohortVisit.cohortMemberVisits)) {
-          //   cohortMemberVisit.push(cohortVisit.cohortMemberVisits)
-          // }
         }
         i++;
       }
@@ -534,6 +562,21 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       membersData.push(memberRow);
     }
     return membersData;
+  }
+
+  private getVlCategory(value: number): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    if (value <= 50) {
+      return 'LDL';
+    } else if (value <= 200) {
+      return 'Low Risk Low Level Viremia';
+    } else if (value <= 500) {
+      return 'High Risk Low Level Viremia';
+    } else {
+      return 'Suspected Treatment Failure';
+    }
   }
 
   private getVisitsArray(cohortVisitArray) {
@@ -635,10 +678,49 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.isOtzProgram) {
+      columns.push(
+        {
+          headerName: 'Latest VL',
+          field: 'latest_vl',
+          pinned: 'left',
+          width: 80
+        },
+        {
+          headerName: 'Latest VL Date',
+          field: 'latest_vl_date',
+          pinned: 'left',
+          width: 80
+        },
+        {
+          headerName: 'VL Category',
+          field: 'vl_category',
+          pinned: 'left',
+          width: 80
+        },
+        {
+          headerName: 'Latest RTC',
+          field: 'latest_rtc',
+          pinned: 'left',
+          width: 80
+        },
+        {
+          headerName: 'Latest Appointment Date',
+          field: 'latest_appointment_date',
+          pinned: 'left',
+          width: 80
+        },
+        {
+          headerName: 'Adherence Type',
+          field: 'adherence_type',
+          pinned: 'left',
+          width: 80
+        }
+      );
       for (let i = 1; i <= 8; i++) {
         columns.push({
           headerName: `Mod ${i}`,
           field: `mod${i}`,
+          width: 70,
           cellRenderer: (column) => {
             if (column.value) {
               return `<i class="fa fa-check text-success"></i>`;

@@ -32,6 +32,9 @@ export class OtzSnapshotComponent implements OnInit {
   hasData: boolean;
   isHEIActive: boolean;
   viralLoadCategory: string;
+  isOtzDiscontinued = false;
+  reasonForDiscontinuation: string;
+  otzDiscontinuationDate: any;
   viralLoadHistory: any[];
   isPatientEligibleForOtz = false;
 
@@ -39,7 +42,7 @@ export class OtzSnapshotComponent implements OnInit {
     private patientService: PatientService,
     private hivSummaryResourceService: HivSummaryResourceService,
     private labsResourceService: LabsResourceService,
-    private _encounterResource: EncounterResourceService,
+    private encounterResource: EncounterResourceService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -70,6 +73,23 @@ export class OtzSnapshotComponent implements OnInit {
           this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getHivSummary(patient);
           this.getHistoricalPatientLabResults(patient);
+          this.encounterResource
+            .getEncounterByUuid('409b4532-9013-4ceb-8519-adb94136230f')
+            .subscribe((res) => {
+              if (res && patient.person.uuid === res.patient.uuid) {
+                const reasonForDiscontinuation = res.obs.find((obs) => {
+                  return (
+                    obs.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838'
+                  );
+                });
+                if (reasonForDiscontinuation) {
+                  this.isOtzDiscontinued = true;
+                  this.reasonForDiscontinuation =
+                    reasonForDiscontinuation.value.display;
+                  this.otzDiscontinuationDate = res.encounterDatetime;
+                }
+              }
+            });
         }
       }
     );
@@ -115,7 +135,6 @@ export class OtzSnapshotComponent implements OnInit {
         this.clinicalEncounters = this.getClinicalEncounters(results);
         this.patientData = _.first(this.clinicalEncounters);
         const patientDataCopy = this.patientData;
-        console.log('patientDAta', this.patientData);
 
         if (!_.isNil(this.patientData)) {
           // assign latest vl and vl_1_date

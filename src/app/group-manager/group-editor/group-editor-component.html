@@ -145,7 +145,7 @@
         class="sharp-corners select"
         placeholder="Please type to search"
         id="groupProgram"
-        [ngModel]="groupProgram"
+        [(ngModel)]="groupProgram"
         (ngModelChange)="onProgramChanged($event)"
         [items]="groupPrograms"
         name="groupProgramInput"
@@ -207,6 +207,36 @@
           *ngIf="addressInput.errors && (addressInput.dirty || addressInput.touched)"
         >
           <span style="font-size: 12px; color: red">Landmark is required </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showGroupActivity" class="row">
+    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+      <div class="form-group">
+        <label>Group Activity<span class="text-danger"></span></label>
+      </div>
+    </div>
+    <div class="col-md-9 col-lg-9 col-sm-8 col-xs-8">
+      <div class="form-group">
+        <ng-select
+          class="sharp-corners select"
+          placeholder="Please type to search"
+          id="groupActivity"
+          [(ngModel)]="groupActivity"
+          (ngModelChange)="onGroupActivityChanged($event)"
+          [items]="groupActivities"
+          name="groupActivityInput"
+          #groupActivityInput="ngModel"
+          required
+        >
+        </ng-select>
+        <div
+          *ngIf="groupActivityInput.errors && (groupActivityInput.dirty || groupActivityInput.touched)"
+        >
+          <span style="font-size: 12px; color: red"
+            >Group Activity is required
+          </span>
         </div>
       </div>
     </div>

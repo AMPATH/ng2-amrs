@@ -53,6 +53,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   public filterText = '';
   hideGroupsInCurrentFacility: boolean;
   public isOTZprogram = false;
+  public filterOTZ = '';
 
   constructor(
     private groupService: CommunityGroupService,
@@ -99,6 +100,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   public showGroupsInFacilty() {
     this.rowData = [];
     this.fetchingGroups = true;
+    this.isOTZprogram = false;
+    this.filterText = '';
     const locationUuid = this.router.url.split('/')[2];
     if (locationUuid !== this.previousLocationUuid) {
       this.fetchingGroups = true;
@@ -108,6 +111,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           this.groupsInCurrentFacility = res.map((result) => new Group(result));
           this.hideGroupsInCurrentFacility = false;
           this.fetchingGroups = false;
+          this.isOTZprogram = false;
           this.previousLocationUuid = locationUuid;
           this.rowData = this.groupsInCurrentFacility;
         });
@@ -122,23 +126,29 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     this.fetchingGroups = true;
     this.isOTZprogram = true;
     const locationUuid = this.router.url.split('/')[2];
-    if (locationUuid !== this.previousLocationUuid) {
-      this.fetchingGroups = true;
-      const sub = this.groupService
-        .getGroupsByLocationUuid(locationUuid)
-        .subscribe((res) => {
-          this.groupsInCurrentFacility = res.map((result) => new Group(result));
-          this.hideGroupsInCurrentFacility = false;
-          this.fetchingGroups = false;
-          this.previousLocationUuid = locationUuid;
-          this.rowData = this.groupsInCurrentFacility;
-        });
-      this.columnDefs = this.generateColumns();
-      this.subscription.add(sub);
-    } else {
-      this.rowData = this.groupsInCurrentFacility;
-      this.isOTZprogram = true;
-    }
+    this.fetchingGroups = true;
+    const sub = this.groupService
+      .getGroupsByLocationUuid(locationUuid)
+      .subscribe((res) => {
+        this.groupsInCurrentFacility = res.map((result) => new Group(result));
+        this.hideGroupsInCurrentFacility = false;
+        this.fetchingGroups = false;
+        this.isOTZprogram = false;
+        this.rowData = this.groupsInCurrentFacility;
+        this.filterText = 'OTZ PROGRAM';
+        this.gridOptions.api.onFilterChanged();
+      });
+    this.columnDefs = this.generateColumns();
+    this.subscription.add(sub);
+  }
+
+  public generatePatientUuids(cohortMembers) {
+    // create an object with patient uuids as keys for each group
+    const patientUuids = {};
+    cohortMembers.forEach((member) => {
+      patientUuids[member.uuid] = true;
+    });
+    return Object.keys(patientUuids);
   }
 
   public navigateToGroupDetails(group, newGroup?) {
@@ -193,7 +203,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     return (
       _.includes(node.data.display.toLowerCase(), filterCaseLowercase) ||
       _.includes(node.data.facility.toLowerCase(), filterCaseLowercase) ||
-      _.includes(node.data.status.toLowerCase(), filterCaseLowercase)
+      _.includes(node.data.status.toLowerCase(), filterCaseLowercase) ||
+      _.includes(node.data.program, this.filterText)
     );
   }
 
@@ -274,6 +285,26 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
       },
       ...(this.isOTZprogram
         ? [
+            {
+              headerName: 'Viral Suppression',
+              field: 'viralSuppression',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            },
+            {
+              headerName: 'Last Meeting Date',
+              field: 'lastMeetingDate',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            },
             {
               headerName: 'OTZ Champion',
               field: 'otzChampion',

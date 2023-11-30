@@ -261,8 +261,16 @@
         <i class="fa fa-search"></i> Patient Search
       </button>
       <button
-        *ngIf="!referralStatus && !step && (isGroupVisit || isOtzProgram)"
+        *ngIf="!referralStatus && !step && isGroupVisit"
         (click)="navigateTo('groupManager')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-users"></i> Group Manager
+      </button>
+      <button
+        *ngIf="isOtzProgram && !referralStatus && !step"
+        (click)="navigateTo('groupDashboard')"
         type="button"
         class="btn btn-primary"
       >

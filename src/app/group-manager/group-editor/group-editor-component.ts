@@ -42,8 +42,20 @@ export class GroupEditorComponent implements OnInit {
   public actionButtonText = `${this.editType} Group`;
   public groupTypes: any = [];
   public groupPrograms: any = [];
+  public groupActivities: string[] = [
+    'Tailoring',
+    'Art WorldTable',
+    'Tennis',
+    'Chess',
+    'Football',
+    'ReadingDarts',
+    'Farming',
+    'None'
+  ];
   public groupProgram: any;
+  public groupActivity: any;
   public success = false;
+  public showGroupActivity = false;
   public message = '';
   public busy = false;
   public providerLoading;
@@ -60,6 +72,7 @@ export class GroupEditorComponent implements OnInit {
     this.groupUuid = state.groupUuid;
     this.groupName = state.groupName;
     this.groupProgram = state.groupProgram;
+    this.groupActivity = state.groupActivity;
     this.facility = state.facility;
     this.provider = state.provider;
     this.address = state.address;
@@ -254,6 +267,12 @@ export class GroupEditorComponent implements OnInit {
         value: this.groupProgram['value']
       });
     }
+    if (this.groupActivity !== '') {
+      attributes.push({
+        cohortAttributeType: 'groupActivity',
+        value: this.groupActivity
+      });
+    }
     const payLoad = {
       name: this.groupName,
       description: '',
@@ -292,6 +311,7 @@ export class GroupEditorComponent implements OnInit {
     this.groupNo = '';
     this.groupType = {};
     this.groupProgram = {};
+    this.groupActivity = {};
     this.address = '';
     this.provider = '';
     this.success = false;
@@ -449,11 +469,17 @@ export class GroupEditorComponent implements OnInit {
     this.autoGenerateGroupNumber();
   }
 
+  public onGroupActivityChanged(event) {
+    this.groupActivity = event;
+  }
+
   public onProgramChanged(event) {
     if (event.value === '203571d6-a4f2-4953-9e8b-e1105e2340f5') {
       this.autoGenerateOTZGroupNumber();
+      this.showGroupActivity = true;
     } else {
       this.autoGenerateGroupNumber();
+      this.showGroupActivity = false;
     }
   }
 }

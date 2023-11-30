@@ -233,10 +233,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
           if (componentRef.groupUuid) {
             componentRef.isGroupVisit = true;
           }
-
-          if (componentRef.groupUuid || componentRef.groupUuid === undefined) {
-            componentRef.isOtzProgram = true;
-          }
           this.patientTransferService.componentRef = componentRef;
           componentRef.loadForm(); // load form
           // this.isBusyIndicator(false);
@@ -402,6 +398,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
             this.encounterLocation.value +
             '/general/group-manager/group/' +
             this.groupUuid
+        ]);
+        break;
+      case 'groupDashboard':
+        this.preserveFormAsDraft = false;
+        this.router.navigate([
+          '/clinic-dashboard/' +
+            this.encounterLocation.value +
+            '/hiv/group-manager'
         ]);
         break;
       case 'groupEnrollment':
