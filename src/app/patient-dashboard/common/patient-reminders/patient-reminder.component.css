@@ -1,3 +1,8 @@
 patient-reminders .panel-body {
   padding: 0px !important;
 }
+
+:host.toast.alert-ml {
+  background-color: #ffff00;
+  border-color: #bdaaad;
+}
