@@ -80,6 +80,14 @@
       }
     },
     {
+      "table": "etl.pre_appointment_summary",
+      "alias": "pre_s",
+      "join": {
+        "type": "left",
+        "joinCondition": "mwl.person_id = pre_s.person_id "
+      }
+    },
+    {
       "table": "amrs.relationship",
       "alias": "t6",
       "join": {
@@ -334,6 +342,16 @@
       "type": "simple_column",
       "alias": "prediction_generated_date",
       "column": "mwl.prediction_generated_date"
+    },
+    {
+      "type": "simple_column",
+      "alias": "reschedule_appointment",
+      "column": "pre_s.reschedule_appointment"
+    },
+    {
+      "type": "simple_column",
+      "alias": "rescheduled_date",
+      "column": "pre_s.rescheduled_date"
     },
     {
       "type": "simple_column",

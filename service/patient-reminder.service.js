@@ -985,8 +985,27 @@ function generateAppointmentNoShowUpRiskReminder(data) {
   return reminders;
 }
 
+function generateAppointmentRescheduledReminder(data) {
+  let reminders = [];
+  if (data.reschedule_appointment && data.reschedule_appointment === 'YES') {
+    if (data.last_encounter_date < data.prediction_generated_date) {
+      reminders.push({
+        message:
+          'Promised to come date is ' +
+          Moment(data.rescheduled_date).format('DD-MM-YYYY'),
+        title: 'Appointment reschedule request',
+        type: 'ml',
+        display: {
+          banner: true,
+          toast: true
+        }
+      });
+    }
+  }
+  return reminders;
+}
+
 async function generateReminders(etlResults, eidResults) {
-  // console.log('REMINDERS generateReminders');
   let reminders = [];
   let patientReminder;
   if (etlResults && etlResults.length > 0) {
@@ -1028,6 +1047,9 @@ async function generateReminders(etlResults, eidResults) {
   let appointmentNoShowUpRiskReminder = generateAppointmentNoShowUpRiskReminder(
     data
   );
+  let appointmentRescheduledRiskReminder = generateAppointmentRescheduledReminder(
+    data
+  );
 
   let currentReminder = [];
   if (pending_vl_lab_result.length > 0) {
@@ -1056,8 +1078,11 @@ async function generateReminders(etlResults, eidResults) {
 
   reminders = reminders.concat(currentReminder);
 
-  // Add appointment no show up risk reminder
-  reminders = reminders.concat(appointmentNoShowUpRiskReminder);
+  // Add appointment no show up risk reminder and
+  reminders = reminders.concat(
+    appointmentNoShowUpRiskReminder,
+    appointmentRescheduledRiskReminder
+  );
 
   patientReminder.reminders = reminders;
   return patientReminder;
