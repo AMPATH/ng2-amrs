@@ -80,6 +80,11 @@ export class PreAppointmentPatientListComponent
       return { 'background-color': 'green', color: 'white' };
     } else if (params.data.rescheduled_date !== null) {
       return { 'background-color': 'yellow' };
+    } else if (
+      params.data.follow_up_type !== null &&
+      params.data.was_follow_up_successful === 0
+    ) {
+      return { 'background-color': 'pink' };
     } else {
       return {};
     }
