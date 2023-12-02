@@ -25,7 +25,7 @@ export class PlhivNcdReportPatientListComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     public plhivNcdReportService: PlhivNcdReportService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.addExtraColumns();
@@ -58,6 +58,8 @@ export class PlhivNcdReportPatientListComponent implements OnInit {
 
   public addExtraColumns() {
     const extraColumns = {
+      status: 'Status',
+      vl_category: 'VL Category',
       phone_number: 'Phone',
       enrollment_date: 'Date Enrolled',
       last_appointment: 'Last Appointment',
