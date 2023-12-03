@@ -25,7 +25,7 @@ export class PlhivNcdReportPatientListComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     public plhivNcdReportService: PlhivNcdReportService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.addExtraColumns();
