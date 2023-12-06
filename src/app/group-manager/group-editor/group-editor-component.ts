@@ -56,6 +56,7 @@ export class GroupEditorComponent implements OnInit {
   public groupActivity: any;
   public success = false;
   public showGroupActivity = false;
+  public otzProgramUuid = '203571d6-a4f2-4953-9e8b-e1105e2340f5';
   public message = '';
   public busy = false;
   public providerLoading;
@@ -110,6 +111,12 @@ export class GroupEditorComponent implements OnInit {
       this.getCurrentUserLocation();
       this.setDefaultProgram();
       this.autoGenerateGroupNumber();
+    }
+    if (
+      this.editType.toLowerCase() === 'edit' &&
+      this.groupProgram.value === this.otzProgramUuid
+    ) {
+      this.showGroupActivity = true;
     }
 
     this.route.parent.parent.parent.url.subscribe((urlSegment: any) => {
@@ -471,10 +478,11 @@ export class GroupEditorComponent implements OnInit {
 
   public onGroupActivityChanged(event) {
     this.groupActivity = event;
+    this.showGroupActivity = true;
   }
 
   public onProgramChanged(event) {
-    if (event.value === '203571d6-a4f2-4953-9e8b-e1105e2340f5') {
+    if (event.value === this.otzProgramUuid) {
       this.autoGenerateOTZGroupNumber();
       this.showGroupActivity = true;
     } else {

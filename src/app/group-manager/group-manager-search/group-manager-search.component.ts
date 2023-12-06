@@ -131,22 +131,25 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
       .getGroupsByLocationUuid(locationUuid)
       .subscribe((res) => {
         this.groupsInCurrentFacility = res.map((result) => new Group(result));
+        this.generatePatientUuids(this.groupsInCurrentFacility);
         this.hideGroupsInCurrentFacility = false;
         this.fetchingGroups = false;
         this.isOTZprogram = false;
         this.rowData = this.groupsInCurrentFacility;
         this.filterText = 'OTZ PROGRAM';
-        this.gridOptions.api.onFilterChanged();
+        if (this.gridOptions.api) {
+          this.gridOptions.api.onFilterChanged();
+        }
       });
     this.columnDefs = this.generateColumns();
     this.subscription.add(sub);
   }
 
-  public generatePatientUuids(cohortMembers) {
+  public generatePatientUuids(cohort) {
     // create an object with patient uuids as keys for each group
     const patientUuids = {};
-    cohortMembers.forEach((member) => {
-      patientUuids[member.uuid] = true;
+    cohort.forEach((uuid) => {
+      patientUuids[uuid._openmrsModel.uuid] = uuid._openmrsModel.uuid;
     });
     return Object.keys(patientUuids);
   }

@@ -77,7 +77,7 @@ export class Group extends BaseModel {
   public get otzChampion() {
     const attrType = this.getCurrentLeader(this._openmrsModel.cohortLeaders);
     if (attrType) {
-      return attrType.person.display;
+      return attrType.person.display.replace(/\d+|-/g, '');
     }
     return null;
   }

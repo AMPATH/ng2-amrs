@@ -108,6 +108,12 @@
             </ng-container>
           </td>
         </tr>
+        <tr>
+          <td>
+            <strong>Group Activity: </strong>
+            <span *ngIf="landmark">{{ groupActivity?.value }}</span>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

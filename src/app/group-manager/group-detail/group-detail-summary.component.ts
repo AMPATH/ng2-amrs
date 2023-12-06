@@ -56,6 +56,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
   public group: Group;
   public groupNumber: any;
   public landmark: any;
+  public groupActivity: any;
   public provider: any;
   public program: any;
   public currentLeader: any;
@@ -103,6 +104,10 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     ).map((member) => new Patient(member.patient));
     this.landmark = this.communityGroupService.getGroupAttribute(
       'landmark',
+      this.group.attributes
+    );
+    this.groupActivity = this.communityGroupService.getGroupAttribute(
+      'groupActivity',
       this.group.attributes
     );
     this.currentLeader = this.getCurrentLeader(
@@ -348,6 +353,10 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
           'landmark',
           this.group.attributes
         );
+        this.groupActivity = this.communityGroupService.getGroupAttribute(
+          'groupActivity',
+          this.group.attributes
+        );
         this.currentLeader = this.getCurrentLeader(
           group.cohortLeaders,
           group.cohortMembers
@@ -562,6 +571,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
       groupProgram: { label: program['name'], value: program['uuid'] },
       provider: { label: provider.person.display, value: provider.person.uuid },
       address: this.landmark.value,
+      groupActivity: this.groupActivity.value,
       groupUuid: this.group.uuid,
       actionButtonText: 'Save Changes'
     };
