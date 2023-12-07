@@ -718,6 +718,104 @@ module.exports = (function () {
     });
   }
 
+  function getPatientsLatestHivSummmary(request, callback) {
+    return new Promise(function (resolve, reject) {
+      const uuid = request.query.uuid ? request.query.uuid.split(',') : [];
+
+      const whereClause = [
+        't1.uuid  in ? and t1.next_encounter_datetime_hiv is null',
+        uuid
+      ];
+      const queryParts = {
+        columns:
+          request.query.fields ||
+          ' t1.vl_1 as latest_vl, t1.vl_1_date as latest_vl_date, t2.rtc_date, t1.cur_arv_adherence as adherence, t1.encounter_datetime as latest_appointment, t1.uuid',
+        table: 'etl.flat_hiv_summary_v15b',
+        where: whereClause,
+        leftOuterJoins: [
+          [
+            'etl.flat_hiv_summary_v15b',
+            't2',
+            't1.person_id = t2.person_id  and t2.next_clinical_datetime_hiv is null and t2.is_clinical_encounter = 1'
+          ]
+        ]
+      };
+
+      db.queryDb(queryParts)
+        .then(function (data) {
+          resolve(data.result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  function getPatientsSuppressionRate1(request, callback) {
+    return new Promise(function (resolve, reject) {
+      const uuid = request.query.uuid ? request.query.uuid.split(',') : [];
+
+      const whereClause = [
+        't1.uuid in ? and t1.next_encounter_datetime_hiv is null',
+        uuid
+      ];
+      const queryParts = {
+        columns:
+          request.query.fields ||
+          't1.vl_1 as latest_vl, (COUNT(CASE WHEN vl_1 < 200 THEN 1 END) / COUNT(*)) * 100 AS suppression_rate',
+        table: 'etl.flat_hiv_summary_v15b',
+        where: whereClause
+      };
+
+      db.queryDb(queryParts)
+        .then(function (data) {
+          console.log('data', data);
+          resolve(data.result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  function getPatientsSuppressionRate(request, callback) {
+    return new Promise(function (resolve, reject) {
+      const uuid = request.query.uuid ? request.query.uuid.split(',') : [];
+
+      const whereClause = ['c.uuid in ?', uuid];
+      const queryParts = {
+        columns:
+          request.query.fields ||
+          'c.uuid, CASE WHEN COUNT(DISTINCT cm.patient_id) = 0 THEN 0 ELSE SUM(CASE WHEN fl.hiv_viral_load < 2000 THEN 1 ELSE 0 END) / COUNT(DISTINCT cm.patient_id) * 100 END AS suppression_rate_percentage',
+        table: 'amrs.cohort c',
+        where: whereClause,
+        group: ['c.cohort_id'],
+        joins: [
+          ['amrs.cohort_member', 'cm', 'c.cohort_id = cm.cohort_id'],
+          [
+            '(SELECT person_id, MAX(test_datetime) AS latest_test_datetime FROM etl.flat_labs_and_imaging WHERE hiv_viral_load IS NOT NULL GROUP BY person_id) AS latest_tests',
+            'latest_tests ON cm.patient_id = latest_tests.person_id'
+          ],
+          [
+            'etl.flat_labs_and_imaging',
+            'fl',
+            'latest_tests.person_id = fl.person_id',
+            'and',
+            'latest_tests.latest_test_datetime = fl.test_datetime'
+          ]
+        ]
+      };
+
+      db.queryDb(queryParts)
+        .then(function (data) {
+          console.log('data', data);
+          resolve(data.result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
   return {
     getPatientHivSummary: getPatientHivSummary,
     getPatientOncologySummary: getPatientOncologySummary,
@@ -728,6 +826,8 @@ module.exports = (function () {
     getHivPatientClinicalSummary: getHivPatientClinicalSummary,
     getPatientCountGroupedByLocation: getPatientCountGroupedByLocation,
     getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation,
-    getHivNegativesPatientSummary: getHivNegativesPatientSummary
+    getHivNegativesPatientSummary: getHivNegativesPatientSummary,
+    getPatientsLatestHivSummmary: getPatientsLatestHivSummmary,
+    getPatientsSuppressionRate: getPatientsSuppressionRate
   };
 })();

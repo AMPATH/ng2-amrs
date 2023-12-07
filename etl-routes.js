@@ -6317,6 +6317,41 @@ module.exports = (function () {
           'Api endpoint that returns cohort users based on the cohort uuid',
         tags: ['api']
       }
+    },
+    {
+      method: 'GET',
+      path: '/etl/hiv-latest-summaries',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          dao.getPatientsLatestHivSummmary(request).then((summary) => {
+            reply(summary);
+          });
+        },
+        description: 'Get cohort modules for otz cohort group',
+        notes:
+          'Api endpoint that returns cohort users based on the cohort uuid',
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/etl/viral-load-suppression-rate',
+      config: {
+        auth: 'simple',
+        plugins: {},
+        handler: function (request, reply) {
+          dao.getPatientsSuppressionRate(request).then((summary) => {
+            console.log('summary', summary);
+            reply(summary);
+          });
+        },
+        description: 'Get cohort modules for otz cohort group',
+        notes:
+          'Api endpoint that returns cohort users based on the cohort uuid',
+        tags: ['api']
+      }
     }
   ];
 
