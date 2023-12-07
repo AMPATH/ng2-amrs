@@ -32,7 +32,7 @@ import { FormUuids } from './../../../constants/forms.constants';
 export class FormentryReferralsHandlerService {
   private PMTCT_PROGRAM: Program = Programs.PMTCT_PROGRAM;
   private STANDARD_PROGRAM: Program = Programs.STANDARD_HIV_PROGRAM;
-
+  private ADULT_PROGRAM: Program = Programs.ADULT_PROGRAM;
   constructor(
     public diffCareReferralService: DifferentiatedCareReferralService,
     public localStorageService: LocalStorageService,

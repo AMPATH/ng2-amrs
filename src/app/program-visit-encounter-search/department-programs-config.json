@@ -3,64 +3,8 @@
     "name": "HIV",
     "programs": [
       {
-        "uuid": "781d85b0-1359-11df-a1f1-0026b9348838",
+        "uuid": "fa96b074-e058-44ca-81e5-02f5ea144319",
         "name": "HIV TREATMENT"
-      },
-      {
-        "uuid": "f7793d42-11ac-4cfd-9b35-e0a21a7a7c31",
-        "name": "RESISTANCE CLINIC PROGRAM"
-      },
-      {
-        "uuid": "781d897a-1359-11df-a1f1-0026b9348838",
-        "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV"
-      },
-      {
-        "uuid": "96047aaf-7ab3-45e9-be6a-b61810fe617d",
-        "name": "PEP PROGRAM"
-      },
-      {
-        "uuid": "c19aec66-1a40-4588-9b03-b6be55a8dd1d",
-        "name": "PrEP PROGRAM"
-      },
-      {
-        "uuid": "334c9e98-173f-4454-a8ce-f80b20b7fdf0",
-        "name": "HIV DIFFERENTIATED CARE PROGRAM"
-      },
-      {
-        "uuid": "96ba279b-b23b-4e78-aba9-dcbd46a96b7b",
-        "name": "HIV TRANSIT PROGRAM"
-      },
-      {
-        "uuid": "781d8880-1359-11df-a1f1-0026b9348838",
-        "name": "EXPRESS CARE PROGRAM"
-      },
-      {
-        "uuid": "c6bf3625-de80-4a88-a913-38273e300a55",
-        "name": "HIV OUTREACH PROGRAM"
-      },
-      {
-        "uuid": "c37ca57d-5f7e-41e3-93e0-2cd6cd01de91",
-        "name": "HIV COMMUNITY BASED CARE RESEARCH PROGRAM"
-      },
-      {
-        "uuid": "4480c782-ef05-4d88-b2f8-c892c99438f6",
-        "name": "ACTG PROGRAM"
-      },
-      {
-        "uuid": "c4246ff0-b081-460c-bcc5-b0678012659e",
-        "name": "VIREMIA PROGRAM"
-      },
-      {
-        "uuid": "781d8768-1359-11df-a1f1-0026b9348838",
-        "name": "OVC PROGRAM"
-      },
-      {
-        "uuid": "0904172d-0b6a-40df-b8a2-b3653d16dc45",
-        "name": "TURBO DIFFERENTIATED CARE PILOT PROGRAM"
-      },
-      {
-        "uuid": "6ff0a6dc-ef8f-467a-86fc-9d9b263d8761",
-        "name": "PHARMACOVIGILANCE PROGRAM"
       }
     ]
   },
