@@ -20,42 +20,6 @@
         </p>
       </div>
       <div
-        *ngIf="covid19VaccinationSummary?.vaccination_status"
-        style="display: inline-block"
-      >
-        <p
-          [ngClass]="
-            getCovidVaccinationAlert(
-              covid19VaccinationSummary.vaccination_status_code
-            )
-          "
-        >
-          <span class="hiv-alert"
-            >COVID-19 Assessment Status :
-            {{ covid19VaccinationSummary?.vaccination_status }}</span
-          >
-        </p>
-      </div>
-      <div
-        class="alert-div"
-        *ngIf="covid19VaccinationSummary?.covid_screening_outcome_this_visit"
-        style="display: inline-block"
-      >
-        <p
-          [ngClass]="{
-            label: true,
-            'label-info': true
-          }"
-        >
-          <span class="hiv-alert"
-            >COVID-19 Screening Outcome :
-            {{
-              covid19VaccinationSummary?.covid_screening_outcome_this_visit
-            }}</span
-          >
-        </p>
-      </div>
-      <div
         class="alert-div"
         *ngIf="hasPredictedScore"
         style="display: inline-block"
