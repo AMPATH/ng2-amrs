@@ -73,23 +73,7 @@ export class OtzSnapshotComponent implements OnInit {
           this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getHivSummary(patient);
           this.getHistoricalPatientLabResults(patient);
-          this.encounterResource
-            .getEncounterByUuid('409b4532-9013-4ceb-8519-adb94136230f')
-            .subscribe((res) => {
-              if (res && patient.person.uuid === res.patient.uuid) {
-                const reasonForDiscontinuation = res.obs.find((obs) => {
-                  return (
-                    obs.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838'
-                  );
-                });
-                if (reasonForDiscontinuation) {
-                  this.isOtzDiscontinued = true;
-                  this.reasonForDiscontinuation =
-                    reasonForDiscontinuation.value.display;
-                  this.otzDiscontinuationDate = res.encounterDatetime;
-                }
-              }
-            });
+          this.getOtzDiscontinuation(patient);
         }
       }
     );
@@ -100,9 +84,6 @@ export class OtzSnapshotComponent implements OnInit {
   }
 
   private getOtzEnrollments(age, enrolledPrograms) {
-    if (age > 9 && age <= 24) {
-      this.isPatientEligibleForOtz = true;
-    }
     const otz = enrolledPrograms.filter(
       (program) =>
         program.concept.uuid === 'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
@@ -113,6 +94,25 @@ export class OtzSnapshotComponent implements OnInit {
     } else {
       this.dateCompleted = otz[0].dateCompleted;
     }
+    if (age > 9 && age <= 24) {
+      this.isPatientEligibleForOtz = true;
+    }
+  }
+
+  private getOtzDiscontinuation(patient) {
+    patient.encounters.filter((encounter) => {
+      console.log(encounter);
+      const reasonForDiscontinuation = encounter.obs.filter((obs) => {
+        return obs.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838';
+      });
+      console.log(reasonForDiscontinuation);
+      if (reasonForDiscontinuation.length > 0) {
+        this.isOtzDiscontinued = true;
+        this.reasonForDiscontinuation =
+          reasonForDiscontinuation[0].value.display;
+        this.otzDiscontinuationDate = encounter.encounterDatetime;
+      }
+    });
   }
 
   public getHivSummary(patient) {

@@ -3,16 +3,16 @@
     <p>Patient not eligible for OTZ Program (age 10 and 24)</p>
   </div>
   <div *ngIf="isOtzDiscontinued && reasonForDiscontinuation">
-    <div>
-      <h2 class="">
-        OTZ Program (discontinued on
+    <div class="program-header-wrapper">
+      <h2 class="program-header">
+        OTZ Program (Discontinued on
         {{ otzDiscontinuationDate | date: 'dd-MM-yyyy' }})
       </h2>
-      <p>
-        Reason for discontinuation:
-        <strong>{{ reasonForDiscontinuation }}</strong>
-      </p>
     </div>
+    <p>
+      Reason for Discontinuation:
+      <strong>{{ reasonForDiscontinuation }}</strong>
+    </p>
   </div>
   <div *ngIf="!isOtzDiscontinued && isPatientEligibleForOtz" class="enrolled">
     <div class="program-header-wrapper">
