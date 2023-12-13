@@ -6295,31 +6295,6 @@ module.exports = (function () {
     },
     {
       method: 'GET',
-      path: '/etl/cohort-modules/{cohortUuid}',
-      config: {
-        auth: 'simple',
-        plugins: {},
-        handler: function (request, reply) {
-          const { cohortUuid } = request.params;
-          console.log('req', cohortUuid);
-          const cohortService = new CohortModuleService();
-          cohortService
-            .getCohortOtzModules(cohortUuid)
-            .then(function (cohortUsers) {
-              reply(cohortUsers);
-            })
-            .catch(function (error) {
-              reply(new Boom(500, 'Internal server error.', '', '', error));
-            });
-        },
-        description: 'Get cohort modules for otz cohort group',
-        notes:
-          'Api endpoint that returns cohort users based on the cohort uuid',
-        tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
       path: '/etl/hiv-latest-summaries',
       config: {
         auth: 'simple',
@@ -6329,9 +6304,8 @@ module.exports = (function () {
             reply(summary);
           });
         },
-        description: 'Get cohort modules for otz cohort group',
-        notes:
-          'Api endpoint that returns cohort users based on the cohort uuid',
+        description: 'Get cohort hiv summaries',
+        notes: 'Api endpoint that returns cohort hiv summaries',
         tags: ['api']
       }
     },
@@ -6342,14 +6316,19 @@ module.exports = (function () {
         auth: 'simple',
         plugins: {},
         handler: function (request, reply) {
-          dao.getPatientsSuppressionRate(request).then((summary) => {
-            console.log('summary', summary);
-            reply(summary);
-          });
+          const { uuid } = request.query;
+          const cohortService = new CohortModuleService();
+          cohortService
+            .getCohortSummary(uuid)
+            .then(function (cohortUsers) {
+              reply(cohortUsers);
+            })
+            .catch(function (error) {
+              reply(new Boom(500, 'Internal server error.', '', '', error));
+            });
         },
-        description: 'Get cohort modules for otz cohort group',
-        notes:
-          'Api endpoint that returns cohort users based on the cohort uuid',
+        description: 'Get cohort viral load suppression rate',
+        notes: 'Api endpoint that returns cohort viral load suppression rate',
         tags: ['api']
       }
     }
