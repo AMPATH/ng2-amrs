@@ -24,6 +24,7 @@ import { Group } from '../../models/group.model';
 import { GridOptions, RowNode } from 'ag-grid';
 import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.service';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
+import { CohortOtzModuleResourceService } from 'src/app/etl-api/cohort-otz-module-resource.service';
 @Component({
   selector: 'group-manager-search',
   templateUrl: './group-manager-search.component.html',
@@ -61,7 +62,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     private bsModalService: BsModalService,
     private route: ActivatedRoute,
     private programResourceService: ProgramResourceService,
-    private toastrService: ToastrFunctionService
+    private toastrService: ToastrFunctionService,
+    private cohortOtzModuleResourceService: CohortOtzModuleResourceService
   ) {}
 
   ngOnInit(): void {
@@ -130,8 +132,21 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     const sub = this.groupService
       .getGroupsByLocationUuid(locationUuid)
       .subscribe((res) => {
-        this.groupsInCurrentFacility = res.map((result) => new Group(result));
-        this.generatePatientUuids(this.groupsInCurrentFacility);
+        this.groupsInCurrentFacility = res.map((result) => {
+          const groupInstance = new Group(result);
+          const cohortUuid = this.generateCohortUuids([groupInstance]);
+          this.cohortOtzModuleResourceService
+            .getPatientsSuppressionStatus(Array.from(cohortUuid.keys()))
+            .subscribe((supressionRate: any) => {
+              if (supressionRate.result.length > 0) {
+                groupInstance.viralSuppression =
+                  supressionRate.result[0].suppression_rate_percentage.toFixed(
+                    2
+                  ) + '%';
+              }
+            });
+          return groupInstance;
+        });
         this.hideGroupsInCurrentFacility = false;
         this.fetchingGroups = false;
         this.isOTZprogram = false;
@@ -141,17 +156,17 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           this.gridOptions.api.onFilterChanged();
         }
       });
+
     this.columnDefs = this.generateColumns();
     this.subscription.add(sub);
   }
 
-  public generatePatientUuids(cohort) {
-    // create an object with patient uuids as keys for each group
-    const patientUuids = {};
+  public generateCohortUuids(cohort) {
+    const patientUuids = new Map();
     cohort.forEach((uuid) => {
-      patientUuids[uuid._openmrsModel.uuid] = uuid._openmrsModel.uuid;
+      patientUuids.set(uuid._openmrsModel.uuid, uuid._openmrsModel);
     });
-    return Object.keys(patientUuids);
+    return patientUuids;
   }
 
   public navigateToGroupDetails(group, newGroup?) {

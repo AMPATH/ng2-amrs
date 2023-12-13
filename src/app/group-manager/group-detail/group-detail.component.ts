@@ -25,7 +25,6 @@ import { GridOptions } from 'ag-grid';
 import { GroupTransferModalComponent } from '../modals/group-transfer-modal.component';
 import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { CohortOtzModuleResourceService } from 'src/app/etl-api/cohort-otz-module-resource.service';
-import { ObsResourceService } from '../../openmrs-api/obs-resource.service';
 import { RisonService } from '../../shared/services/rison-service';
 import { HttpClient } from '@angular/common/http';
 import { flatMap, map } from 'rxjs/operators';
@@ -100,6 +99,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     formatted: Moment().format('YYYY-MM-DD')
   };
   public cohortVisits = [];
+  public numberOfMembers: number;
   public patientVisitPayload: any;
   public visitTypes = [];
   public selectedPatient: Patient;
@@ -117,7 +117,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public showOTZEnrollmentMsg = false;
   public isOtzProgram = false;
   public isActivityForm = false;
-  public otzModule = [];
   public cohortVisitArray = [];
   public hivSummary: any;
   public enrollMentModel = {
@@ -135,7 +134,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private modalService: BsModalService,
     private risonService: RisonService,
     private retrospectiveService: RetrospectiveDataEntryService,
-    private obsResourceService: ObsResourceService,
     private cohortOtzModuleResourceService: CohortOtzModuleResourceService,
 
     private http: HttpClient
@@ -168,12 +166,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public loadGroup() {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
     const dcOtzSubs = forkJoin([
-      this.communityGroupService.getGroupByUuid(uuid),
-      this.cohortOtzModuleResourceService.getCohortOtzModule(uuid)
+      this.communityGroupService.getGroupByUuid(uuid)
     ]);
     dcOtzSubs.subscribe((results) => {
       const res = results[0];
-      this.otzModule = results[1].result;
+      this.numberOfMembers = res.cohortMembers.length;
       this.group = res;
       _.forEach(this.group.cohortMembers, (member) => {
         member['phoneNumber'] = _.filter(
@@ -324,6 +321,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public showModal(templateRef: TemplateRef<any>) {
+    if (this.numberOfMembers > 15 && this.isOtzProgram) {
+      this.successMessage =
+        'You have reached Maximum number of members in this club';
+      return;
+    }
     if (this.modalRef) {
       this.modalRef.hide();
     }
@@ -498,13 +500,13 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     const cohortMemberVisit = [];
     const conceptStrings = [
       'OTZ ORIENTATION: YES',
-      'OTZ PARTICIPATION: YES',
-      'OTZ LEADERSHIP: YES',
       'OTZ TREATMENT LITERACY: YES',
+      'OTZ PARTICIPATION: YES',
+      'PEER TO PEER MENTORSHIP DONE: YES',
+      'OTZ LEADERSHIP: YES',
+      'EDUCATION ON PREVENTION METHODS DONE: YES',
       'OTZ FUTURE DECISION MAKING: YES',
-      'TRANSITION TO ADULT CARE: YES',
-      'OTZ SRH: YES',
-      'OTZ BEYOND THIRD 90: YES'
+      'TRANSITION TO ADULT CLINIC: YES'
     ];
     for (const member of cohortMembers) {
       const memberRow = {
@@ -514,6 +516,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         contacts: member.person.patientPhoneNumber,
         member_since: this.datePipe.transform(member.startDate),
         member_to: this.datePipe.transform(member.endDate),
+        gender: member.person.gender,
+        age: member.person.age,
         latest_vl: summaryMap.has(member.person.uuid)
           ? summaryMap.get(member.person.uuid).latest_vl
           : '',
@@ -643,22 +647,24 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         width: 100
       },
       { headerName: 'Name', field: 'name', pinned: 'left', width: 100 },
-      { headerName: 'Contacts', field: 'contacts', pinned: 'left', width: 100 },
-      {
-        headerName: 'Member From',
-        field: 'member_since',
-        pinned: 'left',
-        width: 100
-      },
-      {
-        headerName: 'Member To',
-        field: 'member_to',
-        pinned: 'left',
-        width: 100
-      }
+      { headerName: 'Contacts', field: 'contacts', pinned: 'left', width: 100 }
     );
     let index = 0;
     if (!this.isOtzProgram) {
+      columns.push(
+        {
+          headerName: 'Member From',
+          field: 'member_since',
+          pinned: 'left',
+          width: 100
+        },
+        {
+          headerName: 'Member To',
+          field: 'member_to',
+          pinned: 'left',
+          width: 100
+        }
+      );
       for (const cohortVisit of cohortVisits) {
         columns.push({
           headerName: `${this.datePipe.transform(
@@ -679,6 +685,18 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.isOtzProgram) {
       columns.push(
+        {
+          headerName: 'Gender',
+          field: 'gender',
+          pinned: 'left',
+          width: 80
+        },
+        {
+          headerName: 'Age',
+          field: 'age',
+          pinned: 'left',
+          width: 80
+        },
         {
           headerName: 'Latest VL',
           field: 'latest_vl',
@@ -821,7 +839,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private validateAge(patient) {
-    if (patient._person.age >= 9 && patient._person.age <= 19) {
+    if (patient._person.age > 9 && patient._person.age <= 24) {
       this.showOTZEnrollmentMsg = true;
     } else {
       this.showOTZEnrollmentMsg = false;

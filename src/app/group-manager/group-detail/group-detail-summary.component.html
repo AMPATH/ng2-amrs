@@ -72,7 +72,7 @@
             <strong>Leader: </strong>
             <ng-container *ngIf="currentLeader">
               <span *ngIf="currentLeader.person">
-                {{ currentLeader.person.display }} ({{ leadershipType }}),
+                {{ currentLeader.person.display }},
               </span>
               <span>since {{ currentLeader.startDate | date: 'medium' }}</span>
             </ng-container>

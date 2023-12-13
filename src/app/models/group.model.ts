@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 const program_visits_config = require('../program-visit-encounter-search/program-visits-config.json');
 
 export class Group extends BaseModel {
+  private _viralSuppression: string;
   constructor(openmrsModel?: any) {
     super(openmrsModel);
     this._openmrsModel.display = this._openmrsModel.name;
@@ -88,9 +89,12 @@ export class Group extends BaseModel {
     return this.getAttribute(attrType, this._openmrsModel.attributes);
   }
 
-  @serializable()
   public get viralSuppression() {
-    return Math.floor(Math.random() * 100) + 1 + '%';
+    return this._viralSuppression || 'Unkown ' + '%';
+  }
+
+  public set viralSuppression(value: string) {
+    this._viralSuppression = value;
   }
 
   @serializable()

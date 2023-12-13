@@ -38,6 +38,25 @@ export class GroupEditorComponent implements OnInit {
   public provider: any;
   public address: string;
   public groupType: any;
+  public visitStartedToday: boolean;
+  retroVisitDate: any;
+  visitStartedForThisDate: boolean;
+  retrospectiveOn: boolean;
+  public visitStartedRetro: boolean;
+  selectedFutureGroupVisitDate: boolean;
+  public visitTypes = [];
+  selectedPastGroupVisitDate: boolean;
+  public currentMonth = Moment().month() + 1;
+  public today = {
+    year: Moment().year(),
+    month: this.currentMonth,
+    day: Moment().date()
+  };
+  public groupDateCreated: any = {
+    date: this.today,
+    jsdate: new Date(),
+    formatted: Moment().format('YYYY-MM-DD')
+  };
   public editType = 'create';
   public actionButtonText = `${this.editType} Group`;
   public groupTypes: any = [];
@@ -284,7 +303,8 @@ export class GroupEditorComponent implements OnInit {
       name: this.groupName,
       description: '',
       location: this.facility.value,
-      startDate: Moment().format('YYYY-MM-DD'),
+      startDate:
+        this.groupDateCreated.formatted || Moment().format('YYYY-MM-DD'),
       cohortType: DEFAULT_GROUP_TYPE,
       groupCohort: true,
       attributes: attributes
@@ -481,6 +501,9 @@ export class GroupEditorComponent implements OnInit {
     this.showGroupActivity = true;
   }
 
+  public changedGroupVisitDate(event) {
+    this.groupDateCreated = event;
+  }
   public onProgramChanged(event) {
     if (event.value === this.otzProgramUuid) {
       this.autoGenerateOTZGroupNumber();

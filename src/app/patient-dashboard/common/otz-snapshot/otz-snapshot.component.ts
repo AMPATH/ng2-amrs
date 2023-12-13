@@ -100,7 +100,7 @@ export class OtzSnapshotComponent implements OnInit {
   }
 
   private getOtzEnrollments(age, enrolledPrograms) {
-    if (age >= 9 && age <= 19) {
+    if (age > 9 && age <= 24) {
       this.isPatientEligibleForOtz = true;
     }
     const otz = enrolledPrograms.filter(

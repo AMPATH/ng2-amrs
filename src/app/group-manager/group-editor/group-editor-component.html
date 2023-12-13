@@ -241,6 +241,32 @@
       </div>
     </div>
   </div>
+  <div *ngIf="showGroupActivity" class="form-group">
+    <label for="start-date">Date</label>
+    <div class="input-group">
+      <input
+        class="form-control"
+        style="float: none"
+        placeholder="Select a date"
+        ngx-mydatepicker
+        name="visitDate"
+        [ngModel]="groupDateCreated"
+        (ngModelChange)="changedGroupVisitDate($event)"
+        #dp="ngx-mydatepicker"
+        required
+      />
+
+      <span class="input-group-btn">
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="dp.toggleCalendar()"
+        >
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
 </form>
 <div class="row">
   <hr />
