@@ -22,7 +22,7 @@ export class CohortOtzModuleResourceService {
     );
   }
 
-  public getPatientsSuppressionsUrl(): string {
+  public getCohortSuppressionsUrl(): string {
     return (
       this.appSettingsService.getEtlRestbaseurl().trim() +
       'viral-load-suppression-rate'
@@ -50,11 +50,11 @@ export class CohortOtzModuleResourceService {
     });
   }
 
-  public getPatientsSuppressionStatus(payload: string[]) {
+  public getCohortSuppressionStatus(payload: string[]) {
     if (!payload || payload.length === 0) {
       return null;
     }
-    return this.http.get(this.getPatientsSuppressionsUrl(), {
+    return this.http.get(this.getCohortSuppressionsUrl(), {
       params: this.getUrlRequestParams(payload)
     });
   }

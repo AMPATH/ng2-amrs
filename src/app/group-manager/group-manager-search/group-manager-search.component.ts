@@ -136,7 +136,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           const groupInstance = new Group(result);
           const cohortUuid = this.generateCohortUuids([groupInstance]);
           this.cohortOtzModuleResourceService
-            .getPatientsSuppressionStatus(Array.from(cohortUuid.keys()))
+            .getCohortSuppressionStatus(Array.from(cohortUuid.keys()))
             .subscribe((supressionRate: any) => {
               if (supressionRate.result.length > 0) {
                 groupInstance.viralSuppression =
