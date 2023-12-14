@@ -45,4 +45,18 @@
     >
     {{reminder.message}}
   </div>
+  <div
+    *ngIf="reminder.type === 'ml' && reminder.display.banner === true"
+    class="alert alert-danger alert-dismissable"
+    style="padding: 10px !important; margin-bottom: 3px !important"
+  >
+    <a
+      class="close"
+      data-dismiss="alert"
+      aria-label="close"
+      style="right: 0px; !important"
+      >&times;</a
+    >
+    {{reminder.message}}
+  </div>
 </div>
