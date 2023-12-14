@@ -21,9 +21,11 @@ import { Patient } from '../../models/patient.model';
     <div class="modal-body">
       <h5>
         {{ patient.person.display }} is enrolled in
-        {{ groupToUnenroll.cohort.name }} under DC program. Would you like to
-        <b>unenroll</b> from <b>{{ groupToUnenroll.cohort.name }}</b> and
-        <b>enroll</b> in <b>{{ groupToEnroll.name }}</b
+        {{ groupToUnenroll.cohort.name }} on
+        <b>{{ groupToEnroll.startDate | date: 'yyyy-MM-dd' }}</b
+        >. Would you like to <b>unenroll</b> from
+        <b>{{ groupToUnenroll.cohort.name }}</b> and <b>enroll</b> in
+        <b>{{ groupToEnroll.name }}</b
         >?
       </h5>
     </div>
@@ -42,7 +44,9 @@ export class GroupTransferModalComponent implements OnInit {
 
   constructor(public modalRef: BsModalRef) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('groupToEnroll', this.groupToUnenroll);
+  }
 
   confirm() {
     this.modalRef.hide();

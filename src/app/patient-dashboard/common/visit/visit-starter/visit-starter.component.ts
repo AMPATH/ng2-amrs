@@ -201,7 +201,8 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
               this.patientCohort = patientCohorts.find((c) => {
                 const attribute = c.cohort.attributes.find(
                   (a) =>
-                    a.value === '334c9e98-173f-4454-a8ce-f80b20b7fdf0' &&
+                    (a.value === '334c9e98-173f-4454-a8ce-f80b20b7fdf0' ||
+                      a.value === '203571d6-a4f2-4953-9e8b-e1105e2340f5') &&
                     c.voided === false
                 );
                 return attribute !== undefined;
@@ -233,6 +234,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   public saveVisit(visitType) {
     this.retrospectiveDataEntryService.retroSettings.subscribe(
       (retroSettings) => {
+        console.log('retroSettings', retroSettings);
         const visitTypeUuid = visitType.uuid;
         this.startedVisit = true;
         this.isBusy = true;
