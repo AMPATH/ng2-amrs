@@ -718,6 +718,39 @@ module.exports = (function () {
     });
   }
 
+  function getPatientsLatestHivSummmary(request, callback) {
+    return new Promise(function (resolve, reject) {
+      const uuid = request.query.uuid ? request.query.uuid.split(',') : [];
+
+      const whereClause = [
+        't1.uuid  in ? and t1.next_encounter_datetime_hiv is null',
+        uuid
+      ];
+      const queryParts = {
+        columns:
+          request.query.fields ||
+          ' t1.vl_1 as latest_vl, t1.vl_1_date as latest_vl_date, t2.rtc_date, t1.cur_arv_adherence as adherence, t1.encounter_datetime as latest_appointment, t1.uuid',
+        table: 'etl.flat_hiv_summary_v15b',
+        where: whereClause,
+        leftOuterJoins: [
+          [
+            'etl.flat_hiv_summary_v15b',
+            't2',
+            't1.person_id = t2.person_id  and t2.next_clinical_datetime_hiv is null and t2.is_clinical_encounter = 1'
+          ]
+        ]
+      };
+
+      db.queryDb(queryParts)
+        .then(function (data) {
+          resolve(data.result);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
   return {
     getPatientHivSummary: getPatientHivSummary,
     getPatientOncologySummary: getPatientOncologySummary,
@@ -728,6 +761,7 @@ module.exports = (function () {
     getHivPatientClinicalSummary: getHivPatientClinicalSummary,
     getPatientCountGroupedByLocation: getPatientCountGroupedByLocation,
     getPatientDetailsGroupedByLocation: getPatientDetailsGroupedByLocation,
-    getHivNegativesPatientSummary: getHivNegativesPatientSummary
+    getHivNegativesPatientSummary: getHivNegativesPatientSummary,
+    getPatientsLatestHivSummmary: getPatientsLatestHivSummmary
   };
 })();

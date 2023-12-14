@@ -2090,6 +2090,51 @@
       }
     ]
   },
+  "203571d6-a4f2-4953-9e8b-e1105e2340f5": {
+    "name": "OTZ PROGRAM",
+    "enrollmentOptions": {
+      "requiredProgramQuestions": [],
+      "allowMultipleEnrollment": false,
+      "stateChangeEncounterTypes": {
+        "enrollment": [],
+        "transfer": [
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "name": "AMPATH POC Transfer Out Form v0.01",
+            "required": true
+          }
+        ],
+        "discharge": [
+          {
+            "uuid": "c2380050-5e55-4d93-9f4f-cc4cd9d59dc0",
+            "name": "AMPATH POC OTZ Exit Form V1.0",
+            "required": true
+          }
+        ]
+      }
+    },
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "d3d5fd4a-508c-4610-97b7-5197a0bdb88d",
+        "name": "OTZ Visit ",
+        "groupVisit": true,
+        "allowedIf": "age > 9 && age <= 24",
+        "message": "Patient has to be between the age of 10 and 24",
+        "encounterTypes": [
+          {
+            "uuid": "76680613-2974-4d89-9b85-6b0a4bf56267",
+            "display": "OTZACTIVITY"
+          }
+        ]
+      }
+    ]
+  },
   "781d8768-1359-11df-a1f1-0026b9348837": {
     "name": "DERMATOLOGY PROGRAM",
     "enrollmentOptions": {
