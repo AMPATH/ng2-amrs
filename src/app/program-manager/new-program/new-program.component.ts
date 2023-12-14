@@ -141,7 +141,7 @@ export class NewProgramComponent
       this.selectedProgram.concept.uuid ===
       'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
     ) {
-      const otzEnrollmentFormUuid = 'e2c0990c-4d2b-4c09-806f-cffe50a8fc27';
+      const otzEnrollmentFormUuid = 'ca5ccb72-5623-4b94-97a3-6b5dac5f8560';
       this.showOtzEnrollmentForm = true;
       this.router.navigate([
         '/patient-dashboard/patient/' +

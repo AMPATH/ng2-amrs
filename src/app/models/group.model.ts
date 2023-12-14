@@ -90,7 +90,7 @@ export class Group extends BaseModel {
   }
 
   public get viralSuppression() {
-    return this._viralSuppression || 'Unkown ' + '%';
+    return this._viralSuppression || 'Unkown %';
   }
 
   public set viralSuppression(value: string) {

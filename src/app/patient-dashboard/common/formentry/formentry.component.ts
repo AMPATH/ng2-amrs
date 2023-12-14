@@ -1282,7 +1282,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.handleSuccessfulFormSubmission(data);
           this.formSubmissionService.setSubmitStatus(false);
           this.enableSubmitBtn();
-          if (this.formUuid === 'e2c0990c-4d2b-4c09-806f-cffe50a8fc27') {
+          if (this.formUuid === 'ca5ccb72-5623-4b94-97a3-6b5dac5f8560') {
             this.isOtzProgram = true;
             this.enrollPatientToOtzProgram();
           }
