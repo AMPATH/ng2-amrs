@@ -12,7 +12,7 @@ export class CommunityGroupService {
   public cachedResults: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public v = 'full';
   public _v =
-    'custom:(uuid,name,description,startDate,endDate,location:(display),attributes,cohortMembers:(uuid,endDate))';
+    'custom:(uuid,name,description,cohortLeaders,startDate,endDate,location:(display),cohortVisits:(startDate),attributes,cohortMembers:(uuid,endDate))';
 
   constructor(
     private http: HttpClient,

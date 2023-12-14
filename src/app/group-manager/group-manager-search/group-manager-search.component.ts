@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  TemplateRef,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
 import { CommunityGroupService } from '../../openmrs-api/community-group-resource.service';
 import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 import * as _ from 'lodash';
@@ -17,6 +24,7 @@ import { Group } from '../../models/group.model';
 import { GridOptions, RowNode } from 'ag-grid';
 import { ProgramResourceService } from 'src/app/openmrs-api/program-resource.service';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
+import { CohortOtzModuleResourceService } from 'src/app/etl-api/cohort-otz-module-resource.service';
 @Component({
   selector: 'group-manager-search',
   templateUrl: './group-manager-search.component.html',
@@ -40,11 +48,13 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   public routeLoading = false;
   fetchingGroups: boolean;
   previousLocationUuid: string;
-  columnDefs = this.generateColumns();
   rowData: any;
+  columnDefs = this.generateColumns();
   public gridOptions: GridOptions = this.getGridOptions();
   public filterText = '';
   hideGroupsInCurrentFacility: boolean;
+  public isOTZprogram = false;
+  public filterOTZ = '';
 
   constructor(
     private groupService: CommunityGroupService,
@@ -52,7 +62,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     private bsModalService: BsModalService,
     private route: ActivatedRoute,
     private programResourceService: ProgramResourceService,
-    private toastrService: ToastrFunctionService
+    private toastrService: ToastrFunctionService,
+    private cohortOtzModuleResourceService: CohortOtzModuleResourceService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +102,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   public showGroupsInFacilty() {
     this.rowData = [];
     this.fetchingGroups = true;
+    this.isOTZprogram = false;
+    this.filterText = '';
     const locationUuid = this.router.url.split('/')[2];
     if (locationUuid !== this.previousLocationUuid) {
       this.fetchingGroups = true;
@@ -100,14 +113,60 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           this.groupsInCurrentFacility = res.map((result) => new Group(result));
           this.hideGroupsInCurrentFacility = false;
           this.fetchingGroups = false;
+          this.isOTZprogram = false;
           this.previousLocationUuid = locationUuid;
           this.rowData = this.groupsInCurrentFacility;
-          console.log(this.rowData, 'rowData');
         });
       this.subscription.add(sub);
     } else {
       this.rowData = this.groupsInCurrentFacility;
     }
+  }
+
+  public showOTZGroupsInFacilty() {
+    this.rowData = [];
+    this.fetchingGroups = true;
+    this.isOTZprogram = true;
+    const locationUuid = this.router.url.split('/')[2];
+    this.fetchingGroups = true;
+    const sub = this.groupService
+      .getGroupsByLocationUuid(locationUuid)
+      .subscribe((res) => {
+        this.groupsInCurrentFacility = res.map((result) => {
+          const groupInstance = new Group(result);
+          const cohortUuid = this.generateCohortUuids([groupInstance]);
+          this.cohortOtzModuleResourceService
+            .getCohortSuppressionStatus(Array.from(cohortUuid.keys()))
+            .subscribe((supressionRate: any) => {
+              if (supressionRate.result.length > 0) {
+                groupInstance.viralSuppression =
+                  supressionRate.result[0].suppression_rate_percentage.toFixed(
+                    2
+                  ) + '%';
+              }
+            });
+          return groupInstance;
+        });
+        this.hideGroupsInCurrentFacility = false;
+        this.fetchingGroups = false;
+        this.isOTZprogram = false;
+        this.rowData = this.groupsInCurrentFacility;
+        this.filterText = 'OTZ PROGRAM';
+        if (this.gridOptions.api) {
+          this.gridOptions.api.onFilterChanged();
+        }
+      });
+
+    this.columnDefs = this.generateColumns();
+    this.subscription.add(sub);
+  }
+
+  public generateCohortUuids(cohort) {
+    const patientUuids = new Map();
+    cohort.forEach((uuid) => {
+      patientUuids.set(uuid._openmrsModel.uuid, uuid._openmrsModel);
+    });
+    return patientUuids;
   }
 
   public navigateToGroupDetails(group, newGroup?) {
@@ -162,7 +221,8 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     return (
       _.includes(node.data.display.toLowerCase(), filterCaseLowercase) ||
       _.includes(node.data.facility.toLowerCase(), filterCaseLowercase) ||
-      _.includes(node.data.status.toLowerCase(), filterCaseLowercase)
+      _.includes(node.data.status.toLowerCase(), filterCaseLowercase) ||
+      _.includes(node.data.program, this.filterText)
     );
   }
 
@@ -241,6 +301,50 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
           caseSensitive: false
         }
       },
+      ...(this.isOTZprogram
+        ? [
+            {
+              headerName: 'Viral Suppression',
+              field: 'viralSuppression',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            },
+            {
+              headerName: 'Last Meeting Date',
+              field: 'lastMeetingDate',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            },
+            {
+              headerName: 'OTZ Champion',
+              field: 'otzChampion',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            },
+            {
+              headerName: 'Group Activity',
+              field: 'groupActivity',
+              sortable: true,
+              filter: 'agTextColumnFilter',
+              width: 200,
+              filterParams: {
+                caseSensitive: false
+              }
+            }
+          ]
+        : []),
       {
         headerName: 'Actions',
         field: 'endDate',

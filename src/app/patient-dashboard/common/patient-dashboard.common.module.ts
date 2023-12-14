@@ -135,6 +135,7 @@ import { AddPatientEducationComponent } from './patient-info/education/add-patie
 import { EditPatientEducationComponent } from './patient-info/education/edit-patient-education.component';
 import { OvcSnapshotComponent } from './ovc-snapshot/ovc-snapshot.component';
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
+import { OtzSnapshotComponent } from './otz-snapshot/otz-snapshot.component';
 
 @NgModule({
   imports: [
@@ -291,7 +292,8 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
     PatientEducationComponent,
     AddPatientEducationComponent,
     EditPatientEducationComponent,
-    OvcSnapshotComponent
+    OvcSnapshotComponent,
+    OtzSnapshotComponent
   ],
   providers: [
     {

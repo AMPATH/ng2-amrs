@@ -38,12 +38,44 @@ export class GroupEditorComponent implements OnInit {
   public provider: any;
   public address: string;
   public groupType: any;
+  public visitStartedToday: boolean;
+  retroVisitDate: any;
+  visitStartedForThisDate: boolean;
+  retrospectiveOn: boolean;
+  public visitStartedRetro: boolean;
+  selectedFutureGroupVisitDate: boolean;
+  public visitTypes = [];
+  selectedPastGroupVisitDate: boolean;
+  public currentMonth = Moment().month() + 1;
+  public today = {
+    year: Moment().year(),
+    month: this.currentMonth,
+    day: Moment().date()
+  };
+  public groupDateCreated: any = {
+    date: this.today,
+    jsdate: new Date(),
+    formatted: Moment().format('YYYY-MM-DD')
+  };
   public editType = 'create';
   public actionButtonText = `${this.editType} Group`;
   public groupTypes: any = [];
   public groupPrograms: any = [];
+  public groupActivities: string[] = [
+    'Tailoring',
+    'Art WorldTable',
+    'Tennis',
+    'Chess',
+    'Football',
+    'ReadingDarts',
+    'Farming',
+    'None'
+  ];
   public groupProgram: any;
+  public groupActivity: any;
   public success = false;
+  public showGroupActivity = false;
+  public otzProgramUuid = '203571d6-a4f2-4953-9e8b-e1105e2340f5';
   public message = '';
   public busy = false;
   public providerLoading;
@@ -60,6 +92,7 @@ export class GroupEditorComponent implements OnInit {
     this.groupUuid = state.groupUuid;
     this.groupName = state.groupName;
     this.groupProgram = state.groupProgram;
+    this.groupActivity = state.groupActivity;
     this.facility = state.facility;
     this.provider = state.provider;
     this.address = state.address;
@@ -98,6 +131,12 @@ export class GroupEditorComponent implements OnInit {
       this.setDefaultProgram();
       this.autoGenerateGroupNumber();
     }
+    if (
+      this.editType.toLowerCase() === 'edit' &&
+      this.groupProgram.value === this.otzProgramUuid
+    ) {
+      this.showGroupActivity = true;
+    }
 
     this.route.parent.parent.parent.url.subscribe((urlSegment: any) => {
       if (!_.isEmpty(this.facilities)) {
@@ -116,6 +155,14 @@ export class GroupEditorComponent implements OnInit {
       .generateGroupNumber(this.facility.value ? this.facility.value : '')
       .subscribe((res: any) => {
         this.groupNo = res.groupNumber;
+      });
+  }
+
+  private autoGenerateOTZGroupNumber() {
+    this._communityService
+      .generateGroupNumber(this.facility.value ? this.facility.value : '')
+      .subscribe((res: any) => {
+        this.groupNo = res.groupNumber.replace(/DC/g, 'OTZ');
       });
   }
 
@@ -195,7 +242,6 @@ export class GroupEditorComponent implements OnInit {
       this.creatingGroup.emit(true);
       this.saving = true;
       if (this.editType.toLowerCase() === 'edit') {
-        console.log(this.editType);
         this.updateGroup();
       }
       if (this.editType.toLowerCase() === 'create') {
@@ -247,11 +293,18 @@ export class GroupEditorComponent implements OnInit {
         value: this.groupProgram['value']
       });
     }
+    if (this.groupActivity !== '') {
+      attributes.push({
+        cohortAttributeType: 'groupActivity',
+        value: this.groupActivity
+      });
+    }
     const payLoad = {
       name: this.groupName,
       description: '',
       location: this.facility.value,
-      startDate: Moment().format('YYYY-MM-DD'),
+      startDate:
+        this.groupDateCreated.formatted || Moment().format('YYYY-MM-DD'),
       cohortType: DEFAULT_GROUP_TYPE,
       groupCohort: true,
       attributes: attributes
@@ -285,6 +338,7 @@ export class GroupEditorComponent implements OnInit {
     this.groupNo = '';
     this.groupType = {};
     this.groupProgram = {};
+    this.groupActivity = {};
     this.address = '';
     this.provider = '';
     this.success = false;
@@ -440,5 +494,23 @@ export class GroupEditorComponent implements OnInit {
   public onFacilityChanged(event) {
     this.facility = event;
     this.autoGenerateGroupNumber();
+  }
+
+  public onGroupActivityChanged(event) {
+    this.groupActivity = event;
+    this.showGroupActivity = true;
+  }
+
+  public changedGroupVisitDate(event) {
+    this.groupDateCreated = event;
+  }
+  public onProgramChanged(event) {
+    if (event.value === this.otzProgramUuid) {
+      this.autoGenerateOTZGroupNumber();
+      this.showGroupActivity = true;
+    } else {
+      this.autoGenerateGroupNumber();
+      this.showGroupActivity = false;
+    }
   }
 }

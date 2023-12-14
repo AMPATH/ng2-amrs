@@ -118,7 +118,7 @@
   </program-wizard-step>
   <program-wizard-step [name]="'Program Details Step'">
     <div class="wizard-body component">
-      <div class="step" *ngIf="selectedProgram">
+      <div class="step" *ngIf="selectedProgram || showOtzEnrollmentForm">
         <busy *ngIf="enrolling" [message]="'Enrolling patient'"></busy>
         <div class="step-name">
           <h2>
