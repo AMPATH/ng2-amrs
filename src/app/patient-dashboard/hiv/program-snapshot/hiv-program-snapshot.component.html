@@ -36,6 +36,20 @@
           >
         </p>
       </div>
+      <div
+        class="alert-div"
+        *ngIf="patientData?.vl_1 > 200 && this.patient.person.age <= 19"
+        style="display: inline-block"
+      >
+        <p
+          [ngClass]="{
+            label: true,
+            'label-warning': true
+          }"
+        >
+          <span class="hiv-alert">Jua Mtoto Wako</span>
+        </p>
+      </div>
       <div *ngIf="!isHEIActive" class="alert-div" style="display: inline-block">
         <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
           <span class="hiv-alert" [style.background-color]="viralloadColor"
