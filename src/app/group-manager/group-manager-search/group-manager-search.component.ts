@@ -101,29 +101,40 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   }
 
   public showGroupsInFacilty() {
-    this.rowData = [];
     this.fetchingGroups = true;
-    this.isOTZprogram = false;
     this.filterText = '';
     const locationUuid = this.router.url.split('/')[2];
-    if (locationUuid !== this.previousLocationUuid) {
+
+    if (locationUuid === this.previousLocationUuid && this.isOTZprogram) {
+      this.rowData = [];
+      this.groupsInCurrentFacility = [];
+      this.isOTZprogram = false;
+      this.showDcGroupsInFacility(locationUuid);
+    } else if (locationUuid !== this.previousLocationUuid) {
       this.fetchingGroups = true;
-      const sub = this.groupService
-        .getGroupsByLocationUuid(locationUuid)
-        .subscribe((res) => {
-          this.groupsInCurrentFacility = res.map((result) => new Group(result));
-          this.hideGroupsInCurrentFacility = false;
-          this.fetchingGroups = false;
-          this.isOTZprogram = false;
-          this.previousLocationUuid = locationUuid;
-          this.rowData = this.groupsInCurrentFacility;
-        });
-      this.subscription.add(sub);
+      this.showDcGroupsInFacility(locationUuid);
     } else {
       this.rowData = this.groupsInCurrentFacility;
     }
   }
 
+  public showDcGroupsInFacility(locationUuid) {
+    const sub = this.groupService
+      .getGroupsByLocationUuid(locationUuid)
+      .subscribe((res) => {
+        this.groupsInCurrentFacility = res.map((result) => new Group(result));
+        this.hideGroupsInCurrentFacility = false;
+        this.fetchingGroups = false;
+        this.previousLocationUuid = locationUuid;
+        this.rowData = this.groupsInCurrentFacility;
+        this.filterText = 'HIV DIFFERENTIATED CARE PROGRAM';
+        if (this.gridOptions.api) {
+          this.gridOptions.api.onFilterChanged();
+        }
+      });
+    this.columnDefs = this.generateColumns();
+    this.subscription.add(sub);
+  }
   public showOTZGroupsInFacilty() {
     this.rowData = [];
     this.fetchingGroups = true;
