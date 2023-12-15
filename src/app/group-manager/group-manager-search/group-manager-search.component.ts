@@ -55,6 +55,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
   hideGroupsInCurrentFacility: boolean;
   public isOTZprogram = false;
   public filterOTZ = '';
+  cohortUuids = new Map();
 
   constructor(
     private groupService: CommunityGroupService,
@@ -129,27 +130,22 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     this.isOTZprogram = true;
     const locationUuid = this.router.url.split('/')[2];
     this.fetchingGroups = true;
+    this.getCohortSuppresionRate(locationUuid);
     const sub = this.groupService
       .getGroupsByLocationUuid(locationUuid)
       .subscribe((res) => {
         this.groupsInCurrentFacility = res.map((result) => {
           const groupInstance = new Group(result);
-          const cohortUuid = this.generateCohortUuids([groupInstance]);
-          this.cohortOtzModuleResourceService
-            .getCohortSuppressionStatus(Array.from(cohortUuid.keys()))
-            .subscribe((supressionRate: any) => {
-              if (supressionRate.result.length > 0) {
-                groupInstance.viralSuppression =
-                  supressionRate.result[0].suppression_rate_percentage.toFixed(
-                    2
-                  ) + '%';
-              }
-            });
+          groupInstance.viralSuppression =
+            this.cohortUuids.has(groupInstance.openmrsModel.uuid) &&
+            this.cohortUuids
+              .get(groupInstance.openmrsModel.uuid)
+              .suppression_rate_percentage.toFixed(2) + '%';
           return groupInstance;
         });
         this.hideGroupsInCurrentFacility = false;
         this.fetchingGroups = false;
-        this.isOTZprogram = false;
+        // this.isOTZprogram = false;
         this.rowData = this.groupsInCurrentFacility;
         this.filterText = 'OTZ PROGRAM';
         if (this.gridOptions.api) {
@@ -161,12 +157,19 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
     this.subscription.add(sub);
   }
 
-  public generateCohortUuids(cohort) {
-    const patientUuids = new Map();
-    cohort.forEach((uuid) => {
-      patientUuids.set(uuid._openmrsModel.uuid, uuid._openmrsModel);
+  public generateCohortUuids(cohortData) {
+    cohortData.forEach((cohort) => {
+      this.cohortUuids.set(cohort.uuid, cohort);
     });
-    return patientUuids;
+    return this.cohortUuids;
+  }
+
+  public getCohortSuppresionRate(locationUuid: string) {
+    return this.cohortOtzModuleResourceService
+      .getCohortSuppressionStatus(locationUuid)
+      .subscribe((data: any) => {
+        this.generateCohortUuids(data.result);
+      });
   }
 
   public navigateToGroupDetails(group, newGroup?) {
