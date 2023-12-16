@@ -403,6 +403,23 @@
               <span class="id-label">OVC ID:</span>Not assigned
             </span>
           </span>
+          <span
+            *ngIf="
+              patient?.person.display &&
+              !otzEnrollmentBtn &&
+              isPatientEligibleForOtz
+            "
+            style="
+              padding: 1px;
+              cursor: pointer;
+              color: green;
+              padding-right: 8px;
+            "
+          >
+            <button (click)="enrollToOtz()" class="btn">
+              Enroll client to OTZ
+            </button>
+          </span>
           <span *ngIf="patient?.person.display">
             <button class="btn btn-primary" (click)="navigateToFamilyHistory()">
               Family History
