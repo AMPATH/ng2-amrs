@@ -41,6 +41,15 @@ export class CohortOtzModuleResourceService {
     return urlParams;
   }
 
+  public getUrlRequestParamsByLocationUuid(locationUuid: string): HttpParams {
+    let urlParams: HttpParams = new HttpParams();
+
+    if (locationUuid) {
+      urlParams = urlParams.set('uuid', locationUuid);
+    }
+    return urlParams;
+  }
+
   public getPatientsLatestHivSummaries(payload: string[]) {
     if (!payload || payload.length === 0) {
       return null;
@@ -50,12 +59,9 @@ export class CohortOtzModuleResourceService {
     });
   }
 
-  public getCohortSuppressionStatus(payload: string[]) {
-    if (!payload || payload.length === 0) {
-      return null;
-    }
+  public getCohortSuppressionStatus(locationUuid: string) {
     return this.http.get(this.getCohortSuppressionsUrl(), {
-      params: this.getUrlRequestParams(payload)
+      params: this.getUrlRequestParamsByLocationUuid(locationUuid)
     });
   }
 }
