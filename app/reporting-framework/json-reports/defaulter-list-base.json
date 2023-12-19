@@ -18,7 +18,7 @@
       }
     },
     {
-      "table": "(SELECT MAX(am.encounter_datetime) AS max_encounter_datetime, am.encounter_datetime, am.encounter_type, am.patient_id, fd.person_id , fd.rtc_date FROM etl.flat_defaulters fd INNER JOIN amrs.encounter am on (am.patient_id = fd.person_id) WHERE am.encounter_type = 21 group by am.patient_id)",
+      "table": "(SELECT MAX(am.encounter_datetime) AS max_encounter_datetime, am.encounter_datetime, am.encounter_type, am.patient_id, fd.person_id , fd.rtc_date FROM etl.flat_defaulters fd INNER JOIN amrs.encounter am on (am.patient_id = fd.person_id) group by am.patient_id)",
       "alias": "am",
       "join": {
         "type": "INNER",
