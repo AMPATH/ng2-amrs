@@ -100,7 +100,7 @@ export class DQAChartAbstractionDAO {
             etl.flat_vitals
         WHERE
             systolic_bp IS NOT NULL
-                AND diastolic_bp IS NOT NULL
+                AND diastolic_bp IS NOT NULL AND encounter_datetime <= '`+ endDate +`'
         GROUP BY person_id , encounter_datetime
         ORDER BY encounter_datetime) fv ON e.person_id = fv.person_id
           INNER JOIN
