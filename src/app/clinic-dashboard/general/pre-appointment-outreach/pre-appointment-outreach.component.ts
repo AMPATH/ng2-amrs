@@ -53,22 +53,25 @@ export class PreAppointmentOutreachComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     const today = new Date();
+    const currentWeek = this.getISOWeek(today);
     const currentYear = today.getFullYear();
+    const startYear = 2023;
     const numberOfWeeks = 52; // Set the maximum number of weeks to 52
 
-    for (let weekNumber = 1; weekNumber <= numberOfWeeks; weekNumber++) {
-      const weekString = `${currentYear}-W${weekNumber
-        .toString()
-        .padStart(2, '0')}`;
-      this.weeks.push({
-        label: `${currentYear}-W${weekNumber} - From ${this.getStartDate(
-          weekString
-        )} to ${this.getEndDate(weekString)}`,
-        value: weekString
-      });
+    for (let year = startYear; year <= currentYear; year++) {
+      const lastWeek = year === currentYear ? currentWeek : numberOfWeeks;
+      for (let weekNumber = 1; weekNumber <= lastWeek; weekNumber++) {
+        const weekString = `${year}-W${weekNumber.toString().padStart(2, '0')}`;
+        this.weeks.push({
+          label: `${year}-W${weekNumber} - From ${this.getStartDate(
+            weekString
+          )} to ${this.getEndDate(weekString)}`,
+          value: weekString
+        });
+      }
     }
+    this.weeks.reverse();
 
-    const currentWeek = this.getISOWeek(today);
     this.selectedWeek = `${currentYear}-W${currentWeek
       .toString()
       .padStart(2, '0')}`;
