@@ -988,7 +988,10 @@ function generateAppointmentNoShowUpRiskReminder(data) {
 function generateAppointmentRescheduledReminder(data) {
   let reminders = [];
   if (data.reschedule_appointment && data.reschedule_appointment === 'YES') {
-    if (data.last_encounter_date < data.prediction_generated_date) {
+    if (
+      data.last_encounter_date < data.prediction_generated_date &&
+      data.last_encounter_date - data.prediction_generated_date <= 14
+    ) {
       reminders.push({
         message:
           'Promised to come date is ' +
