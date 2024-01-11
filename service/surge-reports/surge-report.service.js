@@ -163,7 +163,17 @@ export class SurgeService extends SurgeMultiDatasetPatientlistReport {
 
   determineSurgeReportSourceTables(yearWeek) {
     const self = this;
-    if (yearWeek >= moment().year() + '' + moment().week() - 1) {
+    var currentYear = moment().year();
+    var currentWeek = moment().week() - 1;
+    if (currentWeek < 10) {
+      currentWeek = '0' + currentWeek;
+    }
+
+    const diffWeek = currentYear + '' + currentWeek;
+
+    console.log('yearWeek: ', yearWeek);
+    console.log('oldYear: ', diffWeek);
+    if (yearWeek >= diffWeek) {
       return (self.params.surgeWeeklyDatasetSource =
         'etl.surge_weekly_report_dataset_2022');
     } else {
