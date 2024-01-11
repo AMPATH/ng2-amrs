@@ -20,42 +20,6 @@
         </p>
       </div>
       <div
-        *ngIf="covid19VaccinationSummary?.vaccination_status"
-        style="display: inline-block"
-      >
-        <p
-          [ngClass]="
-            getCovidVaccinationAlert(
-              covid19VaccinationSummary.vaccination_status_code
-            )
-          "
-        >
-          <span class="hiv-alert"
-            >COVID-19 Assessment Status :
-            {{ covid19VaccinationSummary?.vaccination_status }}</span
-          >
-        </p>
-      </div>
-      <div
-        class="alert-div"
-        *ngIf="covid19VaccinationSummary?.covid_screening_outcome_this_visit"
-        style="display: inline-block"
-      >
-        <p
-          [ngClass]="{
-            label: true,
-            'label-info': true
-          }"
-        >
-          <span class="hiv-alert"
-            >COVID-19 Screening Outcome :
-            {{
-              covid19VaccinationSummary?.covid_screening_outcome_this_visit
-            }}</span
-          >
-        </p>
-      </div>
-      <div
         class="alert-div"
         *ngIf="
           hasPredictedScore &&
@@ -70,6 +34,20 @@
               prediction.predicted_risk
             }})</span
           >
+        </p>
+      </div>
+      <div
+        class="alert-div"
+        *ngIf="patientData?.vl_1 > 200 && this.patient.person.age <= 19"
+        style="display: inline-block"
+      >
+        <p
+          [ngClass]="{
+            label: true,
+            'label-warning': true
+          }"
+        >
+          <span class="hiv-alert">Jua Mtoto Wako</span>
         </p>
       </div>
       <div *ngIf="!isHEIActive" class="alert-div" style="display: inline-block">
