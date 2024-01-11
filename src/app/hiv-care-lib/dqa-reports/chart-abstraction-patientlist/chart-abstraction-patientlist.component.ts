@@ -73,7 +73,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     const extraColumns = {
       birthdate: 'DOB',
       sex_gender: 'Gender',
-      drugs_given: 'Current Regimen',
+      drugs_given: 'Current ART Regimen',
       drugs_duration: 'Drug dosage given (duration)',
       weight: 'Weight',
       height: 'Height',
@@ -87,16 +87,21 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       arv_start_date: 'Date of ART Initiation',
       cd4_1: 'Baseline CD4 Test Result',
       vl_1: 'Latest Valid VL',
-      tpt_status: 'TPT Status',
+      tpt_status: 'IPT Status',
       ovcid_id: 'OVCID',
-      last_ipt_start_date: 'TPT initiated',
-      ipt_stop_date: 'TPT Stop Date',
-      ipt_completion_date: 'TPT Completion Date',
+      last_ipt_start_date: 'IPT Start Date',
+      ipt_stop_date: 'IPT Stop Date',
+      ipt_completion_date: 'IPT Completion Date',
       last_clinical_encounter: 'Last Clinical Encounter',
       last_appointment_date: 'Date of Last Appointment',
       next_appointment: 'Date of Next Appointment ',
       visit_type: 'Visit Type',
-      tb_screened_this_visit: 'TB screening'
+      tb_screened_this_visit: 'TB screening',
+      tb_screening_result: 'TB Screening Outcomes',
+      status: 'Status',
+      is_crag_screened: 'Baseline CrAG Screened',
+      vl_suppression: 'VL Suppression',
+      cur_who_stage: 'Current Who Stage'
     };
     for (const indicator in extraColumns) {
       if (indicator) {
@@ -173,7 +178,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
             return 'LDL';
           }
           return column.value;
-        }
+        },
+        hide: false
       },
       {
         field: 'nutrition',
@@ -192,7 +198,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
             return moment(column.value).format('DD-MM-YYYY');
           }
         },
-        hide: true
+        hide: false
       },
       {
         field: 'ipt_completion_date',
@@ -201,7 +207,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
             return moment(column.value).format('DD-MM-YYYY');
           }
         },
-        hide: true
+        hide: false
       },
       {
         field: 'ipt_stop_date',
@@ -210,7 +216,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
             return moment(column.value).format('DD-MM-YYYY');
           }
         },
-        hide: true
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'arv_start_date',
@@ -238,7 +245,9 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'visit_type',
-        width: 150
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'muac',
@@ -247,7 +256,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       {
         field: 'person_id',
         width: 200,
-        pinned: true
+        pinned: true,
+        suppressToolPanel: true
       },
       {
         field: 'NUPI',
@@ -264,22 +274,27 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'drugs_duration',
-        width: 150
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'person_name',
         width: 150,
-        hide: true
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'gender',
         width: 150,
-        hide: true
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'identifiers',
         width: 150,
-        hide: true
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'age',
@@ -292,12 +307,60 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       {
         field: '#',
         width: 150,
-        hide: true
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'visit_type',
         width: 150,
-        hide: true
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'sysBP',
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'dysBP',
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'nutrition',
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'DSD',
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'ovcid_id',
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'cur_who_stage',
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
+      },
+      {
+        field: 'vl_suppression',
+        width: 150,
+        hide: false
+      },
+      {
+        field: 'is_crag_screened',
+        width: 150,
+        hide: false
       }
     );
   }
