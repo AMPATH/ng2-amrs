@@ -20,6 +20,8 @@ export class CohortModuleService {
                 0) AS suppression_rate_percentage
     FROM
         amrs.cohort c
+            LEFT JOIN
+        amrs.location l ON l.location_id = c.location_id
             INNER JOIN
         amrs.cohort_member cm ON c.cohort_id = cm.cohort_id
             LEFT JOIN
@@ -34,7 +36,7 @@ export class CohortModuleService {
         etl.flat_labs_and_imaging fl ON latest_tests.person_id = fl.person_id
             AND latest_tests.latest_test_datetime = fl.test_datetime
     WHERE
-        c.uuid in (${uuids})
+        l.uuid = '${cohortUuids}'
     GROUP BY c.cohort_id;
     
     `;
