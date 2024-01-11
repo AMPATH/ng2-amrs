@@ -108,9 +108,9 @@ export class DQAChartAbstractionDAO {
   end as vl_suppression,
   case
         when (e.tb_screening_result = 6971) then 'Pr TB'
-		when (e.tb_screening_result = 6137) then 'confirmed'
+		when (e.tb_screening_result = 6137) then 'Confirmed'
 		when (e.tb_screening_result = 1107 OR e.tb_screening_result = 10678) then 'No TB'
-		when (e.tb_screening_result = 10767) then 'TB tx'
+		when (e.tb_screening_result = 10767) then 'TB Rx'
 		when (e.tb_screening_result = 10974) then 'INH'
 	end as tb_screening_result
 FROM
