@@ -30,9 +30,12 @@ export class DQAChartAbstractionDAO {
       `
       SELECT
 	h.person_uuid as uuid,
-	cc.identifier as ccc_number,
-	np.identifier as upi_number,
+	-- cc.identifier as ccc_number,
+	-- np.identifier as upi_number,
 	-- ov.identifier as ovcid_id,
+	max(case WHEN id.identifier_type in (28) then id.identifier end)  AS ccc_number,
+    max(case WHEN id.identifier_type in (43) then id.identifier end)  AS ovc_number,
+    max(case WHEN id.identifier_type in (45) then id.identifier end)  AS upi_number,
 	EXTRACT(YEAR FROM (FROM_DAYS(DATEDIFF(NOW(), h.birthdate)))) AS age,
 	IF( date(h.tb_screening_datetime) > date_sub(h.endDate, interval 6 month),
 	"YES",
@@ -148,25 +151,25 @@ INNER JOIN
           amrs.person_name person_name ON
 	(t1.person_id = person_name.person_id
 		AND (person_name.voided = 0))
--- LEFT JOIN
---          amrs.patient_identifier id ON
---	(t1.person_id = id.patient_id
---		AND id.voided = 0)
-INNER JOIN
-          amrs.patient_identifier cc ON
-	(t1.person_id = cc.patient_id
-		and cc.identifier_type in (28)
-			AND cc.voided = 0)
+ INNER JOIN
+          amrs.patient_identifier id ON
+	(t1.person_id = id.patient_id
+		AND id.voided = 0)
+-- INNER JOIN
+--          amrs.patient_identifier cc ON
+--	(t1.person_id = cc.patient_id
+--		and cc.identifier_type in (28)
+--			AND cc.voided = 0)
 -- LEFT JOIN
 --          amrs.patient_identifier ov ON
 --	(t1.person_id = ov.patient_id
 --		and ov.identifier_type in (43)
 --			AND ov.voided = 0)
-LEFT JOIN
-          amrs.patient_identifier np ON
-	(t1.person_id = np.patient_id
-		and np.identifier_type in (45)
-			AND np.voided = 0)
+-- LEFT JOIN
+--          amrs.patient_identifier np ON
+--	(t1.person_id = np.patient_id
+--		and np.identifier_type in (45)
+--			AND np.voided = 0)
 left join amrs.patient_program p on
 	(p.patient_id = h.person_id
 		and p.program_id in (4, 9)
@@ -175,7 +178,7 @@ left join amrs.patient_program p on
 LEFT JOIN amrs.obs o ON 
   (o.encounter_id = h.encounter_id
           AND o.person_id = h.person_id and o.concept_id = 9812 and o.voided = 0)
-WHERE
+WHERE 
 h.endDate >= '` +
       startDate +
       `'
