@@ -42,7 +42,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
             startDate: this.params.startDate,
             endDate: this.params.endDate,
             patientType: this.params.patientType,
-            limit: this.params.limit ? this.params.limit : 10,
+            limit: this.params.limit ? this.params.limit : 'all',
             offset: 0
           };
           this.getPatientList(requestParams);
