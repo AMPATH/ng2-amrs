@@ -64,6 +64,14 @@
         "type": "LEFT",
         "joinCondition": "ml.person_id = etc.person_id"
       }
+    },
+    {
+      "table": "(SELECT ps.* FROM etl.pre_appointment_summary ps JOIN ( SELECT MAX(encounter_datetime) AS max_encounter_datetime, person_id FROM etl.pre_appointment_summary GROUP BY person_id ) latest_dates ON ps.encounter_datetime = latest_dates.max_encounter_datetime AND ps.person_id = latest_dates.person_id)",
+      "alias": "utd",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ml.person_id = utd.person_id"
+      }
     }
   ],
   "columns": [
@@ -156,6 +164,11 @@
       "type": "simple_column",
       "alias": "was_client_found",
       "column": "pre.was_client_found"
+    },
+    {
+      "type": "simple_column",
+      "alias": "comments",
+      "column": "utd.comments"
     },
     {
       "type": "simple_column",
