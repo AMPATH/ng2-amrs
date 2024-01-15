@@ -111,7 +111,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       visit_type: 'Visit Type',
       status: 'Status',
       // is_crag_screened: 'Baseline CrAG Screened',
-      cur_who_stage: 'Current Who Stage'
+      cur_who_stage: 'Current Who Stage',
+      category: 'Category'
     };
     for (const indicator in extraColumns) {
       if (indicator) {
@@ -146,7 +147,10 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         field: 'arv_first_regimen_start_date'
         // cellRenderer: (column) => {
         //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
+        //     if (moment(column.value).isBefore('1900-01-01', 'year')){
+        //       return column.value;
+        //     }
+        //     return ''
         //   }
         // }
       },
@@ -188,9 +192,9 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         width: 150,
         cellRenderer: (column) => {
           if (column.value === 0) {
-            return 'N';
+            return 'No';
           }
-          return 'Y';
+          return 'Yes';
         }
       },
       {
@@ -276,8 +280,8 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'NUPI',
-        width: 150,
-        pinned: true
+        width: 150
+        // pinned: true
       },
       {
         field: 'upi_number',
