@@ -35,9 +35,11 @@ export class DQAChartAbstractionDAO {
     TIMESTAMPDIFF(year,h.birthdate,'` +
       endDate +
       `') AS age,
-    IF(DATE(h.tb_screening_datetime) > DATE_SUB(h.endDate, INTERVAL 6 MONTH),
-        'Yes',
-        'No') AS tb_screened_this_visit,
+    CASE
+        WHEN  e.tb_screen = 1 then 'Yes'
+        WHEN  e.tb_screen = 0 then 'No'
+        ELSE 'Not documented'
+    END AS 'tb_screened_this_visit',
     CASE
         WHEN  (h.gender = 'F') then 'Female'
         WHEN  (h.gender = 'M') then 'Male'
@@ -58,11 +60,17 @@ export class DQAChartAbstractionDAO {
     END as cur_arv_med_basis,
     h.tb_screen,
     DATE_FORMAT(h.tb_screening_datetime,"%d-%b-%Y") as tb_screening_datetime,
-    DATE_FORMAT(e.hiv_start_date,"%d-%b-%Y") as hiv_start_date,
+    CASE 
+        WHEN (e.hiv_start_date <= '1900-01-01') THEN ''
+        ELSE DATE_FORMAT(e.hiv_start_date,"%d-%b-%Y")
+    END as hiv_start_date,
     h.arv_start_date,
-    DATE_FORMAT(h.arv_first_regimen_start_date,"%d-%b-%Y") as arv_first_regimen_start_date,
+    CASE 
+        WHEN (h.arv_first_regimen_start_date <= '1900-01-01') THEN ''
+        ELSE DATE_FORMAT(h.arv_first_regimen_start_date,"%d-%b-%Y")
+    END as arv_first_regimen_start_date,
     e.cd4_1,
-    IF((e.cd4_1 IS NOT NULL), 'Y', 'N') as has_cd4_1,
+    IF((e.cd4_1 IS NOT NULL), 'Yes', 'No') as has_cd4_1,
     DATE_FORMAT(e.encounter_datetime, "%d-%b-%Y") AS last_clinical_encounter,
     DATE_FORMAT(h.rtc_date, "%d-%b-%Y") AS next_appointment,
     h.vl_1,
@@ -70,7 +78,7 @@ export class DQAChartAbstractionDAO {
         WHEN (TIMESTAMPDIFF(MONTH,h.arv_start_date,'` +
       endDate +
       `') < 6 ) THEN 'NA'
-        WHEN (h.vl_1 is NOT NULL) THEN 'Y'
+        WHEN (h.vl_1 is NOT NULL) THEN 'Yes'
         ELSE 'missing'
     END AS viral_load_validity,
     h.cur_arv_meds_names AS drugs_given,
@@ -111,10 +119,10 @@ export class DQAChartAbstractionDAO {
         1,
         0) AS ipt_ended_this_visit,
     h.status,
-    IF((o.value_coded IS NULL), 'N', 'Y') AS is_crag_screened,
+    IF((o.value_coded IS NULL), 'No', 'Yes') AS is_crag_screened,
     CASE
-        WHEN (h.vl_1 < 200) THEN 'Y'
-        WHEN (h.vl_1 >= 200) THEN 'N'
+        WHEN (h.vl_1 < 200) THEN 'Yes'
+        WHEN (h.vl_1 >= 200) THEN 'No'
         ELSE 'Missing'
     END AS vl_suppression,
     CASE
@@ -123,7 +131,16 @@ export class DQAChartAbstractionDAO {
         WHEN (e.tb_screening_result IN (6137, 6176, 10767)) THEN 'TB confirmed'
         WHEN (e.tb_screening_result IN (1107 , 10678)) THEN 'No TB signs'
         ELSE 'Missing'
-    END AS tb_screening_result
+    END AS tb_screening_result,
+     CASE
+        WHEN (p.program_id = 4) THEN 'PMTCT'
+        WHEN (TIMESTAMPDIFF(YEAR, h.birthdate, '` +
+      endDate +
+      `') < 15) THEN 'PEAD'
+        WHEN (TIMESTAMPDIFF(YEAR, h.birthdate, '` +
+      endDate +
+      `') >= 15) THEN 'ADULT'
+    END AS category
 FROM
     etl.hiv_monthly_report_dataset_v1_2 h
         LEFT JOIN
