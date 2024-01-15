@@ -163,7 +163,7 @@ GROUP BY
 	h.person_id
 	` +
       limitOffSetDefinition;
-      
+
     return new Promise((resolve, reject) => {
       runner
         .executeQuery(sqlQuery)
