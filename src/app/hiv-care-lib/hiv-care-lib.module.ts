@@ -152,7 +152,6 @@ import { RegistersDashboardComponent } from './registers/registers-dashboard.com
 import { OtzRegisterComponent } from './registers/otz/otz-registers/otz-register.component';
 import { OTZRegisterFilterComponent } from './registers/otz/otz-register-filters/otz-register-filter.component';
 import { OTZRegisterPatientListComponent } from './registers/otz/otz-register-patient-list/otz-register-patient-list.component';
-import { OTZRegisterReportViewComponent } from './registers/otz/otz-register-report-view/otz-register-report-view.component';
 import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/otz-register-tabular.component';
 
 @NgModule({
@@ -261,7 +260,6 @@ import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/
     RegistersDashboardComponent,
     OTZRegisterFilterComponent,
     OTZRegisterPatientListComponent,
-    OTZRegisterReportViewComponent,
     OTZRegisterTabularComponent
   ],
   declarations: [
@@ -364,7 +362,6 @@ import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/
     OtzRegisterComponent,
     OTZRegisterFilterComponent,
     OTZRegisterPatientListComponent,
-    OTZRegisterReportViewComponent,
     OTZRegisterTabularComponent
   ],
   providers: [
