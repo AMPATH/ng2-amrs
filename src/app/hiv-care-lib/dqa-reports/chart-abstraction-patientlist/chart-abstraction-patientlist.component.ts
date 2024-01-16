@@ -74,6 +74,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       NUPI: 'NUPI',
       sex_gender: 'Sex',
       birthdate: 'Date of Birth',
+      age: 'Age',
       hiv_start_date: 'Date Confirmed HIV Positive',
       arv_first_regimen_start_date: 'Date of ART Initiation',
       arv_start_date: 'Date of Current ART Initiation',
@@ -126,76 +127,74 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       { field: 'ccc_number', hide: true, pinned: true },
       {
         field: 'birthdate',
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     // return moment(column.value).format('YYYY-MM-DD');
-        //     return moment(column.value).format('DD-MMM-YYYY');
-        //   }
-        //   return 'missing';
-        // },
-        pinned: false
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            // return moment(column.value).format('YYYY-MM-DD');
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        }
+        // pinned: false
       },
       {
-        field: 'last_appointment_date'
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // }
+        field: 'last_appointment_date',
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        }
       },
       {
-        field: 'arv_first_regimen_start_date'
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     if (moment(column.value).isBefore('1900-01-01', 'year')){
-        //       return column.value;
-        //     }
-        //     return ''
-        //   }
-        // }
+        field: 'arv_first_regimen_start_date',
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        }
       },
       {
         field: 'arv_start_date',
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // },
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        },
         hide: true
       },
       {
-        field: 'hiv_start_date'
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // }
-      },
-      {
-        field: 'last_clinical_encounter'
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // }
-      },
-      {
-        field: 'next_appointment'
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // }
-      },
-      {
-        field: 'tb_screened_this_visit',
-        width: 150,
+        field: 'hiv_start_date',
         cellRenderer: (column) => {
-          if (column.value === 0) {
-            return 'No';
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
           }
-          return 'Yes';
         }
+      },
+      {
+        field: 'last_clinical_encounter',
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        }
+      },
+      {
+        field: 'next_appointment',
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        }
+      },
+      {
+        field: 'tb_screened_this_visit'
+        // width: 150,
+        // cellRenderer: (column) => {
+        //   if (column.value === 1) {
+        //     return 'Yes';
+        //   } else if (column.value === 0) {
+        //     return 'No';
+        //   }
+        //   return 'Not Documented';
+        // }
       },
       {
         field: 'vl_1',
@@ -219,29 +218,29 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'last_ipt_start_date',
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // },
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        },
         hide: false
       },
       {
         field: 'ipt_completion_date',
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // },
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        },
         hide: false
       },
       {
         field: 'ipt_stop_date',
-        // cellRenderer: (column) => {
-        //   if (column.value != null) {
-        //     return moment(column.value).format('DD-MM-YYYY');
-        //   }
-        // },
+        cellRenderer: (column) => {
+          if (column.value != null && column.value !== '') {
+            return moment(column.value).format('DD-MMM-YYYY');
+          }
+        },
         hide: true,
         suppressToolPanel: true
       },
@@ -330,8 +329,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       {
         field: 'age',
         width: 150,
-        hide: true,
-        suppressToolPanel: true
+        hide: true
       },
       {
         field: 'sex_gender',
