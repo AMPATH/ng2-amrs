@@ -142,6 +142,12 @@ import { TxMmdReportBaseComponent } from './tx-mmd-report/tx-mmd-report-base/tx-
 import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
 import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
+import { RegistersDashboardComponent } from './registers/registers-dashboard.component';
+import { OtzRegisterComponent } from './registers/otz/otz-registers/otz-register.component';
+import { OTZRegisterFilterComponent } from './registers/otz/otz-register-filters/otz-register-filter.component';
+import { OTZRegisterPatientListComponent } from './registers/otz/otz-register-patient-list/otz-register-patient-list.component';
+import { OTZRegisterReportViewComponent } from './registers/otz/otz-register-report-view/otz-register-report-view.component';
+import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/otz-register-tabular.component';
 
 @NgModule({
   imports: [
@@ -243,7 +249,12 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
     PrepMonthlyReportViewComponent,
-    TxMlReportViewComponent
+    TxMlReportViewComponent,
+    RegistersDashboardComponent,
+    OTZRegisterFilterComponent,
+    OTZRegisterPatientListComponent,
+    OTZRegisterReportViewComponent,
+    OTZRegisterTabularComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -334,7 +345,13 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     TxMmdReportBaseComponent,
     TxMmdReportPatientListComponent,
     TxRttReportBaseComponent,
-    TxRttReportPatientListComponent
+    TxRttReportPatientListComponent,
+    RegistersDashboardComponent,
+    OtzRegisterComponent,
+    OTZRegisterFilterComponent,
+    OTZRegisterPatientListComponent,
+    OTZRegisterReportViewComponent,
+    OTZRegisterTabularComponent
   ],
   providers: [
     MOHReportService,

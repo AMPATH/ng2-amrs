@@ -1,0 +1,181 @@
+<section>
+  <b class="text-capitalize setfont">OTZ Register</b>
+  <hr />
+  <ul class="collapsible-list">
+    <li>
+      <!-- <div class="item-header" (click)="toggleItem(item)">
+        <a class="float-left"><b>xyz-data</b> -- click to expand</a>
+        <span class="collapse-icon">xyz-data</span>
+      </div> -->
+      <div class="item-details" [hidden]="item.drugOrder.isCollapsed">
+        <button
+          (click)="exportToPDF(i)"
+          class="btn btn-danger pull-right btn-sm fa fa-download"
+        >
+          Export Form to pdf
+        </button>
+        <br />
+        <hr />
+        <div
+          class="prescriptionform"
+          [attr.id]="'pdf-content' + i"
+          style="padding: 30px"
+        >
+          <div class="row">
+            <div class="col-md-4">
+              <h2>D Month</h2>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="medication-list">
+              <thead>
+                <tr>
+                  <th colspan="3" style="width: 5%">
+                    <b>Serial Counter</b>
+                  </th>
+                  <th colspan="12" style="text-align: center">
+                    <b>Registration Details</b>
+                  </th>
+                  <th colspan="16" style="text-align: center">
+                    <b>Status at Enrollment into OTZ</b>
+                  </th>
+                  <th colspan="18">
+                    <b>ART Regimen Switch Post Enrollemnt into OTZ</b>
+                  </th>
+                  <th colspan="36" style="text-align: center">
+                    <b>Viral Load Post Enrollment into OTZ </b>
+                  </th>
+                </tr>
+                <tr>
+                  <th colspan="3" style="width: 10%"></th>
+                  <th colspan="2" style="text-align: center">
+                    <b>Date of enrollment to OTZ</b>
+                  </th>
+                  <th colspan="2" style="width: 20%; text-align: center">
+                    <b>Date of Birth</b>
+                    <hr style="border: none; border-top: 1px dotted #000" />
+                    <b>Age at enrollment</b>
+                  </th>
+                  <th colspan="2" style="width: 20%; text-align: center">
+                    <b>Unique Patient Number (CCC Number)</b>
+                  </th>
+                  <th colspan="2" style="width: 20%; text-align: center">
+                    <b>ART Start Date</b>
+                  </th>
+                  <th colspan="2" style="width: 20%; text-align: center">
+                    <b>Patient's Name</b>
+                    <hr style="border: 1px solid grey; width: 100%" />
+                    <b>First Name, Middle Name</b>
+                    <hr style="border: none; border-top: 1px dotted #000" />
+                    <b>Last (Surname)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Sex (M/F)</b>
+                  </th>
+                  <!-- Split cells for Status at Enrollment into OTZ -->
+                  <th colspan="5" style="width: 25%; text-align: center">
+                    <b>Most Current Viral load</b>
+                    <hr style="border: 1px solid grey; width: 100%" />
+                    <b>VL Results (copies/ml)</b>
+                    <hr style="border: 1px solid grey; width: 100%" />
+                    <b>Date Done</b>
+                  </th>
+                  <th colspan="5" style="width: 25%; text-align: center">
+                    <b>VL Done within 6 months (Yes/No)</b>
+                  </th>
+                  <th colspan="5" style="width: 25%; text-align: center">
+                    <b>Most Current ART Regimen</b>
+                    <hr style="border: 1px solid grey; width: 100%" />
+                    <b>ART Regimen</b>
+                    <hr style="border: none; border-top: 1px dotted #000" />
+                    <b>Date Started on Current Regimen</b>
+                  </th>
+                  <th>
+                    <b>Current Regimen Line (1st/2nd/3rd)</b>
+                  </th>
+                  <th colspan="3" style="width: 15%; text-align: center">
+                    <b>1st Regimen Switch</b>
+                  </th>
+                  <th colspan="3" style="width: 15%; text-align: center">
+                    <b>Date</b>
+                  </th>
+                  <th colspan="3" style="width: 15%; text-align: center">
+                    <b>Reasons</b>
+                  </th>
+                  <th colspan="3" style="width: 15%; text-align: center">
+                    <b>3rd Regimen Switch</b>
+                  </th>
+                  <th colspan="3" style="width: 15%; text-align: center">
+                    <b>Date</b>
+                  </th>
+                  <th colspan="3" style="width: 15%; text-align: center">
+                    <b>Reasons</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                  <th colspan="2" style="width: 10%; text-align: center">
+                    <b>Viral load Results (copies/ml)</b>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <br />
+    </li>
+  </ul>
+</section>

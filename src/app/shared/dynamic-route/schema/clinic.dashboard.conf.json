@@ -177,6 +177,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "registers",
+          "label": "Registers",
+          "icon": "fa fa-table",
+          "isSideBarOpen": false
+        },
+        {
           "url": "hei-report",
           "label": "HEI Report",
           "icon": "fa fa-line-chart",
