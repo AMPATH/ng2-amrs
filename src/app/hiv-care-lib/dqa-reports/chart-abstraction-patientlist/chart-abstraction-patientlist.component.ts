@@ -73,11 +73,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     const extraColumns = {
       NUPI: 'NUPI',
       sex_gender: 'Sex',
-      birthdate: 'Date of Birth',
+      birthdate: 'Date of Birth (DD/MM/YYYY)',
       age: 'Age',
-      hiv_start_date: 'Date Confirmed HIV Positive',
-      arv_first_regimen_start_date: 'Date of ART Initiation',
-      arv_start_date: 'Date of Current ART Initiation',
+      hiv_start_date: 'Date Confirmed HIV Positive (DD/MM/YYYY)',
+      arv_first_regimen_start_date: 'Date of ART Initiation (DD/MM/YYYY)',
+      arv_start_date: 'Date of Current ART Initiation (DD/MM/YYYY)',
       drugs_given: 'Current ART Regimen',
       cur_arv_med_basis: 'Current ART Regimen',
       drugs_duration: 'Drug dosage given (duration)',
@@ -95,7 +95,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       cd4_1: 'Baseline screening for CD4',
       has_cd4_1: 'Does this client have Baseline screening for CD4',
       is_crag_screened: 'Does this client have Baseline screening for CrAG',
-      last_clinical_encounter: 'Last clinical encounter date',
+      last_clinical_encounter: 'Last clinical encounter date (DD/MM/YYYY)',
       sysBP: 'Systolic BP',
       dysBP: 'Diastolic BP',
       nutrition: 'Nutrition Assessment Done',
@@ -104,10 +104,10 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       // vl_1: 'Latest Valid VL',
       vl_1: 'Does the client have a Valid viral load result',
       ovcid_id: 'OVCID',
-      ipt_stop_date: 'IPT Stop Date',
+      ipt_stop_date: 'IPT Stop Date (DD/MM/YYYY)',
       // last_clinical_encounter: 'Last Clinical Encounter',
       // last_appointment_date: 'Date of Last Appointment',
-      next_appointment: 'Next appointment date',
+      next_appointment: 'Next appointment date (DD/MM/YYYY)',
       // next_appointment: 'Date of Next Appointment ',
       visit_type: 'Visit Type',
       status: 'Status',
@@ -126,63 +126,63 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     this.overrideColumns.push(
       { field: 'ccc_number', hide: true, pinned: true },
       {
-        field: 'birthdate',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            // return moment(column.value).format('YYYY-MM-DD');
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        }
+        field: 'birthdate'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     // return moment(column.value).format('YYYY-MM-DD');
+        //     return moment(column.value).format('DD/MM/YYYY');
+        //   }
+        // },
         // pinned: false
       },
       {
-        field: 'last_appointment_date',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        }
+        field: 'last_appointment_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value).format('DD/MM/YYYY');
+        //   }
+        // }
       },
       {
-        field: 'arv_first_regimen_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        }
+        field: 'arv_first_regimen_start_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value).format('DD/MM/YYYY');
+        //   }
+        // }
       },
       {
         field: 'arv_start_date',
         cellRenderer: (column) => {
           if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
+            return moment(column.value).format('DD/MM/YYYY');
           }
         },
         hide: true
       },
       {
-        field: 'hiv_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        }
+        field: 'hiv_start_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value)..format('DD/MM/YYYY');;
+        //   }
+        // }
       },
       {
-        field: 'last_clinical_encounter',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        }
+        field: 'last_clinical_encounter'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value)..format('DD/MM/YYYY');;
+        //   }
+        // }
       },
       {
-        field: 'next_appointment',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        }
+        field: 'next_appointment'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value)..format('DD/MM/YYYY');;
+        //   }
+        // }
       },
       {
         field: 'tb_screened_this_visit'
@@ -217,28 +217,28 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         }
       },
       {
-        field: 'last_ipt_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        },
-        hide: false
+        field: 'last_ipt_start_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value)..format('DD/MM/YYYY');;
+        //   }
+        // },
+        // hide: false
       },
       {
-        field: 'ipt_completion_date',
-        cellRenderer: (column) => {
-          if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
-          }
-        },
-        hide: false
+        field: 'ipt_completion_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null && column.value !== '') {
+        //     return moment(column.value)..format('DD/MM/YYYY');;
+        //   }
+        // },
+        // hide: false
       },
       {
         field: 'ipt_stop_date',
         cellRenderer: (column) => {
           if (column.value != null && column.value !== '') {
-            return moment(column.value).format('DD-MMM-YYYY');
+            return moment(column.value).format('DD/MM/YYYY');
           }
         },
         hide: true,
