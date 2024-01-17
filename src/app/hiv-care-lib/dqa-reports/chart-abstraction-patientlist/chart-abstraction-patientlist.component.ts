@@ -125,6 +125,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     }
     this.overrideColumns.push(
       { field: 'ccc_number', hide: true, pinned: true },
+      { field: 'ccc_number', hide: true, pinned: true },
       {
         field: 'birthdate'
         // cellRenderer: (column) => {
@@ -284,6 +285,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'upi_number',
+        width: 150
+        // pinned: true
+      },
+      {
+        field: 'upi_number',
         width: 150,
         hide: true,
         pinned: true,
@@ -291,6 +297,11 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'drugs_given',
+        width: 280,
+        hide: true
+      },
+      {
+        field: 'cur_arv_med_basis',
         width: 280,
         hide: true
       },
