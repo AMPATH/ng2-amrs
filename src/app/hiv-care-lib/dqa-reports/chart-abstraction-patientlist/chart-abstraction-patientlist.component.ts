@@ -73,10 +73,10 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
     const extraColumns = {
       NUPI: 'NUPI',
       sex_gender: 'Sex',
-      birthdate: 'Date of Birth',
-      hiv_start_date: 'Date Confirmed HIV Positive',
-      arv_first_regimen_start_date: 'Date of ART Initiation',
-      arv_start_date: 'Date of Current ART Initiation',
+      birthdate: 'Date of Birth (DD/MM/YYYY)',
+      hiv_start_date: 'Date Confirmed HIV Positive (DD/MM/YYYY)',
+      arv_first_regimen_start_date: 'Date of ART Initiation (DD/MM/YYYY)',
+      arv_start_date: 'Date of Current ART Initiation (DD/MM/YYYY)',
       drugs_given: 'Current ART Regimen',
       cur_arv_med_basis: 'Current ART Regimen',
       drugs_duration: 'Drug dosage given (duration)',
@@ -86,15 +86,15 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       muac: 'MUAC  at Last visit',
       tb_screened_this_visit: 'Was TB Screening done at last visit',
       tb_screening_result: 'TB Screening outcomes',
-      last_ipt_start_date: 'IPT start date',
+      last_ipt_start_date: 'IPT start date (DD/MM/YYYY)',
       tpt_status: 'IPT status',
-      ipt_completion_date: 'IPT outcome date',
+      ipt_completion_date: 'IPT outcome date (DD/MM/YYYY)',
       viral_load_validity: 'Does the client have a Valid Viral load result',
       vl_suppression: 'Is the client virally suppressed',
       cd4_1: 'Baseline screening for CD4',
       has_cd4_1: 'Does this client have Baseline screening for CD4',
       is_crag_screened: 'Does this client have Baseline screening for CrAG',
-      last_clinical_encounter: 'Last clinical encounter date',
+      last_clinical_encounter: 'Last clinical encounter date (DD/MM/YYYY)',
       sysBP: 'Systolic BP',
       dysBP: 'Diastolic BP',
       nutrition: 'Nutrition Assessment Done',
@@ -103,10 +103,10 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       // vl_1: 'Latest Valid VL',
       vl_1: 'Does the client have a Valid viral load result',
       ovcid_id: 'OVCID',
-      ipt_stop_date: 'IPT Stop Date',
+      ipt_stop_date: 'IPT Stop Date (DD/MM/YYYY)',
       // last_clinical_encounter: 'Last Clinical Encounter',
       // last_appointment_date: 'Date of Last Appointment',
-      next_appointment: 'Next appointment date',
+      next_appointment: 'Next appointment date (DD/MM/YYYY)',
       // next_appointment: 'Date of Next Appointment ',
       visit_type: 'Visit Type',
       status: 'Status',
@@ -188,14 +188,14 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         // }
       },
       {
-        field: 'tb_screened_this_visit',
-        width: 150,
-        cellRenderer: (column) => {
-          if (column.value === 0) {
-            return 'No';
-          }
-          return 'Yes';
-        }
+        field: 'tb_screened_this_visit'
+        // width: 150,
+        // cellRenderer: (column) => {
+        //   if (column.value === 0) {
+        //     return 'No';
+        //   }
+        //   return 'Yes';
+        // }
       },
       {
         field: 'vl_1',
