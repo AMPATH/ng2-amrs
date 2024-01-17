@@ -27,8 +27,8 @@
         ></group-manager-search-results>
       </div>
     </div>
-    <div clas="row" style="margin-top: 15px">
-      <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+    <div class="row" style="margin-top: 15px">
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <button
           mat-raised-button
           (click)="showModal(createGroupModal)"
@@ -37,6 +37,7 @@
             border-radius: 10px;
             color: #31708f;
             font-weight: 700;
+            margin-bottom: 1rem;
           "
         >
           <span class="fa fa-users"></span> Create New Group
@@ -51,10 +52,33 @@
             color: #31708f;
             font-weight: 700;
             margin-left: 15px;
+            margin-bottom: 1rem;
           "
         >
-          <span class="fa fa-eye"></span> View All Groups In This Facility
-          <i *ngIf="fetchingGroups" class="fa fa-spinner fa-spin"></i>
+          <span class="fa fa-eye"></span> View All DC Groups In This Facility
+          <i
+            *ngIf="fetchingGroups && !isOTZprogram"
+            class="fa fa-spinner fa-spin"
+          ></i>
+        </button>
+
+        <button
+          mat-raised-button
+          (click)="showOTZGroupsInFacilty()"
+          style="
+            background: rgb(245, 245, 245);
+            border-radius: 10px;
+            color: #31708f;
+            font-weight: 700;
+            margin-left: 15px;
+            margin-bottom: 1rem;
+          "
+        >
+          <span class="fa fa-eye"></span> View All OTZ Clubs In This Facility
+          <i
+            *ngIf="fetchingGroups && isOTZprogram"
+            class="fa fa-spinner fa-spin"
+          ></i>
         </button>
       </div>
     </div>

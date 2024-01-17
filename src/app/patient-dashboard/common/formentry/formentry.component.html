@@ -142,12 +142,19 @@
     minWidth="300"
     closeresponsive="true"
   >
-    <p class="text-success" style="margin-bottom: 10px">
+    <p *ngIf="!isOtzProgram" class="text-success" style="margin-bottom: 10px">
       <span class="fa-stack fa-lg">
         <i class="fa fa-circle-thin fa-stack-2x"></i>
         <i class="fa fa-info fa-stack-1x"></i>
       </span>
       Form submitted successfully.
+    </p>
+    <p *ngIf="isOtzProgram" class="text-success" style="margin-bottom: 10px">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle-thin fa-stack-2x"></i>
+        <i class="fa fa-info fa-stack-1x"></i>
+      </span>
+      Patient has been enrolled to OTZ program.
     </p>
     <order-list [submittedOrdersModel]="submittedOrders"></order-list>
     <div *ngIf="diffCareReferralStatus">
@@ -256,6 +263,14 @@
       <button
         *ngIf="!referralStatus && !step && isGroupVisit"
         (click)="navigateTo('groupManager')"
+        type="button"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-users"></i> Group Manager
+      </button>
+      <button
+        *ngIf="isOtzProgram && !referralStatus && !step"
+        (click)="navigateTo('groupDashboard')"
         type="button"
         class="btn btn-primary"
       >

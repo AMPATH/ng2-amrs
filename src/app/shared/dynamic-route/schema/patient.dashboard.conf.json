@@ -65,6 +65,11 @@
           "url": "patient-ovc-enrollment",
           "label": "OVC",
           "icon": "fa fa-child"
+        },
+        {
+          "url": "patient-otz-enrollment",
+          "label": "OTZ",
+          "icon": "fa fa-child"
         }
       ]
     },
@@ -332,6 +337,36 @@
       "programName": "OVC",
       "programUuid": "781d8768-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d8768-1359-11df-a1f1-0026b9348838",
+      "alias": "hiv",
+      "published": true,
+      "requiresPatientEnrollment": true,
+      "routes": [
+        {
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
+        {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
+          "url": "patient-vitals",
+          "label": "Vitals",
+          "icon": "fa fa-heartbeat"
+        },
+        {
+          "url": "lab-data-summary",
+          "label": "Lab Data Summary",
+          "icon": "icon-i-laboratory"
+        }
+      ]
+    },
+    {
+      "programName": "OTZ",
+      "programUuid": "203571d6-a4f2-4953-9e8b-e1105e2340f5",
+      "baseRoute": "203571d6-a4f2-4953-9e8b-e1105e2340f5",
       "alias": "hiv",
       "published": true,
       "requiresPatientEnrollment": true,

@@ -48,6 +48,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public isStaging = true;
   public ovcEnrollment = false;
+  public otzEnrollmentBtn = false;
+  public isPatientEligibleForOtz = false;
   public isPatientVerified = false;
   public verificationStatus = false;
   modalRef: BsModalRef;
@@ -90,11 +92,11 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
           this.getVerificationStatus();
+          this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getOvcEnrollments(
             patient.enrolledPrograms,
             patient.person.birthdate
           );
-
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute
@@ -303,6 +305,29 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     if (ovc.length > 0 && ovc[0].isEnrolled && years <= 19) {
       this.ovcEnrollment = true;
     }
+  }
+
+  private getOtzEnrollments(age, enrolledPrograms) {
+    if (age > 9 && age <= 24) {
+      this.isPatientEligibleForOtz = true;
+    }
+    const otz = enrolledPrograms.filter(
+      (program) =>
+        program.concept.uuid === 'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
+    );
+    if (otz.length > 0 && otz[0].isEnrolled) {
+      this.otzEnrollmentBtn = true;
+    }
+  }
+
+  public enrollToOtz() {
+    const otzEnrollmentFormUuid = 'ca5ccb72-5623-4b94-97a3-6b5dac5f8560';
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        this.patient.uuid +
+        '/general/general/formentry/' +
+        otzEnrollmentFormUuid
+    ]);
   }
 
   /* Family History */
