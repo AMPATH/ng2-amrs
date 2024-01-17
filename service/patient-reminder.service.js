@@ -985,24 +985,11 @@ function generateAppointmentNoShowUpRiskReminder(data) {
   return reminders;
 }
 
-function datesWithinPrediction(encounterDate, predictionDate) {
-  const timeDifference = Math.abs(encounterDate - predictionDate);
-  const millisecondsInTwoWeeks = 2 * 7 * 24 * 60 * 60 * 1000;
-
-  return timeDifference <= millisecondsInTwoWeeks;
-}
-
 function generateAppointmentRescheduledReminder(data) {
   let reminders = [];
 
   if (data.reschedule_appointment && data.reschedule_appointment === 'YES') {
-    if (
-      data.last_encounter_date < data.prediction_generated_date &&
-      datesWithinPrediction(
-        data.last_encounter_date,
-        data.prediction_generated_date
-      )
-    ) {
+    if (data.last_encounter_date < data.prediction_generated_date) {
       reminders.push({
         message:
           'Promised to come date is ' +
