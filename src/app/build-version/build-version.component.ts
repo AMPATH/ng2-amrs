@@ -20,7 +20,7 @@ export class BuildVersionComponent implements OnInit {
     try {
       this.version = VERSION.version;
       this.hash = VERSION.hash;
-      this.buildDate = new Date(VERSION.buildDate);
+      this.buildDate = new Date('Jan 15, 2024, 6:51:04 PM'); // new Date(VERSION.buildDate);
     } catch (e) {}
   }
 }
