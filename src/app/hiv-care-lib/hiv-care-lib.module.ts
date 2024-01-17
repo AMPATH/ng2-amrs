@@ -150,9 +150,6 @@ import { PlhivNcdV2ReportPatientListComponent } from './plhiv-ncd-v2-report/plhi
 import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-view/plhiv-ncd-v2-report-view.component';
 import { RegistersDashboardComponent } from './registers/registers-dashboard.component';
 import { OtzRegisterComponent } from './registers/otz/otz-registers/otz-register.component';
-import { OTZRegisterFilterComponent } from './registers/otz/otz-register-filters/otz-register-filter.component';
-import { OTZRegisterPatientListComponent } from './registers/otz/otz-register-patient-list/otz-register-patient-list.component';
-import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/otz-register-tabular.component';
 
 @NgModule({
   imports: [
@@ -255,12 +252,8 @@ import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/
     Covid19TabularViewComponent,
     PrepMonthlyReportViewComponent,
     TxMlReportViewComponent,
-    AhdReportViewComponent,
-    PlhivNcdV2ReportViewComponent,
     RegistersDashboardComponent,
-    OTZRegisterFilterComponent,
-    OTZRegisterPatientListComponent,
-    OTZRegisterTabularComponent
+    OtzRegisterComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -359,10 +352,7 @@ import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/
     PlhivNcdV2ReportPatientListComponent,
     PlhivNcdV2ReportViewComponent,
     RegistersDashboardComponent,
-    OtzRegisterComponent,
-    OTZRegisterFilterComponent,
-    OTZRegisterPatientListComponent,
-    OTZRegisterTabularComponent
+    OtzRegisterComponent
   ],
   providers: [
     MOHReportService,
