@@ -144,9 +144,6 @@ import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
 import { RegistersDashboardComponent } from './registers/registers-dashboard.component';
 import { OtzRegisterComponent } from './registers/otz/otz-registers/otz-register.component';
-import { OTZRegisterFilterComponent } from './registers/otz/otz-register-filters/otz-register-filter.component';
-import { OTZRegisterPatientListComponent } from './registers/otz/otz-register-patient-list/otz-register-patient-list.component';
-import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/otz-register-tabular.component';
 
 @NgModule({
   imports: [
@@ -249,10 +246,7 @@ import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/
     Covid19TabularViewComponent,
     PrepMonthlyReportViewComponent,
     TxMlReportViewComponent,
-    RegistersDashboardComponent,
-    OTZRegisterFilterComponent,
-    OTZRegisterPatientListComponent,
-    OTZRegisterTabularComponent
+    RegistersDashboardComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -345,10 +339,7 @@ import { OTZRegisterTabularComponent } from './registers/otz/otz-register-table/
     TxRttReportBaseComponent,
     TxRttReportPatientListComponent,
     RegistersDashboardComponent,
-    OtzRegisterComponent,
-    OTZRegisterFilterComponent,
-    OTZRegisterPatientListComponent,
-    OTZRegisterTabularComponent
+    OtzRegisterComponent
   ],
   providers: [
     MOHReportService,

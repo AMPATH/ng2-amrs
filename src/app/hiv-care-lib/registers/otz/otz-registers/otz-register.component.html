@@ -1,177 +1,256 @@
 <section>
-  <b class="text-capitalize setfont">OTZ Register</b>
-  <hr />
+  <h3><b class="">OTZ Register</b></h3>
   <ul class="collapsible-list">
     <li>
-      <!-- <div class="item-header" (click)="toggleItem(item)">
-        <a class="float-left"><b>xyz-data</b> -- click to expand</a>
-        <span class="collapse-icon">xyz-data</span>
-      </div> -->
-      <div class="item-details" [hidden]="item.drugOrder.isCollapsed">
-        <button
-          (click)="exportToPDF(i)"
-          class="btn btn-danger pull-right btn-sm fa fa-download"
-        >
-          Export Form to pdf
-        </button>
-        <br />
-        <hr />
-        <div
-          class="prescriptionform"
-          [attr.id]="'pdf-content' + i"
-          style="padding: 30px"
-        >
-          <div class="row">
-            <div class="col-md-4">
-              <h2>D Month</h2>
+      <div class="item-details">
+        <div class="prescriptionform" style="padding: 12px">
+          <p-tabView>
+            <div>
+              <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+                <report-filters
+                  [enabledControls]="enabledControls"
+                  [monthString]="_month"
+                  (onMonthChange)="onMonthChange($event)"
+                  [reportName]="reportName"
+                  (generateReport)="generateReport()"
+                >
+                </report-filters>
+              </p-tabPanel>
             </div>
-          </div>
-          <div class="table-responsive">
+          </p-tabView>
+          <div class="table-responsive" style="overflow-x: auto">
             <table class="medication-list">
               <thead>
                 <tr>
-                  <th colspan="3" style="width: 5%">
+                  <th colspan="3" rowspan="4" style="width: 5%">
                     <b>Serial Counter</b>
                   </th>
-                  <th colspan="12" style="text-align: center">
-                    <b>Registration Details</b>
+                  <th colspan="12" style="text-align: center; min-width: 400px">
+                    <h4><b>Registration Details</b></h4>
                   </th>
-                  <th colspan="16" style="text-align: center">
+                  <th colspan="9" style="text-align: center; min-width: 400px">
                     <b>Status at Enrollment into OTZ</b>
                   </th>
-                  <th colspan="18">
-                    <b>ART Regimen Switch Post Enrollemnt into OTZ</b>
+                  <th
+                    colspan="3"
+                    style="text-align: center; min-width: 100px"
+                  ></th>
+                  <th
+                    colspan="12"
+                    rowspan="2"
+                    style="text-align: center; min-width: 400px"
+                  >
+                    <b>ART Regimen Switch Post Enrolment into OTZ</b>
                   </th>
-                  <th colspan="36" style="text-align: center">
-                    <b>Viral Load Post Enrollment into OTZ </b>
+                  <th
+                    colspan="36"
+                    rowspan="2"
+                    style="text-align: center; min-width: 400px"
+                  >
+                    <b>Viral Load Post Enrolment into OTZ</b>
+                  </th>
+                  <th
+                    colspan="6"
+                    rowspan="2"
+                    style="text-align: center; min-width: 200px"
+                  >
+                    <b>Transition/Attrition</b>
+                  </th>
+                  <th
+                    colspan="2"
+                    rowspan="3"
+                    style="text-align: center; min-width: 200px"
+                  >
+                    <b>OTZ Modules Completion Tracker</b>
+                  </th>
+                  <th
+                    colspan="2"
+                    rowspan="5"
+                    style="text-align: center; min-width: 200px"
+                  >
+                    <b>Remarks</b>
                   </th>
                 </tr>
                 <tr>
-                  <th colspan="3" style="width: 10%"></th>
-                  <th colspan="2" style="text-align: center">
-                    <b>Date of enrollment to OTZ</b>
-                  </th>
-                  <th colspan="2" style="width: 20%; text-align: center">
-                    <b>Date of Birth</b>
-                    <hr style="border: none; border-top: 1px dotted #000" />
-                    <b>Age at enrollment</b>
-                  </th>
-                  <th colspan="2" style="width: 20%; text-align: center">
-                    <b>Unique Patient Number (CCC Number)</b>
-                  </th>
-                  <th colspan="2" style="width: 20%; text-align: center">
-                    <b>ART Start Date</b>
-                  </th>
-                  <th colspan="2" style="width: 20%; text-align: center">
-                    <b>Patient's Name</b>
-                    <hr style="border: 1px solid grey; width: 100%" />
-                    <b>First Name, Middle Name</b>
-                    <hr style="border: none; border-top: 1px dotted #000" />
-                    <b>Last (Surname)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Sex (M/F)</b>
-                  </th>
-                  <!-- Split cells for Status at Enrollment into OTZ -->
-                  <th colspan="5" style="width: 25%; text-align: center">
-                    <b>Most Current Viral load</b>
-                    <hr style="border: 1px solid grey; width: 100%" />
-                    <b>VL Results (copies/ml)</b>
-                    <hr style="border: 1px solid grey; width: 100%" />
-                    <b>Date Done</b>
-                  </th>
-                  <th colspan="5" style="width: 25%; text-align: center">
-                    <b>VL Done within 6 months (Yes/No)</b>
-                  </th>
-                  <th colspan="5" style="width: 25%; text-align: center">
-                    <b>Most Current ART Regimen</b>
-                    <hr style="border: 1px solid grey; width: 100%" />
-                    <b>ART Regimen</b>
-                    <hr style="border: none; border-top: 1px dotted #000" />
-                    <b>Date Started on Current Regimen</b>
-                  </th>
-                  <th>
-                    <b>Current Regimen Line (1st/2nd/3rd)</b>
-                  </th>
-                  <th colspan="3" style="width: 15%; text-align: center">
-                    <b>1st Regimen Switch</b>
-                  </th>
-                  <th colspan="3" style="width: 15%; text-align: center">
-                    <b>Date</b>
-                  </th>
-                  <th colspan="3" style="width: 15%; text-align: center">
-                    <b>Reasons</b>
-                  </th>
-                  <th colspan="3" style="width: 15%; text-align: center">
-                    <b>3rd Regimen Switch</b>
-                  </th>
-                  <th colspan="3" style="width: 15%; text-align: center">
-                    <b>Date</b>
-                  </th>
-                  <th colspan="3" style="width: 15%; text-align: center">
-                    <b>Reasons</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
-                  <th colspan="2" style="width: 10%; text-align: center">
-                    <b>Viral load Results (copies/ml)</b>
-                  </th>
+                  <td colspan="2" rowspan="3">
+                    Date of enrollment to OTZ (dd/mm/yyyy)
+                  </td>
+                  <td colspan="2" rowspan="2" style="border-bottom: none">
+                    Date of Birth (dd/mm/yyyy)
+                  </td>
+                  <td colspan="2" rowspan="3">
+                    Unique Patient Number (CCC Number)
+                  </td>
+                  <td colspan="2" rowspan="2">ART Start Date</td>
+                  <td colspan="2">Patient's Name</td>
+                  <td
+                    colspan="2"
+                    rowspan="3"
+                    style="
+                      text-align: center;
+                      width: 5%;
+                      min-width: 20px !important;
+                    "
+                  >
+                    Sex (M/F)
+                  </td>
+                  <td colspan="6">Most Current Viral load</td>
+                  <td colspan="3">Most Current ART Regimen</td>
+                  <td colspan="3" rowspan="3">
+                    Current Regimen Line(1st/2nd/3rd)
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">First Name, Middle Name</td>
+                  <td colspan="3">VL Results (copies/ml)</td>
+                  <td colspan="3" rowspan="2">
+                    VL Done Within 6 months (Yes/No)
+                  </td>
+                  <td colspan="3">ART Regimen</td>
+                  <td colspan="2">1st Regimen Switch</td>
+                  <td colspan="2">Date</td>
+                  <td colspan="2">Reasons</td>
+                  <td colspan="2">3rd Regimen Switch</td>
+                  <td colspan="2">Date</td>
+                  <td colspan="2">Reasons</td>
+                  <ng-container *ngFor="let i of counterArray">
+                    <td colspan="2">Viral load Results (copies/ml)</td>
+                  </ng-container>
+                  <td colspan="6" style="width: 30px">
+                    Outcomes (Transfer Out, LTFU, Dead,Opt Out,Transition to
+                    Adult Care)
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">Age at enrolment (in completed years)</td>
+                  <td colspan="2">Original ART Regimen</td>
+                  <td colspan="2">Last (Surname)</td>
+                  <td colspan="3">Date Done</td>
+                  <td colspan="3">Date Started on Current Regimen</td>
+                  <td colspan="2">2nd Regimen Switch</td>
+                  <td colspan="2">Date</td>
+                  <td colspan="2">Reasons</td>
+                  <td colspan="2">4th Regimen Switch</td>
+                  <td colspan="2">Date</td>
+                  <td colspan="2">Reasons</td>
+                  <ng-container *ngFor="let i of counterArray">
+                    <td colspan="2">Date of VL</td>
+                  </ng-container>
+                  <td colspan="6">Date</td>
+                  <td colspan="2">Tick for each session completed</td>
+                </tr>
+                <tr class="alphabets">
+                  <td colspan="3">(a)</td>
+                  <td colspan="2">(b)</td>
+                  <td colspan="2">(c)</td>
+                  <td colspan="2">(d)</td>
+                  <td colspan="2">(e)</td>
+                  <td colspan="2">(f)</td>
+                  <td colspan="2">(g)</td>
+                  <td colspan="3">(h)</td>
+                  <td colspan="3">(i)</td>
+                  <td colspan="3">(j)</td>
+                  <td colspan="3">(k)</td>
+                  <td colspan="12">(l)</td>
+                  <td colspan="36">(m)</td>
+                  <td colspan="6">(n)</td>
+                  <td colspan="2">(o)</td>
                 </tr>
               </thead>
-
               <tbody>
-                <tr></tr>
+                <ng-container *ngFor="let i of counter">
+                  <tr>
+                    <td colspan="3" rowspan="2" style="width: 10%">1</td>
+                    <td colspan="2" rowspan="2" style="text-align: center">
+                      2024-01-17
+                    </td>
+                    <td colspan="2" style="width: 20%; text-align: center">
+                      1990-05-15
+                    </td>
+
+                    <td
+                      colspan="2"
+                      rowspan="2"
+                      style="width: 20%; text-align: center"
+                    >
+                      CCC123456
+                    </td>
+                    <td
+                      colspan="2"
+                      rowspan="2"
+                      style="width: 20%; text-align: center"
+                    >
+                      2022-01-01
+                    </td>
+                    <td colspan="2" style="width: 20%; text-align: center">
+                      John, Doe
+                    </td>
+                    <td
+                      colspan="2"
+                      rowspan="2"
+                      style="width: 10%; text-align: center"
+                    >
+                      M
+                    </td>
+                    <td colspan="3" style="text-align: center">2023-01-23</td>
+                    <td
+                      colspan="3"
+                      rowspan="2"
+                      style="width: 20%; text-align: center"
+                    >
+                      1990-05-15
+                    </td>
+
+                    <td colspan="3" style="width: 20%; text-align: center">
+                      CCC123456
+                    </td>
+                    <td
+                      colspan="3"
+                      rowspan="2"
+                      style="width: 20%; text-align: center"
+                    >
+                      2022-01-01
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <ng-container *ngFor="let i of counterArray">
+                      <td colspan="2"></td>
+                    </ng-container>
+                    <td colspan="6"></td>
+                    <td colspan="2" rowspan="2"></td>
+                    <td colspan="2" rowspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">34Years</td>
+                    <td colspan="2">doe</td>
+                    <td colspan="3">34Years</td>
+                    <td colspan="3">doe</td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <ng-container *ngFor="let i of counterArray">
+                      <td colspan="2"></td>
+                    </ng-container>
+                    <td colspan="6"></td>
+                  </tr>
+                </ng-container>
               </tbody>
             </table>
+          </div>
+          <div class="exportToExcelBtn">
+            <button
+              (click)="(exportToExcel)"
+              class="btn btn-danger pull-right btn-sm fa fa-download"
+            >
+              Export Form to Excel
+            </button>
           </div>
         </div>
       </div>

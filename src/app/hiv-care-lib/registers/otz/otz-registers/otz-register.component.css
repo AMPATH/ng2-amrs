@@ -31,12 +31,12 @@
 }
 .medication-list {
   border-collapse: collapse;
-  width: 100%;
+  margin: 8px;
 }
 .medication-list th,
 .medication-list td {
   border: 1px solid #000000;
-  padding: 4px;
+  padding: 0px;
   text-align: left;
 }
 .footer {
@@ -48,4 +48,26 @@
 }
 .ppadding {
   padding-right: 15px;
+}
+
+tbody tr {
+  height: 10px !important;
+  font-size: 12px !important;
+}
+
+tbody tr td {
+  min-width: 100px;
+  text-align: center;
+}
+
+.alphabets > td {
+  text-align: center;
+}
+.alphabets {
+  background-color: #d9edf7;
+}
+
+.exportToExcelBtn {
+  margin-top: 10px;
+  padding-bottom: 12px;
 }
