@@ -31,25 +31,25 @@ export class DQAChartAbstractionDAO {
       SELECT 
     h.person_uuid AS uuid,
     fpiv.ccc AS ccc_number,
-    IF((fpiv.nupi IS NOT NULL), fpiv.nupi, 'missing') AS NUPI,
+    IF((fpiv.nupi IS NOT NULL), fpiv.nupi, 'Missing') AS NUPI,
     TIMESTAMPDIFF(year,h.birthdate,'` +
       endDate +
       `') AS age,
     CASE
         WHEN  e.tb_screen = 1 then 'Yes'
-        WHEN  e.tb_screen = 0 then 'No'
-        ELSE 'Not documented'
+        -- WHEN  e.tb_screen = 0 then 'No'
+        ELSE 'No'
     END AS 'tb_screened_this_visit',
     CASE
         WHEN  (h.gender = 'F') then 'Female'
         WHEN  (h.gender = 'M') then 'Male'
-        ELSE 'missing'
+        ELSE 'Missing'
     END AS 'sex_gender',
     e.height,
     e.weight,
-    DATE_FORMAT(h.birthdate, "%d-%b-%Y") AS birthdate,
+    DATE_FORMAT(h.birthdate, '%d/%m/%Y') AS birthdate,
     h.encounter_id,
-    DATE_FORMAT(h.encounter_date, "%d-%b-%Y") AS last_appointment_date,
+    DATE_FORMAT(h.encounter_date, '%d/%m/%Y') AS last_appointment_date,
     h.rtc_date,
     h.location_id,
     h.cur_arv_meds,
@@ -59,27 +59,27 @@ export class DQAChartAbstractionDAO {
         ELSE 'NON DTG'
     END as cur_arv_med_basis,
     h.tb_screen,
-    DATE_FORMAT(h.tb_screening_datetime,"%d-%b-%Y") as tb_screening_datetime,
+    DATE_FORMAT(h.tb_screening_datetime,'%d/%m/%Y') as tb_screening_datetime,
     CASE 
         WHEN (e.hiv_start_date <= '1900-01-01') THEN ''
-        ELSE DATE_FORMAT(e.hiv_start_date,"%d-%b-%Y")
+        ELSE DATE_FORMAT(e.hiv_start_date,'%d/%m/%Y')
     END as hiv_start_date,
     h.arv_start_date,
     CASE 
         WHEN (h.arv_first_regimen_start_date <= '1900-01-01') THEN ''
-        ELSE DATE_FORMAT(h.arv_first_regimen_start_date,"%d-%b-%Y")
+        ELSE DATE_FORMAT(h.arv_first_regimen_start_date,'%d/%m/%Y')
     END as arv_first_regimen_start_date,
     e.cd4_1,
     IF((e.cd4_1 IS NOT NULL), 'Yes', 'No') as has_cd4_1,
-    DATE_FORMAT(e.encounter_datetime, "%d-%b-%Y") AS last_clinical_encounter,
-    DATE_FORMAT(h.rtc_date, "%d-%b-%Y") AS next_appointment,
+    DATE_FORMAT(e.encounter_datetime, '%d/%m/%Y') AS last_clinical_encounter,
+    DATE_FORMAT(h.rtc_date, '%d/%m/%Y') AS next_appointment,
     h.vl_1,
     CASE
         WHEN (TIMESTAMPDIFF(MONTH,h.arv_start_date,'` +
       endDate +
       `') < 6 ) THEN 'NA'
         WHEN (h.vl_1 is NOT NULL) THEN 'Yes'
-        ELSE 'missing'
+        ELSE 'Missing'
     END AS viral_load_validity,
     h.cur_arv_meds_names AS drugs_given,
     CASE
@@ -96,9 +96,9 @@ export class DQAChartAbstractionDAO {
     IF(h.ipt_start_date = h.encounter_date,
         1,
         0) AS ipt_started_this_visit,
-    DATE_FORMAT(h.ipt_start_date, "%d-%b-%Y") AS last_ipt_start_date,
+    DATE_FORMAT(h.ipt_start_date, '%d/%m/%Y') AS last_ipt_start_date,
     CASE
-        WHEN h.on_ipt_this_month = 1 THEN 'continuing'
+        WHEN h.on_ipt_this_month = 1 THEN 'Continuing'
         WHEN
             h.ipt_completion_date IS NULL
                 AND h.ipt_stop_date IS NOT NULL
@@ -111,8 +111,8 @@ export class DQAChartAbstractionDAO {
       `') < 3) AND h.on_ipt_this_month = 1) THEN 'Defaulted'
         ELSE 'NA'
     END AS tpt_status,
-    DATE_FORMAT(h.ipt_stop_date,"%d-%b-%Y") as ipt_stop_date,
-    DATE_FORMAT(h.ipt_completion_date, "%d-%b-%Y") as ipt_completion_date, 
+    DATE_FORMAT(h.ipt_stop_date,'%d/%m/%Y') as ipt_stop_date,
+    DATE_FORMAT(h.ipt_completion_date, '%d/%m/%Y') as ipt_completion_date, 
     fv.muac as muac,
     IF(h.ipt_stop_date = h.encounter_date
             OR h.ipt_completion_date = h.encounter_date,
@@ -136,10 +136,10 @@ export class DQAChartAbstractionDAO {
         WHEN (p.program_id = 4) THEN 'PMTCT'
         WHEN (TIMESTAMPDIFF(YEAR, h.birthdate, '` +
       endDate +
-      `') < 15) THEN 'PEAD'
+      `') < 15) THEN 'Paeds (0-14yrs)'
         WHEN (TIMESTAMPDIFF(YEAR, h.birthdate, '` +
       endDate +
-      `') >= 15) THEN 'ADULT'
+      `') >= 15) THEN 'Adults (>15 yrs)'
     END AS category
 FROM
     etl.hiv_monthly_report_dataset_v1_2 h
