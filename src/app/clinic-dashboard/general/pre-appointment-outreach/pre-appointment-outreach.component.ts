@@ -224,9 +224,14 @@ export class PreAppointmentOutreachComponent implements OnInit {
         field: 'number_of_failed_phone_attempts'
       },
       {
-        headerName: 'SMS outcome ',
+        headerName: 'Comments ',
         width: 100,
         field: 'comments'
+      },
+      {
+        headerName: 'SMS outcome ',
+        width: 100,
+        field: 'sms_delivery_status'
       },
       {
         headerName: 'Contact Reached',
