@@ -50,6 +50,14 @@
       }
     },
     {
+      "table": "etl.sms_delivery_report",
+      "alias": "sm",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "sm.person_id = pre.person_id"
+      }
+    },
+    {
       "table": "( select max(is_successful_phone_follow_up) as latest_phone_follow_up, person_id, follow_up_type from  etl.pre_appointment_summary group by person_id )",
       "alias": "s",
       "join": {
@@ -63,6 +71,14 @@
       "join": {
         "type": "LEFT",
         "joinCondition": "ml.person_id = etc.person_id"
+      }
+    },
+    {
+      "table": "(SELECT ps.* FROM etl.pre_appointment_summary ps JOIN ( SELECT MAX(encounter_datetime) AS max_encounter_datetime, person_id FROM etl.pre_appointment_summary GROUP BY person_id ) latest_dates ON ps.encounter_datetime = latest_dates.max_encounter_datetime AND ps.person_id = latest_dates.person_id)",
+      "alias": "utd",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "ml.person_id = utd.person_id"
       }
     }
   ],
@@ -114,6 +130,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "sms_delivery_status",
+      "column": "sm.delivery_status"
+    },
+    {
+      "type": "simple_column",
       "alias": "rtc_date",
       "column": "DATE_FORMAT(ml.rtc_date,'%Y-%m-%d')"
     },
@@ -159,6 +180,11 @@
     },
     {
       "type": "simple_column",
+      "alias": "comments",
+      "column": "utd.comments"
+    },
+    {
+      "type": "simple_column",
       "alias": "reason_client_not_found",
       "column": "pre.reason_client_not_found"
     },
@@ -179,11 +205,6 @@
       "type": "simple_column",
       "alias": "number_of_failed_phone_attempts",
       "column": "etc.counter"
-    },
-    {
-      "type": "simple_column",
-      "alias": "comments",
-      "column": "pre.comments"
     }
   ],
   "filters": {
