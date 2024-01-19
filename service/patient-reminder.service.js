@@ -987,6 +987,7 @@ function generateAppointmentNoShowUpRiskReminder(data) {
 
 function generateAppointmentRescheduledReminder(data) {
   let reminders = [];
+
   if (data.reschedule_appointment && data.reschedule_appointment === 'YES') {
     if (data.last_encounter_date < data.prediction_generated_date) {
       reminders.push({

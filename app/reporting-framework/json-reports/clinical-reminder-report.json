@@ -88,6 +88,14 @@
       }
     },
     {
+      "table": "(SELECT ps.* FROM etl.pre_appointment_summary ps JOIN ( SELECT MAX(encounter_datetime) AS max_encounter_datetime, person_id FROM etl.pre_appointment_summary GROUP BY person_id ) latest_dates ON ps.encounter_datetime = latest_dates.max_encounter_datetime AND ps.person_id = latest_dates.person_id)",
+      "alias": "pre_u",
+      "join": {
+        "type": "LEFT",
+        "joinCondition": "pre_s.person_id = pre_u.person_id"
+      }
+    },
+    {
       "table": "amrs.relationship",
       "alias": "t6",
       "join": {
@@ -346,12 +354,12 @@
     {
       "type": "simple_column",
       "alias": "reschedule_appointment",
-      "column": "pre_s.reschedule_appointment"
+      "column": "pre_u.reschedule_appointment"
     },
     {
       "type": "simple_column",
       "alias": "rescheduled_date",
-      "column": "pre_s.rescheduled_date"
+      "column": "pre_u.rescheduled_date"
     },
     {
       "type": "simple_column",
