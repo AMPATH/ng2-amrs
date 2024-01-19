@@ -1,0 +1,112 @@
+<div class="wrapper">
+  <div *ngIf="reportDetails" class="panel panel-info">
+    <div class="panel-heading" style="min-height: 50px !important">
+      <strong class="text-primary">
+        <span class="fa fa-file-pdf-o"> </span>
+        {{ reportDetails.reportName }}
+        <div class="btn-group pull-right">
+          <button
+            class="btn btn-primary"
+            (click)="downloadPdf()"
+            [disabled]="!gridOptions"
+          >
+            <i class="fa fa-download"> </i> Download Pdf
+          </button>
+        </div>
+      </strong>
+    </div>
+    <div>
+      <div class="row" *ngIf="reportDetails.displayTabularFilters">
+        <div class="col-md-5 col-sm-12 padding">
+          <label for="">Search :</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input
+              #searchBoxL
+              id="search-box-loc"
+              [(ngModel)]="selectedResult"
+              (ngModelChange)="searchIndicator()"
+              placeholder="search indicator"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 padding pull-right">
+          <div class="ui-grid-row ui-fluid">
+            <div class="ui-grid-col-12 pull-right">
+              <label for="">Filters :</label>
+              <p-multiSelect
+                [options]="headers"
+                [(ngModel)]="selectedIndicatorsList"
+                (onChange)="selectedIndicators()"
+              >
+              </p-multiSelect>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="contentToConvert"
+        class="panel-body table-content-class"
+        style="background-color: #ffffff"
+      >
+        <div *ngIf="tableSectionData.length > 0">
+          <table>
+            <tbody>
+              <tr>
+                <td [attr.colspan]="40" class="header"></td>
+              </tr>
+              <tr *ngFor="let hmd of headerMetaData">
+                <td [attr.colspan]="30">
+                  <b>{{ hmd.label }}</b>
+                </td>
+                <td [attr.colspan]="10">{{ hmd.value }}</td>
+              </tr>
+              <tr>
+                <td [attr.colspan]="16"><b>Age Disaggregation</b></td>
+                <td [attr.colspan]="2" *ngFor="let ag of ageGroups">
+                  <b>{{ ag }}</b>
+                </td>
+              </tr>
+              <tr>
+                <td [attr.colspan]="16"><b>Gender Disaggregation</b></td>
+                <td *ngFor="let gg of genderGroups">
+                  <b>{{ gg }}</b>
+                </td>
+                <td [attr.colspan]="2">
+                  <b *ngIf="genderGroups.length > 1">Total</b>
+                </td>
+              </tr>
+
+              <ng-container *ngFor="let data of tableData">
+                <tr>
+                  <td [attr.colspan]="40" class="header">
+                    <b>{{ data.sectionTitle }}</b>
+                  </td>
+                </tr>
+                <tr *ngFor="let row of data.sectionData">
+                  <td [attr.colspan]="16">
+                    <b>{{ row.rowTitle }}</b>
+                  </td>
+                  <ng-container *ngFor="let cell of row.rowData">
+                    <td *ngIf="cell.value < 0" class="bg-black"></td>
+
+                    <td
+                      *ngIf="cell.value >= 0"
+                      title="Click to View Patientlist"
+                      (click)="setOnCellClicked(cell)"
+                      class="value"
+                    >
+                      {{ cell.value }}
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

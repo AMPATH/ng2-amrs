@@ -11,6 +11,7 @@ export class EncounterResourceService {
     'patient:(uuid,uuid),form:(uuid,name),' +
     'visit:(uuid,display,auditInfo,startDatetime,stopDatetime,location:(uuid,display)' +
     ',visitType:(uuid,name)),' +
+    'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display),datatype),value:ref,groupMembers),' +
     'location:ref,encounterType:ref,encounterProviders:(uuid,display,provider:(uuid,display)))';
 
   constructor(

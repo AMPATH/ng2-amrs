@@ -13,6 +13,7 @@ export class PatientListComponent implements OnInit {
   @Input() public overrideColumns: any;
   @Input() public data: any = [];
   @Input() public newList: any;
+  @Input() public excludecolumns: boolean;
   public loadedTab: any;
   @Input()
   set options(value) {
@@ -57,6 +58,13 @@ export class PatientListComponent implements OnInit {
     if (this.hivColumns) {
       const loadHivColumns = PatientListColumns.hivColumns();
       columns = _.concat(columns, loadHivColumns as Array<object>);
+    }
+
+    if (this.excludecolumns) {
+      const columnsToExclude = ['previous_vl', 'previous_vl_date'];
+      columns = _.filter(columns, (col) => {
+        return !_.includes(columnsToExclude, col['field']);
+      });
     }
     return columns;
   }

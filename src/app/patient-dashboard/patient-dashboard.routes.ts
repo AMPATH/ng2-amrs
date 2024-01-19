@@ -13,6 +13,7 @@ import { PatientMonthlyStatusComponent } from './hiv/patient-status-change/patie
 import { FromentryGuard } from './common/formentry/formentry.guard';
 import { FormCreationDataResolverService } from './common/formentry/form-creation-data-resolver.service';
 import { LocatorMapComponent } from './common/locator-map/locator-map.component';
+import { LocatorMapDetailsComponent } from './common/locator-map/locator-map-details.component';
 import { VisitEncountersComponent } from './common/visit-encounters/visit-encounters.component';
 import { GeneralLandingPageComponent } from './general-landing-page/landing-page.component';
 import { PatientSearchContainerComponent } from '../patient-search/patient-search-container.component';
@@ -28,6 +29,7 @@ import { EditProgramComponent } from '../program-manager/edit-program/edit-progr
 import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enrollment-summary.component';
 import { OncologySummaryComponent } from './oncology/oncology-summary/oncology-summary.component';
 import { OvcSnapshotComponent } from './common/ovc-snapshot/ovc-snapshot.component';
+import { OtzSnapshotComponent } from './common/otz-snapshot/otz-snapshot.component';
 
 export const routes = [
   {
@@ -147,6 +149,10 @@ export const routes = [
             component: LocatorMapComponent
           },
           {
+            path: ':programClass/:program/locator-map-details',
+            component: LocatorMapDetailsComponent
+          },
+          {
             path: ':programClass/:program/program-manager',
             component: ProgramManagerContainerComponent,
             children: [
@@ -186,6 +192,10 @@ export const routes = [
           {
             path: ':programClass/:program/patient-ovc-enrollment',
             component: OvcSnapshotComponent
+          },
+          {
+            path: ':programClass/:program/patient-otz-enrollment',
+            component: OtzSnapshotComponent
           }
         ]
       }

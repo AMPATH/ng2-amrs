@@ -40,6 +40,8 @@ import { ContactTestingComponent } from './contact-testing/contact-testing/conta
 import { FamilyTestingContactComponent } from 'src/app/hiv-care-lib/family-testing/family-testing-contact-list.component';
 import { AddContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/add-contact-trace.component';
 import { EditContactTraceComponent } from 'src/app/hiv-care-lib/family-testing/contact-trace/edit-contact-trace.component';
+import { PrepMonthlyReportComponent } from './prep-report/prep-monthly-report.component';
+import { PrepMonthlyReportPatientListComponent } from 'src/app/hiv-care-lib/prep-report/monthly/prep-monthly-patient-list/prep-monthly-report-patient-list.component';
 import { TxReportsDashboardComponent } from './tx-reports-dashboard/tx-reports-dashboard.component';
 import { TxMlReportComponent } from './tx-ml-report/tx-ml-report.component';
 import { TxMlReportPatientListComponent } from 'src/app/hiv-care-lib/tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
@@ -51,6 +53,7 @@ import { TxMmdReportPatientListComponent } from 'src/app/hiv-care-lib/tx-mmd-rep
 import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
 import { TxRttReportPatientListComponent } from 'src/app/hiv-care-lib/tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
+
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -195,6 +198,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PrepReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'prep-monthly-report',
+        children: [
+          {
+            path: '',
+            component: PrepMonthlyReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PrepMonthlyReportPatientListComponent
           }
         ]
       },

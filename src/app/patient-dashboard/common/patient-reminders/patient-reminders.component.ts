@@ -136,7 +136,15 @@ export class PatientRemindersComponent implements OnInit, OnDestroy {
           this.toastrConfig
         );
       }
-
+      if (reminder.type === 'ml') {
+        toast = this.toastrService.show(reminder.message, reminder.title, {
+          extendedTimeOut: 0,
+          timeOut: 0,
+          positionClass: 'toast-bottom-right',
+          closeButton: true,
+          toastClass: 'ngx-toastr-custom-type'
+        });
+      }
       if (reminder.type === 'info') {
         toast = this.toastrService.info(
           reminder.message,

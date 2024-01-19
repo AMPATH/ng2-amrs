@@ -26,6 +26,9 @@ export class PrettyEncounterViewerComponent implements OnInit {
       this.displayEncounterObs(encounter);
     }
   }
+  @Input() fromLocatorMap: boolean;
+
+  public locatorData: Form;
   public form: Form;
   public showLoader: boolean;
   public error: boolean;
@@ -138,6 +141,7 @@ export class PrettyEncounterViewerComponent implements OnInit {
           this.selectedEncounter
         );
         this.form = unpopulatedform;
+        this.locatorData = unpopulatedform;
         this.showLoader = false;
         this.error = false;
       });

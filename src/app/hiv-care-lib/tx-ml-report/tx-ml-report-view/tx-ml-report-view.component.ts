@@ -261,7 +261,7 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
               ageSeg.value[index].value[0]
             )
               ? JSON.stringify(ageSeg.value[index].value[1][0])
-              : ageSeg.value[index].value[0];
+              : ageSeg.value[index].value[1];
           } else {
             obj[`${ageSeg.headerName}`] = Array.isArray(
               ageSeg.value[index].value[0]

@@ -113,7 +113,11 @@ export class VisitComponent implements OnInit, OnDestroy {
   public checkIfPatientEnrolledInGroup() {
     this.isBusy = true;
     const DIFFERENTIATED_CARE = '334c9e98-173f-4454-a8ce-f80b20b7fdf0';
-    if (this.programUuid === DIFFERENTIATED_CARE) {
+    const OTZ_PROGRAM = '203571d6-a4f2-4953-9e8b-e1105e2340f5';
+    if (
+      this.programUuid === DIFFERENTIATED_CARE ||
+      this.programUuid === OTZ_PROGRAM
+    ) {
       this.communityGroupMemberService
         .getMemberCohortsByPatientUuid(this.patient.uuid)
         .subscribe((groups) => {

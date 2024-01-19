@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -25,6 +25,7 @@ import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.se
 import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource.service';
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { environment } from 'src/environments/environment';
+import { PatientProgramService } from '../../programs/patient-programs.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -47,6 +48,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public relationship: Relationship;
   public isStaging = true;
   public ovcEnrollment = false;
+  public otzEnrollmentBtn = false;
+  public isPatientEligibleForOtz = false;
   public isPatientVerified = false;
   public verificationStatus = false;
   modalRef: BsModalRef;
@@ -62,6 +65,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public displayContacts = false;
   public contactsExist = false;
   public patientEncounters: Array<any> = [];
+  public isSelectedRelationProgramHEI = false;
+  public isHEIActive = false;
 
   constructor(
     private patientService: PatientService,
@@ -72,7 +77,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private propertyLocationService: UserDefaultPropertiesService,
     private familyTestingService: FamilyTestingService,
     private encounterResourceService: EncounterResourceService,
-    private personAttributeResourceService: PersonAttributeResourceService
+    private personAttributeResourceService: PersonAttributeResourceService,
+    private patientProgramService: PatientProgramService
   ) {}
 
   public ngOnInit() {
@@ -86,11 +92,11 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           this.patient = patient;
           this.searchIdentifiers = patient.searchIdentifiers;
           this.getVerificationStatus();
+          this.getOtzEnrollments(patient.person.age, patient.enrolledPrograms);
           this.getOvcEnrollments(
             patient.enrolledPrograms,
             patient.person.birthdate
           );
-
           const attributes = patient.person.attributes;
           _.each(attributes, (attribute) => {
             // get the test patient attribute
@@ -191,6 +197,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
 
   public openRelationshipModal(template: TemplateRef<any>, relationship) {
     this.relationship = relationship;
+    this.isHEIActive = relationship.programs[26].isEnrolled;
     this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
@@ -243,7 +250,17 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(take(1))
       .subscribe(
         (results) => {
-          this.relationships = results;
+          // this.relationships = results;
+          for (let i = 0; i < results.length; i++) {
+            this.patientProgramService
+              .getCurrentlyEnrolledPatientPrograms(results[i].relatedPersonUuid)
+              .pipe(take(1))
+              .subscribe((programs) => {
+                const rel = results[i];
+                rel['programs'] = programs; // attach relationship to programs
+                this.relationships[i] = rel;
+              });
+          }
         },
         (err) => {
           console.error(err);
@@ -288,6 +305,29 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     if (ovc.length > 0 && ovc[0].isEnrolled && years <= 19) {
       this.ovcEnrollment = true;
     }
+  }
+
+  private getOtzEnrollments(age, enrolledPrograms) {
+    if (age > 9 && age <= 24) {
+      this.isPatientEligibleForOtz = true;
+    }
+    const otz = enrolledPrograms.filter(
+      (program) =>
+        program.concept.uuid === 'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
+    );
+    if (otz.length > 0 && otz[0].isEnrolled) {
+      this.otzEnrollmentBtn = true;
+    }
+  }
+
+  public enrollToOtz() {
+    const otzEnrollmentFormUuid = 'ca5ccb72-5623-4b94-97a3-6b5dac5f8560';
+    this.router.navigate([
+      '/patient-dashboard/patient/' +
+        this.patient.uuid +
+        '/general/general/formentry/' +
+        otzEnrollmentFormUuid
+    ]);
   }
 
   /* Family History */

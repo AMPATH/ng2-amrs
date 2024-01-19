@@ -32,11 +32,13 @@ export class PreAppointmentOutreachComponent implements OnInit {
   private ALL = 'All';
   private FOLLOW_UP_SUCCESSFUL = 'Follow-up Successful';
   private FAILED_FOLLOW_UP_ATTEMPT = 'Failed Follow-up Attempt';
+  private NO_FOLLOW_UP_ATTEMPT = 'Follow-up Not Attempted';
 
   public filterTypeOptions: any[] = [
     this.ALL,
     this.FOLLOW_UP_SUCCESSFUL,
-    this.FAILED_FOLLOW_UP_ATTEMPT
+    this.FAILED_FOLLOW_UP_ATTEMPT,
+    this.NO_FOLLOW_UP_ATTEMPT
   ];
   public selectedFilterType = 'All'; // defaults to All
   // TODO refactor this later
@@ -51,22 +53,25 @@ export class PreAppointmentOutreachComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     const today = new Date();
+    const currentWeek = this.getISOWeek(today);
     const currentYear = today.getFullYear();
+    const startYear = 2023;
     const numberOfWeeks = 52; // Set the maximum number of weeks to 52
 
-    for (let weekNumber = 1; weekNumber <= numberOfWeeks; weekNumber++) {
-      const weekString = `${currentYear}-W${weekNumber
-        .toString()
-        .padStart(2, '0')}`;
-      this.weeks.push({
-        label: `${currentYear}-W${weekNumber} - From ${this.getStartDate(
-          weekString
-        )} to ${this.getEndDate(weekString)}`,
-        value: weekString
-      });
+    for (let year = startYear; year <= currentYear; year++) {
+      const lastWeek = year === currentYear ? currentWeek : numberOfWeeks;
+      for (let weekNumber = 1; weekNumber <= lastWeek; weekNumber++) {
+        const weekString = `${year}-W${weekNumber.toString().padStart(2, '0')}`;
+        this.weeks.push({
+          label: `${year}-W${weekNumber} - From ${this.getStartDate(
+            weekString
+          )} to ${this.getEndDate(weekString)}`,
+          value: weekString
+        });
+      }
     }
+    this.weeks.reverse();
 
-    const currentWeek = this.getISOWeek(today);
     this.selectedWeek = `${currentYear}-W${currentWeek
       .toString()
       .padStart(2, '0')}`;
@@ -101,6 +106,11 @@ export class PreAppointmentOutreachComponent implements OnInit {
         this.mappedSelectedFilterType = 0;
         this.explainedFilterType =
           'Patient for whom follow-up attempts have been unsuccessful.';
+        break;
+      case this.NO_FOLLOW_UP_ATTEMPT:
+        this.mappedSelectedFilterType = 2;
+        this.explainedFilterType =
+          'Patients for whom there has been no follow-up attempt.';
         break;
       default:
         this.explainedFilterType = '';
@@ -207,6 +217,11 @@ export class PreAppointmentOutreachComponent implements OnInit {
         headerName: 'Rescheduled Date',
         width: 100,
         field: 'rescheduled_date'
+      },
+      {
+        headerName: 'No. of Failed Phone Attempts',
+        width: 100,
+        field: 'number_of_failed_phone_attempts'
       },
       {
         headerName: 'Contact Reached',

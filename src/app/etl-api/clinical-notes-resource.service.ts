@@ -15,7 +15,8 @@ export class ClinicalNotesResourceService {
   public getClinicalNotes(
     patientUuid: string,
     startIndex: number,
-    limit: number
+    limit: number,
+    isHEIActive: boolean
   ) {
     const api =
       this.appSettingsService.getEtlServer() +
@@ -32,7 +33,9 @@ export class ClinicalNotesResourceService {
 
     const params: HttpParams = new HttpParams()
       .set('startIndex', (startIndex as any) as string)
-      .set('limit', (limit as any) as string);
+      .set('limit', (limit as any) as string)
+      .set('includeNonClinicalEncounter', 'false')
+      .set('isHEIActive', (isHEIActive as any) as string);
 
     return this.http.get(api, { params: params });
   }

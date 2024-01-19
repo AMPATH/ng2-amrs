@@ -20,44 +20,11 @@
         </p>
       </div>
       <div
-        *ngIf="covid19VaccinationSummary?.vaccination_status"
-        style="display: inline-block"
-      >
-        <p
-          [ngClass]="
-            getCovidVaccinationAlert(
-              covid19VaccinationSummary.vaccination_status_code
-            )
-          "
-        >
-          <span class="hiv-alert"
-            >COVID-19 Assessment Status :
-            {{ covid19VaccinationSummary?.vaccination_status }}</span
-          >
-        </p>
-      </div>
-      <div
         class="alert-div"
-        *ngIf="covid19VaccinationSummary?.covid_screening_outcome_this_visit"
-        style="display: inline-block"
-      >
-        <p
-          [ngClass]="{
-            label: true,
-            'label-info': true
-          }"
-        >
-          <span class="hiv-alert"
-            >COVID-19 Screening Outcome :
-            {{
-              covid19VaccinationSummary?.covid_screening_outcome_this_visit
-            }}</span
-          >
-        </p>
-      </div>
-      <div
-        class="alert-div"
-        *ngIf="hasPredictedScore"
+        *ngIf="
+          hasPredictedScore &&
+          patientData?.encounter_datetime < prediction.prediction_generated_date
+        "
         style="display: inline-block"
       >
         <p [ngClass]="getPredictionAlertColorCoded(prediction.predicted_risk)">
@@ -69,7 +36,21 @@
           >
         </p>
       </div>
-      <div class="alert-div" style="display: inline-block">
+      <div
+        class="alert-div"
+        *ngIf="patientData?.vl_1 > 200 && this.patient.person.age <= 19"
+        style="display: inline-block"
+      >
+        <p
+          [ngClass]="{
+            label: true,
+            'label-warning': true
+          }"
+        >
+          <span class="hiv-alert">Jua Mtoto Wako</span>
+        </p>
+      </div>
+      <div *ngIf="!isHEIActive" class="alert-div" style="display: inline-block">
         <p [ngClass]="getViralLoadCategory(patientData?.vl_1)">
           <span class="hiv-alert" [style.background-color]="viralloadColor"
             >VL Category: {{ this.viralLoadCategory }}</span
@@ -81,7 +62,14 @@
       <h4 class="component-title">Last Encounter</h4>
       <div class="col-md-12">
         <div class="full-width">
-          <p>Location: {{ latestEncounterLocation?.name }}</p>
+          <p>
+            Location:
+            {{
+              latestEncounterLocation?.name
+                ? latestEncounterLocation?.name
+                : patientData.clinic
+            }}
+          </p>
         </div>
       </div>
       <div class="snapshot-body">
@@ -107,12 +95,23 @@
             <p>ARV Regimen: {{ patientData?.cur_arv_meds }}</p>
           </div>
           <div class="col-md-6 col-xs-12">
-            <p [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }">
-              Last Viral Load: {{ patientData?.vl_1 | zeroVl }}
-              <ng-container *ngIf="patientData.vl_1 !== undefined">
-                (<span>{{ patientData?.vl_1_date | date: 'dd-MM-yyyy' }}</span
+            <p
+              *ngIf="!isHEIActive"
+              [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }"
+            >
+              Last Viral Load: {{ patientData?.latest_vl | zeroVl }}
+              <ng-container *ngIf="patientData.latest_vl !== undefined">
+                (<span>{{
+                  patientData?.latest_vl_date | date: 'dd-MM-yyyy'
+                }}</span
                 >)
               </ng-container>
+            </p>
+            <p
+              *ngIf="isHEIActive"
+              [ngClass]="{ 'text-bold red': isVirallyUnsuppressed }"
+            >
+              Age PCR Done: {{ age_of_ped_on_last_pcr }}
             </p>
             <p>
               <i
@@ -137,9 +136,14 @@
         </div>
         <div class="col-md-12">
           <div class="col-md-6 col-xs-12">
-            <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
+            <p *ngIf="!isHEIActive">
+              RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}
+            </p>
+            <p *ngIf="isHEIActive">
+              Infant Feeding Method: {{ infant_feeding_method }}
+            </p>
 
-            <p>
+            <p *ngIf="!isHEIActive">
               Disclosure Status:
               <span style="text-transform: capitalize">
                 {{ hivDisclosureStatus }}
@@ -190,7 +194,18 @@
               </p>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
+          <div *ngIf="isHEIActive" class="col-md-6 col-xs-12">
+            <p>
+              PCR Results:
+              <span style="text-transform: capitalize">
+                {{ last_pcr_status }}
+              </span>
+            </p>
+          </div>
+          <div
+            class="col-md-6 col-xs-12"
+            *ngIf="showCareStatus && !isHEIActive"
+          >
             <p>
               Care Status:
               <span style="text-transform: capitalize">
@@ -277,6 +292,14 @@
                 >
               </p>
             </div>
+          </div>
+        </div>
+        <div *ngIf="isHEIActive" class="col-md-12">
+          <div class="col-md-6 col-xs-12">
+            <p>RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}</p>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <p>Date of PCR: {{ last_pcr_date | date: 'dd-MM-yyyy' }}</p>
           </div>
         </div>
         <div class="clear"></div>

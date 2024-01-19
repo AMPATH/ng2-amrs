@@ -72,7 +72,7 @@
             <strong>Leader: </strong>
             <ng-container *ngIf="currentLeader">
               <span *ngIf="currentLeader.person">
-                {{ currentLeader.person.display }} ({{ leadershipType }}),
+                {{ currentLeader.person.display }},
               </span>
               <span>since {{ currentLeader.startDate | date: 'medium' }}</span>
             </ng-container>
@@ -106,6 +106,12 @@
             <ng-container *ngIf="!currentLeader">
               <span>N/A</span>
             </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Group Activity: </strong>
+            <span *ngIf="landmark">{{ groupActivity?.value }}</span>
           </td>
         </tr>
       </tbody>
@@ -195,10 +201,23 @@
             >
             <div class="col-xs-10">
               <mat-radio-group formControlName="leadershipType">
-                <mat-radio-button value="peer" color="primary"
+                <mat-radio-button
+                  *ngIf="validOTZProgram"
+                  value="peer"
+                  [checked]="defaultLeadershipType == 'peer'"
+                  color="primary"
+                  >OTZ Champion</mat-radio-button
+                >
+                <mat-radio-button
+                  *ngIf="!validOTZProgram"
+                  value="peer"
+                  color="primary"
                   >Peer Leadership</mat-radio-button
                 >
-                <mat-radio-button value="staff" color="primary"
+                <mat-radio-button
+                  *ngIf="!validOTZProgram"
+                  value="staff"
+                  color="primary"
                   >Community Staff Leadership</mat-radio-button
                 >
               </mat-radio-group>
@@ -349,12 +368,21 @@
         <div class="col-xs-10">
           <mat-radio-group (change)="onDefaultLeadershipTypeChanged($event)">
             <mat-radio-button
+              *ngIf="validOTZProgram"
+              value="peer"
+              [checked]="defaultLeadershipType == 'peer'"
+              color="primary"
+              >OTZ Champion</mat-radio-button
+            >
+            <mat-radio-button
+              *ngIf="!validOTZProgram"
               value="peer"
               [checked]="defaultLeadershipType == 'peer'"
               color="primary"
               >Peer Leadership</mat-radio-button
             >
             <mat-radio-button
+              *ngIf="!validOTZProgram"
               value="staff"
               [checked]="defaultLeadershipType !== 'peer'"
               color="primary"

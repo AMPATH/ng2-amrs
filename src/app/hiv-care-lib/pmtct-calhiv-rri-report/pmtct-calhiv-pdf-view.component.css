@@ -1,0 +1,32 @@
+.section-title {
+  color: #fff;
+  background-color: #337ab7;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  font-size: 18px;
+}
+td,
+th {
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid #090909;
+}
+th {
+  background-color: #337ab7;
+  color: white;
+  font-weight: bold;
+}
+.section-data {
+  width: 50%;
+}
+.value {
+  color: #337ab7;
+}
+.value:hover {
+  cursor: pointer;
+}
+tr {
+  padding: 10px;
+}
