@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Moment from 'moment';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-otz-register',
@@ -30,5 +31,14 @@ export class OtzRegisterComponent implements OnInit {
 
   public onMonthChange(value): any {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
+  }
+
+  exportTableToExcel(): void {
+    const table = document.getElementById('otzRegister');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, 'otz_register.xlsx');
   }
 }
