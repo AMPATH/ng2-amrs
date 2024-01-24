@@ -7,21 +7,32 @@ const defs = {
 
 function getPatientLatestCericalScreeningResult(personId) {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT 
-         person_id, 
-         test_datetime, 
-         via_or_via_vili, 
-         TIMESTAMPDIFF(YEAR,test_datetime,now()) AS 'years_since_last_via_or_via_vili_test',
-         CASE
-           WHEN TIMESTAMPDIFF(YEAR,test_datetime,now()) >= 1 THEN 1
-           ELSE NULL
-         END AS 'qualifies_for_via_or_via_vili_retest'
-         FROM 
-         etl.flat_labs_and_imaging 
-         WHERE 
-         via_or_via_vili IS NOT NULL AND person_id = ${personId} 
-         ORDER BY test_datetime DESC LIMIT 1;`;
-
+    const sql = `SELECT fli.person_id,
+    test_datetime,
+    via_or_via_vili,
+    TIMESTAMPDIFF(YEAR, test_datetime, NOW()) AS 'years_since_last_via_or_via_vili_test',
+    CASE
+        WHEN TIMESTAMPDIFF(YEAR, test_datetime, NOW()) >= 1 THEN 1
+        ELSE NULL
+    END AS 'qualifies_for_via_or_via_vili_retest',
+    CASE
+        WHEN value_coded = 5276 THEN 1
+        ELSE NULL
+    END AS 'has_hysterectomy_done'
+FROM etl.flat_labs_and_imaging fli
+LEFT JOIN
+(SELECT person_id,
+       value_coded,
+       max(obs_datetime) latest_steralization_dt
+FROM amrs.obs
+WHERE value_coded = 5276
+  AND person_id = ${personId}
+  AND voided = 0
+LIMIT 1) fs ON (fli.person_id = fs.person_id)
+WHERE via_or_via_vili IS NOT NULL
+AND fli.person_id = ${personId}
+ORDER BY test_datetime DESC
+LIMIT 1;`;
     const queryParts = {
       sql: sql
     };
