@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div *ngIf="reportDetails" class="panel panel-info">
+  <div *ngIf="grid" class="panel panel-info">
     <div class="panel-heading" style="min-height: 50px !important">
       <strong class="text-primary">
         <span class="fa fa-file-pdf-o"> </span>
@@ -7,16 +7,16 @@
         <div class="btn-group pull-right">
           <button
             class="btn btn-primary"
-            (click)="downloadCSV()"
-            [disabled]="!gridOptions"
+            (click)="downloadPdf()"
+            [disabled]="grid.length < 0"
           >
-            <i class="fa fa-download"> </i> Export to CSV
+            <i class="fa fa-download"> </i> Download Pdf
           </button>
         </div>
       </strong>
     </div>
     <div>
-      <div class="row" *ngIf="reportDetails.displayTabularFilters">
+      <div class="row" *ngIf="grid.length > 0">
         <div class="col-md-5 col-sm-12 padding">
           <label for="">Search :</label>
           <div class="input-group">
@@ -50,12 +50,13 @@
         id="contentToConvert"
         class="panel-body table-content-class"
         style="background-color: #ffffff"
+        *ngIf="grid.length > 0"
       >
         <ng-container *ngFor="let grand of grid">
           <table>
             <colgroup>
-              <col [style.width.px]="indicatorHeaderwidth * 2" />
-              <col />
+              <col span="1" class="indicator-col-class" />
+              <col span="15" class="" />
             </colgroup>
             <thead class="header">
               <tr>

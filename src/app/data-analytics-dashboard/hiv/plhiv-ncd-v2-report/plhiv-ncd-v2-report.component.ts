@@ -19,6 +19,7 @@ export class PlhivNcdV2ReportComponent
   extends PlhivNcdV2ReportBaseComponent
   implements OnInit {
   public enabledControls = 'monthControl,locationControl';
+  public enabledControls2 = 'datesControl,locationControl';
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -40,7 +41,11 @@ export class PlhivNcdV2ReportComponent
     if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
       this.params = {
         locationUuids: this.getSelectedLocations(this.locationUuids),
-        month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+        month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+        startDate: Moment(this._startDate).format('YYYY-MM-DD'),
+        endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+        reportName: this.reportName,
+        currentView: this.currentView
       };
       super.generateReport();
       super.showDraftReportAlert(this._month);
@@ -52,7 +57,11 @@ export class PlhivNcdV2ReportComponent
   public storeParamsInUrl() {
     const state = {
       locationUuids: this.getSelectedLocations(this.locationUuids),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+      startDate: Moment(this._startDate).format('YYYY-MM-DD'),
+      endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+      reportName: this.reportName,
+      currentView: this.currentView
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
@@ -70,6 +79,9 @@ export class PlhivNcdV2ReportComponent
       const state = rison.decode(path.queryParams['state']);
       this.month = state.month;
       this.locationUuids = state.locations;
+      this.startDate = state.startDate;
+      this.endDate = state.endDate;
+      this.currentView = state.currentView;
     }
 
     if (path.queryParams['state']) {

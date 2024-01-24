@@ -6,7 +6,7 @@
   <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
 </div>
 
-<p-tabView>
+<p-tabView (onChange)="handleChange($event)">
   <div>
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
@@ -20,7 +20,7 @@
     </p-tabPanel>
     <p-tabPanel header="Range" leftIcon="fa-calendar-o">
       <report-filters
-        [enabledControls]="'datesControl'"
+        [enabledControls]="enabledControls2"
         [(startDate)]="startDate"
         [(endDate)]="endDate"
         (generateReport)="generateReport()"

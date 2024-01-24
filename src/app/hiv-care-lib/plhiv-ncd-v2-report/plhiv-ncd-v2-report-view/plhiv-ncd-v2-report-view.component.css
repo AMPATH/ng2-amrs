@@ -16,7 +16,7 @@ table {
 td {
   padding: 10px;
   border: 1px solid #090909;
-  text-align: centre;
+  text-align: center;
   font-size: auto;
 }
 
@@ -105,4 +105,33 @@ th {
 
 .bg-black {
   background-color: #272626;
+}
+
+.indicator-col-class {
+  width: 460px !important;
+  min-width: 460px !important;
+}
+.indicator-col-class > td {
+  text-align: left !important;
+  font-size: 16px !important;
+}
+
+td:first-child {
+  text-align: left;
+}
+
+tr:first-child {
+  text-align: center;
+}
+.data-left {
+  background-color: #2cc16a;
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .indicator-col-class {
+    font-size: 30px !important;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
 }

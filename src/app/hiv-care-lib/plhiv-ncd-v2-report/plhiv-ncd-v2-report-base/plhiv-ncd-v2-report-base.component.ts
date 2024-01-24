@@ -16,14 +16,10 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
   public selectedIndicators = [];
   public plhivNcdV2ReportSummaryData: any = [];
   public columnDefs: any = [];
-  public reportName = 'PLHIV_NCD_V2 Report';
+  public reportName = 'PLHIV_NCD_Report';
   public currentView = 'monthly';
   public currentViewBelow = 'pdf';
   public month: string;
-  public year: number;
-  public quarter: string;
-  public eDate: string;
-  public sDate: string;
 
   public statusError = false;
   public errorMessage = '';
@@ -31,14 +27,11 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
   public isLoading = false;
   public reportHead: any;
   public enabledControls = 'monthControl';
+  public enabledControls2 = 'datesControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
-  public _year: string;
-  public _quarter: string;
-  public _sDate: string;
-  public _eDate: string;
   public isReleased = true;
-
+  public v: any = [0, 1];
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
     return this._locationUuids;
@@ -52,6 +45,24 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
       }
     });
     this._locationUuids = locationUuids;
+  }
+
+  public _startDate: Date = Moment().subtract(1, 'M').endOf('month').toDate();
+  public get startDate(): Date {
+    return this._startDate;
+  }
+
+  public set startDate(v: Date) {
+    this._startDate = v;
+  }
+
+  public _endDate: Date = Moment().subtract(1, 'M').endOf('month').toDate();
+  public get endDate(): Date {
+    return this._endDate;
+  }
+
+  public set endDate(v: Date) {
+    this._endDate = v;
   }
 
   constructor(
@@ -71,18 +82,27 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
     });
   }
 
+  public handleChange($event: any) {
+    this.plhivNcdV2ReportSummaryData = [];
+    this.columnDefs = [];
+    if ($event.index === 0) {
+      this.currentView = 'monthly';
+    } else {
+      this.currentView = 'range';
+    }
+    this._month = Moment().subtract(1, 'M').endOf('month').format('YYYY-MM-DD');
+    this._startDate = Moment().subtract(1, 'M').endOf('month').toDate();
+    this._endDate = Moment().subtract(1, 'M').endOf('month').toDate();
+  }
+
   ngOnInit() {}
 
   public onMonthChange(value): any {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
-  }
-
-  onYearSelected(year: string) {
-    this._year = year;
-  }
-
-  onQuarterSelected(quarter: string) {
-    this._quarter = quarter;
+    this._endDate = new Date(Moment(value).endOf('month').format('YYYY-MM-DD'));
+    this._startDate = new Date(
+      Moment(value).endOf('month').format('YYYY-MM-DD')
+    );
   }
 
   public generateReport(): any {
@@ -96,12 +116,11 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
   public storeParamsInUrl(param) {
     this.params = {
       locationUuids: param,
-      _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      year: this._year,
-      quarter: this._quarter,
+      startDate: Moment(this._startDate).format('YYYY-MM-DD'),
+      endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
+      currentView: this.currentView
     };
     this.router.navigate([], {
       relativeTo: this.route,
@@ -165,10 +184,12 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
       queryParams: {
         indicators: $event.indicator,
         indicatorHeader: $event.headerName,
-        eDate: this._eDate,
         month: this._month,
-        locationUuids: $event.location,
-        currentView: this.currentView
+        startDate: Moment(this._startDate).format('YYYY-MM-DD'),
+        endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+        reportName: this.reportName,
+        currentView: this.currentView,
+        locationUuids: $event.location
       }
     });
   }

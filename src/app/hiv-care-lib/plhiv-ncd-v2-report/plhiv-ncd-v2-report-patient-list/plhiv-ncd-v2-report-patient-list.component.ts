@@ -30,6 +30,7 @@ export class PlhivNcdV2ReportPatientListComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(
       (params) => {
+        console.log('params-p[ist: ', params);
         if (params && params.month) {
           this.params = params;
           this.selectedIndicator = params.indicatorHeader;

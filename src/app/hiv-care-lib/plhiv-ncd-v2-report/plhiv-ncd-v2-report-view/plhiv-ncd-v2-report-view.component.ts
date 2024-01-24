@@ -11,7 +11,8 @@ import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PDFDocumentProxy } from 'pdfjs-dist';
 import { Observable, Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-plhiv-ncd-v2-report-view',
@@ -51,7 +52,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
   @Output()
   public CellSelection = new EventEmitter();
 
-  constructor() {}
+  constructor(private domSanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.grid = [];
@@ -72,6 +73,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     return sections[index].indicators[2].indicator.length;
   }
   private processData(sections: Array<any>, data: Array<any>) {
+    this.headers = [];
     this.maxGridSpan = data.length;
     for (let i = 0; i < sections.length; i++) {
       const maxColSpan = this.calculateMaxColSpan(sections, i);
@@ -82,6 +84,11 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
         value: sections[i].sectionTitle,
         children: []
       };
+      const header = {
+        label: sections[i].sectionTitle,
+        value: i
+      };
+      this.headers.push(header);
       for (let j = 0; j < data.length; j++) {
         const location = data[j]['location_uuid'];
         let k = 0;
@@ -323,9 +330,9 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
   }
 
   public searchIndicator() {
-    this.setColumns(this.sectionDefs);
+    this.processData(this.sectionDefs, this.sectionIndicatorsValues);
     if (this.selectedResult.length > 0) {
-      this.gridOptions.columnDefs.forEach((object) => {
+      this.grid.forEach((object) => {
         const make = {
           headerName: '',
           children: []
@@ -343,24 +350,24 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
           this.test.push(make);
         }
       });
-      this.gridOptions.columnDefs = [];
-      this.gridOptions.columnDefs = this.test;
+      this.grid = [];
+      this.grid = this.test;
       this.test = [];
     } else {
-      this.setColumns(this.sectionDefs);
+      this.processData(this.sectionDefs, this.sectionIndicatorsValues);
     }
   }
   public selectedIndicators(cell) {
-    // this.setColumns(this.sectionDefs);
-    // const value = [];
-    // if (this.selectedIndicatorsList.length) {
-    //   this.selectedIndicatorsList.forEach((indicator) => {
-    //     value.push(this.gridOptions.columnDefs[indicator]);
-    //   });
-    //   this.gridOptions.columnDefs = value;
-    // } else {
-    //   this.setColumns(this.sectionDefs);
-    // }
+    this.processData(this.sectionDefs, this.sectionIndicatorsValues);
+    const value = [];
+    if (this.selectedIndicatorsList.length) {
+      this.selectedIndicatorsList.forEach((indicator) => {
+        value.push(this.grid[indicator]);
+      });
+      this.grid = value;
+    } else {
+      this.processData(this.sectionDefs, this.sectionIndicatorsValues);
+    }
   }
   public downloadCSV() {
     const title = this.reportHeader;
@@ -453,6 +460,26 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
     document.body.removeChild(link);
   }
 
+  public downloadPdf() {
+    this.pdfvalue = this.bodyValues();
+    this.generatePdf()
+      .pipe(take(1))
+      .subscribe(
+        (pdf) => {
+          this.pdfSrc = pdf.pdfSrc;
+          this.pdfMakeProxy = pdf.pdfProxy;
+          this.securedUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            this.pdfSrc
+          );
+          this.isBusy = false;
+          this.downloadPdfView();
+        },
+        (err) => {
+          this.errorFlag = true;
+          this.isBusy = false;
+        }
+      );
+  }
   public generatePdf(): Observable<any> {
     const width: any = ['*', '*'];
     this.sectionIndicatorsValues.forEach(() => {
@@ -554,10 +581,10 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
   public bodyValues() {
     const body = [];
     // let span = 0;
-    this.gridOptions.columnDefs.forEach((columnDefs) => {
+    this.grid.forEach((columnDefs) => {
       const head = [];
       const part = {
-        text: columnDefs.headerName,
+        text: columnDefs.value,
         style: 'tableHeader',
         fillColor: '#337ab7',
         colSpan: this.sectionIndicatorsValues.length + this.pdfWidth,
@@ -573,7 +600,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
           alignment: 'left'
         };
         sec.push(test);
-        col.value.forEach((element) => {
+        col.children.forEach((element) => {
           const value = {
             text: element.value,
             style: 'subheader',
@@ -591,6 +618,7 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
         body.push(sec);
       });
     });
+    console.log('body==> ', body);
     return body;
   }
 

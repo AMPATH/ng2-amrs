@@ -21,7 +21,7 @@ export class PlhivNcdV2ResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}plhiv-ncd-v2-monthly-report?endDate=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}plhiv-ncd-v2-monthly-report?startDate=${params.startDate}&endDate=${params.month}&locationUuids=${params.locationUuids}&currentView=${params.currentView}`
       )
       .pipe(
         catchError((err: any) => {
@@ -41,7 +41,7 @@ export class PlhivNcdV2ResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}plhiv-ncd-v2-monthly-report-patient-list?endDate=${params.month}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
+        `${this.url}plhiv-ncd-v2-monthly-report-patient-list?startDate=${params.startDate}&endDate=${params.month}&locationUuids=${params.locationUuids}&indicators=${params.indicators}&currentView=${params.currentView}`
       )
       .pipe(
         catchError((err: any) => {
