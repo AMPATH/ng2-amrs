@@ -42,6 +42,7 @@ export class NewProgramComponent
   public unenrollExpressely = false;
   public enrolling = false;
   public isReferral = false;
+  public patientStatus: any;
   public isButtonVisible = true;
   public maxDate: string;
   public reasonForUnenroll = `
@@ -102,8 +103,12 @@ export class NewProgramComponent
               const dept = JSON.parse(
                 this.localStorageService.getItem('userDefaultDepartment')
               );
+
               this.department = dept[0].itemName;
+              this.departmentid = dept[0].id;
+
               this.selectDepartment(dept[0].itemName);
+              this.getEnrollmentQuestion(this.departmentid);
               if (this.route.snapshot.queryParams.program) {
                 this.selectProgram(this.route.snapshot.queryParams.program);
               }
@@ -141,7 +146,7 @@ export class NewProgramComponent
       selectedProgram: this.selectedProgram,
       programVisitConfig: this.programVisitConfig
     });
-    this.checkForRequiredQuestions();
+    // this.checkForRequiredQuestions();
     this.checkIfEnrollmentIsAllowed();
     this.goToDetails();
   }
@@ -150,10 +155,11 @@ export class NewProgramComponent
     if (this.department) {
       this.removeMessage();
       this.availableDepartmentPrograms = _.orderBy(
-        this.getProgramsByDepartmentName(),
+        this.getProgramsByDepartmentName(this.patientStatus),
         ['name'],
         ['asc']
       );
+
       if (this.availableDepartmentPrograms.length === 0) {
         this.showMessage('No Active programs in this department');
       } else {
@@ -188,7 +194,10 @@ export class NewProgramComponent
   }
 
   public goBack() {
-    if (this.currentStep === 4) {
+    if (this.currentStep === 5) {
+      this.currentStep = this.currentStep - 2;
+      this.jumpStep = this.currentStep;
+    } else if (this.currentStep === 3) {
       this.currentStep = this.currentStep - 2;
       this.jumpStep = this.currentStep;
     } else {
@@ -198,8 +207,8 @@ export class NewProgramComponent
 
   public goToDetails() {
     // incompatibility step has 'go back' issue. enforce the current step here
-    this.currentStep = 2;
-    this.jumpStep = -1;
+    this.currentStep = 3;
+    this.jumpStep = 1;
     if (this.program) {
       this.unenrollAndGoToDetails();
     } else {
@@ -262,10 +271,12 @@ export class NewProgramComponent
   public startVisit() {
     const dashboardRoutesConfig: any = this.routesProviderService
       .patientDashboardConfig;
+
     const route: any = _.find(
       dashboardRoutesConfig.programs,
       (_r: any) => _r['programUuid'] === this.newlyEnrolledProgram.program.uuid
     );
+
     const _route =
       '/patient-dashboard/patient/' +
       this.patient.uuid +
@@ -372,10 +383,14 @@ export class NewProgramComponent
       this.requiredProgramQuestions = this.programVisitConfig.enrollmentOptions.requiredProgramQuestions;
     }
   }
-
+  public onRequiredDeptQuestionChange(question) {
+    this.patientStatus = question.value;
+  }
   public onRequiredQuestionChange(question) {
     question = this.checkRelatedQuestions(question);
     // pick questions that have wrong answer
+    this.patientStatus = question.value;
+
     const questionWithWrongAnswer = _.find(
       this.requiredProgramQuestions,
       (q) => {

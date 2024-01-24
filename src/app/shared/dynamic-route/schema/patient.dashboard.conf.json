@@ -69,6 +69,16 @@
       ]
     },
     {
+      "programName": "ADULT PROGRAM",
+      "programUuid": "fa96b074-e058-44ca-81e5-02f5ea144319",
+      "baseRoute": "fa96b074-e058-44ca-81e5-02f5ea144319",
+      "alias": "hiv",
+      "published": true,
+      "requiresPatientEnrollment": true,
+      "shared-routes-class": "hiv",
+      "routes": []
+    },
+    {
       "programName": "Standard HIV Treatment",
       "programUuid": "781d85b0-1359-11df-a1f1-0026b9348838",
       "baseRoute": "781d85b0-1359-11df-a1f1-0026b9348838",

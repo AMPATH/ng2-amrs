@@ -30,6 +30,7 @@ import * as moment from 'moment';
 export class VisitComponent implements OnInit, OnDestroy {
   public currentProgramConfig = {};
   public showVisitStartedMsg = false;
+  public modelEnrolled: any = 'STANDARD MODEL';
   public patients: any;
   private subs: Subscription[] = [];
   public isRetrospectiveVisit = false;

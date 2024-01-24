@@ -21,6 +21,8 @@ import { LocalStorageService } from '../../utils/local-storage.service';
 })
 export class ProgramManagerBaseComponent implements OnInit {
   public department: string;
+  public departmentid: string;
+  public deptEnrolmentQuestion: any;
   public program: any;
   public title = 'Start Program';
   public steps: number[] = [1, 2, 3, 4, 5, 6];
@@ -62,7 +64,7 @@ export class ProgramManagerBaseComponent implements OnInit {
   public parentComponent = 'landing-page';
   public stepInfo: any = {};
   public availableDepartmentPrograms: any[] = [];
-  public departmentConf: any[];
+  public departmentConf: any;
   public enrollmentEncounters: string[] = [];
   constructor(
     public patientService: PatientService,
@@ -164,21 +166,39 @@ export class ProgramManagerBaseComponent implements OnInit {
       .subscribe((results) => {
         if (results) {
           this.departmentConf = results;
+          console.log('DepartmentConfig: ', this.departmentConf);
           this._filterDepartmentConfigByName();
         }
       });
   }
 
-  public getProgramsByDepartmentName(): any[] {
+  public getProgramsByDepartmentName(patientStatus?: string): any[] {
     const department = _.find(this.departmentConf, (config: any) => {
       return config.name === this.department;
     });
+
     if (department) {
       // Remove already enrolled programs
-      return _.filter(department.programs, (program) => {
-        const programs = _.map(this.availablePrograms, (a) => a.programUuid);
-        return _.includes(programs, program.uuid);
-      });
+      if (patientStatus) {
+        return _.filter(department.programs, (program) => {
+          const programs = _.map(this.availablePrograms, (a) => a.programUuid);
+          console.log('Programs: ', this.availablePrograms);
+          // Additional condition to filter by positivity
+          const isPositive = program.status === 'positive'; // Replace 'positive' with the actual property or condition
+
+          return _.includes(programs, program.uuid) && isPositive;
+        });
+
+        // return _.filter(department.programs, (program) => {
+        //   const programs = _.map(this.availablePrograms, (a) => a.programUuid);
+        //   return _.includes(programs, program.uuid);
+        // });
+      } else {
+        return _.filter(department.programs, (program) => {
+          const programs = _.map(this.availablePrograms, (a) => a.programUuid);
+          return _.includes(programs, program.uuid);
+        });
+      }
     }
     return [];
   }
@@ -228,7 +248,10 @@ export class ProgramManagerBaseComponent implements OnInit {
 
   public back() {
     this.prevStep = true;
-    --this.currentStep;
+    this.currentStep--;
+  }
+  public reset() {
+    this.program = null;
   }
 
   public next() {
@@ -270,6 +293,13 @@ export class ProgramManagerBaseComponent implements OnInit {
     return null;
   }
 
+  public getEnrollmentQuestion(departmentid: string) {
+    if ((departmentid = 'uud1')) {
+      this.deptEnrolmentQuestion = this.departmentConf[
+        departmentid
+      ].enrollmentOptions.requiredDepartmentQuestions;
+    }
+  }
   public isIncompatibleChoice() {
     this.incompatibleCount = 0;
     this.incompatibleMessage = [];
@@ -335,6 +365,7 @@ export class ProgramManagerBaseComponent implements OnInit {
     this.programDepartments = _.map(this.departmentConf, (config: any) => {
       return { name: config.name };
     });
+    console.log('ProgramConfigs', this.programDepartments);
   }
 
   private sortByDateEnrolled(a: any, b: any) {
