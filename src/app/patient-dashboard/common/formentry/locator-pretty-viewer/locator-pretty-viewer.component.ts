@@ -46,7 +46,9 @@ export class LocatorPrettyViewerComponent implements OnInit {
           for (const item of data[type]) {
             if (type === 'obs' && item.concept.name.display) {
               mappings[type][item.concept.name.display] =
-                item.value.display || item.value;
+                item.value && item.value.display
+                  ? item.value.display
+                  : item.value || null;
             } else if (type === 'attributes' && item.display) {
               const parts = item.display.split('=');
               if (parts.length === 2) {
