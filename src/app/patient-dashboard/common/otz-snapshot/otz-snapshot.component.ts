@@ -101,7 +101,6 @@ export class OtzSnapshotComponent implements OnInit {
 
   private getOtzDiscontinuation(patient) {
     patient.encounters.filter((encounter) => {
-      console.log(encounter);
       const reasonForDiscontinuation = encounter.obs.filter((obs) => {
         return obs.concept.uuid === 'a89e3f94-1350-11df-a1f1-0026b9348838';
       });
