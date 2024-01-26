@@ -1147,7 +1147,10 @@ function getCerivalScreeningReminder(personId) {
 
 function generateCervicalScreeningReminder(data) {
   let reminders = [];
-  if (data.qualifies_for_via_or_via_vili_retest === 1) {
+  if (
+    data.has_hysterectomy_done !== 1 &&
+    data.qualifies_for_via_or_via_vili_retest === 1
+  ) {
     reminders.push({
       message:
         'Patient is due for a repeat cervical cancer screening test. Last test result was Normal on ' +
