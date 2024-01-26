@@ -42,7 +42,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
             startDate: this.params.startDate,
             endDate: this.params.endDate,
             patientType: this.params.patientType,
-            limit: this.params.limit ? this.params.limit : 10,
+            limit: this.params.limit ? this.params.limit : 'all',
             offset: 0
           };
           this.getPatientList(requestParams);
@@ -71,37 +71,48 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       hide = false;
     }
     const extraColumns = {
-      birthdate: 'DOB',
-      sex_gender: 'Gender',
+      NUPI: 'NUPI',
+      sex_gender: 'Sex',
+      birthdate: 'Date of Birth (DD/MM/YYYY)',
+      hiv_start_date: 'Date Confirmed HIV Positive (DD/MM/YYYY)',
+      arv_first_regimen_start_date: 'Date of ART Initiation (DD/MM/YYYY)',
+      arv_start_date: 'Date of Current ART Initiation (DD/MM/YYYY)',
       drugs_given: 'Current ART Regimen',
+      cur_arv_med_basis: 'Current ART Regimen',
       drugs_duration: 'Drug dosage given (duration)',
-      weight: 'Weight',
-      height: 'Height',
-      muac: 'MUAC',
-      BMI: 'BMI',
+      height: 'Height at Last visit',
+      weight: 'Weight  at Last visit',
+      BMI: 'BMI  at Last visit',
+      muac: 'MUAC  at Last visit',
+      tb_screened_this_visit: 'Was TB Screening done at last visit',
+      tb_screening_result: 'TB Screening outcomes',
+      last_ipt_start_date: 'IPT start date (DD/MM/YYYY)',
+      tpt_status: 'IPT status',
+      ipt_completion_date: 'IPT outcome date (DD/MM/YYYY)',
+      viral_load_validity: 'Does the client have a Valid Viral load result',
+      vl_suppression: 'Is the client virally suppressed',
+      cd4_1: 'Baseline screening for CD4',
+      has_cd4_1: 'Does this client have Baseline screening for CD4',
+      is_crag_screened: 'Does this client have Baseline screening for CrAG',
+      last_clinical_encounter: 'Last clinical encounter date (DD/MM/YYYY)',
       sysBP: 'Systolic BP',
       dysBP: 'Diastolic BP',
       nutrition: 'Nutrition Assessment Done',
       DSD: 'DSD Model',
-      hiv_start_date: 'Date Confirmed HIV Positive',
-      arv_start_date: 'Date of ART Initiation',
-      cd4_1: 'Baseline CD4 Test Result',
-      vl_1: 'Latest Valid VL',
-      tpt_status: 'IPT Status',
+      // cd4_1: 'Baseline CD4 Test Result',
+      // vl_1: 'Latest Valid VL',
+      vl_1: 'Does the client have a Valid viral load result',
       ovcid_id: 'OVCID',
-      last_ipt_start_date: 'IPT Start Date',
-      ipt_stop_date: 'IPT Stop Date',
-      ipt_completion_date: 'IPT Completion Date',
-      last_clinical_encounter: 'Last Clinical Encounter',
-      last_appointment_date: 'Date of Last Appointment',
-      next_appointment: 'Date of Next Appointment ',
+      ipt_stop_date: 'IPT Stop Date (DD/MM/YYYY)',
+      // last_clinical_encounter: 'Last Clinical Encounter',
+      // last_appointment_date: 'Date of Last Appointment',
+      next_appointment: 'Next appointment date (DD/MM/YYYY)',
+      // next_appointment: 'Date of Next Appointment ',
       visit_type: 'Visit Type',
-      tb_screened_this_visit: 'TB screening',
-      tb_screening_result: 'TB Screening Outcomes',
       status: 'Status',
-      is_crag_screened: 'Baseline CrAG Screened',
-      vl_suppression: 'VL Suppression',
-      cur_who_stage: 'Current Who Stage'
+      // is_crag_screened: 'Baseline CrAG Screened',
+      cur_who_stage: 'Current Who Stage',
+      category: 'Category'
     };
     for (const indicator in extraColumns) {
       if (indicator) {
@@ -112,64 +123,79 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       }
     }
     this.overrideColumns.push(
+      { field: 'ccc_number', hide: true, pinned: true },
       {
         field: 'birthdate',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('YYYY-MM-DD');
-          }
-        },
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     // return moment(column.value).format('YYYY-MM-DD');
+        //     return moment(column.value).format('DD-MMM-YYYY');
+        //   }
+        //   return 'missing';
+        // },
         pinned: false
       },
       {
-        field: 'last_appointment_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        }
+        field: 'last_appointment_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // }
+      },
+      {
+        field: 'arv_first_regimen_start_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     if (moment(column.value).isBefore('1900-01-01', 'year')){
+        //       return column.value;
+        //     }
+        //     return ''
+        //   }
+        // }
       },
       {
         field: 'arv_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        }
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // },
+        hide: true
       },
       {
-        field: 'hiv_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        }
+        field: 'hiv_start_date'
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // }
       },
       {
-        field: 'last_clinical_encounter',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        }
+        field: 'last_clinical_encounter'
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // }
       },
       {
-        field: 'next_appointment',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        }
+        field: 'next_appointment'
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // }
       },
       {
-        field: 'tb_screened_this_visit',
-        width: 150,
-        cellRenderer: (column) => {
-          if (column.value === 0) {
-            return 'NO';
-          }
-          return 'YES';
-        }
+        field: 'tb_screened_this_visit'
+        // width: 150,
+        // cellRenderer: (column) => {
+        //   if (column.value === 0) {
+        //     return 'No';
+        //   }
+        //   return 'Yes';
+        // }
       },
       {
         field: 'vl_1',
@@ -179,7 +205,7 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
           }
           return column.value;
         },
-        hide: false
+        hide: true
       },
       {
         field: 'nutrition',
@@ -193,43 +219,36 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'last_ipt_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        },
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // },
         hide: false
       },
       {
         field: 'ipt_completion_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        },
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // },
         hide: false
       },
       {
         field: 'ipt_stop_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        },
+        // cellRenderer: (column) => {
+        //   if (column.value != null) {
+        //     return moment(column.value).format('DD-MM-YYYY');
+        //   }
+        // },
         hide: true,
         suppressToolPanel: true
       },
       {
-        field: 'arv_start_date',
-        cellRenderer: (column) => {
-          if (column.value != null) {
-            return moment(column.value).format('DD-MM-YYYY');
-          }
-        }
-      },
-      {
         field: 'drugs_given',
-        width: 280
+        width: 280,
+        hide: true
       },
       {
         field: 'height',
@@ -261,11 +280,23 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'NUPI',
+        width: 150
+        // pinned: true
+      },
+      {
+        field: 'upi_number',
         width: 150,
-        pinned: true
+        hide: true,
+        pinned: true,
+        suppressToolPanel: true
       },
       {
         field: 'drugs_given',
+        width: 280,
+        hide: true
+      },
+      {
+        field: 'cur_arv_med_basis',
         width: 280
       },
       {
@@ -298,7 +329,9 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
       },
       {
         field: 'age',
-        width: 150
+        width: 150,
+        hide: true,
+        suppressToolPanel: true
       },
       {
         field: 'sex_gender',
@@ -361,6 +394,16 @@ export class ChartAbstractionPatientlistComponent implements OnInit {
         field: 'is_crag_screened',
         width: 150,
         hide: false
+      },
+      {
+        field: 'status',
+        width: 150,
+        hide: true
+      },
+      {
+        field: 'cd4_1',
+        width: 150,
+        hide: true
       }
     );
   }
