@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 export class OtzRegisterComponent implements OnInit {
   public enabledControls = 'monthControl';
   public _month: string;
+  public reportName = 'OTZ Register';
   counterArray = Array(18)
     .fill(0)
     .map((_, index) => index + 1);
@@ -33,6 +34,9 @@ export class OtzRegisterComponent implements OnInit {
     this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
   }
 
+  public generateReport(): void {
+    return;
+  }
   exportTableToExcel(): void {
     const table = document.getElementById('otzRegister');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
