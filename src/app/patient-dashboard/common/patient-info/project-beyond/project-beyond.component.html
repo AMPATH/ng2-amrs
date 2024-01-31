@@ -1,0 +1,44 @@
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <a *ngIf="pbConsentExist" (click)="fillPbConsentForm()" class="edit_link"
+    ><span
+      ><i class="fa fa-edit fa-fw"></i> Change Project Beyond Consent</span
+    ></a
+  >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="pbConsentExist">
+        <td>
+          <strong>How do you get ARV medicines? : </strong
+          ><span class="{{ pbClientConsent.styling }}">{{
+            pbClientConsent.value.display
+          }}</span>
+        </td>
+        <td *ngIf="pbClientConsent.teleconConsult">
+          <strong>Teleconsultation Consent through phone calls?: </strong>
+          {{ pbClientConsent.teleconConsult }}
+        </td>
+        <td *ngIf="pbClientConsent.deliveryConsent">
+          <strong>Physical Tracing / Home Visit Consent? </strong>
+          {{ pbClientConsent.deliveryConsent }}
+        </td>
+        <td *ngIf="pbClientConsent.homevisitConsent">
+          <strong>Delivery of Medicine Consent </strong>
+          {{ pbClientConsent.homevisitConsent }}
+        </td>
+      </tr>
+      <tr *ngIf="!pbConsentExist">
+        <a (click)="fillPbConsentForm()" class="edit_link"
+          ><span
+            ><i class="fa fa-plus fa-fw"></i>Add Project Beyond Consent
+          </span></a
+        >
+      </tr>
+    </tbody>
+  </table>
+</div>
