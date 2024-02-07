@@ -658,6 +658,21 @@
       "column": "fh.vl_1"
     },
     {
+      "type": "simple_column",
+      "alias": "weight",
+      "column": "fh.weight"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cd4_1",
+      "column": "fh.cd4_1"
+    },
+    {
+      "type": "simple_column",
+      "alias": "cd4_1_date",
+      "column": "date_format(fh.cd4_1_date, '%Y-%m-%d')"
+    },
+    {
       "type": "derived_column",
       "alias": "vl_category",
       "expressionType": "case_statement",

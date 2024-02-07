@@ -29,6 +29,11 @@
       "width": 100
     },
     {
+      "headerName": "Weight",
+      "field": "weight",
+      "width": 100
+    },
+    {
       "headerName": "Identifiers",
       "field": "identifiers",
       "width": 250
@@ -46,6 +51,16 @@
     {
       "headerName": "Latest RTC Date",
       "field": "latest_rtc_date",
+      "width": 100
+    },
+    {
+      "headerName": "CD4",
+      "field": "cd4_1",
+      "width": 100
+    },
+    {
+      "headerName": "CD4 Date",
+      "field": "cd4_1_date",
       "width": 100
     },
     {
