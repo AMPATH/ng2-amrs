@@ -1,0 +1,84 @@
+.container {
+  overflow-y: auto;
+  height: 50em;
+  border-bottom: red;
+  width: 100%;
+}
+
+th {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+tbody {
+  border: 2px solid black;
+}
+
+.header {
+  text-align: center;
+  font-size: xx-large;
+  font-weight: bolder;
+}
+td {
+  padding: 10px;
+  border: 1px solid #090909;
+  text-align: center;
+  font-size: auto;
+}
+
+th {
+  padding: 0 10px 0 10px;
+  border: 1px solid #090909;
+  font-size: auto;
+  font-weight: bolder;
+  /* border-color: #090909 !important; */
+  top: 0;
+  margin: 0;
+}
+
+th:nth-of-type(2) {
+  padding: 10px;
+}
+
+tbody:hover {
+  background-color: skyblue;
+  cursor: pointer;
+}
+tbody:nth-of-type(1) th {
+  padding: 0;
+  /* text-align: start; */
+  vertical-align: text-top;
+  font-weight: bolder;
+}
+
+div table thead,
+div table thead th {
+  position: sticky;
+  top: 0;
+  /* background-color: skyblue; */
+  border: 2px solid black;
+  opacity: 1;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  /* margin: 0; */
+}
+
+tfoot {
+  position: sticky;
+  bottom: 0;
+  border-top: 2px solid #ccc;
+  background-color: grey;
+}
+
+thead tr,
+thead th {
+  border: 2px solid black;
+}
+
+tfoot tr:nth-child(3) td {
+  font-weight: bolder;
+}

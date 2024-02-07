@@ -7,5 +7,6 @@ export class RoutesProviderService {
   public patientDashboardConfig: object = require('./schema/patient.dashboard.conf.json');
   public patientListCohortConfig: object = require('./schema/patientlist.dashboard.conf.json');
   public providerDashboardConfig: object = require('./schema/provider.dashboard.conf.json');
+  public registersDashboardConfig: object = require('./schema/registers.dashboard.conf.json');
   constructor() {}
 }

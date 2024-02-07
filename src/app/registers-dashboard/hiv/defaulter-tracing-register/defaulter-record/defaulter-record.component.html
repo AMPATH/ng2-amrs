@@ -1,0 +1,599 @@
+<h1 class="header">MONTHLY DEFAULTER TRACING AND OUTCOME REGISTER</h1>
+<div counting (scroll)="onScroll($event)" class = "container">
+<table >
+  <caption></caption>
+  <thead style="background-color: skyblue;">
+    <tr>
+      <th *ngFor="let h of top">{{ h }}</th>
+    </tr>
+    <tr>
+      <th colspan="10"></th>
+      <th colspan="9"></th>
+    </tr>
+  <!-- </thead> -->
+  <!-- <tbody> -->
+    <!-- <ng-container> dddd-->
+      <tr>
+        <th rowspan="2">Serial number</th>
+        <th>Client's Name</th>
+        <th>Patient on ART (Y/N)</th>
+        <th>
+          Patient type (establlished/not established or Well/Advanced) 12106,
+          12107
+        </th>
+        <th>CCC Enrollment Date (7013)</th>
+        <th>Is patient enroled in DSD (Y/N)</th>
+        <th>Date of Missed Appointment (1592)</th>
+        <th>Treatment Supporter Name</th>
+        <th rowspan="2">Client's Physical Address/Nearest Landmark</th>
+        <!-- style="writing-mode: tb-rl; transform: rotate(-180deg)" -->
+        <th rowspan="2" >
+          Verification (insert code of information source)
+        </th>
+        <th colspan="3">
+          Types of Tracing Note the date of each attempt and outcome on a
+          separate row
+        </th>
+        <th>C=contact (1065) NC=no contact (1066)</th>
+        <th rowspan="2">Tracer's name (Form enterer)</th>
+        <th rowspan="2">Comments (Note the reasons for defaulting) - (9467)</th>
+        <!-- style="writing-mode: tb-rl; transform: rotate(-180deg)" -->
+        <th rowspan="2" >
+          Date promised to come (5096)
+        </th>
+        <th>Final Tracing Outcome</th>
+        <th>Date of Final Outcome/Date Client attended Clinic</th>
+      </tr>
+      <tr>
+        <!-- <th></th> -->
+        <th>Client's unique CCC No. and NUPI</th>
+        <th>Sex (M/F)</th>
+        <th>Age in Yrs</th>
+        <th>Date of ART initiation (1499)</th>
+        <th>What type of DSD (use codes below)</th>
+        <th>Client's Telephone No.</th>
+        <th>Treatment Supporter Tel No.</th>
+        <th>Client Called (1950)</th>
+        <th>Treatment Supporter Called (9025)</th>
+        <th>Physical Tracing (7066)</th>
+        <th>Outcome(Tick appropriately)</th>
+        <th></th>
+        <th></th>
+      </tr>
+    <!-- </ng-container> ddd-->
+  <!-- </tbody> -->
+  <!-- Dynamic Record base -->
+  </thead>
+  <tbody class="record">
+    <ng-container>
+      <tr>
+        <td rowspan="4">1</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">2</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">3</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">4</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">5</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">6</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">7</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tbody>
+    <ng-container>
+      <tr>
+        <td rowspan="4">8</td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td rowspan="4"></td>
+        <td rowspan="4"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td rowspan="2"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tfoot>
+    <tr style="background-color: yellow">
+      <td colspan="19">
+        Verification code: 1=pharmacy daily register, 2=Pharmacy MSH database,
+        3=Pre ART/ART register, 4=CCC patient card - MOH 257 , 5=Hospital death
+        register, 6=inpatient register, 7=TB/HEI registers. DSD Codes: 1=
+        Facility Fast track 2= Community ART
+      </td>
+    </tr>
+    <tr>
+      <td colspan="19">
+        Outcome Codes: 1. Self Return 2. Brough back to care 3. Transfer Out 4.
+        Dead 5. Refused Care/ Self Disengaged 6. IIT/LTFU. 7. Refilled Elsewhere
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="2" colspan="2" >Summary of Client Outcomes (TOTALS)</td>
+      <td colspan="2">1</td>
+      <td>2</td>
+      <td colspan="2">3</td>
+      <td colspan="5">4</td>
+      <td colspan="3">5</td>
+      <td colspan="2">6</td>
+      <td colspan="2">7</td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td></td>
+      <td colspan="2"></td>
+      <td colspan="5"></td>
+      <td colspan="3"></td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
