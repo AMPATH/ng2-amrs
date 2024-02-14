@@ -93,6 +93,9 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
         const location = data[j]['location_uuid'];
         let k = 0;
         for (const element of sections[i].indicators) {
+          if (element.required) {
+            continue;
+          }
           const parent = {
             id: 0,
             colspan: '1',
@@ -618,7 +621,6 @@ export class PlhivNcdV2ReportViewComponent implements OnInit, OnChanges {
         body.push(sec);
       });
     });
-    console.log('body==> ', body);
     return body;
   }
 
