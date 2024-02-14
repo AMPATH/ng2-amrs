@@ -1,6 +1,9 @@
 <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
   <a *ngIf="consentExist" (click)="fillConsentForm()" class="edit_link"
-    ><span><i class="fa fa-edit fa-fw"></i> Change consent</span></a
+    ><span
+      ><i class="fa fa-edit fa-fw"></i> Change Home Visit, Phone , SMS
+      consent</span
+    ></a
   >
   <table class="table table-striped">
     <thead>
@@ -35,7 +38,10 @@
       </tr>
       <tr *ngIf="!consentExist">
         <a (click)="fillConsentForm()" class="edit_link"
-          ><span><i class="fa fa-plus fa-fw"></i> Add consent</span></a
+          ><span
+            ><i class="fa fa-plus fa-fw"></i>Add Home Visit, Phone, SMS
+            Consent</span
+          ></a
         >
       </tr>
     </tbody>
