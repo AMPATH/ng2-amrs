@@ -51,6 +51,12 @@ export class MonthlyReportComponent implements OnInit {
         icon: 'fa'
       },
       {
+        title: 'AHD Monthly Report',
+        description: '',
+        url: 'ahd-monthly-report',
+        icon: 'fa'
+      },
+      {
         title: 'PLHIV NCD Monthly Report',
         description: '',
         url: 'plhiv-ncd-v2-monthly-report',

@@ -40,6 +40,8 @@ import { ChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-r
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { PrepReportPatientListComponent } from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
+import { AhdReportComponent } from './ahd-report/ahd-report.component';
+import { AhdMonthlyReportPatientlistComponent } from 'src/app/hiv-care-lib/ahd-monthly-report/ahd-monthly-report-patientlist/ahd-monthly-report-patientlist.component';
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
 // tslint:disable-next-line: max-line-length
 import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses-report/clinic-dashboard-gains-and-losses.component';
@@ -485,6 +487,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PlhivNcdV2ReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'ahd-monthly-report',
+        children: [
+          {
+            path: '',
+            component: AhdReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: AhdMonthlyReportPatientlistComponent
           }
         ]
       }
