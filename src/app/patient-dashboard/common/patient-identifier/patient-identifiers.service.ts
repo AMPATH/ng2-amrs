@@ -27,7 +27,6 @@ export class PatientIdentifierService {
     }
     sum = Math.abs(sum) + 10;
     const digit = (10 - (sum % 10)) % 10;
-    console.log('Lunh Check Digit Is =' + digit);
     return digit;
   }
 
@@ -139,7 +138,7 @@ export class PatientIdentifierService {
       },
       {
         label: 'NAT',
-        format: 'NAT-\\d{4}$',
+        format: 'NAT-\\d{4,6}$',
         checkdigit: 0,
         val: '22ee6ad7-58fb-4382-9af2-c6a553f3d56a'
       },
