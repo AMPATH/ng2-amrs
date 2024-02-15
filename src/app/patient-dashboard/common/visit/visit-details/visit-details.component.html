@@ -201,7 +201,7 @@
     </button>
   </div>
   <form (ngSubmit)="submitCancelRequest()">
-  <div class="modal-body">
+    <div class="modal-body">
       <div class="row">
         <div class="col-md-12 mb-2">
           <label for="instructions">Reasons for cancelling:</label>
@@ -216,10 +216,22 @@
           ></textarea>
         </div>
       </div>
-  </div>
-  <div class="modal-footer">
-    <button class="fa fa-times-circle btn btn-danger btn-sm" type="button" (click)="hide()"> cancel</button>
-    <button class="fa fa-check-circle btn btn-success btn-sm" type="submit" [disabled]="cancellationReasons?.length < 5"> submit request</button>
-  </div>  
-</form>
+    </div>
+    <div class="modal-footer">
+      <button
+        class="fa fa-times-circle btn btn-danger btn-sm"
+        type="button"
+        (click)="hide()"
+      >
+        cancel
+      </button>
+      <button
+        class="fa fa-check-circle btn btn-success btn-sm"
+        type="submit"
+        [disabled]="cancellationReasons?.length < 5"
+      >
+        submit request
+      </button>
+    </div>
+  </form>
 </ng-template>
