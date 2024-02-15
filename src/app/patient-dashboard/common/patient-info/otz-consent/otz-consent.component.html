@@ -1,0 +1,43 @@
+<div class="col-md-10 col-lg-10 col-sm-12 col-xs-12">
+  <a *ngIf="otzConsentExist" (click)="fillOtzConsentForm()" class="edit_link"
+    ><span><i class="fa fa-edit fa-fw"></i> Change OTZ Consent</span></a
+  >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="otzConsentExist">
+        <td>
+          <strong>Patient Consented: </strong
+          ><span class="{{ otzClientConsent.styling }}">{{
+            otzClientConsent.value.display
+          }}</span>
+        </td>
+        <td *ngIf="otzClientConsent.dateofConsent">
+          <strong>Consent valid from: </strong>
+          {{ otzClientConsent.dateofConsent }}
+        </td>
+        <!--<td *ngIf="otzClientConsent.dateofConsent">
+          <strong>SMS consent: </strong>
+          {{ otzClientConsent.sms }}
+        </td>
+        <td *ngIf="otzClientConsent.dateofConsent">
+          <strong>SMS consented time : </strong>
+          {{ otzClientConsent.smsTime }}
+        </td>
+        <td *ngIf="otzClientConsent.comments">
+          <strong>Comments : </strong>{{ otzClientConsent.comments }}
+        </td>-->
+      </tr>
+      <tr *ngIf="!otzConsentExist">
+        <a (click)="fillOtzConsentForm()" class="edit_link"
+          ><span><i class="fa fa-plus fa-fw"></i>Add OTZ Consent </span></a
+        >
+      </tr>
+    </tbody>
+  </table>
+</div>
