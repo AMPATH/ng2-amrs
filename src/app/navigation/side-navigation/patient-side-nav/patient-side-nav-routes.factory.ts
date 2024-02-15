@@ -17,7 +17,7 @@ export class PatientRoutesFactory {
     patientRoutesConfig = this.processSharedRoutes(patientRoutesConfig);
 
     const routes: RouteModel[] = [];
-    if (Moment().diff(Moment(patient.person.birthdate), 'months') <= 18) {
+    if (patient.enrolledPrograms[26].isEnrolled) {
       patientRoutesConfig.sharedRoutes.hiv[3] = {
         url: 'hiv-summary',
         label: 'HEI Summary',
