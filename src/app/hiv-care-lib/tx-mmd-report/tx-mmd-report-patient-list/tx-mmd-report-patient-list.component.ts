@@ -54,12 +54,15 @@ export class TxMmdReportPatientListComponent implements OnInit {
 
   public addExtraColumns() {
     const extraColumns = {
+      weight: 'Weight',
       phone_number: 'Phone',
       enrollment_date: 'Enrolment Date',
       last_appointment: 'Last Appointment',
       latest_rtc_date: 'Latest RTC Date',
       days_since_rtc_date: 'Days since RTC',
       arv_first_regimen: 'ARV first regimen',
+      cd4_1: 'CD4',
+      cd4_1_date: 'CD4 Date',
       arv_first_regimen_start_date: 'First ARV start date',
       cur_meds: 'Current Regimen',
       cur_arv_line: 'Current ARV Line',

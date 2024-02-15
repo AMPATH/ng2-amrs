@@ -58,7 +58,7 @@ export class TxRttReportComponent
       this.errorMessage = 'Locations are required!';
     }
   }
-  public getDates(currentEndDate) {
+  public getDates(currentEndDate: string) {
     // Convert the currentEndDate string to a Date object
     const currentDate = new Date(currentEndDate);
 
@@ -67,24 +67,19 @@ export class TxRttReportComponent
     const currentYear = currentDate.getFullYear();
 
     // Calculate the previous month's last date
+    const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1; // Adjust for January
+    const previousYear = currentMonth === 0 ? currentYear - 1 : currentYear; // Subtract one year if current month is January
     const previousMonthLastDate = new Date(
-      currentYear,
-      currentMonth,
-      0
-    ).getDate();
-
-    // Calculate the current month's end date
-    const currentMonthEndDate = new Date(
-      currentYear,
-      currentMonth + 1,
+      previousYear,
+      previousMonth + 1,
       0
     ).getDate();
 
     // Format the dates as strings in the "YYYY-MM-DD" format
     const previousMonthLastDateString =
-      currentYear +
+      previousYear +
       '-' +
-      currentMonth.toString().padStart(2, '0') +
+      (previousMonth + 1).toString().padStart(2, '0') +
       '-' +
       previousMonthLastDate.toString().padStart(2, '0');
     const currentMonthEndDateString = currentEndDate;
