@@ -64,6 +64,8 @@ import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
+import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
+import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 
 const routes: Routes = [
   {
@@ -470,6 +472,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: Covid19ReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'plhiv-ncd-v2-monthly-report',
+        children: [
+          {
+            path: '',
+            component: PlhivNcdV2ReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PlhivNcdV2ReportPatientListComponent
           }
         ]
       }
