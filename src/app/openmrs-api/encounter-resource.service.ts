@@ -101,11 +101,11 @@ export class EncounterResourceService {
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
-  public voidEncounter(uuid: string) {
+  public voidEncounter(uuid: string, voidReason: string) {
     if (!uuid) {
       return null;
     }
-    const url = this.getUrl() + 'encounter/' + uuid + '?!purge';
+    const url = `${this.getUrl()}encounter/${uuid}?reason=${voidReason}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });
   }
