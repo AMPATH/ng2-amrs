@@ -50,6 +50,12 @@ export class DataAnalyticsMonthlyReportComponent implements OnInit {
         description: '',
         url: 'plhiv-ncd-v2-monthly-report',
         icon: 'fa'
+      },
+      {
+        title: 'AHD Monthly Report',
+        description: '',
+        url: 'ahd-monthly-report',
+        icon: 'fa'
       }
     ];
   }

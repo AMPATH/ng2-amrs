@@ -53,6 +53,8 @@ import { TxMmdReportPatientListComponent } from 'src/app/hiv-care-lib/tx-mmd-rep
 import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
 import { TxRttReportPatientListComponent } from 'src/app/hiv-care-lib/tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
+import { AhdReportComponent } from './ahd-report/ahd-report.component';
+import { AhdMonthlyReportPatientlistComponent } from 'src/app/hiv-care-lib/ahd-monthly-report/ahd-monthly-report-patientlist/ahd-monthly-report-patientlist.component';
 import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 
@@ -265,6 +267,19 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: PlhivNcdV2ReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'ahd-monthly-report',
+        children: [
+          {
+            path: '',
+            component: AhdReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: AhdMonthlyReportPatientlistComponent
           }
         ]
       }
