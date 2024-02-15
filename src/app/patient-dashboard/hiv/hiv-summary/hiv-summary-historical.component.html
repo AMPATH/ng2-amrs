@@ -37,18 +37,6 @@
             : 0
         }}
       </td>
-
-      <td>
-        {{
-          (hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-            (1000 * 60 * 60 * 24) >
-          0
-            ? (hivSummary.encounter_datetime - hivSummary.prev_rtc_date) /
-              (1000 * 60 * 60 * 24)
-            : 0
-        }}
-      </td>
-
       <td *ngIf="hasMedicationRtc">
         {{ hivSummary.med_pickup_rtc_date | date: 'dd-MM-yyyy' }}
       </td>
