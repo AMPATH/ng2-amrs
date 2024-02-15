@@ -7,6 +7,8 @@ import { EncounterResourceService } from '../../../../openmrs-api/encounter-reso
 import { Encounter } from '../../../../models/encounter.model';
 import { RetrospectiveDataEntryService } from '../../../../retrospective-data-entry/services/retrospective-data-entry.service';
 import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 @Component({
   selector: 'app-visit-details',
   templateUrl: './visit-details.component.html',
@@ -114,8 +116,12 @@ export class VisitDetailsComponent implements OnInit {
     }
     this._programVisitTypesConfig = obj;
   }
+  modalRef: BsModalRef;
+  cancellationReasons: any = '';
 
   constructor(
+    private modalService: BsModalService,
+    private toastrService: ToastrFunctionService,
     private visitResourceService: VisitResourceService,
     private retrospectiveDataEntryService: RetrospectiveDataEntryService,
     private encounterResService: EncounterResourceService,
@@ -157,7 +163,7 @@ export class VisitDetailsComponent implements OnInit {
     this.visitResourceService.updateVisit(this.visit.uuid, payload).subscribe(
       (udpatedVisit) => {
         // this.isBusy = false;
-        this.voidVisitEncounters();
+        this.voidVisitEncounters('');
         if (udpatedVisit.encounters.length === 0) {
           this.visitCancelled.next(this.visit);
         }
@@ -324,7 +330,27 @@ export class VisitDetailsComponent implements OnInit {
       );
   }
 
-  public cancelCurrenVisit() {
+  public cancelCurrenVisit_Void(voidReason: string) {
+    this.isBusy = true;
+    this.error = '';
+    this.visitResourceService.voidVisit(this.visit.uuid, voidReason).subscribe(
+      (udpatedVisit) => {
+        this.voidVisitEncounters(voidReason);
+        if (udpatedVisit.encounters.length === 0) {
+          this.visitCancelled.next(this.visit);
+        }
+      },
+      (error) => {
+        this.isBusy = false;
+        this.showDeleteEncountersButton = true;
+        this.error =
+          'An error occured while cancelling visit. Refresh page and retry';
+        console.error('Error saving visit changes', error);
+      }
+    );
+  }
+
+  public cancelCurrenVisit(voidReason: string) {
     this.isBusy = true;
     this.error = '';
     this.visitResourceService
@@ -334,7 +360,7 @@ export class VisitDetailsComponent implements OnInit {
       .subscribe(
         (udpatedVisit) => {
           // this.isBusy = false;
-          this.voidVisitEncounters();
+          this.voidVisitEncounters(voidReason);
           if (udpatedVisit.encounters.length === 0) {
             this.visitCancelled.next(this.visit);
           }
@@ -349,7 +375,7 @@ export class VisitDetailsComponent implements OnInit {
       );
   }
 
-  public voidVisitEncounters() {
+  public voidVisitEncounters(voidReason: string) {
     if (
       Array.isArray(this.visit.encounters) &&
       this.visit.encounters.length > 0
@@ -357,7 +383,7 @@ export class VisitDetailsComponent implements OnInit {
       const observableBatch: Array<Observable<any>> = [];
       for (const encounter of this.visit.encounters) {
         observableBatch.push(
-          this.encounterResService.voidEncounter(encounter.uuid)
+          this.encounterResService.voidEncounter(encounter.uuid, voidReason)
         );
       }
 
@@ -390,13 +416,43 @@ export class VisitDetailsComponent implements OnInit {
     this.editingProvider = !this.editingProvider;
   }
 
+  public canceVisit(modal) {
+    this.modalRef = this.modalService.show(modal);
+  }
+
+  public cancelVisitAction(modal) {
+    const confirmation = window.confirm(
+      'Are you sure you want to cancel this visit? Please note that cancelling a visit deletes all encounters associated with it.'
+    );
+
+    if (confirmation) {
+      this.cancellationReasons = '';
+      this.canceVisit(modal);
+    }
+  }
+
+  public hide() {
+    this.modalRef.hide();
+  }
+
+  public submitCancelRequest() {
+    this.cancelCurrenVisit_Void(this.cancellationReasons);
+    this.cancellationReasons = '';
+    this.modalRef.hide();
+    this.toastrService.showToastr(
+      'success',
+      `Visit cancelled successfully`,
+      'Success!'
+    );
+  }
+
   public confirmAction(action) {
     switch (action) {
       case 'cancel-visit':
-        this.message.title =
-          'Cancelling a visit deletes all encounters associated with it.';
-        this.message.message = 'Please confirm you wish to cancel this visit:';
-        this.confirmingCancelVisit = true;
+        // this.message.title =
+        //   'Cancelling a visit deletes all encounters associated with it.';
+        // this.message.message = 'Please confirm you wish to cancel this visit:';
+        // this.confirmingCancelVisit = true;
         break;
       case 'end-visit':
         this.message.title =
@@ -444,7 +500,7 @@ export class VisitDetailsComponent implements OnInit {
   public onYesDialogConfirmation() {
     this.showConfirmationDialog = false;
     if (this.confirmingCancelVisit) {
-      this.cancelCurrenVisit();
+      this.cancelCurrenVisit('');
     } else {
       this.endCurrentVisit();
     }
