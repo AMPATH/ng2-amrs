@@ -142,6 +142,9 @@ import { TxMmdReportBaseComponent } from './tx-mmd-report/tx-mmd-report-base/tx-
 import { TxMmdReportPatientListComponent } from './tx-mmd-report/tx-mmd-report-patient-list/tx-mmd-report-patient-list.component';
 import { TxRttReportBaseComponent } from './tx-rtt-report/tx-rtt-report-base/tx-rtt-report-base.component';
 import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-patient-list/tx-rtt-report-patient-list.component';
+import { PlhivNcdV2ReportBaseComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-base/plhiv-ncd-v2-report-base.component';
+import { PlhivNcdV2ReportPatientListComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
+import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-view/plhiv-ncd-v2-report-view.component';
 
 @NgModule({
   imports: [
@@ -243,7 +246,8 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     Covid19ReportPatientListComponent,
     Covid19TabularViewComponent,
     PrepMonthlyReportViewComponent,
-    TxMlReportViewComponent
+    TxMlReportViewComponent,
+    PlhivNcdV2ReportViewComponent
   ],
   declarations: [
     Moh731TabularComponent,
@@ -334,7 +338,10 @@ import { TxRttReportPatientListComponent } from './tx-rtt-report/tx-rtt-report-p
     TxMmdReportBaseComponent,
     TxMmdReportPatientListComponent,
     TxRttReportBaseComponent,
-    TxRttReportPatientListComponent
+    TxRttReportPatientListComponent,
+    PlhivNcdV2ReportBaseComponent,
+    PlhivNcdV2ReportPatientListComponent,
+    PlhivNcdV2ReportViewComponent
   ],
   providers: [
     MOHReportService,
