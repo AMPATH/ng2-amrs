@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DefaulterTracingRegisterComponent } from './defaulter-tracing-register/defaulter-tracing-register.component';
+import { DefaulterPatientListComponent } from './defaulter-tracing-register/defaulter-patient-list/defaulter-patient-list.component';
 
 const routes: Routes = [
   {
@@ -9,11 +10,11 @@ const routes: Routes = [
       {
         path: '',
         component: DefaulterTracingRegisterComponent
+      },
+      {
+        path: 'defaulter-tracing-register-patient-list',
+        component: DefaulterPatientListComponent
       }
-      // {
-      //   path: 'patient-list',
-      //   component: ''
-      // }
     ]
   }
 ];

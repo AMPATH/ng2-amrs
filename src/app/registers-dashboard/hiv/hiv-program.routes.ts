@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RegistersDashboardComponent } from '../registers-dashboard.component';
 import { RegistersDashboardGuard } from '../registers-guard.guard';
 import { DefaulterTracingRegisterComponent } from './defaulter-tracing-register/defaulter-tracing-register.component';
+import { DefaulterPatientListComponent } from './defaulter-tracing-register/defaulter-patient-list/defaulter-patient-list.component';
 
 const routes: Routes = [
   {
@@ -25,11 +26,11 @@ const routes: Routes = [
               {
                 path: '',
                 component: DefaulterTracingRegisterComponent
+              },
+              {
+                path: 'defaulter-tracing-register-patient-list',
+                component: DefaulterPatientListComponent
               }
-              // {
-              //   path: 'patient-list/:report/:indicator/:period',
-              //   component: VisualizationPatientListComponent
-              // }
             ]
           }
         ]

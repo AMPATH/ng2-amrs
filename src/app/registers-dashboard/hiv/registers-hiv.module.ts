@@ -11,6 +11,8 @@ import { HivClinicFlowResourceService } from '../../etl-api/hiv-clinic-flow-reso
 import { DefaulterTracingRegisterComponent } from './defaulter-tracing-register/defaulter-tracing-register.component';
 import { RegistersDashboardService } from '../service/registers-dashboard.service';
 import { DefaulterRecordComponent } from './defaulter-tracing-register/defaulter-record/defaulter-record.component';
+import { DefaulterPatientListComponent } from './defaulter-tracing-register/defaulter-patient-list/defaulter-patient-list.component';
+import { DefaulterTracingRegisterCacheService } from './defaulter-tracing-register/defaulter-tracing-register-cache.service';
 
 @NgModule({
   imports: [
@@ -24,7 +26,15 @@ import { DefaulterRecordComponent } from './defaulter-tracing-register/defaulter
     RouterModule
   ],
   exports: [RouterModule],
-  declarations: [DefaulterTracingRegisterComponent, DefaulterRecordComponent],
-  providers: [HivClinicFlowResourceService, RegistersDashboardService]
+  declarations: [
+    DefaulterTracingRegisterComponent,
+    DefaulterRecordComponent,
+    DefaulterPatientListComponent
+  ],
+  providers: [
+    HivClinicFlowResourceService,
+    RegistersDashboardService,
+    DefaulterTracingRegisterCacheService
+  ]
 })
 export class RegistersHivModule {}

@@ -5,21 +5,24 @@
 <div class="filters">
   <location-filter
     id="location"
-    [locationUuids]="location"
+    [locationUuids]="locations"
     [showLabel]="false"
     [disable-county]="true"
+    (onLocationChange)="renderDefaulterTracingRegister($event)"
     [multiple]="false"
   ></location-filter>
   <div class="date-filter">
     <div class="col-md-12 form-group">
-      <label for="selectedDate">Select Date</label>
-      <date-time-picker
-        tabindex="0"
-        [modelValue]="selectedDate"
-        id="selectedDate"
-        (onDateChange)="setSelectedDate($event)"
-      ></date-time-picker>
+      <label for="month">Month: </label>
+      <input
+        id="endDate"
+        type="month"
+        class="form-control"
+        [(ngModel)]="monthString"
+        name="endDate"
+      />
     </div>
+
     <div class="col-md-12 col-xs-12">
       <div class="row">
         <div class="col-md-4 col-xs-4">
@@ -35,7 +38,7 @@
           class="col-md-4 col-xs-4"
           style="text-align: center; padding: 1px; margin: 2px 0px 2px 0px"
         >
-          <span style="font-weight: bold"> {{ selectedDate | date }} </span>
+          <span style="font-weight: bold"> {{ monthString }} </span>
         </div>
         <div class="col-md-4 col-xs-4">
           <button
@@ -53,19 +56,22 @@
 </div>
 <div class="col-md-12 col-xs-12">
   <hr />
-  <!-- <p
+  <p
     class="text-info"
     *ngIf="!locations || (locations && locations.length == 0)"
   >
     Please select location(s) to view report
-  </p> -->
+  </p>
   <!-- <clinic-flow
     *ngIf="locations && locations.length > 0 "
     [date]="selectedDate"
     [locations]="locations"
   ></clinic-flow> -->
   <div>
-    <app-defaulter-record></app-defaulter-record>
+    <app-defaulter-record
+      [date]="selectedDate"
+      [locations]="locations"
+    ></app-defaulter-record>
     <div style="margin: 0px; float: right">
       <button
         class="btn btn-info"
