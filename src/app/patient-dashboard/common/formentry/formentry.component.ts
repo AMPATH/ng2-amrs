@@ -37,7 +37,7 @@ import { FormSubmissionService } from './form-submission.service';
 import { MonthlyScheduleResourceService } from '../../../etl-api/monthly-scheduled-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
-
+import { ProgramManagerService } from '../../../program-manager/program-manager.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { RetrospectiveDataEntryService } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
@@ -54,6 +54,8 @@ import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.int
 // constants
 import { FormUuids } from './../../../constants/forms.constants';
 import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
+import { ComponentResolver } from 'ag-grid/dist/lib/components/framework/componentResolver';
+import { Console } from 'console';
 
 interface RefProgram {
   uuid: string;
@@ -157,6 +159,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private referralsHandler: FormentryReferralsHandlerService,
     private formDataSourceService: FormDataSourceService,
     private formSubmissionService: FormSubmissionService,
+    private programManagerService: ProgramManagerService,
     private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private patientService: PatientService,
     private patientTransferService: PatientTransferService,
@@ -511,7 +514,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         if (
           encounterProvider.length > 0 &&
           this.compiledSchemaWithEncounter &&
-          this.compiledSchemaWithEncounter.provider !== {}
+          this.compiledSchemaWithEncounter.provider.length !== 0
         ) {
           let provider = this.compiledSchemaWithEncounter.provider.uuid;
           if (retroSettings && retroSettings.enabled) {
@@ -683,7 +686,56 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(() => {});
     }
   }
+  public enrollPatientToNewModel(data: any): void {
+    let programToEnroll = '';
+    let modelSelected = [];
+    modelSelected = this.form.searchNodeByQuestionId('dsdModel');
+    if (modelSelected.length === 0) {
+      modelSelected = this.form.searchNodeByQuestionId('moreIntense'); // moreIntense
+    }
 
+    const modelUuid = modelSelected[0].initialValue.value.uuid;
+
+    switch (modelUuid) {
+      case 'c8b9b024-1a3a-47a4-a2aa-fcaf3053ea27':
+        programToEnroll = '4545685e-65f6-48c4-a6b4-860cea88c4d4'; // AHD
+        break;
+      case '520825cf-d045-4bbf-a7f5-a7018f14dd76':
+        programToEnroll = 'f0faccb7-657e-413c-abad-54f13409d106'; // Standard
+        break;
+      case 'fe239aa1-f5d4-4d15-83a1-ce417e9fb879':
+        programToEnroll = '30521f4d-0708-4644-9e88-a108a830a5fd'; // viremia
+        break;
+    }
+    console.log('Response:', programToEnroll);
+    const enrollpayload = {
+      programUuid: programToEnroll,
+      patient: this.patient,
+      dateEnrolled: '',
+      dateCompleted: '',
+      location: this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
+        .uuid,
+      enrollmentUuid: ''
+    };
+    console.log('Response:', enrollpayload);
+    this.referralsHandler
+      .getPatientProgramVisitConfigs(this.patient, programToEnroll)
+      .pipe(take(1))
+      .subscribe((programConfig) => {
+        console.log('Response:', programConfig);
+        this.referralsHandler
+          .unenrollFromIncompatiblePrograms(this.patient, programConfig)
+          .subscribe((res) => {
+            this.programManagerService
+              .enrollPatient(enrollpayload)
+              .pipe(take(1))
+              .subscribe((program) => {
+                console.log('Response:', program);
+              });
+            console.log('Response:', res);
+          });
+      });
+  }
   public handleProgramManagerRedirects(data: any): void {
     const step = ['step', 3];
     this.patientTransferService
@@ -1449,6 +1501,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.failedPayloadTypes = null;
     // this.showSuccessDialog = true;
     this.updatePatientDemographics(response);
+    this.enrollPatientToNewModel(response);
     // handle referrals here
     this.handleFormReferrals(response);
   }

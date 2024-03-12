@@ -1,6 +1,6 @@
 {
-  "781d85b0-1359-11df-a1f1-0026b9348838": {
-    "name": "STANDARD HIV TREATMENT",
+  "f0faccb7-657e-413c-abad-54f13409d106": {
+    "name": "STANDARD CARE MODEL",
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -72,10 +72,6 @@
           {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "8d5b2dde-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "PEDSINITIAL"
           }
         ]
       },
@@ -91,10 +87,6 @@
           {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "f6257ec8-706d-4342-ada4-ddc2f6478470",
-            "display": "PEDSTRANSFERIN"
           }
         ]
       },
@@ -110,67 +102,6 @@
           {
             "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
             "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "PEDSRETURN"
-          }
-        ]
-      },
-      {
-        "uuid": "03f5b165-c577-4e1e-b7ae-acfc3ba18ebf",
-        "name": "Youth HIV Initial Visit ",
-        "allowedIf": "age >= 10 && age <= 20 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "fc8c1694-90fc-46a8-962b-73ce9a99a78f",
-            "display": "YOUTHINITIAL"
-          }
-        ]
-      },
-      {
-        "uuid": "b27e13f7-7118-4c0d-b9d6-b759495991d6",
-        "name": "Youth Transfer In Visit ",
-        "allowedIf": "age >= 10 && age <= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "a0c2fe63-7be4-4067-87cc-a8654deb552e",
-            "display": "YOUTHTRANSFERIN"
-          }
-        ]
-      },
-      {
-        "uuid": "824cf3e6-dd16-4767-ba41-2e04dede349e",
-        "name": "Youth HIV Return Visit ",
-        "allowedIf": "age >= 10 && age <= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
-            "display": "YOUTHRETURN"
           }
         ]
       },
@@ -235,14 +166,6 @@
             "display": "ADULTRETURN"
           },
           {
-            "uuid": "4e7553b4-373d-452f-bc89-3f4ad9a01ce7",
-            "display": "YOUTHRETURN"
-          },
-          {
-            "uuid": "8d5b3108-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "PEDSRETURN"
-          },
-          {
             "uuid": "3c8cd5d4-cdc2-4136-8326-224b682b6543",
             "display": "MDTFORM"
           }
@@ -250,17 +173,8 @@
       }
     ]
   },
-  "725b5193-3452-43fc-aca3-6a80432d9bfa": {
-    "name": "ONCOLOGY PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": []
-  },
-  "fc15ac01-5381-4854-bf5e-917c907aa77f": {
-    "name": "CDM PROGRAM",
+  "4545685e-65f6-48c4-a6b4-860cea88c4d4": {
+    "name": "ADVANCED HIV DISEASE MODEL",
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -268,24 +182,43 @@
     ],
     "visitTypes": [
       {
-        "uuid": "8072afd0-0cd9-409e-914d-1833e83943f7",
-        "name": "CDM Visit",
-        "encounterTypes": []
-      }
-    ]
-  },
-  "781d897a-1359-11df-a1f1-0026b9348838": {
-    "name": "PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
+        "uuid": "33d13ffb-5f0e-427e-ab80-637491fb6526",
+        "name": "Adult HIV Initial Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTINITIAL"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
       {
-        "uuid": "45b55bfd-84f5-4783-b7fb-ac4d82832c24",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
-        "name": "PMTCT Visit ",
+        "uuid": "0ae56e8a-93ed-4071-82f1-0eaf3eb592ff",
+        "name": "Adult Transfer In Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "61aaec4d-231e-4cdf-9116-1862752dcb9a",
+            "display": "ADULTRANSFERIN"
+          }
+        ]
+      },
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -353,81 +286,59 @@
       {
         "uuid": "58f20c53-aac7-4e73-bd7a-97986435e570",
         "name": "PEP Visit ",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "c3a78744-f94a-4a25-ac9d-1c48df887895",
-            "display": "PEPINITIAL"
-          },
-          {
-            "uuid": "f091b833-9e1a-4eef-8364-fc289095a832",
-            "display": "PEPRETURN"
-          }
-        ]
-      }
-    ]
-  },
-  "c19aec66-1a40-4588-9b03-b6be55a8dd1d": {
-    "name": "PrEP PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
-      {
-        "uuid": "330d9739-833d-48a8-8986-f1069c320194",
-        "name": "PrEP Visit ",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "00ee2fd6-9c95-4ffc-ab31-6b1ce2dede4d",
-            "display": "PREPINITIAL"
-          },
-          {
-            "uuid": "ddd96f1c-524f-4caa-81a6-1a6f9789a4bc",
-            "display": "PREPRETURN"
-          }
-        ]
-      }
-    ]
-  },
-  "334c9e98-173f-4454-a8ce-f80b20b7fdf0": {
-    "name": "HIV DIFFERENTIATED CARE PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
-      {
-        "uuid": "9bf3fadd-4938-40fa-a093-4e01bf197876",
-        "name": "Differentiated Care Clinical Visit ",
-        "allowedIf": "programLocation === intendedVisitLocationUuid",
-        "encounterTypes": [
-          {
-            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
-            "display": "HIVTRIAGE"
-          },
-          {
-            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
-            "display": "TRANSFERENCOUNTER"
-          },
-          {
-            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
-            "display": "DIFFERENTIATEDCARE"
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
           }
         ]
       },
       {
-        "uuid": "6bf34991-7414-4b5e-ad75-ca217d4c4939",
-        "name": "Differentiated Care Pharmacy Visit ",
+        "uuid": "18faa058-4eea-4339-a959-84b3e5cb30be",
+        "name": "Pediatric HIV Initial Visit ",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "2e67b87c-8843-45b7-a380-3a0e8bd58e4d",
+        "name": "Pediatric Transfer In Visit ",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "edb7c6aa-fc69-4470-936d-3d484d3708aa",
+        "name": "Pediatric HIV Return Visit ",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "dcdefd27-82b9-48e3-821b-3ffc6463564e",
+        "name": "Resistance Clinic Visit ",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -438,135 +349,63 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "e3202a01-8cd5-4224-b0dd-760557f85310",
-            "display": "DIFFERENTIATEDCARE"
+            "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
+            "display": "RESISTANCECLINIC"
           }
         ]
-      }
-    ]
-  },
-  "96ba279b-b23b-4e78-aba9-dcbd46a96b7b": {
-    "name": "HIV TRANSIT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
+      },
       {
-        "uuid": "52e67f49-4ec3-41b2-bfe2-93144ea03eb2",
-        "name": "Transit Care Visit ",
+        "uuid": "43ec2bb7-ec8e-4a66-a29d-db6281399ea5",
+        "name": "Between Care Visit ",
+        "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
             "display": "HIVTRIAGE"
           },
           {
-            "uuid": "704abe82-d00f-4fd3-a5fd-616c53d78b48",
-            "display": "TRANSITVISIT"
+            "uuid": "db9f6a5c-e141-49fc-ad2b-bdce3f9a6c80",
+            "display": "BETWEENCAREVISIT"
           }
         ]
-      }
-    ]
-  },
-  "142939b0-28a9-4649-baf9-a9d012bf3b3d": {
-    "name": "BREAST CANCER SCREENING PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
+      },
       {
-        "uuid": "55d8d186-3f74-43ad-9e40-eb16bb52b596",
-        "name": "Breast Cancer Screening ",
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
         "encounterTypes": [
           {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
           },
           {
-            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-            "display": "ONCOLOGYDYSPLASIA"
-          },
-          {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
-          },
-          {
-            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
-          },
-          {
-            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-            "display": "ONCOLOGYVIA"
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
           }
         ]
-      }
-    ]
-  },
-  "cad71628-692c-4d8f-8dac-b2e20bece27f": {
-    "name": "CERVICAL CANCER SCREENING PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
+      },
       {
-        "uuid": "8103a0f3-a3d3-4453-ac3e-aaecd542ccd1",
-        "name": "Cervical Cancer Screening ",
+        "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
+        "name": "MDT Visit",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid",
         "encounterTypes": [
           {
-            "uuid": "fc08ae1c-4588-443b-ae46-856bb20a5ee9",
-            "display": "OncologyDiagnosisChange"
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
           },
           {
-            "uuid": "9bc0fa73-474e-45ab-bdac-7282e95d856f",
-            "display": "ONCOLOGYDYSPLASIA"
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
           },
           {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
-          },
-          {
-            "uuid": "c7fd9ee7-c376-436d-a252-01e89cc51112",
-            "display": "OncologyLabandChemoTracking "
-          },
-          {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
-          },
-          {
-            "uuid": "49bd34db-39e8-4b70-bbba-676ccaf9fdd3",
-            "display": "OncologyReturnWithNewDiagnosticInfo"
-          },
-          {
-            "uuid": "f8e35989-74b7-4a18-87ac-31e98b8d9004",
-            "display": "ONCOLOGYTRIAGE"
-          },
-          {
-            "uuid": "238625fc-8a25-44b2-aa5a-8bf48fa0e18d",
-            "display": "ONCOLOGYVIA"
+            "uuid": "3c8cd5d4-cdc2-4136-8326-224b682b6543",
+            "display": "MDTFORM"
           }
         ]
       }
     ]
   },
-  "43b42170-b3ce-4e03-9390-6bd78384ac06": {
-    "name": "CERVICAL CANCER TREATMENT PROGRAM",
+  "30521f4d-0708-4644-9e88-a108a830a5fd": {
+    "name": "VIREMIA MODEL",
     "dataDependencies": [
       "patient",
       "enrollment",
@@ -574,148 +413,43 @@
     ],
     "visitTypes": [
       {
-        "uuid": "b12cb85e-0c1e-4372-92ed-3bedcec1b105",
-        "name": "Cervical Cancer Treatment ",
+        "uuid": "33d13ffb-5f0e-427e-ab80-637491fb6526",
+        "name": "Adult HIV Initial Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
-            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-            "display": "HematOncologyTriage"
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
           },
           {
-            "uuid": "eeb9600c-314f-4071-9122-133ff3da37bb",
-            "display": "OncologyReturn"
+            "uuid": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTINITIAL"
           },
           {
-            "uuid": "d17b3adc-0837-4ac6-862b-0953fc664cb8",
-            "display": "OncologyInitial "
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
           }
         ]
-      }
-    ]
-  },
-  "88566621-828f-4569-9af5-c54f8237750a": {
-    "name": "BREAST CANCER TREATMENT PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
+      },
       {
-        "uuid": "e0d41d1c-47b5-4c97-b3c7-ba4e4268d9e6",
-        "name": "Breast Cancer Treatment ",
+        "uuid": "0ae56e8a-93ed-4071-82f1-0eaf3eb592ff",
+        "name": "Adult Transfer In Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
         "encounterTypes": [
           {
-            "uuid": "9ad5292c-14c3-489b-9c14-5f816e839691",
-            "display": "BreastCancerInitial"
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
           },
           {
-            "uuid": "e58469f1-f6be-4e53-a843-fb06f93c60ba",
-            "display": "BreastCancerReturn"
-          },
-          {
-            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-            "display": "HematOncologyTriage"
+            "uuid": "61aaec4d-231e-4cdf-9116-1862752dcb9a",
+            "display": "ADULTRANSFERIN"
           }
         ]
-      }
-    ]
-  },
-  "e48b266e-4d80-41f8-a56a-a8ce5449ebc6": {
-    "name": "SICKLE CELL PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
+      },
       {
-        "uuid": "ba3bd879-c66d-4288-80d4-8302d2b823a8",
-        "name": "Sickle cell ",
-        "encounterTypes": [
-          {
-            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-            "display": "HematOncologyTriage"
-          },
-          {
-            "uuid": "ba5a15eb-576f-496b-a58d-e30b802a5da5",
-            "display": "SICKLECELLINITIAL"
-          },
-          {
-            "uuid": "3a0e7e4e-426e-4dc7-8f60-9114c43432eb",
-            "display": "SICKLECELLRETURN"
-          }
-        ]
-      }
-    ]
-  },
-  "698b7153-bff3-4931-9638-d279ca47b32e": {
-    "name": "MULTIPLE MYELOMA PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
-      {
-        "uuid": "055436f7-cdc5-4e74-bef9-a8a06c746c3a",
-        "name": "Multiple Myeloma ",
-        "encounterTypes": [
-          {
-            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-            "display": "HematOncologyTriage"
-          },
-          {
-            "uuid": "bf762b3e-b60a-436a-a40b-f874c59869ec",
-            "display": "MULTIPLEMYELOMAINITIAL"
-          },
-          {
-            "uuid": "50f307c4-b92e-4a41-bbbb-5cee1bd1c561",
-            "display": "MULTIPLEMYELOMARETURN"
-          }
-        ]
-      }
-    ]
-  },
-  "a3610ba4-9811-46b3-9628-83ec9310be13": {
-    "name": "HEMOPHILIA PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
-      {
-        "uuid": "4c5cd268-0986-444e-8122-1160c4605884",
-        "name": "Hemophilia ",
-        "encounterTypes": [
-          {
-            "uuid": "5fa823ce-7592-482f-a0aa-361abf326ade",
-            "display": "HematOncologyTriage"
-          },
-          {
-            "uuid": "3945005a-c24f-478b-90ec-4af84ffcdf6b",
-            "display": "HEMOPHILIAINITIAL"
-          },
-          {
-            "uuid": "36927b3c-db32-4063-90df-e45640e9aabc",
-            "display": "HEMOPHILIARETURN"
-          }
-        ]
-      }
-    ]
-  },
-  "781d8880-1359-11df-a1f1-0026b9348838": {
-    "name": "EXPRESS CARE PROGRAM",
-    "dataDependencies": [
-      "patient",
-      "enrollment",
-      "hivLastTenClinicalEncounters"
-    ],
-    "visitTypes": [
-      {
-        "uuid": "e2c37c46-3ee9-4cff-9af6-aa5c41fb30da",
-        "name": "Express Care Visit ",
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
         "encounterTypes": [
           {
             "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
@@ -726,8 +460,119 @@
             "display": "TRANSFERENCOUNTER"
           },
           {
-            "uuid": "df554398-1350-11df-a1f1-0026b9348838",
-            "display": "ECSTABLE"
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "18faa058-4eea-4339-a959-84b3e5cb30be",
+        "name": "Pediatric HIV Initial Visit ",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "2e67b87c-8843-45b7-a380-3a0e8bd58e4d",
+        "name": "Pediatric Transfer In Visit ",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit && previousHIVClinicallocation !== programLocation",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "edb7c6aa-fc69-4470-936d-3d484d3708aa",
+        "name": "Pediatric HIV Return Visit ",
+        "allowedIf": "age <= 14 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          }
+        ]
+      },
+      {
+        "uuid": "dcdefd27-82b9-48e3-821b-3ffc6463564e",
+        "name": "Resistance Clinic Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "425ee5d1-bf39-4e09-b372-fc86abfea0c1",
+            "display": "RESISTANCECLINIC"
+          }
+        ]
+      },
+      {
+        "uuid": "43ec2bb7-ec8e-4a66-a29d-db6281399ea5",
+        "name": "Between Care Visit ",
+        "allowedIf": "programLocation !== intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "db9f6a5c-e141-49fc-ad2b-bdce3f9a6c80",
+            "display": "BETWEENCAREVISIT"
+          }
+        ]
+      },
+      {
+        "uuid": "260c2535-f946-44ea-a038-34cc4f8174be",
+        "name": "Outreach Visit ",
+        "encounterTypes": [
+          {
+            "uuid": "10a86a62-b771-44d1-b1ad-3b8496c7bc47",
+            "display": "INPATIENTPEER"
+          },
+          {
+            "uuid": "df5547bc-1350-11df-a1f1-0026b9348838",
+            "display": "OUTREACHFIELDFU"
+          }
+        ]
+      },
+      {
+        "uuid": "6c5d74f4-943f-489a-b1c4-b2accfae92fb",
+        "name": "MDT Visit",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          },
+          {
+            "uuid": "3c8cd5d4-cdc2-4136-8326-224b682b6543",
+            "display": "MDTFORM"
           }
         ]
       }

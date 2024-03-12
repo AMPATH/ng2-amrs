@@ -46,7 +46,64 @@
             class="btn btn-primary pull-right"
             (click)="goToProgram()"
           >
-            Continue
+            Continue To Program
+          </button>
+          <span class="clear">&nbsp;</span>
+        </div>
+      </div>
+    </div>
+  </program-wizard-step>
+  <program-wizard-step [name]="'Department Details Step'">
+    <div class="wizard-body component">
+      <div class="step" *ngIf="availableDepartmentPrograms">
+        <busy *ngIf="enrolling" [message]="'Enrolling patient'"></busy>
+        <div class="step-name">
+          <h2><i class="fa fa-arrow-right"></i>Check Patient Status</h2>
+        </div>
+        <div class="step-details">
+          <div class="program-body">
+            <div class="program-container-fluid">
+              <div class="row" style="padding: 4px">
+                <div
+                  style="margin-bottom: 12px"
+                  class="col-md-4 cell"
+                  *ngFor="let question of deptEnrolmentQuestion"
+                >
+                  <ng-container>
+                    <label>{{ question.name }}</label>
+                    <select
+                      class="form-control"
+                      id="{{ question.qtype }}"
+                      [(ngModel)]="question.value"
+                      (change)="onRequiredDeptQuestionChange(question)"
+                    >
+                      <option value=""></option>
+                      <ng-container *ngFor="let answer of question.answers">
+                        <option value="{{ answer.value }}">
+                          {{ answer.label }}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-buttons">
+          <button
+            type="button"
+            class="btn btn-danger pull-left"
+            (click)="goBack()"
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary pull-right"
+            [disabled]="!isButtonVisible"
+            (click)="goToProgram()"
+          >
+            <span>Continue</span>
           </button>
           <span class="clear">&nbsp;</span>
         </div>
@@ -82,16 +139,16 @@
           <button
             type="button"
             class="btn btn-danger pull-left"
-            (click)="back()"
+            (click)="goBack()"
           >
             Change Department
           </button>
           <button
             type="button"
             class="btn btn-primary pull-right"
-            (click)="goToDetails()"
+            (click)="reset()"
           >
-            Continue
+            Reset
           </button>
           <span class="clear">&nbsp;</span>
         </div>

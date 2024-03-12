@@ -76,6 +76,13 @@ export class CommonVitalsSource implements VitalSourceInterface {
           order: 7,
           value: ob.value.display
         });
+      case 'feb271fc-a47a-4c6c-8888-c0b6c6e08ecd':
+        return this.vitalModel.createVital({
+          name: 'model',
+          label: 'Model:',
+          order: 8,
+          value: ob.value.display
+        });
       default:
         return this.vitalModel;
     }
