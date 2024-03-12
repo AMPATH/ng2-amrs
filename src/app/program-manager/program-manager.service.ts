@@ -74,6 +74,7 @@ export class ProgramManagerService {
        * if intra-ampath, unenroll and enroll in the new location
        * Ampath
        */
+      console.log('UnenrollPayload', unenrollPayload);
       if (theChange === 'location' || (theChange === 'transfer' && newLoc)) {
         const enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid,

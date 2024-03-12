@@ -32,7 +32,7 @@ import { FormUuids } from './../../../constants/forms.constants';
 export class FormentryReferralsHandlerService {
   private PMTCT_PROGRAM: Program = Programs.PMTCT_PROGRAM;
   private STANDARD_PROGRAM: Program = Programs.STANDARD_HIV_PROGRAM;
-  private ADULT_PROGRAM: Program = Programs.ADULT_PROGRAM;
+  private AHD_MODEL: Program = Programs.AHD_MODEL;
   constructor(
     public diffCareReferralService: DifferentiatedCareReferralService,
     public localStorageService: LocalStorageService,
@@ -151,6 +151,7 @@ export class FormentryReferralsHandlerService {
         enrolledIncompatiblePrograms.push(enrolledProgram);
       }
     });
+    console.log('enrolledIncompatiblePrograms', enrolledIncompatiblePrograms);
     batchProgramUnenrollments.push(
       this.programManagerService.editProgramEnrollments(
         'stop',

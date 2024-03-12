@@ -84,6 +84,7 @@ export class ProgramManagerBaseComponent implements OnInit {
     const programConfigLoaded: Subject<boolean> = new Subject<boolean>();
     this.patientService.currentlyLoadedPatient.pipe(shareReplay()).subscribe(
       (patient) => {
+        console.log('ProgramPatient', patient);
         if (patient) {
           this.patient = patient;
           this.availablePrograms = _.filter(
@@ -176,15 +177,20 @@ export class ProgramManagerBaseComponent implements OnInit {
     const department = _.find(this.departmentConf, (config: any) => {
       return config.name === this.department;
     });
+    console.log('ProgramDepartment: ', department);
+    console.log('patientStatus: ', patientStatus);
+    console.log('AvailablePrograms: ', this.availablePrograms);
 
     if (department) {
       // Remove already enrolled programs
       if (patientStatus) {
+        console.log('We are here');
         return _.filter(department.programs, (program) => {
           const programs = _.map(this.availablePrograms, (a) => a.programUuid);
-          console.log('Programs: ', this.availablePrograms);
+
           // Additional condition to filter by positivity
-          const isPositive = program.status === 'positive'; // Replace 'positive' with the actual property or condition
+          const isPositive =
+            program.status === 'positive' || program.status === 'all'; // Replace 'positive' with the actual property or condition
 
           return _.includes(programs, program.uuid) && isPositive;
         });
@@ -194,6 +200,7 @@ export class ProgramManagerBaseComponent implements OnInit {
         //   return _.includes(programs, program.uuid);
         // });
       } else {
+        console.log('We are here no here');
         return _.filter(department.programs, (program) => {
           const programs = _.map(this.availablePrograms, (a) => a.programUuid);
           return _.includes(programs, program.uuid);

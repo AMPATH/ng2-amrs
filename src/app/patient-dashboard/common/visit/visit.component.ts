@@ -19,6 +19,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ViewChild } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { PatientProgramResourceService } from 'src/app/etl-api/patient-program-resource.service';
+import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
 import * as moment from 'moment';
 
 @Component({
@@ -30,7 +31,7 @@ import * as moment from 'moment';
 export class VisitComponent implements OnInit, OnDestroy {
   public currentProgramConfig = {};
   public showVisitStartedMsg = false;
-  public modelEnrolled: any = 'STANDARD MODEL';
+  public modelEnrolled: any = 'STANDARD CARE MODEL';
   public patients: any;
   private subs: Subscription[] = [];
   public isRetrospectiveVisit = false;
@@ -49,6 +50,7 @@ export class VisitComponent implements OnInit, OnDestroy {
   public enrolledPrograms: Array<any> = [];
   public currentProgramEnrollmentUuid = '';
   public currentEnrollment: any = undefined;
+  public patientAssignedModel: any = 'Anon';
   public visit: any;
   public visits: Array<any> = [];
   public programVisitsObj: any = undefined;
@@ -75,11 +77,13 @@ export class VisitComponent implements OnInit, OnDestroy {
     private communityGroupMemberService: CommunityGroupMemberService,
     private bsModalService: BsModalService,
     private patientService: PatientService,
-    private patientProgramResourceService: PatientProgramResourceService
+    private patientProgramResourceService: PatientProgramResourceService,
+    private obsResourceService: ObsResourceService
   ) {}
 
   public ngOnInit() {
     this.getPatientUuid();
+    this.getPatientModel();
     // this.isBusy = true;
     // app feature analytics
     // this.appFeatureAnalytics
@@ -107,8 +111,30 @@ export class VisitComponent implements OnInit, OnDestroy {
         }
       }
     );
+    console.log('Sub:', sub);
 
     this.subs.push(sub);
+  }
+
+  public getPatientModel() {
+    console.log('PatientEnrolled', this.patient.uuid);
+    const patientUuid = this.patient.uuid;
+    const patientModelConceptUuid = ['af0c1b76-991c-4a8e-a197-7157d9498a33'];
+    // '2f0a08cc-af60-443e-9536-65fca9494970',
+    let patientModel;
+    this.obsResourceService
+      .getObsPatientObsByConcept(patientUuid, patientModelConceptUuid)
+      .subscribe((data) => {
+        console.log('Model', data);
+        const results = data['results'];
+        if (results.length > 0) {
+          this.modelEnrolled = results[0].value.display;
+          patientModel = this.modelEnrolled;
+          console.log('patientModel', patientModel);
+          return patientModel;
+        }
+      });
+    return patientModel;
   }
 
   public checkIfPatientEnrolledInGroup() {

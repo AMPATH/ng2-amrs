@@ -5,13 +5,13 @@
 <div class="programs" *ngIf="enrolledProgrames.length > 0 && !hasError">
   <h4 class="component-title">Patient Care Program Snapshots</h4>
 
-  <div
+  <!--<div
     style="margin: 4px 0px; padding: 4px"
     class="container-fluid alert alert-info"
   >
     Do you wish to enroll patient into another program?
     <enrollment-shortcut class="pull-right"></enrollment-shortcut>
-  </div>
+  </div>-->
   <div class="program">
     <ng-container *ngFor="let row of enrolledProgrames">
       <div class="enrolled">
