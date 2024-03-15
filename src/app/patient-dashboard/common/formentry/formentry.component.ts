@@ -675,17 +675,9 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(() => {});
     }
   }
-  public enrollPatientToNewModel(data: any): void {
+  public assignPatientModel(modelassigned: any) {
     let programToEnroll = '';
-    let modelSelected = [];
-    modelSelected = this.form.searchNodeByQuestionId('dsdModel');
-    if (modelSelected.length === 0) {
-      modelSelected = this.form.searchNodeByQuestionId('moreIntense'); // moreIntense
-    }
-
-    const modelUuid = modelSelected[0].initialValue.value.uuid;
-
-    switch (modelUuid) {
+    switch (modelassigned) {
       case 'c8b9b024-1a3a-47a4-a2aa-fcaf3053ea27':
         programToEnroll = '4545685e-65f6-48c4-a6b4-860cea88c4d4'; // AHD
         break;
@@ -695,7 +687,30 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'fe239aa1-f5d4-4d15-83a1-ce417e9fb879':
         programToEnroll = '30521f4d-0708-4644-9e88-a108a830a5fd'; // viremia
         break;
+      case '	08381666-5d30-40db-9a77-4413f4329800':
+        programToEnroll = '9d7422b1-af7b-4602-813e-953cfaf47e21'; // FFT
+        break;
     }
+    return programToEnroll;
+  }
+  public enrollPatientToNewModel(data: any): void {
+    let programToEnroll = '';
+    let modelSelected = [];
+    console.log('');
+    modelSelected = this.form.searchNodeByQuestionId('dsdModel'); // adult initial form
+
+    if (modelSelected.length === 0) {
+      // adultreturn form
+      modelSelected =
+        this.form.searchNodeByQuestionId('moreIntense') || // moreIntense
+        this.form.searchNodeByQuestionId('communityModel') || // community
+        this.form.searchNodeByQuestionId('facilityModel'); // facility
+    }
+
+    const modelUuid = modelSelected[0].initialValue.value.uuid;
+
+    programToEnroll = this.assignPatientModel(modelUuid);
+
     console.log('Response:', programToEnroll);
     const enrollpayload = {
       programUuid: programToEnroll,
