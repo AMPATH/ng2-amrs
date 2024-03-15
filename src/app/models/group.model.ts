@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 const program_visits_config = require('../program-visit-encounter-search/program-visits-config.json');
 
 export class Group extends BaseModel {
+  private _viralSuppression: string;
   constructor(openmrsModel?: any) {
     super(openmrsModel);
     this._openmrsModel.display = this._openmrsModel.name;
@@ -38,6 +39,17 @@ export class Group extends BaseModel {
 
   @serializable()
   public get status() {
+    const lastMeetingDate = this.getLatestMeetingDate(
+      this._openmrsModel.cohortVisits
+    );
+    // if last meeting date is more than 3 months ago, group is inactive
+    if (lastMeetingDate) {
+      const today = new Date();
+      const threeMonthsAgo = new Date(today.setMonth(today.getMonth() - 3));
+      if (lastMeetingDate < threeMonthsAgo) {
+        return 'Inactive';
+      }
+    }
     return this._openmrsModel.endDate ? 'Disbanded' : 'Active';
   }
 
@@ -62,6 +74,34 @@ export class Group extends BaseModel {
     return this.getGroupMembersCount(this._openmrsModel.cohortMembers);
   }
 
+  @serializable()
+  public get otzChampion() {
+    const attrType = this.getCurrentLeader(this._openmrsModel.cohortLeaders);
+    if (attrType) {
+      return attrType.person.display.replace(/\d+|-/g, '');
+    }
+    return null;
+  }
+
+  @serializable()
+  public get groupActivity() {
+    const attrType = 'groupActivity';
+    return this.getAttribute(attrType, this._openmrsModel.attributes);
+  }
+
+  public get viralSuppression() {
+    return this._viralSuppression || 'Unkown %';
+  }
+
+  public set viralSuppression(value: string) {
+    this._viralSuppression = value;
+  }
+
+  @serializable()
+  public get lastMeetingDate() {
+    return this.getLatestMeetingDate(this._openmrsModel.cohortVisits);
+  }
+
   public getAttribute(attributeType, attributes) {
     const attr = _.filter(
       attributes,
@@ -73,10 +113,37 @@ export class Group extends BaseModel {
     return null;
   }
 
+  public getLatestMeetingDate(startDates) {
+    if (startDates.length > 0) {
+      const latestStartDateString = startDates.reduce(
+        (maxDate, currentDateObject) => {
+          const currentStartDate = new Date(currentDateObject.startDate);
+          const maxStartDate = maxDate ? new Date(maxDate.startDate) : null;
+
+          if (!maxStartDate || currentStartDate > maxStartDate) {
+            return currentDateObject;
+          } else {
+            return maxDate;
+          }
+        },
+        null
+      ).startDate;
+      return new Date(latestStartDateString);
+    }
+  }
+
   public getGroupMembersCount(cohortMembers) {
     const active_members = cohortMembers.filter(
       (current) => current.endDate == null
     );
     return active_members ? active_members.length : 0;
+  }
+
+  public getCurrentLeader(allLeaders: any[]) {
+    const currentLeader = _.filter(
+      allLeaders,
+      (leader) => leader.endDate == null
+    )[0];
+    return currentLeader;
   }
 }

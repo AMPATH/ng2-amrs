@@ -54,6 +54,7 @@ export class NewProgramComponent
   public enrollPatientToGroup = false;
   public modalRef: BsModalRef;
   public autoEnrolFromGroup = false;
+  showOtzEnrollmentForm = false;
 
   constructor(
     public patientService: PatientService,
@@ -141,6 +142,7 @@ export class NewProgramComponent
     this.selectedProgram = _.find(this.availablePrograms, (_program: any) => {
       return _program.programUuid === this.program;
     });
+
     this.programVisitConfig = this.allPatientProgramVisitConfigs[this.program];
     this.addToStepInfo({
       selectedProgram: this.selectedProgram,
@@ -149,6 +151,32 @@ export class NewProgramComponent
     // this.checkForRequiredQuestions();
     this.checkIfEnrollmentIsAllowed();
     this.goToDetails();
+
+    if (
+      this.selectedProgram.concept.uuid ===
+      'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
+    ) {
+      const otzEnrollmentFormUuid = 'ca5ccb72-5623-4b94-97a3-6b5dac5f8560';
+      this.showOtzEnrollmentForm = true;
+      this.router.navigate([
+        '/patient-dashboard/patient/' +
+          this.patient.uuid +
+          '/general/general/formentry/' +
+          otzEnrollmentFormUuid
+      ]);
+    } else {
+      this.programVisitConfig = this.allPatientProgramVisitConfigs[
+        this.program
+      ];
+      this.addToStepInfo({
+        selectedProgram: this.selectedProgram,
+        programVisitConfig: this.programVisitConfig
+      });
+      this.checkForRequiredQuestions();
+      this.checkIfEnrollmentIsAllowed();
+      this.goToDetails();
+    }
+
   }
 
   public goToProgram() {

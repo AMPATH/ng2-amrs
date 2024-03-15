@@ -81,16 +81,23 @@ export class GroupEnrollmentComponent implements OnInit, OnDestroy {
 
   public onEnrollmentTypeChange($event: MatRadioChange) {
     let enrolledInDc = false;
+    let enrolledInOtz = false;
     _.forEach(this.currentEnrolledPrograms, (currentProgram) => {
       if (
         currentProgram.programUuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
       ) {
         enrolledInDc = true;
+      } else if (
+        currentProgram.programUuid === '203571d6-a4f2-4953-9e8b-e1105e2340f5'
+      ) {
+        enrolledInOtz = true;
       }
     });
 
     if (!enrolledInDc) {
       this.errorMessage = `Patient needs to be enrolled in DC program first.`;
+    } else if (!enrolledInOtz) {
+      this.errorMessage = `Patient needs to be enrolled in OTZ program first.`;
     }
     this.enrollmentType = $event.value;
   }

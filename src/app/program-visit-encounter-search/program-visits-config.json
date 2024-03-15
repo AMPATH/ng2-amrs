@@ -214,7 +214,44 @@
             "display": "ADULTRANSFERIN"
           }
         ]
-      },
+      }
+    ]
+  },
+  "781d8768-1359-11df-a1f1-0026b9348838": {
+    "name": "OVC PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": []
+  },
+  "203571d6-a4f2-4953-9e8b-e1105e2340f5": {
+    "name": "OTZ PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": []
+  },
+  "781d8a88-1359-11df-a1f1-0026b9348838": {
+    "name": "BSG PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": []
+  },
+  "96047aaf-7ab3-45e9-be6a-b61810fe617d": {
+    "name": "PEP PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
       {
         "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
         "name": "Adult HIV Return Visit ",

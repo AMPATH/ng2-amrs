@@ -53,8 +53,12 @@ import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.int
 
 // constants
 import { FormUuids } from './../../../constants/forms.constants';
+
 import { ComponentResolver } from 'ag-grid/dist/lib/components/framework/componentResolver';
 import { Console } from 'console';
+
+import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
+
 
 interface RefProgram {
   uuid: string;
@@ -141,6 +145,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     status: '',
     message: ''
   };
+  public isOtzProgram = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -170,7 +175,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     public userDefaultPropertiesService: UserDefaultPropertiesService,
     public patientConsentResourceService: PatientConsentResourceService,
     private covid19Service: Covid19ResourceService,
-    private propertyLocationService: UserDefaultPropertiesService
+    private propertyLocationService: UserDefaultPropertiesService,
+    private programManagerService: ProgramManagerService
   ) {}
 
   public ngOnInit() {
@@ -398,6 +404,14 @@ export class FormentryComponent implements OnInit, OnDestroy {
             this.encounterLocation.value +
             '/general/group-manager/group/' +
             this.groupUuid
+        ]);
+        break;
+      case 'groupDashboard':
+        this.preserveFormAsDraft = false;
+        this.router.navigate([
+          '/clinic-dashboard/' +
+            this.encounterLocation.value +
+            '/hiv/group-manager'
         ]);
         break;
       case 'groupEnrollment':
@@ -1338,6 +1352,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.handleSuccessfulFormSubmission(data);
           this.formSubmissionService.setSubmitStatus(false);
           this.enableSubmitBtn();
+          if (this.formUuid === 'ca5ccb72-5623-4b94-97a3-6b5dac5f8560') {
+            this.isOtzProgram = true;
+            this.enrollPatientToOtzProgram();
+          }
         },
         (err) => {
           console.error('error', err);
@@ -1347,6 +1365,30 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.formSubmissionService.setSubmitStatus(false);
         }
       );
+  }
+
+  private enrollPatientToOtzProgram() {
+    const formattedDate = new Date(this.extractEncounterDate())
+      .toISOString()
+      .slice(0, 10);
+    const payload = {
+      programUuid: '203571d6-a4f2-4953-9e8b-e1105e2340f5',
+      patient: this.patient,
+      dateEnrolled: formattedDate,
+      dateCompleted: '',
+      location: this.encounterLocation.value,
+      enrollmentUuid: ''
+    };
+
+    this.programManagerService.enrollPatient(payload).subscribe(
+      (enrollment) => {
+        console.log('response', enrollment);
+        this.isBusyIndicator(false);
+      },
+      (error) => {
+        console.log('error', error);
+      }
+    );
   }
 
   private checkDuplicate(payloadTypes) {

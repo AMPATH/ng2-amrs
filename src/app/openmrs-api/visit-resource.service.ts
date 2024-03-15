@@ -66,6 +66,16 @@ export class VisitResourceService {
       .pipe(map(this.parseVisitResponse), catchError(this.handleError));
   }
 
+  public voidVisit(uuid, voidReason) {
+    if (!voidReason || !uuid) {
+      return null;
+    }
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http
+      .delete(`${this.getUrl()}/${uuid}?reason=${voidReason}`, { headers })
+      .pipe(map(this.parseVisitResponse), catchError(this.handleError));
+  }
+
   public updateVisit(uuid, payload) {
     if (!payload || !uuid) {
       return null;

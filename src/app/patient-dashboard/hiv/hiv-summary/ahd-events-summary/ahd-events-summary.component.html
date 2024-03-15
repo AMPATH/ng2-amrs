@@ -1,0 +1,134 @@
+<div>
+  <div>
+    <table
+      class="table table-hover table-striped table-responsive"
+      *ngIf="tbStartdates.length > 0 || tbEnddates[0] != null"
+    >
+      <thead>
+        <tr>
+          <th>TB Treatment Start Date</th>
+          <th>TB Treatment End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let startDate of tbStartdates">
+            {{ startDate | date: 'dd-MM-yyyy' }}
+          </td>
+          <td *ngFor="let endDate of tbEnddates">
+            {{ endDate | date: 'dd-MM-yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      class="table table-hover table-striped table-responsive"
+      *ngIf="
+        cryptococallStartDates[0] != null || cryptococallEndDates[0] != null
+      "
+    >
+      <thead>
+        <tr>
+          <th>Cryptococcal Treatment Start Date :</th>
+          <th>Cryptococcal Treatment End Date :</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let startDate of cryptococallStartDates">
+            {{ startDate | date: 'dd-MM-yyyy' }}
+          </td>
+          <td *ngFor="let endDate of cryptococallEndDates">
+            {{ endDate | date: 'dd-MM-yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      class="table table-hover table-striped table-responsive"
+      *ngIf="pcpStartDates[0] != null || pcpEndDates[0] != null"
+    >
+      <thead>
+        <tr>
+          <th>PCP Treatment Start Date</th>
+          <th>PCP Treatment End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let startDate of pcpStartDates">
+            {{ startDate | date: 'dd-MM-yyyy' }}
+          </td>
+          <td *ngFor="let endDate of pcpEndDates">
+            {{ endDate | date: 'dd-MM-yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      class="table table-hover table-striped table-responsive"
+      *ngIf="
+        toxoplasmosisStartDates[0] != null || toxoplasmosisEndDates[0] != null
+      "
+    >
+      <thead>
+        <tr>
+          <th>Toxoplasmosis Treatment Start Date</th>
+          <th>Toxoplasmosis Treatment End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let startDate of toxoplasmosisStartDates">
+            {{ startDate | date: 'dd-MM-yyyy' }}
+          </td>
+          <td *ngFor="let startDate of toxoplasmosisEndDates">
+            {{ endDate | date: 'dd-MM-yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      class="table table-hover table-striped table-responsive"
+      *ngIf="kaposisStartDates[0] != null || kaposisEndDates[0] != null"
+    >
+      <thead>
+        <tr>
+          <th>Kaposis Sarcoma Treatment Start Date</th>
+          <th>Kaposis Sarcoma Treatment End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let startDate of kaposisStartDates">
+            {{ startDate | date: 'dd-MM-yyyy' }}
+          </td>
+          <td *ngFor="let startDate of kaposisEndDates">
+            {{ endDate | date: 'dd-MM-yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    *ngIf="
+      kaposisStartDates[0] == null &&
+      kaposisEndDates[0] == null &&
+      toxoplasmosisStartDates[0] == null &&
+      toxoplasmosisEndDates[0] == null &&
+      tbStartdates.length == 0 &&
+      tbEnddates[0] == null &&
+      pcpStartDates[0] == null &&
+      pcpEndDates[0] == null &&
+      cryptococallStartDates[0] == null &&
+      cryptococallEndDates[0] == null
+    "
+  >
+    <p class="mx-8">NO AHD SUMMARY DATA!</p>
+  </div>
+</div>
