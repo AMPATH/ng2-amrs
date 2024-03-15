@@ -6,12 +6,32 @@ const PMTCT_PROGRAM: Program = {
   dept: 'HIV',
   compatibleWithOtherDeptPrograms: false
 };
+const STANDARD_CARE_MODEL: Program = {
+  uuid: 'f0faccb7-657e-413c-abad-54f13409d106',
+  name: 'STANDARD CARE MODEL',
+  dept: 'HIV',
+  compatibleWithOtherDeptPrograms: false
+};
+const AHD_MODEL: Program = {
+  uuid: '4545685e-65f6-48c4-a6b4-860cea88c4d4',
+  name: 'ADVANCED HIV DISEASE MODEL',
+  dept: 'HIV',
+  compatibleWithOtherDeptPrograms: false
+};
+const VIREMIA_MODEL: Program = {
+  uuid: '30521f4d-0708-4644-9e88-a108a830a5fd',
+  name: 'VIREMIA MODEL',
+  dept: 'HIV',
+  compatibleWithOtherDeptPrograms: false
+};
+
 const STANDARD_HIV_PROGRAM: Program = {
   uuid: '781d85b0-1359-11df-a1f1-0026b9348838',
   name: 'STANDARD HIV TREATMENT',
   dept: 'HIV',
   compatibleWithOtherDeptPrograms: false
 };
+
 const HIV_DIFFERENTIATED_CARE_PROGRAM: Program = {
   uuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
   name: 'HIV DIFFERENTIATED CARE PROGRAM',
@@ -108,6 +128,9 @@ const NUTRITION_PROGRAM: Program = {
 export const Programs = {
   PMTCT_PROGRAM,
   STANDARD_HIV_PROGRAM,
+  STANDARD_CARE_MODEL,
+  AHD_MODEL,
+  VIREMIA_MODEL,
   HIV_DIFFERENTIATED_CARE_PROGRAM,
   VIREMIA_PROGRAM,
   HIV_TRANSIT_PROGRAM,

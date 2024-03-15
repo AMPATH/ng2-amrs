@@ -34,6 +34,7 @@ export class PatientReferralService {
       payload.location,
       payload.enrollmentUuid
     );
+    console.log('EnrollPayload', enrollPayload);
     return this.programService.saveUpdateProgramEnrollment(enrollPayload);
   }
 
