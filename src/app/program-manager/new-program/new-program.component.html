@@ -46,7 +46,7 @@
             class="btn btn-primary pull-right"
             (click)="goToProgram()"
           >
-            Continue To Program
+           Continue To Model
           </button>
           <span class="clear">&nbsp;</span>
         </div>
@@ -114,7 +114,7 @@
     <div class="wizard-body component">
       <div class="step" *ngIf="availableDepartmentPrograms">
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i> Select Program</h2>
+          <h2><i class="fa fa-arrow-right"></i> Select Model</h2>
         </div>
         <div class="step-details">
           <mat-radio-group
@@ -300,7 +300,7 @@
       </div>
     </div>
   </program-wizard-step>
-  <program-wizard-step [name]="'Program Enrollment Success'">
+  <program-wizard-step [name]="'Model Enrollment Success'">
     <div class="wizard-body component">
       <div class="step">
         <div
@@ -374,7 +374,7 @@
         <ng-container
           *ngIf="unenrolledProgrames && unenrolledProgrames.length > 0"
         >
-          <h2 class="component-title">Programs Sucessfully Stopped</h2>
+          <h2 class="component-title">Model Sucessfully Stopped</h2>
           <div
             class="alert alert-danger"
             *ngFor="let program of unenrolledProgrames"
@@ -400,7 +400,7 @@
             class="btn btn-danger pull-left"
             (click)="editProgram(newlyEnrolledProgram)"
           >
-            Edit Program
+            Edit Model
           </button>
           <button
             class="btn btn-primary pull-right"
@@ -413,7 +413,7 @@
             class="btn btn-primary pull-right"
             (click)="goToProgramSummary()"
           >
-            <span>GO TO PROGRAM SUMMARY</span>
+            <span>GO TO MODEL SUMMARY</span>
           </button>
           <span class="clear">&nbsp;</span>
         </div>
@@ -423,7 +423,7 @@
 </program-wizard>
 <busy *ngIf="!loaded" [message]="'Loading...'"></busy>
 <p class="alert alert-danger" *ngIf="hasError">
-  Error loading patient program config. Please make sure that your network is
+  Error loading patient model config. Please make sure that your network is
   working fine.
 </p>
 <ng-template #dcGroupAutoUnEnrollmentWarning>

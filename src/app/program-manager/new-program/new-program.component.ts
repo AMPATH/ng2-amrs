@@ -142,6 +142,16 @@ export class NewProgramComponent
     this.selectedProgram = _.find(this.availablePrograms, (_program: any) => {
       return _program.programUuid === this.program;
     });
+
+    this.programVisitConfig = this.allPatientProgramVisitConfigs[this.program];
+    this.addToStepInfo({
+      selectedProgram: this.selectedProgram,
+      programVisitConfig: this.programVisitConfig
+    });
+    // this.checkForRequiredQuestions();
+    this.checkIfEnrollmentIsAllowed();
+    this.goToDetails();
+
     if (
       this.selectedProgram.concept.uuid ===
       'fd90d6b2-7302-4a9c-ad1b-1f93eff77afb'
@@ -166,6 +176,7 @@ export class NewProgramComponent
       this.checkIfEnrollmentIsAllowed();
       this.goToDetails();
     }
+
   }
 
   public goToProgram() {
