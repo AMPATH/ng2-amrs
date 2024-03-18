@@ -686,6 +686,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(() => {});
     }
   }
+
   public assignModel(modelConceptUuid: any) {
     let programToEnroll = '';
     switch (modelConceptUuid) {
@@ -771,11 +772,15 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let modelSelected = [];
     modelSelected = this.form.searchNodeByQuestionId('dsdModel');
     if (modelSelected.length === 0) {
-      modelSelected = this.form.searchNodeByQuestionId('moreIntense'); // moreIntense
+      // adultreturn form
+      modelSelected =
+        this.form.searchNodeByQuestionId('moreIntense') || // moreIntense
+        this.form.searchNodeByQuestionId('communityModel') || // community
+        this.form.searchNodeByQuestionId('facilityModel'); // facility
     }
 
     const modelUuid = modelSelected[0].initialValue.value.uuid;
-    programToEnroll = this.assignModel(modelUuid);
+ programToEnroll = this.assignModel(modelUuid);
 
     console.log('Response:', programToEnroll);
     const enrollpayload = {
