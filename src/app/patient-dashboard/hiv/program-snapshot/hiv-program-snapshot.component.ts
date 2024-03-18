@@ -128,6 +128,7 @@ export class HivProgramSnapshotComponent implements OnInit {
   public last_pcr_status: string;
   public last_pcr_date: string;
   public infant_feeding_method: string;
+  public reason_cacx_not_done: string = null;
 
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
@@ -299,7 +300,8 @@ export class HivProgramSnapshotComponent implements OnInit {
         if (
           result &&
           result.predicted_prob_disengage &&
-          result.predicted_risk
+          result.predicted_risk &&
+          result.observed_rtc_date === null
         ) {
           this.hasPredictedScore = true;
           this.prediction = result;
@@ -655,6 +657,9 @@ export class HivProgramSnapshotComponent implements OnInit {
             this.cervicalScreeningSummary = result;
             if (result.length > 0) {
               this.latestCervicalScreeningSummary = result[0];
+              this.reason_cacx_not_done = this.reasonCaCxNotDone(
+                result[0].reason
+              );
             }
           }
         },
@@ -817,5 +822,18 @@ export class HivProgramSnapshotComponent implements OnInit {
     ];
 
     return INFANT_FEEDING_METHODS[this.patientData.infant_feeding_method];
+  }
+
+  public reasonCaCxNotDone(reasons: string): string {
+    if (reasons.includes('=5276')) {
+      return 'Not Done: Total Abdominal Hysterectomy';
+    } else if (reasons.includes('12110=12109')) {
+      return 'Not Done: Cervix Not Accessible';
+    } else if (reasons.includes('12110=5989')) {
+      return 'Not Done: Menstruating';
+    } else if (reasons.includes('12110=1504')) {
+      return 'Not Done: Patient Refusal';
+    }
+    return null;
   }
 }

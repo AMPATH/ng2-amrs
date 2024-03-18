@@ -1,0 +1,13 @@
+.table {
+  width: 100%;
+}
+
+th,
+td {
+  padding: 8px;
+  width: 10%;
+}
+
+th:nth-child(6) {
+  width: 18%;
+}

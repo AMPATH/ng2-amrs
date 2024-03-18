@@ -11,8 +11,56 @@
         "name": "ADVANCED HIV DISEASE MODEL"
       },
       {
-        "uuid": "30521f4d-0708-4644-9e88-a108a830a5fd'",
+        "uuid": "30521f4d-0708-4644-9e88-a108a830a5fd",
         "name": "VIREMIA MODEL"
+      },
+      {
+        "uuid": "30521f4d-0708-4644-9e88-a108a830a5fd",
+        "name": "HEI_MODEL"
+      },
+      {
+        "uuid": "08381666-5d30-40db-9a77-4413f4329800",
+        "name": "FAST_TRACK_FACILITY_CARE_MODEL"
+      },
+      {
+        "uuid": "379038fc-663f-42ed-87f3-9cdde7fb4339",
+        "name": "PEER_LED_FACILITY_ART_GROUP_MODEL"
+      },
+      {
+        "uuid": "fb36b5af-3f83-460b-a10f-fc7923ed7914'",
+        "name": "HCW_FACILITY_ART_DISTRIBUTION_MODEL"
+      },
+      {
+        "uuid": "29a9df4d-808f-4ba0-8b1e-ea05c918f14b",
+        "name": "MULTI_MONTH_DISPENSING_MODEL"
+      },
+      {
+        "uuid": "771b200c-8525-4425-b763-7e1cdca1b01f",
+        "name": "PEER_LED_COMMUNITY_ART_GROUP_MODEL"
+      },
+      {
+        "uuid": "fb36b5af-3f83-460b-a10f-fc7923ed7914",
+        "name": "HCW_COMMUNITY_ART_GROUP_MODEL"
+      },
+      {
+        "uuid": "3ec28e73-6f84-46f1-9310-c0c1a21c8ec3",
+        "name": "INDIVIDUAL_PATIENT_ART_DISTRIBUTION_MODEL"
+      },
+      {
+        "uuid": "d9108db3-1cb4-4641-afd7-04f3dfc6a204",
+        "name": "COMMUNITY_PHARMACY_MODEL"
+      },
+      {
+        "uuid": "5af988e4-09d8-41a4-9438-30f2b62d90b8",
+        "name": "FAMILY_COMMUNITY_ART_GROUP_MODEL"
+      },
+      {
+        "uuid": "ce562f55-bf51-4d00-9a2a-f56ca1a8bc34",
+        "name": "STANDARD_PMTCT_MODEL"
+      },
+      {
+        "uuid": "a685c057-d475-42ef-bb33-8b0c1d73b122",
+        "name": "PMTCT_DSD_MODEL"
       }
     ]
   },

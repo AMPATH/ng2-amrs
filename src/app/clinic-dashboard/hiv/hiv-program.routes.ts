@@ -40,6 +40,8 @@ import { ChartAbstractionPatientlistComponent } from 'src/app/hiv-care-lib/dqa-r
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
 import { PrepReportPatientListComponent } from 'src/app/hiv-care-lib/prep-report/prep-report-patient-list/prep-report-patient-list.component';
+import { AhdReportComponent } from './ahd-report/ahd-report.component';
+import { AhdMonthlyReportPatientlistComponent } from 'src/app/hiv-care-lib/ahd-monthly-report/ahd-monthly-report-patientlist/ahd-monthly-report-patientlist.component';
 import { MonthlyReportComponent } from 'src/app/hiv-care-lib/monthly-report/monthly-report.component';
 // tslint:disable-next-line: max-line-length
 import { ClinicDashboardGainsAndLossesComponent } from './patient-gain-and-loses-report/clinic-dashboard-gains-and-losses.component';
@@ -64,6 +66,8 @@ import { MOH412ClinicDashboardPatientListComponent } from './moh-412-report/moh-
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19-report/covid-19-report-patient-list/covid-19-report-patient-list.component';
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
+import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
+import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 
 const routes: Routes = [
   {
@@ -470,6 +474,32 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: Covid19ReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'plhiv-ncd-v2-monthly-report',
+        children: [
+          {
+            path: '',
+            component: PlhivNcdV2ReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: PlhivNcdV2ReportPatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'ahd-monthly-report',
+        children: [
+          {
+            path: '',
+            component: AhdReportComponent
+          },
+          {
+            path: 'patient-list',
+            component: AhdMonthlyReportPatientlistComponent
           }
         ]
       }

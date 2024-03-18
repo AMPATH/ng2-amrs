@@ -277,7 +277,7 @@ export class FamilyTestingContactComponent implements OnInit {
   }
 
   public onAddContactClick() {
-    const defaulterTracingFormV1Uuid = 'bf6d0d9a-e6af-48fd-9245-6d1939adb37d';
+    const defaulterTracingFormV1Uuid = 'f3ba9242-9bbb-4284-a0c0-56ac6f0cec65';
     const url = `/patient-dashboard/patient/${this.patientUuid}/general/general/formentry/${defaulterTracingFormV1Uuid}`;
     this.router.navigate([url], {});
   }

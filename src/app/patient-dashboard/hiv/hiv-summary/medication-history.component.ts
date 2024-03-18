@@ -1,6 +1,5 @@
 import { take } from 'rxjs/operators/take';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { MedicationHistoryResourceService } from '../../../etl-api/medication-history-resource.service';
 import { PatientService } from '../../services/patient.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'medication-change-history',
   templateUrl: './medication-history.component.html',
-  styleUrls: []
+  styleUrls: ['./medication-history.component.css']
 })
 export class MedicationHistoryComponent implements OnInit, OnDestroy {
   public encounters = [];

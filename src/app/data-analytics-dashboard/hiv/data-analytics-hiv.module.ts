@@ -42,6 +42,8 @@ import { TxNewReportComponent } from './datim-reports/tx-new-report/tx-new-repor
 import { TxCurrReportComponent } from './datim-reports/tx-curr-report.component';
 import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
+import { AhdReportComponent } from './ahd-report/ahd-report.component';
+import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 
 @NgModule({
   imports: [
@@ -93,7 +95,9 @@ import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
     TxNewReportComponent,
     TxCurrReportComponent,
     TxMmdReportComponent,
-    TxRttReportComponent
+    TxRttReportComponent,
+    PlhivNcdV2ReportComponent,
+    AhdReportComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

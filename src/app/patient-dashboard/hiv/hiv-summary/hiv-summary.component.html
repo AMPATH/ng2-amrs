@@ -1,13 +1,16 @@
 <h4 class="component-title">
   <span class="fa fa-medkit"></span> HIV Summary
-
   <span *ngIf="gbvScreeningResult" class="hiv-alert" style="background: orange"
     >{{ gbvScreeningLabel }}: {{ gbvScreeningResult }}</span
   >
 </h4>
 <div>
   <p-tabView>
-    <p-tabPanel header="HIV Summary" *ngIf="!isHEIActive">
+    <p-tabPanel
+      header="HIV Summary"
+      (click)="isVisible = true"
+      *ngIf="!isHEIActive"
+    >
       <hiv-summary-latest
         *ngIf="patientUuid"
         [patientUuid]="patientUuid"
@@ -24,7 +27,7 @@
     <p-tabPanel header="Historical HIV Summary">
       <hiv-summary-historical></hiv-summary-historical>
     </p-tabPanel>
-    <p-tabPanel header="Medication Change History">
+    <p-tabPanel header="Viral Load and Treatment Changes Tracker">
       <medication-change-history></medication-change-history>
     </p-tabPanel>
     <p-tabPanel header="HIV Clinical Summary">
@@ -32,6 +35,9 @@
     </p-tabPanel>
     <p-tabPanel header="Previous Visit Summary">
       <previous-visit-details></previous-visit-details>
+    </p-tabPanel>
+    <p-tabPanel header="AHD Events Summary">
+      <app-ahd-events-summary></app-ahd-events-summary>
     </p-tabPanel>
   </p-tabView>
 </div>

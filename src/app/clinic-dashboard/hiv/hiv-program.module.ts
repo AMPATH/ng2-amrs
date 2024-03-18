@@ -69,6 +69,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ClinicDashboardRetentionReportComponent } from './retention-report/clinic-dashboard-retention-report.component';
 import { ClinicDashboardCaseManagementComponent } from './case-management/clinic-dashboard-case-management.component';
 import { PrepReportComponent } from './prep-report/prep-report.component';
+import { AhdReportComponent } from './ahd-report/ahd-report.component';
 import { ClinicDashboardHeiReportComponent } from './clinic-dashboard-hei-indicators-report/clinic-dashboard-hei-report.component';
 import { ClinicDashboardPmtctRriReportComponent } from './clinic-dashboard-pmtct-rri-report/clinic-dashboard-pmtct-rri-report.component';
 
@@ -84,6 +85,7 @@ import { DefaulterListFilterComponent } from './../general/defaulter-list/defaul
 import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-dashboard-covid-19-report.component';
 import { PreAppointmentOutreachResourceService } from 'src/app/etl-api/pre-appointment-outreach-resource.service';
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
+import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 
 @NgModule({
   imports: [
@@ -177,6 +179,7 @@ import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outr
     ClinicDashboardRetentionReportComponent,
     ClinicDashboardCaseManagementComponent,
     PrepReportComponent,
+    AhdReportComponent,
     ClinicDashboardHeiReportComponent,
     ClinicDashboardPmtctRriReportComponent,
     HIVListsMicroFrontendComponent,
@@ -187,7 +190,8 @@ import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outr
     IptReportComponent,
     DefaulterListFilterComponent,
     ClinicDashboardCovid19ReportComponent,
-    PreAppointmentOutreachComponent
+    PreAppointmentOutreachComponent,
+    PlhivNcdV2ReportComponent
   ],
   providers: [
     ClinicalSummaryVisualizationService,

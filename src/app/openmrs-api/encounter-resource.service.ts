@@ -11,6 +11,7 @@ export class EncounterResourceService {
     'patient:(uuid,uuid),form:(uuid,name),' +
     'visit:(uuid,display,auditInfo,startDatetime,stopDatetime,location:(uuid,display)' +
     ',visitType:(uuid,name)),' +
+    'obs:(uuid,obsDatetime,concept:(uuid,uuid,name:(display),datatype),value:ref,groupMembers),' +
     'location:ref,encounterType:ref,encounterProviders:(uuid,display,provider:(uuid,display)))';
 
   constructor(
@@ -100,11 +101,11 @@ export class EncounterResourceService {
     return this.http.post(url, JSON.stringify(payload), { headers });
   }
 
-  public voidEncounter(uuid: string) {
+  public voidEncounter(uuid: string, voidReason: string) {
     if (!uuid) {
       return null;
     }
-    const url = this.getUrl() + 'encounter/' + uuid + '?!purge';
+    const url = `${this.getUrl()}encounter/${uuid}?reason=${voidReason}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });
   }

@@ -13,6 +13,7 @@ import { SuccessModalComponent } from './modals/success-modal.component';
 import { GroupEditorComponent } from './group-editor/group-editor-component';
 import { GroupSearchInputComponent } from './group-manager-search/group-search-input/group-search-input.component';
 import { PatientSearchModule } from '../patient-search/patient-search.module';
+import { CohortOtzModuleResourceService } from '../etl-api/cohort-otz-module-resource.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { PatientSearchModule } from '../patient-search/patient-search.module';
     PatientSearchModule
   ],
   exports: [GroupSearchInputComponent, GroupEditorComponent],
-  providers: [DatePipe],
+  providers: [DatePipe, CohortOtzModuleResourceService],
   entryComponents: [
     DatePickerModalComponent,
     SuccessModalComponent,

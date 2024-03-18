@@ -127,7 +127,7 @@
         <a
           style="cursor: pointer"
           id="cancelVisitButton"
-          (click)="confirmAction('cancel-visit')"
+          (click)="cancelVisitAction(cancelVisitModal)"
         >
           <i class="glyphicon glyphicon-remove"></i> Cancel Visit</a
         >
@@ -137,14 +137,14 @@
   <!-- class="list-group-item" -->
   <div>
     <!-- <h4 class="component-title"><span class="icon-i-immunizations"></span>Visit Encounters</h4> -->
-    <button
+    <!-- <button
       (click)="voidVisitEncounters()"
       *ngIf="showDeleteEncountersButton"
       type="button"
       class="btn btn-danger"
     >
       Delete Encounters
-    </button>
+    </button> -->
     <!-- class="visit-panel-body" -->
     <div>
       <encounter-list
@@ -187,3 +187,51 @@
     </div>
   </div>
 </div>
+
+<ng-template #cancelVisitModal>
+  <div class="modal-header alert alert-info">
+    Cancel Visit Form
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="submitCancelRequest()">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 mb-2">
+          <label for="instructions">Reasons for cancelling:</label>
+          <textarea
+            id="reasons"
+            name="reasons"
+            [(ngModel)]="cancellationReasons"
+            required
+            placeholder="Reasons for cancelling visit (Min. 5 characters)"
+            class="form-control"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        class="fa fa-times-circle btn btn-danger btn-sm"
+        type="button"
+        (click)="hide()"
+      >
+        cancel
+      </button>
+      <button
+        class="fa fa-check-circle btn btn-success btn-sm"
+        type="submit"
+        [disabled]="cancellationReasons?.length < 5"
+      >
+        submit request
+      </button>
+    </div>
+  </form>
+</ng-template>
