@@ -32,6 +32,7 @@ export class TodaysVitalsService {
       const vitalSource = new source(new Vital({}), this.patient);
       for (const obs of obsArray) {
         const ob = obs;
+
         if (typeof ob.concept !== 'undefined') {
           createdVital = vitalSource.getVitals(ob, this.vitalsDataSource);
           if (typeof createdVital !== 'undefined' && createdVital.name) {
@@ -54,7 +55,9 @@ export class TodaysVitalsService {
           )
         );
       }
+      console.log('createdVital:', createdVital);
     });
+
     this.applyCompounding();
   }
 

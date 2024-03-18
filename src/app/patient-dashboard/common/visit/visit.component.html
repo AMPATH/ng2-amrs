@@ -2,7 +2,7 @@
   <strong *ngIf="currentEnrollment" style="color: gray">
     <span>
       Patient enrolled in
-      {{ toTitleCase(currentEnrollment?.openmrsModel?.display) }}
+      {{ toTitleCase(modelEnrolled) }}
     </span>
     <span
       *ngIf="

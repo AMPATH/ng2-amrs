@@ -61,9 +61,14 @@ export class PatientResourceService {
       v && v.length > 0 ? v : this.v
     );
 
-    return this.http.get(url, {
+    // return this.http.get(url, {
+    //   params: params
+    // });
+    const parameters = this.http.get(url, {
       params: params
     });
+
+    return parameters;
   }
   public saveUpdatePatientIdentifier(
     uuid,
