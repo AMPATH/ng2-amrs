@@ -58,6 +58,8 @@ import { ComponentResolver } from 'ag-grid/dist/lib/components/framework/compone
 import { Console } from 'console';
 
 import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
+import { ComponentResolver } from 'ag-grid/dist/lib/components/framework/componentResolver';
+import { Console } from 'console';
 
 
 interface RefProgram {
@@ -689,6 +691,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(() => {});
     }
   }
+
   public assignPatientModel(modelassigned: any) {
     let programToEnroll = '';
     switch (modelassigned) {
@@ -724,6 +727,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     const modelUuid = modelSelected[0].initialValue.value.uuid;
 
     programToEnroll = this.assignPatientModel(modelUuid);
+
 
     console.log('Response:', programToEnroll);
     const enrollpayload = {

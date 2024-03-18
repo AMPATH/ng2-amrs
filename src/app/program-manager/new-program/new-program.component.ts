@@ -172,7 +172,7 @@ export class NewProgramComponent
         selectedProgram: this.selectedProgram,
         programVisitConfig: this.programVisitConfig
       });
-      this.checkForRequiredQuestions();
+      // this.checkForRequiredQuestions();
       this.checkIfEnrollmentIsAllowed();
       this.goToDetails();
     }
