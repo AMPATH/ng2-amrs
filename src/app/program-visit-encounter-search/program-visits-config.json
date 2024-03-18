@@ -285,11 +285,7 @@
     "visitTypes": [
       {
         "uuid": "58f20c53-aac7-4e73-bd7a-97986435e570",
-        "name": "PEP Visit ",
-            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
-            "display": "ADULTRETURN"
-          }
-        ]
+        "name": "PEP Visit "
       },
       {
         "uuid": "18faa058-4eea-4339-a959-84b3e5cb30be",
@@ -573,6 +569,325 @@
           {
             "uuid": "3c8cd5d4-cdc2-4136-8326-224b682b6543",
             "display": "MDTFORM"
+          }
+        ]
+      }
+    ]
+  },
+  "9d7422b1-af7b-4602-813e-953cfaf47e21": {
+    "name": "FAST TRACK FACILITY MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "a74f5be3-19bf-44a9-b9d8-14ff5587df37": {
+    "name": "PEER LED FACILITY ART GROUP MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "10275c77-e317-4b48-b95e-279053d55cd0": {
+    "name": "HCW FACILITY ART DISTRIBUTION MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "e352cb61-5889-4ba3-8405-d975e4c5e89e": {
+    "name": "MULTI MONTH DISPENSING MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "6d5d10b3-ea80-4ee5-a58e-5f8a6f88ae93": {
+    "name": "PEER LED COMMUNITY ART GROUP MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "7299b930-4866-437e-a879-aefbb5bf2e0b": {
+    "name": "HCW_COMMUNITY_ART_GROUP_MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "6af0e0eb-7172-4d94-92fd-aa987bb43250": {
+    "name": "INDIVIDUAL DDD MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "e33b0107-c248-42b4-8c94-4525fcc0c86e": {
+    "name": "COMMUNITY PHARMACY MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "f16403bb-c5df-46ba-afce-14f8aea2fabd": {
+    "name": "FAMILY COMMUNITY ART GROUP MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "80839137-9711-483f-a239-dfd383d020f6": {
+    "name": "STANDARD PMTCT MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "e950ade1-041d-4dda-b0cd-bb81dad8694e": {
+    "name": "PMTCT DSD MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
           }
         ]
       }
