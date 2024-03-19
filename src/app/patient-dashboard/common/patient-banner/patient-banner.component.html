@@ -425,6 +425,19 @@
               Family History
             </button>
           </span>
+          <span *ngIf="patient?.person.age > 2 && patient?.person.age <= 9">
+            <button class="btn btn-primary">PAED PROGRAM</button>
+          </span>
+          <span *ngIf="patient?.person.age >= 10 && patient?.person.age <= 24">
+            <button class="btn btn-primary">AYP PROGRAM</button>
+          </span>
+          <span *ngIf="patient?.person.age > 24">
+            <button class="btn btn-primary">ADULT PROGRAM</button>
+          </span>
+          <span *ngIf="patient?.person.age >= 0 && patient?.person.age <= 2">
+            <button class="btn btn-primary">PMTCT PROGRAM</button>
+          </span>
+
           <div
             *ngIf="patient && relationships.length > 0"
             class="btn-group pull-right"
