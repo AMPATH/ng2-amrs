@@ -176,7 +176,10 @@ export class NewProgramComponent
         ['name'],
         ['asc']
       );
-      console.log('AvailablePrograms: ', this.availableDepartmentPrograms);
+      console.log(
+        'patientAvailablePrograms: ',
+        this.availableDepartmentPrograms
+      );
 
       if (this.availableDepartmentPrograms.length === 0) {
         this.showMessage('No Active programs in this department');
