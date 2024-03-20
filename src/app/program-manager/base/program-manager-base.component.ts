@@ -183,28 +183,49 @@ export class ProgramManagerBaseComponent implements OnInit {
 
     if (department) {
       // Remove already enrolled programs
-      if (patientStatus) {
-        console.log('We are here');
-        return _.filter(department.programs, (program) => {
-          const programs = _.map(this.availablePrograms, (a) => a.programUuid);
 
-          // Additional condition to filter by positivity
-          const isPositive =
-            program.status === 'positive' || program.status === 'all'; // Replace 'positive' with the actual property or condition
+      if (department.name === 'HIV') {
+        console.log('department  is HIV');
+        if (patientStatus) {
+          return _.filter(department.programs, (program) => {
+            const programs = _.map(
+              this.availablePrograms,
+              (a) => a.programUuid
+            );
+            console.log('ProgramFaith', program.uuid);
+            console.log('ProgramFaith', program.status);
 
-          return _.includes(programs, program.uuid) && isPositive;
-        });
-
-        // return _.filter(department.programs, (program) => {
-        //   const programs = _.map(this.availablePrograms, (a) => a.programUuid);
-        //   return _.includes(programs, program.uuid);
-        // });
+            // Additional condition to filter by positivity
+            const isPositive = program.status === 'positive'; // Replace 'positive' with the actual property or condition
+            return _.includes(programs, program.uuid) && isPositive;
+          });
+        } else {
+          return _.filter(department.programs, (program) => {
+            const programs = _.map(
+              this.availablePrograms,
+              (a) => a.programUuid
+            );
+            return _.includes(programs, program.uuid);
+          });
+        }
       } else {
-        console.log('We are here no here');
-        return _.filter(department.programs, (program) => {
-          const programs = _.map(this.availablePrograms, (a) => a.programUuid);
-          return _.includes(programs, program.uuid);
-        });
+        if (patientStatus) {
+          return _.filter(department.programs, (program) => {
+            const programs = _.map(
+              this.availablePrograms,
+              (a) => a.programUuid
+            );
+            return _.includes(programs, program.uuid);
+          });
+        } else {
+          return _.filter(department.programs, (program) => {
+            const programs = _.map(
+              this.availablePrograms,
+              (a) => a.programUuid
+            );
+            return _.includes(programs, program.uuid);
+          });
+        }
       }
     }
     return [];
