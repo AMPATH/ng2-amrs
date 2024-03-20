@@ -244,16 +244,15 @@
           </div>
         </div>
         <div class="col-md-12">
-          <div class="col-md-12" *ngIf="reason_cacx_not_done">
+          <!-- <div class="col-md-12" *ngIf="reason_cacx_not_done">
             <p>
               Cervical Cancer Screening :
               <strong>{{ reason_cacx_not_done }}</strong>
             </p>
-          </div>
+          </div> -->
           <div
             class="col-md-12"
             *ngIf="
-              !reason_cacx_not_done &&
               cervicalScreeningSummary.length > 0 &&
               cervicalScreeningSummary[0].via_or_via_vili
             "
