@@ -244,12 +244,21 @@
           </div>
         </div>
         <div class="col-md-12">
-          <!-- <div class="col-md-12" *ngIf="reason_cacx_not_done">
+          <div
+            class="col-md-12"
+            *ngIf="cervicalScreeningSummary[0]?.tah_done == '1'"
+          >
             <p>
-              Cervical Cancer Screening :
-              <strong>{{ reason_cacx_not_done }}</strong>
+              Current Cervical Cancer Screening Status :
+              <strong
+                >{{ ' Not Done: Total Abdominal Hysterectomy - TAH ('
+                }}{{
+                  cervicalScreeningSummary[0]?.tah_confirmation_datetime
+                    | date: 'dd-MM-yyyy'
+                }}{{ ')' }}</strong
+              >
             </p>
-          </div> -->
+          </div>
           <div
             class="col-md-12"
             *ngIf="
@@ -259,7 +268,12 @@
           >
             <div class="col-md-12 col-xs-12">
               <p>
-                Cervical Cancer Screening :
+                {{
+                  cervicalScreeningSummary[0].tah_done == '1'
+                    ? 'Previous Cervical Cancer Screening Before TAH'
+                    : 'Cervical Cancer Screening'
+                }}
+                :
                 <span>
                   {{ latestCervicalScreeningSummary.test }}
                 </span>
