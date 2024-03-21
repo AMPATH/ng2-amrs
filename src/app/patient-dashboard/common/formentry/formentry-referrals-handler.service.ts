@@ -141,6 +141,7 @@ export class FormentryReferralsHandlerService {
     patient: Patient,
     programConfig: any
   ): Observable<any> {
+    console.log('Its about to go down!');
     const batchProgramUnenrollments: Array<Observable<any>> = [];
     const enrolledIncompatiblePrograms: any[] = [];
     const enrolledPrograms = _.filter(patient.enrolledPrograms, 'isEnrolled');
