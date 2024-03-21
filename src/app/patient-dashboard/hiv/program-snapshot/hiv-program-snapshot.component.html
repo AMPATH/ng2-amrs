@@ -246,21 +246,6 @@
         <div class="col-md-12">
           <div
             class="col-md-12"
-            *ngIf="cervicalScreeningSummary[0]?.tah_done == '1'"
-          >
-            <p>
-              Current Cervical Cancer Screening Status :
-              <strong
-                >{{ ' Not Done: Total Abdominal Hysterectomy - TAH ('
-                }}{{
-                  cervicalScreeningSummary[0]?.tah_confirmation_datetime
-                    | date: 'dd-MM-yyyy'
-                }}{{ ')' }}</strong
-              >
-            </p>
-          </div>
-          <div
-            class="col-md-12"
             *ngIf="
               cervicalScreeningSummary.length > 0 &&
               cervicalScreeningSummary[0].via_or_via_vili
@@ -270,7 +255,7 @@
               <p>
                 {{
                   cervicalScreeningSummary[0].tah_done == '1'
-                    ? 'Previous Cervical Cancer Screening Before TAH'
+                    ? 'Previous Cervical Cancer Screening'
                     : 'Cervical Cancer Screening'
                 }}
                 :
@@ -285,6 +270,21 @@
                 </span>
               </p>
             </div>
+          </div>
+          <div
+            class="col-md-12"
+            *ngIf="cervicalScreeningSummary[0]?.tah_done == '1'"
+          >
+            <p>
+              Latest Cervical Cancer Screening Status :
+              <strong
+                >{{ ' Not Done: Total Abdominal Hysterectomy - TAH ('
+                }}{{
+                  cervicalScreeningSummary[0]?.tah_confirmation_datetime
+                    | date: 'dd-MM-yyyy'
+                }}{{ ')' }}</strong
+              >
+            </p>
           </div>
         </div>
         <div class="col-md-12">
