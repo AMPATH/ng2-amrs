@@ -686,8 +686,22 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(() => {});
     }
   }
-
+  public checkGroupEnrollment(programToEnroll: any) {
+    const groupModels = [];
+    groupModels.push(
+      'a74f5be3-19bf-44a9-b9d8-14ff5587df37', // PFARG
+      '6d5d10b3-ea80-4ee5-a58e-5f8a6f88ae93', // PCARG
+      '7299b930-4866-437e-a879-aefbb5bf2e0b', // HCARG
+      'f16403bb-c5df-46ba-afce-14f8aea2fabd', // FCARG
+      '10275c77-e317-4b48-b95e-279053d55cd0' // HFARG
+    );
+    if (groupModels.includes(programToEnroll)) {
+      this.enrollToGroup = true;
+      console.log('enrollToGroup: ', this.enrollToGroup);
+    }
+  }
   public assignModel(modelConceptUuid: any) {
+    console.log('modelConceptUuid: ', modelConceptUuid);
     let programToEnroll = '';
     switch (modelConceptUuid) {
       case 'c8b9b024-1a3a-47a4-a2aa-fcaf3053ea27':
@@ -704,7 +718,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         break;
       // start new programs
 
-      case '08381666-5d30-40db-9a77-4413f4329800':
+      case '20838ff5-7a28-4877-889c-300155627a6f':
         programToEnroll = '9d7422b1-af7b-4602-813e-953cfaf47e21';
         // name: 'FAST TRACK FACILITY CARE_MODEL',
         break;
@@ -714,7 +728,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // name: 'PEER LED FACILITY ART GROUP MODEL',
         break;
 
-      case 'fb36b5af-3f83-460b-a10f-fc7923ed7914':
+      case 'bf6b9fc9-a3bb-4881-aa06-df9071c47e33':
         programToEnroll = '10275c77-e317-4b48-b95e-279053d55cd0';
         // name: 'HCW FACILITY ART DISTRIBUTION MODEL',
         break;
@@ -725,7 +739,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         break;
 
       case '771b200c-8525-4425-b763-7e1cdca1b01f':
-        programToEnroll = '6d5d10b3-ea80-4ee5-a58e-5f8a6f88ae93        ';
+        programToEnroll = '6d5d10b3-ea80-4ee5-a58e-5f8a6f88ae93';
         // name: 'PEER LED COMMUNITY ART GROUP MODEL',
         break;
 
@@ -734,12 +748,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // name: 'HCW COMMUNITY ART GROUP MODEL',
         break;
 
-      case '3ec28e73-6f84-46f1-9310-c0c1a21c8ec3':
+      case '7e5e7759-e9f7-4b16-b904-041fcdddb390':
         programToEnroll = '6af0e0eb-7172-4d94-92fd-aa987bb43250';
         // name: 'INDIVIDUAL DDD MODEL',
         break;
 
-      case 'd9108db3-1cb4-4641-afd7-04f3dfc6a204':
+      case '33363568-fb62-4063-b0ac-e37be1d23514':
         programToEnroll = 'e33b0107-c248-42b4-8c94-4525fcc0c86e';
         // name: 'COMMUNITY PHARMACY MODEL',
         break;
@@ -759,8 +773,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // name: 'PMTCT DSD MODEL',
         break;
 
-      case 'fe239aa1-f5d4-4d15-83a1-ce417e9fb879':
-        programToEnroll = 'f50dacda-5599-49d0-9cb0-f4412c4a8371';
+      case 'f930b22e-8b8e-4b8c-8d19-4c34a5d34a5e':
+        programToEnroll = '7299b930-4866-437e-a879-aefbb5bf2e0b';
         break;
 
       // end new dsd programs
@@ -778,11 +792,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
         this.form.searchNodeByQuestionId('communityModel') || // community
         this.form.searchNodeByQuestionId('facilityModel'); // facility
     }
+    console.log('ModelSelected: ', modelSelected);
 
     const modelUuid = modelSelected[0].initialValue.value.uuid;
- programToEnroll = this.assignModel(modelUuid);
+    programToEnroll = this.assignModel(modelUuid);
 
-    console.log('Response:', programToEnroll);
+    console.log('programToEnroll:', programToEnroll);
+
     const enrollpayload = {
       programUuid: programToEnroll,
       patient: this.patient,
@@ -806,6 +822,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
               .pipe(take(1))
               .subscribe((program) => {
                 console.log('Response:', program);
+                this.checkGroupEnrollment(programToEnroll);
               });
             console.log('Response:', res);
           });

@@ -196,7 +196,7 @@ export class ProgramManagerBaseComponent implements OnInit {
             console.log('ProgramFaith', program.status);
 
             // Additional condition to filter by positivity
-            const isPositive = program.status === 'positive'; // Replace 'positive' with the actual property or condition
+            const isPositive = program.status === 'positive_new'; // Replace 'positive' with the actual property or condition
             return _.includes(programs, program.uuid) && isPositive;
           });
         } else {

@@ -59,6 +59,7 @@ export class ProgramManagerService {
       return of(null);
     }
     _.each(programs, (program: any) => {
+      console.log('Programs to Unenroll: ', program.programUuid);
       const location = program.enrolledProgram._openmrsModel.location.uuid;
       const unenrollPayload = this.programService.createEnrollmentPayload(
         program.programUuid,
