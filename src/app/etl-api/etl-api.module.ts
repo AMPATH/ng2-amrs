@@ -44,7 +44,7 @@ import { MOH412ResourceService } from './moh-412-resource.service';
 import { ClinicFlowResourceService } from './clinic-flow-resource.service';
 import { Covid19ResourceService } from './covid-19-resource-service';
 import { LocationUnitsService } from './location-units.service';
-import { OTZRegisterResourceService } from './otz-register-resource.service';
+import { OtzRegisterService } from './otz-register.service'; 
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -95,7 +95,7 @@ import { OTZRegisterResourceService } from './otz-register-resource.service';
     ClinicFlowResourceService,
     Covid19ResourceService,
     LocationUnitsService,
-    OTZRegisterResourceService
+    OtzRegisterService 
   ],
   exports: []
 })
