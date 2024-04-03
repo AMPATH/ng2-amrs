@@ -16,7 +16,7 @@ export class OtzRegisterService {
   ) {}
 
   public getBaseUrl(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + 'otz-register';
+    return this.appSettingsService.getEtlRestbaseurl().trim() + 'otz-monthly-register/patient-list';
   }
 
   public getOtzRegister(payload: {
