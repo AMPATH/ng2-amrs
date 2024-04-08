@@ -1,4 +1,3 @@
-
 {
   "f0faccb7-657e-413c-abad-54f13409d106": {
     "name": "STANDARD CARE MODEL",
@@ -867,6 +866,35 @@
   },
   "e950ade1-041d-4dda-b0cd-bb81dad8694e": {
     "name": "PMTCT DSD MODEL",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "d4ac2aa5-2899-42fb-b08a-d40161815b48",
+        "name": "Adult HIV Return Visit ",
+        "allowedIf": "age >= 20 && programLocation === intendedVisitLocationUuid && !isFirstAMPATHHIVVisit",
+        "encounterTypes": [
+          {
+            "uuid": "a44ad5e2-b3ec-42e7-8cfa-8ba3dbcf5ed7",
+            "display": "HIVTRIAGE"
+          },
+          {
+            "uuid": "cbe2d31d-2201-44ce-b52e-fbd5dc7cff33",
+            "display": "TRANSFERENCOUNTER"
+          },
+          {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN"
+          }
+        ]
+      }
+    ]
+  },
+  "a89ef6fa-1350-11df-a1f1-0026b9348838": {
+    "name": "HIV SERVICE ",
     "dataDependencies": [
       "patient",
       "enrollment",

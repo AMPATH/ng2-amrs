@@ -772,6 +772,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
         programToEnroll = 'e950ade1-041d-4dda-b0cd-bb81dad8694e';
         // name: 'PMTCT DSD MODEL',
         break;
+      case 'a89ef6fa-1350-11df-a1f1-0026b9348838':
+        programToEnroll = '9cd9b27d-5f07-4c1d-87f2-d79aa045f2e8';
+        // name: 'HIV SERVICE',
+        break;
 
       case 'f930b22e-8b8e-4b8c-8d19-4c34a5d34a5e':
         programToEnroll = '7299b930-4866-437e-a879-aefbb5bf2e0b';
