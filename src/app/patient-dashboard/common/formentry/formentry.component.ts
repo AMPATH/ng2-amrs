@@ -723,11 +723,6 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // name: 'FAST TRACK FACILITY CARE_MODEL',
         break;
 
-      case '20838ff5-7a28-4877-889c-300155627a6f':
-        programToEnroll = '9d7422b1-af7b-4602-813e-953cfaf47e21';
-        // name: 'FAST TRACK FACILITY CARE_MODEL',
-        break;
-
       case '379038fc-663f-42ed-87f3-9cdde7fb4339':
         programToEnroll = 'a74f5be3-19bf-44a9-b9d8-14ff5587df37';
         // name: 'PEER LED FACILITY ART GROUP MODEL',
