@@ -769,6 +769,16 @@
       "shared-routes-class": "oncology",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "HIV_SERVICE_MODEL",
+      "programUuid": "9cd9b27d-5f07-4c1d-87f2-d79aa045f2e8",
+      "baseRoute": "9cd9b27d-5f07-4c1d-87f2-d79aa045f2e89cd9b27d-5f07-4c1d-87f2-d79aa045f2e8",
+      "alias": "oncology",
+      "published": true,
+      "shared-routes-class": "oncology",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 

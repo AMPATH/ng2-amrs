@@ -199,6 +199,12 @@ const PMTCT_DSD_MODEL: Program = {
   dept: 'HIV',
   compatibleWithOtherDeptPrograms: true
 };
+const HIV_SERVICE: Program = {
+  uuid: 'a89ef6fa-1350-11df-a1f1-0026b9348838',
+  name: 'HIV_SERVICE',
+  dept: 'HIV',
+  compatibleWithOtherDeptPrograms: true
+};
 
 // end new programs
 
@@ -223,7 +229,8 @@ export const Programs = {
   DTG_PHARMACO_VIGILANCE_PROGRAM,
   HIV_SOCIAL_WORK_PROGRAM,
   NUTRITION_PROGRAM,
-  HEI_MODEL,
+  // echo..us/j/86308956145
+  https: HEI_MODEL,
   FAST_TRACK_FACILITY_CARE_MODEL,
   PEER_LED_FACILITY_ART_GROUP_MODEL,
   HCW_FACILITY_ART_DISTRIBUTION_MODEL,
@@ -234,5 +241,6 @@ export const Programs = {
   COMMUNTIY_PHARMACY_MODEL,
   FAMILY_COMMUNITY_ART_GROUP_MODEL,
   STANDARD_PMTCT_MODEL,
-  PMTCT_DSD_MODEL
+  PMTCT_DSD_MODEL,
+  HIV_SERVICE
 };

@@ -723,6 +723,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
         // name: 'FAST TRACK FACILITY CARE_MODEL',
         break;
 
+      case '20838ff5-7a28-4877-889c-300155627a6f':
+        programToEnroll = '9d7422b1-af7b-4602-813e-953cfaf47e21';
+        // name: 'FAST TRACK FACILITY CARE_MODEL',
+        break;
+
       case '379038fc-663f-42ed-87f3-9cdde7fb4339':
         programToEnroll = 'a74f5be3-19bf-44a9-b9d8-14ff5587df37';
         // name: 'PEER LED FACILITY ART GROUP MODEL',
@@ -771,6 +776,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
       case 'a685c057-d475-42ef-bb33-8b0c1d73b122':
         programToEnroll = 'e950ade1-041d-4dda-b0cd-bb81dad8694e';
         // name: 'PMTCT DSD MODEL',
+        break;
+      case 'a89ef6fa-1350-11df-a1f1-0026b9348838':
+        programToEnroll = '9cd9b27d-5f07-4c1d-87f2-d79aa045f2e8';
+        // name: 'HIV SERVICE',
         break;
 
       case 'f930b22e-8b8e-4b8c-8d19-4c34a5d34a5e':

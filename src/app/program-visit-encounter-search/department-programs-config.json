@@ -61,6 +61,10 @@
       {
         "uuid": "a685c057-d475-42ef-bb33-8b0c1d73b122",
         "name": "PMTCT_DSD_MODEL"
+      },
+      {
+        "uuid": "a89ef6fa-1350-11df-a1f1-0026b9348838",
+        "name": "HIV_SERVICE"
       }
     ]
   },
