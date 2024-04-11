@@ -164,7 +164,7 @@ const testDeptProgramsConfig = {
       },
       {
         uuid: 'a89ef6fa-1350-11df-a1f1-0026b9348838',
-        name: 'HIV SERVICE'
+        name: 'HIV CARE SERVICE'
       }
     ]
   },
