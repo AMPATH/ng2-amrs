@@ -182,7 +182,7 @@
                       rowspan="2"
                       style="width: 20%; text-align: center"
                     >
-                      2022-01-01
+                      {{data.original_art_regimen}}
                     </td>
                     <td colspan="2" style="width: 20%; text-align: center">
                       {{ data.firstname_middlename }}
@@ -217,32 +217,33 @@
                     </td>
                     <td colspan="2">{{ data.first_regimen_switch }}</td>
                     <td colspan="2">{{ data.first_regimen_switch_date }}</td>
-                    <td colspan="2">gm</td>
+                    <td colspan="2">{{ data.first_regimen_switch_reason }}</td>
                     <td colspan="2">{{ data.third_regimen_switch }}</td>
                     <td colspan="2">{{ data.third_regimen_switch_date }}</td>
-                    <td colspan="2">pppprrr</td>
+                    <td colspan="2">{{ data.third_regimen_switch_reason }}</td>
                     <ng-container *ngFor="let i of counterArray">
-                      <td colspan="2">rrrr</td>
+                      <td colspan="2">{{ vlResult }}</td>
                     </ng-container>
-                    <td colspan="6"></td>
-                    <td colspan="2" rowspan="2">gx</td>
-                    <td colspan="2" rowspan="2">gy</td>
+                    <td colspan="6">{{ data.discontinue_otz_reason }}</td>
+                    <td colspan="2" rowspan="2"></td>
+                    <td colspan="2" rowspan="2">{{ data.clinical_remarks }}</td>
                   </tr>
                   <tr>
                     <td colspan="2">{{ data.age_at_enrollment }} years</td>
+                    
                     <td colspan="2">{{ data.last_name }}</td>
                     <td colspan="3">{{ data.vl_result_date_at_otz_enrollment }}</td>
                     <td colspan="3">{{ data.art_regimen_start_date_at_otz_enrollment }}</td>
                     <td colspan="2">{{ data.second_regimen_switch }}</td>
                     <td colspan="2">{{ data.second_regimen_switch_date }}</td>
-                    <td colspan="2">xxx</td>
+                    <td colspan="2">{{ data.second_regimen_switch_reason }}</td>
                     <td colspan="2">{{ data.fourth_regimen_switch }}</td>
                     <td colspan="2">{{ data.fourth_regimen_switch_date }}</td>
-                    <td colspan="2">yyy</td>
+                    <td colspan="2">{{ data.fourth_regimen_switch_reason }}</td>
                     <ng-container *ngFor="let i of counterArray">
-                      <td colspan="2">gg</td>
+                      <td colspan="2">{{ vlDate }}</td>
                     </ng-container>
-                    <td colspan="6">gggg</td>
+                    <td colspan="6">{{ data.discontinue_otz_date }}</td>
                   </tr>
                 </ng-container>
               </tbody>

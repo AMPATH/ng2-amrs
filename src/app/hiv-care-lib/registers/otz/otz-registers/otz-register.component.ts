@@ -14,7 +14,9 @@ export class OtzRegisterComponent implements OnInit {
   public otzData = [];
   public enabledControls = 'monthControl';
   public _month: string;
-
+  public vlDate = [];
+  public vlResult = [] ;
+ 
   counterArray = Array(18)
     .fill(0)
     .map((_, index) => index + 1);
@@ -47,7 +49,29 @@ export class OtzRegisterComponent implements OnInit {
       this.otzData = result.results.results;
       console.log("otzdata", this.otzData);
       console.log('age2', this.otzData[1].age_at_enrollment);
+
+      for (let data of this.otzData) {
+        const viral_load = data.vl_result_post_otz_enrollment;
+        const vl_array = viral_load.split(',');
+         console.log(vl_array);
+          const mapped_vls = vl_array.map((v) => {
+        const vl_dates = v.split('=');
+        this.vlDate = vl_dates[0];
+        this.vlResult = vl_dates[1];
+        console.log('Date:', this.vlDate, 'Result:', this.vlResult);
+                 return {
+                   vlDate: vl_dates[0], 
+                        vlResult: vl_dates[1]
+                        
+              };
+             });
+             console.log('mapped_vls',mapped_vls);
+               
+
+      }
+      
     })
+    
 
   }
 }
