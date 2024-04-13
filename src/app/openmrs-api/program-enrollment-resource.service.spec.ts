@@ -35,8 +35,8 @@ describe('Service: ProgramEnrollmentResourceService', () => {
     results: [
       {
         uuid: '927d9d1f-44ce-471e-a77b-d1f1342f43f6',
-        display: 'HIV Program',
-        name: 'HIV Program',
+        display: 'HIV Care Service',
+        name: 'HIV Care Service',
         dateEnrolled: '2011-02-09T00:00:00.000+0300',
         dateCompconsted: '2011-02-09T00:00:00.000+0300',
         program: {

@@ -21,7 +21,7 @@
     <div class="wizard-body component">
       <div class="step" *ngIf="programDepartments">
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i> Select Department</h2>
+          <h2><i class="fa fa-arrow-right"></i> </h2>
         </div>
         <div class="step-details">
           <mat-radio-group
@@ -58,7 +58,7 @@
       <div class="step" *ngIf="availableDepartmentPrograms">
         <busy *ngIf="enrolling" [message]="'Enrolling patient'"></busy>
         <div class="step-name">
-          <h2><i class="fa fa-arrow-right"></i>Check Patient Status</h2>
+          <h2><i class="fa fa-arrow-right"></i>Select Patient Status</h2>
         </div>
         <div class="step-details">
           <div class="program-body">
