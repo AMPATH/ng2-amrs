@@ -240,6 +240,9 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
 
   public addExtraColumns(indicators: Array<any>) {
     const extraColumns = {
+      height: 'Height',
+      weight: 'Weight',
+      stage: 'WHO Stage',
       location: 'Location',
       enrollment_date: 'Enrollment Date',
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
