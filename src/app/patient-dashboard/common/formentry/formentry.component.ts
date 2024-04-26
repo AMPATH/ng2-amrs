@@ -19,7 +19,7 @@ import {
 import { DataSources } from '@ampath-kenya/ngx-openmrs-formentry';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { ConceptResourceService } from '../../../openmrs-api/concept-resource.service';
-import { ConfirmationService } from 'primeng/primeng';
+import { Breadcrumb, ConfirmationService } from 'primeng/primeng';
 import { DraftedFormsService } from './drafted-forms.service';
 import {
   FormFactory,
@@ -37,7 +37,7 @@ import { FormSubmissionService } from './form-submission.service';
 import { MonthlyScheduleResourceService } from '../../../etl-api/monthly-scheduled-resource.service';
 import { Patient } from '../../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
-
+import { ProgramManagerService } from '../../../program-manager/program-manager.service';
 import { PatientProgramResourceService } from '../../../etl-api/patient-program-resource.service';
 import { PersonResourceService } from '../../../openmrs-api/person-resource.service';
 import { RetrospectiveDataEntryService } from '../../../retrospective-data-entry/services/retrospective-data-entry.service';
@@ -53,7 +53,9 @@ import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.int
 
 // constants
 import { FormUuids } from './../../../constants/forms.constants';
-import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
+// import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
+import { ComponentResolver } from 'ag-grid/dist/lib/components/framework/componentResolver';
+import { Console } from 'console';
 
 interface RefProgram {
   uuid: string;
@@ -157,6 +159,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private referralsHandler: FormentryReferralsHandlerService,
     private formDataSourceService: FormDataSourceService,
     private formSubmissionService: FormSubmissionService,
+    // private programManagerService: ProgramManagerService,
     private monthlyScheduleResourceService: MonthlyScheduleResourceService,
     private patientService: PatientService,
     private patientTransferService: PatientTransferService,
@@ -511,7 +514,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         if (
           encounterProvider.length > 0 &&
           this.compiledSchemaWithEncounter &&
-          this.compiledSchemaWithEncounter.provider !== {}
+          this.compiledSchemaWithEncounter.provider.length !== 0
         ) {
           let provider = this.compiledSchemaWithEncounter.provider.uuid;
           if (retroSettings && retroSettings.enabled) {
@@ -683,7 +686,152 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(() => {});
     }
   }
+  public checkGroupEnrollment(programToEnroll: any) {
+    const groupModels = [];
+    groupModels.push(
+      'a74f5be3-19bf-44a9-b9d8-14ff5587df37', // PFARG
+      '6d5d10b3-ea80-4ee5-a58e-5f8a6f88ae93', // PCARG
+      '7299b930-4866-437e-a879-aefbb5bf2e0b', // HCARG
+      'f16403bb-c5df-46ba-afce-14f8aea2fabd', // FCARG
+      '10275c77-e317-4b48-b95e-279053d55cd0' // HFARG
+    );
+    if (groupModels.includes(programToEnroll)) {
+      this.enrollToGroup = true;
+      console.log('enrollToGroup: ', this.enrollToGroup);
+    }
+  }
+  public assignModel(modelConceptUuid: any) {
+    console.log('modelConceptUuid: ', modelConceptUuid);
+    let programToEnroll = '';
+    switch (modelConceptUuid) {
+      case 'c8b9b024-1a3a-47a4-a2aa-fcaf3053ea27':
+        programToEnroll = '4545685e-65f6-48c4-a6b4-860cea88c4d4'; // AHD
+        break;
+      case '520825cf-d045-4bbf-a7f5-a7018f14dd76':
+        programToEnroll = 'f0faccb7-657e-413c-abad-54f13409d106'; // Standard
+        break;
+      case 'fe239aa1-f5d4-4d15-83a1-ce417e9fb879':
+        programToEnroll = '30521f4d-0708-4644-9e88-a108a830a5fd'; // viremia
+        break;
+      case '9c64af03-f712-411e-8880-16e98dcdb4a6':
+        programToEnroll = '30521f4d-0708-4644-9e88-a108a830a5fd'; // HEI MODEL
+        break;
+      // start new programs
 
+      case '20838ff5-7a28-4877-889c-300155627a6f':
+        programToEnroll = '9d7422b1-af7b-4602-813e-953cfaf47e21';
+        // name: 'FAST TRACK FACILITY CARE_MODEL',
+        break;
+
+      case '379038fc-663f-42ed-87f3-9cdde7fb4339':
+        programToEnroll = 'a74f5be3-19bf-44a9-b9d8-14ff5587df37';
+        // name: 'PEER LED FACILITY ART GROUP MODEL',
+        break;
+
+      case 'bf6b9fc9-a3bb-4881-aa06-df9071c47e33':
+        programToEnroll = '10275c77-e317-4b48-b95e-279053d55cd0';
+        // name: 'HCW FACILITY ART DISTRIBUTION MODEL',
+        break;
+
+      case '29a9df4d-808f-4ba0-8b1e-ea05c918f14b':
+        programToEnroll = 'e352cb61-5889-4ba3-8405-d975e4c5e89e';
+        // name: 'MULTI MONTH DISPENSING MODEL',
+        break;
+
+      case '771b200c-8525-4425-b763-7e1cdca1b01f':
+        programToEnroll = '6d5d10b3-ea80-4ee5-a58e-5f8a6f88ae93';
+        // name: 'PEER LED COMMUNITY ART GROUP MODEL',
+        break;
+
+      case 'fb36b5af-3f83-460b-a10f-fc7923ed7914':
+        programToEnroll = '7299b930-4866-437e-a879-aefbb5bf2e0b';
+        // name: 'HCW COMMUNITY ART GROUP MODEL',
+        break;
+
+      case '7e5e7759-e9f7-4b16-b904-041fcdddb390':
+        programToEnroll = '6af0e0eb-7172-4d94-92fd-aa987bb43250';
+        // name: 'INDIVIDUAL DDD MODEL',
+        break;
+
+      case '33363568-fb62-4063-b0ac-e37be1d23514':
+        programToEnroll = 'e33b0107-c248-42b4-8c94-4525fcc0c86e';
+        // name: 'COMMUNITY PHARMACY MODEL',
+        break;
+
+      case '5af988e4-09d8-41a4-9438-30f2b62d90b8':
+        programToEnroll = 'f16403bb-c5df-46ba-afce-14f8aea2fabd';
+        // name: 'FAMILY COMMUNITY ART GROUP MODEL',
+        break;
+
+      case 'ce562f55-bf51-4d00-9a2a-f56ca1a8bc34':
+        programToEnroll = '80839137-9711-483f-a239-dfd383d020f6';
+        // name: ' STANDARD PMTCT MODEL',
+        break;
+
+      case 'a685c057-d475-42ef-bb33-8b0c1d73b122':
+        programToEnroll = 'e950ade1-041d-4dda-b0cd-bb81dad8694e';
+        // name: 'PMTCT DSD MODEL',
+        break;
+      case 'a89ef6fa-1350-11df-a1f1-0026b9348838':
+        programToEnroll = '9cd9b27d-5f07-4c1d-87f2-d79aa045f2e8';
+        // name: 'HIV SERVICE',
+        break;
+
+      case 'f930b22e-8b8e-4b8c-8d19-4c34a5d34a5e':
+        programToEnroll = '7299b930-4866-437e-a879-aefbb5bf2e0b';
+        break;
+
+      // end new dsd programs
+    }
+    return programToEnroll;
+  }
+  public enrollPatientToNewModel(data: any): void {
+    let programToEnroll = '';
+    let modelSelected = [];
+    modelSelected = this.form.searchNodeByQuestionId('dsdModel');
+    if (modelSelected.length === 0) {
+      // adultreturn form
+      modelSelected =
+        this.form.searchNodeByQuestionId('moreIntense') || // moreIntense
+        this.form.searchNodeByQuestionId('communityModel') || // community
+        this.form.searchNodeByQuestionId('facilityModel'); // facility
+    }
+    console.log('ModelSelected: ', modelSelected);
+
+    const modelUuid = modelSelected[0].initialValue.value.uuid;
+    programToEnroll = this.assignModel(modelUuid);
+
+    console.log('programToEnroll:', programToEnroll);
+
+    const enrollpayload = {
+      programUuid: programToEnroll,
+      patient: this.patient,
+      dateEnrolled: '',
+      dateCompleted: '',
+      location: this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject()
+        .uuid,
+      enrollmentUuid: ''
+    };
+    console.log('Response:', enrollpayload);
+    this.referralsHandler
+      .getPatientProgramVisitConfigs(this.patient, programToEnroll)
+      .pipe(take(1))
+      .subscribe((programConfig) => {
+        console.log('Response:', programConfig);
+        this.referralsHandler
+          .unenrollFromIncompatiblePrograms(this.patient, programConfig)
+          .subscribe((res) => {
+            this.programManagerService
+              .enrollPatient(enrollpayload)
+              .pipe(take(1))
+              .subscribe((program) => {
+                console.log('Response:', program);
+                this.checkGroupEnrollment(programToEnroll);
+              });
+            console.log('Response:', res);
+          });
+      });
+  }
   public handleProgramManagerRedirects(data: any): void {
     const step = ['step', 3];
     this.patientTransferService
@@ -1449,6 +1597,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.failedPayloadTypes = null;
     // this.showSuccessDialog = true;
     this.updatePatientDemographics(response);
+    this.enrollPatientToNewModel(response);
     // handle referrals here
     this.handleFormReferrals(response);
   }

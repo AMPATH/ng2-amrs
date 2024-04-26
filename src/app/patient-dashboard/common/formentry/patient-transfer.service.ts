@@ -102,7 +102,7 @@ export class PatientTransferService {
       }
     }
     if (referralQuestion.length > 0) {
-      // Enhanced adherence HIV Program
+      // Enhanced adherence
       if (
         _.includes(
           _.first(referralQuestion).control.value,

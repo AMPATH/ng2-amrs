@@ -3,15 +3,15 @@
   [message]="'Loading patient care programs...'"
 ></busy>
 <div class="programs" *ngIf="enrolledProgrames.length > 0 && !hasError">
-  <h4 class="component-title">Patient Care Program Snapshots</h4>
+  <h4 class="component-title">Patient Care Model Snapshots</h4>
 
-  <div
+  <!--<div
     style="margin: 4px 0px; padding: 4px"
     class="container-fluid alert alert-info"
   >
     Do you wish to enroll patient into another program?
     <enrollment-shortcut class="pull-right"></enrollment-shortcut>
-  </div>
+  </div>-->
   <div class="program">
     <ng-container *ngFor="let row of enrolledProgrames">
       <div class="enrolled">
@@ -116,9 +116,9 @@
 </div>
 <div *ngIf="!programsBusy && enrolledProgrames.length === 0 && !hasError">
   <p class="alert alert-info">
-    The patient is not enrolled in any program.
+    The patient is not enrolled in any Model.
     <button class="btn btn-primary pull-right" (click)="loadProgramManager()">
-      Enroll into Program
+      Enroll into Model
     </button>
   </p>
 </div>
@@ -130,11 +130,11 @@
     !hasError
   "
 >
-  <h4 class="component-title">Previous Enrolled Programs</h4>
+  <h4 class="component-title">Previous Enrolled Models</h4>
   <table class="table table-stripped">
     <thead>
       <tr>
-        <th>Program Name</th>
+        <th>Model Name</th>
         <th>Location</th>
         <th>Started</th>
         <th>Stopped</th>

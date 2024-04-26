@@ -59,6 +59,7 @@ export class ProgramManagerService {
       return of(null);
     }
     _.each(programs, (program: any) => {
+      console.log('Programs to Unenroll: ', program.programUuid);
       const location = program.enrolledProgram._openmrsModel.location.uuid;
       const unenrollPayload = this.programService.createEnrollmentPayload(
         program.programUuid,
@@ -74,6 +75,7 @@ export class ProgramManagerService {
        * if intra-ampath, unenroll and enroll in the new location
        * Ampath
        */
+      console.log('UnenrollPayload', unenrollPayload);
       if (theChange === 'location' || (theChange === 'transfer' && newLoc)) {
         const enrollPayload = this.programService.createEnrollmentPayload(
           program.programUuid,

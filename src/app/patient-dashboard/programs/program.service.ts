@@ -85,6 +85,7 @@ export class ProgramService {
       location: locationUuid
     };
 
+    console.log('Payload: ', payLoad);
     // delete dateCompleted property  if the dateCompleted is null at enrollment
     if (!payLoad.dateCompleted || enrollmentUuid === '') {
       delete payLoad['dateCompleted'];
