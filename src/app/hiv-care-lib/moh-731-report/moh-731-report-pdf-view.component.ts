@@ -1,5 +1,12 @@
 import { take } from 'rxjs/operators';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { MOHReportService } from './moh-731-report-pdf-view.service';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
@@ -7,6 +14,8 @@ import * as _ from 'lodash';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as Moment from 'moment';
 import { PDFDocumentProxy } from 'ng2-pdf-viewer';
+import * as html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
 @Component({
   selector: 'moh-731-pdf',
   templateUrl: 'moh-731-report-pdf-view.component.html'
@@ -21,13 +30,18 @@ export class MOHReportComponent implements OnInit, OnDestroy {
   public errorFlag = false;
   public subscription: Subscription;
   public locations = [];
+  public location: any;
+  public reportData: any;
   public sectionDefinitions: any;
   public mohReports: Array<any>;
   public previousData: any;
   public numberOfPages = 0;
   public _data;
+  month: string | null = null;
+  year: string | null = null;
 
   public stack = [];
+  @ViewChild('contentToSnapshot') contentToSnapshot!: ElementRef;
 
   @Input()
   public isAggregated = false;
@@ -68,6 +82,19 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  public takeSnapshotAndExport() {
+    const elementToSnapshot = this.contentToSnapshot.nativeElement;
+
+    html2canvas(elementToSnapshot).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('MOH-731.pdf');
+    });
   }
 
   public generatePdf(): void {
@@ -151,14 +178,40 @@ export class MOHReportComponent implements OnInit, OnDestroy {
     );
   }
 
+  public extractMonthAndYear(dateString: string) {
+    const parts = dateString.split('-');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const year = parseInt(parts[2], 10);
+
+      // Creating a Date object to validate the date
+      const dateObject = new Date(year, month - 1, day); // Month is zero-based
+
+      if (!isNaN(dateObject.getTime())) {
+        // Date is valid, extract month and year
+        this.month = dateObject.toLocaleString('default', { month: 'long' });
+        this.year = year.toString();
+      } else {
+        // Invalid date
+        console.error('Invalid date format.');
+      }
+    } else {
+      // Invalid date format
+      console.error('Invalid date format.');
+    }
+  }
+
   private moh731Report(reportsData, sectionDefinitions) {
     if (Array.isArray(reportsData) && reportsData.length > 0) {
       // tslint:disable-next-line:prefer-for-of
       // for (let i = 0; i < reportsData.length; i++) {
 
       const paramsArray = this.getLocationHeaders(reportsData);
+      this.location = paramsArray;
+      this.extractMonthAndYear(paramsArray[0].endDate);
       const rowsArray = this.getJoinLocations(reportsData);
-
+      this.reportData = reportsData;
       this.mohReportService
         .generateMultiplePdfs(paramsArray, rowsArray, sectionDefinitions)
         .pipe(take(1))
