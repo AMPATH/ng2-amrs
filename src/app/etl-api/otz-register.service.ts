@@ -16,7 +16,10 @@ export class OtzRegisterService {
   ) {}
 
   public getBaseUrl(): string {
-    return this.appSettingsService.getEtlRestbaseurl().trim() + 'otz-monthly-register/patient-list';
+    return (
+      this.appSettingsService.getEtlRestbaseurl().trim() +
+      'otz-monthly-register/patient-list'
+    );
   }
 
   public getOtzRegister(payload: {
@@ -24,7 +27,7 @@ export class OtzRegisterService {
     locationUuid: string;
   }): Observable<any> {
     const url = this.getBaseUrl();
-    let urlParams: HttpParams = new HttpParams().set(
+    const urlParams: HttpParams = new HttpParams().set(
       'endDate',
       payload.endDate
     );
