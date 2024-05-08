@@ -68,6 +68,8 @@ import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
 import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { RegistersDashboardComponent } from 'src/app/hiv-care-lib/registers/registers-dashboard.component';
+import { OtzRegisterComponent } from 'src/app/hiv-care-lib/registers/otz/otz-registers/otz-register.component';
 
 const routes: Routes = [
   {
@@ -260,6 +262,41 @@ const routes: Routes = [
       },
       {
         path: 'monthly-report',
+        children: [
+          {
+            path: '',
+            component: MonthlyReportComponent
+          },
+          {
+            path: 'prep-report',
+            children: [
+              {
+                path: '',
+                component: PrepReportComponent
+              },
+              {
+                path: 'patient-list',
+                component: PrepReportPatientListComponent
+              }
+            ]
+          },
+          {
+            path: 'patient-gains-and-loses',
+            children: [
+              {
+                path: '',
+                component: ClinicDashboardGainsAndLossesComponent
+              },
+              {
+                path: 'patient-list',
+                component: PatientGainsAndLosesPatientListComponent
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'registers',
         children: [
           {
             path: '',
@@ -502,6 +539,19 @@ const routes: Routes = [
             component: AhdMonthlyReportPatientlistComponent
           }
         ]
+      }
+    ]
+  },
+  {
+    path: 'registers',
+    children: [
+      {
+        path: '',
+        component: RegistersDashboardComponent
+      },
+      {
+        path: 'otz-register',
+        component: OtzRegisterComponent
       }
     ]
   },
