@@ -223,6 +223,45 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
             program: hivProgram.program.uuid
           };
         }
+
+        // if (
+        //   hivProgram.program.uuid === Programs.STANDARD_HIV_PROGRAM.uuid &&
+        //   this.referredHivProgram.uuid === Programs.ANC_PROGRAM.uuid
+        // ) {
+        // }
+        // if (
+        //   hivProgram.program.uuid === Programs.STANDARD_HIV_PROGRAM.uuid &&
+        //   this.referredHivProgram.uuid === Programs.PNC_PROGRAM.uuid
+        // ) {
+        // }
+        // if (
+        //   hivProgram.program.uuid === Programs.PNC_PROGRAM.uuid &&
+        //   this.referredHivProgram.uuid === Programs.ANC_PROGRAM.uuid
+        // ) {
+        // }
+        // if (
+        //   hivProgram.program.uuid === Programs.ANC_PROGRAM.uuid &&
+        //   this.referredHivProgram.uuid === Programs.PNC_PROGRAM.uuid
+        // ) {
+        // } else if (
+        //   hivProgram.program.uuid === Programs.ANC_PROGRAM.uuid &&
+        //   this.referredHivProgram.uuid === Programs.STANDARD_HIV_PROGRAM.uuid
+        // ) {
+        //   referredToStandard = true;
+        // }
+        // else if (
+        //   hivProgram.program.uuid === Programs.PNC_PROGRAM.uuid &&
+        //   this.referredHivProgram.uuid === Programs.STANDARD_HIV_PROGRAM.uuid
+        // ) {
+        //   referredToStandard = true;
+        // } else {
+        //   return {
+        //     location: this.referredHivProgram.locationUuid,
+        //     patient: this.patient.uuid,
+        //     dateEnrolled: moment().subtract(1, 'minutes').format(),
+        //     program: hivProgram.program.uuid
+        //   };
+        // }
       }
     );
     // Add the referred program in payload
