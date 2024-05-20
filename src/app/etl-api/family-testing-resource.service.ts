@@ -130,9 +130,13 @@ export class FamilyTestingService {
     );
   }
 
-  public getPatientEncounters(patientUuid: string) {
-    const familyTestingEncounterTypeUuid =
-      '975ae894-7660-4224-b777-468c2e710a2a';
+  public getPatientEncounters(
+    patientUuid: string,
+    isFamilyTestingEncounter: boolean
+  ) {
+    const familyTestingEncounterTypeUuid = isFamilyTestingEncounter
+      ? '975ae894-7660-4224-b777-468c2e710a2a'
+      : '5a58f6f5-f5a6-47eb-a644-626abd83f83b';
     return this.http.get(
       `${this.amrsUrl()}encounter?patient=${patientUuid}&encounterType=${familyTestingEncounterTypeUuid}`
     );

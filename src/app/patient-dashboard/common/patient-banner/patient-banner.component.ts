@@ -52,6 +52,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public isPatientEligibleForOtz = false;
   public isPatientVerified = false;
   public verificationStatus = false;
+  private isFamilyTestingEncounter = false;
   modalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
@@ -121,11 +122,31 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           );
           this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
           this.familyTestingService
-            .getPatientEncounters(this.patient.uuid)
+            .getPatientEncounters(this.patient.uuid, true)
             .subscribe((response: any) => {
-              this.familyTestingEncounterUuid = _.first<any>(response.results);
+              if (response.results && response.results.length > 0) {
+                this.isFamilyTestingEncounter = true;
+                this.familyTestingEncounterUuid = _.first<any>(
+                  response.results
+                );
+              } else {
+                this.isFamilyTestingEncounter = false;
+              }
             });
-          this.getPatientEncounters();
+
+          if (!this.isFamilyTestingEncounter) {
+            this.familyTestingService
+              .getPatientEncounters(this.patient.uuid, false)
+              .subscribe((response: any) => {
+                if (response.results && response.results.length > 0) {
+                  this.familyTestingEncounterUuid = _.first<any>(
+                    response.results
+                  );
+                }
+              });
+          }
+
+          this.getPatientEncounters(this.isFamilyTestingEncounter);
         } else {
           this.searchIdentifiers = undefined;
           this.birthdate = undefined;
@@ -361,9 +382,10 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.displayContacts = false;
   }
 
-  public getPatientEncounters() {
-    const familyAndPartnerTestingFormUuid =
-      '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127';
+  public getPatientEncounters(isFamilyTestingEncounter: boolean) {
+    const familyAndPartnerTestingFormUuid = isFamilyTestingEncounter
+      ? '3fbc8512-b37b-4bc2-a0f4-8d0ac7955127'
+      : '8b196bad-6ee5-4290-b1be-101539e04290';
     this.encounterResourceService
       .getEncountersByPatientUuid(this.patient.uuid, false, null)
       .pipe(take(1))
