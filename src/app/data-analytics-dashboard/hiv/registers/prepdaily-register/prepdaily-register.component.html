@@ -35,20 +35,360 @@
   <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
   This report is likely to change without warning.
 </div>
-<div>
-  <p-tabView>
-    <p-tabPanel
-      header="Report View"
-      leftIcon="fa-file-pdf-o"
-      [selected]="currentViewBelow === 'pdf'"
-    >
-      <!-- <app-tx-ml-report-view
-        [SummaryData]="txnewReportSummaryData"
-        [sectionDefs]="columnDefs"
-        (CellSelection)="onIndicatorSelected($event)"
-        [reportDetails]="params"
-        [reportHeader]="reportName"
-      ></app-tx-ml-report-view> -->
-    </p-tabPanel>
-  </p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>MOH 267 PrEP Daily Activity Register</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="2" colspan="2">PrEP No</th>
+          <th rowspan="2" colspan="2">Date of Visit</th>
+          <th colspan="3">National Identification Number</th>
+          <th rowspan="2" colspan="2">Age</th>
+          <th rowspan="2" colspan="2">
+            Sex <br />
+            (M/F)
+          </th>
+          <th rowspan="2" colspan="3">
+            Population type<br />
+            (Use the codes): <br />
+            1. General Population <br />
+            2. Discordant Couple <br />
+            3. MSM/MSW <br />
+            4. FSW<br />
+            5. PWID/PWUD<br />
+            6. VP
+          </th>
+          <th rowspan="2" colspan="2">
+            Client PrEP Status: <br />
+            N- New <br />
+            C- Continuing <br />
+            D-Discontinued<br />
+            R-Restart
+          </th>
+          <th rowspan="2" colspan="3">
+            PrEP Method: <br />
+            1. Daily oral PrEP <br />
+            2. Event driven oral PrEP<br />
+            3. Dapivirine Vaginal ring <br />
+            4. Cabotegravir Injectable
+          </th>
+          <th rowspan="2" colspan="2">
+            HIV Results <br />
+            (N/P/Ic/NA)
+          </th>
+          <th rowspan="2" colspan="2">
+            Diagnosed with <br />
+            STI<br />
+            (N/Y)
+          </th>
+          <th rowspan="2" colspan="4">Remarks</th>
+        </tr>
+        <tr>
+          <th colspan="3">National Unique Patient Identifier (NUPI)</th>
+        </tr>
+        <tr>
+          <th colspan="2" class="text-center">(a)</th>
+          <th colspan="2" class="text-center">(b)</th>
+          <th colspan="3" class="text-center">(c)</th>
+          <th colspan="2" class="text-center">(d)</th>
+          <th colspan="2" class="text-center">(e)</th>
+          <th colspan="3" class="text-center">(f)</th>
+          <th colspan="2" class="text-center">(g)</th>
+          <th colspan="3" class="text-center">(h)</th>
+          <th colspan="2" class="text-center">(i)</th>
+          <th colspan="2" class="text-center">(j)</th>
+          <th colspan="4" class="text-center">(k)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="3" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="2" rowspan="2" class="text-center"></td>
+          <td colspan="4" rowspan="2" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="7"><b>TOTAL this Page</b></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="4" class="text-center"></td>
+        </tr>
+        <tr>
+          <td colspan="7"><b>TOTAL this Month</b></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="3" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="2" class="text-center"></td>
+          <td colspan="4" class="text-center"></td>
+        </tr>
+        <!-- <tr>
+          <ng-container style="padding: 20px;">
+            <div class="row">
+              <div class="col-md-3">
+                <table>
+                  <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Administ</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-3">
+                <table>
+                  <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Administ</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-3">
+                <table>
+                  <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Administ</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-3">
+                <table>
+                  <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Administ</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </ng-container>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
 </div>
