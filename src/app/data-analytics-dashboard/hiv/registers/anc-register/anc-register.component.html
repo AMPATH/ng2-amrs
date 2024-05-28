@@ -35,20 +35,233 @@
   <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
   This report is likely to change without warning.
 </div>
-<div>
-  <p-tabView>
-    <p-tabPanel
-      header="Report View"
-      leftIcon="fa-file-pdf-o"
-      [selected]="currentViewBelow === 'pdf'"
-    >
-      <!-- <app-tx-ml-report-view
-        [SummaryData]="txnewReportSummaryData"
-        [sectionDefs]="columnDefs"
-        (CellSelection)="onIndicatorSelected($event)"
-        [reportDetails]="params"
-        [reportHeader]="reportName"
-      ></app-tx-ml-report-view> -->
-    </p-tabPanel>
-  </p-tabView>
+
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>MOH 267 PrEP Daily Activity Register</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="7" colspan="2">Date of visit</th>
+          <th colspan="2">(New Client)</th>
+          <th rowspan="7" colspan="2">
+            ANC <br />
+            Number/NUPI<br />
+            (Re Visit)
+          </th>
+          <th rowspan="7" colspan="2">
+            Number of <br />
+            Visits <br />
+            (1st,2nd,3rd,<br />
+            4th ….)
+          </th>
+          <th rowspan="7" colspan="2">
+            Full Name<br />
+            (First, Middle, Surname)
+          </th>
+          <th rowspan="1" colspan="2">
+            Date of Birth<br />
+            (DD/MM/YYYY)
+          </th>
+          <th rowspan="7" colspan="2">Subcounty/ County</th>
+          <th rowspan="1" colspan="2">Village/Estate/ Landmark</th>
+          <th rowspan="7" colspan="2">
+            <u>Marital Status</u><br />
+            NM=Never <br />
+            Married/Single<br />
+            MM=Married <br />
+            Monogamous<br />
+            MP=Married<br />
+            Polygamous<br />
+            W=Widowed<br />
+            D=Divorced<br />
+            S=Separated
+          </th>
+          <th rowspan="7" colspan="2">Parity</th>
+          <th rowspan="7" colspan="2">Gravidae</th>
+          <th rowspan="1" colspan="2">
+            Date of Last Menstrual <br />
+            Period (LMP)
+          </th>
+          <th rowspan="1" colspan="2">Expected Date of Delivery (EDD)</th>
+          <th rowspan="7" colspan="2">
+            Gestation in<br />
+            Weeks
+          </th>
+          <th rowspan="7" colspan="2">
+            MUAC <br />
+            1= Green, <br />
+            2=Yellow, <br />
+            3=Red
+          </th>
+          <th rowspan="7" colspan="2">Height (cm)</th>
+          <th rowspan="7" colspan="2">Weight (kg)</th>
+          <th rowspan="7" colspan="2">Blood Pressure</th>
+          <th rowspan="7" colspan="2">
+            Breast Exam<br />
+            1=normal <br />
+            2=abnormal
+          </th>
+          <th rowspan="1" colspan="2">FGM (Y/N)</th>
+          <th rowspan="1" colspan="24">Laboratory</th>
+          <th rowspan="1" colspan="2">Maternal HAART</th>
+          <th rowspan="1" colspan="2">Infant Prophylaxis</th>
+          <th rowspan="1" colspan="2">Partner HIV Testing</th>
+          <!-- <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th>
+          <th rowspan="2" colspan="2"></th> -->
+        </tr>
+        <tr>
+          <th colspan="2">ANC Number</th>
+          <th rowspan="6" colspan="2">Age</th>
+          <th rowspan="6" colspan="2">Phone Number</th>
+          <th rowspan="6" colspan="2">(dd/mm/yyyy)</th>
+          <th rowspan="6" colspan="2">(dd/mm/yyyy)</th>
+          <th rowspan="6" colspan="2">
+            FGM associated <br />
+            complications:<br />
+            1=Scarring<br />
+            2=Keloids<br />
+            3=Dyspaneuria<br />
+            4=UTI 5 = NA
+          </th>
+          <th rowspan="6" colspan="2">
+            Haemoglobin <br />
+            (Level/ ND/NA)
+          </th>
+          <th rowspan="6" colspan="2">
+            Blood Sugar Testing <br />
+            for Diabetes: <br />
+            1=RBS< 11.1 <br />
+            mmol/L, No <br />
+            Diabetes,<br />
+            2=RBS>11.1<br />
+            mmol/L, Has <br />
+            Diabetes,<br />
+            3=No RBS done
+          </th>
+          <th rowspan="6" colspan="2">
+            Blood group <br />
+            and rhesus <br />
+            (Y/N)
+          </th>
+          <th rowspan="6" colspan="2">
+            Urinalysis<br />
+            (Y/N)
+          </th>
+          <th rowspan="1" colspan="2">
+            Type of Test <br />
+            RPR/ VDRL/ <br />
+            Duo Test/ NA
+          </th>
+          <th rowspan="1" colspan="2">
+            Hepatitis B virus <br />
+            Sceening Result<br />
+            (P/N/ND)
+          </th>
+          <th rowspan="1" colspan="2">
+            TB Screening:<br />
+            Codes (1-5)
+          </th>
+          <th rowspan="1" colspan="10"></th>
+          <th rowspan="6" colspan="2">
+            N = New on ART.<br />
+            OA = On ART<br />
+            NA = Not<br />
+            Applicable
+          </th>
+          <th rowspan="2" colspan="2">
+            AN = AZT&NVP <br />
+            A = AZT<br />
+            N = NVP<br />
+            NA
+          </th>
+          <th rowspan="2" colspan="2">N/P/KP/NA</th>
+          <!-- <th rowspan="2" colspan="2"></th> -->
+        </tr>
+        <tr>
+          <th rowspan="5" colspan="2">NUPI</th>
+          <th rowspan="5" colspan="2">
+            Test Results <br />
+            (P/N/NA)
+          </th>
+          <th rowspan="5" colspan="2">
+            Treatment<br />
+            (Y/N/NA)
+          </th>
+          <th rowspan="5" colspan="2">
+            1=Presumed TB <br />
+            2=No Signs <br />
+            3=On TB <br />
+            Treatment <br />
+            4=On TPT<br />
+            5=Not Done
+          </th>
+          <th rowspan="1" colspan="2">
+            HIV Testing <br />
+            (Initial or Retest,<br />
+            Known Poitive or <br />
+            Revisit)
+          </th>
+          <th rowspan="1" colspan="2">HIV Test 1</th>
+          <th rowspan="1" colspan="2">HIV Test 2</th>
+          <th rowspan="1" colspan="2">HIV Test 3</th>
+          <th rowspan="1" colspan="2">HIV Results</th>
+          <!-- <th rowspan="2" colspan="2"></th>  -->
+        </tr>
+        <tr>
+          <th rowspan="5" colspan="2">(I/R/KP/ND/Rev)</th>
+          <th rowspan="1" colspan="2">Kit Name</th>
+          <th rowspan="1" colspan="2">Kit Name</th>
+          <th rowspan="1" colspan="2">Kit Name</th>
+          <th rowspan="5" colspan="2">(N/P/Ic/U/N A)</th>
+          <!-- <th rowspan="2" colspan="2"></th> -->
+        </tr>
+        <tr>
+          <th rowspan="1" colspan="2">Expiry / /</th>
+          <th rowspan="1" colspan="2">Expiry / /</th>
+          <th rowspan="1" colspan="2">Expiry / /</th>
+          <!-- <th rowspan="2" colspan="2"></th> -->
+        </tr>
+        <tr>
+          <th rowspan="1" colspan="2">(N/P/I/NA)</th>
+          <th rowspan="1" colspan="2">(N/P/I/NA)</th>
+          <th rowspan="1" colspan="2">(N/P/I/NA)</th>
+          <!-- <th rowspan="2" colspan="2"></th> -->
+        </tr>
+
+        <!-- <tr>
+          <th colspan="2" class="text-center">(a)</th>
+          <th colspan="2" class="text-center">(b)</th>
+          <th colspan="3" class="text-center">(c)</th>
+          <th colspan="2" class="text-center">(d)</th>
+          <th colspan="2" class="text-center">(e)</th>
+          <th colspan="3" class="text-center">(f)</th>
+          <th colspan="2" class="text-center">(g)</th>
+          <th colspan="3" class="text-center">(h)</th>
+          <th colspan="2" class="text-center">(i)</th>
+          <th colspan="2" class="text-center">(j)</th>
+          <th colspan="4" class="text-center">(k)</th>
+        </tr> -->
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 </div>
