@@ -30,7 +30,8 @@ import { FormUuids } from './../../../constants/forms.constants';
 
 @Injectable()
 export class FormentryReferralsHandlerService {
-  private PMTCT_PROGRAM: Program = Programs.PMTCT_PROGRAM;
+  private PNC_PROGRAM: Program = Programs.PNC_PROGRAM;
+  private ANC_PROGRAM: Program = Programs.ANC_PROGRAM;
   private STANDARD_PROGRAM: Program = Programs.STANDARD_HIV_PROGRAM;
 
   constructor(
@@ -217,7 +218,8 @@ export class FormentryReferralsHandlerService {
       encounterDatetime: null,
       providerUuid: '',
       locationUuid: '',
-      hivReferralLocationUuid: ''
+      hivReferralLocationUuid: '',
+      pmtctProgrammeUuid: ''
     };
 
     const formUuid = form.schema.uuid ? form.schema.uuid : '';
@@ -226,6 +228,7 @@ export class FormentryReferralsHandlerService {
     const referrals_1 = this.getQuestionValue(form, 'referrals');
     const internalMvmentData = this.getQuestionValue(form, 'careType');
     const interMovementQstnAns = this.getQuestionValue(form, 'internalMove');
+
     // validating if selected option is DC care and referrals is blank. Adult and youth forms are different
     const referrals =
       referrals_1 === undefined
@@ -257,6 +260,8 @@ export class FormentryReferralsHandlerService {
     // haS PMTCT referral
     if (internalMvmentData === ReferralConcepts.MCH_PROGRAM_CONCEPT) {
       returnValue.hasPmtctReferral = true;
+      const pmtctPatientType = this.getQuestionValue(form, 'pmtctType');
+      returnValue.pmtctProgrammeUuid = pmtctPatientType;
     }
 
     // has ACTG referral
@@ -319,8 +324,15 @@ export class FormentryReferralsHandlerService {
       referralMetaData: referralObj
     };
     if (referralObj.hasPmtctReferral) {
-      refProgram.uuid = this.PMTCT_PROGRAM.uuid;
-      refProgram.name = this.PMTCT_PROGRAM.name;
+      if (referralObj.pmtctProgrammeUuid === ReferralConcepts.ANC_CONCEPT) {
+        refProgram.uuid = this.ANC_PROGRAM.uuid;
+        refProgram.name = this.ANC_PROGRAM.name;
+      } else if (
+        referralObj.pmtctProgrammeUuid === ReferralConcepts.PNC_CONCEPT
+      ) {
+        refProgram.uuid = this.PNC_PROGRAM.uuid;
+        refProgram.name = this.PNC_PROGRAM.name;
+      }
     } else {
       refProgram.uuid = this.STANDARD_PROGRAM.uuid;
       refProgram.name = this.STANDARD_PROGRAM.name;

@@ -208,14 +208,13 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
     const enrollmentsPayload = hivPrograms.map(
       (hivProgram: ProgramEnrollment) => {
         if (
-          hivProgram.program.uuid === Programs.STANDARD_HIV_PROGRAM.uuid &&
-          this.referredHivProgram.uuid === Programs.PMTCT_PROGRAM.uuid
-        ) {
-        } else if (
-          hivProgram.program.uuid === Programs.PMTCT_PROGRAM.uuid &&
           this.referredHivProgram.uuid === Programs.STANDARD_HIV_PROGRAM.uuid
         ) {
           referredToStandard = true;
+        } else if (
+          this.referredHivProgram.uuid === Programs.PNC_PROGRAM.uuid ||
+          this.referredHivProgram.uuid === Programs.ANC_PROGRAM.uuid
+        ) {
         } else {
           return {
             location: this.referredHivProgram.locationUuid,

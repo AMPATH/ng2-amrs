@@ -130,7 +130,10 @@ export class HivReferralService {
     let autoEnrollmentUuid = '';
     if (programUuid === Programs.STANDARD_HIV_PROGRAM.uuid) {
       autoEnrollmentUuid = this.STANDARD_HIV_AUTO_ENROLLMENT_ENCOUNTER;
-    } else if (programUuid === Programs.PMTCT_PROGRAM.uuid) {
+    } else if (
+      programUuid === Programs.ANC_PROGRAM.uuid ||
+      programUuid === Programs.PNC_PROGRAM.uuid
+    ) {
       autoEnrollmentUuid = this.PMTCT_AUTO_ENROLLMENT_ENCOUNTER;
     }
     return autoEnrollmentUuid;
