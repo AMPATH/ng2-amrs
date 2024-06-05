@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { CareTreatmentResourceService } from 'src/app/etl-api/care-treatment-resource.service';
 @Component({
   selector: 'app-cntdaily-register',
   templateUrl: './cntdaily-register.component.html',
@@ -12,7 +13,7 @@ export class CntdailyRegisterComponent implements OnInit {
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public txnewReportSummaryData: any = [];
+  public careTreatmentRegisterData: any = [];
   public columnDefs: any = [];
   public reportName = 'Care and Treatment Daily Activity';
   public currentView = 'monthly';
@@ -48,7 +49,11 @@ export class CntdailyRegisterComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
-  constructor(public router: Router, public route: ActivatedRoute) {
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public careTreatmentRegisterService: CareTreatmentResourceService
+  ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
         ? (this._month = Moment()
@@ -71,8 +76,8 @@ export class CntdailyRegisterComponent implements OnInit {
     this.route.parent.parent.params.subscribe((params: any) => {
       this.storeParamsInUrl(params.location_uuid);
     });
-    this.txnewReportSummaryData = [];
-    // this.getTxNewReport(this.params);
+    this.careTreatmentRegisterData = [];
+    this.getCareTreatmentRegisterData(this.params);
   }
 
   public storeParamsInUrl(param) {
@@ -89,31 +94,34 @@ export class CntdailyRegisterComponent implements OnInit {
     });
   }
 
-  // public getTxNewReport(params: any) {
-  //   this.isLoading = true;
-  //   this.txnewReport.getTxNewReport(params).subscribe((data) => {
-  //     if (data.error) {
-  //       this.showInfoMessage = true;
-  //       this.errorMessage = `There has been an error while loading the report, please retry again`;
-  //       this.isLoading = false;
-  //     } else {
-  //       this.showInfoMessage = false;
-  //       this.columnDefs = data.sectionDefinitions;
-  //       this.txnewReportSummaryData = data.result;
-  //       this.calculateTotalSummary();
-  //       this.isLoading = false;
-  //       this.showDraftReportAlert(this._month);
-  //     }
-  //   });
-  // }
+  public getCareTreatmentRegisterData(params: any) {
+    this.isLoading = true;
+    this.careTreatmentRegisterService
+      .getCareTreatmentRegister(params)
+      .subscribe((data) => {
+        if (data.error) {
+          this.showInfoMessage = true;
+          this.errorMessage = `There has been an error while loading the report, please retry again`;
+          this.isLoading = false;
+        } else {
+          console.log('Care&Treatment', data);
+          this.showInfoMessage = false;
+          this.columnDefs = data.sectionDefinitions;
+          this.careTreatmentRegisterData = data;
+          this.calculateTotalSummary();
+          this.isLoading = false;
+          this.showDraftReportAlert(this._month);
+        }
+      });
+  }
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.txnewReportSummaryData.length > 0) {
+    if (this.careTreatmentRegisterData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.txnewReportSummaryData, (row) => {
+      _.each(this.careTreatmentRegisterData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
