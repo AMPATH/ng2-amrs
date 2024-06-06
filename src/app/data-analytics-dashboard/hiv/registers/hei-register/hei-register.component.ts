@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { HeiRegisterResourceService } from 'src/app/etl-api/hei-register-resource.service';
 @Component({
   selector: 'app-hei-register',
   templateUrl: './hei-register.component.html',
@@ -12,7 +13,7 @@ export class HeiRegisterComponent implements OnInit {
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public txnewReportSummaryData: any = [];
+  public heiRegisterData: any = [];
   public columnDefs: any = [];
   public reportName = 'HEI Register';
   public currentView = 'monthly';
@@ -48,7 +49,11 @@ export class HeiRegisterComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
-  constructor(public router: Router, public route: ActivatedRoute) {
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public heiRegisterService: HeiRegisterResourceService
+  ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
         ? (this._month = Moment()
@@ -71,8 +76,8 @@ export class HeiRegisterComponent implements OnInit {
     this.route.parent.parent.params.subscribe((params: any) => {
       this.storeParamsInUrl(params.location_uuid);
     });
-    this.txnewReportSummaryData = [];
-    // this.getTxNewReport(this.params);
+    this.heiRegisterData = [];
+    this.getHeiRegisterData(this.params);
   }
 
   public storeParamsInUrl(param) {
@@ -89,31 +94,32 @@ export class HeiRegisterComponent implements OnInit {
     });
   }
 
-  // public getTxNewReport(params: any) {
-  //   this.isLoading = true;
-  //   this.txnewReport.getTxNewReport(params).subscribe((data) => {
-  //     if (data.error) {
-  //       this.showInfoMessage = true;
-  //       this.errorMessage = `There has been an error while loading the report, please retry again`;
-  //       this.isLoading = false;
-  //     } else {
-  //       this.showInfoMessage = false;
-  //       this.columnDefs = data.sectionDefinitions;
-  //       this.txnewReportSummaryData = data.result;
-  //       this.calculateTotalSummary();
-  //       this.isLoading = false;
-  //       this.showDraftReportAlert(this._month);
-  //     }
-  //   });
-  // }
+  public getHeiRegisterData(params: any) {
+    this.isLoading = true;
+    this.heiRegisterService.getHeiRegister(params).subscribe((data) => {
+      if (data.error) {
+        this.showInfoMessage = true;
+        this.errorMessage = `There has been an error while loading the report, please retry again`;
+        this.isLoading = false;
+      } else {
+        console.log('HeiDataSummary: ', data);
+        this.showInfoMessage = false;
+        this.columnDefs = data.sectionDefinitions;
+        this.heiRegisterData = data;
+        //  this.calculateTotalSummary();
+        this.isLoading = false;
+        this.showDraftReportAlert(this._month);
+      }
+    });
+  }
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.txnewReportSummaryData.length > 0) {
+    if (this.heiRegisterData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.txnewReportSummaryData, (row) => {
+      _.each(this.heiRegisterData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
