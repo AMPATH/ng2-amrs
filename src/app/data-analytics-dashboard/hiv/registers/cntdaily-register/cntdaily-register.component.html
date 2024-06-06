@@ -36,7 +36,11 @@
   This report is likely to change without warning.
 </div>
 
-<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot *ngIf="careTreatmentRegisterData && careTreatmentRegisterData.length > 0">
+<div
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot
+  *ngIf="careTreatmentRegisterData && careTreatmentRegisterData.length > 0"
+>
   <div class="table-responsive">
     <div class="row">
       <div class="col-md-4">
@@ -178,14 +182,16 @@
       </thead>
       <tbody>
         <ng-container
-            *ngFor="let data of careTreatmentRegisterData; let a = index"
-          >
+          *ngFor="let data of careTreatmentRegisterData; let a = index"
+        >
           <tr>
-            <td class="text-center" rowspan="2">{{a+1}}</td>
-            <td colspan="2" class="text-center" rowspan="2">{{data.DATE}}</td>
-            <td colspan="3" class="text-center">{{data.National_ID}}</td>
-            <td colspan="3" class="text-center" rowspan="2">{{data.CCC_Number}}</td>
-            <td class="text-center" rowspan="2">{{data.Age}}</td>
+            <td class="text-center" rowspan="2">{{ a + 1 }}</td>
+            <td colspan="2" class="text-center" rowspan="2">{{ data.DATE }}</td>
+            <td colspan="3" class="text-center">{{ data.National_ID }}</td>
+            <td colspan="3" class="text-center" rowspan="2">
+              {{ data.CCC_Number }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.Age }}</td>
             <td class="text-center" rowspan="2"></td>
             <td class="text-center" rowspan="2"></td>
             <td class="text-center" rowspan="2"></td>
@@ -223,12 +229,9 @@
             <td colspan="4" class="text-center" rowspan="2"></td>
           </tr>
           <tr>
-            <td colspan="3" class="text-center">{{data.NUPI}}</td>
+            <td colspan="3" class="text-center">{{ data.NUPI }}</td>
           </tr>
         </ng-container>
-
-      
-       
       </tbody>
     </table>
   </div>
