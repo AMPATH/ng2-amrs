@@ -51,7 +51,24 @@
   This report is likely to change without warning.
 </div>
 
-<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+<div
+  class="btn-group pull-left"
+  *ngIf="prepRegisterData && prepRegisterData.length > 0"
+>
+  <button
+    class="btn btn-primary"
+    (click)="takeSnapshotAndExport()"
+    [disabled]="prepRegisterData.length == 0"
+  >
+    <i class="fa fa-download"> </i> Download Pdf
+  </button>
+</div>
+<br />
+<div
+  *ngIf="prepRegisterData && prepRegisterData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #prepcontentToSnapshot
+>
   <div class="table-responsive">
     <div class="row">
       <div class="col-md-4">
@@ -69,7 +86,9 @@
         <tr>
           <th rowspan="2" colspan="2">PrEP No</th>
           <th rowspan="2" colspan="2">Date of Visit</th>
-          <th colspan="3">National Identification Number</th>
+          <th colspan="3" style="max-width: 120px">
+            National Identification Number
+          </th>
           <th rowspan="2" colspan="2">Age</th>
           <th rowspan="2" colspan="2">
             Sex <br />
@@ -111,7 +130,9 @@
           <th rowspan="2" colspan="4">Remarks</th>
         </tr>
         <tr>
-          <th colspan="3">National Unique Patient Identifier (NUPI)</th>
+          <th colspan="3" style="max-width: 120px">
+            National Unique Patient Identifier (NUPI)
+          </th>
         </tr>
         <tr>
           <th colspan="2" class="text-center">(a)</th>
@@ -128,185 +149,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="3" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="2" rowspan="2" class="text-center"></td>
-          <td colspan="4" rowspan="2" class="text-center"></td>
-        </tr>
-        <tr>
-          <td colspan="3" class="text-center"></td>
-        </tr>
+        <ng-container *ngFor="let data of prepRegisterData; let i = index">
+          <tr>
+            <td colspan="2" rowspan="2">
+              {{ data.PrEP_Number }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ transformDate(data.Date_Of_Visit) }}
+            </td>
+            <td colspan="3">{{ data.National_ID }}</td>
+            <td colspan="2" rowspan="2">{{ data.Age }}</td>
+            <td colspan="2" rowspan="2">{{ data.Sex }}</td>
+            <td colspan="3" rowspan="2">
+              {{ data.population_type }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ data.client_prep_status }}
+            </td>
+            <td colspan="3" rowspan="2">
+              {{ data.prep_method }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ data.HIV_result }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ data.with_STI }}
+            </td>
+            <td colspan="4" rowspan="2" style="max-width: 200px">
+              {{ data.remarks }}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">{{ data.NUPI }}</td>
+          </tr>
+        </ng-container>
         <tr>
           <td colspan="7"><b>TOTAL this Page</b></td>
-          <td colspan="2" class="text-center"></td>
+          <td colspan="2" class="text-center">{{ prepRegisterData.length }}</td>
           <td colspan="2" class="text-center"></td>
           <td colspan="3" class="text-center"></td>
           <td colspan="2" class="text-center"></td>
@@ -317,7 +196,7 @@
         </tr>
         <tr>
           <td colspan="7"><b>TOTAL this Month</b></td>
-          <td colspan="2" class="text-center"></td>
+          <td colspan="2" class="text-center">{{ prepRegisterData.length }}</td>
           <td colspan="2" class="text-center"></td>
           <td colspan="3" class="text-center"></td>
           <td colspan="2" class="text-center"></td>
@@ -326,68 +205,6 @@
           <td colspan="2" class="text-center"></td>
           <td colspan="4" class="text-center"></td>
         </tr>
-        <!-- <tr>
-          <ng-container style="padding: 20px;">
-            <div class="row">
-              <div class="col-md-3">
-                <table>
-                  <thead>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Administ</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-3">
-                <table>
-                  <thead>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Administ</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-3">
-                <table>
-                  <thead>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Administ</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-3">
-                <table>
-                  <thead>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Administ</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </ng-container>
-        </tr> -->
       </tbody>
     </table>
   </div>
