@@ -6,6 +6,18 @@ const PMTCT_PROGRAM: Program = {
   dept: 'HIV',
   compatibleWithOtherDeptPrograms: false
 };
+const ANC_PROGRAM: Program = {
+  uuid: '52aeb285-fb18-455b-893e-3e53ccc77ceb',
+  name: 'ANTENATAL CARE PROGRAM',
+  dept: 'HIV',
+  compatibleWithOtherDeptPrograms: false
+};
+const PNC_PROGRAM: Program = {
+  uuid: 'd2552058-d7bd-47c6-aed1-480a4308027a',
+  name: 'POSTNATAL PROGRAM',
+  dept: 'HIV',
+  compatibleWithOtherDeptPrograms: false
+};
 const STANDARD_HIV_PROGRAM: Program = {
   uuid: '781d85b0-1359-11df-a1f1-0026b9348838',
   name: 'STANDARD HIV TREATMENT',
@@ -122,5 +134,7 @@ export const Programs = {
   EXPRESS_CARE_PROGRAM,
   DTG_PHARMACO_VIGILANCE_PROGRAM,
   HIV_SOCIAL_WORK_PROGRAM,
-  NUTRITION_PROGRAM
+  NUTRITION_PROGRAM,
+  ANC_PROGRAM,
+  PNC_PROGRAM
 };
