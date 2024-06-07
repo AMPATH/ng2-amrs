@@ -130,7 +130,13 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     });
     this.patient = this.order.patient;
     this.person = new Person(this.order.patient.person);
-    if (Moment().diff(Moment(this.person.birthdate), 'months') <= 18) {
+    if (
+      Moment().diff(Moment(this.person.birthdate), 'months') <= 18 &&
+      !(
+        this.patient.identifiers[0].identifierType.uuid ===
+        'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e'
+      )
+    ) {
       this.isHEIActive = true;
     } else {
       this.isHEIActive = false;
