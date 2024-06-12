@@ -14,6 +14,7 @@ import * as Moment from 'moment';
 import { RegistersResourceService } from 'src/app/etl-api/registers-resource.service';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
+import { DataAnalyticsDashboardService } from 'src/app/data-analytics-dashboard/services/data-analytics-dashboard.services';
 @Component({
   selector: 'app-prepdaily-register',
   templateUrl: './prepdaily-register.component.html',
@@ -34,6 +35,7 @@ export class PrepdailyRegisterComponent implements OnInit {
   public quarter: string;
   public eDate: string;
   public sDate: string;
+  public jointLocationUuids: string;
 
   public statusError = false;
   public errorMessage = '';
@@ -44,6 +46,7 @@ export class PrepdailyRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
   @ViewChild('prepcontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -65,7 +68,8 @@ export class PrepdailyRegisterComponent implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
     public register: RegistersResourceService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService
   ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
@@ -86,20 +90,27 @@ export class PrepdailyRegisterComponent implements OnInit {
   }
 
   public generateReport(): any {
+    this.dataAnalyticsDashboardService
+      .getSelectedLocations()
+      .subscribe((data) => {
+        const locationValues = data.locations.map(
+          (location) => `'${location.value}'`
+        );
+        this.jointLocationUuids = locationValues.join(', ');
+      });
+
     this.route.parent.parent.params.subscribe((params: any) => {
-      this.storeParamsInUrl(params.location_uuid);
+      this.storeParamsInUrl();
     });
     this.prepRegisterData = [];
     this.getPrEPRegisterReport(this.params);
+    this.generated = true;
   }
 
-  public storeParamsInUrl(param) {
+  public storeParamsInUrl() {
     this.params = {
-      locationUuids: param,
-      _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
+      locationUuids: this.jointLocationUuids,
+      month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
     };
     this.router.navigate([], {
       relativeTo: this.route,
