@@ -65,7 +65,7 @@
 </div>
 <br />
 <div
-  *ngIf="prepRegisterData && prepRegisterData.length > 0"
+  *ngIf="prepRegisterData && prepRegisterData.length > 0 && generated"
   style="padding: 20px; font-size: 12px !important"
   #prepcontentToSnapshot
 >
@@ -208,4 +208,7 @@
       </tbody>
     </table>
   </div>
+</div>
+<div *ngIf="prepRegisterData.length == 0 && generated">
+  <i class="alert alert-danger" style="width: 100%;">No record found</i>
 </div>
