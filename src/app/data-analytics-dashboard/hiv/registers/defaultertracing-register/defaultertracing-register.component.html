@@ -67,161 +67,166 @@
 </div>
 <br />
 <div
-  *ngIf="defaulterTracingRegisterData && defaulterTracingRegisterData.length > 0 && generated"
+  *ngIf="
+    defaulterTracingRegisterData &&
+    defaulterTracingRegisterData.length > 0 &&
+    generated
+  "
   style="padding: 20px; font-size: 12px !important"
   #defaulterTracingcontentToSnapshot
 >
-<div
-  style="padding: 20px; font-size: 12px !important"
-  #defaulterTracingcontentToSnapshot
->
-  <div class="table-responsive">
-    <table class="table table-bordered text-centre">
-      <thead>
-        <tr>
-          <th colspan="9" class="text-center">
-            Defaulter Tracing Register<br />
-            Enter all current clients that did not come for their scheduled
-            appointment
-          </th>
-        </tr>
-        <tr>
-          <th colspan="5" class="text-center">Section A</th>
-          <th></th>
-          <th colspan="2" class="text-center">Section B</th>
-          <th></th>
-        </tr>
-        <tr>
-          <th colspan="5" class="text-center">Client Tracking Information</th>
-          <th></th>
-          <th colspan="2" class="text-center">Defaulter Tracing Outcomes</th>
-          <th></th>
-        </tr>
-        <tr>
-          <th class="text-center">(a)</th>
-          <th class="text-center">(b)</th>
-          <th class="text-center">(c)</th>
-          <th class="text-center">(d)</th>
-          <th class="text-center">(e)</th>
-          <th class="text-center">(f)</th>
-          <th class="text-center">(g)</th>
-          <th class="text-center">(h)</th>
-          <th class="text-center">(i)</th>
-        </tr>
-        <tr>
-          <th rowspan="2" class="text-center">S/No.</th>
-          <th class="text-center">
-            Client Identification /<br />
-            Number
-          </th>
-          <th rowspan="2" class="text-center">
-            Client Name<br />
-            (First,Middle,Last)
-          </th>
-          <th rowspan="2" class="text-center">
-            Village/Estate/<br />
-            Landmark
-          </th>
-          <th rowspan="2" class="text-center">Telephone number</th>
-          <th rowspan="2" class="text-center">
-            Date of missed<br />
-            appointment
-          </th>
-          <th rowspan="2" class="text-center">
-            Return to Care/<br />
-            Dead/<br />
-            Transferred/<br />
-            Stopped Treatment/<br />
-            On follow up
-          </th>
-          <th rowspan="2" class="text-center">
-            Date of outcome<br />
-            (dd/mm/yyyy)
-          </th>
-          <th rowspan="2" class="text-center">Remarks</th>
-        </tr>
-        <tr>
-          <th class="text-center">
-            Unique Patient<br />
-            Number (NUPI)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td rowspan="2"></td>
-          <td></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="2"></td>
-          <td></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="2"></td>
-          <td></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="2"></td>
-          <td></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="2"></td>
-          <td></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-          <td rowspan="2"></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+  <div
+    style="padding: 20px; font-size: 12px !important"
+    #defaulterTracingcontentToSnapshot
+  >
+    <div class="table-responsive">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th colspan="9" class="text-center">
+              Defaulter Tracing Register<br />
+              Enter all current clients that did not come for their scheduled
+              appointment
+            </th>
+          </tr>
+          <tr>
+            <th colspan="5" class="text-center">Section A</th>
+            <th></th>
+            <th colspan="2" class="text-center">Section B</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th colspan="5" class="text-center">Client Tracking Information</th>
+            <th></th>
+            <th colspan="2" class="text-center">Defaulter Tracing Outcomes</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th class="text-center">(a)</th>
+            <th class="text-center">(b)</th>
+            <th class="text-center">(c)</th>
+            <th class="text-center">(d)</th>
+            <th class="text-center">(e)</th>
+            <th class="text-center">(f)</th>
+            <th class="text-center">(g)</th>
+            <th class="text-center">(h)</th>
+            <th class="text-center">(i)</th>
+          </tr>
+          <tr>
+            <th rowspan="2" class="text-center">S/No.</th>
+            <th class="text-center">
+              Client Identification /<br />
+              Number
+            </th>
+            <th rowspan="2" class="text-center">
+              Client Name<br />
+              (First,Middle,Last)
+            </th>
+            <th rowspan="2" class="text-center">
+              Village/Estate/<br />
+              Landmark
+            </th>
+            <th rowspan="2" class="text-center">Telephone number</th>
+            <th rowspan="2" class="text-center">
+              Date of missed<br />
+              appointment
+            </th>
+            <th rowspan="2" class="text-center">
+              Return to Care/<br />
+              Dead/<br />
+              Transferred/<br />
+              Stopped Treatment/<br />
+              On follow up
+            </th>
+            <th rowspan="2" class="text-center">
+              Date of outcome<br />
+              (dd/mm/yyyy)
+            </th>
+            <th rowspan="2" class="text-center">Remarks</th>
+          </tr>
+          <tr>
+            <th class="text-center">
+              Unique Patient<br />
+              Number (NUPI)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2"></td>
+            <td></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowspan="2"></td>
+            <td></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowspan="2"></td>
+            <td></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowspan="2"></td>
+            <td></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowspan="2"></td>
+            <td></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-<div *ngIf="defaulterTracingRegisterData.length == 0 && generated">
-  <i class="alert alert-danger">No record found</i>
+  <div *ngIf="defaulterTracingRegisterData.length == 0 && generated">
+    <i class="alert alert-danger">No record found</i>
+  </div>
 </div>
