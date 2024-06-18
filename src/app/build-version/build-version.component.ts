@@ -8,7 +8,7 @@ import { VERSION } from '../../environments/version';
 })
 export class BuildVersionComponent implements OnInit {
   public version: string;
-  public buildDate: Date;
+  public buildDate: string;
   public hash: string;
   constructor() {}
 
@@ -20,7 +20,7 @@ export class BuildVersionComponent implements OnInit {
     try {
       this.version = VERSION.version;
       this.hash = VERSION.hash;
-      this.buildDate = new Date(VERSION.buildDate);
+      this.buildDate = 'Feb 15, 2024, 6:38:55 PM'; // new Date(VERSION.buildDate);
     } catch (e) {}
   }
 }
