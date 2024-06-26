@@ -195,6 +195,47 @@ export class LabOrdersSearchHelperService {
     };
   }
 
+  public createHpvPayload(
+    order: any,
+    encounterObs: any,
+    encounterLocationUuid: any,
+    patientIdentifier: any,
+    patientName: any,
+    sex: any,
+    birthDate: any,
+    dateRecieved: any,
+    artStartDateInitial: any,
+    artStartDateCurrent: any,
+    sampleType: any,
+    artRegimenIds: any,
+    isPregnant = 0,
+    breastfeeding = 0
+  ) {
+    const vlJustificationUuid: any = this.findObsValueByConceptUuid(
+      encounterObs,
+      '0a98f01f-57f1-44b7-aacf-e1121650a967'
+    );
+
+    return {
+      type: 'HPV',
+      locationUuid: encounterLocationUuid,
+      orderNumber: order.orderNumber,
+      providerIdentifier: order.orderer.identifier,
+      patientName: patientName,
+      patientIdentifier: patientIdentifier,
+      sex: sex,
+      birthDate: this.formatDate(birthDate),
+      artStartDateInitial: this.formatDate(artStartDateInitial),
+      artStartDateCurrent: this.formatDate(artStartDateCurrent),
+      sampleType: sampleType,
+      artRegimenUuid: artRegimenIds,
+      vlJustificationUuid: vlJustificationUuid,
+      isPregnant: isPregnant,
+      breastfeeding: breastfeeding,
+      dateDrawn: this.formatDate(order.dateActivated),
+      dateReceived: this.formatDate(dateRecieved)
+    };
+  }
   public createViralLoadPayload(
     order,
     encounterObs,
