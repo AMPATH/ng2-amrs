@@ -14,6 +14,7 @@ export class LabOrdersSearchHelperService {
         conceptUuid: 'a898fe80-1350-11df-a1f1-0026b9348838',
         display: 'DNA PCR'
       },
+
       {
         type: 'VL',
         conceptUuid: 'a8982474-1350-11df-a1f1-0026b9348838',
@@ -25,9 +26,22 @@ export class LabOrdersSearchHelperService {
         display: 'CD4 Panel'
       },
       {
+        type: 'HPV',
+        conceptUuid: 'a8a46fd6-1350-11df-a1f1-0026b9348838',
+        display: 'HPV'
+      },
+      {
         type: 'Other',
         conceptUuid: '',
         display: 'Others'
+      }
+    ];
+  }
+  public get hpvTestSampleTypes() {
+    return [
+      {
+        id: 1,
+        display: 'Cervical Swab'
       }
     ];
   }
@@ -216,6 +230,42 @@ export class LabOrdersSearchHelperService {
       sampleType: sampleType,
       artRegimenUuid: artRegimenIds,
       vlJustificationUuid: vlJustificationUuid,
+      isPregnant: isPregnant,
+      breastfeeding: breastfeeding,
+      dateDrawn: this.formatDate(order.dateActivated),
+      dateReceived: this.formatDate(dateRecieved)
+    };
+  }
+  public createHpvPayload(
+    order: any,
+    encounterObs: any,
+    encounterLocationUuid: any,
+    patientIdentifier: any,
+    patientName: any,
+    sex: any,
+    birthDate: any,
+    dateRecieved: any,
+    artStartDateInitial: any,
+    artStartDateCurrent: any,
+    sampleType: any,
+    artRegimenIds: any,
+    isPregnant = 0,
+    breastfeeding = 0
+  ) {
+    return {
+      type: 'VL',
+      locationUuid: encounterLocationUuid,
+      orderNumber: order.orderNumber,
+      providerIdentifier: order.orderer.identifier,
+      patientName: patientName,
+      patientIdentifier: patientIdentifier,
+      sex: sex,
+      birthDate: this.formatDate(birthDate),
+      artStartDateInitial: this.formatDate(artStartDateInitial),
+      artStartDateCurrent: this.formatDate(artStartDateCurrent),
+      sampleType: sampleType,
+      artRegimenUuid: artRegimenIds,
+      vlJustificationUuid: '',
       isPregnant: isPregnant,
       breastfeeding: breastfeeding,
       dateDrawn: this.formatDate(order.dateActivated),
