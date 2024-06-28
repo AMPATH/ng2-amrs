@@ -277,42 +277,6 @@ export class LabOrdersSearchHelperService {
       dateReceived: this.formatDate(dateRecieved)
     };
   }
-  public createHpvPayload(
-    order: any,
-    encounterObs: any,
-    encounterLocationUuid: any,
-    patientIdentifier: any,
-    patientName: any,
-    sex: any,
-    birthDate: any,
-    dateRecieved: any,
-    artStartDateInitial: any,
-    artStartDateCurrent: any,
-    sampleType: any,
-    artRegimenIds: any,
-    isPregnant = 0,
-    breastfeeding = 0
-  ) {
-    return {
-      type: 'VL',
-      locationUuid: encounterLocationUuid,
-      orderNumber: order.orderNumber,
-      providerIdentifier: order.orderer.identifier,
-      patientName: patientName,
-      patientIdentifier: patientIdentifier,
-      sex: sex,
-      birthDate: this.formatDate(birthDate),
-      artStartDateInitial: this.formatDate(artStartDateInitial),
-      artStartDateCurrent: this.formatDate(artStartDateCurrent),
-      sampleType: sampleType,
-      artRegimenUuid: artRegimenIds,
-      vlJustificationUuid: '',
-      isPregnant: isPregnant,
-      breastfeeding: breastfeeding,
-      dateDrawn: this.formatDate(order.dateActivated),
-      dateReceived: this.formatDate(dateRecieved)
-    };
-  }
 
   public formatDate(date) {
     const momentDate = Moment(date);
