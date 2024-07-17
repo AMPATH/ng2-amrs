@@ -242,7 +242,7 @@
     </div>
     <div
       class="alert alert-info"
-      *ngIf="showEnrollmentButton && showOTZEnrollmentMsg"
+      *ngIf="showEnrollmentButton"
     >
       <button
         class="btn btn-xs btn-primary pull-right"
@@ -251,12 +251,6 @@
         Enroll
       </button>
       The patient is not enrolled in this program.
-    </div>
-    <div
-      class="alert alert-info"
-      *ngIf="showEnrollmentButton && !showOTZEnrollmentMsg"
-    >
-      Patient is not eligible for OTZ enrollment
     </div>
 
     <busy
