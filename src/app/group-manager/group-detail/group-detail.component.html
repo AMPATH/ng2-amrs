@@ -240,10 +240,7 @@
     <div class="alert alert-danger" *ngIf="enrollmentErrorMessage">
       {{ enrollmentErrorMessage }}
     </div>
-    <div
-      class="alert alert-info"
-      *ngIf="showEnrollmentButton"
-    >
+    <div class="alert alert-info" *ngIf="showEnrollmentButton">
       <button
         class="btn btn-xs btn-primary pull-right"
         (click)="enrollPatienttoProgram()"
