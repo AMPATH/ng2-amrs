@@ -204,10 +204,7 @@ export class LabOrdersSearchHelperService {
     sex: any,
     birthDate: any,
     dateRecieved: any,
-    artStartDateInitial: any,
-    artStartDateCurrent: any,
     sampleType: any,
-    artRegimenIds: any,
     isPregnant = 0,
     breastfeeding = 0
   ) {
@@ -225,10 +222,7 @@ export class LabOrdersSearchHelperService {
       patientIdentifier: patientIdentifier,
       sex: sex,
       birthDate: this.formatDate(birthDate),
-      artStartDateInitial: this.formatDate(artStartDateInitial),
-      artStartDateCurrent: this.formatDate(artStartDateCurrent),
       sampleType: sampleType,
-      artRegimenUuid: artRegimenIds,
       vlJustificationUuid: vlJustificationUuid,
       isPregnant: isPregnant,
       breastfeeding: breastfeeding,

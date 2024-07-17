@@ -366,8 +366,11 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     if (!this.hasLoadingTimeRequiredInputs()) {
       return;
     }
+    console.log('uchunguzi ');
+
     const payload = this.getPayload();
     const location = this.selectedLabLocation;
+    console.log('uchunguzi ', payload);
     this.isBusy = true;
     this.labOrderPostService
       .postOrderToEid(location, payload)
@@ -456,9 +459,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       );
     }
     if (this.orderType.type === 'HPV') {
-      const artStartDateInitial = this.hivSummary.arv_first_regimen_start_date;
-      const artStartDateCurrent = this.hivSummary.arv_start_date;
-      const currentArtRegimenId = this.hivSummary.cur_arv_meds_id;
+      console.log('WE ARE HPV');
 
       payload = this.labOrdersSearchHelperService.createHpvPayload(
         order,
@@ -469,10 +470,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         gender,
         birthdate,
         this.dateReceived,
-        artStartDateInitial,
-        artStartDateCurrent,
         this.selectedSampleType,
-        currentArtRegimenId,
         this.isPregnant ? 1 : 0,
         this.isBreastfeeding ? 1 : 0
       );
