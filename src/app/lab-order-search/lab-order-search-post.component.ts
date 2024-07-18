@@ -366,7 +366,6 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     if (!this.hasLoadingTimeRequiredInputs()) {
       return;
     }
-    console.log('uchunguzi ');
 
     const payload = this.getPayload();
     const location = this.selectedLabLocation;
@@ -459,8 +458,6 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       );
     }
     if (this.orderType.type === 'HPV') {
-      console.log('WE ARE HPV');
-
       payload = this.labOrdersSearchHelperService.createHpvPayload(
         order,
         obs,
