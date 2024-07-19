@@ -38,6 +38,9 @@ export class IptReportPatientListComponent implements OnInit {
 
   public addExtraColumns() {
     const extraColumns = {
+      weight: 'Weight',
+      height: 'Height',
+      stage: 'WHO Stage',
       phone_number: 'Phone Number',
       enrollment_date: 'Date Enrolled',
       last_appointment: 'Latest Appointment',
