@@ -160,6 +160,34 @@
     </div>
     <div class="clear"></div>
     <!-- DNAPCR ends -->
+    <!-- HPV starts-->
+    <div class="panel-info" *ngIf="isHPVtest">
+      <h5>
+        <span>HPV Summary Info</span>
+      </h5>
+      <table class="table">
+        <tbody>
+          <tr class="after_table row_0">
+            <td>Entry Point:</td>
+            <td>{{ HPVData.entryPoint }}</td>
+          </tr>
+          <tr>
+            <td>HIV Status:</td>
+            <td>{{ HPVData.hivStatus }}</td>
+          </tr>
+          <tr>
+            <td>Type Of Screening:</td>
+            <td>{{ HPVData.typeOfScreening }}</td>
+          </tr>
+          <tr>
+            <td>Sample Collection Method:</td>
+            <td>{{ HPVData.sampleCollectionMethod }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clear"></div>
+    <!-- HPV ends -->
     <div *ngIf="!isBusy" class="container-fluid">
       <div class="row">
         <div>
@@ -208,6 +236,26 @@
             >
               <option [ngValue]=""></option>
               <option *ngFor="let sample of sampleTypes" [ngValue]="sample.id">
+                {{ sample.display }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="orderType.type === 'HPV'">
+        <div>
+          <div class="form-group">
+            <label for="hpvTestSampleType">Sample Type</label>
+            <select
+              class="form-control"
+              id="hpvTestSampleType"
+              [(ngModel)]="selectedSampleType"
+            >
+              <option [ngValue]=""></option>
+              <option
+                *ngFor="let sample of hpvTestSampleTypes"
+                [ngValue]="sample.id"
+              >
                 {{ sample.display }}
               </option>
             </select>
