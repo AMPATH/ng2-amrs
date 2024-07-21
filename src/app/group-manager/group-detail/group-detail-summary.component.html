@@ -108,10 +108,10 @@
             </ng-container>
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="validOTZProgram">
           <td>
             <strong>Group Activity: </strong>
-            <span *ngIf="landmark">{{ groupActivity?.value }}</span>
+            <span *ngIf="groupActivity">{{ groupActivity?.value }}</span>
           </td>
         </tr>
       </tbody>

@@ -550,6 +550,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
   public showUpdateGroupModal(modal) {
     let program = null;
     let provider = null;
+    const context = this.validOTZProgram;
     this.program
       ? (program = this.program)
       : (program = { name: null, value: null });
@@ -571,7 +572,7 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
       groupProgram: { label: program['name'], value: program['uuid'] },
       provider: { label: provider.person.display, value: provider.person.uuid },
       address: this.landmark.value,
-      groupActivity: this.groupActivity.value,
+      groupActivity: context ? this.groupActivity.value : null,
       groupUuid: this.group.uuid,
       actionButtonText: 'Save Changes'
     };

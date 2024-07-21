@@ -767,6 +767,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             (group) => !group.voided
           );
         }
+        const targetProgramUuid = '203571d6-a4f2-4953-9e8b-e1105e2340f5';
+        const checkOTZProgram = programsEnrolled.some(
+          (program) => program.programUuid === targetProgramUuid
+        );
         const validation = this.communityGroupMemberService.validateMemberEnrollment(
           programsEnrolled,
           currentGroupsEnrolled,
@@ -778,9 +782,17 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             this.validatingEnrollment = false;
             this.showEnrollmentAlert('Patient already enrolled in this group!');
             break;
-          case !validation.notEnrolledInGroupProgram.found:
+          case !validation.notEnrolledInGroupProgram.found &&
+            checkOTZProgram &&
+            this.isOtzProgram:
             this.validatingEnrollment = false;
             this.validateAge(patient);
+            if (this.showOTZEnrollmentMsg) {
+              this.showEnrollButton(patient);
+            }
+            break;
+          case !validation.notEnrolledInGroupProgram.found:
+            this.validatingEnrollment = false;
             this.showEnrollButton(patient);
             break;
           case validation.enrolledInAnotherGroupInSameProgram.found:
@@ -839,12 +851,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private validateAge(patient) {
-    if (patient._person.age > 9 && patient._person.age <= 24) {
+    const age = patient._person.age;
+
+    if (age > 9 && age <= 24) {
       this.showOTZEnrollmentMsg = true;
-    } else {
-      this.showOTZEnrollmentMsg = false;
+      return;
     }
+
+    this.showEnrollmentAlert('Patient is not eligible for OTZ enrollment!');
   }
+
   private enrollPatientToGroup(group: Group, patient: Patient) {
     this.communityGroupMemberService
       .createMember(group.uuid, patient.uuid)
@@ -859,6 +875,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private showEnrollmentAlert(msg: string) {
     this.enrollmentErrorMessage = msg;
+    setTimeout(() => {
+      this.enrollmentErrorMessage = '';
+    }, 5000);
   }
 
   private transferPatientFromGroup(groupToEnroll, groupToUnenroll, patient) {
