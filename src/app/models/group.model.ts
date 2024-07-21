@@ -39,17 +39,27 @@ export class Group extends BaseModel {
 
   @serializable()
   public get status() {
-    const lastMeetingDate = this.getLatestMeetingDate(
-      this._openmrsModel.cohortVisits
-    );
-    // if last meeting date is more than 3 months ago, group is inactive
+    let lastMeetingDate: any;
+
+    if (this._openmrsModel.cohortVisits.length > 0) {
+      lastMeetingDate = this.getLatestMeetingDate(
+        this._openmrsModel.cohortVisits
+      );
+    } else {
+      lastMeetingDate = new Date(this._openmrsModel.startDate);
+    }
+
+    // if last meeting date is more than 6 months ago, group is inactive
     if (lastMeetingDate) {
       const today = new Date();
-      const threeMonthsAgo = new Date(today.setMonth(today.getMonth() - 3));
-      if (lastMeetingDate < threeMonthsAgo) {
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(today.getMonth() - 6);
+
+      if (lastMeetingDate <= sixMonthsAgo) {
         return 'Inactive';
       }
     }
+
     return this._openmrsModel.endDate ? 'Disbanded' : 'Active';
   }
 
