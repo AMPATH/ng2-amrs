@@ -72,10 +72,18 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public hivSummary: any;
   public error: any;
   public hasDnaPcr = false;
+  public isHPVtest = false;
   public dnaPcrData: any = {
     hivStatusOfMother: '',
     infantProphylaxis: '',
     infantFeeding: ''
+  };
+  public HPVData: any = {
+    entryPoint: '',
+    hivStatus: '',
+    typeOfScreening: '',
+    sampleCollectionMethod: '',
+    dateOfSampleCollection: ''
   };
 
   public isPregnant = false;
@@ -84,6 +92,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
   public labLocations: any;
   public patientIdentifers = [];
   public sampleTypes: any;
+  public hpvTestSampleTypes: any;
   public orderTypes: any;
   public isBusy = true;
 
@@ -104,6 +113,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     this.labLocations = this.labOrdersSearchHelperService.labLocations;
     this.sampleTypes = this.labOrdersSearchHelperService.sampleTypes;
     this.orderTypes = this.labOrdersSearchHelperService.orderTypes;
+    this.hpvTestSampleTypes = this.labOrdersSearchHelperService.hpvTestSampleTypes;
   }
 
   public ngOnInit() {
@@ -152,6 +162,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     this.displayPregnancy();
     this.loadHivSummary(this.person.uuid);
     this.displayDnaPcrInputs();
+    this.displayHPVInputs();
     this.setDefaultLocation();
   }
 
@@ -224,7 +235,64 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         }
       );
   }
+  public displayHPVInputs() {
+    const ot = this.orderType.type;
+    if (ot !== 'HPV') {
+      return;
+    } else {
+      this.isHPVtest = true;
 
+      this.HPVData.entryPoint = this.hpvValue(
+        this.findObs(
+          this.order.encounter.obs,
+          'a8a17e48-1350-11df-a1f1-0026b9348838'
+        ).display
+      );
+      this.HPVData.hivStatus = this.hpvValue(
+        this.findObs(
+          this.order.encounter.obs,
+          '9e4d6436-4040-46a3-a0ae-6dbc0acfe593'
+        ).display
+      );
+      this.HPVData.typeOfScreening = this.hpvValue(
+        this.findObs(
+          this.order.encounter.obs,
+          '6048b6bd-c698-48c9-8d20-424ab0b3d628'
+        ).display
+      );
+      this.HPVData.sampleCollectionMethod = this.hpvValue(
+        this.findObs(
+          this.order.encounter.obs,
+          'aa14f397-5d82-4cd3-8dc8-bb381a935717'
+        ).display
+      );
+      this.HPVData.dateOfSampleCollection = this.hpvValue(
+        this.findObs(
+          this.order.encounter.obs,
+          'e07623c2-38af-4caa-8d8d-d01791441c59'
+        ).display
+      );
+    }
+  }
+  public hpvValue(displayString: any) {
+    const parts = displayString.split(':');
+    return parts.length > 1 ? parts[1].trim() : displayString;
+  }
+  public getHpvConceptValues(uuid: string, property: string) {
+    this.conceptResourceService
+      .getConceptByUuid(uuid)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.dnaPcrData[property] += `${data.name.display} ,`;
+          }
+        },
+        (error) => {
+          console.error('Failed to load concepts ', error);
+        }
+      );
+  }
   public displayDnaPcrInputs() {
     const ot = this.orderType.type;
     if (ot !== 'DNAPCR') {
@@ -298,8 +366,10 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     if (!this.hasLoadingTimeRequiredInputs()) {
       return;
     }
+
     const payload = this.getPayload();
     const location = this.selectedLabLocation;
+    console.log('uchunguzi ', payload);
     this.isBusy = true;
     this.labOrderPostService
       .postOrderToEid(location, payload)
@@ -383,6 +453,21 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         artStartDateCurrent,
         this.selectedSampleType,
         currentArtRegimenId,
+        this.isPregnant ? 1 : 0,
+        this.isBreastfeeding ? 1 : 0
+      );
+    }
+    if (this.orderType.type === 'HPV') {
+      payload = this.labOrdersSearchHelperService.createHpvPayload(
+        order,
+        obs,
+        locationUuid,
+        patientIdentifier,
+        patientName,
+        gender,
+        birthdate,
+        this.dateReceived,
+        this.selectedSampleType,
         this.isPregnant ? 1 : 0,
         this.isBreastfeeding ? 1 : 0
       );

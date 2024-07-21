@@ -14,6 +14,7 @@ export class LabOrdersSearchHelperService {
         conceptUuid: 'a898fe80-1350-11df-a1f1-0026b9348838',
         display: 'DNA PCR'
       },
+
       {
         type: 'VL',
         conceptUuid: 'a8982474-1350-11df-a1f1-0026b9348838',
@@ -25,9 +26,22 @@ export class LabOrdersSearchHelperService {
         display: 'CD4 Panel'
       },
       {
+        type: 'HPV',
+        conceptUuid: 'a8a46fd6-1350-11df-a1f1-0026b9348838',
+        display: 'HPV'
+      },
+      {
         type: 'Other',
         conceptUuid: '',
         display: 'Others'
+      }
+    ];
+  }
+  public get hpvTestSampleTypes() {
+    return [
+      {
+        id: 1,
+        display: 'Cervical Swab'
       }
     ];
   }
@@ -181,6 +195,41 @@ export class LabOrdersSearchHelperService {
     };
   }
 
+  public createHpvPayload(
+    order: any,
+    encounterObs: any,
+    encounterLocationUuid: any,
+    patientIdentifier: any,
+    patientName: any,
+    sex: any,
+    birthDate: any,
+    dateRecieved: any,
+    sampleType: any,
+    isPregnant = 0,
+    breastfeeding = 0
+  ) {
+    const vlJustificationUuid: any = this.findObsValueByConceptUuid(
+      encounterObs,
+      '0a98f01f-57f1-44b7-aacf-e1121650a967'
+    );
+
+    return {
+      type: 'HPV',
+      locationUuid: encounterLocationUuid,
+      orderNumber: order.orderNumber,
+      providerIdentifier: order.orderer.identifier,
+      patientName: patientName,
+      patientIdentifier: patientIdentifier,
+      sex: sex,
+      birthDate: this.formatDate(birthDate),
+      sampleType: sampleType,
+      vlJustificationUuid: vlJustificationUuid,
+      isPregnant: isPregnant,
+      breastfeeding: breastfeeding,
+      dateDrawn: this.formatDate(order.dateActivated),
+      dateReceived: this.formatDate(dateRecieved)
+    };
+  }
   public createViralLoadPayload(
     order,
     encounterObs,
