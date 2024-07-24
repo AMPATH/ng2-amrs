@@ -84,7 +84,12 @@
               </span>
             </span>
             <span
-              *ngIf="!isPatientVerified && isVerifiable && searchIdentifiers && isPatientEnrolledToHIVProgram"
+              *ngIf="
+                !isPatientVerified &&
+                isVerifiable &&
+                searchIdentifiers &&
+                isPatientEnrolledToHIVProgram
+              "
               (click)="
                 identifiers.showDialog('verify', patient?._identifier, true)
               "
@@ -310,7 +315,12 @@
               </span>
             </span>
             <span
-              *ngIf="!isPatientVerified && isVerifiable && searchIdentifiers && isPatientEnrolledToHIVProgram"
+              *ngIf="
+                !isPatientVerified &&
+                isVerifiable &&
+                searchIdentifiers &&
+                isPatientEnrolledToHIVProgram
+              "
               (click)="
                 identifiers.showDialog('verify', patient?._identifier, true)
               "
