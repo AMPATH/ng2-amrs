@@ -59,6 +59,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     ignoreBackdropClick: true
   };
   private enrolled: boolean;
+  private isVerifiable: boolean;
   private enrolledToHEIProgram: boolean;
   private isPatientEnrolledToHIVProgram: boolean;
   private currentLocation: { uuid: string; display: string };
@@ -115,6 +116,9 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           );
           this.getPatientRelationships(patient.uuid);
           this.isPatientEligableForCCCNumber(
+            _.filter(patient.enrolledPrograms, 'isEnrolled')
+          );
+          this.isPatientVerifiable(
             _.filter(patient.enrolledPrograms, 'isEnrolled')
           );
           this.isEnrolledToHEIProgram(
@@ -307,6 +311,14 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       (program) =>
         program.concept.uuid === '9c64af03-f712-411e-8880-16e98dcdb4a6'
     );
+  }
+  private isPatientVerifiable(enrolledPrograms: Array<any>) {
+    _.filter(
+      enrolledPrograms,
+      ({ concept }) => concept.uuid === '23e234c3-5d8a-46ca-8465-3b746143dd68'
+    ).length > 0
+      ? (this.isVerifiable = false)
+      : (this.isVerifiable = true);
   }
 
   private getHIVPatient(enrolledPrograms: Array<any>) {
