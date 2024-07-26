@@ -306,7 +306,7 @@
             </span>
             <span
               *ngIf="
-                searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
+                searchIdentifiers && enrolled && isPatientEnrolledToHIVProgram
               "
             >
               <span *ngIf="isPatientVerified && searchIdentifiers?.upi">
