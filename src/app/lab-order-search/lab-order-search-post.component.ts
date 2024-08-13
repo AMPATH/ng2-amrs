@@ -135,7 +135,11 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       Moment().diff(Moment(this.person.birthdate), 'months') <= 18 &&
       !(
         this.patient.identifiers[0].identifierType.uuid ===
-        this.cccIdentifierType
+          this.cccIdentifierType ||
+        this.patient.identifiers[1].identifierType.uuid ===
+          this.cccIdentifierType ||
+        this.patient.identifiers[2].identifierType.uuid ===
+          this.cccIdentifierType
       )
     ) {
       this.isHEIActive = true;
