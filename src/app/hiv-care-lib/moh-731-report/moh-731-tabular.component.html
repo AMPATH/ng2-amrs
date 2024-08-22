@@ -10,3 +10,15 @@
   [gridOptions]="gridOptions"
 >
 </ag-grid-angular>
+
+<div class="row" style="margin-top: 8px; margin-right: 8px; padding: 0px">
+  <button
+    type="button"
+    *ngIf="!parentIsBusy"
+    class="btn btn-primary pull-right"
+    (click)="getCombinedData()"
+  >
+    Sync Data
+  </button>
+</div>
+

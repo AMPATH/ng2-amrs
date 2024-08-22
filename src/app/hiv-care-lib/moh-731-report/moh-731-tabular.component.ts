@@ -7,7 +7,10 @@ import {
   ViewChild,
   EventEmitter
 } from '@angular/core';
+import { ColDef, ColGroupDef } from 'ag-grid';
 import { AgGridNg2 } from 'ag-grid-angular';
+import { KhisAirModuleResourceService } from 'src/app/etl-api/khis-air-resource.service';
+// import {KhisAirModuleResourceService} from ""
 @Component({
   selector: 'moh-731-tabular',
   templateUrl: 'moh-731-tabular.component.html'
@@ -17,12 +20,19 @@ export class Moh731TabularComponent implements OnInit {
   public gridOptions: any = {
     columnDefs: []
   };
+  public headerTitles = [];
 
   @Output() public indicatorSelected = new EventEmitter<any>();
 
   // tslint:disable-next-line:no-input-rename
   @Input('rowData')
   public data: Array<any> = [];
+
+  @Input('startDate')
+  public startDate: any;
+
+  @Input('endDate')
+  public endDate: any;
 
   @ViewChild('agGrid')
   public agGrid: AgGridNg2;
@@ -40,7 +50,9 @@ export class Moh731TabularComponent implements OnInit {
 
   @Input() public isReleased: boolean;
 
-  constructor() {}
+  constructor(
+    private khisAirModuleResourceService: KhisAirModuleResourceService
+  ) {}
 
   public ngOnInit() {
     this.setCellSelection();
@@ -68,6 +80,7 @@ export class Moh731TabularComponent implements OnInit {
         created.children.push(child);
       }
       defs.push(created);
+      this.headerTitles.push(section.sectionTitle);
     }
 
     this.gridOptions.columnDefs = defs;
@@ -86,5 +99,55 @@ export class Moh731TabularComponent implements OnInit {
       };
       this.indicatorSelected.emit(selectedIndicator);
     };
+  }
+
+  public cleanHeaderTitles(titles: string[]): string[] {
+    return titles.map((title) => title.replace(/^\d+\.\s*/, '').trim());
+  }
+
+  public getCombinedData() {
+    const headerTitles = this.cleanHeaderTitles(this.headerTitles);
+    const month = new Date(this.startDate).toLocaleString('default', {
+      month: 'long'
+    });
+
+    if (this.agGrid && this.agGrid.api && this.agGrid.columnApi) {
+      // Get all rows data
+      const rowData: any[] = [];
+      this.agGrid.api.forEachNode((node: any) => rowData.push(node.data));
+
+      // Get column definitions
+      const allColumns = this.agGrid.columnApi.getAllColumns();
+      const columnDefs = allColumns.map((col) => col.getColDef());
+
+      // Combine data and columns
+      const combinedData = rowData.map((row) => {
+        const rowDataWithColumns = {};
+        columnDefs.forEach((colDef: ColDef) => {
+          rowDataWithColumns[colDef.headerName] = row[colDef.field];
+        });
+        return {
+          month: month,
+          // headerTitles,
+          Location: row.location,
+          ...rowDataWithColumns
+          // rowDataWithColumns: {
+          //   ...rowDataWithColumns
+          // }
+        };
+      });
+
+      this.khisAirModuleResourceService
+        .postMOH731ExtractedData(combinedData)
+        .subscribe(
+          (response: any) => {
+            console.log('API Response:', response);
+            // Handle successful response here
+          },
+          (error: any) => {
+            console.error('API Error:', error);
+          }
+        );
+    }
   }
 }
