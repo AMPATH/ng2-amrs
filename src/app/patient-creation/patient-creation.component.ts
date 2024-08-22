@@ -691,7 +691,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         birthdateEstimated: this.birthdateEstimated
       };
       this.sessionStorageService.setObject('person', this.person);
-      const searchString = this.givenName;
+      const searchString = this.givenName + ' ' + this.familyName;
       this.patientCreationService
         .searchPatient(searchString, false)
         .pipe(take(1))
