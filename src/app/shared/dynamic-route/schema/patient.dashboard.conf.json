@@ -579,6 +579,16 @@
       "routes": []
     },
     {
+      "programName": "Hiv Testing Services",
+      "programUuid": "a0f8382f-df8a-4f1d-8959-9fb6eef90353",
+      "baseRoute": "a0f8382f-df8a-4f1d-8959-9fb6eef90353",
+      "alias": "hts",
+      "published": true,
+      "requiresPatientEnrollment": true,
+      "shared-routes-class": "hts",
+      "routes": []
+    },
+    {
       "programName": "Mental Health",
       "programUuid": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
       "baseRoute": "6976b7eb-6d66-4aba-bcc0-cd8be80041cd",
