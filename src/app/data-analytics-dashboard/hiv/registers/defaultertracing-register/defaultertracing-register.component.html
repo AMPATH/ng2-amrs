@@ -147,20 +147,26 @@
           <ng-container
             *ngFor="let data of defaulterTracingRegisterData; let a = index"
           >
-          <tr>
-            <td rowspan="2">{{ a + 1 }}</td>
-            <td>{{ data.client_id_No }}</td>
-            <td rowspan="2">{{ data.first_name }} {{ data.middle }} {{ data.last_name }}</td>
-            <td rowspan="2" style="max-width: 250px">{{ data.village }}</td>
-            <td rowspan="2">{{ data.telephone_number }}</td>
-            <td rowspan="2">{{ data.date_of_missed_appointment | date:'dd/MM/yyyy' }}</td>
-            <td rowspan="2">{{ data.defaulter_tracing_outcomes }}</td>
-            <td rowspan="2">{{ data.date_of_outcomes | date:'dd/MM/yyyy' }}</td>
-            <td rowspan="2" style="max-width: 350px">{{ data.outcomes }}</td>
-          </tr>
-          <tr>
-            <td>{{ data.nupi }}</td>
-          </tr>
+            <tr>
+              <td rowspan="2">{{ a + 1 }}</td>
+              <td>{{ data.client_id_No }}</td>
+              <td rowspan="2">
+                {{ data.first_name }} {{ data.middle }} {{ data.last_name }}
+              </td>
+              <td rowspan="2" style="max-width: 250px">{{ data.village }}</td>
+              <td rowspan="2">{{ data.telephone_number }}</td>
+              <td rowspan="2">
+                {{ data.date_of_missed_appointment | date: 'dd/MM/yyyy' }}
+              </td>
+              <td rowspan="2">{{ data.defaulter_tracing_outcomes }}</td>
+              <td rowspan="2">
+                {{ data.date_of_outcomes | date: 'dd/MM/yyyy' }}
+              </td>
+              <td rowspan="2" style="max-width: 350px">{{ data.outcomes }}</td>
+            </tr>
+            <tr>
+              <td>{{ data.nupi }}</td>
+            </tr>
           </ng-container>
         </tbody>
       </table>

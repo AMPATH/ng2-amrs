@@ -359,68 +359,92 @@
           <td class="text-center">(ar)</td>
           <td class="text-center">(as)</td>
         </tr>
-        <ng-container
-          *ngFor="let data of ancRegisterData; let a = index"
-        >
-        <tr>
-          <td class="text-center" rowspan="2">{{data.date_of_visit | date:'dd/MM/yyyy' }}</td>
-          <td class="text-center">{{data.anc_number}}</td>
-          <td class="text-center" rowspan="2">{{data.anc_number_NUPI}}</td>
-          <td class="text-center" rowspan="2">{{data.number_of_anc_visits}}</td>
-          <td class="text-center" rowspan="2">{{data.full_names}}</td>
-          <td class="text-center">{{data.date_of_birth | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center" rowspan="2">{{data.subcounty_county}}</td>
-          <td class="text-center">{{data.village_estate_landmark}}</td>
-          <td class="text-center" rowspan="2">{{data.marital_status}}</td>
-          <td class="text-center" rowspan="2">{{data.parity}}</td>
-          <td class="text-center" rowspan="2">{{data.gravidae}}</td>
-          <td class="text-center" rowspan="2">{{data.last_lmp_date | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center" rowspan="2">{{data.edd | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center" rowspan="2">{{data.gestation_in_weeks}}</td>
-          <td class="text-center" rowspan="2">{{data.muac}}</td>
-          <td class="text-center" rowspan="2">{{data.height}}</td>
-          <td class="text-center" rowspan="2">{{data.weight}}</td>
-          <td class="text-center" rowspan="2">{{data.blood_pressure}}</td>
-          <td class="text-center" rowspan="2">{{data.breast_exam}}</td>
-          <td class="text-center">{{data.fgm}}</td>
-          <td class="text-center" rowspan="2">{{data.haemoglobin}}</td>
-          <td class="text-center" rowspan="2">{{data.blood_sugar_test}}</td>
-          <td class="text-center" rowspan="2">{{data.blood_group_rhesus}}</td>
-          <td class="text-center" rowspan="2">{{data.urinalysis}}</td>
-          <td class="text-center">{{data.rpr_vdrl_duo}}</td>
-          <td class="text-center">{{data.hepatitisB}}</td>
-          <td class="text-center" rowspan="2">{{data.tb_screening}}</td>
-          <td class="text-center" rowspan="2">{{data.hiv_test_type}}</td>
-          <td class="text-center">{{data.hiv_test_1_kit_name}}</td>
-          <td class="text-center">{{data.hiv_test_2_kit_name}}</td>
-          <td class="text-center">{{data.hiv_test_3_kit_name}}</td>
-          <td class="text-center" rowspan="2">{{data.hiv_results}}</td>
-          <td class="text-center" rowspan="2">{{data.maternal_haart}}</td>
-          <td class="text-center" rowspan="2">{{data.infant_prophylaxis}}</td>
-          <td class="text-center" rowspan="2">{{data.partner_hiv_testing}}</td>
-          <td class="text-center">{{data.other_conditions}}</td>
-          <td class="text-center" rowspan="2">{{data.deworming}}</td>
-          <td class="text-center" rowspan="2">{{data.ipt_1_3}}</td>
-          <td class="text-center" rowspan="2">{{data.tt_dose}}</td>
-          <td class="text-center" rowspan="2">{{data.supplementation}}</td>
-          <td class="text-center" rowspan="2">{{data.llitns}}</td>
-          <td class="text-center" rowspan="2">{{data.referrals_from}}</td>
-          <td class="text-center" rowspan="2">{{data.referrals_to}}</td>
-          <td class="text-center" rowspan="2">{{data.reason_for_referral}}</td>
-          <td class="text-center" rowspan="2">{{data.remarks}}</td>
-        </tr>
-        <tr>
-          <td class="text-center">{{data.NUPI}}</td>
-          <td class="text-center">{{data.age}}</td>
-          <td class="text-center">{{data.phone_number}}</td>
-          <td class="text-center">{{data.fgm_complications}}</td>
-          <td class="text-center">{{data.rpr_vdrl_duo_results}}</td>
-          <td class="text-center">{{data.hepatitisB_treatment}}</td>
-          <td class="text-center">{{data.hiv_test_1_expiry_date | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center">{{data.hiv_test_2_expiry_date | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center">{{data.hiv_test_3_expiry_date | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center">{{data.other_conditions_treatment}}</td>
-        </tr>
+        <ng-container *ngFor="let data of ancRegisterData; let a = index">
+          <tr>
+            <td class="text-center" rowspan="2">
+              {{ data.date_of_visit | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center">{{ data.anc_number }}</td>
+            <td class="text-center" rowspan="2">{{ data.anc_number_NUPI }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.number_of_anc_visits }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.full_names }}</td>
+            <td class="text-center">
+              {{ data.date_of_birth | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.subcounty_county }}</td>
+            <td class="text-center">{{ data.village_estate_landmark }}</td>
+            <td class="text-center" rowspan="2">{{ data.marital_status }}</td>
+            <td class="text-center" rowspan="2">{{ data.parity }}</td>
+            <td class="text-center" rowspan="2">{{ data.gravidae }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.last_lmp_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.edd | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.gestation_in_weeks }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.muac }}</td>
+            <td class="text-center" rowspan="2">{{ data.height }}</td>
+            <td class="text-center" rowspan="2">{{ data.weight }}</td>
+            <td class="text-center" rowspan="2">{{ data.blood_pressure }}</td>
+            <td class="text-center" rowspan="2">{{ data.breast_exam }}</td>
+            <td class="text-center">{{ data.fgm }}</td>
+            <td class="text-center" rowspan="2">{{ data.haemoglobin }}</td>
+            <td class="text-center" rowspan="2">{{ data.blood_sugar_test }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.blood_group_rhesus }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.urinalysis }}</td>
+            <td class="text-center">{{ data.rpr_vdrl_duo }}</td>
+            <td class="text-center">{{ data.hepatitisB }}</td>
+            <td class="text-center" rowspan="2">{{ data.tb_screening }}</td>
+            <td class="text-center" rowspan="2">{{ data.hiv_test_type }}</td>
+            <td class="text-center">{{ data.hiv_test_1_kit_name }}</td>
+            <td class="text-center">{{ data.hiv_test_2_kit_name }}</td>
+            <td class="text-center">{{ data.hiv_test_3_kit_name }}</td>
+            <td class="text-center" rowspan="2">{{ data.hiv_results }}</td>
+            <td class="text-center" rowspan="2">{{ data.maternal_haart }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.infant_prophylaxis }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.partner_hiv_testing }}
+            </td>
+            <td class="text-center">{{ data.other_conditions }}</td>
+            <td class="text-center" rowspan="2">{{ data.deworming }}</td>
+            <td class="text-center" rowspan="2">{{ data.ipt_1_3 }}</td>
+            <td class="text-center" rowspan="2">{{ data.tt_dose }}</td>
+            <td class="text-center" rowspan="2">{{ data.supplementation }}</td>
+            <td class="text-center" rowspan="2">{{ data.llitns }}</td>
+            <td class="text-center" rowspan="2">{{ data.referrals_from }}</td>
+            <td class="text-center" rowspan="2">{{ data.referrals_to }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.reason_for_referral }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.remarks }}</td>
+          </tr>
+          <tr>
+            <td class="text-center">{{ data.NUPI }}</td>
+            <td class="text-center">{{ data.age }}</td>
+            <td class="text-center">{{ data.phone_number }}</td>
+            <td class="text-center">{{ data.fgm_complications }}</td>
+            <td class="text-center">{{ data.rpr_vdrl_duo_results }}</td>
+            <td class="text-center">{{ data.hepatitisB_treatment }}</td>
+            <td class="text-center">
+              {{ data.hiv_test_1_expiry_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center">
+              {{ data.hiv_test_2_expiry_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center">
+              {{ data.hiv_test_3_expiry_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center">{{ data.other_conditions_treatment }}</td>
+          </tr>
         </ng-container>
       </tbody>
     </table>
