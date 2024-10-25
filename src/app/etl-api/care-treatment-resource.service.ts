@@ -19,7 +19,7 @@ export class CareTreatmentResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}care-and-treatment-register?endDate=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}registers/cntregister?endDate=${params.month}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {

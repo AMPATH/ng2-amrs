@@ -42,7 +42,7 @@ export class DefaultertracingRegisterComponent implements OnInit {
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
-  public enabledControls = 'locationControl,monthControl';
+  public enabledControls = 'locationControl,dayControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
@@ -74,10 +74,7 @@ export class DefaultertracingRegisterComponent implements OnInit {
   ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
-        ? (this._month = Moment()
-            .subtract(1, 'M')
-            .endOf('month')
-            .format('YYYY-MM-DD'))
+        ? (this._month = Moment().format('YYYY-MM-DD'))
         : (this._month = data.month);
 
       this.showDraftReportAlert(this._month);
@@ -87,7 +84,7 @@ export class DefaultertracingRegisterComponent implements OnInit {
   ngOnInit() {}
 
   public onMonthChange(value): any {
-    this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
+    this._month = Moment(value).format('YYYY-MM-DD');
   }
 
   public generateReport(): any {
@@ -104,14 +101,14 @@ export class DefaultertracingRegisterComponent implements OnInit {
       this.storeParamsInUrl();
     });
     this.defaulterTracingRegisterData = [];
-    this.getPrEPRegisterReport(this.params);
+    this.getDefaulterTracingRegister(this.params);
     this.generated = true;
   }
 
   public storeParamsInUrl() {
     this.params = {
       locationUuids: this.jointLocationUuids,
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+      month: Moment(this._month).format('YYYY-MM-DD')
     };
     this.router.navigate([], {
       relativeTo: this.route,
@@ -119,9 +116,9 @@ export class DefaultertracingRegisterComponent implements OnInit {
     });
   }
 
-  public getPrEPRegisterReport(params: any) {
+  public getDefaulterTracingRegister(params: any) {
     this.isLoading = true;
-    this.register.getPrEPRegisterReport(params).subscribe((data) => {
+    this.register.getDefaulterTracingRegister(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
         this.errorMessage = `There has been an error while loading the report, please retry again`;
@@ -150,7 +147,7 @@ export class DefaultertracingRegisterComponent implements OnInit {
   }
 
   public showDraftReportAlert(date) {
-    if (date != null && date >= Moment().endOf('month').format('YYYY-MM-DD')) {
+    if (date != null && date >= Moment().format('YYYY-MM-DD')) {
       this.isReleased = false;
     } else {
       this.isReleased = true;

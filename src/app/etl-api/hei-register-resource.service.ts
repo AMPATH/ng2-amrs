@@ -19,7 +19,7 @@ export class HeiRegisterResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}hei-register?endDate=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}registers/heiregister?endDate=${params.month}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {

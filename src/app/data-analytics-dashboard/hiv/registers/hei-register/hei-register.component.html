@@ -11,8 +11,8 @@
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
         [enabledControls]="enabledControls"
-        [monthString]="_month"
-        (onMonthChange)="onMonthChange($event)"
+        (startDateChange)="onMonthChange($event)"
+        [startDate]="_month"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
@@ -30,10 +30,6 @@
   <p>
     <small>{{ errorMessage }}</small>
   </p>
-</div>
-<div *ngIf="!isReleased" class="alert alert-warning">
-  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
-  This report is likely to change without warning.
 </div>
 
 <div
@@ -182,7 +178,7 @@
             <td colspan="3">
               {{ data.Birth_Certificate_number }}
             </td>
-            <td colspan="3" rowspan="2">
+            <td colspan="3" rowspan="2" style="max-width: 150px;">
               {{ data.HEI_ID }}
             </td>
             <td colspan="4" rowspan="2">

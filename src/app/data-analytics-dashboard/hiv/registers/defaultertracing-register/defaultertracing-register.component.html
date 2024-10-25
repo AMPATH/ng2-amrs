@@ -11,8 +11,8 @@
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
         [enabledControls]="enabledControls"
-        [monthString]="_month"
-        (onMonthChange)="onMonthChange($event)"
+        (startDateChange)="onMonthChange($event)"
+        [startDate]="_month"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
@@ -31,10 +31,6 @@
     <small>{{ errorMessage }}</small>
   </p>
 </div>
-<div *ngIf="!isReleased" class="alert alert-warning">
-  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
-  This report is likely to change without warning.
-</div>
 
 <div class="alert alert-danger fade in" *ngIf="showInfoMessage">
   <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -45,10 +41,6 @@
   <p>
     <small>{{ errorMessage }}</small>
   </p>
-</div>
-<div *ngIf="!isReleased" class="alert alert-warning">
-  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
-  This report is likely to change without warning.
 </div>
 
 <div
@@ -152,76 +144,24 @@
           </tr>
         </thead>
         <tbody>
+          <ng-container
+            *ngFor="let data of defaulterTracingRegisterData; let a = index"
+          >
           <tr>
-            <td rowspan="2"></td>
-            <td></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
+            <td rowspan="2">{{ a + 1 }}</td>
+            <td>{{ data.client_id_No }}</td>
+            <td rowspan="2">{{ data.first_name }} {{ data.middle }} {{ data.last_name }}</td>
+            <td rowspan="2" style="max-width: 250px">{{ data.village }}</td>
+            <td rowspan="2">{{ data.telephone_number }}</td>
+            <td rowspan="2">{{ data.date_of_missed_appointment | date:'dd/MM/yyyy' }}</td>
+            <td rowspan="2">{{ data.defaulter_tracing_outcomes }}</td>
+            <td rowspan="2">{{ data.date_of_outcomes | date:'dd/MM/yyyy' }}</td>
+            <td rowspan="2" style="max-width: 350px">{{ data.outcomes }}</td>
           </tr>
           <tr>
-            <td></td>
+            <td>{{ data.nupi }}</td>
           </tr>
-          <tr>
-            <td rowspan="2"></td>
-            <td></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-          </tr>
-          <tr>
-            <td></td>
-          </tr>
-          <tr>
-            <td rowspan="2"></td>
-            <td></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-          </tr>
-          <tr>
-            <td></td>
-          </tr>
-          <tr>
-            <td rowspan="2"></td>
-            <td></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-          </tr>
-          <tr>
-            <td></td>
-          </tr>
-          <tr>
-            <td rowspan="2"></td>
-            <td></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-          </tr>
-          <tr>
-            <td></td>
-          </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

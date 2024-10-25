@@ -11,8 +11,8 @@
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
         [enabledControls]="enabledControls"
-        [monthString]="_month"
-        (onMonthChange)="onMonthChange($event)"
+        (startDateChange)="onMonthChange($event)"
+        [startDate]="_month"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
@@ -30,10 +30,6 @@
   <p>
     <small>{{ errorMessage }}</small>
   </p>
-</div>
-<div *ngIf="!isReleased" class="alert alert-warning">
-  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
-  This report is likely to change without warning.
 </div>
 
 <div
@@ -199,12 +195,13 @@
         >
           <tr>
             <td rowspan="2">{{ a + 1 }}</td>
-            <td colspan="2" rowspan="2">{{ data.DATE }}</td>
-            <td colspan="3">{{ data.National_ID }}</td>
+            <td colspan="2" rowspan="2">{{ data.date | date:'dd/MM/yyyy' }}</td>
+            <td colspan="3">{{ data.national_id_number }}</td>
             <td colspan="3" rowspan="2">
-              {{ data.CCC_Number }}
+              {{ data.ccc_number }}
             </td>
-            <td rowspan="2">{{ data.Age }}</td>
+            <td rowspan="2">{{ data.age }}</td>
+            <td rowspan="2">{{data.started_on_art}}</td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
@@ -218,6 +215,11 @@
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
+            <td rowspan="2">{{data.screened_for_tb}}</td>
+            <td rowspan="2"></td>
+            <td rowspan="2">{{data.started_on_tpt}}</td>
+            <td rowspan="2"></td>
+            <td rowspan="2">{{data.current_on_art}}</td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
@@ -231,15 +233,9 @@
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td colspan="2" rowspan="2"></td>
-            <td colspan="2" rowspan="2"></td>
-            <td colspan="4" rowspan="2"></td>
+            <td colspan="2" rowspan="2">{{data.dsd_status}}</td>
+            <td colspan="2" rowspan="2">{{data.dsd_type}}</td>
+            <td colspan="4" rowspan="2">{{data.remarks}}</td>
           </tr>
           <tr>
             <td colspan="3">{{ data.NUPI }}</td>
