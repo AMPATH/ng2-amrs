@@ -54,6 +54,7 @@ import { PatientProgramEnrollmentModule } from './../patients-program-enrollment
 import { PatientReferralProgramModule } from './referral/patient-referral-program.module';
 import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
 import { MNCHModule } from './mnch/mnch-program.module';
+import { HTSModule } from './hts/hts-program.module';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { MNCHModule } from './mnch/mnch-program.module';
     NgxPaginationModule,
     PatientReferralProgramModule,
     OncologyProgramModule,
-    MNCHModule
+    MNCHModule,
+    HTSModule
   ],
   providers: [
     ClinicDashboardCacheService,

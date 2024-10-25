@@ -579,14 +579,35 @@
       "routes": []
     },
     {
-      "programName": "Hiv Testing Services",
+      "programName": "HIV Testing Services",
       "programUuid": "a0f8382f-df8a-4f1d-8959-9fb6eef90353",
       "baseRoute": "a0f8382f-df8a-4f1d-8959-9fb6eef90353",
       "alias": "hts",
       "published": true,
       "requiresPatientEnrollment": true,
       "shared-routes-class": "hts",
-      "routes": []
+      "routes": [
+        {
+          "url": "visit",
+          "label": "Visit",
+          "icon": "icon-i-outpatient"
+        },
+        {
+          "url": "patient-encounters",
+          "label": "Encounters",
+          "icon": "icon-i-immunizations"
+        },
+        {
+          "url": "patient-vitals",
+          "label": "Vitals",
+          "icon": "fa fa-heartbeat"
+        },
+        {
+          "url": "lab-data-summary",
+          "label": "Lab Data Summary",
+          "icon": "icon-i-laboratory"
+        }
+      ]
     },
     {
       "programName": "Mental Health",
@@ -748,6 +769,53 @@
       }
     ],
     "mnch": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
+      {
+        "url": "patient-encounters",
+        "label": "Encounters",
+        "icon": "icon-i-immunizations"
+      },
+      {
+        "url": "patient-vitals",
+        "label": "Vitals",
+        "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "hiv-summary",
+        "label": "HIV Summary",
+        "icon": "fa fa-medkit"
+      },
+      {
+        "url": "patient-monthly-status-history",
+        "label": "Monthly Status History",
+        "icon": "fa fa-medkit"
+      },
+      {
+        "url": "clinical-notes",
+        "label": "Clinical Notes",
+        "icon": "fa fa-book"
+      },
+      {
+        "url": "lab-data-summary",
+        "label": "Lab Data Summary",
+        "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
+      },
+      {
+        "url": "patient-imaging",
+        "label": "Imaging",
+        "icon": "icon-i-radiology"
+      }
+    ],
+    "hts": [
       {
         "url": "visit",
         "label": "Visit",
