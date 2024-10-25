@@ -195,13 +195,15 @@
         >
           <tr>
             <td rowspan="2">{{ a + 1 }}</td>
-            <td colspan="2" rowspan="2">{{ data.date | date:'dd/MM/yyyy' }}</td>
+            <td colspan="2" rowspan="2">
+              {{ data.date | date: 'dd/MM/yyyy' }}
+            </td>
             <td colspan="3">{{ data.national_id_number }}</td>
             <td colspan="3" rowspan="2">
               {{ data.ccc_number }}
             </td>
             <td rowspan="2">{{ data.age }}</td>
-            <td rowspan="2">{{data.started_on_art}}</td>
+            <td rowspan="2">{{ data.started_on_art }}</td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
@@ -215,13 +217,11 @@
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
-            <td rowspan="2">{{data.screened_for_tb}}</td>
+            <td rowspan="2">{{ data.screened_for_tb }}</td>
             <td rowspan="2"></td>
-            <td rowspan="2">{{data.started_on_tpt}}</td>
+            <td rowspan="2">{{ data.started_on_tpt }}</td>
             <td rowspan="2"></td>
-            <td rowspan="2">{{data.current_on_art}}</td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
+            <td rowspan="2">{{ data.current_on_art }}</td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
@@ -233,9 +233,11 @@
             <td rowspan="2"></td>
             <td rowspan="2"></td>
             <td rowspan="2"></td>
-            <td colspan="2" rowspan="2">{{data.dsd_status}}</td>
-            <td colspan="2" rowspan="2">{{data.dsd_type}}</td>
-            <td colspan="4" rowspan="2">{{data.remarks}}</td>
+            <td rowspan="2"></td>
+            <td rowspan="2"></td>
+            <td colspan="2" rowspan="2">{{ data.dsd_status }}</td>
+            <td colspan="2" rowspan="2">{{ data.dsd_type }}</td>
+            <td colspan="4" rowspan="2">{{ data.remarks }}</td>
           </tr>
           <tr>
             <td colspan="3">{{ data.NUPI }}</td>
