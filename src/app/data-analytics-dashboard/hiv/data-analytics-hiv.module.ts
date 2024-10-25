@@ -54,6 +54,8 @@ import { PncRegisterComponent } from './registers/pnc-register/pnc-register.comp
 import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
 import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
 import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
+import { OtzRegisterComponent } from './registers/otz-register/otz-register.component';
+import { Moh731RegisterComponent } from './registers/moh731-register/moh731-register.component';
 
 @NgModule({
   imports: [
@@ -117,7 +119,9 @@ import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdail
     PncRegisterComponent,
     DefaultertracingRegisterComponent,
     PrepdailyRegisterComponent,
-    CntdailyRegisterComponent
+    CntdailyRegisterComponent,
+    OtzRegisterComponent,
+    Moh731RegisterComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
