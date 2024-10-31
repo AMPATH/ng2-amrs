@@ -11,8 +11,8 @@
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
         [enabledControls]="enabledControls"
-        [monthString]="_month"
-        (onMonthChange)="onMonthChange($event)"
+        (startDateChange)="onMonthChange($event)"
+        [startDate]="_month"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
@@ -31,12 +31,22 @@
     <small>{{ errorMessage }}</small>
   </p>
 </div>
-<div *ngIf="!isReleased" class="alert alert-warning">
-  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
-  This report is likely to change without warning.
+<br />
+<div
+  *ngIf="matRegisterData.length == 0 && generated"
+  class="alert alert-danger fade in"
+>
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong>
+    No record found
+  </h4>
 </div>
-
-<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+<div
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot
+  *ngIf="matRegisterData && matRegisterData.length > 0"
+>
   <div class="table-responsive">
     <div class="row">
       <div class="col-md-4">
@@ -431,775 +441,121 @@
           <td class="text-center">(aw)</td>
           <td class="text-center">(ax)</td>
         </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
-        <tr>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-          <td class="text-center" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        </tr>
+        <ng-container *ngFor="let data of matRegisterData; let a = index">
+          <tr>
+            <td class="text-center" rowspan="2">
+              {{ data.admission_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center">{{ data.admission_number }}</td>
+            <td class="text-center" rowspan="2">{{ data.full_names }}</td>
+            <td class="text-center">
+              {{ data.date_of_birth | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.county_subcounty }}</td>
+            <td class="text-center">{{ data.village_estate_landmark }}</td>
+            <td class="text-center" rowspan="2">{{ data.marital_status }}</td>
+            <td class="text-center" rowspan="2">{{ data.parity }}</td>
+            <td class="text-center" rowspan="2">{{ data.gravidae }}</td>
+            <td class="text-center" rowspan="2">{{ data.no_of_anc_visits }}</td>
+            <td class="text-center" rowspan="2">{{ data.lmp }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.edd | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.diagnosis }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.duration_of_labour }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.date_of_delivery | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.time_of_delivery }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.gestation_at_birth }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.mode_of_delivery }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.no_of_babies_delivered }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.placenta_complete }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.uterotonic_given }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.vaginal_examination }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.blood_loss }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.mothers_status_after_delivery }}
+            </td>
+            <td class="text-center">{{ data.maternal_deaths_notified }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.delivery_complications }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.apgaar_score }}</td>
+            <td class="text-center" rowspan="2">{{ data.birth_outcome }}</td>
+            <td class="text-center" rowspan="2">{{ data.birth_weight }}</td>
+            <td class="text-center" rowspan="2">{{ data.sex }}</td>
+            <td class="text-center">{{ data.initiated_on_BF_less_1hr }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.teo_given_at_birth }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.chlorhexidine_applied_at_cord_stamp }}
+            </td>
+            <td class="text-center">{{ data.birth_with_deformity }}</td>
+            <td class="text-center" rowspan="2">{{ data.given_vitamin_K }}</td>
+            <td class="text-center">{{ data.vdrl_rpr }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_1_kit_name }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_2_kit_name }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_3_kit_name }}
+            </td>
+            <td class="text-center">{{ data.hiv_result_maternity }}</td>
+            <td class="text-center" rowspan="2">{{ data.maternal_haart }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.infant_prophylaxis }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.partner_tested_for_hiv }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.couselled_on_infant_feeding }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.delivery_conducted_by }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.birth_notification_number }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.discharge_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.discharge_status_of_baby }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.referrals_from }}</td>
+            <td class="text-center" rowspan="2">{{ data.referrals_to }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.reason_for_referral }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.comments }}</td>
+          </tr>
+          <tr>
+            <td class="text-center">{{ data.NUPI }}</td>
+            <td class="text-center">{{ data.age }}</td>
+            <td class="text-center">{{ data.phone_number }}</td>
+            <td class="text-center">{{ data.date_death_notified }}</td>
+            <td class="text-center">{{ data.kangaroo_mother_care }}</td>
+            <td class="text-center">{{ data.type_of_deformity }}</td>
+            <td class="text-center">{{ data.vdrl_rpr_results }}</td>
+            <td class="text-center">{{ data.hiv_test_type }}</td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
-    <tr>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-    </tr>
-    <tr>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-    </tr>
-    <tr>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-      <td class="text-center" rowspan="2"></td>
-    </tr>
-    <tr>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-      <td class="text-center"></td>
-    </tr>
   </div>
 </div>

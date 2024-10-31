@@ -45,6 +45,13 @@
   </button>
 </div>
 <br />
+<div *ngIf="ancRegisterData.length == 0 && generated" class="alert alert-danger fade in">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> 
+    No record found
+  </h4>
+</div>
 <div
   style="padding: 20px; font-size: 12px !important"
   #cntdarcontentToSnapshot

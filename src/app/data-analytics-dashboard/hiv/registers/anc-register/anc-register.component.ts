@@ -44,7 +44,8 @@ export class AncRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
-  @ViewChild('cntdarcontentToSnapshot') contentToSnapshot!: ElementRef;
+  public generated = false;
+  @ViewChild('anccontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -98,6 +99,7 @@ export class AncRegisterComponent implements OnInit {
     });
     this.ancRegisterData = [];
     this.getANCRegisterData(this.params);
+    this.generated = true;
   }
 
   public storeParamsInUrl() {
