@@ -202,6 +202,37 @@
           "isDistinct": true
         }
       ]
+    },
+    {
+      "departmentName": "HTS",
+      "baseRoute": "hts",
+      "alias": "hts",
+      "routes": [
+        {
+          "url": "clinic-flow",
+          "label": "Clinic Flow",
+          "icon": "fa fa-clock-o"
+        },
+        {
+          "url": "program-enrollment",
+          "label": "Program Enrollment",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "data-entry-statistics",
+          "label": "Data Entry Statistics",
+          "icon": "fa fa-bar-chart",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "select-department",
+          "label": "Change Department",
+          "icon": "fa fa-exchange",
+          "isSideBarOpen": false,
+          "isDistinct": true
+        }
+      ]
     }
   ]
 }
