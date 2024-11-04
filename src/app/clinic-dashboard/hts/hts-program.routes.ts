@@ -10,6 +10,7 @@ import { ClinicFlowLocationStatsComponent } from '../../hiv-care-lib/clinic-flow
 import { ClinicFlowProviderStatsComponent } from '../../hiv-care-lib/clinic-flow/clinic-flow-provider-stats.component';
 import { ClinicFlowSummaryComponent } from '../../hiv-care-lib/clinic-flow/clinic-flow-summary.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import { HtsMonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 const routes: Routes = [
   {
     path: 'daily-schedule',
@@ -40,6 +41,10 @@ const routes: Routes = [
         ]
       }
     ]
+  },
+  {
+    path: 'monthly-schedule',
+    component: HtsMonthlyScheduleComponent
   },
   {
     path: 'department-select',

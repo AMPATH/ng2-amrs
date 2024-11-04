@@ -18,6 +18,7 @@ import { DailyScheduleClinicFlowComponent } from './clinic-flow/daily-schedule-c
 import { ProgramVisitEncounterSearchModule } from '../../program-visit-encounter-search/program-visit-encounter-search.module';
 import { GeneralModule } from '../general/general.module';
 import { ChangeDepartmentModule } from '../change-department/change-department.module';
+import { HtsMonthlyScheduleComponent } from './monthly-schedule/monthly-schedule.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,11 @@ import { ChangeDepartmentModule } from '../change-department/change-department.m
     ChangeDepartmentModule
   ],
   exports: [],
-  declarations: [HTSDailyScheduleComponent, DailyScheduleClinicFlowComponent],
+  declarations: [
+    HTSDailyScheduleComponent,
+    HtsMonthlyScheduleComponent,
+    DailyScheduleClinicFlowComponent
+  ],
   providers: []
 })
 export class HTSModule {}
