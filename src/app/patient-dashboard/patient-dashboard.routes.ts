@@ -69,6 +69,11 @@ export const routes = [
             component: GeneralLandingPageComponent
           },
           {
+            // HTS Landing Page
+            path: 'hts/:program/landing-page',
+            component: GeneralLandingPageComponent
+          },
+          {
             path: 'cdm/:program/landing-page', // CDM Landing Page
             component: CdmSummaryComponent
           },
