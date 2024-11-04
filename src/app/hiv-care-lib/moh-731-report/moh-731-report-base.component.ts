@@ -6,6 +6,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 
+interface TableData {
+  month: string;
+  year: number;
+  facility: string;
+  status: string;
+}
+
 import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
 
 @Component({
@@ -17,15 +24,19 @@ export class Moh731ReportBaseComponent implements OnInit {
   @ViewChild('mohPdf')
   public pdfView: any;
   public data = [];
+  // public airData = [];
   public sectionsDef = [];
   public statusError = false;
   public isReleased = true;
+
+  public combinedData: any[];
 
   public showLocationsControl = false;
   public showIsAggregateControl = false;
 
   public showPatientList = false;
   public showTabularView = true;
+  public showAIRView = true;
   public showPatientListLoader = false;
   public isLoadingReport = false;
   public showInfoMessage = false;
@@ -97,6 +108,47 @@ export class Moh731ReportBaseComponent implements OnInit {
     this._isAggregated = v;
   }
 
+  public airData: any[] = [
+    {
+      month: 'January',
+      year: 202403,
+      facility: 'MTRH Module 1',
+      status: 'synced'
+    },
+    {
+      month: 'February',
+      year: 202403,
+      facility: 'MTRH Module 2',
+      status: 'pending'
+    },
+    {
+      month: 'March',
+      year: 202403,
+      facility: 'MTRH Module 3',
+      status: 'inactive'
+    },
+    { month: 'April', year: 202403, facility: 'Pionner', status: 'synced' },
+    { month: 'May', year: 202403, facility: 'Mosoriot', status: 'pending' },
+    { month: 'June', year: 202403, facility: 'MTRH Rafiki', status: 'error' },
+    { month: 'July', year: 202403, facility: 'Tranzoia', status: 'synced' },
+    {
+      month: 'August',
+      year: 202403,
+      facility: 'Pionneer district',
+      status: 'pending'
+    },
+    { month: 'September', year: 202403, facility: 'Iten', status: 'error' },
+    { month: 'October', year: 202403, facility: 'Iten mnch', status: 'synced' }
+  ];
+
+  public airSectionsDef = [
+    { name: 'month', label: 'Month' },
+    { name: 'year', label: 'Year' },
+    { name: 'facility', label: 'Facility' },
+    { name: 'status', label: 'Status', type: 'status' },
+    { name: 'action', label: 'Action', type: 'action' }
+  ];
+
   constructor(
     public moh731Resource: Moh731ResourceService,
     public route: ActivatedRoute,
@@ -146,6 +198,12 @@ export class Moh731ReportBaseComponent implements OnInit {
       );
   }
 
+  public handleCombinedData(data: any[]) {
+    setTimeout(() => {
+      this.combinedData = data;
+    });
+  }
+
   public onIndicatorSelected(indicator: any) {
     this.currentIndicator = '';
     setTimeout(() => {
@@ -170,6 +228,7 @@ export class Moh731ReportBaseComponent implements OnInit {
       this.currentIndicator
     ) {
       this.showTabularView = false;
+      this.showAIRView = false;
       this.showPatientListLoader = true;
       const params = {
         startDate: this.toDateString(this.startDate),
@@ -190,6 +249,7 @@ export class Moh731ReportBaseComponent implements OnInit {
   public toggleMohTables() {
     this.showPatientList = false;
     this.showTabularView = true;
+    this.showAIRView = true;
     this.showPatientListLoader = false;
     this.currentIndicator = '';
     this.patientListLocationUuids = [];
@@ -210,6 +270,10 @@ export class Moh731ReportBaseComponent implements OnInit {
 
     if (event.index === 1) {
       this.currentView = 'tabular';
+    }
+
+    if (event.index === 2) {
+      this.currentView = 'air';
     }
   }
 

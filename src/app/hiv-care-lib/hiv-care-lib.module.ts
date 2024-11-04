@@ -148,6 +148,7 @@ import { AhdMonthlyReportPatientlistComponent } from './ahd-monthly-report/ahd-m
 import { PlhivNcdV2ReportBaseComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-base/plhiv-ncd-v2-report-base.component';
 import { PlhivNcdV2ReportPatientListComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-view/plhiv-ncd-v2-report-view.component';
+import { Moh731AirComponent } from './moh-731-report/moh-731-air.components';
 
 @NgModule({
   imports: [
@@ -184,6 +185,7 @@ import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v
   exports: [
     Moh731TabularComponent,
     Moh731PatientListComponent,
+    Moh731AirComponent,
     Moh731ReportFiltersComponent,
     DateTimePickerModule,
     EtlApi,
@@ -258,6 +260,7 @@ import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v
     Moh731PatientListComponent,
     Moh731ReportBaseComponent,
     Moh731ReportFiltersComponent,
+    Moh731AirComponent,
     MOHReportComponent,
     HivSummaryIndicatorBaseComponent,
     HivSummaryTabularComponent,

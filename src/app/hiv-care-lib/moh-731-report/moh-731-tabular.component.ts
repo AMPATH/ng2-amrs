@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
   EventEmitter
 } from '@angular/core';
 import { ColDef, ColGroupDef } from 'ag-grid';
@@ -16,7 +17,7 @@ import { KhisAirModuleResourceService } from 'src/app/etl-api/khis-air-resource.
   templateUrl: 'moh-731-tabular.component.html'
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Moh731TabularComponent implements OnInit {
+export class Moh731TabularComponent implements OnInit, AfterViewInit {
   public gridOptions: any = {
     columnDefs: []
   };
@@ -27,6 +28,9 @@ export class Moh731TabularComponent implements OnInit {
   // tslint:disable-next-line:no-input-rename
   @Input('rowData')
   public data: Array<any> = [];
+
+  @Output() combinedDataEmitted = new EventEmitter<any[]>();
+  public airData = [];
 
   @Input('startDate')
   public startDate: any;
@@ -56,6 +60,10 @@ export class Moh731TabularComponent implements OnInit {
 
   public ngOnInit() {
     this.setCellSelection();
+  }
+
+  public ngAfterViewInit() {
+    this.getCombinedData();
   }
 
   public setColumns(sectionsData: Array<any>) {
@@ -136,18 +144,22 @@ export class Moh731TabularComponent implements OnInit {
           // }
         };
       });
+      this.combinedDataEmitted.emit(combinedData);
+      this.airData.push(combinedData);
 
-      this.khisAirModuleResourceService
-        .postMOH731ExtractedData(combinedData)
-        .subscribe(
-          (response: any) => {
-            console.log('API Response:', response);
-            // Handle successful response here
-          },
-          (error: any) => {
-            console.error('API Error:', error);
-          }
-        );
+      return combinedData;
+
+      // this.khisAirModuleResourceService
+      //   .postMOH731ExtractedData(combinedData)
+      //   .subscribe(
+      //     (response: any) => {
+      //       console.log('API Response:', response);
+      //       // Handle successful response here
+      //     },
+      //     (error: any) => {
+      //       console.error('API Error:', error);
+      //     }
+      //   );
     }
   }
 }
