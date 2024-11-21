@@ -44,6 +44,16 @@ import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
 import { AhdReportComponent } from './ahd-report/ahd-report.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { RegistersComponent } from './registers/registers.component';
+import { HeiRegisterComponent } from './registers/hei-register/hei-register.component';
+import { AncRegisterComponent } from './registers/anc-register/anc-register.component';
+import { NutritionRegisterComponent } from './registers/nutrition-register/nutrition-register.component';
+import { MaternityRegisterComponent } from './registers/maternity-register/maternity-register.component';
+import { HtsrefferallinkageRegisterComponent } from './registers/htsrefferallinkage-register/htsrefferallinkage-register.component';
+import { PncRegisterComponent } from './registers/pnc-register/pnc-register.component';
+import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
+import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
+import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
 
 @NgModule({
   imports: [
@@ -97,7 +107,17 @@ import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-re
     TxMmdReportComponent,
     TxRttReportComponent,
     PlhivNcdV2ReportComponent,
-    AhdReportComponent
+    AhdReportComponent,
+    RegistersComponent,
+    HeiRegisterComponent,
+    AncRegisterComponent,
+    NutritionRegisterComponent,
+    MaternityRegisterComponent,
+    HtsrefferallinkageRegisterComponent,
+    PncRegisterComponent,
+    DefaultertracingRegisterComponent,
+    PrepdailyRegisterComponent,
+    CntdailyRegisterComponent
   ],
   providers: [
     DataAnalyticsDashboardService,
