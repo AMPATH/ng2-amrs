@@ -22,17 +22,8 @@
     "prestart": "node version.js",
     "prettier:check": "prettier --check src/app"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,json,css,md,ts}": [
-      "prettier --write",
-      "ng lint ngx-amrs"
-    ]
-  },
+
+
   "private": true,
   "dependencies": {
     "@ampath-kenya/ngx-openmrs-formentry": "2.12.23",
