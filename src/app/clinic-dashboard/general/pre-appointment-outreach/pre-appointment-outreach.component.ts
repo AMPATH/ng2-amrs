@@ -362,22 +362,4 @@ export class PreAppointmentOutreachComponent implements OnInit {
         (day - 1) * 24 * 60 * 60 * 1000
     );
   }
-
-  // private getISOWeek(date: Date): number {
-  //   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-  //   console.log('current dY OF THE YEAR: ', firstDayOfYear);
-  //   const daysOffset = firstDayOfYear.getDay() - 1;
-  //   const firstMondayOfYear = new Date(
-  //     firstDayOfYear.getFullYear(),
-  //     0,
-  //     1 + (daysOffset > 0 ? 7 - daysOffset : 0)
-  //   );
-
-  //   const daysPassed = Math.floor(
-  //     (date.getTime() - firstMondayOfYear.getTime()) / 86400000
-  //   );
-  //   const weeksPassed = Math.floor(daysPassed / 7) + 1;
-
-  //   return weeksPassed;
-  // }
 }
