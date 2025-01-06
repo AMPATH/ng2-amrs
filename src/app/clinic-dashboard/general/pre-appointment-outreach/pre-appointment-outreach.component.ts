@@ -87,7 +87,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
   public setSelectedWeek() {
     this.selectedFormattedWeek = this.weeks.find(
       (week) => week.value === this.selectedWeek
-    );
+    ).label;
   }
 
   public setSelectedFilterType() {
