@@ -41,7 +41,7 @@ jobs:
       - name: Upload build files to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-files
+          name: build-files-${{ github.run_id }}
           path: dist
       # - name: Run headless tests
       #   uses: GabrielBB/xvfb-action@v1
