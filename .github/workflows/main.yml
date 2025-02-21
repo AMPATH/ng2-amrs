@@ -38,17 +38,18 @@ jobs:
         run: npm run prettier:check
       - name: Build prod
         run: npm run build-prod
-      - name: Delete existing artifact (if any)
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: build-files
+      - name: Delete all existing artifacts (if any)
+        run: gh api repos/${{ github.repository }}/actions/artifacts | jq -r '.artifacts[].id' | xargs -I {} gh api -X DELETE repos/${{ github.repository }}/actions/artifacts/{}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload build files to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-files
+          name: build-files-${{ github.run_id }}-${{ github.run_attempt }}
           path: dist
           retention-days: 7
-          
+
       # - name: Run headless tests
       #   uses: GabrielBB/xvfb-action@v1
       #   with:
