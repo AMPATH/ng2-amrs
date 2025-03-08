@@ -41,6 +41,10 @@ export class DataAnalyticsDashboardComponent implements OnInit {
       case 'cdm':
         this.router.navigate(['/data-analytics', department, 'clinic-flow']);
         break;
+
+      case 'hts':
+        this.router.navigate(['/data-analytics', department, 'clinic-flow']);
+        break;
     }
   }
 

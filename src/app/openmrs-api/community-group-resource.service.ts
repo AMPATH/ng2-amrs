@@ -86,6 +86,7 @@ export class CommunityGroupService {
 
     return one$;
   }
+  //       'custom:(attributes,auditInfo,cohortLeaders,cohortType,cohortVisits,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
 
   public _getGroupByUuid(
     groupUuid: string,
@@ -94,7 +95,7 @@ export class CommunityGroupService {
     let group: any;
     const params = new HttpParams().set(
       'v',
-      'custom:(attributes,auditInfo,cohortLeaders,cohortType,cohortVisits,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
+      'custom:(attributes,auditInfo,cohortLeaders,cohortType,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
     );
     const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
     return this.http
@@ -105,6 +106,7 @@ export class CommunityGroupService {
         map((response) => {
           group = response;
           group.cohortMembers = cohortMembers;
+          console.log('group is already here', group);
           return group;
         })
       );

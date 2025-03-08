@@ -169,6 +169,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.communityGroupService.getGroupByUuid(uuid)
     ]);
     dcOtzSubs.subscribe((results) => {
+      console.log('results here', results);
       const res = results[0];
       this.numberOfMembers = res.cohortMembers.length;
       this.group = res;
@@ -221,6 +222,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public generateMembersData(cohortMembers, cohortVisits) {
+    console.log('cohortMembers', cohortMembers);
     this.membersData = [];
     this.columns = [];
     const memberUuids = this.generatePatientUuids(cohortMembers);

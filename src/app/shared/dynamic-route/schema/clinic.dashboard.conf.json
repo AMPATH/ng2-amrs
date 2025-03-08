@@ -291,6 +291,19 @@
           "isSideBarOpen": false
         }
       ]
+    },
+    {
+      "departmentName": "HTS",
+      "baseRoute": "hts",
+      "alias": "hts",
+      "routes": [
+        {
+          "url": "daily-schedule",
+          "label": "Daily Schedule",
+          "icon": "fa fa-calendar-o",
+          "isSideBarOpen": false
+        }
+      ]
     }
   ]
 }
