@@ -139,7 +139,6 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
       this.patientIdentifers = identifiers;
     });
     this.patient = this.order.patient;
-
     this.person = new Person(this.order.patient.person);
     if (
       Moment().diff(Moment(this.person.birthdate), 'months') <= 18 &&
@@ -148,7 +147,7 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         this.cccIdentifierType
       )
     ) {
-      this.isHEIActive = true;
+      this.isHEIActive = this.hasCCCNumber(this.patient) ? false : true;
     } else {
       this.isHEIActive = false;
     }
@@ -164,6 +163,17 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
     this.displayDnaPcrInputs();
     this.displayHPVInputs();
     this.setDefaultLocation();
+  }
+
+  public hasCCCNumber(patient: any): boolean {
+    const CCC_IDENTIFIER_UUID = 'f2d6ff1a-8440-4d35-a150-1d4b5a930c5e';
+
+    return patient && patient.identifiers
+      ? patient.identifiers.some(
+          (id: any) =>
+            id.identifierType && id.identifierType.uuid === CCC_IDENTIFIER_UUID
+        )
+      : false;
   }
 
   public displayPregnancy() {
