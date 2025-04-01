@@ -20,6 +20,8 @@ export class PatientTransferService {
   private transferState: BehaviorSubject<any> = new BehaviorSubject(null);
   private INTERNAL_MOVEMENT_FORM_UUID = FormUuids.INTERNAL_MOVEMENT_FORM_UUID;
   private YES_CONCEPT = 'a899b35c-1350-11df-a1f1-0026b9348838';
+  private YES_ELIGIBLE_FOR_DELIVERY_CONCEPT =
+    'a899b35c-1350-11df-a1f1-0026b9348838';
 
   constructor(private selectSetDepartmentService: SelectDepartmentService) {}
 
@@ -33,6 +35,7 @@ export class PatientTransferService {
     // check if patient status was filled
     const patientCareStatus = this.getPatientStatusQuestion();
     const referralQuestion = this.getReferralsQuestion();
+    const patientCategorizatonStatus = this.getPatientCategorizationQstn();
     const internalMovementQuestion = this.getInternalMovementQstn();
     const force =
       patientCareStatus.length > 0 &&
@@ -152,6 +155,15 @@ export class PatientTransferService {
     } else {
       this.transferState.next({ loadInternalMovementForm: false });
     }
+
+    if (patientCategorizatonStatus) {
+      if (this.loadProjectBeyondForm()) {
+        this.transferState.next({
+          transfer: true,
+          loadProjectBeyondForm: true
+        });
+      }
+    }
     return this.transferState;
   }
 
@@ -208,6 +220,13 @@ export class PatientTransferService {
     }
   }
 
+  private getPatientCategorizationQstn(): boolean {
+    const eligibleDeliveryQuestion = this.searchNodeByQuestionId(
+      'EligibleDelivery' // 'establishCategory'
+    );
+    return this.containsEligibleForDeliveryAnwer(eligibleDeliveryQuestion);
+  }
+
   public getPatientStatusQuestion() {
     // (questionId is patstat in Outreach Field Follow-Up Form V1.0)
     // (questionId is careStatus in Transfer Out Form v0.01 and other forms
@@ -249,6 +268,18 @@ export class PatientTransferService {
     return !_.includes(
       [
         FormUuids.TRANSFER_OUT_FORM_UUID // AMPATH POC Transfer Out Form
+      ],
+      this.componentRef.formUuid
+    );
+  }
+
+  private loadProjectBeyondForm() {
+    /**
+     *  Only load the Project Beyond Consent form from return or initial forms only
+     */
+    return !_.includes(
+      [
+        FormUuids.PROJECT_BEYOND_CONSENT_UUID // AMPATH POC Project Beyond Consent Form
       ],
       this.componentRef.formUuid
     );
@@ -376,5 +407,14 @@ export class PatientTransferService {
     }
 
     return value === this.YES_CONCEPT;
+  }
+
+  private containsEligibleForDeliveryAnwer(interMovementQstn: any[]): boolean {
+    let value = '';
+    if (interMovementQstn) {
+      value = _.first(interMovementQstn).control.value;
+    }
+
+    return value === this.YES_ELIGIBLE_FOR_DELIVERY_CONCEPT;
   }
 }

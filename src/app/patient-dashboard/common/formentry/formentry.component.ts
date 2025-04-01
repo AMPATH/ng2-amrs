@@ -733,6 +733,28 @@ export class FormentryComponent implements OnInit, OnDestroy {
                 }
               });
             }, 1);
+          } else if (transfer.loadProjectBeyondForm) {
+            this.confirmationService.confirm({
+              header: 'Confirm Patient Consent',
+              rejectVisible: true,
+              acceptVisible: true,
+              message: `You have chosen to consent this patient for medication delivery. Do you wish to complete consent?`,
+              accept: () => {
+                this.router.navigate(
+                  [
+                    '/patient-dashboard/patient/' +
+                      this.patient.uuid +
+                      '/hiv/' +
+                      this.activeProgram +
+                      '/formentry/1a12eede-98ca-4691-86d3-bbfb564d45c2'
+                  ],
+                  { queryParams: transfer.params }
+                );
+              },
+              reject: () => {
+                this.showSuccessDialog = true;
+              }
+            });
           } else if (transfer.loadInternalMovementForm) {
             setTimeout(() => {
               this.confirmationService.confirm({
