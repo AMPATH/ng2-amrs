@@ -139,6 +139,22 @@
             <p *ngIf="!isHEIActive">
               RTC Date: {{ patientData?.rtc_date | date: 'dd-MM-yyyy' }}
             </p>
+            <p *ngIf="!isHEIActive && patientData.hpv != null">
+              HPV Test:
+              {{
+                patientData?.hpv == 664
+                  ? 'NEGATIVE'
+                  : patientData?.hpv == 703
+                  ? 'POSITIVE'
+                  : patientData?.hpv == 1138
+                  ? 'INDETERMINATE'
+                  : ''
+              }}
+            </p>
+            <p *ngIf="!isHEIActive && patientData.hpv != null">
+              HPV Test Date:
+              {{ patientData?.hpv_test_date | date: 'dd-MM-yyyy' }}
+            </p>
             <p *ngIf="isHEIActive">
               Infant Feeding Method: {{ infant_feeding_method }}
             </p>
