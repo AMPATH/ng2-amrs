@@ -439,7 +439,7 @@ export class VisitDetailsComponent implements OnInit {
     this.cancelCurrenVisit_Void(this.cancellationReasons);
     this.cancellationReasons = '';
     this.modalRef.hide();
-    this.cancelCurrenVisit('Visit Cancelled');
+    this.cancelCurrenVisit('');
     this.toastrService.showToastr(
       'success',
       `Visit cancelled successfully`,
