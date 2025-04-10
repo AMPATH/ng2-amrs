@@ -755,6 +755,31 @@ export class FormentryComponent implements OnInit, OnDestroy {
                 this.showSuccessDialog = true;
               }
             });
+          } else if (transfer.loadCommunityPharmacyForm) {
+            setTimeout(() => {
+              this.confirmationService.confirm({
+                header: 'Confirm Community Pharmacy Refill Presciption',
+                rejectVisible: true,
+                acceptVisible: true,
+                message: `You have chosen to fill community pharmacy presciption for this patient as mode of medication delivery. Do you wish to continue?`,
+                accept: () => {
+                  localStorage.removeItem('community_model_uuid');
+                  this.router.navigate(
+                    [
+                      '/patient-dashboard/patient/' +
+                        this.patient.uuid +
+                        '/hiv/' +
+                        this.activeProgram +
+                        '/formentry/b88c3e58-2393-4216-bda3-f8e820648083'
+                    ],
+                    { queryParams: transfer.params }
+                  );
+                },
+                reject: () => {
+                  this.showSuccessDialog = true;
+                }
+              });
+            }, 1);
           } else if (transfer.loadInternalMovementForm) {
             setTimeout(() => {
               this.confirmationService.confirm({
