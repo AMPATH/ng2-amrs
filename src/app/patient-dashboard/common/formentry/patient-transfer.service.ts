@@ -22,6 +22,7 @@ export class PatientTransferService {
   private YES_CONCEPT = 'a899b35c-1350-11df-a1f1-0026b9348838';
   private YES_ELIGIBLE_FOR_DELIVERY_CONCEPT =
     'a899b35c-1350-11df-a1f1-0026b9348838';
+  private COMMUNITY_PHARMACY_CONCEPT = '33363568-fb62-4063-b0ac-e37be1d23514';
 
   constructor(private selectSetDepartmentService: SelectDepartmentService) {}
 
@@ -36,6 +37,7 @@ export class PatientTransferService {
     const patientCareStatus = this.getPatientStatusQuestion();
     const referralQuestion = this.getReferralsQuestion();
     const patientCategorizatonStatus = this.getPatientCategorizationQstn();
+    const patientCommunityModelStatus = this.getPatientCommunityModelQstn();
     const internalMovementQuestion = this.getInternalMovementQstn();
     const force =
       patientCareStatus.length > 0 &&
@@ -164,6 +166,33 @@ export class PatientTransferService {
         });
       }
     }
+
+    if (patientCommunityModelStatus) {
+      // set uuid to local storage
+      // check for uuid in localstorage and run below code if its true
+      localStorage.setItem(
+        'community_model_uuid',
+        this.COMMUNITY_PHARMACY_CONCEPT
+      );
+      // if (this.loadCommunityPharmacyForm()) {
+      //   this.transferState.next({
+      //     transfer: true,
+      //     loadCommunityPharmacyForm: true
+      //   });
+      // }
+    }
+
+    if (
+      !patientCommunityModelStatus &&
+      localStorage.getItem('community_model_uuid')
+    ) {
+      if (this.loadCommunityPharmacyForm()) {
+        this.transferState.next({
+          transfer: true,
+          loadCommunityPharmacyForm: true
+        });
+      }
+    }
     return this.transferState;
   }
 
@@ -222,9 +251,24 @@ export class PatientTransferService {
 
   private getPatientCategorizationQstn(): boolean {
     const eligibleDeliveryQuestion = this.searchNodeByQuestionId(
-      'EligibleDelivery' // 'establishCategory'
+      'EligibleDelivery' // 'establishCategory' // communityModel 33363568-fb62-4063-b0ac-e37be1d23514
     );
-    return this.containsEligibleForDeliveryAnwer(eligibleDeliveryQuestion);
+    // return this.containsEligibleForDeliveryAnwer(eligibleDeliveryQuestion);
+    return this.hasExpectedAnswer(
+      eligibleDeliveryQuestion,
+      this.YES_ELIGIBLE_FOR_DELIVERY_CONCEPT
+    );
+  }
+
+  private getPatientCommunityModelQstn(): boolean {
+    const eligibleDeliveryQuestion = this.searchNodeByQuestionId(
+      'communityModel'
+    );
+    // return this.containsEligibleForDeliveryAnwer(eligibleDeliveryQuestion);
+    return this.hasExpectedAnswer(
+      eligibleDeliveryQuestion,
+      this.COMMUNITY_PHARMACY_CONCEPT
+    );
   }
 
   public getPatientStatusQuestion() {
@@ -281,6 +325,16 @@ export class PatientTransferService {
       [
         FormUuids.PROJECT_BEYOND_CONSENT_UUID // AMPATH POC Project Beyond Consent Form
       ],
+      this.componentRef.formUuid
+    );
+  }
+
+  private loadCommunityPharmacyForm() {
+    /**
+     *  Only load community pharmacy refill form from project beyond consent form
+     */
+    return !_.includes(
+      [FormUuids.COMMUNITY_PHARMACY_CONSENT_UUID],
       this.componentRef.formUuid
     );
   }
@@ -416,5 +470,19 @@ export class PatientTransferService {
     }
 
     return value === this.YES_ELIGIBLE_FOR_DELIVERY_CONCEPT;
+  }
+
+  private hasExpectedAnswer(questions: any[], expectedValue: string): boolean {
+    if (!questions || questions.length === 0) {
+      return false;
+    }
+
+    const firstQuestion = _.first(questions);
+    const value =
+      firstQuestion && firstQuestion.control
+        ? firstQuestion.control.value
+        : null;
+
+    return value === expectedValue;
   }
 }
