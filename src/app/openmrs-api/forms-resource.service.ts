@@ -23,13 +23,12 @@ export class FormsResourceService {
   public getForms(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
 
-    const params = new HttpParams()
-      .set(
-        'v',
-        'custom:(uuid,name,encounterType:(uuid,name),version,' +
-          'published,retired,resources:(uuid,name,dataType,valueReference))'
-      )
-      .set('q', 'POC');
+    const params = new HttpParams().set(
+      'v',
+      'custom:(uuid,name,encounterType:(uuid,name),version,' +
+        'published,retired,resources:(uuid,name,dataType,valueReference))'
+    );
+    // .set('q', 'POC');
 
     if (!this.forms.observers.length || forceRefresh) {
       this.http
