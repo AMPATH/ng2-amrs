@@ -1,0 +1,73 @@
+.collapsible-list {
+  list-style: none;
+  padding: 0;
+}
+.item-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #d9edf7;
+  border: 1px solid #00acd6;
+}
+.collapse-icon {
+  font-weight: bold;
+}
+.item-details {
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.setfont {
+  font-size: 12px !important;
+}
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.patient-info {
+  margin-bottom: 20px;
+}
+.medication-list {
+  border-collapse: collapse;
+  margin: 8px;
+}
+.medication-list th,
+.medication-list td {
+  border: 1px solid #000000;
+  padding: 0px;
+  text-align: left;
+}
+.footer {
+  text-align: center;
+  margin-top: 20px;
+}
+.setfont {
+  font-size: 14px !important;
+}
+.ppadding {
+  padding-right: 15px;
+}
+
+tbody tr {
+  height: 10px !important;
+  font-size: 12px !important;
+}
+
+tbody tr td {
+  min-width: 100px;
+  text-align: center;
+}
+
+.alphabets > td {
+  text-align: center;
+}
+.alphabets {
+  background-color: #d9edf7;
+}
+
+.exportToExcelBtn {
+  margin-top: 10px;
+  padding-bottom: 12px;
+}
