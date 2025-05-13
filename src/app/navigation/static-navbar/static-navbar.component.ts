@@ -32,6 +32,14 @@ export class StaticNavBarComponent implements OnInit {
     if (department) {
       this.department = JSON.parse(department)[0].itemName;
     }
+    if (localStorage.getItem('cacheCleared') === 'true') {
+      this.updateForms();
+      this.formUpdaterService.showPlainToast(
+        'Cache cleared successfully',
+        3000
+      );
+      localStorage.removeItem('cacheCleared');
+    }
   }
 
   public logout() {
@@ -62,5 +70,23 @@ export class StaticNavBarComponent implements OnInit {
 
   private updateForms() {
     this.formUpdaterService.getUpdatedForms();
+  }
+  private clearCache() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (const registration of registrations) {
+          registration.unregister();
+        }
+        caches
+          .keys()
+          .then((cacheNames) => {
+            return Promise.all(cacheNames.map((cache) => caches.delete(cache)));
+          })
+          .then(() => {
+            localStorage.setItem('cacheCleared', 'true');
+            window.location.reload(); // Refresh the app
+          });
+      });
+    }
   }
 }
