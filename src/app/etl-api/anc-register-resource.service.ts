@@ -18,7 +18,7 @@ export class ANCRegisterResourceService {
   public getANCRegisterRegister(params: any): Observable<any> {
     return this.http
       .get(
-        `${this.url}registers/ancregister?endDate=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}registers/ancregister?startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {

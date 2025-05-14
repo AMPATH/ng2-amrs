@@ -12,7 +12,8 @@
       <report-filters
         [enabledControls]="enabledControls"
         (startDateChange)="onMonthChange($event)"
-        [startDate]="_month"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
@@ -203,38 +204,206 @@
               {{ data.ccc_number }}
             </td>
             <td rowspan="2">{{ data.age }}</td>
-            <td rowspan="2">{{ data.started_on_art }}</td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2">{{ data.screened_for_tb }}</td>
-            <td rowspan="2"></td>
-            <td rowspan="2">{{ data.started_on_tpt }}</td>
-            <td rowspan="2"></td>
-            <td rowspan="2">{{ data.current_on_art }}</td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
-            <td rowspan="2"></td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age < 1 && data.gender == 'M'">
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age < 1 && data.gender == 'F'">
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 1 && data.age <= 4 && data.gender == 'M'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 1 && data.age <= 4 && data.gender == 'F'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 5 && data.age <= 9 && data.gender == 'M'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 5 && data.age <= 9 && data.gender == 'F'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 10 && data.age <= 14 && data.gender == 'M'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 10 && data.age <= 14 && data.gender == 'F'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 15 && data.age <= 19 && data.gender == 'M'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 15 && data.age <= 19 && data.gender == 'F'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 20 && data.age <= 24 && data.gender == 'M'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 20 && data.age <= 24 && data.gender == 'F'"
+              >
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age >= 25 && data.gender == 'M'">
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age >= 25 && data.gender == 'F'">
+                {{ data.started_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age < 15">
+                {{ data.screened_for_tb }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age >= 15">
+                {{ data.screened_for_tb }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age < 15">
+                {{ data.started_on_tpt }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age >= 15">
+                {{ data.started_on_tpt }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age < 1 && data.gender == 'M'">
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age < 1 && data.gender == 'F'">
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 1 && data.age <= 4 && data.gender == 'M'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 1 && data.age <= 4 && data.gender == 'F'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 5 && data.age <= 9 && data.gender == 'M'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 5 && data.age <= 9 && data.gender == 'F'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 10 && data.age <= 14 && data.gender == 'M'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 10 && data.age <= 14 && data.gender == 'F'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 15 && data.age <= 19 && data.gender == 'M'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 15 && data.age <= 19 && data.gender == 'F'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 20 && data.age <= 24 && data.gender == 'M'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container
+                *ngIf="data.age >= 20 && data.age <= 24 && data.gender == 'F'"
+              >
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age >= 25 && data.gender == 'M'">
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
+            <td rowspan="2">
+              <ng-container *ngIf="data.age >= 25 && data.gender == 'F'">
+                {{ data.current_on_art }}
+              </ng-container>
+            </td>
             <td colspan="2" rowspan="2">{{ data.dsd_status }}</td>
             <td colspan="2" rowspan="2">{{ data.dsd_type }}</td>
             <td colspan="4" rowspan="2">{{ data.remarks }}</td>
