@@ -10,9 +10,9 @@
   <div>
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
       <report-filters
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
         [enabledControls]="enabledControls"
-        (startDateChange)="onMonthChange($event)"
-        [startDate]="_month"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
@@ -201,6 +201,11 @@
     </table>
   </div>
 </div>
-<div *ngIf="prepRegisterData.length == 0 && generated">
-  <i class="alert alert-danger" style="width: 100%">No record found</i>
+<div
+  *ngIf="prepRegisterData.length == 0 && generated"
+  class="text-center rounded"
+>
+  <i class="alert alert-info text-center" style="width: 100%"
+    >No record found</i
+  >
 </div>

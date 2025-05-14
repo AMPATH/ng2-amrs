@@ -42,11 +42,30 @@ export class PrepdailyRegisterComponent implements OnInit {
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
-  public enabledControls = 'locationControl,dayControl';
+  public enabledControls = 'datesControl, locationControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
   public generated = false;
+
+  private _startDate: Date = Moment().toDate();
+  public get startDate(): Date {
+    return this._startDate;
+  }
+
+  public set startDate(v: Date) {
+    this._startDate = v;
+  }
+
+  private _endDate: Date = new Date();
+  public get endDate(): Date {
+    return this._endDate;
+  }
+
+  public set endDate(v: Date) {
+    this._endDate = v;
+  }
+
   @ViewChild('prepcontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -107,7 +126,9 @@ export class PrepdailyRegisterComponent implements OnInit {
   public storeParamsInUrl() {
     this.params = {
       locationUuids: this.jointLocationUuids,
-      month: Moment(this._month).format('YYYY-MM-DD')
+      month: Moment(this._month).format('YYYY-MM-DD'),
+      startDate: Moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: Moment(this.endDate).format('YYYY-MM-DD')
     };
     this.router.navigate([], {
       relativeTo: this.route,
@@ -117,6 +138,7 @@ export class PrepdailyRegisterComponent implements OnInit {
 
   public getPrEPRegisterReport(params: any) {
     this.isLoading = true;
+    console.log('PREP PARAMS ARE: ' + JSON.stringify(params));
     this.register.getPrEPRegisterReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
@@ -125,6 +147,7 @@ export class PrepdailyRegisterComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.prepRegisterData = data;
+        console.log('PREP DATA IS: ' + JSON.stringify(data));
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
       }

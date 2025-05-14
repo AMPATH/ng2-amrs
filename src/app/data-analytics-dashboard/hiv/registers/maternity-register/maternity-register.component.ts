@@ -28,7 +28,7 @@ export class MaternityRegisterComponent implements OnInit {
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
-  public enabledControls = 'locationControl,monthControl';
+  public enabledControls = 'datesControl, locationControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
@@ -46,6 +46,24 @@ export class MaternityRegisterComponent implements OnInit {
       }
     });
     this._locationUuids = locationUuids;
+  }
+
+  private _startDate: Date = Moment().toDate();
+  public get startDate(): Date {
+    return this._startDate;
+  }
+
+  public set startDate(v: Date) {
+    this._startDate = v;
+  }
+
+  private _endDate: Date = new Date();
+  public get endDate(): Date {
+    return this._endDate;
+  }
+
+  public set endDate(v: Date) {
+    this._endDate = v;
   }
 
   constructor(public router: Router, public route: ActivatedRoute) {
@@ -81,7 +99,9 @@ export class MaternityRegisterComponent implements OnInit {
       _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
+      _date: Moment(this._month).format('DD-MM-YYYY'),
+      startDate: Moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: Moment(this.endDate).format('YYYY-MM-DD')
     };
     this.router.navigate([], {
       relativeTo: this.route,
