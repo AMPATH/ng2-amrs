@@ -45,6 +45,7 @@ export class HeiRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
   @ViewChild('heicontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -117,6 +118,7 @@ export class HeiRegisterComponent implements OnInit {
     });
     this.heiRegisterData = [];
     this.getHeiRegisterData(this.params);
+    this.generated = true;
   }
 
   public storeParamsInUrl() {

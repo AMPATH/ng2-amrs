@@ -44,6 +44,7 @@ export class CntdailyRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
   @ViewChild('cntdarcontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -116,6 +117,7 @@ export class CntdailyRegisterComponent implements OnInit {
     });
     this.careTreatmentRegisterData = [];
     this.getCareTreatmentRegisterData(this.params);
+    this.generated = true;
   }
 
   public storeParamsInUrl() {
