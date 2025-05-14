@@ -18,7 +18,7 @@ export class RegistersResourceService {
   public getPrEPRegisterReport(params: any): Observable<any> {
     return this.http
       .get(
-        `${this.url}registers/prepregisterdata?month=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}registers/prepregisterdata?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
@@ -37,7 +37,7 @@ export class RegistersResourceService {
   public getDefaulterTracingRegister(params: any): Observable<any> {
     return this.http
       .get(
-        `${this.url}registers/defaultertracing?month=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}registers/defaultertracing?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {

@@ -12,7 +12,8 @@
       <report-filters
         [enabledControls]="enabledControls"
         (startDateChange)="onMonthChange($event)"
-        [startDate]="_month"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
         [reportName]="reportName"
         (generateReport)="generateReport()"
       >
