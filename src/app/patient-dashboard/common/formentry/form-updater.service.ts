@@ -104,7 +104,7 @@ export class FormUpdaterService {
     });
   }
 
-  private showPlainToast(message: string, duration?: number) {
+  public showPlainToast(message: string, duration?: number) {
     if (duration) {
       this.toast.success(message, '', {
         timeOut: duration,
