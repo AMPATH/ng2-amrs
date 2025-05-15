@@ -132,17 +132,14 @@ export class HtsrefferallinkageRegisterComponent implements OnInit {
     this.isLoading = true;
     this.htsService.getHtsReferralLinkageReport(params).subscribe(
       (data) => {
-        console.log('HTS RESULTS ARE: ' + JSON.stringify(data));
-        console.log('data', data.result);
         if (data.error) {
-          console.log('---error---', data.error);
           this.showInfoMessage = true;
           this.errorMessage = `There has been an error while loading the report, please retry again`;
           this.isLoading = false;
         } else {
           this.isLoading = false;
           this.showInfoMessage = false;
-          const transformedData = this.transformApiData(data.result);
+          const transformedData = this.transformApiData(data);
           this.htsLabData = transformedData.htsLabData || [];
           this.htsLinkageData = transformedData.htsLinkageData || [];
           this.pinnedBottomRowData = transformedData.pinnedBottomRowData || [];
