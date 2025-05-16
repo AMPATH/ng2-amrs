@@ -85,6 +85,16 @@ export class MOH412PatientListComponent implements OnInit {
       field: 'via_or_via_vili_test_result',
       width: 100
     },
+    {
+      headerName: 'HPV Result',
+      field: 'hpv_test_result',
+      width: 100
+    },
+    {
+      headerName: 'Colposcopy Result',
+      field: 'colposcopy_test_result',
+      width: 100
+    },
     { headerName: 'Treatment Method', field: 'treatment_method', width: 200 }
   ];
   public gridOptions: GridOptions = {

@@ -86,7 +86,8 @@ interface StoreType {
     }),
     ToastrModule.forRoot({
       toastComponent: PatientReminderCustomComponent,
-      timeOut: 0
+      timeOut: 3000, // default timeout (can still be overridden)
+      disableTimeOut: false
     }),
     CacheModule.forRoot()
   ],
