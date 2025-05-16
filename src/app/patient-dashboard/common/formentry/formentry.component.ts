@@ -141,6 +141,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     message: ''
   };
   public isOtzProgram = false;
+  private YES_ELIGIBLE_FOR_DELIVERY_CONCEPT =
+    'a899b35c-1350-11df-a1f1-0026b9348838';
+  private COMMUNITY_PHARMACY_CONCEPT = '33363568-fb62-4063-b0ac-e37be1d23514';
+  private isEligibleForDelivery = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -733,6 +737,53 @@ export class FormentryComponent implements OnInit, OnDestroy {
                 }
               });
             }, 1);
+          } else if (transfer.loadProjectBeyondForm) {
+            this.confirmationService.confirm({
+              header: 'Confirm Patient Consent',
+              rejectVisible: true,
+              acceptVisible: true,
+              message: `You have chosen to consent this patient for medication delivery. Do you wish to complete consent?`,
+              accept: () => {
+                this.router.navigate(
+                  [
+                    '/patient-dashboard/patient/' +
+                      this.patient.uuid +
+                      '/hiv/' +
+                      this.activeProgram +
+                      '/formentry/1a12eede-98ca-4691-86d3-bbfb564d45c2'
+                  ],
+                  { queryParams: transfer.params }
+                );
+              },
+              reject: () => {
+                this.showSuccessDialog = true;
+              }
+            });
+          } else if (transfer.loadCommunityPharmacyForm) {
+            setTimeout(() => {
+              this.confirmationService.confirm({
+                header: 'Confirm Community Pharmacy Refill Presciption',
+                rejectVisible: true,
+                acceptVisible: true,
+                message: `You have chosen to fill community pharmacy presciption for this patient as mode of medication delivery. Do you wish to continue?`,
+                accept: () => {
+                  localStorage.removeItem('community_model_uuid');
+                  this.router.navigate(
+                    [
+                      '/patient-dashboard/patient/' +
+                        this.patient.uuid +
+                        '/hiv/' +
+                        this.activeProgram +
+                        '/formentry/b88c3e58-2393-4216-bda3-f8e820648083'
+                    ],
+                    { queryParams: transfer.params }
+                  );
+                },
+                reject: () => {
+                  this.showSuccessDialog = true;
+                }
+              });
+            }, 1);
           } else if (transfer.loadInternalMovementForm) {
             setTimeout(() => {
               this.confirmationService.confirm({
@@ -1286,6 +1337,21 @@ export class FormentryComponent implements OnInit, OnDestroy {
             this.isOtzProgram = true;
             this.enrollPatientToOtzProgram();
           }
+          if (this.formUuid === 'ecd6011b-3263-41c8-bc8e-a1dfa3b939f7') {
+            const patientCategorizatonStatus = this.getPatientCategorizationQstn();
+            const patientCommunityModelStatus = this.getPatientCommunityModelQstn();
+
+            if (patientCategorizatonStatus) {
+              this.isEligibleForDelivery = true;
+            }
+
+            if (patientCommunityModelStatus) {
+              localStorage.setItem(
+                'community_model_uuid',
+                this.COMMUNITY_PHARMACY_CONCEPT
+              );
+            }
+          }
         },
         (err) => {
           console.error('error', err);
@@ -1295,6 +1361,41 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.formSubmissionService.setSubmitStatus(false);
         }
       );
+  }
+
+  private getPatientCategorizationQstn(): boolean {
+    const eligibleForDeliveryQuestion = this.form.searchNodeByQuestionId(
+      'EligibleDelivery'
+    );
+    return this.hasExpectedAnswer(
+      eligibleForDeliveryQuestion,
+      this.YES_ELIGIBLE_FOR_DELIVERY_CONCEPT
+    );
+  }
+
+  private getPatientCommunityModelQstn(): boolean {
+    const eligibleDeliveryQuestion = this.form.searchNodeByQuestionId(
+      'communityModel'
+    );
+    // return this.containsEligibleForDeliveryAnwer(eligibleDeliveryQuestion);
+    return this.hasExpectedAnswer(
+      eligibleDeliveryQuestion,
+      this.COMMUNITY_PHARMACY_CONCEPT
+    );
+  }
+
+  private hasExpectedAnswer(questions: any[], expectedValue: string): boolean {
+    if (!questions || questions.length === 0) {
+      return false;
+    }
+
+    const firstQuestion = _.first(questions);
+    const value =
+      firstQuestion && firstQuestion.control
+        ? firstQuestion.control.value
+        : null;
+
+    return value === expectedValue;
   }
 
   private enrollPatientToOtzProgram() {
@@ -1553,7 +1654,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
         .subscribe(
           (results) => {
             this.isBusyIndicator(false, '');
-            this.showSuccessDialog = true;
+            // this.showSuccessDialog = true;
             this.diffCareReferralStatus = results.differentiatedCare;
             interval(10000).pipe(map((x) => (this.counter = x)));
             setTimeout(() => {
@@ -1561,6 +1662,32 @@ export class FormentryComponent implements OnInit, OnDestroy {
                 this.navigateTo('groupEnrollment');
               }
             }, 10000);
+            if (this.isEligibleForDelivery) {
+              this.preserveFormAsDraft = false;
+              this.confirmationService.confirm({
+                header: 'Confirm Patient Consent',
+                rejectVisible: true,
+                acceptVisible: true,
+                message: `You have chosen to consent this patient for medication delivery. Do you wish to complete consent?`,
+                accept: () => {
+                  this.router.navigate(
+                    [
+                      '/patient-dashboard/patient/' +
+                        this.patient.uuid +
+                        '/hiv/' +
+                        this.activeProgram +
+                        '/formentry/1a12eede-98ca-4691-86d3-bbfb564d45c2'
+                    ]
+                    // { queryParams: "" }
+                  );
+                },
+                reject: () => {
+                  this.showSuccessDialog = true;
+                }
+              });
+            } else {
+              this.showSuccessDialog = true;
+            }
           },
           (error) => {
             console.error('Error processing referrals', error);
