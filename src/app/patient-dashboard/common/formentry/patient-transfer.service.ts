@@ -174,12 +174,6 @@ export class PatientTransferService {
         'community_model_uuid',
         this.COMMUNITY_PHARMACY_CONCEPT
       );
-      // if (this.loadCommunityPharmacyForm()) {
-      //   this.transferState.next({
-      //     transfer: true,
-      //     loadCommunityPharmacyForm: true
-      //   });
-      // }
     }
 
     if (
