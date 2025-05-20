@@ -72,6 +72,10 @@ export class LabOrdersSearchHelperService {
       {
         name: 'Ampath',
         value: 'ampath'
+      },
+      {
+        name: 'Busia',
+        value: 'busia'
       }
     ];
   }
