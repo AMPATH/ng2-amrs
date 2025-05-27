@@ -23,7 +23,7 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   public loadingpreAppointmentOutreachList = false;
 
   public selectedDate: string;
-  
+
   // Pickup statistics
   public completedCount = 0;
   public pendingCount = 0;
@@ -172,7 +172,7 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   private filterPatientsByDate() {
     if (this.selectedDate) {
       this.dailyVisitsPatientList = this.mockPatientData.filter(
-        patient => patient.pickup_date === this.selectedDate
+        (patient) => patient.pickup_date === this.selectedDate
       );
     } else {
       this.dailyVisitsPatientList = [...this.mockPatientData];
@@ -181,9 +181,15 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   }
 
   private calculatePickupStats() {
-    this.completedCount = this.dailyVisitsPatientList.filter(p => p.pickup_status === 'Completed').length;
-    this.pendingCount = this.dailyVisitsPatientList.filter(p => p.pickup_status === 'Pending').length;
-    this.overdueCount = this.dailyVisitsPatientList.filter(p => p.pickup_status === 'Overdue').length;
+    this.completedCount = this.dailyVisitsPatientList.filter(
+      (p) => p.pickup_status === 'Completed'
+    ).length;
+    this.pendingCount = this.dailyVisitsPatientList.filter(
+      (p) => p.pickup_status === 'Pending'
+    ).length;
+    this.overdueCount = this.dailyVisitsPatientList.filter(
+      (p) => p.pickup_status === 'Overdue'
+    ).length;
   }
 
   public extraColumns() {
@@ -329,12 +335,12 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   public generateReport(): void {
     if (this.locationUuids && this.selectedDate) {
       this.loadingpreAppointmentOutreachList = true;
-      
+
       // Simulate API call with setTimeout
       setTimeout(() => {
         this.loadingpreAppointmentOutreachList = false;
         this.filterPatientsByDate();
-        
+
         // Update URL with query parameters
         this.router.navigate([], {
           relativeTo: this.route,
