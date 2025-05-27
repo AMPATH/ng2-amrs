@@ -1,0 +1,111 @@
+<h4 class="component-title" style="color: green">
+    <span class="fa fa-pills"></span> Medication Pick Up Patient List
+  </h4>
+  
+  <div class="loader" *ngIf="loadingpreAppointmentOutreachList">
+    <span>
+      <i class="fa fa-spinner fa-spin"></i>Loading medication pickup patient list...
+    </span>
+  </div>
+  
+  <div class="container-fluid">
+    <form class="form-horizontal">
+      <div class="row pre-appointment-outreach-container align-items-center">
+        
+        <!-- Date Input -->
+        <div class="col-xs-12 col-sm-6 col-md-6 d-flex align-items-center">
+          <label for="date-selector" class="mb-0 mr-2">
+            <b>Select Pickup Date:</b>
+          </label>
+          <input
+            type="date"
+            class="form-control"
+            id="date-selector"
+            name="selectedDate"
+            [(ngModel)]="selectedDate"
+            (ngModelChange)="onDateChange()"
+          />
+        </div>
+        
+        <!-- Button aligned to the right -->
+        <div class="col-xs-12 col-sm-6 col-md-6 text-right">
+          <button
+            type="button"
+            id="btn-generate-report"
+            class="btn btn-primary btn-search btn-filter"
+            (click)="generateReport()"
+            [disabled]="loadingpreAppointmentOutreachList"
+          >
+            <i class="fa fa-search" *ngIf="!loadingpreAppointmentOutreachList"></i>
+            <i class="fa fa-spinner fa-spin" *ngIf="loadingpreAppointmentOutreachList"></i>
+            Generate Patient List
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div *ngIf="errors && errors.length > 0" style="color: red !important">
+    <div *ngFor="let error of errors">{{ error.message }}</div>
+  </div>
+  
+  <!-- Summary cards for pickup statistics -->
+  <div class="row" *ngIf="dailyVisitsPatientList.length > 0" style="margin: 10px 0;">
+    <div class="col-sm-3 col-xs-6">
+      <div class="panel panel-info" style="margin-bottom: 10px;">
+        <div class="panel-body text-center" style="padding: 10px;">
+          <small>Total Patients</small>
+          <h4 style="color: #337ab7; margin: 5px 0;">{{ dailyVisitsPatientList.length }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="panel panel-success" style="margin-bottom: 10px;">
+        <div class="panel-body text-center" style="padding: 10px;">
+          <small>Completed</small>
+          <h4 style="color: #5cb85c; margin: 5px 0;">{{ completedCount }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="panel panel-warning" style="margin-bottom: 10px;">
+        <div class="panel-body text-center" style="padding: 10px;">
+          <small>Pending</small>
+          <h4 style="color: #f0ad4e; margin: 5px 0;">{{ pendingCount }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <div class="panel panel-danger" style="margin-bottom: 10px;">
+        <div class="panel-body text-center" style="padding: 10px;">
+          <small>Overdue</small>
+          <h4 style="color: #d9534f; margin: 5px 0;">{{ overdueCount }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <patient-list
+    [data]="dailyVisitsPatientList"
+    [extraColumns]="extraColumns()"
+    [hivColumns]="true"
+    (resetFilter)="resetFilter($event)"
+  ></patient-list>
+  
+  <p
+    class="bg-info"
+    style="padding: 4px"
+    *ngIf="dailyVisitsPatientList.length > 0"
+  >
+    <b>
+      <span style="color: green" class="glyphicon glyphicon-ok">
+        All records loaded {{ '[ ' + dailyVisitsPatientList.length + ']' }}
+      </span>
+    </b>
+  </p>
+  
+  <div *ngIf="dailyVisitsPatientList.length === 0 && !loadingpreAppointmentOutreachList" 
+       class="alert alert-info">
+    <i class="fa fa-info-circle"></i>
+    No medication pickup records found for the selected date. Please try a different date or generate the report.
+  </div>

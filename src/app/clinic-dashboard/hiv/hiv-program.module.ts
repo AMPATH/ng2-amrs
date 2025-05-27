@@ -86,6 +86,7 @@ import { ClinicDashboardCovid19ReportComponent } from './covid-19-report/clinic-
 import { PreAppointmentOutreachResourceService } from 'src/app/etl-api/pre-appointment-outreach-resource.service';
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { MedicationPickUpPatientListComponent } from '../general/appointments/medication-pickup-patient-list.component';
 
 @NgModule({
   imports: [
@@ -191,7 +192,8 @@ import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-re
     DefaulterListFilterComponent,
     ClinicDashboardCovid19ReportComponent,
     PreAppointmentOutreachComponent,
-    PlhivNcdV2ReportComponent
+    PlhivNcdV2ReportComponent,
+    MedicationPickUpPatientListComponent
   ],
   providers: [
     ClinicalSummaryVisualizationService,

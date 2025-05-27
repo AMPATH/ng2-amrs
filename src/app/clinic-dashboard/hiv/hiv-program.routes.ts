@@ -68,6 +68,7 @@ import { Covid19ReportPatientListComponent } from './../../hiv-care-lib/covid-19
 import { PreAppointmentOutreachComponent } from '../general/pre-appointment-outreach/pre-appointment-outreach.component';
 import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { MedicationPickUpPatientListComponent } from '../general/appointments/medication-pickup-patient-list.component';
 
 const routes: Routes = [
   {
@@ -535,6 +536,10 @@ const routes: Routes = [
   {
     path: 'pre-appoinment-outreach',
     component: PreAppointmentOutreachComponent
+  },
+  {
+    path: 'appointment-schedule',
+    component: MedicationPickUpPatientListComponent
   },
   {
     path: 'family-testing',
