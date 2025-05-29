@@ -131,7 +131,7 @@ export class PatientTransferService {
       ) {
         // HIV Differentiated Program
         _.merge(queryParams, {
-          program: Programs.HIV_DIFFERENTIATED_CARE_PROGRAM.uuid,
+          program: Programs.DIFFERENTIATED_SERVICE_DELIVERY_PROGRAM.uuid,
           notice: 'dc'
         });
         const location: any = this.componentRef.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();

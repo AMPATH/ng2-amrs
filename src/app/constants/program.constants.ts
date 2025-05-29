@@ -24,9 +24,9 @@ const STANDARD_HIV_PROGRAM: Program = {
   dept: 'HIV',
   compatibleWithOtherDeptPrograms: false
 };
-const HIV_DIFFERENTIATED_CARE_PROGRAM: Program = {
+const DIFFERENTIATED_SERVICE_DELIVERY_PROGRAM: Program = {
   uuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
-  name: 'HIV DIFFERENTIATED CARE PROGRAM',
+  name: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
   dept: 'HIV',
   compatibleWithOtherDeptPrograms: false
 };
@@ -120,7 +120,7 @@ const NUTRITION_PROGRAM: Program = {
 export const Programs = {
   PMTCT_PROGRAM,
   STANDARD_HIV_PROGRAM,
-  HIV_DIFFERENTIATED_CARE_PROGRAM,
+  DIFFERENTIATED_SERVICE_DELIVERY_PROGRAM,
   VIREMIA_PROGRAM,
   HIV_TRANSIT_PROGRAM,
   ACTG_PROGRAM,

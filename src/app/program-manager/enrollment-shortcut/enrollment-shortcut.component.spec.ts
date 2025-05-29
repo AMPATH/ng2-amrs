@@ -82,7 +82,7 @@ const testDeptProgramsConfig = {
       { uuid: 'c19aec66-1a40-4588-9b03-b6be55a8dd1d', name: 'PrEP PROGRAM' },
       {
         uuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
-        name: 'HIV DIFFERENTIATED CARE PROGRAM'
+        name: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM'
       },
       {
         uuid: '96ba279b-b23b-4e78-aba9-dcbd46a96b7b',

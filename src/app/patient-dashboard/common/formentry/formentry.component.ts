@@ -1646,7 +1646,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     if (this.enrollToDC) {
       this.isBusyIndicator(
         true,
-        'Enrolling Patient to Differentiated care program...'
+        'Enrolling Patient to Differentiated Service Delivery program...'
       );
       this.referralsHandler
         .handleFormReferrals(this.patient, this.form)
