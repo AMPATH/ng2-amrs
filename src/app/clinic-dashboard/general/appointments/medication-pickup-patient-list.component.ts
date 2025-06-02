@@ -376,10 +376,4 @@ export class MedicationPickUpPatientListComponent implements OnInit {
       this.dailyVisitsPatientList = [];
     }
   }
-
-  ngOnDestroy() {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
-    }
-  }
 }
