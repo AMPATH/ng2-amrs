@@ -71,6 +71,8 @@ describe('HivDifferentiatedCareComponent Tests', () => {
     expect(component.indicators).toBeUndefined();
     expect(component.title).toBeDefined();
     expect(component.locationUuid).toBeDefined();
-    expect(component.title).toBe('Differentiated Service Delivery Program Reports');
+    expect(component.title).toBe(
+      'Differentiated Service Delivery Program Reports'
+    );
   });
 });
