@@ -38,7 +38,7 @@ const mockDefaulterListResult = [
     person_id: 1,
     filed_id: '07-80-57-53-3',
     days_since_rtc: 5,
-    program: 'HIV DIFFERENTIATED CARE PROGRAM',
+    program: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
     rtc_date: '2021-10-14',
     patient_uuid: 'uuid1',
     uuid: 'uuid1',

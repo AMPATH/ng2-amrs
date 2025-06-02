@@ -127,7 +127,7 @@ export class GroupManagerSearchComponent implements OnInit, OnDestroy {
         this.fetchingGroups = false;
         this.previousLocationUuid = locationUuid;
         this.rowData = this.groupsInCurrentFacility;
-        this.filterText = 'HIV DIFFERENTIATED CARE PROGRAM';
+        this.filterText = 'DIFFERENTIATED SERVICE DELIVERY PROGRAM';
         if (this.gridOptions.api) {
           this.gridOptions.api.onFilterChanged();
         }

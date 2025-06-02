@@ -399,7 +399,7 @@
     ]
   },
   "334c9e98-173f-4454-a8ce-f80b20b7fdf0": {
-    "name": "HIV DIFFERENTIATED CARE PROGRAM",
+    "name": "DIFFERENTIATED SERVICE DELIVERY PROGRAM",
     "dataDependencies": [
       "patient",
       "enrollment",

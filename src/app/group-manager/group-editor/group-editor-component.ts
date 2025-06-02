@@ -15,8 +15,8 @@ import { DepartmentProgramsConfigService } from '../../etl-api/department-progra
 import { ActivatedRoute } from '@angular/router';
 
 const DEFAULT_GROUP_TYPE = 'community_group';
-const HIV_DIFFERENTIATED_CARE_PROGRAM = {
-  label: 'HIV DIFFERENTIATED CARE PROGRAM',
+const DIFFERENTIATED_SERVICE_DELIVERY_PROGRAM = {
+  label: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
   value: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
 };
 @Component({
@@ -422,7 +422,7 @@ export class GroupEditorComponent implements OnInit {
   }
 
   public setDefaultProgram() {
-    this.groupProgram = HIV_DIFFERENTIATED_CARE_PROGRAM;
+    this.groupProgram = DIFFERENTIATED_SERVICE_DELIVERY_PROGRAM;
   }
 
   public fetchDepartmentProgramConfig(onInit = false) {

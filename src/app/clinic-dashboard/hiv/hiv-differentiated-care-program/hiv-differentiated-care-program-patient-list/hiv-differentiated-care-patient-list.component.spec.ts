@@ -7,7 +7,7 @@ import { HivDifferentiatedCarePatientListComponent } from './hiv-differentiated-
 import { PatientListComponent } from 'src/app/shared/data-lists/patient-list/patient-list.component';
 import { GenericListComponent } from 'src/app/shared/data-lists/generic-list/generic-list.component';
 
-describe('HIV Differentiated Care Patient List Component Tests', () => {
+describe('Differentiated Service Delivery Patient List Component Tests', () => {
   let comp: HivDifferentiatedCarePatientListComponent;
   let fixture: ComponentFixture<HivDifferentiatedCarePatientListComponent>;
 
