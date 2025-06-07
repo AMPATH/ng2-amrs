@@ -1,0 +1,254 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        (startDateChange)="onMonthChange($event)"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+
+<div
+  class="btn-group pull-left"
+  *ngIf="heiRegisterData && heiRegisterData.length > 0"
+>
+  <button
+    class="btn btn-primary"
+    (click)="takeSnapshotAndExport()"
+    [disabled]="heiRegisterData.length == 0"
+  >
+    <i class="fa fa-download"> </i> Download Pdf
+  </button>
+</div>
+<br />
+<div
+  *ngIf="heiRegisterData && heiRegisterData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #heicontentToSnapshot
+>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>HIV EXPOSED INFANT REGISTER MOH 408</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th colspan="58">
+            Cohort: Month/Year
+            (MMM-YYYY).........................../..............................................
+          </th>
+        </tr>
+        <tr>
+          <th colspan="25">Infant and Mother/Guardian Information</th>
+          <th colspan="5" rowspan="2">
+            First HIV DNA PCR Test at Birth, 6 weeks or First Contact
+          </th>
+          <th colspan="4" rowspan="2">Second HIV DNA PCR Tes</th>
+          <th colspan="4" rowspan="2">Third HIV DNA PCR Test</th>
+          <th colspan="4" rowspan="2">HEI Outcomes at 12 months</th>
+          <th colspan="4" rowspan="2">Confirmatory PCR</th>
+          <th colspan="4" rowspan="2">Antibody test (18 to 24 months)</th>
+          <th colspan="4" rowspan="2">HEI Outcomes at 24 months</th>
+          <th colspan="4" rowspan="4">Comments</th>
+        </tr>
+        <tr>
+          <th colspan="10">Registration Information</th>
+          <th colspan="11">Infant's information</th>
+          <th colspan="4">Parent's information</th>
+        </tr>
+        <tr>
+          <th colspan="1" rowspan="2">Serial No.</th>
+          <th colspan="3" rowspan="2">
+            Date of Collected enrollment (DD/MM/YYYY)
+          </th>
+          <th colspan="3">
+            Birth Certificate<br />
+            Number
+          </th>
+          <th colspan="3" rowspan="2">HEI ID (MFL-YYYY-NNNN)</th>
+          <th colspan="4" rowspan="2">Infant's Name</th>
+          <th colspan="2" rowspan="2">DOB (DD/MM/YYYY)</th>
+          <th colspan="2">Sex</th>
+          <th colspan="3">
+            Infant Prophylaxis 1=NVP, 2=AZT, 3=NVP &AZT, 4=None,
+          </th>
+          <th colspan="4">Father's/Mother's/Guardian's Name</th>
+          <th colspan="1" rowspan="2">Age at Test (in wks)</th>
+          <th colspan="2" rowspan="2">
+            Type of Test 1=At Birth 2=at 6 weeks 3=at First Contact
+          </th>
+          <th colspan="2">Date Sample Collected</th>
+          <th colspan="2" rowspan="2">Age at Test (in months)</th>
+          <th colspan="2">Date Sample Collected</th>
+          <th colspan="2" rowspan="2">Age at Test (in months)</th>
+          <th colspan="2">Date Sample Collected</th>
+          <th colspan="2">Infant Feeding</th>
+          <th colspan="2" rowspan="2">
+            1=Infected 2= Uninfected 3=Lost to Follow 4=Transfer Out 5=Dead
+          </th>
+          <th colspan="2" rowspan="2">Age at Test (in months)</th>
+          <th colspan="2">Date Sample Collected</th>
+          <th colspan="2" rowspan="2">Age at Test (in months)</th>
+          <th colspan="2">Date Sample Collected</th>
+          <th colspan="2">Infant Feeding</th>
+          <th colspan="2" rowspan="2">
+            1=Infected 2= Uninfected 3=Lost to Follow 4=Transfer Out 5=Dead
+          </th>
+        </tr>
+        <tr>
+          <th colspan="3">Client Unique Number (NUPI)</th>
+          <th colspan="2">(M/F)</th>
+          <th colspan="3">(M/F)</th>
+          <th colspan="4">Telephone number</th>
+          <th colspan="2">Test result (P,N)</th>
+          <th colspan="2">Test result (P,N)</th>
+          <th colspan="2">Test result (P,N)</th>
+          <th colspan="2">BF=Breastfeeding NBF=Not Breastfeeding</th>
+          <th colspan="2">Test result (P,N)</th>
+          <th colspan="2">Test result (P,N)</th>
+          <th colspan="2">BF=Breastfeeding NBF=Not Breastfeeding</th>
+        </tr>
+        <tr>
+          <th class="text-center">(a)</th>
+          <th colspan="3" class="text-center">(b)</th>
+          <th colspan="3" class="text-center">(c)</th>
+          <th colspan="3" class="text-center">(d)</th>
+          <th colspan="4" class="text-center">(e)</th>
+          <th colspan="2" class="text-center">(f)</th>
+          <th colspan="2" class="text-center">(g)</th>
+          <th colspan="3" class="text-center">(h)</th>
+          <th colspan="4" class="text-center">(i)</th>
+          <th class="text-center">(j)</th>
+          <th colspan="2" class="text-center">(k)</th>
+          <th colspan="2" class="text-center">(l)</th>
+          <th colspan="2" class="text-center">(m)</th>
+          <th colspan="2" class="text-center">(n)</th>
+          <th colspan="2" class="text-center">(o)</th>
+          <th colspan="2" class="text-center">(p)</th>
+          <th colspan="2" class="text-center">(q)</th>
+          <th colspan="2" class="text-center">(r)</th>
+          <th colspan="2" class="text-center">(s)</th>
+          <th colspan="2" class="text-center">(t)</th>
+          <th colspan="2" class="text-center">(u)</th>
+          <th colspan="2" class="text-center">(v)</th>
+          <th colspan="2" class="text-center">(w)</th>
+          <th colspan="2" class="text-center">(x)</th>
+          <th colspan="4" class="text-center">(y)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of heiRegisterData; let a = index">
+          <tr>
+            <td rowspan="2">{{ a + 1 }}</td>
+            <td colspan="3" rowspan="2">
+              {{ transformDate(data.date_enrolled) }}
+            </td>
+            <td colspan="3">
+              {{ data.Birth_Certificate_number }}
+            </td>
+            <td colspan="3" rowspan="2" style="max-width: 150px">
+              {{ data.HEI_ID }}
+            </td>
+            <td colspan="4" rowspan="2">
+              {{ data.Infant_name }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ transformDate(data.birth_date) }}
+            </td>
+            <td colspan="2">Sex</td>
+            <td colspan="3" rowspan="2">{{ null }}</td>
+            <td colspan="4">{{ data.parent_name }}</td>
+            <td rowspan="2">
+              {{ data.age_in_weeks_on_first_pcr }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ date_enrolled }}
+            </td>
+            <td colspan="2">{{ transformDate(data.first_pcr_date) }}</td>
+            <td colspan="2" rowspan="2">
+              {{ data.age_in_months_on_second_pcr }}
+            </td>
+            <td colspan="2">{{ transformDate(data.second_pcr_date) }}</td>
+            <td colspan="2" rowspan="2">
+              {{ data.age_in_months_on_third_pcr }}
+            </td>
+            <td colspan="2">{{ transformDate(data.third_pcr_date) }}</td>
+            <td colspan="2">Infant Feeding</td>
+            <td colspan="2" rowspan="2">
+              {{ data.hei_outcome }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ data.age_in_months_on_confirm_pcr }}
+            </td>
+            <td colspan="2">{{ transformDate(data.confirm_pcr_date) }}</td>
+            <td colspan="2" rowspan="2">
+              {{ data.age_in_months_on_first_antibody }}
+            </td>
+            <td colspan="2">
+              {{ transformDate(data.first_antibody_date) }}
+            </td>
+            <td colspan="2">{{ null }}</td>
+            <td colspan="2">{{ null }}</td>
+            <td colspan="4" rowspan="2">{{ null }}</td>
+          </tr>
+          <tr>
+            <td colspan="3">{{ data.NUPI }}</td>
+            <td colspan="2">{{ data.gender }}</td>
+            <td colspan="4">{{ data.Phone_Number }}</td>
+            <td colspan="2">
+              {{ data.results_pcr_first_pcr }}
+            </td>
+            <td colspan="2">
+              {{ data.results_pcr_second_pcr }}
+            </td>
+            <td colspan="2">
+              {{ data.results_pcr_third_pcr }}
+            </td>
+            <td colspan="2">{{ data.infant_feeding }}</td>
+            <td colspan="2">
+              {{ data.results_confirm_pcr }}
+            </td>
+            <td colspan="2">
+              {{ data.results_first_antibody }}
+            </td>
+            <td colspan="2">{{ null }}</td>
+            <td colspan="2">{{ null }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

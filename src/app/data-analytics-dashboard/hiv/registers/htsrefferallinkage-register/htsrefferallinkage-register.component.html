@@ -1,0 +1,327 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        (onMonthChange)="onMonthChange($event)"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot1>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b
+          >MOH 362 HTS LAB, REFERRAL AND LINKAGE REGISTER <br />
+          MOH 362: HTS LAB REGISTER</b
+        >
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="5" class="text-center">
+            Serial <br />
+            Number
+          </th>
+          <th class="text-center">
+            National <br />
+            Identification <br />
+            Number
+          </th>
+          <th rowspan="5" class="text-center">
+            Date of visit <br />
+            (DD/MM/YYYY)
+          </th>
+          <th rowspan="5" class="text-center">
+            Client Name <br />
+            (First, Middle, Last)
+          </th>
+          <th rowspan="5" class="text-center">Age</th>
+          <th rowspan="5" class="text-center">
+            Sex<br />
+            (M/F)
+          </th>
+          <th rowspan="5" class="text-center">Telephone Number</th>
+          <th rowspan="5" class="text-center">
+            Marital<br />
+            Status <br />
+            1=Married<br />
+            2=Widowed <br />
+            3=Single<br />
+            4=Divorced<br />
+            5=Separated
+          </th>
+          <th rowspan="5" class="text-center">
+            Population Type <br />
+            1. Gen Pop<br />
+            2. Key and <br />
+            Vulnerable Pop. <br />
+            Codes for KVP<br />
+            - DC<br />
+            - MSM/MSW<br />
+            - FSW<br />
+            - PWID/PWUD<br />
+            - VP
+          </th>
+          <th rowspan="5" class="text-center">
+            Setting <br />
+            (1=Facility<br />
+            2=Community)
+          </th>
+          <th class="text-center">HIV Test 1</th>
+          <th class="text-center">HIV Test 2</th>
+          <th class="text-center">HIV Test 3</th>
+          <th class="text-center">
+            Final HIV <br />
+            Result
+          </th>
+          <th class="text-center">
+            Discordant <br />
+            Couple
+          </th>
+          <th rowspan="5" class="text-center">
+            Referred for <br />
+            Prevention <br />
+            Services<br />
+            1. PrEP<br />
+            2. PEP<br />
+            3. VMMC<br />
+            4. PMTCT<br />
+            5.NA
+          </th>
+          <th rowspan="5" class="text-center">
+            HTS Provider <br />
+            (Name)
+          </th>
+          <th rowspan="5" class="text-center">Remarks</th>
+        </tr>
+        <tr>
+          <th rowspan="4" class="text-center">
+            National Unique <br />
+            Patient Identifier <br />
+            (NUPI) Number
+          </th>
+          <th class="text-center">Kit Name:</th>
+          <th class="text-center">Kit Name:</th>
+          <th class="text-center">Kit Name:</th>
+          <th rowspan="4" class="text-center">(N,P,Ic)</th>
+          <th rowspan="4" class="text-center">(Y/N/NA)</th>
+        </tr>
+        <tr>
+          <th class="text-center">Lot No.</th>
+          <th class="text-center">Lot No.</th>
+          <th class="text-center">Lot No.</th>
+        </tr>
+        <tr>
+          <th class="text-center">Expiry Date / /</th>
+          <th class="text-center">Expiry Date / /</th>
+          <th class="text-center">Expiry Date / /</th>
+        </tr>
+        <tr>
+          <th class="text-center">(N,P,I)</th>
+          <th class="text-center">(N,P,I,NA)</th>
+          <th class="text-center">(N,P,I,NA)</th>
+        </tr>
+        <tr>
+          <th class="text-center">(a)</th>
+          <th class="text-center">(b)</th>
+          <th class="text-center">(c)</th>
+          <th class="text-center">(d)</th>
+          <th class="text-center">(e)</th>
+          <th class="text-center">(f)</th>
+          <th class="text-center">(g)</th>
+          <th class="text-center">(h)</th>
+          <th class="text-center">(i)</th>
+          <th class="text-center">(j)</th>
+          <th class="text-center">(k)</th>
+          <th class="text-center">(l)</th>
+          <th class="text-center">(m)</th>
+          <th class="text-center">(n)</th>
+          <th class="text-center">(o)</th>
+          <th class="text-center">(p)</th>
+          <th class="text-center">(q)</th>
+          <th class="text-center">(r)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of htsLabData">
+          <tr>
+            <td class="text-center" rowspan="4">{{ item.serialNumber }}</td>
+            <td class="text-center">{{ item.nupiNumber }}</td>
+            <td class="text-center" rowspan="4">{{ item.visitDate }}</td>
+            <td class="text-center" rowspan="4">{{ item.clientName }}</td>
+            <td class="text-center" rowspan="4">{{ item.age }}</td>
+            <td class="text-center" rowspan="4">{{ item.sex }}</td>
+            <td class="text-center" rowspan="4">{{ item.telephoneNumber }}</td>
+            <td class="text-center" rowspan="4">{{ item.maritalStatus }}</td>
+            <td class="text-center" rowspan="4">{{ item.populationType }}</td>
+            <td class="text-center" rowspan="4">{{ item.setting }}</td>
+            <td class="text-center">{{ item.hivTest1.kitName }}</td>
+            <td class="text-center">{{ item.hivTest2.kitName }}</td>
+            <td class="text-center">{{ item.hivTest3.kitName }}</td>
+            <td class="text-center" rowspan="4">{{ item.finalHivResult }}</td>
+            <td class="text-center" rowspan="4">{{ item.discordantCouple }}</td>
+            <td class="text-center" rowspan="4">
+              {{ item.referredForPrevention }}
+            </td>
+            <td class="text-center" rowspan="4">{{ item.htsProvider }}</td>
+            <td class="text-center" rowspan="4">{{ item.remarks }}</td>
+          </tr>
+          <tr>
+            <td class="text-center">{{ item.nationalId }}</td>
+            <td class="text-center">{{ item.hivTest1.lotNumber }}</td>
+            <td class="text-center">{{ item.hivTest2.lotNumber }}</td>
+            <td class="text-center">{{ item.hivTest3.lotNumber }}</td>
+          </tr>
+          <tr>
+            <td class="text-center"></td>
+            <td class="text-center">{{ item.hivTest1.expiryDate }}</td>
+            <td class="text-center">{{ item.hivTest2.expiryDate }}</td>
+            <td class="text-center">{{ item.hivTest3.expiryDate }}</td>
+          </tr>
+          <tr>
+            <td class="text-center"></td>
+            <td class="text-center">{{ item.hivTest1.result }}</td>
+            <td class="text-center">{{ item.hivTest2.result }}</td>
+            <td class="text-center">{{ item.hivTest3.result }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br />
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b
+          >MOH 362 HTS LAB, REFERRAL AND LINKAGE REGISTER <br />
+          REFERRAL AND LINKAGE REGISTER</b
+        >
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="2">
+            Serial<br />
+            Number
+          </th>
+          <th>
+            National Identification<br />
+            Number
+          </th>
+          <th rowspan="2">Client Names</th>
+          <th>Telephone Number</th>
+          <th rowspan="2">
+            Identification <br />
+            Strategy <br />
+            (VCT/IT/HIVST<br />
+            /SNS)
+          </th>
+          <th rowspan="2">Patient referred to</th>
+          <th rowspan="2">
+            Handed over to: <br />
+            (Indicate Name (upper cell) <br />
+            and Cadre (lower cell)
+          </th>
+          <th rowspan="2">
+            Date started on <br />
+            ART
+          </th>
+          <th rowspan="2">CCC Number</th>
+          <th rowspan="2">Remarks</th>
+        </tr>
+        <tr>
+          <th>
+            National Unique <br />
+            Patient Identifier <br />
+            (NUPI) Number
+          </th>
+          <th>Residence</th>
+        </tr>
+        <tr>
+          <th class="text-centre">(a)</th>
+          <th class="text-centre">(b)</th>
+          <th class="text-centre">(c)</th>
+          <th class="text-centre">(d)</th>
+          <th class="text-centre">(e)</th>
+          <th class="text-centre">(f)</th>
+          <th class="text-centre">(g)</th>
+          <th class="text-centre">(h)</th>
+          <th class="text-centre">(i)</th>
+          <th class="text-centre">(j)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of htsLinkageData">
+          <tr>
+            <td rowspan="2">{{ item.serialNumber }}</td>
+            <td>{{ item.nupiNumber }}</td>
+            <td rowspan="2">{{ item.clientName }}</td>
+            <td>{{ item.telephoneNumber }}</td>
+            <td rowspan="2">{{ item.identificationStrategy }}</td>
+            <td rowspan="2">{{ item.patientReferredTo }}</td>
+            <td>{{ item.handedOverTo }}</td>
+            <td rowspan="2">{{ item.artStartDate }}</td>
+            <td rowspan="2">{{ item.cccNumber }}</td>
+            <td rowspan="2">{{ item.remarks }}</td>
+          </tr>
+          <tr>
+            <td>{{ item.nationalId }}</td>
+            <td>{{ item.residence }}</td>
+            <td>{{ item.cadre }}</td>
+          </tr>
+        </ng-container>
+        <tr *ngIf="pinnedBottomRowData.length > 0">
+          <td colspan="9"><b>Totals Clients Linked</b></td>
+          <td>{{ pinnedBottomRowData[0].totalLinked }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
