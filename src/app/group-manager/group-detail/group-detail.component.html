@@ -362,16 +362,12 @@
           type="text"
           class="form-control"
           name="visitType"
-          [(ngModel)]="visitType"
+          [(ngModel)]="selectedVisitType"
           required
         >
           <ng-container *ngFor="let item of visitTypes">
             <option
-              *ngIf="
-                isOtzProgram
-                  ? item.display.toLowerCase().includes('otz')
-                  : item.display.toLowerCase().includes('community')
-              "
+            *ngIf="shouldShowVisitType(item)"
               [value]="item.uuid"
             >
               {{ item.display }}
