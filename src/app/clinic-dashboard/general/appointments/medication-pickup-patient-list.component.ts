@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ClinicDashboardCacheService } from '../../services/clinic-dashboard-cache.service';
+import { MedicationDeliveryResourceService } from '../../../etl-api/medication-delivery-list.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
@@ -7,6 +8,7 @@ import { Subscription } from 'rxjs';
 interface ReportParams {
   locationUuids: string;
   selectedDate: string;
+  endDate: string;
 }
 
 @Component({
@@ -14,7 +16,7 @@ interface ReportParams {
   templateUrl: './medication-pickup-patient-list.component.html',
   styleUrls: ['./medication-pickup-patient-list.component.css']
 })
-export class MedicationPickUpPatientListComponent implements OnInit {
+export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
   public errors: any[] = [];
   public dailyVisitsPatientList: any[] = [];
   public locationUuids: string;
@@ -23,161 +25,147 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   public loadingpreAppointmentOutreachList = false;
 
   public selectedDate: string;
+  public endDate: string;
 
   // Pickup statistics
   public completedCount = 0;
   public pendingCount = 0;
   public overdueCount = 0;
 
-  // Mock data for medication pickup patients
-  private mockPatientData = [
-    {
-      person_id: 1001,
-      uuid: '6864aa16-536e-4d06-a46b-13f68b044fa2',
-      given_name: 'Test',
-      middle_name: 'Robs20',
-      family_name: 'POC',
-      identifiers: '332028278-7 ',
-      age: 54,
-      gender: 'F',
-      phone_number: '+254712345678',
-      pickup_date: '2025-05-27',
-      medication_name: 'Tenofovir/Lamivudine/Efavirenz',
-      prescription_date: '2025-05-20',
-      days_supply: 30,
-      pickup_status: 'Pending',
-      prescribing_clinician: 'Dr. Smith',
-      pharmacy_notes: 'Patient prefers morning pickup',
-      last_pickup_date: '2025-04-27',
-      next_appointment: '2025-06-24',
-      adherence_rate: 95.5,
-      viral_load: 'Undetectable',
-      viral_load_date: '2025-03-15'
-    },
-    {
-      person_id: 1002,
-      uuid: 'b2c3d4e5-f6g7-8901-bcde-f23456789012',
-      given_name: 'Mary',
-      middle_name: 'Grace',
-      family_name: 'Johnson',
-      identifiers: 'MRN-001235',
-      age: 32,
-      gender: 'F',
-      phone_number: '+254723456789',
-      pickup_date: '2025-05-27',
-      medication_name: 'Dolutegravir/Tenofovir/Lamivudine',
-      prescription_date: '2025-05-21',
-      days_supply: 30,
-      pickup_status: 'Completed',
-      prescribing_clinician: 'Dr. Wilson',
-      pharmacy_notes: 'Patient educated on side effects',
-      last_pickup_date: '2025-04-28',
-      next_appointment: '2025-06-25',
-      adherence_rate: 98.2,
-      viral_load: 'Undetectable',
-      viral_load_date: '2025-04-10'
-    },
-    {
-      person_id: 1003,
-      uuid: 'c3d4e5f6-g7h8-9012-cdef-345678901234',
-      given_name: 'Peter',
-      middle_name: 'James',
-      family_name: 'Kiprotich',
-      identifiers: 'MRN-001236',
-      age: 28,
-      gender: 'M',
-      phone_number: '+254734567890',
-      pickup_date: '2025-05-27',
-      medication_name: 'Efavirenz/Emtricitabine/Tenofovir',
-      prescription_date: '2025-05-19',
-      days_supply: 30,
-      pickup_status: 'Overdue',
-      prescribing_clinician: 'Dr. Brown',
-      pharmacy_notes: 'Follow up needed - missed pickup',
-      last_pickup_date: '2025-04-25',
-      next_appointment: '2025-06-22',
-      adherence_rate: 85.7,
-      viral_load: '150 copies/ml',
-      viral_load_date: '2025-03-28'
-    },
-    {
-      person_id: 1004,
-      uuid: 'd4e5f6g7-h8i9-0123-defg-456789012345',
-      given_name: 'Sarah',
-      middle_name: 'Ann',
-      family_name: 'Wanjiku',
-      identifiers: 'MRN-001237',
-      age: 38,
-      gender: 'F',
-      phone_number: '+254745678901',
-      pickup_date: '2025-05-27',
-      medication_name: 'Atazanavir/Ritonavir/Tenofovir/Emtricitabine',
-      prescription_date: '2025-05-22',
-      days_supply: 30,
-      pickup_status: 'Pending',
-      prescribing_clinician: 'Dr. Davis',
-      pharmacy_notes: 'Take with food',
-      last_pickup_date: '2025-04-29',
-      next_appointment: '2025-06-26',
-      adherence_rate: 92.1,
-      viral_load: 'Undetectable',
-      viral_load_date: '2025-04-05'
-    },
-    {
-      person_id: 1005,
-      uuid: 'e5f6g7h8-i9j0-1234-efgh-567890123456',
-      given_name: 'Michael',
-      middle_name: 'Ochieng',
-      family_name: 'Otieno',
-      identifiers: 'MRN-001238',
-      age: 52,
-      gender: 'M',
-      phone_number: '+254756789012',
-      pickup_date: '2025-05-27',
-      medication_name: 'Rilpivirine/Tenofovir/Emtricitabine',
-      prescription_date: '2025-05-18',
-      days_supply: 30,
-      pickup_status: 'Completed',
-      prescribing_clinician: 'Dr. Miller',
-      pharmacy_notes: 'Patient counseled on adherence',
-      last_pickup_date: '2025-04-26',
-      next_appointment: '2025-06-23',
-      adherence_rate: 96.8,
-      viral_load: 'Undetectable',
-      viral_load_date: '2025-03-20'
-    }
-  ];
-
   constructor(
     private clinicDashboardCacheService: ClinicDashboardCacheService,
+    private medicationDeliveryResourceService: MedicationDeliveryResourceService,
     private router: Router,
     private route: ActivatedRoute
   ) {
     // Set default date to today
     const today = new Date();
     this.selectedDate = today.toISOString().split('T')[0];
+    this.endDate = today.toISOString().split('T')[0];
   }
 
   public ngOnInit() {
     this.subScribeToClinicLocationChange();
     this.subscribeToRouteParamsChange();
-    // Don't load data automatically - wait for user to generate report
+    this.checkQueryParams();
+  }
+
+  onEndDateChange() {
+    if (this.selectedDate && this.endDate && this.endDate < this.selectedDate) {
+      this.errors = [{ message: 'End date cannot be before start date.' }];
+      return;
+    }
+    if (this.errors.length > 0) {
+      this.errors = [];
+    }
   }
 
   onDateChange() {
-    console.log('Selected date:', this.selectedDate);
-    // Don't auto-filter on date change, wait for generate button click
+    if (this.selectedDate && this.endDate && this.selectedDate > this.endDate) {
+      this.errors = [{ message: 'Start date cannot be after end date.' }];
+      return;
+    }
+    if (this.errors.length > 0) {
+      this.errors = [];
+    }
   }
 
-  private filterPatientsByDate() {
-    if (this.selectedDate) {
-      this.dailyVisitsPatientList = this.mockPatientData.filter(
-        (patient) => patient.pickup_date === this.selectedDate
-      );
-    } else {
-      this.dailyVisitsPatientList = [...this.mockPatientData];
+  private checkQueryParams() {
+    this.route.queryParams.subscribe((params) => {
+      if (params['selectedDate'] && params['locationUuids']) {
+        this.selectedDate = params['selectedDate'];
+        this.endDate = params['endDate'] || params['selectedDate'];
+        this.locationUuids = params['locationUuids'];
+        this.loadMedicationDeliveryData();
+      }
+    });
+  }
+
+  private loadMedicationDeliveryData() {
+    if (!this.selectedDate || !this.endDate) {
+      this.errors = [
+        {
+          message:
+            'Please select both start and end dates to generate the report.'
+        }
+      ];
+      return;
     }
-    this.calculatePickupStats();
+
+    if (this.selectedDate > this.endDate) {
+      this.errors = [{ message: 'Start date cannot be after end date.' }];
+      return;
+    }
+
+    this.loadingpreAppointmentOutreachList = true;
+    this.errors = [];
+
+    this.medicationDeliveryResourceService
+      .getMedicationDeliveryList(this.selectedDate, this.endDate)
+      .subscribe({
+        next: (response) => {
+          this.loadingpreAppointmentOutreachList = false;
+          if (response && response.result) {
+            this.dailyVisitsPatientList = this.transformApiData(
+              response.result
+            );
+            this.calculatePickupStats();
+          } else {
+            this.dailyVisitsPatientList = [];
+            this.calculatePickupStats();
+          }
+        },
+        error: (error) => {
+          this.loadingpreAppointmentOutreachList = false;
+          this.errors = [
+            {
+              message:
+                'Error loading medication delivery data: ' +
+                (error.message || 'Unknown error')
+            }
+          ];
+          console.error('Error loading medication delivery data:', error);
+        }
+      });
+  }
+
+  private transformApiData(apiData: any[]): any[] {
+    return apiData.map((item) => {
+      const pickupDate = item.medication_pickup_date
+        ? new Date(item.medication_pickup_date).toISOString().split('T')[0]
+        : null;
+      const returnDate = item['Return to clinic date']
+        ? new Date(item['Return to clinic date']).toISOString().split('T')[0]
+        : null;
+
+      return {
+        person_id: item.patient_id,
+        uuid: item.person_uuid.toString(), // Using person_uuid as uuid
+        given_name: item.given_name || '',
+        middle_name: item.middle_name || '',
+        family_name: item.family_name || '',
+        identifiers: item.ccc_number || item.nupi_number || '',
+        age: item.age || 0,
+        gender: item.gender || '',
+        phone_number: item.phone_number || '',
+        pickup_date: pickupDate,
+        medication_name: 'ARV Medication', // Default since not provided by API
+        prescription_date: pickupDate,
+        pickup_status:
+          item.pickup_status === 'Picked'
+            ? 'Completed'
+            : item.pickup_status === 'Not Picked'
+            ? 'Pending'
+            : item.pickup_status || 'Pending',
+        last_pickup_date: pickupDate,
+        next_appointment: returnDate,
+        patient_id: item.patient_id,
+        ccc_number: item.ccc_number,
+        nupi_number: item.nupi_number,
+        return_to_clinic_date: returnDate,
+        medication_pickup_date: pickupDate
+      };
+    });
   }
 
   private calculatePickupStats() {
@@ -195,35 +183,27 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   public extraColumns() {
     return [
       {
-        headerName: 'Pickup Date',
-        field: 'pickup_date',
+        headerName: 'CCC Number',
+        field: 'ccc_number',
         width: 120,
         cellStyle: {
           'white-space': 'normal'
         }
       },
       {
-        headerName: 'Medication Name',
-        field: 'medication_name',
-        width: 250,
+        headerName: 'Phone Number',
+        field: 'phone_number',
+        width: 120,
         cellStyle: {
           'white-space': 'normal'
         }
       },
       {
-        headerName: 'Prescription Date',
-        field: 'prescription_date',
-        width: 130,
+        headerName: 'Pickup Date',
+        field: 'pickup_date',
+        width: 120,
         cellStyle: {
           'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Days Supply',
-        field: 'days_supply',
-        width: 100,
-        cellRenderer: (column: any) => {
-          return column.value + ' days';
         }
       },
       {
@@ -250,74 +230,9 @@ export class MedicationPickUpPatientListComponent implements OnInit {
         }
       },
       {
-        headerName: 'Prescribing Clinician',
-        field: 'prescribing_clinician',
-        width: 150,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Phone Number',
-        field: 'phone_number',
-        width: 130,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Last Pickup Date',
-        field: 'last_pickup_date',
-        width: 130,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Next Appointment',
+        headerName: 'Return to Clinic Date',
         field: 'next_appointment',
-        width: 130,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Adherence Rate (%)',
-        field: 'adherence_rate',
-        width: 130,
-        cellRenderer: (column: any) => {
-          const rate = column.value;
-          let className = '';
-          if (rate >= 95) {
-            className = 'text-success';
-          } else if (rate >= 85) {
-            className = 'text-warning';
-          } else {
-            className = 'text-danger';
-          }
-          return `<span class="${className}">${rate}%</span>`;
-        }
-      },
-      {
-        headerName: 'Viral Load',
-        field: 'viral_load',
-        width: 120,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Viral Load Date',
-        field: 'viral_load_date',
-        width: 130,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
-      {
-        headerName: 'Pharmacy Notes',
-        field: 'pharmacy_notes',
-        width: 200,
+        width: 150,
         cellStyle: {
           'white-space': 'normal'
         }
@@ -328,29 +243,41 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   public getReportParams(): ReportParams {
     return {
       locationUuids: this.locationUuids,
-      selectedDate: this.selectedDate
+      selectedDate: this.selectedDate,
+      endDate: this.endDate // Add this line
     };
   }
 
   public generateReport(): void {
-    if (this.locationUuids && this.selectedDate) {
-      this.loadingpreAppointmentOutreachList = true;
-
-      // Simulate API call with setTimeout
-      setTimeout(() => {
-        this.loadingpreAppointmentOutreachList = false;
-        this.filterPatientsByDate();
-
-        // Update URL with query parameters
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {
-            locationUuids: this.locationUuids,
-            selectedDate: this.selectedDate
-          }
-        });
-      }, 1000); // Simulate 1 second loading time
+    if (!this.selectedDate) {
+      this.errors = [
+        { message: 'Please select a start date to generate the report.' }
+      ];
+      return;
     }
+
+    if (!this.endDate) {
+      this.errors = [
+        { message: 'Please select an end date to generate the report.' }
+      ];
+      return;
+    }
+
+    if (this.selectedDate > this.endDate) {
+      this.errors = [{ message: 'Start date cannot be after end date.' }];
+      return;
+    }
+
+    this.loadMedicationDeliveryData();
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        locationUuids: this.locationUuids,
+        selectedDate: this.selectedDate,
+        endDate: this.endDate
+      }
+    });
   }
 
   public subScribeToClinicLocationChange(): void {
@@ -358,7 +285,6 @@ export class MedicationPickUpPatientListComponent implements OnInit {
       .getCurrentClinic()
       .subscribe((currentClinic) => {
         this.locationUuids = currentClinic;
-        // Don't auto-generate report on location change
       });
   }
 
@@ -374,6 +300,13 @@ export class MedicationPickUpPatientListComponent implements OnInit {
   public resetFilter($event: Boolean): void {
     if ($event) {
       this.dailyVisitsPatientList = [];
+      this.calculatePickupStats();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
     }
   }
 }
