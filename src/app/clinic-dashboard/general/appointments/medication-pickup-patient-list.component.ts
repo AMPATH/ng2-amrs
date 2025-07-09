@@ -76,6 +76,7 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         this.selectedDate = params['selectedDate'];
         this.endDate = params['endDate'] || params['selectedDate'];
         this.locationUuids = params['locationUuids'];
+        // console.log('locationUuids:', this.locationUuids);
         this.loadMedicationDeliveryData();
       }
     });
@@ -101,7 +102,11 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
     this.errors = [];
 
     this.medicationDeliveryResourceService
-      .getMedicationDeliveryList(this.selectedDate, this.endDate)
+      .getMedicationDeliveryList(
+        this.locationUuids,
+        this.selectedDate,
+        this.endDate
+      )
       .subscribe({
         next: (response) => {
           this.loadingpreAppointmentOutreachList = false;
@@ -163,7 +168,8 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         ccc_number: item.ccc_number,
         nupi_number: item.nupi_number,
         return_to_clinic_date: returnDate,
-        medication_pickup_date: pickupDate
+        medication_pickup_date: pickupDate,
+        health_worker: item.health_worker || ''
       };
     });
   }
@@ -227,6 +233,14 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
               className = 'label label-default';
           }
           return `<span class="${className}">${status}</span>`;
+        }
+      },
+      {
+        headerName: 'Peer Name',
+        field: 'health_worker',
+        width: 150,
+        cellStyle: {
+          'white-space': 'normal'
         }
       },
       {

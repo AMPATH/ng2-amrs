@@ -18,11 +18,13 @@ export class MedicationDeliveryResourceService {
   }
 
   public getMedicationDeliveryList(
+    locationUuids: string,
     startDate: string,
     endDate: string
   ): Observable<any> {
     return this.http.get(this.getMedicationDeliveryUrl(), {
       params: new HttpParams()
+        .set('locationUuids', locationUuids)
         .set('startDate', startDate)
         .set('endDate', endDate),
       headers: new HttpHeaders({
