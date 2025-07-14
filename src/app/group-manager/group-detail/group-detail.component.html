@@ -366,10 +366,7 @@
           required
         >
           <ng-container *ngFor="let item of visitTypes">
-            <option
-            *ngIf="shouldShowVisitType(item)"
-              [value]="item.uuid"
-            >
+            <option *ngIf="shouldShowVisitType(item)" [value]="item.uuid">
               {{ item.display }}
             </option>
           </ng-container>
