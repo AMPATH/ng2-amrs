@@ -136,25 +136,35 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
 
   private transformApiData(apiData: any[]): any[] {
     return apiData.map((item) => {
-      const pickupDate = item.medication_pickup_date
-        ? new Date(item.medication_pickup_date).toISOString().split('T')[0]
-        : null;
-      const returnDate = item['Return to clinic date']
-        ? new Date(item['Return to clinic date']).toISOString().split('T')[0]
-        : null;
+      const formatDate = (dateValue: any): string | null => {
+        if (!dateValue) {
+          return null;
+        }
+
+        const date = new Date(dateValue);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+      };
+
+      const pickupDate = formatDate(item.medication_pickup_date);
+      const returnDate = formatDate(item['Return to clinic date']);
+      const latestVlDate = formatDate(item.latest_vl_date);
+      const latestRtcDate = formatDate(item.latest_rtc_date);
 
       return {
         person_id: item.patient_id,
-        uuid: item.person_uuid.toString(), // Using person_uuid as uuid
+        uuid: item.person_uuid.toString(),
         given_name: item.given_name || '',
         middle_name: item.middle_name || '',
         family_name: item.family_name || '',
-        identifiers: item.ccc_number || item.nupi_number || '',
+        identifiers: item.identifier || '',
         age: item.age || 0,
         gender: item.gender || '',
         phone_number: item.phone_number || '',
         pickup_date: pickupDate,
-        medication_name: 'ARV Medication', // Default since not provided by API
         prescription_date: pickupDate,
         pickup_status:
           item.pickup_status === 'Picked'
@@ -166,9 +176,14 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         next_appointment: returnDate,
         patient_id: item.patient_id,
         ccc_number: item.ccc_number,
-        nupi_number: item.nupi_number,
+        upi_number: item.nupi_number,
         return_to_clinic_date: returnDate,
         medication_pickup_date: pickupDate,
+        vl_category: item.vl_category || '',
+        latest_vl: item.latest_vl,
+        latest_vl_date: latestVlDate,
+        latest_rtc_date: latestRtcDate,
+        cur_meds: item.current_regimen || '',
         health_worker: item.health_worker || ''
       };
     });
@@ -188,14 +203,6 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
 
   public extraColumns() {
     return [
-      {
-        headerName: 'CCC Number',
-        field: 'ccc_number',
-        width: 120,
-        cellStyle: {
-          'white-space': 'normal'
-        }
-      },
       {
         headerName: 'Phone Number',
         field: 'phone_number',
@@ -244,12 +251,32 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         }
       },
       {
+        headerName: 'Latest VL',
+        width: 75,
+        field: 'latest_vl'
+      },
+      {
+        headerName: 'Latest VL Date',
+        width: 150,
+        field: 'latest_vl_date'
+      },
+      {
         headerName: 'Return to Clinic Date',
         field: 'next_appointment',
         width: 150,
         cellStyle: {
           'white-space': 'normal'
         }
+      },
+      {
+        headerName: 'Latest RTC Date',
+        width: 150,
+        field: 'latest_rtc_date'
+      },
+      {
+        headerName: 'Current Regimen',
+        width: 200,
+        field: 'cur_meds'
       }
     ];
   }
