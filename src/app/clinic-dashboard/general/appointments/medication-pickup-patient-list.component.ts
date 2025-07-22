@@ -161,6 +161,7 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         middle_name: item.middle_name || '',
         family_name: item.family_name || '',
         identifiers: item.identifier || '',
+        enrollment_date: formatDate(item.enrollment_date),
         age: item.age || 0,
         gender: item.gender || '',
         phone_number: item.phone_number || '',
@@ -204,6 +205,14 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
   public extraColumns() {
     return [
       {
+        headerName: 'Enrollment Date',
+        field: 'enrollment_date',
+        width: 120,
+        cellStyle: {
+          'white-space': 'normal'
+        }
+      },
+      {
         headerName: 'Phone Number',
         field: 'phone_number',
         width: 120,
@@ -214,6 +223,14 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
       {
         headerName: 'Pickup Date',
         field: 'pickup_date',
+        width: 120,
+        cellStyle: {
+          'white-space': 'normal'
+        }
+      },
+      {
+        headerName: 'Last Pickup Date',
+        field: 'last_pickup_date',
         width: 120,
         cellStyle: {
           'white-space': 'normal'
