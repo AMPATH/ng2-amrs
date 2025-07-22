@@ -254,7 +254,7 @@ export class NewProgramComponent
       this.patient.person.age < 15
     ) {
       this.showMessage(
-        'Client must be 15 years and above in order to be enrolled into PrEP'
+        'Clients aged 15 and above are eligible for PrEP enrollment'
       );
       setTimeout(() => {
         this.removeMessage();
