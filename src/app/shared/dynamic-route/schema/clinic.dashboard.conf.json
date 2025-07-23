@@ -80,6 +80,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "appointment-schedule",
+          "label": "Medication PickUp List",
+          "icon": "fa fa-list",
+          "isSideBarOpen": false
+        },
+        {
           "url": "moh-731-report",
           "label": "MOH 731 Reports",
           "icon": "glyphicon glyphicon-equalizer",
