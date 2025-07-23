@@ -221,7 +221,7 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         }
       },
       {
-        headerName: 'Pickup Date',
+        headerName: 'Medication Delivery Date',
         field: 'pickup_date',
         width: 120,
         cellStyle: {
@@ -237,7 +237,7 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         }
       },
       {
-        headerName: 'Pickup Status',
+        headerName: 'Medication Delivery Status',
         field: 'pickup_status',
         width: 120,
         cellRenderer: (column: any) => {
