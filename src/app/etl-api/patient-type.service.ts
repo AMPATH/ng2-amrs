@@ -19,10 +19,10 @@ export class PatientTypeService {
 
   public setPatientStatus(params: any): Observable<any> {
     let status: string;
-    if (params.value === 'standard') {
-      status = '520825cf-d045-4bbf-a7f5-a7018f14dd76';
-    } else {
+    if (params.value === 'Study') {
       status = 'a89a898a-1350-11df-a1f1-0026b9348838';
+    } else {
+      status = '520825cf-d045-4bbf-a7f5-a7018f14dd76';
     }
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = {
