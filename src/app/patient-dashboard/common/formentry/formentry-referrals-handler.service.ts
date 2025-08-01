@@ -32,6 +32,7 @@ import { FormUuids } from './../../../constants/forms.constants';
 export class FormentryReferralsHandlerService {
   private PNC_PROGRAM: Program = Programs.PNC_PROGRAM;
   private ANC_PROGRAM: Program = Programs.ANC_PROGRAM;
+  private PMTCT_PROGRAM: Program = Programs.PMTCT_PROGRAM;
   private STANDARD_PROGRAM: Program = Programs.STANDARD_HIV_PROGRAM;
 
   constructor(
@@ -258,9 +259,15 @@ export class FormentryReferralsHandlerService {
     }
 
     // haS PMTCT referral
-    if (internalMvmentData === ReferralConcepts.MCH_PROGRAM_CONCEPT) {
+    if (
+      internalMvmentData === ReferralConcepts.MCH_PROGRAM_CONCEPT ||
+      internalMvmentData === ReferralConcepts.PMTCT_CONCEPT
+    ) {
       returnValue.hasPmtctReferral = true;
-      const pmtctPatientType = this.getQuestionValue(form, 'pmtctType');
+      const pmtctPatientType =
+        internalMvmentData === ReferralConcepts.MCH_PROGRAM_CONCEPT
+          ? this.getQuestionValue(form, 'pmtctType')
+          : ReferralConcepts.PMTCT_CONCEPT;
       returnValue.pmtctProgrammeUuid = pmtctPatientType;
     }
 
@@ -332,6 +339,11 @@ export class FormentryReferralsHandlerService {
       ) {
         refProgram.uuid = this.PNC_PROGRAM.uuid;
         refProgram.name = this.PNC_PROGRAM.name;
+      } else if (
+        referralObj.pmtctProgrammeUuid === ReferralConcepts.PMTCT_CONCEPT
+      ) {
+        refProgram.uuid = this.PMTCT_PROGRAM.uuid;
+        refProgram.name = this.PMTCT_PROGRAM.name;
       }
     } else {
       refProgram.uuid = this.STANDARD_PROGRAM.uuid;
