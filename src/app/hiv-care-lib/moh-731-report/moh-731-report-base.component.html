@@ -64,8 +64,35 @@
         [sectionDefs]="sectionsDef"
         (indicatorSelected)="onIndicatorSelected($event)"
         [rowData]="data"
+        [startDate]="startDate"
+        [endDate]="endDate"
         [isReleased]="isReleased"
+        (combinedDataEmitted)="handleCombinedData($event)"
       ></moh-731-tabular>
+    </p-tabPanel>
+    <p-tabPanel
+      header="AIR View"
+      leftIcon="fa-cloud"
+      [selected]="currentView === 'air'"
+    >
+      <button
+        class="btn btn-primary"
+        (click)="toggleMohTables()"
+        *ngIf="!showAIRView"
+      >
+        Go back to tabular view
+      </button>
+
+      <moh-731-air
+        *ngIf="showAIRView"
+        [sectionDefs]="airSectionsDef"
+        [combinedData]="combinedData"
+        [rowData]="airData"
+        [startDate]="startDate"
+        [endDate]="endDate"
+        [isReleased]="isReleased"
+        (indicatorSelected)="onIndicatorSelected($event)"
+      ></moh-731-air>
     </p-tabPanel>
   </p-tabView>
 </div>

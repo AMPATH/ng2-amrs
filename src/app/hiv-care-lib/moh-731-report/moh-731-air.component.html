@@ -1,0 +1,122 @@
+<!-- moh-731-air.component.html -->
+<div class="panel panel-default">
+  <div class="row" style="margin-top: 4px; padding: 0px">
+    <button
+      type="button"
+      *ngIf="!parentIsBusy"
+      class="btn btn-success pull-right"
+      (click)="processDataToKHIS()"
+    >
+      Sync To KHIS
+    </button>
+  </div>
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="panel-title">
+          AIR View
+          <span class="date-range" *ngIf="startDate && endDate">
+            ({{ startDate | date }} - {{ endDate | date }})
+          </span>
+        </h3>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchTerm"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <!-- Loading indicator -->
+    <div class="loader text-center" *ngIf="isLoading">
+      <i class="fa fa-spinner fa-spin"></i> Loading air data...
+    </div>
+
+    <!-- Table view -->
+    <div class="table-responsive" *ngIf="!isLoading">
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th
+              *ngFor="let def of sectionDefs"
+              (click)="sortBy(def.name)"
+              class="sortable"
+            >
+              {{ def.label }}
+              <span [class]="getSortIcon(def.name)"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of filterData()"
+            (click)="onIndicatorClick(item)"
+            [class.clickable]="true"
+          >
+            <!-- Dynamically generate cells based on sectionDefs -->
+            <td *ngFor="let def of sectionDefs">
+              <span *ngIf="def.type !== 'status'">{{ item[def.name] }}</span>
+              <span
+                *ngIf="def.type === 'status'"
+                class="label"
+                [ngClass]="getStatusClass(item[def.name])"
+              >
+                {{ item[def.name] }}
+              </span>
+              <span *ngIf="def.type === 'action'">
+                <button
+                  *ngIf="item.status === 'pending'"
+                  class="btn btn-warning btn-sm"
+                  (click)="retrySync(item)"
+                  [disabled]="item.status === 'synced'"
+                >
+                  Retry Sync
+                </button>
+                <button
+                  *ngIf="item.status === 'error'"
+                  class="btn btn-danger btn-sm"
+                  (click)="resolveError(item)"
+                  [disabled]="item.status === 'synced'"
+                >
+                  Error
+                </button>
+                <span
+                  *ngIf="item.status === 'synced'"
+                  class="text-success disabled"
+                >
+                  Synced
+                </span>
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="filterData().length === 0">
+            <td [attr.colspan]="sectionDefs.length" class="text-center">
+              No data found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-6">Showing {{ filterData().length }} entries</div>
+      <div class="col-md-6 text-right">
+        <span *ngIf="isReleased" class="released-indicator">
+          <i class="fa fa-check-circle"></i> Released
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
