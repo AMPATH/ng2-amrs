@@ -81,7 +81,7 @@
         },
         {
           "url": "appointment-schedule",
-          "label": "Medication PickUp List",
+          "label": "Medication Delivery list",
           "icon": "fa fa-list",
           "isSideBarOpen": false
         },

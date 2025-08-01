@@ -278,7 +278,7 @@ export class MedicationPickUpPatientListComponent implements OnInit, OnDestroy {
         }
       },
       {
-        headerName: 'Latest RTC Date',
+        headerName: 'Latest Appointement',
         width: 150,
         field: 'latest_rtc_date'
       },
