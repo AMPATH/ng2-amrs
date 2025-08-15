@@ -732,5 +732,14 @@
         ]
       }
     ]
+  },
+  "317f07b1-23f5-43f2-82bc-57a3c3790698": {
+    "name": "KP PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": []
   }
 }
