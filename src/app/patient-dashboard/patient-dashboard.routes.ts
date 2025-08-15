@@ -30,6 +30,7 @@ import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enroll
 import { OncologySummaryComponent } from './oncology/oncology-summary/oncology-summary.component';
 import { OvcSnapshotComponent } from './common/ovc-snapshot/ovc-snapshot.component';
 import { OtzSnapshotComponent } from './common/otz-snapshot/otz-snapshot.component';
+import { KpSnapshotComponent } from './common/kp-snapshot/kp-snapshot.component';
 
 export const routes = [
   {
@@ -67,6 +68,11 @@ export const routes = [
             // MNCH Landing Page
             path: 'mnch/:program/landing-page',
             component: GeneralLandingPageComponent
+          },
+          {
+            // KP Landing Page
+            path: 'kp/:program/landing-page',
+            component: KpSnapshotComponent
           },
           {
             path: 'cdm/:program/landing-page', // CDM Landing Page

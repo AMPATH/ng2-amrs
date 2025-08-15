@@ -617,6 +617,16 @@
       "shared-routes-class": "mnch",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "KP",
+      "programUuid": "317f07b1-23f5-43f2-82bc-57a3c3790698",
+      "baseRoute": "317f07b1-23f5-43f2-82bc-57a3c3790698",
+      "alias": "kp",
+      "published": true,
+      "shared-routes-class": "kp",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -782,6 +792,28 @@
         "url": "patient-imaging",
         "label": "Imaging",
         "icon": "icon-i-radiology"
+      }
+    ],
+    "kp": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
+      {
+        "url": "patient-encounters",
+        "label": "Encounters",
+        "icon": "icon-i-immunizations"
+      },
+      {
+        "url": "patient-vitals",
+        "label": "Vitals",
+        "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "clinical-notes",
+        "label": "Clinical Notes",
+        "icon": "fa fa-book"
       }
     ]
   }

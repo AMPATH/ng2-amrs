@@ -138,6 +138,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { OtzSnapshotComponent } from './otz-snapshot/otz-snapshot.component';
 import { ProjectBeyondComponent } from './patient-info/project-beyond/project-beyond.component';
 import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.component';
+import { KpSnapshotComponent } from './kp-snapshot/kp-snapshot.component';
 
 @NgModule({
   imports: [
@@ -296,6 +297,7 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     EditPatientEducationComponent,
     OvcSnapshotComponent,
     OtzSnapshotComponent,
+    KpSnapshotComponent,
     ProjectBeyondComponent,
     OtzConsentComponent
   ],
