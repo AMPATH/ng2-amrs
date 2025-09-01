@@ -7,14 +7,22 @@ import {
   EventEmitter
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 
 import 'ag-grid-enterprise/main';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import * as Fuse from 'fuse.js';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, switchMap, take } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  finalize,
+  switchMap,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -33,6 +41,14 @@ import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.ser
 import { LocalStorageService } from './../utils/local-storage.service';
 import { LocationUnitsService } from './../etl-api/location-units.service';
 import { FormControl } from '@angular/forms';
+import { HealthInformationExchangeService } from '../hie-api/health-information-exchange.service';
+import {
+  HieClient,
+  HieClientSearchDto,
+  HieIdentificationType
+} from '../models/hie-registry.model';
+import { IdentifierTypesUuids } from '../constants/identifier-types';
+import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
 
 /**
  * ADDRESS MAPPINGS
@@ -55,6 +71,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: BsModalRef;
   @ViewChild('confirmModal') public confirmModal: BsModalRef;
   @ViewChild('verificationModal') public verificationModal: BsModalRef;
+  @ViewChild('hieVerificationModal') public hieVerificationModal: BsModalRef;
 
   public patients: Patient = new Patient({});
   public person: any;
@@ -198,6 +215,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   options: string[] = [];
   public countries: any = [];
   public countrySuggest: Subject<any> = new Subject();
+  hieClient: HieClient;
+  hiePatientData = [];
+  hasHieVerificationError = false;
+  hieVerificationMg = null;
+  showHieLoader = false;
+  hieLoadingMessage = null;
+  private titleCasePipe = new TitleCasePipe();
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     public toastrService: ToastrService,
@@ -215,7 +240,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientResourceService: PatientResourceService,
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
-    private locationUnitsService: LocationUnitsService
+    private locationUnitsService: LocationUnitsService,
+    private hieService: HealthInformationExchangeService,
+    private hieAdapter: HieToAmrsPersonAdapter
   ) {}
 
   public ngOnInit() {
@@ -1359,6 +1386,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.subscriptions.map((sub) => sub.unsubscribe);
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public generatePatientIdentifier() {
@@ -1694,6 +1723,151 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.careGiverPhoneNumber = '';
     this.selectedLocation = '';
     this.partnerPhoneNumber = null;
+  }
+  searchHieRegistry() {
+    this.resetForm();
+    this.resetHieError();
+    const identifierType = this.patientIdentifierType;
+    const identifier = this.commonIdentifier;
+    if (
+      identifierType &&
+      identifierType.val === IdentifierTypesUuids.NATIONAL_ID_UUID &&
+      identifier !== ''
+    ) {
+      const payload: HieClientSearchDto = {
+        identificationNumber: identifier,
+        identificationNumbeType: HieIdentificationType.NationalID
+      };
+      this.fetchHiePatient(payload);
+    } else {
+      this.setHieError(
+        'Please select National ID and enter the value to Verify from HIE'
+      );
+    }
+  }
+  resetHieError() {
+    this.hieVerificationMg = null;
+    this.hasHieVerificationError = false;
+  }
+  setHieError(msg: string) {
+    this.hieVerificationMg = msg;
+    this.hasHieVerificationError = true;
+  }
+  fetchHiePatient(hieClientSearchDto: HieClientSearchDto) {
+    this.resetHieError();
+    this.showHieVerificationLoader(
+      'Fetching client from HIE Registry...please wait'
+    );
+    this.hieService
+      .fetchClient(hieClientSearchDto)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          this.hieClient = res[0] || null;
+          this.hiePatientData = this.hieAdapter.generateAmrsHiePatientData(
+            this.hieClient,
+            null
+          );
+          this.patientExists = false;
+          this.showHieModal();
+        }),
+        finalize(() => {
+          this.hideHieVerificationLoader();
+          this.resetForm();
+        }),
+        catchError((error) => {
+          this.setHieError(
+            error.message ||
+              'An error occurred while fetching the HIE client, please try again or contact support'
+          );
+          throw error;
+        })
+      )
+      .subscribe();
+  }
+  showHieVerificationLoader(msg: string) {
+    this.showHieLoader = true;
+    this.hieVerificationMg = msg;
+  }
+  hideHieVerificationLoader() {
+    this.showHieLoader = false;
+    this.hieVerificationMg = null;
+  }
+  showHieModal() {
+    this.modalRef = this.modalService.show(this.hieVerificationModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+  useHieData() {
+    this.closehieVerification();
+    this.givenName = this.hieClient.first_name;
+    this.middleName = this.hieClient.middle_name;
+    this.familyName = this.hieClient.last_name;
+    this.gender = this.hieClient.gender === 'Male' ? 'M' : 'F';
+    this.updateBirthDate(this.hieClient.date_of_birth);
+    this.addPatientHieIdentifiersToForm(this.hieClient);
+    this.addPatientHieAttributesToForm(this.hieClient);
+    this.addResidencyHieDataToForm(this.hieClient);
+  }
+  closehieVerification() {
+    this.modalRef.hide();
+    this.errorAlert = false;
+  }
+  addPatientHieIdentifiersToForm(hieClient: HieClient) {
+    this.identifiers.push({
+      identifier: hieClient.id,
+      identifierType: IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
+      identifierTypeName: 'CR'
+    });
+    if (
+      hieClient.identification_type === 'National ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.NATIONAL_ID_UUID,
+        identifierTypeName: 'National ID'
+      });
+    }
+    if (hieClient.other_identifications.length > 0) {
+      hieClient.other_identifications.forEach((otherId) => {
+        let identifierTypeUuid = null;
+        let identifierTypeName = null;
+
+        if (otherId.identification_type === 'SHA Number') {
+          identifierTypeUuid = IdentifierTypesUuids.SHA_UUID;
+          identifierTypeName = 'SHA Number';
+        }
+        if (otherId.identification_type === 'Household Number') {
+          identifierTypeUuid = IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID;
+          identifierTypeName = 'Household Number';
+        }
+        if (identifierTypeUuid && identifierTypeName) {
+          this.identifiers.push({
+            identifier: otherId.identification_number,
+            identifierType: identifierTypeUuid,
+            identifierTypeName: identifierTypeName
+          });
+        }
+      });
+    }
+  }
+  addPatientHieAttributesToForm(hieClient: HieClient) {
+    this.patientPhoneNumber = +hieClient.phone;
+    this.email = hieClient.email;
+    this.maritalStatusVal = this.hieAdapter.getAmrsConceptUuidFromField(
+      hieClient.civil_status
+    );
+    this.setCountry(hieClient.country);
+  }
+  addResidencyHieDataToForm(hieCleint: HieClient) {
+    this.longitude = hieCleint.longitude;
+    this.latitude = hieCleint.latitude;
+    this.setCounty(this.titleCasePipe.transform(hieCleint.county));
+    this.setSubCounty(this.titleCasePipe.transform(hieCleint.sub_county));
+    this.setWard(this.titleCasePipe.transform(hieCleint.ward));
+    this.cityVillage = this.hieClient.village_estate;
   }
 }
 

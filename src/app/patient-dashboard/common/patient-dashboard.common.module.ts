@@ -138,6 +138,8 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { OtzSnapshotComponent } from './otz-snapshot/otz-snapshot.component';
 import { ProjectBeyondComponent } from './patient-info/project-beyond/project-beyond.component';
 import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.component';
+import { VerifyHieIdentifierDialogComponent } from './patient-banner/dialog/verify-hie-identifier/verify-hie-identifier.dialog.component';
+import { HieToAmrsPersonAdapter } from '../../utils/hei-to-amrs-patient.adapter';
 
 @NgModule({
   imports: [
@@ -233,7 +235,8 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     EditOccupationComponent,
     PatientEducationComponent,
     AddPatientEducationComponent,
-    EditPatientEducationComponent
+    EditPatientEducationComponent,
+    VerifyHieIdentifierDialogComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -297,7 +300,8 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     OvcSnapshotComponent,
     OtzSnapshotComponent,
     ProjectBeyondComponent,
-    OtzConsentComponent
+    OtzConsentComponent,
+    VerifyHieIdentifierDialogComponent
   ],
   providers: [
     {
@@ -338,7 +342,8 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     VitalsDatasource,
     TodayVisitService,
     PatientTransferService,
-    UserDefaultPropertiesService
+    UserDefaultPropertiesService,
+    HieToAmrsPersonAdapter
   ]
 })
 export class PatientDashboardCommonModule {}

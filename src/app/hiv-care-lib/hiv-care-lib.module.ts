@@ -148,6 +148,7 @@ import { AhdMonthlyReportPatientlistComponent } from './ahd-monthly-report/ahd-m
 import { PlhivNcdV2ReportBaseComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-base/plhiv-ncd-v2-report-base.component';
 import { PlhivNcdV2ReportPatientListComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-view/plhiv-ncd-v2-report-view.component';
+import { HieApiModule } from '../hie-api/hie.module';
 
 @NgModule({
   imports: [
@@ -179,7 +180,8 @@ import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v
     ReportingUtilitiesModule,
     DataListsModule,
     NgxMyDatePickerModule.forRoot(),
-    AgGridModule.withComponents([FamilyTestingButtonRendererComponent])
+    AgGridModule.withComponents([FamilyTestingButtonRendererComponent]),
+    HieApiModule
   ],
   exports: [
     Moh731TabularComponent,
