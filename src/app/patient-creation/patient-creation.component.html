@@ -2,19 +2,18 @@
   <div class="component-wrapper">
     <div style="margin-bottom: 0.5cm" *ngIf="!found">
       <!-- Search Registry -->
-    <ng-container *ngIf="hasHieVerificationError">
-        <div
-          class="alert alert-danger"
-          style="margin-top: 10px"
-        >
+      <ng-container *ngIf="hasHieVerificationError">
+        <div class="alert alert-danger" style="margin-top: 10px">
           {{ hieVerificationMg }}
         </div>
-    </ng-container>
-    <ng-container *ngIf="showHieLoader">
+      </ng-container>
+      <ng-container *ngIf="showHieLoader">
         <div class="loader" *ngIf="showHieLoader">
-          <span> <i class="fa fa-spinner fa-spin"></i>{{ hieLoadingMessage }}</span>
-       </div>
-    </ng-container>
+          <span>
+            <i class="fa fa-spinner fa-spin"></i>{{ hieLoadingMessage }}</span
+          >
+        </div>
+      </ng-container>
       <div class="row" *ngIf="isNewPatient === 1">
         <h2 style="color: #76b5c5">Patient Verification</h2>
         <div class="col-md-3">
@@ -92,7 +91,7 @@
             </button>
           </div>
         </div>
-         <div class="col-offsetmd-1 col-md-1">
+        <div class="col-offsetmd-1 col-md-1">
           <div class="form-group">
             <button
               id="searchHieBtn"
@@ -1290,7 +1289,7 @@
         </div>
       </div>
     </ng-template>
-     <ng-template #hieVerificationModal>
+    <ng-template #hieVerificationModal>
       <div bsModal class="modal-header">
         <h4 class="modal-title pull-left" style="color: red">
           <span class="glyphicon glyphicon-info-sign"></span> &nbsp; &nbsp;
@@ -1298,26 +1297,30 @@
         </h4>
       </div>
       <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
-          <div class="row">
-              <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                <table class="table table-striped">
-                <thead>
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>HIE Patient</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let data of hiePatientData">
                   <tr>
-                    <th>Field</th>
-                    <th>HIE Patient</th>
+                    <td>
+                      <strong
+                        ><span>{{ data.title }}</span>
+                      </strong>
+                    </td>
+                    <td>{{ data.hieValue }}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let data of hiePatientData">
-                     <tr>
-                        <td><strong><span>{{ data.title }}</span> </strong> </td>
-                        <td>{{ data.hieValue }}</td>
-                  </tr>
-                  </ng-container>
-                </tbody>
-                </table>
-              </div>
+                </ng-container>
+              </tbody>
+            </table>
           </div>
+        </div>
       </div>
       <div bsModal class="modal-footer">
         <div class="row">

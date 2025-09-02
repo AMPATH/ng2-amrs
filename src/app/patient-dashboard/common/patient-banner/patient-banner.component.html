@@ -106,10 +106,10 @@
               <span class="glyphicon glyphicon-info-sign"></span>
               <span style="margin-left: -5px">Verify Patient</span>
             </span>
-             <span *ngIf="searchIdentifiers?.cr">
-                <span class="id-label">CR:</span>
-                <span>{{ searchIdentifiers?.cr }}</span>
-              </span>
+            <span *ngIf="searchIdentifiers?.cr">
+              <span class="id-label">CR:</span>
+              <span>{{ searchIdentifiers?.cr }}</span>
+            </span>
             <span
               *ngIf="!searchIdentifiers?.cr"
               (click)="showHeiDialog()"
@@ -357,10 +357,10 @@
               <span class="glyphicon glyphicon-info-sign"></span>
               <span style="margin-left: -5px">Verify Patient</span>
             </span>
-             <span *ngIf="searchIdentifiers?.cr">
-                <span class="id-label">CR:</span>
-                <span>{{ searchIdentifiers?.cr }}</span>
-              </span>
+            <span *ngIf="searchIdentifiers?.cr">
+              <span class="id-label">CR:</span>
+              <span>{{ searchIdentifiers?.cr }}</span>
+            </span>
             <span
               *ngIf="!searchIdentifiers?.cr"
               (click)="showHeiDialog()"
@@ -660,8 +660,9 @@
       </div>
     </div>
   </p-dialog>
-  <app-verify-hie-dialog 
-  [show]="showHieModal" 
-  [patient]="patient"
-  (hideVerifyDialog)="hideHieDialog()"></app-verify-hie-dialog>
+  <app-verify-hie-dialog
+    [show]="showHieModal"
+    [patient]="patient"
+    (hideVerifyDialog)="hideHieDialog()"
+  ></app-verify-hie-dialog>
 </div>
