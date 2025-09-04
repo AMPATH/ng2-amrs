@@ -7,8 +7,8 @@ import {
   Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, EMPTY, forkJoin, Observable, Subject } from 'rxjs';
+import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { HealthInformationExchangeService } from '../../../../../hie-api/health-information-exchange.service';
 import {
   HieAmrsObj,
@@ -21,6 +21,7 @@ import { PatientResourceService } from '../../../../../openmrs-api/patient-resou
 import { PersonResourceService } from '../../../../../openmrs-api/person-resource.service';
 import { HieToAmrsPersonAdapter } from 'src/app/utils/hei-to-amrs-patient.adapter';
 import { IdentifierTypesUuids } from '../../../../../constants/identifier-types';
+import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
 
 @Component({
   selector: 'app-verify-hie-dialog',
@@ -36,7 +37,7 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
     identifierValue: new FormControl(null, Validators.required)
   });
   showSuccessAlert = false;
-  successAlert = false;
+  successAlert = '';
   showErrorAlert = false;
   errorTitle = '';
   errorAlert = '';
@@ -56,7 +57,8 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
     private hieService: HealthInformationExchangeService,
     private patientResourceService: PatientResourceService,
     private personResourceService: PersonResourceService,
-    private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter
+    private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
+    private patientService: PatientService
   ) {}
 
   ngOnInit(): void {
@@ -68,8 +70,10 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
     });
   }
   hideDialog() {
+    this.resetValues();
     this.show = false;
     this.hideVerifyDialog.emit(true);
+    this.patientService.reloadCurrentPatient();
   }
   searchRegistry() {
     const payload = this.generatePayload();
@@ -106,6 +110,14 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
   handleError(errorMessage: string) {
     this.showErrorAlert = true;
     this.errorAlert = errorMessage;
+  }
+  handleSuccess(mgs: string) {
+    this.showSuccessAlert = true;
+    this.successAlert = mgs;
+  }
+  resetSuccess() {
+    this.showSuccessAlert = false;
+    this.successAlert = null;
   }
   resetError() {
     this.showErrorAlert = false;
@@ -150,30 +162,64 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
   syncPatientIdentifiers() {
     this.displayLoader('Syncing patient identifiers...');
     const reqObs$: Observable<any>[] = [];
-    this.hieDataToSync
-      .filter((d) => {
-        return this.hieIdentifiers.includes(d);
-      })
-      .forEach((d) => {
-        let identifierUuid = '';
-        if (d === 'id') {
-          identifierUuid = IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID;
-        }
-        if (d === 'SHA Number') {
-          identifierUuid = IdentifierTypesUuids.SHA_UUID;
-        }
-        if (d === 'Household Number') {
-          identifierUuid = IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID;
-        }
-        if (identifierUuid.length > 0) {
-          reqObs$.push(
-            this.handleIdentifierUpdate(identifierUuid, this.hieCleint.id)
-          );
-        }
-      });
-    combineLatest(reqObs$)
+    const dataToSync = this.hieDataToSync.filter((d) => {
+      return this.hieIdentifiers.includes(d);
+    });
+
+    for (const d of dataToSync) {
+      if (d === 'id') {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.hieCleint
+            )
+          )
+        );
+      } else if (d === 'SHA Number') {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.SHA_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.hieCleint
+            )
+          )
+        );
+      } else if (d === 'Household Number') {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.hieCleint
+            )
+          )
+        );
+      }
+    }
+
+    forkJoin(reqObs$)
       .pipe(
+        map((res) => {
+          if (res) {
+            this.handleSuccess('Patient Identifiers successfully set');
+            return res;
+          } else {
+            throw new Error(
+              'An error occurred while syncing patient identifiers'
+            );
+          }
+        }),
         takeUntil(this.destroy$),
+        catchError((error) => {
+          this.handleError(
+            error.error.message ||
+              'An error occurred while syncing the patient identifiers'
+          );
+          throw EMPTY;
+        }),
         finalize(() => {
           this.hideLoader();
         })
@@ -213,6 +259,12 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
   getCommonIdentifier(identifierTypeUuid: string) {
     if (identifierTypeUuid === IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID) {
       return this.patient.commonIdentifiers.cr !== undefined ? true : false;
+    } else if (
+      identifierTypeUuid === IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID
+    ) {
+      return this.patient.commonIdentifiers.hhNo !== undefined ? true : false;
+    } else if (identifierTypeUuid === IdentifierTypesUuids.SHA_UUID) {
+      return this.patient.commonIdentifiers.sha !== undefined ? true : false;
     } else {
       return false;
     }
@@ -224,6 +276,7 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
     return identifier;
   }
   syncPersonAttributes() {
+    this.displayLoader('Syncing patient attributes...');
     const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonAttributeData(
       this.hieCleint,
       this.patient,
@@ -243,7 +296,29 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
     const { patientUuid, payload } = updatePersonAttributePayload;
     this.personResourceService
       .saveUpdatePerson(patientUuid, payload)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        map((res) => {
+          if (res) {
+            this.handleSuccess('Patient Attributes successfully set');
+            return res;
+          } else {
+            throw new Error(
+              'An error occurred while syncing patient attributes'
+            );
+          }
+        }),
+        catchError((error) => {
+          this.handleError(
+            error.error.message ||
+              'An error occurred while syncing the patient attributes'
+          );
+          throw EMPTY;
+        }),
+        finalize(() => {
+          this.hideLoader();
+        })
+      )
       .subscribe();
   }
   updatePatientIdentifier(
@@ -282,7 +357,29 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
         '',
         identifierPayload
       )
-      .pipe(takeUntil(this.destroy$));
+      .pipe(
+        takeUntil(this.destroy$),
+        map((res) => {
+          if (res) {
+            this.handleSuccess('Patient Attributes successfully set');
+            return res;
+          } else {
+            throw new Error(
+              'An error occurred while syncing patient attributes'
+            );
+          }
+        }),
+        catchError((error) => {
+          this.handleError(
+            error.error.message ||
+              'An error occurred while syncing the patient attributes'
+          );
+          throw EMPTY;
+        }),
+        finalize(() => {
+          this.hideLoader();
+        })
+      );
   }
   displayLoader(message: string) {
     this.showLoader = true;
@@ -296,6 +393,7 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
     this.hieCleint = null;
     this.hideLoader();
     this.resetError();
+    this.resetSuccess();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
   }

@@ -42,7 +42,11 @@ export class HieToAmrsPersonAdapter {
         val = patient ? patient.person.preferredName['familyName'] : '';
         break;
       case 'gender':
-        val = patient ? (patient.person.gender === 'Male' ? 'M' : 'F') : '';
+        val = patient
+          ? patient.person.gender === 'M'
+            ? 'Male'
+            : 'Female'
+          : '';
         break;
       case 'date_of_birth':
         val = patient
@@ -96,6 +100,18 @@ export class HieToAmrsPersonAdapter {
     } else {
       return undefined;
     }
+  }
+  getHieIdentifierByName(
+    identifierName: string,
+    hieCleint: HieClient
+  ): string | null {
+    if (identifierName === 'id') {
+      return hieCleint.id;
+    }
+    const identifier = hieCleint.other_identifications.find((d) => {
+      return d.identification_type === identifierName;
+    });
+    return identifier !== undefined ? identifier.identification_number : null;
   }
   generateAmrsHiePatientData(hieClient: HieClient, patient: Patient | null) {
     const identificationData = this.generateIdentificationData(
