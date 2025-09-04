@@ -69,6 +69,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public patientEncounters: Array<any> = [];
   public isSelectedRelationProgramHEI = false;
   public isHEIActive = false;
+  public showHieModal = false;
 
   constructor(
     private patientService: PatientService,
@@ -408,5 +409,11 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           }
         });
       });
+  }
+  showHeiDialog() {
+    this.showHieModal = true;
+  }
+  hideHieDialog() {
+    this.showHieModal = false;
   }
 }

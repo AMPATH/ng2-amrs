@@ -1,0 +1,180 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light py-3 d-flex align-items-center">
+          <i class="fas fa-search me-2 text-primary"></i>
+          <h3 class="card-title mb-0">Practitioner Search</h3>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label for="nationalId" class="form-label fw-medium"
+                    >National ID</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nationalId"
+                    placeholder="Enter National ID"
+                    formControlName="nationalId"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label for="name" class="form-label fw-medium">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="Enter practitioner name"
+                    formControlName="name"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label for="licenseNumber" class="form-label fw-medium"
+                    >License Number</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="licenseNumber"
+                    placeholder="Enter license number"
+                    formControlName="licenseNumber"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4"
+                  [disabled]="isLoading"
+                >
+                  <span
+                    *ngIf="isLoading"
+                    class="spinner-border spinner-border-sm me-2"
+                  ></span>
+                  <i class="fas fa-search me-1"></i> Search
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary ms-3 px-4"
+                  (click)="onReset()"
+                  [disabled]="isLoading"
+                >
+                  <i class="fas fa-redo me-1"></i> Reset
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header bg-light py-3 d-flex align-items-center">
+          <i class="fas fa-user-md me-2 text-primary"></i>
+          <h3 class="card-title mb-0">Practitioners</h3>
+          <span class="badge bg-secondary ms-2">{{
+            practitioners.length
+          }}</span>
+        </div>
+        <div class="card-body p-4">
+          <div *ngIf="isLoading" class="text-center p-5">
+            <div
+              class="spinner-border text-primary"
+              style="width: 3rem; height: 3rem"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted">Loading practitioners...</p>
+          </div>
+
+          <div
+            *ngIf="!isLoading && practitioners.length === 0"
+            class="text-center p-5"
+          >
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <p class="text-muted fs-5">
+              {{
+                searchPerformed
+                  ? 'No practitioners found matching your criteria.'
+                  : 'No practitioners available. Try a search above.'
+              }}
+            </p>
+          </div>
+
+          <div *ngIf="!isLoading && practitioners.length > 0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th class="text-center" style="width: 50px">#</th>
+                    <th>Name</th>
+                    <th>National ID</th>
+                    <th>License Type</th>
+                    <th>Status</th>
+                    <th>Phone</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let practitioner of practitioners; let i = index"
+                    class="bg-white"
+                  >
+                    <td class="text-center fw-medium text-muted">
+                      {{ i + 1 }}
+                    </td>
+                    <td class="fw-medium text-dark">
+                      {{ practitioner.membership.full_name }}
+                    </td>
+                    <td>
+                      {{ practitioner.identifiers.identification_number }}
+                    </td>
+                    <td>{{ practitioner.licenses[0]?.license_type }}</td>
+                    <td>
+                      <span
+                        class="badge px-2 py-1"
+                        [ngClass]="{
+                          'bg-success':
+                            practitioner.membership.status === 'Licensed',
+                          'bg-warning text-dark':
+                            practitioner.membership.status !== 'Licensed'
+                        }"
+                      >
+                        {{ practitioner.membership.status }}
+                      </span>
+                    </td>
+                    <td>{{ practitioner.contacts.phone }}</td>
+                    <td class="text-end">
+                      <button
+                        (click)="viewPractitionerDetails(practitioner)"
+                        class="btn btn-sm btn-info px-3"
+                      >
+                        <i class="fas fa-eye me-1"></i> View
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-practitioner-detail-modal
+    [practitioner]="selectedPractitioner"
+    [isVisible]="showModal"
+    (closeModal)="closeModal()"
+  >
+  </app-practitioner-detail-modal>
+</div>

@@ -36,6 +36,12 @@
               <span>Data Analytics</span>
             </a>
           </li>
+          <li class="practitioner-search">
+              <a routerLink="/practitioner-search" routerLinkActive="active">
+                <i class="fa fa-users mr-1"></i>
+                <span>Practitioners</span>
+              </a>
+            </li>
         </ul>
       </li>
       <li
@@ -45,16 +51,24 @@
       >
         <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-user"></i>
-          <span class="username hidden-xs mr-1">{{ user.display }}</span>
+           <span class="username hidden-xs mr-1">{{ user.display }}</span>
           <span class="caret"></span>
         </a>
         <ul *dropdownMenu class="dropdown-menu">
           <li class="dropdown-header">
             <dl>
               <dt>{{ user.display }}</dt>
+              <dd><small class="text-success"><i class="fa fa-check-circle"></i> Licensed • PUID-0015826-2</small></dd>
+              <!-- <dd><small class="text-success"><i class="fa fa-calendar-check-o"></i> License valid until 2026-06-30</small> <small class="text-muted">• Clinical Officers Council</small></dd> -->
             </dl>
           </li>
           <li role="separator" class="divider"></li>
+          <li class="dropdown-header">
+            <dl>
+              <dt>License Status:</dt>
+              <dd class="text-success">Active (Valid until 2026-06-30)</dd>
+            </dl>
+          </li>
           <li class="dropdown-header">
             <dl>
               <dt>Location:</dt>
