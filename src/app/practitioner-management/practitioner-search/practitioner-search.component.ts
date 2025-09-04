@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HealthInformationExchangeService } from 'src/app/hie-api/health-information-exchange.service';
 import { Practitioner } from 'src/app/models/practitioner.model';
@@ -8,7 +8,7 @@ import { Practitioner } from 'src/app/models/practitioner.model';
   templateUrl: './practitioner-search.component.html',
   styleUrls: ['./practitioner-search.component.css']
 })
-export class PractitionerSearchComponent implements OnInit {
+export class PractitionerSearchComponent {
   searchForm: FormGroup;
   practitioners: Practitioner[] = [];
   isLoading = false;
@@ -26,24 +26,6 @@ export class PractitionerSearchComponent implements OnInit {
       licenseNumber: ['']
     });
   }
-
-  ngOnInit(): void {
-    // this.loadAllPractitioners();
-  }
-
-  // loadAllPractitioners(): void {
-  //   this.isLoading = true;
-  //   this.practitionerService.getAllPractitioners().subscribe({
-  //     next: (practitioners) => {
-  //       this.practitioners = practitioners;
-  //       this.isLoading = false;
-  //       this.searchPerformed = false;
-  //     },
-  //     error: () => {
-  //       this.isLoading = false;
-  //     }
-  //   });
-  // }
 
   onSearch(): void {
     if (this.searchForm.valid) {
@@ -65,7 +47,6 @@ export class PractitionerSearchComponent implements OnInit {
 
   onReset(): void {
     this.searchForm.reset();
-    // this.loadAllPractitioners();
   }
 
   viewPractitionerDetails(practitioner: Practitioner): void {
