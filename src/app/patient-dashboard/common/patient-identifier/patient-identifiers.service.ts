@@ -171,6 +171,18 @@ export class PatientIdentifierService {
         format: '^\\d{4}/\\d{2}/\\d{5}$',
         checkdigit: 0,
         val: '328d1e06-268c-4a6b-b292-c15e12c470c9'
+      },
+      {
+        label: 'CR',
+        format: '^CR\\d{13}-\\d$',
+        checkdigit: 0,
+        val: 'e88dc246-3614-4ee3-8141-1f2a83054e72'
+      },
+      {
+        label: 'Household Number',
+        format: '^HH\\d{13}-\\d$',
+        checkdigit: 0,
+        val: 'bb74b20e-dcee-4f59-bdf1-2dffc3abf106'
       }
     ];
   }

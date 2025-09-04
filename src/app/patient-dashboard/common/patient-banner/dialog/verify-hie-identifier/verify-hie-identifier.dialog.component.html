@@ -1,0 +1,127 @@
+<p-dialog
+  header="HIE Verification"
+  [(visible)]="show"
+  closable="true"
+  (onHide)="hideDialog()"
+  styleClass="edit-identifier-dialog"
+>
+  <div class="container-fluid">
+    <div class="loader" *ngIf="showLoader">
+      <span> <i class="fa fa-spinner fa-spin"></i>{{ loadingMessage }} </span>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+        </div>
+      </div>
+      <form [formGroup]="verifyForm">
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label class="control-label">Patient Identifier Type:</label>
+              <select class="form-control" formControlName="identifierType">
+                <option value="National ID">National ID</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label class="control-label">Value</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="identifierValue"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="searchRegistry()"
+              >
+                <span>Search HIE Registry</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-container *ngIf="hieCleint">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+          <div class="row">
+            <div class="hie-verify-dialog-layout-content">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>AMRS Patient</th>
+                    <th>HIE Patient</th>
+                    <th>Sync</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let data of hieAmrsData">
+                    <tr>
+                      <td>
+                        <strong
+                          ><span
+                            [ngClass]="{
+                              'data-mismatch': data.amrsValue !== data.hieValue
+                            }"
+                            >{{ data.title }}</span
+                          >
+                        </strong>
+                      </td>
+                      <td>{{ data.amrsValue }}</td>
+                      <td>{{ data.hieValue }}</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          (change)="
+                            addToSyncData(data.key, $event?.target?.checked)
+                          "
+                        />
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+          <ng-container *ngIf="hieDataToSync.length > 0">
+            <div class="form-group">
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="syncData()"
+              >
+                <span>Sync Data</span>
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</p-dialog>

@@ -116,6 +116,7 @@ export class Patient extends BaseModel {
       );
       const upi = this.getIdentifierByType(identifier, 'UPI Number');
       const pid = this.getIdentifierByType(identifier, 'PASSPORT NUMBER');
+      const cr = this.getIdentifierByType(identifier, 'CR');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -142,7 +143,8 @@ export class Patient extends BaseModel {
           prep: prep,
           birthNumber: birthNumber,
           upi: upi,
-          pid: pid
+          pid: pid,
+          cr: cr
         };
       }
       return filteredIdentifiers;
@@ -179,12 +181,20 @@ export class Patient extends BaseModel {
       );
       const upi = this.getIdentifierByType(identifiers, 'UPI Number');
       const pid = this.getIdentifierByType(identifiers, 'PASSPORT NUMBER');
+      const cr = this.getIdentifierByType(identifiers, 'CR');
+      const sha = this.getIdentifierByType(
+        identifiers,
+        'Social Health Insurance Number'
+      );
+      const hhNo = this.getIdentifierByType(identifiers, 'Household Number');
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
         ampathMrsUId === undefined &&
         cCC === undefined &&
-        ovcid === undefined
+        ovcid === undefined &&
+        sha === undefined &&
+        hhNo === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -208,7 +218,10 @@ export class Patient extends BaseModel {
             ? this._fromArrayToCommaSeparatedString(birthNumber)
             : birthNumber,
           upi: upi ? this._fromArrayToCommaSeparatedString(upi) : upi,
-          pid: pid ? this._fromArrayToCommaSeparatedString(pid) : pid
+          pid: pid ? this._fromArrayToCommaSeparatedString(pid) : pid,
+          cr: cr,
+          sha: sha,
+          hhNo: hhNo
         };
       }
       return filteredIdentifiers;
