@@ -4,6 +4,7 @@ import { HieClient, HieClientSearchDto } from '../models/hie-registry.model';
 import { Observable, of } from 'rxjs';
 import * as moment from 'moment';
 import {
+  ErrorPractitionerResp,
   Practitioner,
   PractitionerSearchParams
 } from '../models/practitioner.model';

@@ -10,7 +10,6 @@ import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.m
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
 import { RetrospectiveContainerComponent } from '../retrospective-data-entry/components/container/retrospective-container.component';
-import { PractitionerManagementModule } from '../practitioner-management/practitioner-management.module';
 export function patientDashboardModule() {
   return PatientDashboardModule;
 }
@@ -57,7 +56,7 @@ export const dashboardRoutes: Routes = [
         component: LabOrderSearchContainerComponent
       },
       {
-        path: 'practitioner-search',
+        path: 'practitioner',
         loadChildren:
           '../practitioner-management/practitioner-management.module#PractitionerManagementModule'
       },
