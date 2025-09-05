@@ -36,12 +36,15 @@
               <span>Data Analytics</span>
             </a>
           </li>
-          <li class="practitioner-search">
+          <ng-container *ngIf="viewPractionionerData">
+            <li class="practitioner-search">
               <a routerLink="/practitioner/search" routerLinkActive="active">
                 <i class="fa fa-users mr-1"></i>
                 <span>Practitioners</span>
               </a>
             </li>
+          </ng-container>
+         
         </ul>
       </li>
       <li

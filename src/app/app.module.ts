@@ -44,6 +44,7 @@ import { PocHttpInteceptor } from './shared/services/poc-http-interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { PatientReminderCustomComponent } from './patient-dashboard/common/patient-reminders/patient-reminder-custom.component';
 import { PatientReminderService } from './patient-dashboard/common/patient-reminders/patient-reminders.service';
+import { IsClinicalStaffViewerGuard } from './shared/guards/is-clinical-staff-viewer.guard';
 
 // Application wide providers
 const APP_PROVIDERS = [...APP_RESOLVER_PROVIDERS, AppState];
@@ -109,7 +110,8 @@ interface StoreType {
       multi: true
     },
     PatientReminderService,
-    DataCacheService
+    DataCacheService,
+    IsClinicalStaffViewerGuard
   ],
   entryComponents: [PatientReminderCustomComponent],
   exports: [LabOrderSearchModule]
