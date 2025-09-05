@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="practitioner-search">
-              <a routerLink="/practitioner-search" routerLinkActive="active">
+              <a routerLink="/practitioner/search" routerLinkActive="active">
                 <i class="fa fa-users mr-1"></i>
                 <span>Practitioners</span>
               </a>
@@ -55,20 +55,7 @@
           <span class="caret"></span>
         </a>
         <ul *dropdownMenu class="dropdown-menu">
-          <li class="dropdown-header">
-            <dl>
-              <dt>{{ user.display }}</dt>
-              <dd><small class="text-success"><i class="fa fa-check-circle"></i> Licensed • PUID-0015826-2</small></dd>
-              <!-- <dd><small class="text-success"><i class="fa fa-calendar-check-o"></i> License valid until 2026-06-30</small> <small class="text-muted">• Clinical Officers Council</small></dd> -->
-            </dl>
-          </li>
           <li role="separator" class="divider"></li>
-          <li class="dropdown-header">
-            <dl>
-              <dt>License Status:</dt>
-              <dd class="text-success">Active (Valid until 2026-06-30)</dd>
-            </dl>
-          </li>
           <li class="dropdown-header">
             <dl>
               <dt>Location:</dt>
@@ -100,6 +87,11 @@
             <a routerLink="/user-default-properties" routerLinkActive="active">
               <span class="glyphicon glyphicon-user"></span> User Default
               Settings
+            </a>
+          </li>
+           <li>
+             <a routerLink="/practitioner/profile" routerLinkActive="active">
+              <span class="glyphicon glyphicon-user"></span>My Practioner Profile
             </a>
           </li>
           <li>

@@ -60,3 +60,10 @@ export interface PractitionerSearchParams {
   name?: string;
   licenseNumber?: string;
 }
+
+export interface ErrorPractitionerResp {
+  error: string;
+}
+export interface PractitionerResp {
+  message: Practitioner;
+}

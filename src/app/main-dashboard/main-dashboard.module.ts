@@ -23,6 +23,7 @@ import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.
 import { CacheModule } from 'ionic-cache';
 import { NavigationModule } from '../navigation';
 import { RetrospectiveDataEntryModule } from '../retrospective-data-entry/retrospective-data-entry.module';
+import { PractitionerManagementModule } from '../practitioner-management/practitioner-management.module';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { RetrospectiveDataEntryModule } from '../retrospective-data-entry/retros
     LabOrderSearchModule,
     UsefulLinksModule,
     UserDefaultPropertiesModule,
-    RetrospectiveDataEntryModule
+    RetrospectiveDataEntryModule,
+    PractitionerManagementModule
   ],
   declarations: [MainDashboardComponent, MOTDNotificationComponent],
   providers: [

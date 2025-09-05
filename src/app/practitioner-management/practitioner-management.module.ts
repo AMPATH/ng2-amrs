@@ -5,10 +5,15 @@ import { RouterModule } from '@angular/router';
 
 import { PractitionerSearchComponent } from './practitioner-search/practitioner-search.component';
 import { PractitionerManagementRoutingModule } from './practitioner-management-routing.module';
-import { PractitionerDetailModalComponent } from './practitioner-detail/practitioner-detail-modal.component';
+import { PractitionerDetailModalComponent } from './dialog/practitioner-detail/practitioner-detail-modal.component';
+import { PractitionerDetailsComponent } from './details/practitioner-details.component';
 
 @NgModule({
-  declarations: [PractitionerSearchComponent, PractitionerDetailModalComponent],
+  declarations: [
+    PractitionerSearchComponent,
+    PractitionerDetailModalComponent,
+    PractitionerDetailsComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
