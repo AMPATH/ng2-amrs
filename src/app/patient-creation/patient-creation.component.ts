@@ -49,6 +49,7 @@ import {
 } from '../models/hie-registry.model';
 import { IdentifierTypesUuids } from '../constants/identifier-types';
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
+import { AmrsErrorResponse } from '../interfaces/amrs-error.interface';
 
 /**
  * ADDRESS MAPPINGS
@@ -223,6 +224,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   hieLoadingMessage = null;
   private titleCasePipe = new TitleCasePipe();
   private destroy$ = new Subject<boolean>();
+  hasPatientCreationErrors = false;
+  patientCreationErrors: string[] = [];
 
   constructor(
     public toastrService: ToastrService,
@@ -1174,63 +1177,39 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.errors) {
       const savePatientSub = this.patientCreationResourceService
         .savePatient(payload)
-        .pipe(take(1))
-        .subscribe(
-          (success) => {
+        .pipe(
+          take(1),
+          catchError((error: AmrsErrorResponse) => {
+            this.handleErrors(error);
+            throw error;
+          }),
+          finalize(() => {
             this.loaderStatus = false;
-            this.sessionStorageService.remove('person');
-            this.createdPatient = success;
-            const patientResult: any = success;
-            if (
-              !payload.identifiers.find(
-                (x) =>
-                  x.identifierType === 'cba702b9-4664-4b43-83f1-9ab473cbd64d'
-              )
-            ) {
-              console.log(
-                'Check if MOH no. will be assigned twice during patient creation'
-              );
-              this.patientCreationResourceService
-                .generateUPI(
-                  patientResult.person.uuid,
-                  this.countrySearchParam.value
-                )
-                .subscribe(
-                  (data) => {
-                    console.log('Success data', data);
-                  },
-                  (err) => {
-                    console.log('Error', err);
-                  }
-                );
-            }
-            if (this.createdPatient && !this.patientObsGroupId) {
-              this.modalRef = this.modalService.show(this.successModal, {
-                backdrop: 'static',
-                keyboard: false
+          })
+        )
+        .subscribe((success) => {
+          this.loaderStatus = false;
+          this.sessionStorageService.remove('person');
+          this.createdPatient = success;
+
+          if (this.createdPatient && !this.patientObsGroupId) {
+            this.modalRef = this.modalService.show(this.successModal, {
+              backdrop: 'static',
+              keyboard: false
+            });
+          } else if (this.patientObsGroupId) {
+            const patient: Patient = success as Patient;
+            this.patientCreationResourceService
+              .updatePatientContact(patient.person.uuid, this.patientObsGroupId)
+              .subscribe((response) => {
+                this.router.navigate([
+                  '/patient-dashboard/patient/' +
+                    patient.person.uuid +
+                    '/general/general/landing-page'
+                ]);
               });
-            } else if (this.patientObsGroupId) {
-              const patient: Patient = success as Patient;
-              this.patientCreationResourceService
-                .updatePatientContact(
-                  patient.person.uuid,
-                  this.patientObsGroupId
-                )
-                .subscribe((response) => {
-                  this.router.navigate([
-                    '/patient-dashboard/patient/' +
-                      patient.person.uuid +
-                      '/general/general/landing-page'
-                  ]);
-                });
-            }
-          },
-          (err) => {
-            this.loaderStatus = false;
-            this.errorAlert = true;
-            this.errorAlerts = this.processErrors(err.error);
           }
-        );
+        });
 
       this.subscriptions.push(savePatientSub);
     }
@@ -1242,6 +1221,25 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     const o = n.split(',');
 
     return o;
+  }
+  private handleErrors(error: AmrsErrorResponse) {
+    const errors = [];
+    if (error && error.error && error.error.error) {
+      const globalErrors = error.error.error.globalErrors || null;
+      if (globalErrors) {
+        this.errorAlert = true;
+        for (const err of globalErrors) {
+          errors.push(err.message);
+        }
+      } else {
+        this.errorAlert = true;
+        errors.push(
+          error.error.error.message ||
+            'An error occurred while creating the patient. Please try again or contact support'
+        );
+      }
+    }
+    this.errorAlerts = errors;
   }
 
   public updateVerify() {
@@ -1820,6 +1818,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       identifierType: IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
       identifierTypeName: 'CR'
     });
+    this.identifierAdded = true;
+    this.commonAdded = true;
     if (
       hieClient.identification_type === 'National ID' &&
       hieClient.identification_number !== ''

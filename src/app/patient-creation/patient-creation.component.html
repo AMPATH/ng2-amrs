@@ -82,18 +82,6 @@
         <div class="col-md-1">
           <div class="form-group">
             <button
-              id="updateCrBtn"
-              class="btn btn-primary"
-              (click)="searchNewPatient()"
-              style="margin-left: 20px; margin-top: 23px"
-            >
-              Search Registry
-            </button>
-          </div>
-        </div>
-        <div class="col-offsetmd-1 col-md-1">
-          <div class="form-group">
-            <button
               id="searchHieBtn"
               class="btn btn-primary"
               (click)="searchHieRegistry()"
@@ -108,6 +96,9 @@
       <!-- Start of Demographics -->
       <h2 style="color: #76b5c5">Patient Registration</h2>
       <div class="row" style="margin-top: 20px">
+        <ng-container *ngIf="hasPatientCreationErrors">
+
+        </ng-container>
         <div class="col-md-4">
           <div class="form-group">
             <label for="givenName"
@@ -1291,13 +1282,13 @@
     </ng-template>
     <ng-template #hieVerificationModal>
       <div bsModal class="modal-header">
-        <h4 class="modal-title pull-left" style="color: red">
+        <h4 class="modal-title pull-left">
           <span class="glyphicon glyphicon-info-sign"></span> &nbsp; &nbsp;
-          Information.
+          Client Information.
         </h4>
       </div>
       <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
-        <div class="row">
+        <div class="row hie-data-layout">
           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <table class="table table-striped">
               <thead>
