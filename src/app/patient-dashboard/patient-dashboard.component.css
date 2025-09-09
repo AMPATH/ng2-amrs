@@ -1,3 +1,9 @@
+.box-header {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0px;
+}
+
 .box-header,
 .box-body {
   padding: 0;

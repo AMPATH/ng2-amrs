@@ -1,0 +1,27 @@
+.practitioner-alerts-layout {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0px;
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+.alert-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+}
+
+.alert-content__text {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+}
+.alert-content__action {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  justify-content: flex-end;
+}
