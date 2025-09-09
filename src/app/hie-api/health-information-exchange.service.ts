@@ -93,12 +93,14 @@ export class HealthInformationExchangeService {
         })
       );
   }
+
   validateCustomOtp(validateHieCustomOtpDto: ValidateHieCustomOtpDto) {
     const validateOtpUrL = `${this.baseUrl}/client/validate-custom-otp`;
     return this.http.post<
       ValidateHieCustomOtpResponse | ValidateHieCustomOtpErrorResponse
     >(validateOtpUrL, validateHieCustomOtpDto);
   }
+
   requestCustomOtp(requestCustomOtpDto: RequestCustomOtpDto) {
     const requestOtpUrL = `${this.baseUrl}/client/send-custom-otp`;
     return this.http.post<
