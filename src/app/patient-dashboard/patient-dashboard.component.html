@@ -17,6 +17,7 @@
         *ngIf="fetchingPatient"
         mode="indeterminate"
       ></mat-progress-bar>
+      <practitioner-alerts></practitioner-alerts>
       <retrospective-banner></retrospective-banner>
       <patient-banner [patientChanged]="newPatient"></patient-banner>
       <div class="notifications">

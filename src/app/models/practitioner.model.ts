@@ -67,3 +67,10 @@ export interface ErrorPractitionerResp {
 export interface PractitionerResp {
   message: Practitioner;
 }
+
+export interface PractitionerAlert {
+  type: 'warning' | 'success' | 'info' | 'danger';
+  title: string;
+  message: string;
+  action?: 'sync';
+}
