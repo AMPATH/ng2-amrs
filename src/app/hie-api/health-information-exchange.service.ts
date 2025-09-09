@@ -2,13 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HieClient, HieClientSearchDto } from '../models/hie-registry.model';
 import { Observable, of } from 'rxjs';
-import * as moment from 'moment';
 import {
-  ErrorPractitionerResp,
   Practitioner,
-  PractitionerSearchParams
+  PractitionerResponse,
+  PractitionerSearchParams,
+  Providers
 } from '../models/practitioner.model';
-import { delay, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -47,20 +47,38 @@ export class HealthInformationExchangeService {
     }
 
     return this.http
-      .get<{ message: Practitioner }>(`${this.baseUrl}/practitioner/search`, {
+      .get<PractitionerResponse>(`${this.baseUrl}/practitioner/search`, {
         params: httpParams
       })
       .pipe(
         map((response) => {
-          if (!response || !response.message) {
-            return [];
+          if ('error' in response.message) {
+            throw new Error(response.message.error);
           }
           return [response.message];
         })
       );
   }
 
-  // getAllPractitioners(): Observable<Practitioner[]> {
-  //   return of(this.mockPractitioners).pipe(delay(300));
-  // }
+  getAllProviders(locationUuid: string): Observable<Providers[]> {
+    const params = new HttpParams().set('locationUuid', locationUuid);
+    return this.http.get<Providers[]>(`${this.baseUrl}/amrs/providers/active`, {
+      params
+    });
+  }
+
+  getProviderByNationalId(nationalId: string): Observable<Providers[]> {
+    const params = new HttpParams().set('nationalId', nationalId);
+    return this.http
+      .get<Providers[]>(`${this.baseUrl}/amrs/provider/national-id`, { params })
+      .pipe(
+        map((response) => {
+          return response || [];
+        }),
+        catchError((error) => {
+          console.error('Error fetching provider by National ID:', error);
+          return of([]);
+        })
+      );
+  }
 }

@@ -70,38 +70,21 @@
   padding: 5px 10px;
 }
 
-/* Alternating row colors for better readability */
 .table tbody tr:nth-child(even) {
   background-color: #f8f9fa;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .card-body {
-    padding: 1.25rem !important;
-  }
-
-  .btn {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .ms-3 {
-    margin-left: 0 !important;
-  }
-
-  .table-responsive {
-    border-radius: 6px;
-    border: 1px solid #dee2e6;
-  }
-}
-
-/* Icon styling */
-.fas {
-  font-size: 0.9rem;
-}
-
 /* Button styling */
+.btn-success {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+  border-color: #146c43;
+}
+
 .btn-info {
   background-color: #0dcaf0;
   border-color: #0dcaf0;
@@ -110,4 +93,98 @@
 .btn-info:hover {
   background-color: #31d2f2;
   border-color: #25cff2;
+}
+
+.input-group .btn {
+  border-left: 0;
+  padding: 10px 16px;
+}
+
+.input-group .form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  z-index: 3;
+}
+
+.input-group .form-control:focus + .btn {
+  border-color: #86b7fe;
+}
+
+.align-items-end .d-flex {
+  height: 38px;
+}
+
+.d-flex.gap-2 {
+  gap: 0.5rem !important;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.table td {
+  vertical-align: middle;
+}
+.panel-heading {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1.25rem !important;
+  }
+
+  .row.align-items-end {
+    align-items: stretch !important;
+  }
+
+  .row.align-items-end > div:first-child {
+    margin-bottom: 1rem;
+  }
+
+  .d-flex.flex-wrap {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .d-flex.flex-wrap .btn {
+    width: 100%;
+  }
+
+  .table-responsive {
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+  }
+}
+
+@media (max-width: 576px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group .form-control {
+    border-radius: 6px !important;
+    margin-bottom: 8px;
+  }
+
+  .input-group .btn {
+    border-radius: 6px !important;
+    border-left: 1px solid #dee2e6;
+    width: 100%;
+  }
+}
+
+.fas {
+  font-size: 0.9rem;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

@@ -4,73 +4,65 @@
       <div class="card shadow-sm mb-4">
         <div class="card-header bg-light py-3 d-flex align-items-center">
           <i class="fas fa-search me-2 text-primary"></i>
-          <h3 class="card-title mb-0">Practitioner Search</h3>
+          <h3 class="card-title mb-0">Provider Search</h3>
         </div>
         <div class="card-body p-4">
           <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
             <div class="row">
-              <div class="col-md-4">
-                <div class="form-group mb-3">
-                  <label for="nationalId" class="form-label fw-medium"
+              <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                  <label for="nationalId" class="control-label"
                     >National ID</label
                   >
                   <input
                     type="text"
                     class="form-control"
                     id="nationalId"
-                    placeholder="Enter National ID"
+                    placeholder="Enter National ID to filter providers"
                     formControlName="nationalId"
                   />
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group mb-3">
-                  <label for="name" class="form-label fw-medium">Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    placeholder="Enter practitioner name"
-                    formControlName="name"
-                  />
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group mb-3">
-                  <label for="licenseNumber" class="form-label fw-medium"
-                    >License Number</label
+
+              <div class="col-md-2 col-sm-6">
+                <div class="form-group">
+                  <label class="control-label">&nbsp;</label>
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                    [disabled]="isLoading"
                   >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="licenseNumber"
-                    placeholder="Enter license number"
-                    formControlName="licenseNumber"
-                  />
+                    <i class="fas fa-search"></i> Search
+                  </button>
                 </div>
               </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-md-12">
-                <button
-                  type="submit"
-                  class="btn btn-primary px-4"
-                  [disabled]="isLoading"
-                >
-                  <span
-                    *ngIf="isLoading"
-                    class="spinner-border spinner-border-sm me-2"
-                  ></span>
-                  <i class="fas fa-search me-1"></i> Search
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary ms-3 px-4"
-                  (click)="onReset()"
-                  [disabled]="isLoading"
-                >
-                  <i class="fas fa-redo me-1"></i> Reset
-                </button>
+
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <label class="control-label">&nbsp;</label>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-block"
+                    (click)="getAllProviders()"
+                    [disabled]="isLoading"
+                  >
+                    <i class="fas fa-users"></i> Get All Providers
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <label class="control-label">&nbsp;</label>
+                  <button
+                    type="button"
+                    class="btn btn-default btn-block"
+                    (click)="onReset()"
+                    [disabled]="isLoading"
+                  >
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -79,11 +71,9 @@
 
       <div class="card shadow-sm">
         <div class="card-header bg-light py-3 d-flex align-items-center">
-          <i class="fas fa-user-md me-2 text-primary"></i>
-          <h3 class="card-title mb-0">Practitioners</h3>
-          <span class="badge bg-secondary ms-2">{{
-            practitioners.length
-          }}</span>
+          <i class="fas fa-hospital-user me-2 text-primary"></i>
+          <h3 class="card-title mb-0">Providers</h3>
+          <span class="badge bg-secondary ms-2">{{ providers.length }}</span>
         </div>
         <div class="card-body p-4">
           <div *ngIf="isLoading" class="text-center p-5">
@@ -94,87 +84,76 @@
             >
               <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="mt-3 text-muted">Loading practitioners...</p>
+            <p class="mt-3 text-muted">Loading providers...</p>
           </div>
 
           <div
-            *ngIf="!isLoading && practitioners.length === 0"
+            *ngIf="!isLoading && providers.length === 0"
             class="text-center p-5"
           >
-            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <i class="fas fa-hospital-user fa-3x text-muted mb-3"></i>
             <p class="text-muted fs-5">
               {{
                 searchPerformed
-                  ? 'No practitioners found matching your criteria.'
-                  : 'No practitioners available. Try a search above.'
+                  ? 'No providers found matching your criteria.'
+                  : 'No providers available. Click "Get All Providers" to load facility providers.'
               }}
             </p>
           </div>
 
-          <div *ngIf="!isLoading && practitioners.length > 0">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead class="table-light">
-                  <tr>
-                    <th class="text-center" style="width: 50px">#</th>
-                    <th>Name</th>
-                    <th>National ID</th>
-                    <th>License Type</th>
-                    <th>Status</th>
-                    <th>Phone</th>
-                    <th class="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="let practitioner of practitioners; let i = index"
-                    class="bg-white"
-                  >
-                    <td class="text-center fw-medium text-muted">
-                      {{ i + 1 }}
-                    </td>
-                    <td class="fw-medium text-dark">
-                      {{ practitioner.membership.full_name }}
-                    </td>
-                    <td>
-                      {{ practitioner.identifiers.identification_number }}
-                    </td>
-                    <td>{{ practitioner.licenses[0]?.license_type }}</td>
-                    <td>
-                      <span
-                        class="badge px-2 py-1"
-                        [ngClass]="{
-                          'bg-success':
-                            practitioner.membership.status === 'Licensed',
-                          'bg-warning text-dark':
-                            practitioner.membership.status !== 'Licensed'
-                        }"
-                      >
-                        {{ practitioner.membership.status }}
-                      </span>
-                    </td>
-                    <td>{{ practitioner.contacts.phone }}</td>
-                    <td class="text-end">
-                      <button
-                        (click)="viewPractitionerDetails(practitioner)"
-                        class="btn btn-sm btn-info px-3"
-                      >
-                        <i class="fas fa-eye me-1"></i> View
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div *ngIf="!isLoading && providers.length > 0">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">Providers List</h4>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Provider Name</th>
+                      <th>National ID</th>
+                      <th>Location</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let provider of providers; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ provider.provider_names }}</td>
+                      <td>{{ provider.national_id }}</td>
+                      <td>{{ provider.location_name }}</td>
+                      <td>
+                        <button
+                          class="btn btn-sm px-3 btn-info"
+                          (click)="viewProviderDetails(provider)"
+                        >
+                          <i class="fas fa-eye"></i> View Details
+                        </button>
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="providers.length === 0 && !isLoading">
+                      <td colspan="5" class="text-center text-muted">
+                        No providers found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-4" role="alert">
+        {{ errorMessage }}
+      </div>
     </div>
+    <app-practitioner-detail-modal
+      [practitioner]="selectedPractitioner"
+      [isVisible]="showModal"
+      (closeModal)="closeModal()"
+    >
+    </app-practitioner-detail-modal>
   </div>
-  <app-practitioner-detail-modal
-    [practitioner]="selectedPractitioner"
-    [isVisible]="showModal"
-    (closeModal)="closeModal()"
-  >
-  </app-practitioner-detail-modal>
 </div>
