@@ -39,6 +39,9 @@ export class PractionerAlertComponent implements OnInit, OnDestroy {
 
   alertAction(action: string) {
     console.log({ action });
+    if (action === 'sync') {
+      this.practitionerAlertService.refreshAlerts();
+    }
   }
 
   closeAlert() {

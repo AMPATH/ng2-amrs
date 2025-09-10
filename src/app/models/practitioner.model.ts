@@ -67,6 +67,7 @@ export interface PractitionerSearchParams {
   nationalId?: string;
   name?: string;
   licenseNumber?: string;
+  refresh?: boolean;
 }
 
 export interface ErrorPractitionerResp {

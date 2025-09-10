@@ -45,6 +45,9 @@ export class HealthInformationExchangeService {
         .set('identifierType', 'Name')
         .set('identifierValue', params.name);
     }
+    if (params.refresh) {
+      httpParams = httpParams.set('refresh', String(params.refresh));
+    }
 
     return this.http
       .get<PractitionerResponse>(`${this.baseUrl}/practitioner/search`, {
