@@ -14,7 +14,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HealthInformationExchangeService {
-  private baseUrl = 'http://localhost:9000/hie';
+  private baseUrl = 'https://ngx.ampath.or.ke/hie';
 
   constructor(protected http: HttpClient) {}
 
@@ -44,6 +44,9 @@ export class HealthInformationExchangeService {
       httpParams = httpParams
         .set('identifierType', 'Name')
         .set('identifierValue', params.name);
+    }
+    if (params.refresh) {
+      httpParams = httpParams.set('refresh', String(params.refresh));
     }
 
     return this.http

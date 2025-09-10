@@ -13,12 +13,15 @@ export class PractionerAlertComponent implements OnInit, OnDestroy {
   showAlert = true;
   alerts: PractitionerAlert[] = [];
   destroy$ = new Subject<boolean>();
+  showLoader = false;
+  loadingMessage = null;
 
   constructor(private practitionerAlertService: PractitionerAlertService) {}
 
   ngOnInit(): void {
     this.listenToAlertChanges();
     this.practitionerAlertService.getUserAlerts();
+    this.listenToLoader();
   }
 
   ngOnDestroy(): void {
@@ -36,9 +39,23 @@ export class PractionerAlertComponent implements OnInit, OnDestroy {
       )
       .subscribe();
   }
+  listenToLoader() {
+    this.practitionerAlertService.loading$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((loadingObj) => {
+          const { loading, message } = loadingObj;
+          this.showLoader = loading;
+          this.loadingMessage = message;
+        })
+      )
+      .subscribe();
+  }
 
   alertAction(action: string) {
-    console.log({ action });
+    if (action === 'sync') {
+      this.practitionerAlertService.refreshAlerts();
+    }
   }
 
   closeAlert() {

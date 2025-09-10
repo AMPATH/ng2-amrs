@@ -17,11 +17,15 @@
 .alert-content__text {
   display: flex;
   flex-direction: row;
-  width: 80%;
+  width: 90%;
 }
 .alert-content__action {
   display: flex;
   flex-direction: row;
   column-gap: 5px;
   justify-content: flex-end;
+  width: 10%;
+}
+.alert-content-btn {
+  height: 34px;
 }

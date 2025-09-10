@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, EMPTY } from 'rxjs';
+import { BehaviorSubject, EMPTY, Subject } from 'rxjs';
 import { UserService } from '../../../openmrs-api/user.service';
 import { HealthInformationExchangeService } from 'src/app/hie-api/health-information-exchange.service';
 import { ProviderResourceService } from '../../../openmrs-api/provider-resource.service';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  catchError,
+  finalize,
+  map,
+  switchMap,
+  take,
+  tap
+} from 'rxjs/operators';
 import {
   License,
   Practitioner,
@@ -12,6 +19,7 @@ import {
 } from '../../../models/practitioner.model';
 import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
 import * as moment from 'moment';
+import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,25 +27,35 @@ import * as moment from 'moment';
 export class PractitionerAlertService {
   private alertsSubj = new BehaviorSubject<PractitionerAlert[]>([]);
   public alerts$ = this.alertsSubj.asObservable();
+  private loadingSub = new Subject<{ loading: boolean; message: string }>();
+  public loading$ = this.loadingSub.asObservable();
 
   constructor(
     private userService: UserService,
     private hieService: HealthInformationExchangeService,
-    private providerResourceService: ProviderResourceService
+    private providerResourceService: ProviderResourceService,
+    private toasterService: ToastrFunctionService
   ) {}
 
-  getUserAlerts() {
+  public getUserAlerts(refresh?: boolean) {
     const user = this.getCurrentUser();
     if (user && user.person.uuid) {
-      this.getPractitionerAlertsByPersonUuid(user.person.uuid);
+      this.getPractitionerAlertsByPersonUuid(user.person.uuid, refresh);
     }
   }
 
-  getCurrentUser() {
+  private getCurrentUser() {
     const user = this.userService.getLoggedInUser();
     return user;
   }
-  getPractitionerAlertsByPersonUuid(personUuid: string) {
+  private getPractitionerAlertsByPersonUuid(
+    personUuid: string,
+    refresh?: boolean
+  ) {
+    this.loadingSub.next({
+      loading: true,
+      message: 'Fetching practitioner details from HIE....'
+    });
     this.providerResourceService
       .getProviderByPersonUuid(personUuid)
       .pipe(
@@ -53,7 +71,7 @@ export class PractitionerAlertService {
           if (!res) {
             throw new Error('Practitioner data could not be found');
           } else {
-            return this.getPractionerByNationalId(res);
+            return this.getPractionerByNationalId(res, refresh);
           }
         }),
         map((res) => {
@@ -69,19 +87,35 @@ export class PractitionerAlertService {
             this.emitAlert(reminders);
           }
         }),
+        finalize(() => {
+          if (refresh) {
+            this.toasterService.showToastr(
+              'success',
+              `Practitioner data successfully updated`,
+              'Synced!'
+            );
+          }
+          this.loadingSub.next({
+            loading: false,
+            message: null
+          });
+        }),
         catchError((error: Error) => {
           throw error;
         })
       )
       .subscribe();
   }
-  getPractionerByNationalId(nationalId: string) {
+  private getPractionerByNationalId(nationalId: string, refresh?: boolean) {
     const searchParams: PractitionerSearchParams = {
       nationalId: nationalId
     };
+    if (refresh) {
+      searchParams['refresh'] = refresh;
+    }
     return this.hieService.searchPractitioners(searchParams);
   }
-  getNationalIdFromIdentifiers(identifiers: any[]): string | null {
+  private getNationalIdFromIdentifiers(identifiers: any[]): string | null {
     const identifier = identifiers.filter((id) => {
       return (
         id.attributeType.uuid === IdentifierTypesUuids.PROVIDER_NATIONAL_ID_UUID
@@ -89,7 +123,9 @@ export class PractitionerAlertService {
     });
     return identifier.length > 0 ? identifier[0].value : null;
   }
-  generatePractionerReminders(licenses: License[]): PractitionerAlert[] {
+  private generatePractionerReminders(
+    licenses: License[]
+  ): PractitionerAlert[] {
     const alerts: PractitionerAlert[] = [];
     for (const license of licenses) {
       if (moment() > moment(license.license_end)) {
@@ -116,7 +152,10 @@ export class PractitionerAlertService {
     }
     return alerts;
   }
-  emitAlert(alerts: PractitionerAlert[]) {
+  private emitAlert(alerts: PractitionerAlert[]) {
     this.alertsSubj.next(alerts);
+  }
+  public refreshAlerts() {
+    this.getUserAlerts(true);
   }
 }
