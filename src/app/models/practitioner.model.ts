@@ -55,6 +55,14 @@ export interface Practitioner {
   professional_details: ProfessionalDetails;
 }
 
+export interface Providers {
+  location_id: number;
+  provider_name: string;
+  provider_id: number;
+  location_name: string;
+  national_id: string;
+}
+
 export interface PractitionerSearchParams {
   nationalId?: string;
   name?: string;
@@ -68,9 +76,15 @@ export interface PractitionerResp {
   message: Practitioner;
 }
 
+export interface PractitionerErrorResp {
+  message: { error: string };
+}
+
 export interface PractitionerAlert {
   type: 'warning' | 'success' | 'info' | 'danger';
   title: string;
   message: string;
   action?: 'sync';
 }
+
+export type PractitionerResponse = PractitionerResp | PractitionerErrorResp;
