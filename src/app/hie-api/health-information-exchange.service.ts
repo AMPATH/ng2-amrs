@@ -14,7 +14,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HealthInformationExchangeService {
-  private baseUrl = 'http://localhost:9000/hie';
+  private baseUrl = 'https://ngx.ampath.or.ke/hie';
 
   constructor(protected http: HttpClient) {}
 

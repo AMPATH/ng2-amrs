@@ -1,3 +1,6 @@
+<div class="loader" *ngIf="showLoader">
+      <span> <i class="fa fa-spinner fa-spin"></i>{{ loadingMessage }} </span>
+</div>
 <ng-container *ngIf="showAlert && alerts.length > 0">
 <div class="practitioner-alerts-layout">
   <ng-container *ngFor="let al of alerts">
@@ -13,8 +16,8 @@
             <strong>{{al.title}}!</strong>{{ al.message }}
        </div>
        <div class="alert-content__action">
-          <button class="btn btn-success btn-sm" (click)="alertAction(al.action)"> {{ al.action | titlecase }}</button>
-           <button class="btn btn-danger btn-sm" (click)="closeAlert()"> Close </button>
+          <button class="btn btn-success btn-sm alert-content-btn" (click)="alertAction(al.action)"> {{ al.action | titlecase }}</button>
+           <button class="btn btn-danger btn-sm alert-content-btn" (click)="closeAlert()"> Close </button>
        </div>
    </div>
   
