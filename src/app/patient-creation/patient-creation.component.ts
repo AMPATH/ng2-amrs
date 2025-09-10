@@ -224,7 +224,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   hieLoadingMessage = null;
   private titleCasePipe = new TitleCasePipe();
   private destroy$ = new Subject<boolean>();
-  hasPatientCreationErrors = false;
   patientCreationErrors: string[] = [];
 
   constructor(
