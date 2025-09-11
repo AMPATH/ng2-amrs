@@ -1868,6 +1868,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.setWard(this.titleCasePipe.transform(hieCleint.ward));
     this.cityVillage = this.hieClient.village_estate;
   }
+  registerOnAfyaYangu() {
+    window.open('https://afyayangu.go.ke/', '_blank');
+  }
 }
 
 interface UniversalID {
