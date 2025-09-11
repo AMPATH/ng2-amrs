@@ -183,6 +183,12 @@ export class PatientIdentifierService {
         format: '^HH\\d{13}-\\d$',
         checkdigit: 0,
         val: 'bb74b20e-dcee-4f59-bdf1-2dffc3abf106'
+      },
+      {
+        label: 'SHA Number',
+        format: '^SHA\\d{13}-\\d$',
+        checkdigit: 0,
+        val: 'cf5362b2-8049-4442-b3c6-36f870e320cb'
       }
     ];
   }
