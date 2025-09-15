@@ -73,36 +73,19 @@
                 <span style="margin-left: -5px">CCC: Not Assigned</span>
               </span>
             </span>
-            <span
-              *ngIf="
-                searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
-              "
-            >
-              <span *ngIf="isPatientVerified && searchIdentifiers?.upi">
-                <span class="id-label">UPI:</span>
-                <span>{{ searchIdentifiers?.upi }}</span>
-              </span>
-            </span>
             <span *ngIf="searchIdentifiers?.cr">
               <span class="id-label">CR:</span>
               <span>{{ searchIdentifiers?.cr }}</span>
             </span>
-            <span
-              *ngIf="!searchIdentifiers?.cr"
+             <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
+              <button
               (click)="showHeiDialog()"
-              style="
-                color: #096bb0;
-                border: 1px solid #096bb0;
-                padding-left: 4px;
-                padding-top: 2px;
-                padding-bottom: 2px;
-                padding-right: 0px;
-                cursor: pointer;
-              "
+              class="btn verify-cr-btn"
             >
               <span class="glyphicon glyphicon-info-sign"></span>
               <span>Verify CR</span>
-            </span>
+            </button>
+            </ng-container>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei"
@@ -301,36 +284,20 @@
                 <span style="margin-left: -5px">CCC: Not Assigned</span>
               </span>
             </span>
-            <span
-              *ngIf="
-                searchIdentifiers && !enrolled && isPatientEnrolledToHIVProgram
-              "
-            >
-              <span *ngIf="isPatientVerified && searchIdentifiers?.upi">
-                <span class="id-label">UPI:</span>
-                <span>{{ searchIdentifiers?.upi }}</span>
-              </span>
-            </span>
             <span *ngIf="searchIdentifiers?.cr">
               <span class="id-label">CR:</span>
               <span>{{ searchIdentifiers?.cr }}</span>
             </span>
-            <span
-              *ngIf="!searchIdentifiers?.cr"
+            <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
+              <button
               (click)="showHeiDialog()"
-              style="
-                color: #096bb0;
-                border: 1px solid #096bb0;
-                padding-left: 4px;
-                padding-top: 2px;
-                padding-bottom: 2px;
-                padding-right: 0px;
-                cursor: pointer;
-              "
+              class="btn verify-cr-btn"
             >
               <span class="glyphicon glyphicon-info-sign"></span>
               <span>Verify CR</span>
-            </span>
+            </button>
+            </ng-container>
+           
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei && enrolledToHEIProgram"
