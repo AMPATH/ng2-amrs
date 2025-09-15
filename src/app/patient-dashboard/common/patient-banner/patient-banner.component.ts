@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -70,6 +70,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public isSelectedRelationProgramHEI = false;
   public isHEIActive = false;
   public showHieModal = false;
+  public showVerifyCrBtn = false;
 
   constructor(
     private patientService: PatientService,
@@ -126,6 +127,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             _.filter(patient.enrolledPrograms, 'isEnrolled')
           );
           this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
+          this.showVerifyCrBtn = true;
           this.familyTestingService
             .getPatientEncounters(this.patient.uuid, true)
             .subscribe((response: any) => {
