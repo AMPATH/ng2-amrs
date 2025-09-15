@@ -30,11 +30,11 @@
                 <th>Status</th>
                 <td>
                   <span
-                    class="badge"
+                    class="label"
                     [ngClass]="{
-                      'badge-success':
+                      'label-success':
                         practitioner.membership.status === 'Licensed',
-                      'badge-warning':
+                      'label-warning':
                         practitioner.membership.status !== 'Licensed'
                     }"
                   >
@@ -114,7 +114,7 @@
                     <td>{{ license.external_reference_id }}</td>
                     <td>
                       <span
-                        class="badge"
+                        class="label"
                         [ngClass]="getLicenseStatus(license.license_end).class"
                       >
                         {{ getLicenseStatus(license.license_end).text }}
