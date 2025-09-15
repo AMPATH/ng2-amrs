@@ -11,3 +11,10 @@ export const IdentifierTypesUuids = {
   NATIONAL_ID_UUID,
   PROVIDER_NATIONAL_ID_UUID
 };
+
+export enum HieClientVerificationIdentifierType {
+  NationalID = 'National ID',
+  RefugeeID = 'Refugee ID',
+  AlienID = 'Alien ID',
+  MandateNumber = 'Mandate Number'
+}
