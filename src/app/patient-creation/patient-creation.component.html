@@ -48,8 +48,8 @@
             >
               <option></option>
               <option
-                *ngFor="let c of verificationIdentifierTypes"
-                [ngValue]="c"
+                *ngFor="let c of hieClientVerificationIdentifierTypes"
+                [ngValue]="c.value"
               >
                 {{ c.label }}
               </option>

@@ -32,7 +32,11 @@
             <div class="form-group">
               <label class="control-label">Patient Identifier Type:</label>
               <select class="form-control" formControlName="identifierType">
-                <option value="National ID">National ID</option>
+                <option *ngFor="let idType of hieClientVerificationIdentifierTypes" 
+                [value]="idType.value"
+                >
+                    {{ idType.label }}
+                </option>
               </select>
             </div>
           </div>

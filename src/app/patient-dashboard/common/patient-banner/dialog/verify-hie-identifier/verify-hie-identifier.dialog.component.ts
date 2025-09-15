@@ -20,7 +20,10 @@ import { Patient } from '../../../../../models/patient.model';
 import { PatientResourceService } from '../../../../../openmrs-api/patient-resource.service';
 import { PersonResourceService } from '../../../../../openmrs-api/person-resource.service';
 import { HieToAmrsPersonAdapter } from 'src/app/utils/hei-to-amrs-patient.adapter';
-import { IdentifierTypesUuids } from '../../../../../constants/identifier-types';
+import {
+  HieClientVerificationIdentifierType,
+  IdentifierTypesUuids
+} from '../../../../../constants/identifier-types';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
 
 @Component({
@@ -52,6 +55,14 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
 
   hieIdentifiers = ['SHA Number', 'National ID', 'Household Number', 'id'];
   identifierLocation = '';
+  hieClientVerificationIdentifierTypes = Object.keys(
+    HieClientVerificationIdentifierType
+  ).map((key) => {
+    return {
+      label: HieClientVerificationIdentifierType[key],
+      value: HieClientVerificationIdentifierType[key]
+    };
+  });
 
   constructor(
     private hieService: HealthInformationExchangeService,

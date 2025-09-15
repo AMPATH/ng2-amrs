@@ -47,7 +47,10 @@ import {
   HieClientSearchDto,
   HieIdentificationType
 } from '../models/hie-registry.model';
-import { IdentifierTypesUuids } from '../constants/identifier-types';
+import {
+  HieClientVerificationIdentifierType,
+  IdentifierTypesUuids
+} from '../constants/identifier-types';
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
 import { AmrsErrorResponse } from '../interfaces/amrs-error.interface';
 
@@ -225,6 +228,14 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   private titleCasePipe = new TitleCasePipe();
   private destroy$ = new Subject<boolean>();
   patientCreationErrors: string[] = [];
+  hieClientVerificationIdentifierTypes = Object.keys(
+    HieClientVerificationIdentifierType
+  ).map((key) => {
+    return {
+      label: HieClientVerificationIdentifierType[key],
+      value: key
+    };
+  });
 
   constructor(
     public toastrService: ToastrService,
@@ -1724,13 +1735,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   searchHieRegistry() {
     this.resetForm();
     this.resetHieError();
-    const identifierType = this.patientIdentifierType;
+    const identifierType =
+      HieClientVerificationIdentifierType[this.patientIdentifierType];
     const identifier = this.commonIdentifier;
-    if (
-      identifierType &&
-      identifierType.val === IdentifierTypesUuids.NATIONAL_ID_UUID &&
-      identifier !== ''
-    ) {
+    if (identifierType && identifier !== '') {
       const payload: HieClientSearchDto = {
         identificationNumber: identifier,
         identificationNumbeType: HieIdentificationType.NationalID
@@ -1773,10 +1781,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           this.resetForm();
         }),
         catchError((error) => {
-          this.setHieError(
-            error.message ||
-              'An error occurred while fetching the HIE client, please try again or contact support'
-          );
+          let msg = '';
+          if (error && error.error && error.error.details) {
+            msg = error.error.details;
+          } else if (error.message) {
+            msg = error.message;
+          } else {
+            msg =
+              'An error occurred while fetching the HIE client, please try again or contact support';
+          }
+          this.setHieError(msg);
           throw error;
         })
       )
@@ -1788,7 +1802,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   hideHieVerificationLoader() {
     this.showHieLoader = false;
-    this.hieVerificationMg = null;
   }
   showHieModal() {
     this.modalRef = this.modalService.show(this.hieVerificationModal, {
