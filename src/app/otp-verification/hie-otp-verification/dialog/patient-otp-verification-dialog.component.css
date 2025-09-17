@@ -1,0 +1,8 @@
+.otp-verification-dialog {
+}
+
+.validate-otp-action {
+  display: flex;
+  flex-direction: row;
+  padding-top: 25px;
+}

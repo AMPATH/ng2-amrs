@@ -28,25 +28,25 @@
       </div>
       <form [formGroup]="verifyForm">
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <label class="control-label">Patient Identifier Type:</label>
-              <select class="form-control" formControlName="identifierType">
-                <option *ngFor="let idType of hieClientVerificationIdentifierTypes" 
-                [value]="idType.value"
-                >
-                    {{ idType.label }}
-                </option>
-              </select>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="identifierType"
+                readonly
+              />
             </div>
           </div>
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <label class="control-label">Value</label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
                 formControlName="identifierValue"
+                readonly
               />
             </div>
           </div>

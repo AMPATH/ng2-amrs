@@ -18,6 +18,7 @@ import {
   catchError,
   debounceTime,
   finalize,
+  map,
   switchMap,
   take,
   takeUntil,
@@ -38,7 +39,6 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
 import { PatientEducationService } from '../etl-api/patient-education.service';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
-import { LocalStorageService } from './../utils/local-storage.service';
 import { LocationUnitsService } from './../etl-api/location-units.service';
 import { FormControl } from '@angular/forms';
 import { HealthInformationExchangeService } from '../hie-api/health-information-exchange.service';
@@ -53,6 +53,7 @@ import {
 } from '../constants/identifier-types';
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
 import { AmrsErrorResponse } from '../interfaces/amrs-error.interface';
+import { HieOtpClientConsentService } from '../otp-verification/hie-otp-verification/patient-otp-verification.service';
 
 /**
  * ADDRESS MAPPINGS
@@ -236,6 +237,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       value: key
     };
   });
+  showOtpVericationDialog = false;
 
   constructor(
     public toastrService: ToastrService,
@@ -251,14 +253,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientRelationshipTypeService: PatientRelationshipTypeService,
     private patientEducationService: PatientEducationService,
     private patientResourceService: PatientResourceService,
-    private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private locationUnitsService: LocationUnitsService,
     private hieService: HealthInformationExchangeService,
-    private hieAdapter: HieToAmrsPersonAdapter
+    private hieAdapter: HieToAmrsPersonAdapter,
+    private hieOtpClientConsentService: HieOtpClientConsentService
   ) {}
 
   public ngOnInit() {
+    this.listenToHieOtpConsentChanges();
     this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
       this.nCounties = arg;
@@ -1732,24 +1735,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.selectedLocation = '';
     this.partnerPhoneNumber = null;
   }
-  searchHieRegistry() {
-    this.resetForm();
-    this.resetHieError();
-    const identifierType =
-      HieClientVerificationIdentifierType[this.patientIdentifierType];
-    const identifier = this.commonIdentifier;
-    if (identifierType && identifier !== '') {
-      const payload: HieClientSearchDto = {
-        identificationNumber: identifier,
-        identificationNumbeType: HieIdentificationType.NationalID
-      };
-      this.fetchHiePatient(payload);
-    } else {
-      this.setHieError(
-        'Please select National ID and enter the value to Verify from HIE'
-      );
-    }
-  }
   resetHieError() {
     this.hieVerificationMg = null;
     this.hasHieVerificationError = false;
@@ -1883,6 +1868,27 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   registerOnAfyaYangu() {
     window.open('https://afyayangu.go.ke/', '_blank');
+  }
+  displayHieOtpDialog() {
+    this.showOtpVericationDialog = true;
+  }
+  hideHieOtpDialog() {
+    this.showOtpVericationDialog = false;
+  }
+  listenToHieOtpConsentChanges() {
+    this.hieOtpClientConsentService.otpValidation$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res && res.data && res.data.status === 'valid') {
+            this.fetchHiePatient({
+              identificationNumber: res.data.identification_number,
+              identificationType: res.data.identification_type as any
+            });
+          }
+        })
+      )
+      .subscribe();
   }
 }
 
