@@ -2,9 +2,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
-  Output
+  Output,
+  SimpleChanges
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, EMPTY, forkJoin, Observable, Subject } from 'rxjs';
@@ -13,17 +15,15 @@ import { HealthInformationExchangeService } from '../../../../../hie-api/health-
 import {
   HieAmrsObj,
   HieClient,
-  HieClientSearchDto
+  HieClientSearchDto,
+  ValidateHieCustomOtpResponse
 } from '../../../../../models/hie-registry.model';
 import { TitleCasePipe } from '@angular/common';
 import { Patient } from '../../../../../models/patient.model';
 import { PatientResourceService } from '../../../../../openmrs-api/patient-resource.service';
 import { PersonResourceService } from '../../../../../openmrs-api/person-resource.service';
 import { HieToAmrsPersonAdapter } from 'src/app/utils/hei-to-amrs-patient.adapter';
-import {
-  HieClientVerificationIdentifierType,
-  IdentifierTypesUuids
-} from '../../../../../constants/identifier-types';
+import { IdentifierTypesUuids } from '../../../../../constants/identifier-types';
 import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
 
 @Component({
@@ -31,10 +31,12 @@ import { PatientService } from 'src/app/patient-dashboard/services/patient.servi
   templateUrl: './verify-hie-identifier.dialog.component.html',
   styleUrls: ['./verify-hie-identifier.dialog.component.css']
 })
-export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
+export class VerifyHieIdentifierDialogComponent
+  implements OnInit, OnDestroy, OnChanges {
   @Input() show = false;
   @Output() hideVerifyDialog = new EventEmitter<boolean>();
   @Input() patient: Patient = new Patient({});
+  @Input() otpConsent: ValidateHieCustomOtpResponse;
   verifyForm = new FormGroup({
     identifierType: new FormControl('National ID', Validators.required),
     identifierValue: new FormControl(null, Validators.required)
@@ -55,14 +57,6 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
 
   hieIdentifiers = ['SHA Number', 'National ID', 'Household Number', 'id'];
   identifierLocation = '';
-  hieClientVerificationIdentifierTypes = Object.keys(
-    HieClientVerificationIdentifierType
-  ).map((key) => {
-    return {
-      label: HieClientVerificationIdentifierType[key],
-      value: HieClientVerificationIdentifierType[key]
-    };
-  });
 
   constructor(
     private hieService: HealthInformationExchangeService,
@@ -74,6 +68,18 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setFormDefaultValues();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes && changes.otpConsent) {
+      if (changes.otpConsent.currentValue) {
+        const res: ValidateHieCustomOtpResponse =
+          changes.otpConsent.currentValue;
+        this.verifyForm.patchValue({
+          identifierType: res.data.identification_type,
+          identifierValue: res.data.identification_number
+        });
+      }
+    }
   }
   setFormDefaultValues() {
     this.verifyForm.patchValue({
@@ -146,7 +152,7 @@ export class VerifyHieIdentifierDialogComponent implements OnInit, OnDestroy {
   generatePayload(): HieClientSearchDto {
     const { identifierType, identifierValue } = this.verifyForm.value;
     return {
-      identificationNumbeType: identifierType,
+      identificationType: identifierType,
       identificationNumber: identifierValue
     };
   }

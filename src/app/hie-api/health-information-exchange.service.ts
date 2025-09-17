@@ -1,6 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HieClient, HieClientSearchDto } from '../models/hie-registry.model';
+import {
+  HieClient,
+  HieClientSearchDto,
+  RequestCustomOtpDto,
+  RequestCustomOtpErrorResponse,
+  RequestCustomOtpResponse,
+  ValidateHieCustomOtpDto,
+  ValidateHieCustomOtpErrorResponse,
+  ValidateHieCustomOtpResponse
+} from '../models/hie-registry.model';
 import { Observable, of } from 'rxjs';
 import {
   Practitioner,
@@ -83,5 +92,17 @@ export class HealthInformationExchangeService {
           return of([]);
         })
       );
+  }
+  validateCustomOtp(validateHieCustomOtpDto: ValidateHieCustomOtpDto) {
+    const validateOtpUrL = `${this.baseUrl}/client/validate-custom-otp`;
+    return this.http.post<
+      ValidateHieCustomOtpResponse | ValidateHieCustomOtpErrorResponse
+    >(validateOtpUrL, validateHieCustomOtpDto);
+  }
+  requestCustomOtp(requestCustomOtpDto: RequestCustomOtpDto) {
+    const requestOtpUrL = `${this.baseUrl}/client/send-custom-otp`;
+    return this.http.post<
+      RequestCustomOtpResponse | RequestCustomOtpErrorResponse
+    >(requestOtpUrL, requestCustomOtpDto);
   }
 }

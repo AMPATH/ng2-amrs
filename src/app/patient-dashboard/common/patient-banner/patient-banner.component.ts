@@ -9,8 +9,8 @@ import {
   TemplateRef
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { take, takeUntil, tap } from 'rxjs/operators';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -26,6 +26,8 @@ import { EncounterResourceService } from 'src/app/openmrs-api/encounter-resource
 import { PersonAttributeResourceService } from './../../../openmrs-api/person-attribute-resource.service';
 import { environment } from 'src/environments/environment';
 import { PatientProgramService } from '../../programs/patient-programs.service';
+import { ValidateHieCustomOtpResponse } from 'src/app/models/hie-registry.model';
+import { HieOtpClientConsentService } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -71,6 +73,9 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public isHEIActive = false;
   public showHieModal = false;
   public showVerifyCrBtn = false;
+  public showOtpVericationDialog = false;
+  public destroy$ = new Subject<boolean>();
+  public validateOtpResponse: ValidateHieCustomOtpResponse;
 
   constructor(
     private patientService: PatientService,
@@ -82,13 +87,15 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private familyTestingService: FamilyTestingService,
     private encounterResourceService: EncounterResourceService,
     private personAttributeResourceService: PersonAttributeResourceService,
-    private patientProgramService: PatientProgramService
+    private patientProgramService: PatientProgramService,
+    private hieOtpClientConsentService: HieOtpClientConsentService
   ) {}
 
   public ngOnInit() {
     if (environment.production) {
       this.isStaging = false;
     }
+    this.listenToOtpValidationStatus();
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -164,6 +171,22 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.currentLocation = this.propertyLocationService.getCurrentUserDefaultLocation();
   }
 
+  public listenToOtpValidationStatus() {
+    this.hieOtpClientConsentService.otpValidation$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.data) {
+            this.validateOtpResponse = res;
+            if (res.data.status === 'valid') {
+              this.showHeiDialog();
+            }
+          }
+        })
+      )
+      .subscribe();
+  }
+
   public getVerificationStatus() {
     const verificationStatusUuid = this.patient.uuid;
     this.personAttributeResourceService
@@ -215,6 +238,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     if (this.patientServiceSubscription) {
       this.patientServiceSubscription.unsubscribe();
     }
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
   public addToCohort() {
     this.showingAddToCohort = true;
@@ -411,6 +436,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
           }
         });
       });
+  }
+  showHieOtpDialog() {
+    this.showOtpVericationDialog = true;
+  }
+  hideHieOtpDialog() {
+    this.showOtpVericationDialog = false;
   }
   showHeiDialog() {
     this.showHieModal = true;

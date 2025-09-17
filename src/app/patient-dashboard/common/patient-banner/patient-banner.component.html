@@ -79,7 +79,7 @@
             </span>
              <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
               <button
-              (click)="showHeiDialog()"
+              (click)="showHieOtpDialog()"
               class="btn verify-cr-btn"
             >
               <span class="glyphicon glyphicon-info-sign"></span>
@@ -290,7 +290,7 @@
             </span>
             <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
               <button
-              (click)="showHeiDialog()"
+              (click)="showHieOtpDialog()"
               class="btn verify-cr-btn"
             >
               <span class="glyphicon glyphicon-info-sign"></span>
@@ -581,9 +581,18 @@
       </div>
     </div>
   </p-dialog>
-  <app-verify-hie-dialog
+  <ng-container *ngIf="showHieModal">
+     <app-verify-hie-dialog
     [show]="showHieModal"
     [patient]="patient"
+    [otpConsent]="validateOtpResponse"
     (hideVerifyDialog)="hideHieDialog()"
   ></app-verify-hie-dialog>
+  </ng-container>
+  <ng-container *ngIf="showOtpVericationDialog">
+       <app-otp-verification
+        [show]="showOtpVericationDialog"
+        (hideVerifyOtpDialog)="hideHieOtpDialog()"
+       ></app-otp-verification>
+  </ng-container>
 </div>

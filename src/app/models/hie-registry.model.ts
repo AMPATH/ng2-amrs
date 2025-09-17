@@ -91,8 +91,8 @@ export interface HieClient {
 }
 
 export interface HieClientSearchDto {
-  identificationNumber: number;
-  identificationNumbeType: HieIdentificationType;
+  identificationNumber: number | string;
+  identificationType: HieIdentificationType;
 }
 
 export interface HieAmrsObj {
@@ -100,4 +100,39 @@ export interface HieAmrsObj {
   title: string;
   hieValue: string | number | boolean;
   amrsValue: string | number | boolean;
+}
+
+export interface ValidateHieCustomOtpDto {
+  sessionId: string;
+  otp: number | string;
+}
+
+export type HieOtpValidationStatus = 'valid' | 'invalid';
+
+export interface ValidateHieCustomOtpResponse {
+  data: {
+    identification_type: string;
+    identification_number: string;
+    status: HieOtpValidationStatus;
+  };
+}
+
+export interface ValidateHieCustomOtpErrorResponse {
+  error: string;
+  details: string;
+}
+
+export interface RequestCustomOtpDto {
+  identificationNumber: string | number;
+  identificationType: string;
+}
+
+export interface RequestCustomOtpResponse {
+  message: string;
+  sessionId: string;
+  maskedPhone: string;
+}
+export interface RequestCustomOtpErrorResponse {
+  error: string;
+  details: string;
 }

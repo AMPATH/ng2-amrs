@@ -37,59 +37,21 @@
             ></ng-select>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Verification ID Type:</label>
-            <select
-              id="identifierType"
-              class="form-control"
-              [ngModel]="patientIdentifierType"
-              (ngModelChange)="setIdentifierType($event)"
-            >
-              <option></option>
-              <option
-                *ngFor="let c of hieClientVerificationIdentifierTypes"
-                [ngValue]="c.value"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <div *ngIf="!patientIdentifierType">
-              <div class="help-block">Verification ID is required!</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Patient Identifier</label>
-            <input
-              [disabled]="!patientIdentifierType"
-              type="text"
-              id="commonIdentifier"
-              class="form-control"
-              [(ngModel)]="commonIdentifier"
-              (ngModelChange)="checkIdentifier($event)"
-            />
-            <div *ngIf="identifierValidity">
-              <span
-                style="color: red"
-                class="glyphicon glyphicon-exclamation-sign"
-                >{{ identifierValidity }}</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
           <div class="form-group">
             <button
               id="searchHieBtn"
               class="btn btn-primary"
-              (click)="searchHieRegistry()"
+              (click)="displayHieOtpDialog()"
               style="margin-left: 20px; margin-top: 23px"
             >
-              Search HIE Registry
+              Verify CR
             </button>
-            <button
+          </div>
+        </div>
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div class="form-group">
+             <button
               id="searchHieBtn"
               class="btn btn-success"
               (click)="registerOnAfyaYangu()"
@@ -1343,3 +1305,10 @@
     </ng-template>
   </div>
 </div>
+
+ <ng-container *ngIf="showOtpVericationDialog">
+       <app-otp-verification
+        [show]="showOtpVericationDialog"
+        (hideVerifyOtpDialog)="hideHieOtpDialog()"
+       ></app-otp-verification>
+  </ng-container>
