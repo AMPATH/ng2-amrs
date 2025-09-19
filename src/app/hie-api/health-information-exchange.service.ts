@@ -45,8 +45,14 @@ export class HealthInformationExchangeService {
 
     if (params.licenseNumber) {
       httpParams = httpParams
-        .set('identifierType', 'License Number')
+        .set('identifierType', 'id')
         .set('identifierValue', params.licenseNumber);
+    }
+
+    if (params.registrationNumber) {
+      httpParams = httpParams
+        .set('identifierType', 'registration_number')
+        .set('identifierValue', params.registrationNumber);
     }
 
     if (params.name) {
@@ -93,12 +99,14 @@ export class HealthInformationExchangeService {
         })
       );
   }
+
   validateCustomOtp(validateHieCustomOtpDto: ValidateHieCustomOtpDto) {
     const validateOtpUrL = `${this.baseUrl}/client/validate-custom-otp`;
     return this.http.post<
       ValidateHieCustomOtpResponse | ValidateHieCustomOtpErrorResponse
     >(validateOtpUrL, validateHieCustomOtpDto);
   }
+
   requestCustomOtp(requestCustomOtpDto: RequestCustomOtpDto) {
     const requestOtpUrL = `${this.baseUrl}/client/send-custom-otp`;
     return this.http.post<

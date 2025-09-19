@@ -25,7 +25,8 @@ export class PractitionerSearchComponent {
     private propertyLocationService: UserDefaultPropertiesService
   ) {
     this.searchForm = this.fb.group({
-      nationalId: ['']
+      searchType: ['NATIONAL_ID'],
+      searchValue: ['']
     });
   }
 
@@ -46,51 +47,79 @@ export class PractitionerSearchComponent {
   }
 
   onSearch(): void {
-    const nationalIdControl = this.searchForm.get('nationalId');
-    const nationalId =
-      nationalIdControl && nationalIdControl.value
-        ? nationalIdControl.value.trim().toLowerCase()
+    const searchTypeControl = this.searchForm.get('searchType');
+    const searchValueControl = this.searchForm.get('searchValue');
+
+    const searchType =
+      searchTypeControl && searchTypeControl.value
+        ? searchTypeControl.value
+        : 'NATIONAL_ID';
+    const searchValue =
+      searchValueControl && searchValueControl.value
+        ? searchValueControl.value.trim()
         : '';
 
-    if (!nationalId) {
-      this.providers = this.allProviders.length > 0 ? this.allProviders : [];
-      this.searchPerformed = false;
+    if (!searchValue) {
+      this.errorMessage = 'Please enter a search value';
+      setTimeout(() => {
+        this.errorMessage = null;
+      }, 3000);
       return;
     }
 
     this.isLoading = true;
 
-    if (this.allProviders.length > 0) {
-      this.providers = this.allProviders.filter(
-        (provider) =>
-          provider.national_id && provider.national_id.includes(nationalId)
-      );
-      this.isLoading = false;
-      this.searchPerformed = true;
-    } else {
-      this.practitionerService.getProviderByNationalId(nationalId).subscribe({
-        next: (providers) => {
-          this.providers = providers || [];
-          this.isLoading = false;
-          this.searchPerformed = true;
-          if (nationalIdControl) {
-            nationalIdControl.setValue('');
-          }
-        },
-        error: () => {
-          this.isLoading = false;
-          this.providers = [];
-          this.searchPerformed = true;
-        }
-      });
+    const searchParams: any = {};
+
+    switch (searchType) {
+      case 'NATIONAL_ID':
+        searchParams.nationalId = searchValue;
+        break;
+      case 'REGISTRATION_NUMBER':
+        searchParams.registrationNumber = searchValue;
+        break;
+      case 'LICENSE_NO':
+        searchParams.licenseNumber = searchValue;
+        break;
     }
+
+    this.practitionerService.searchPractitioners(searchParams).subscribe({
+      next: (practitioners) => {
+        if (practitioners && practitioners.length > 0) {
+          this.selectedPractitioner = practitioners[0];
+          this.showModal = true;
+          if (searchValueControl) {
+            searchValueControl.setValue('');
+          }
+        } else {
+          this.errorMessage =
+            'No practitioner found with the provided search criteria.';
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 5000);
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage =
+          error.message ||
+          'Failed to search practitioner. Please try again later.';
+        setTimeout(() => {
+          this.errorMessage = null;
+        }, 5000);
+      }
+    });
   }
 
   onReset(): void {
     this.searchForm.reset();
-    this.providers = this.allProviders;
+    this.searchForm.patchValue({
+      searchType: 'NATIONAL_ID'
+    });
     this.providers = [];
     this.searchPerformed = false;
+    this.errorMessage = null;
   }
 
   viewProviderDetails(provider: any): void {

@@ -23,11 +23,11 @@ export class PractitionerDetailModalComponent {
     );
 
     if (daysUntilExpiration < 0) {
-      return { text: 'Expired', class: 'badge-danger' };
+      return { text: 'Expired', class: 'label-danger' };
     } else if (daysUntilExpiration < 30) {
-      return { text: 'Expiring Soon', class: 'badge-warning' };
+      return { text: 'Expiring Soon', class: 'label-warning' };
     } else {
-      return { text: 'Active', class: 'badge-success' };
+      return { text: 'Active', class: 'label-success' };
     }
   }
 }
