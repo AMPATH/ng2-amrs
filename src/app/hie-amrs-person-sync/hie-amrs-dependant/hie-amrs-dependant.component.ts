@@ -27,6 +27,7 @@ import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
 import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
 import { error } from 'jquery';
 import { PatientRelationshipService } from 'src/app/patient-dashboard/common/patient-relationships/patient-relationship.service';
+import { CreateRelationshipDto } from 'src/app/interfaces/relationship.interface';
 
 @Component({
   selector: 'app-hie-dependant',
@@ -195,7 +196,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
             err.message ||
               'An error occurred while syncing the patient identifiers'
           );
-          throw error;
+          throw err;
         }),
         finalize(() => {
           this.hideLoader();
@@ -238,10 +239,10 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
         }),
         catchError((err) => {
           this.handleError(
-            error.message ||
+            err.message ||
               'An error occurred while syncing the patient attributes'
           );
-          throw error;
+          throw err;
         }),
         finalize(() => {
           this.hideLoader();
@@ -332,10 +333,10 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
         }),
         catchError((err: Error) => {
           this.handleError(
-            error.message ||
+            err.message ||
               'An error occurred while syncing the patient attributes'
           );
-          throw error;
+          throw err;
         }),
         finalize(() => {
           this.hideLoader();
@@ -424,12 +425,11 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
       .pipe(
         switchMap((res) => {
           if (res) {
-            const relationshipPayload = this.hieToAmrsPersonAdapter.getPatientRelationshipPayload(
+            const relationshipPayload: CreateRelationshipDto = this.hieToAmrsPersonAdapter.getPatientRelationshipPayload(
               this.hieDependant.relationship,
               this.currentPatient.uuid,
               res.uuid
             );
-            console.log({ relationshipPayload });
             return this.createRelationship(relationshipPayload);
           } else {
             return EMPTY;
@@ -453,15 +453,14 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
       }),
       catchError((err: Error) => {
         this.handleError(
-          error.message ||
-            'An error occurred while creating the dependant person'
+          err.message || 'An error occurred while creating the dependant person'
         );
-        throw error;
+        throw err;
       })
     );
   }
 
-  createRelationship(relationshipPayload) {
+  createRelationship(relationshipPayload: CreateRelationshipDto) {
     return this.patientRelationshipService
       .saveRelationship(relationshipPayload)
       .pipe(
@@ -478,9 +477,9 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
         }),
         catchError((err: Error) => {
           this.handleError(
-            error.message || 'An error occurred while creating the relationship'
+            err.message || 'An error occurred while creating the relationship'
           );
-          throw error;
+          throw err;
         })
       );
   }

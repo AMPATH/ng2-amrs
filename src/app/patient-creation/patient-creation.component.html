@@ -37,7 +37,7 @@
             ></ng-select>
           </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-6">
           <div class="form-group">
             <button
               id="searchHieBtn"
@@ -954,6 +954,64 @@
             </div>
           </div>
         </div>
+         <hr class="intro-divider patient-info-divider" />
+         <ng-container *ngIf="hieDependants && hieDependants.length > 0">
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <h3 style="color: #76b5c5">Dependants</h3>
+          </div>
+          <ng-container *ngFor="let dependant of hieDependants">
+             <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label class="control-label">CR</label>
+              <input
+                type="text"
+                class="form-control"
+                readonly
+                [value]="dependant.id"
+              />
+            </div>
+          </div>
+            <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label class="control-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                readonly
+                [value]="dependant.first_name + ' ' + dependant.middle_name + ' ' + dependant.last_name"
+              />
+            </div>
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label class="control-label">Relationship</label>
+              <input
+                type="text"
+                class="form-control"
+                readonly
+                [value]="dependant.relationship"
+              />
+            </div>
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+            <div class="form-group">
+              <label class="control-label">Gender</label>
+              <input
+                type="text"
+                class="form-control"
+                readonly
+                [value]="dependant.gender"
+              />
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <hr class="intro-divider patient-info-divider" />
+          </div>
+          </ng-container>
+         
+        </div>
+       </ng-container>
 
         <!-- Start of Form Commands -->
         <div class="row">
@@ -1257,11 +1315,20 @@
       <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
         <div class="row hie-data-layout">
           <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <table class="table table-striped">
+            <ul class="nav nav-tabs">
+            <li class="active">
+              <a data-toggle="tab" href="#patient">Patient</a>
+            </li>
+            <li><a data-toggle="tab" href="#dependants">Dependants</a></li>
+          </ul>
+
+          <div class="tab-content">
+             <div id="patient" class="tab-pane fade in active">
+                <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Field</th>
-                  <th>HIE Patient</th>
+                  <th>Client Registry</th>
                 </tr>
               </thead>
               <tbody>
@@ -1277,6 +1344,44 @@
                 </ng-container>
               </tbody>
             </table>
+             </div>
+              <div id="dependants" class="tab-pane fade">
+                <div class="container">
+                  <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>CR</th>
+                  <th>Relationship</th>
+                  <th>Full Name</th>
+                  <th>Gender</th>
+                  <th>Date of Birth</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let dependant of hieDependants; let i = index;">
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                     <td>{{ dependant.id }}</td>
+                    <td>
+                     {{ dependant.relationship }}
+                    </td>
+                    <td>{{ dependant.first_name }} {{ dependant.middle_name }} {{ dependant.last_name }}</td>
+                    <td>{{ dependant.gender }}</td>
+                    <td>{{ dependant.date_of_birth }}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+            </div>
+            </div>
+            </div>
+              </div>
+          </div>
+           
           </div>
         </div>
       </div>

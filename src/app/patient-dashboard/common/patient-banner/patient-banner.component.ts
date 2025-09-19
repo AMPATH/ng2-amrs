@@ -19,7 +19,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';
 import { PatientRelationshipService } from '../patient-relationships/patient-relationship.service';
-import { Person } from '../../../models/person.model';
 import { Relationship } from 'src/app/models/relationship.model';
 import { UserDefaultPropertiesService } from 'src/app/user-default-properties/user-default-properties.service';
 import { FamilyTestingService } from 'src/app/etl-api/family-testing-resource.service';
@@ -456,11 +455,5 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   hideHieDialog() {
     this.showHieModal = false;
     this.modalRef.hide();
-  }
-  showtestModal() {
-    this.modalRef = this.modalService.show(this.hieVerificationModal, {
-      backdrop: 'static',
-      keyboard: false
-    });
   }
 }

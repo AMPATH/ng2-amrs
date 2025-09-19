@@ -71,8 +71,9 @@
               </table>
             </div>
             <div id="dependants" class="tab-pane fade">
-              <ng-container *ngFor="let dependant of dependants; let i = index">
-                <h4>Dependandant - {{ i + 1 }} of {{ dependants.length }}</h4>
+              <ng-container *ngIf="dependants.length > 0; else noDependants">
+                 <ng-container *ngFor="let dependant of dependants; let i = index">
+                <h4>Dependant - {{ i + 1 }} of {{ dependants.length }}</h4>
 
                 <app-hie-dependant
                   [hieDependant]="dependant"
@@ -80,6 +81,11 @@
                   [currentPatient]="currentPatient"
                 ></app-hie-dependant>
               </ng-container>
+              </ng-container>
+              <ng-template #noDependants>
+                 <h4>Patient has no dependants listed in Client Registry</h4>
+              </ng-template>
+              
             </div>
           </div>
         </div>

@@ -13,18 +13,32 @@ import { IdentifierTypesUuids } from '../constants/identifier-types';
 import { CivilStatusUids } from '../constants/civil-status-concepts.contants';
 import { PersonAttributeTypeUuids } from '../constants/attribute-types.constants';
 import { RelationshipTypeUuids } from '../constants/relationship-types';
+import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HieToAmrsPersonAdapter {
   private titleCasePipe = new TitleCasePipe();
-  private excludedFields = [
-    'originSystem',
-    'meta',
-    'other_identifications',
-    'resourceType',
-    'dependants'
+  private primaryFields = [
+    'id',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'gender',
+    'date_of_birth',
+    'place_of_birth',
+    'is_alive',
+    'deceased_datetime',
+    'citizenship',
+    'civil_status',
+    'identification_type',
+    'identification_number',
+    'phone',
+    'email',
+    'sub_county',
+    'county',
+    'country'
   ];
   private personAttributes = [
     'first_name',
@@ -45,7 +59,7 @@ export class HieToAmrsPersonAdapter {
     'phone',
     'email',
     'civil_status',
-    'kra_pin',
+
     'id'
   ];
 
@@ -140,7 +154,7 @@ export class HieToAmrsPersonAdapter {
     );
     const other: HieAmrsObj[] = Object.keys(hieClient)
       .filter((k) => {
-        return !this.excludedFields.includes(k);
+        return this.primaryFields.includes(k);
       })
       .map((k) => {
         return {
@@ -338,7 +352,7 @@ export class HieToAmrsPersonAdapter {
     relationship: string,
     personAuuid: string,
     personBuUuid: string
-  ) {
+  ): CreateRelationshipDto {
     const startDate = moment(new Date()).format('YYYY-MM-DD');
     const patientRelationshipPayload = {
       personA: personAuuid,
