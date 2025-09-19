@@ -1,0 +1,106 @@
+<div class="container-fluid">
+   <div class="loader" *ngIf="showLoader">
+      <span> <i class="fa fa-spinner fa-spin"></i>{{ loadingMessage }} </span>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <div
+          class="alert alert-success"
+          *ngIf="showSuccessAlert"
+          style="margin-top: 10px"
+        >
+          <strong>Done!</strong> {{ successAlert }}
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="showErrorAlert"
+          style="margin-top: 10px"
+        >
+          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+       
+          <div class="form-group">
+            <label class="control-label">AMRS Dependants</label>
+             <select
+            class="form-control"
+            [(ngModel)]="selectedRelation"
+            (ngModelChange)="onSelectAmrsDependant($event)"
+            required
+          >
+            <option value="">Select AMRS Relation</option>
+            <option *ngFor="let relation of personRelationships" [value]="relation.relatedPerson.uuid">
+              {{ relation.display }}({{ relation.relationshipType }})
+            </option>
+          </select>
+          </div>
+      </div>
+       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+           <ng-container *ngIf="!amrsRelationExists">
+            {{ hieDataToSync }}
+            <button class="btn btn-primary" (click)="createDependant()">Create Dependant in AMRS</button>
+           </ng-container>
+       </div>
+    </div>
+    <div class="row">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>AMRS Person</th>
+                    <th>HIE Patient</th>
+                    <th>Sync</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let data of hieAmrsData">
+                    <tr>
+                      <td>
+                        <strong
+                          ><span
+                            [ngClass]="{
+                              'data-mismatch': data.amrsValue !== data.hieValue
+                            }"
+                            >{{ data.title }}</span
+                          >
+                        </strong>
+                      </td>
+                      <td>{{ data.amrsValue }}</td>
+                      <td>{{ data.hieValue }}</td>
+                      <td>
+                        <ng-container *ngIf="amrsRelationExists">
+
+                          <input
+                          type="checkbox"
+                          (change)="
+                            addToSyncData(data.key, $event?.target?.checked)
+                          "
+                        />
+
+                        </ng-container>
+                        
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+    </div>
+     <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+          <ng-container *ngIf="hieDataToSync.length > 0">
+            <div class="form-group">
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="syncData()"
+              >
+                <span>Sync Data to AMRS</span>
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+</div>

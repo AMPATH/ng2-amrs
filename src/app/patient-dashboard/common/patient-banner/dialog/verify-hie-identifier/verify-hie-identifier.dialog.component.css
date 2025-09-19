@@ -1,9 +1,0 @@
-.hie-verify-dialog-layout-content {
-  display: flex;
-  flex-direction: column;
-  max-height: 300px;
-  overflow-y: scroll;
-}
-.data-mismatch {
-  color: red;
-}

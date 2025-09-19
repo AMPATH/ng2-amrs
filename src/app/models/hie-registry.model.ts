@@ -9,7 +9,7 @@ export interface HieIdentifications {
   identification_type: HieIdentificationType;
 }
 
-export interface HieDependants {
+export interface HieDependant {
   date_added: string;
   relationship: string;
   total: number;
@@ -46,7 +46,7 @@ export interface HieClient {
   identification_type: HieIdentificationType;
   identification_number: string;
   other_identifications: HieIdentifications[];
-  dependants: HieDependants[];
+  dependants: HieDependant[];
   is_alive: number;
   deceased_datetime: string;
   phone: string;
@@ -85,7 +85,7 @@ export interface HieClient {
   grade_level: string;
   admission_number: string;
   expected_year_of_graduation: string;
-  unconfirmed_dependants: HieDependants[];
+  unconfirmed_dependants: HieDependant[];
   is_agent: number;
   agent_id: string;
 }
@@ -135,4 +135,9 @@ export interface RequestCustomOtpResponse {
 export interface RequestCustomOtpErrorResponse {
   error: string;
   details: string;
+}
+
+export interface HieClientDependant extends HieClient {
+  date_added: string;
+  relationship: string;
 }

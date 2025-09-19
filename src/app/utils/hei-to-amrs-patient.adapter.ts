@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   HieAmrsObj,
   HieClient,
+  HieClientDependant,
+  HieDependant,
   HieIdentifications
 } from '../models/hie-registry.model';
 import { Patient } from '../models/patient.model';
@@ -9,24 +11,56 @@ import * as moment from 'moment';
 import { TitleCasePipe } from '@angular/common';
 import { IdentifierTypesUuids } from '../constants/identifier-types';
 import { CivilStatusUids } from '../constants/civil-status-concepts.contants';
+import { PersonAttributeTypeUuids } from '../constants/attribute-types.constants';
+import { RelationshipTypeUuids } from '../constants/relationship-types';
+import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HieToAmrsPersonAdapter {
   private titleCasePipe = new TitleCasePipe();
-  private excludedFields = [
-    'originSystem',
-    'meta',
-    'other_identifications',
-    'resourceType'
+  private primaryFields = [
+    'id',
+    'first_name',
+    'middle_name',
+    'last_name',
+    'gender',
+    'date_of_birth',
+    'place_of_birth',
+    'is_alive',
+    'deceased_datetime',
+    'citizenship',
+    'civil_status',
+    'identification_type',
+    'identification_number',
+    'phone',
+    'email',
+    'sub_county',
+    'county',
+    'country'
   ];
   private personAttributes = [
     'first_name',
     'middle_name',
     'last_name',
     'gender',
-    'date_of_birth'
+    'date_of_birth',
+    'is_alive',
+    'deceased_datetime',
+    'country',
+    'place_of_birth',
+    'county',
+    'sub_county',
+    'ward',
+    'village_estate',
+    'longitude',
+    'latitude',
+    'phone',
+    'email',
+    'civil_status',
+
+    'id'
   ];
 
   getAmrsValue(attribute: string, patient: Patient): string | number {
@@ -116,11 +150,11 @@ export class HieToAmrsPersonAdapter {
   generateAmrsHiePatientData(hieClient: HieClient, patient: Patient | null) {
     const identificationData = this.generateIdentificationData(
       hieClient.other_identifications,
-      patient
+      null
     );
     const other: HieAmrsObj[] = Object.keys(hieClient)
       .filter((k) => {
-        return !this.excludedFields.includes(k);
+        return this.primaryFields.includes(k);
       })
       .map((k) => {
         return {
@@ -142,10 +176,7 @@ export class HieToAmrsPersonAdapter {
         key: identification.identification_type,
         title: this.titleCasePipe.transform(identification.identification_type),
         hieValue: identification.identification_number,
-        amrsValue: this.getAmrsValue(
-          identification.identification_type,
-          patient
-        )
+        amrsValue: null
       };
     });
   }
@@ -155,8 +186,10 @@ export class HieToAmrsPersonAdapter {
     patient: Patient,
     hieFields: string[]
   ) {
-    const attributePayload = {};
+    const createPersonPayload = {};
     const namesAttribute = {};
+    const addresses = {};
+    const attributes = [];
     hieFields
       .filter((d) => {
         return this.personAttributes.includes(d);
@@ -172,33 +205,102 @@ export class HieToAmrsPersonAdapter {
           namesAttribute['familyName'] = hieClient.last_name;
         }
         if (d === 'gender') {
-          attributePayload['gender'] = hieClient.gender === 'Male' ? 'M' : 'F';
+          createPersonPayload['gender'] =
+            hieClient.gender === 'Male' ? 'M' : 'F';
         }
         if (d === 'date_of_birth') {
-          attributePayload['birthdate'] = hieClient.date_of_birth;
+          createPersonPayload['birthdate'] = hieClient.date_of_birth;
+          createPersonPayload['birthdateEstimated'] = false;
         }
         if (d === 'is_alive') {
-          attributePayload['dead'] = hieClient.is_alive === 0 ? true : false;
+          createPersonPayload['dead'] = hieClient.is_alive === 0 ? true : false;
         }
         if (d === 'deceased_datetime') {
-          attributePayload['deathDate'] = hieClient.deceased_datetime;
+          if (hieClient.deceased_datetime.length > 0) {
+            createPersonPayload['deathDate'] = hieClient.deceased_datetime;
+          }
+        }
+        if (d === 'country' && hieClient.country.length > 0) {
+          addresses['country'] = hieClient.country;
+          addresses['address1'] = hieClient.country;
+        }
+        if (d === 'place_of_birth' && hieClient.place_of_birth.length > 0) {
+          addresses['address10'] = hieClient.place_of_birth;
+        }
+        if (d === 'county' && hieClient.county.length > 0) {
+          // addresses['county'] = hieClient.county;
+        }
+        if (d === 'sub_county' && hieClient.sub_county.length > 0) {
+          addresses['address2'] = hieClient.sub_county;
+        }
+        if (d === 'ward' && hieClient.sub_county.length > 0) {
+          addresses['address7'] = hieClient.sub_county;
+        }
+        if (d === 'village_estate' && hieClient.village_estate.length > 0) {
+          addresses['cityVillage'] = hieClient.village_estate;
+        }
+        if (d === 'longitude' && hieClient.longitude.length > 0) {
+          addresses['longitude'] = hieClient.longitude;
+        }
+        if (d === 'latitude' && hieClient.latitude.length > 0) {
+          addresses['latitude'] = hieClient.latitude;
+        }
+        if (d === 'phone') {
+          attributes.push({
+            value: hieClient.phone,
+            attributeType: PersonAttributeTypeUuids.CONTACT_PHONE_NUMBER_UUID
+          });
+        }
+        if (d === 'email') {
+          attributes.push({
+            value: hieClient.phone,
+            attributeType: PersonAttributeTypeUuids.CONTACT_EMAIL_ADDRESS_UUID
+          });
+        }
+        if (d === 'kra_pin') {
+          attributes.push({
+            value: hieClient.kra_pin,
+            attributeType: PersonAttributeTypeUuids.KRA_PIN_UUID
+          });
+        }
+        if (d === 'civil_status') {
+          attributes.push({
+            value: this.getAmrsConceptUuidFromField(hieClient.civil_status),
+            attributeType: PersonAttributeTypeUuids.CIVIL_STATUS_UUID
+          });
+        }
+        if (d === 'id') {
+          attributes.push({
+            value: hieClient.id,
+            attributeType: PersonAttributeTypeUuids.CLIENT_REGISTRY_ID_UUID
+          });
         }
       });
     if (Object.keys(namesAttribute).length > 0) {
-      if (!namesAttribute['givenName']) {
-        namesAttribute['givenName'] = patient.person.preferredName['givenName'];
+      if (patient) {
+        if (!namesAttribute['givenName']) {
+          namesAttribute['givenName'] =
+            patient.person.preferredName['givenName'];
+        }
+        if (!namesAttribute['middleName']) {
+          namesAttribute['middleName'] =
+            patient.person.preferredName['middleName'];
+        }
+        if (!namesAttribute['last_name']) {
+          namesAttribute['familyName'] =
+            patient.person.preferredName['familyName'];
+        }
       }
-      if (!namesAttribute['middleName']) {
-        namesAttribute['middleName'] =
-          patient.person.preferredName['middleName'];
-      }
-      if (!namesAttribute['last_name']) {
-        namesAttribute['familyName'] =
-          patient.person.preferredName['familyName'];
-      }
-      attributePayload['names'] = [namesAttribute];
+
+      createPersonPayload['names'] = [namesAttribute];
     }
-    return attributePayload;
+    if (Object.keys(addresses).length > 0) {
+      createPersonPayload['addresses'] = [addresses];
+    }
+    if (attributes.length > 0) {
+      createPersonPayload['attributes'] = attributes;
+    }
+    return createPersonPayload;
   }
   getAmrsConceptUuidFromField(fieldName: string): string {
     let conceptUuid = '';
@@ -210,11 +312,54 @@ export class HieToAmrsPersonAdapter {
         conceptUuid = CivilStatusUids.MARRIED_UUID;
         break;
       case 'Single':
-        conceptUuid = CivilStatusUids.NEVER_MARRIED_UUID;
+        conceptUuid = CivilStatusUids.SINGLE_UUID;
         break;
       default:
         conceptUuid = CivilStatusUids.NOT_APPLICABLE_UUID;
     }
     return conceptUuid;
+  }
+  generateHieDependantsArray(dependants: HieDependant[]): HieClientDependant[] {
+    const deps = [];
+    dependants.forEach((d) => {
+      const dependant = d.result[0] || {};
+      const dependantObj = {
+        date_added: d.date_added,
+        relationship: d.relationship,
+        ...dependant
+      };
+      deps.push(dependantObj);
+    });
+
+    return deps;
+  }
+  getAmrsRelationshipTypeUuid(relationshipType: string) {
+    let relationShipTypeUuid = '';
+    switch (relationshipType) {
+      case 'Spouse':
+        relationShipTypeUuid = RelationshipTypeUuids.SPOUSE_UUID;
+        break;
+      case 'Child':
+        relationShipTypeUuid = RelationshipTypeUuids.PARENT_CHILD_UUID;
+        break;
+      default:
+        relationShipTypeUuid = RelationshipTypeUuids.OTHER_NON_CODED_UUID;
+    }
+
+    return relationShipTypeUuid;
+  }
+  getPatientRelationshipPayload(
+    relationship: string,
+    personAuuid: string,
+    personBuUuid: string
+  ): CreateRelationshipDto {
+    const startDate = moment(new Date()).format('YYYY-MM-DD');
+    const patientRelationshipPayload = {
+      personA: personAuuid,
+      relationshipType: this.getAmrsRelationshipTypeUuid(relationship),
+      personB: personBuUuid,
+      startDate: startDate
+    };
+    return patientRelationshipPayload;
   }
 }

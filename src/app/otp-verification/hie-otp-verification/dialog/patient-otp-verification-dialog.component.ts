@@ -218,4 +218,7 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     this.showLoader = false;
     this.loadingMessage = null;
   }
+  registerOnAfyaYangu() {
+    window.open('https://afyayangu.go.ke/', '_blank');
+  }
 }

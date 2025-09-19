@@ -5,4 +5,5 @@
   display: flex;
   flex-direction: row;
   padding-top: 25px;
+  column-gap: 2px;
 }

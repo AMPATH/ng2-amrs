@@ -13,7 +13,7 @@ import 'ag-grid-enterprise/main';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import * as Fuse from 'fuse.js';
-import { Subject, Subscription } from 'rxjs';
+import { EMPTY, forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -44,7 +44,9 @@ import { FormControl } from '@angular/forms';
 import { HealthInformationExchangeService } from '../hie-api/health-information-exchange.service';
 import {
   HieClient,
+  HieClientDependant,
   HieClientSearchDto,
+  HieDependant,
   HieIdentificationType
 } from '../models/hie-registry.model';
 import {
@@ -54,7 +56,9 @@ import {
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
 import { AmrsErrorResponse } from '../interfaces/amrs-error.interface';
 import { HieOtpClientConsentService } from '../otp-verification/hie-otp-verification/patient-otp-verification.service';
-
+import { PatientRelationshipService } from '../patient-dashboard/common/patient-relationships/patient-relationship.service';
+import { CreateRelationshipDto } from '../interfaces/relationship.interface';
+import { PersonResourceService } from '../openmrs-api/person-resource.service';
 /**
  * ADDRESS MAPPINGS
  * country: country
@@ -238,6 +242,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     };
   });
   showOtpVericationDialog = false;
+  hieDependants: HieClientDependant[] = [];
 
   constructor(
     public toastrService: ToastrService,
@@ -257,7 +262,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private locationUnitsService: LocationUnitsService,
     private hieService: HealthInformationExchangeService,
     private hieAdapter: HieToAmrsPersonAdapter,
-    private hieOtpClientConsentService: HieOtpClientConsentService
+    private hieOtpClientConsentService: HieOtpClientConsentService,
+    private patientRelationshipService: PatientRelationshipService,
+    private personResourceService: PersonResourceService
   ) {}
 
   public ngOnInit() {
@@ -1192,6 +1199,17 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         .savePatient(payload)
         .pipe(
           take(1),
+          tap((res) => {
+            if (res) {
+              const patient = res as any;
+              if (this.hieDependants.length > 0) {
+                this.createPatientDependantRelationsips(
+                  patient.uuid,
+                  this.hieDependants
+                );
+              }
+            }
+          }),
           catchError((error: AmrsErrorResponse) => {
             this.handleErrors(error);
             throw error;
@@ -1759,6 +1777,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             null
           );
           this.patientExists = false;
+          this.generateHieDependantsData();
           this.showHieModal();
         }),
         finalize(() => {
@@ -1889,6 +1908,169 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+  generateHieDependantsData() {
+    const dependants: HieClientDependant[] = [];
+    this.hieClient.dependants.forEach((d) => {
+      const dep = d.result[0];
+      if (dep) {
+        dependants.push({
+          relationship: d.relationship,
+          date_added: d.date_added,
+          ...dep
+        });
+      }
+    });
+    this.hieDependants = dependants;
+  }
+  createPatientDependantRelationsips(
+    patientUuid: string,
+    hieClientDependants: HieClientDependant[]
+  ) {
+    const patientRelationships$: Observable<any>[] = [];
+    for (const dependant of hieClientDependants) {
+      patientRelationships$.push(
+        this.createPatientDependantRelationsip(patientUuid, dependant)
+      );
+    }
+
+    forkJoin(patientRelationships$)
+      .pipe(
+        take(1),
+        catchError((err: Error) => {
+          return EMPTY;
+        })
+      )
+      .subscribe();
+  }
+  createPatientDependantRelationsip(
+    patientUuid: string,
+    hieDependant: HieClientDependant
+  ) {
+    return this.createDependant(hieDependant).pipe(
+      takeUntil(this.destroy$),
+      switchMap((res) => {
+        if (res) {
+          const dependantPersonUuid = res.uuid;
+          return this.createDependantRelationship(
+            hieDependant,
+            patientUuid,
+            dependantPersonUuid
+          );
+        } else {
+          return of([]);
+        }
+      }),
+      catchError((err: Error) => {
+        console.log({ err });
+        return EMPTY;
+      })
+    );
+  }
+  generateRelationshipPayload(
+    hieDependant: HieClientDependant,
+    patientUuid: string,
+    dependantPersonUuid: string
+  ) {
+    const payload = this.hieAdapter.getPatientRelationshipPayload(
+      hieDependant.relationship,
+      patientUuid,
+      dependantPersonUuid
+    );
+
+    return payload;
+  }
+  createDependantRelationship(
+    hieDependant: HieClientDependant,
+    patientUuid: string,
+    dependantPersonUuid: string
+  ) {
+    const relationshipPayload = this.generateRelationshipPayload(
+      hieDependant,
+      patientUuid,
+      dependantPersonUuid
+    );
+    return this.createRelationship(relationshipPayload);
+  }
+  createRelationship(relationshipPayload: CreateRelationshipDto) {
+    return this.patientRelationshipService
+      .saveRelationship(relationshipPayload)
+      .pipe(
+        take(1),
+        map((res) => {
+          if (!res) {
+            throw new Error(
+              'An error occurred while creating the relationship'
+            );
+          } else {
+            return res;
+          }
+        }),
+        catchError((err: Error) => {
+          this.setErroMessage(
+            err.message || 'An error occurred while creating the relationship'
+          );
+          throw err;
+        })
+      );
+  }
+  createDependant(hieDependant: HieClientDependant) {
+    const depentantPersonPayload = this.createDependantPersonPayload(
+      hieDependant,
+      null
+    );
+    return this.createDependantPerson(depentantPersonPayload);
+  }
+  createDependantPersonPayload(
+    hieDependant: HieClientDependant,
+    patient: Patient | null
+  ) {
+    const attributes = [
+      'first_name',
+      'middle_name',
+      'last_name',
+      'gender',
+      'date_of_birth',
+      'is_alive',
+      'deceased_datetime',
+      'country',
+      'place_of_birth',
+      'county',
+      'sub_county',
+      'ward',
+      'village_estate',
+      'longitude',
+      'latitude',
+      'phone',
+      'email',
+      'civil_status',
+      'kra_pin',
+      'id'
+    ];
+    const createPersonPayload = this.hieAdapter.generateAmrsPersonAttributeData(
+      hieDependant,
+      patient,
+      attributes
+    );
+    return createPersonPayload;
+  }
+  createDependantPerson(createPersonPayload) {
+    return this.personResourceService.createPerson(createPersonPayload).pipe(
+      take(1),
+      map((res) => {
+        if (res) {
+          return res;
+        } else {
+          throw new Error('An error occurred while creating person');
+        }
+      }),
+      catchError((err: Error) => {
+        this.setErroMessage(
+          err.message || 'An error occurred while creating the dependant person'
+        );
+        throw err;
+      })
+    );
   }
 }
 

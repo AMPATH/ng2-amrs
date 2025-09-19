@@ -438,17 +438,6 @@
         </div>
       </div>
     </div>
-
-    <!--<div class="pull-right">
-    <a (click)="showTransferCareModal()" class="pull-right"
-       style="cursor: pointer;margin-left:15px; display: inline-block;"> <span
-      style="display: inline-block;margin-right:5px; height: 43px;line-height: 43px !important;"
-      class="icon-i-family-practice"></span>Manage Enrollment</a>
-     <a (click)="addToCohort()" class="pull-right" style="display: inline-block;"> <span
-      style="display: inline-block;margin-right:5px;height: 43px;line-height: 43px !important;"
-      class="fa fa-plus"></span>Add to Patient List</a>
-    <span class="clear"></span>
-  </div>-->
   </div>
   <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -581,14 +570,13 @@
       </div>
     </div>
   </p-dialog>
-  <ng-container *ngIf="showHieModal">
-     <app-verify-hie-dialog
-    [show]="showHieModal"
+  <ng-template #hieVerificationModal>
+    <app-verify-hie-dialog
     [patient]="patient"
     [otpConsent]="validateOtpResponse"
     (hideVerifyDialog)="hideHieDialog()"
   ></app-verify-hie-dialog>
-  </ng-container>
+  </ng-template>
   <ng-container *ngIf="showOtpVericationDialog">
        <app-otp-verification
         [show]="showOtpVericationDialog"
