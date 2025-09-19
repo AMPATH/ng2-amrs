@@ -46,6 +46,19 @@ export class PersonResourceService {
     );
   }
 
+  public createPerson(payload) {
+    if (!payload) {
+      return null;
+    }
+    const url = this.getUrl();
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
   public generatePersonAttributePayload(
     personAttributePayload,
     existingAttributes

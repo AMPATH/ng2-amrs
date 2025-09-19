@@ -143,6 +143,7 @@ import { HieToAmrsPersonAdapter } from '../../utils/hei-to-amrs-patient.adapter'
 import { PractionerAlertComponent } from './practitioner-alerts/practitioner-alert.component';
 import { PractitionerAlertService } from './practitioner-alerts/practitioner-alert.service';
 import { PatientOtpVerificationModule } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.module';
+import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs-person-sync.module';
 @NgModule({
   imports: [
     HttpClientModule,
@@ -181,7 +182,8 @@ import { PatientOtpVerificationModule } from 'src/app/otp-verification/hie-otp-v
     PatientReferralsModule,
     ProgramManagerModule,
     GroupEnrollmentModule,
-    PatientOtpVerificationModule
+    PatientOtpVerificationModule,
+    HieToAmrsPersonSyncModule
   ],
   exports: [
     PatientInfoComponent,

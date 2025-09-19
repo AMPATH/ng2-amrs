@@ -6,7 +6,8 @@ import {
   OnChanges,
   SimpleChanges,
   Input,
-  TemplateRef
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
@@ -28,6 +29,7 @@ import { environment } from 'src/environments/environment';
 import { PatientProgramService } from '../../programs/patient-programs.service';
 import { ValidateHieCustomOtpResponse } from 'src/app/models/hie-registry.model';
 import { HieOtpClientConsentService } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.service';
+import { ClientAmrsPatient } from 'src/app/hie-amrs-person-sync/model';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -36,6 +38,7 @@ import { HieOtpClientConsentService } from 'src/app/otp-verification/hie-otp-ver
 })
 export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public patientChanged: any;
+  @ViewChild('hieVerificationModal') public hieVerificationModal: BsModalRef;
   public showingAddToCohort = false;
   public patient: Patient = new Patient({});
   public searchIdentifiers: any;
@@ -76,6 +79,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public showOtpVericationDialog = false;
   public destroy$ = new Subject<boolean>();
   public validateOtpResponse: ValidateHieCustomOtpResponse;
+  public clientPatient: ClientAmrsPatient;
 
   constructor(
     private patientService: PatientService,
@@ -444,9 +448,19 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.showOtpVericationDialog = false;
   }
   showHeiDialog() {
-    this.showHieModal = true;
+    this.modalRef = this.modalService.show(this.hieVerificationModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
   }
   hideHieDialog() {
     this.showHieModal = false;
+    this.modalRef.hide();
+  }
+  showtestModal() {
+    this.modalRef = this.modalService.show(this.hieVerificationModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
   }
 }
