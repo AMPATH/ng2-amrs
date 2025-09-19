@@ -45,13 +45,13 @@ export class HealthInformationExchangeService {
 
     if (params.licenseNumber) {
       httpParams = httpParams
-        .set('identifierType', 'License Number')
+        .set('identifierType', 'id')
         .set('identifierValue', params.licenseNumber);
     }
 
     if (params.registrationNumber) {
       httpParams = httpParams
-        .set('identifierType', 'Registration No')
+        .set('identifierType', 'registration_number')
         .set('identifierValue', params.registrationNumber);
     }
 
