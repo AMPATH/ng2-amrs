@@ -1854,6 +1854,36 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         identifierTypeName: 'National ID'
       });
     }
+    if (
+      hieClient.identification_type === 'Refugee ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.REFUGEE_ID_UUID,
+        identifierTypeName: 'Refugee ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Alien ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.ALIEN_ID_UUID,
+        identifierTypeName: 'Alien ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Mandate Number' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+        identifierTypeName: 'Mandate Number'
+      });
+    }
     if (hieClient.other_identifications.length > 0) {
       hieClient.other_identifications.forEach((otherId) => {
         let identifierTypeUuid = null;

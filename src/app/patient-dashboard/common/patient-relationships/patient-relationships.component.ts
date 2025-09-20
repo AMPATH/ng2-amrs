@@ -3,6 +3,7 @@ import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { OnInit, Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Relationship } from '../../../models/relationship.model';
 
 @Component({
   selector: 'patient-relationships',
@@ -22,6 +23,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   public successAlert: string;
   public errorAlert: string;
   public errorTitle: string;
+  public mappedRelationships = [];
 
   constructor(
     private patientService: PatientService,
@@ -50,6 +52,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
           request.pipe(take(1)).subscribe((relationships) => {
             if (relationships) {
               this.relationships = relationships;
+              this.generateMappedRelationships();
               this.loadingRelationships = false;
             }
           });
@@ -103,12 +106,35 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
     }, 3000);
   }
 
-  public displayErrorAlert(errorTitle, errorMessage) {
+  public displayErrorAlert(errorTitle: string, errorMessage: string) {
     this.showErrorAlert = true;
     this.errorAlert = errorMessage;
     this.errorTitle = errorTitle;
     setTimeout(() => {
       this.showErrorAlert = false;
     }, 3000);
+  }
+  private generateMappedRelationships(): void {
+    this.mappedRelationships = this.addPersonAttributes(this.relationships);
+  }
+  private addPersonAttributes(relationships: Relationship[]) {
+    return relationships.map((rel) => {
+      return {
+        relationshipType: rel.relationshipType,
+        display: rel.display,
+        uuid: rel.uuid,
+        relatedPersonUuid: rel.relatedPersonUuid,
+        cr: this.getAttributeByName('CR Number', rel.relatedPerson.attributes)
+      };
+    });
+  }
+  private getAttributeByName(name: string, attributes: any): string | null {
+    const attribute = attributes.find((attr) => {
+      return attr && attr.display ? attr.display.includes(name) : false;
+    });
+    if (attribute) {
+      return attribute.display.split('=')[1] || '';
+    }
+    return null;
   }
 }
