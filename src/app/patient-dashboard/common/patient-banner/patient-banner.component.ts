@@ -58,6 +58,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public verificationStatus = false;
   private isFamilyTestingEncounter = false;
   modalRef: BsModalRef;
+  hieVerificationModalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
     ignoreBackdropClick: true
@@ -137,7 +138,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             _.filter(patient.enrolledPrograms, 'isEnrolled')
           );
           this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
-          this.showVerifyCrBtn = true;
+          this.showVerifyCrBtn = this.displayVerifyCrbtn();
           this.familyTestingService
             .getPatientEncounters(this.patient.uuid, true)
             .subscribe((response: any) => {
@@ -179,6 +180,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(
         takeUntil(this.destroy$),
         tap((res) => {
+          console.log('otp validation...', res);
           if (res.data) {
             this.validateOtpResponse = res;
             if (res.data.status === 'valid') {
@@ -447,13 +449,26 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.showOtpVericationDialog = false;
   }
   showHeiDialog() {
-    this.modalRef = this.modalService.show(this.hieVerificationModal, {
-      backdrop: 'static',
-      keyboard: false
-    });
+    if (!this.showHieModal) {
+      this.showHieModal = true;
+      this.hieVerificationModalRef = this.modalService.show(
+        this.hieVerificationModal,
+        {
+          backdrop: 'static',
+          keyboard: false
+        }
+      );
+    }
   }
   hideHieDialog() {
     this.showHieModal = false;
-    this.modalRef.hide();
+    this.hieVerificationModalRef.hide();
+  }
+  displayVerifyCrbtn() {
+    if (this.birthdate && this.patient.person) {
+      return this.patient.person.age >= 18;
+    } else {
+      return false;
+    }
   }
 }

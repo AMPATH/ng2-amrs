@@ -77,14 +77,11 @@
               <span class="id-label">CR:</span>
               <span>{{ searchIdentifiers?.cr }}</span>
             </span>
-             <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
-              <button
-              (click)="showHieOtpDialog()"
-              class="btn verify-cr-btn"
-            >
-              <span class="glyphicon glyphicon-info-sign"></span>
-              <span>Verify CR</span>
-            </button>
+            <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
+              <button (click)="showHieOtpDialog()" class="btn verify-cr-btn">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span>Verify CR</span>
+              </button>
             </ng-container>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
@@ -289,15 +286,12 @@
               <span>{{ searchIdentifiers?.cr }}</span>
             </span>
             <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
-              <button
-              (click)="showHieOtpDialog()"
-              class="btn verify-cr-btn"
-            >
-              <span class="glyphicon glyphicon-info-sign"></span>
-              <span>Verify CR</span>
-            </button>
+              <button (click)="showHieOtpDialog()" class="btn verify-cr-btn">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span>Verify CR</span>
+              </button>
             </ng-container>
-           
+
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei && enrolledToHEIProgram"
@@ -570,17 +564,18 @@
       </div>
     </div>
   </p-dialog>
-  <ng-template #hieVerificationModal>
-    <app-verify-hie-dialog
-    [patient]="patient"
-    [otpConsent]="validateOtpResponse"
-    (hideVerifyDialog)="hideHieDialog()"
-  ></app-verify-hie-dialog>
-  </ng-template>
+    <ng-template #hieVerificationModal>
+      <app-verify-hie-dialog
+        [patient]="patient"
+        [otpConsent]="validateOtpResponse"
+        (hideVerifyDialog)="hideHieDialog()"
+      ></app-verify-hie-dialog>
+    </ng-template>
+
   <ng-container *ngIf="showOtpVericationDialog">
-       <app-otp-verification
-        [show]="showOtpVericationDialog"
-        (hideVerifyOtpDialog)="hideHieOtpDialog()"
-       ></app-otp-verification>
+    <app-otp-verification
+      [show]="showOtpVericationDialog"
+      (hideVerifyOtpDialog)="hideHieOtpDialog()"
+    ></app-otp-verification>
   </ng-container>
 </div>
