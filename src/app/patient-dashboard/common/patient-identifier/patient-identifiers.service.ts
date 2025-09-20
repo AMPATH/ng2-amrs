@@ -189,6 +189,24 @@ export class PatientIdentifierService {
         format: '^SHA\\d{13}-\\d$',
         checkdigit: 0,
         val: 'cf5362b2-8049-4442-b3c6-36f870e320cb'
+      },
+      {
+        label: 'Refugee ID',
+        format: '^RFG-\\d{8}$',
+        checkdigit: 0,
+        val: '465e81af-8d69-47e9-9127-53a94adc75fb'
+      },
+      {
+        label: 'Alien ID',
+        format: null,
+        checkdigit: null,
+        val: '12f5b147-3403-4a73-913d-7ded9ffec094'
+      },
+      {
+        label: 'Mandate Number',
+        format: '^MN-\\d{8}$',
+        checkdigit: null,
+        val: 'aae2d097-20ba-43ca-9b71-fd8296068f39'
       }
     ];
   }

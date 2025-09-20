@@ -32,8 +32,6 @@ export class HieToAmrsPersonAdapter {
     'deceased_datetime',
     'citizenship',
     'civil_status',
-    'identification_type',
-    'identification_number',
     'phone',
     'email',
     'sub_county',
@@ -59,7 +57,6 @@ export class HieToAmrsPersonAdapter {
     'phone',
     'email',
     'civil_status',
-
     'id'
   ];
 
@@ -114,6 +111,24 @@ export class HieToAmrsPersonAdapter {
           patient
         );
         break;
+      case 'Refugee ID':
+        val = this.getIdentifierValue(
+          IdentifierTypesUuids.REFUGEE_ID_UUID,
+          patient
+        );
+        break;
+      case 'Mandate Number':
+        val = this.getIdentifierValue(
+          IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+          patient
+        );
+        break;
+      case 'Alien ID':
+        val = this.getIdentifierValue(
+          IdentifierTypesUuids.ALIEN_ID_UUID,
+          patient
+        );
+        break;
       default:
         val = '';
     }
@@ -142,6 +157,15 @@ export class HieToAmrsPersonAdapter {
     if (identifierName === 'id') {
       return hieCleint.id;
     }
+    if (identifierName === 'Refugee ID') {
+      return hieCleint.identification_number;
+    }
+    if (identifierName === 'Mandate Number') {
+      return hieCleint.identification_number;
+    }
+    if (identifierName === 'Alien ID') {
+      return hieCleint.identification_number;
+    }
     const identifier = hieCleint.other_identifications.find((d) => {
       return d.identification_type === identifierName;
     });
@@ -149,9 +173,14 @@ export class HieToAmrsPersonAdapter {
   }
   generateAmrsHiePatientData(hieClient: HieClient, patient: Patient | null) {
     const identificationData = this.generateIdentificationData(
-      hieClient.other_identifications,
-      null
+      hieClient.other_identifications
     );
+    const mainIdentificationData = this.generateIdentificationData([
+      {
+        identification_type: hieClient.identification_type,
+        identification_number: hieClient.identification_number
+      }
+    ]);
     const other: HieAmrsObj[] = Object.keys(hieClient)
       .filter((k) => {
         return this.primaryFields.includes(k);
@@ -164,13 +193,10 @@ export class HieToAmrsPersonAdapter {
           amrsValue: this.getAmrsValue(k, patient)
         };
       });
-    const res = [...identificationData, ...other];
+    const res = [...identificationData, ...mainIdentificationData, ...other];
     return res;
   }
-  generateIdentificationData(
-    hieIds: HieIdentifications[],
-    patient: Patient
-  ): HieAmrsObj[] {
+  generateIdentificationData(hieIds: HieIdentifications[]): HieAmrsObj[] {
     return hieIds.map((identification) => {
       return {
         key: identification.identification_type,
