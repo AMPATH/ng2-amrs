@@ -35,12 +35,14 @@ export class PrepMonthlyReportComponent
 
   public generateReport() {
     this.setSelectedLocation();
+    this.setIsAggregated();
     this.storeParamsInUrl();
 
     if (Array.isArray(this._locationUuids) && this._locationUuids.length > 0) {
       this.params = {
         locationUuids: this.getSelectedLocations(this._locationUuids),
-        month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+        month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+        isAggregated: this.getIsAggregated()
       };
       super.getPrepMonthlyAggReport(this.params);
       super.showDraftReportAlert(this._month);
@@ -52,7 +54,8 @@ export class PrepMonthlyReportComponent
   public storeParamsInUrl() {
     const state = {
       locationUuids: this.getSelectedLocations(this._locationUuids),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD')
+      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
+      isAggregated: this.getIsAggregated()
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
@@ -70,6 +73,7 @@ export class PrepMonthlyReportComponent
       const state = rison.decode(path.queryParams['state']);
       this.month = state.month;
       this.locationUuids = state.locations;
+      this.isAggregated = state.isAggregated;
     }
 
     if (path.queryParams['state']) {
@@ -90,5 +94,20 @@ export class PrepMonthlyReportComponent
 
   private getSelectedLocations(locationUuids: Array<any>): string {
     return locationUuids.map((location) => location.value).join(',');
+  }
+
+  public setIsAggregated() {
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if(data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
+  }
+
+  private getIsAggregated() {
+    return this.isAggregated;
   }
 }

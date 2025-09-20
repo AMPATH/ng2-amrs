@@ -15,11 +15,13 @@ export class IptBaseReportComponent implements OnInit {
   public isLoading = false;
   public enabledControls = 'monthControl';
   public reportName = 'Ipt Report';
+  public isAggregated = false;
   public locationUuids;
   public params: {
     locationUuids: string;
     endDate: any;
     displayTabularFilters: boolean;
+    isAggregated: boolean;
   };
   public showInfoMessage: boolean;
   public statusError: boolean;
@@ -61,7 +63,8 @@ export class IptBaseReportComponent implements OnInit {
     this.params = {
       locationUuids: param,
       endDate: Moment(this.month).endOf('month').format('YYYY-MM-DD'),
-      displayTabularFilters: this.displayTabluarFilters
+      displayTabularFilters: this.displayTabluarFilters,
+      isAggregated: this.isAggregated
     };
     // store params in url
     this.router.navigate([], {
@@ -75,12 +78,13 @@ export class IptBaseReportComponent implements OnInit {
     headerName: string;
     location: string;
   }) {
+    const location = this.params.isAggregated ? this.params.locationUuids : value.location;
     this.router.navigate(['ipt-report-patientlist'], {
       relativeTo: this.route,
       queryParams: {
         indicators: value.field,
         indicatorHeader: value.headerName,
-        locationUuids: value.location,
+        locationUuids: location,
         endDate: this.month
       }
     });

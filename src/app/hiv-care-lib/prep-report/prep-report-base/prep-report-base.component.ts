@@ -45,6 +45,15 @@ export class PrepReportBaseComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
+  public _isAggregated = false;
+  public get isAggregated(): boolean {
+    return this._isAggregated;
+  }
+
+  public set isAggregated(v: boolean) {
+    this._isAggregated = v;
+  }
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -139,13 +148,14 @@ export class PrepReportBaseComponent implements OnInit {
     }
   }
   public onIndicatorSelected(value) {
+    const location = this.params.isAggregated ? this.params.locationUuids : value.location;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
         indicators: value.field,
         indicatorHeader: value.headerName,
         month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-        locationUuids: value.location,
+        locationUuids: location,
         currentView: this.currentView
       }
     });

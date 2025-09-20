@@ -47,6 +47,15 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
+  public _isAggregated = false;
+  public get isAggregated(): boolean {
+    return this._isAggregated;
+  }
+
+  public set isAggregated(v: boolean) {
+    this._isAggregated = v;
+  }
+
   public _startDate: Date = Moment().subtract(1, 'M').endOf('month').toDate();
   public get startDate(): Date {
     return this._startDate;
@@ -179,6 +188,7 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
     }
   }
   public onIndicatorSelected($event) {
+    const location = this.params.isAggregated ? this.params.locationUuids : $event.location;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
@@ -189,7 +199,7 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
         endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
         reportName: this.reportName,
         currentView: this.currentView,
-        locationUuids: $event.location
+        locationUuids: location
       }
     });
   }
