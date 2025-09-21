@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
 import { HealthInformationExchangeService } from '../../../../../hie-api/health-information-exchange.service';
 import {
@@ -74,9 +74,11 @@ export class VerifyHieIdentifierDialogComponent
     this.show = false;
     this.hideVerifyDialog.emit(true);
   }
-  searchRegistry() {
+  searchClientRegistry() {
     const payload = this.generatePayload();
-    this.fetchClient(payload);
+    if (this.isValidPayload(payload)) {
+      this.fetchClient(payload);
+    }
   }
 
   fetchClient(hieClientSearchDto: HieClientSearchDto) {
@@ -128,13 +130,29 @@ export class VerifyHieIdentifierDialogComponent
     this.showErrorAlert = false;
     this.errorAlert = null;
   }
+  resetAlerts() {
+    this.resetSuccess();
+    this.resetError();
+  }
 
   generatePayload(): HieClientSearchDto {
+    this.resetAlerts();
     const { identifierType, identifierValue } = this.verifyForm.value;
     return {
       identificationType: identifierType,
       identificationNumber: identifierValue
     };
+  }
+  isValidPayload(payload: HieClientSearchDto): boolean {
+    if (!payload.identificationNumber) {
+      this.handleError('Please ensure to provide the identification number');
+      return false;
+    }
+    if (!payload.identificationType) {
+      this.handleError('Please ensure to provide the identification type');
+      return false;
+    }
+    return true;
   }
   ngOnDestroy(): void {
     this.resetValues();
@@ -152,9 +170,11 @@ export class VerifyHieIdentifierDialogComponent
   resetValues() {
     this.hieCleint = null;
     this.hideLoader();
-    this.resetError();
-    this.resetSuccess();
+    this.resetAlerts();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+  }
+  closeSyncModal() {
+    this.hideDialog();
   }
 }

@@ -1,9 +1,11 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges
 } from '@angular/core';
 import { ClientAmrsPatient } from './model';
@@ -25,15 +27,17 @@ import {
 import { EMPTY, forkJoin, Observable, Subject } from 'rxjs';
 import { TitleCasePipe } from '@angular/common';
 import { IdentifierTypesUuids } from '../constants/identifier-types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-hie-amrs-person-sync',
   templateUrl: './hie-amrs-person-sync.component.html',
-  styleUrls: ['./hie-amrs-person-sync.component.css']
+  styleUrls: ['./hie-amrs-person-sync.component.scss']
 })
 export class HieToAmrsPersonSyncComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() clientPatient: ClientAmrsPatient;
+  @Output() closeSyncModal = new EventEmitter<boolean>();
   hieAmrsData: HieAmrsObj[] = [];
   hieDataToSync: string[] = [];
   dependants: HieClientDependant[] = [];
@@ -65,7 +69,9 @@ export class HieToAmrsPersonSyncComponent
     private personResourceService: PersonResourceService,
     private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
     private patientService: PatientService,
-    private patientRelationshipService: PatientRelationshipService
+    private patientRelationshipService: PatientRelationshipService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +123,6 @@ export class HieToAmrsPersonSyncComponent
         }),
         tap((res) => {
           this.patientRelationships = res;
-          console.log({ res });
         })
       )
       .subscribe();
@@ -459,5 +464,14 @@ export class HieToAmrsPersonSyncComponent
     this.resetSuccess();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+  }
+  navigateToPatientRelationships() {
+    this.router
+      .navigate(['./general/general/patient-info'], {
+        relativeTo: this.route
+      })
+      .then(() => {
+        this.closeSyncModal.emit(true);
+      });
   }
 }

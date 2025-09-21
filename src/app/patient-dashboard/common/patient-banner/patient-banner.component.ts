@@ -9,7 +9,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { take, takeUntil, tap } from 'rxjs/operators';
 import * as Moment from 'moment';
@@ -86,7 +86,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private patientRelationshipService: PatientRelationshipService,
     private modalService: BsModalService,
     private router: Router,
-    private route: ActivatedRoute,
     private propertyLocationService: UserDefaultPropertiesService,
     private familyTestingService: FamilyTestingService,
     private encounterResourceService: EncounterResourceService,
@@ -180,7 +179,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(
         takeUntil(this.destroy$),
         tap((res) => {
-          console.log('otp validation...', res);
           if (res.data) {
             this.validateOtpResponse = res;
             if (res.data.status === 'valid') {

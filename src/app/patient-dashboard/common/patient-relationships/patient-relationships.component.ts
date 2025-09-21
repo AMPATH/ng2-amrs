@@ -137,4 +137,7 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
     }
     return null;
   }
+  public registerOnAfyaYangu() {
+    window.open('https://afyayangu.go.ke/', '_blank');
+  }
 }

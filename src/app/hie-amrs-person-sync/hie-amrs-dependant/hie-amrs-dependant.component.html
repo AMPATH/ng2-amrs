@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+    <ng-container *ngIf="!dependantPersonCreated">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
        
@@ -41,7 +42,11 @@
        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
            <ng-container *ngIf="!amrsRelationExists">
             {{ hieDataToSync }}
-            <button class="btn btn-primary" (click)="createDependant()">Create Dependant in AMRS</button>
+            <div class="create-dependant-actions">
+              <button class="btn btn-success" (click)="createDependant()">
+              <i class="fa fa-user fa-fw"></i> Create Dependant in AMRS</button>
+            </div>
+            
            </ng-container>
        </div>
     </div>
@@ -103,4 +108,5 @@
           </ng-container>
         </div>
       </div>
+      </ng-container>
 </div>

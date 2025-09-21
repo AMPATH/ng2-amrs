@@ -3,7 +3,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges
 } from '@angular/core';
 import {
@@ -25,7 +24,6 @@ import { Patient } from 'src/app/models/patient.model';
 import { EMPTY, forkJoin, Observable, of, Subject } from 'rxjs';
 import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
 import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
-import { error } from 'jquery';
 import { PatientRelationshipService } from 'src/app/patient-dashboard/common/patient-relationships/patient-relationship.service';
 import { CreateRelationshipDto } from 'src/app/interfaces/relationship.interface';
 
@@ -53,6 +51,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   successAlert = null;
   private destroy$ = new Subject();
   identifierLocation = '';
+  dependantPersonCreated = false;
 
   constructor(
     private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
@@ -420,7 +419,6 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
       this.patient,
       attributes
     );
-    console.log({ createPersonPayload });
     this.createPerson(createPersonPayload)
       .pipe(
         switchMap((res) => {
@@ -434,10 +432,15 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
           } else {
             return EMPTY;
           }
+        }),
+        tap((res) => {
+          if (res) {
+            this.handleSuccess('Dependant Created in AMRS');
+            this.dependantPersonCreated = true;
+          }
         })
       )
       .subscribe();
-    console.log('hieDependant', this.hieDependant);
   }
 
   createPerson(createPersonPayload) {
