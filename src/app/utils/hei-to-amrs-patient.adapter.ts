@@ -14,6 +14,7 @@ import { CivilStatusUids } from '../constants/civil-status-concepts.contants';
 import { PersonAttributeTypeUuids } from '../constants/attribute-types.constants';
 import { RelationshipTypeUuids } from '../constants/relationship-types';
 import { CreateRelationshipDto } from '../interfaces/relationship.interface';
+import { PersonAttribute } from '../models/person-attribute.model';
 
 @Injectable({
   providedIn: 'root'
@@ -196,6 +197,25 @@ export class HieToAmrsPersonAdapter {
     const res = [...identificationData, ...mainIdentificationData, ...other];
     return res;
   }
+  getPersonAttributeData(hieClient: HieClient, person: any) {
+    const personAttributes = person.attributes as PersonAttribute[];
+    const attr = [];
+    personAttributes.forEach((pa: any) => {
+      if (pa.attributeType && pa.attributeType.uuid) {
+        if (
+          pa.attributeType.uuid === PersonAttributeTypeUuids.PLACE_OF_BIRTH_UUID
+        ) {
+          attr.push({
+            key: 'place_of_birth',
+            title: 'Place of birth',
+            hieValue: this.titleCasePipe.transform(hieClient.place_of_birth),
+            amrsValue: this.titleCasePipe.transform(pa.value as any)
+          });
+        }
+      }
+    });
+    return attr;
+  }
   generateIdentificationData(hieIds: HieIdentifications[]): HieAmrsObj[] {
     return hieIds.map((identification) => {
       return {
@@ -247,23 +267,42 @@ export class HieToAmrsPersonAdapter {
           }
         }
         if (d === 'country' && hieClient.country.length > 0) {
-          addresses['country'] = hieClient.country;
-          addresses['address1'] = hieClient.country;
+          addresses['country'] = this.titleCasePipe.transform(
+            hieClient.country
+          );
+          addresses['address1'] = this.titleCasePipe.transform(
+            hieClient.country
+          );
         }
         if (d === 'place_of_birth' && hieClient.place_of_birth.length > 0) {
           addresses['address10'] = hieClient.place_of_birth;
         }
         if (d === 'county' && hieClient.county.length > 0) {
-          // addresses['county'] = hieClient.county;
+          addresses['county'] = this.titleCasePipe.transform(hieClient.county);
+          addresses['countyDistrict'] = this.titleCasePipe.transform(
+            hieClient.county
+          );
         }
         if (d === 'sub_county' && hieClient.sub_county.length > 0) {
-          addresses['address2'] = hieClient.sub_county;
+          addresses['address2'] = this.titleCasePipe.transform(
+            hieClient.sub_county
+          );
+          addresses['stateProvince'] = this.titleCasePipe.transform(
+            hieClient.sub_county
+          );
         }
         if (d === 'ward' && hieClient.sub_county.length > 0) {
-          addresses['address7'] = hieClient.sub_county;
+          addresses['address7'] = this.titleCasePipe.transform(
+            hieClient.sub_county
+          );
+          addresses['address4'] = this.titleCasePipe.transform(
+            hieClient.sub_county
+          );
         }
         if (d === 'village_estate' && hieClient.village_estate.length > 0) {
-          addresses['cityVillage'] = hieClient.village_estate;
+          addresses['cityVillage'] = this.titleCasePipe.transform(
+            hieClient.village_estate
+          );
         }
         if (d === 'longitude' && hieClient.longitude.length > 0) {
           addresses['longitude'] = hieClient.longitude;
@@ -271,31 +310,37 @@ export class HieToAmrsPersonAdapter {
         if (d === 'latitude' && hieClient.latitude.length > 0) {
           addresses['latitude'] = hieClient.latitude;
         }
-        if (d === 'phone') {
+        if (d === 'place_of_birth' && hieClient.place_of_birth.length > 0) {
+          attributes.push({
+            value: this.titleCasePipe.transform(hieClient.place_of_birth),
+            attributeType: PersonAttributeTypeUuids.PLACE_OF_BIRTH_UUID
+          });
+        }
+        if (d === 'phone' && hieClient.phone.length > 0) {
           attributes.push({
             value: hieClient.phone,
             attributeType: PersonAttributeTypeUuids.CONTACT_PHONE_NUMBER_UUID
           });
         }
-        if (d === 'email') {
+        if (d === 'email' && hieClient.email.length > 0) {
           attributes.push({
-            value: hieClient.phone,
+            value: hieClient.email,
             attributeType: PersonAttributeTypeUuids.CONTACT_EMAIL_ADDRESS_UUID
           });
         }
-        if (d === 'kra_pin') {
+        if (d === 'kra_pin' && hieClient.kra_pin.length > 0) {
           attributes.push({
             value: hieClient.kra_pin,
             attributeType: PersonAttributeTypeUuids.KRA_PIN_UUID
           });
         }
-        if (d === 'civil_status') {
+        if (d === 'civil_status' && hieClient.civil_status.length > 0) {
           attributes.push({
             value: this.getAmrsConceptUuidFromField(hieClient.civil_status),
             attributeType: PersonAttributeTypeUuids.CIVIL_STATUS_UUID
           });
         }
-        if (d === 'id') {
+        if (d === 'id' && hieClient.id) {
           attributes.push({
             value: hieClient.id,
             attributeType: PersonAttributeTypeUuids.CLIENT_REGISTRY_ID_UUID
