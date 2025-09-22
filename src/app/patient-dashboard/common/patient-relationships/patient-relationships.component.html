@@ -46,17 +46,21 @@
             </ng-container>
           </td>
           <td>
+            <ng-container *ngIf="!relationship.cr">
             <a
               (click)="
                 editRelationship.showDialog(relationship, mappedRelationships)
               "
               ><span class="glyphicon glyphicon-pencil link"></span
             ></a>
+            </ng-container>
           </td>
           <td>
+            <ng-container *ngIf="!relationship.cr">
             <a (click)="openConfirmDialog(relationship.uuid)"
               ><span class="glyphicon glyphicon-remove link"></span
             ></a>
+            </ng-container>
           </td>
           <td>
             <a
