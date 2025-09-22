@@ -26,9 +26,7 @@
           <th>Relationship</th>
           <th>Person Name</th>
           <th>CR</th>
-          <th>Register</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th>Register/Update</th>
           <th>View</th>
         </tr>
       </thead>
@@ -43,23 +41,6 @@
                 >Afya
                 Yangu</a
               >
-            </ng-container>
-          </td>
-          <td>
-            <ng-container *ngIf="!relationship.cr">
-            <a
-              (click)="
-                editRelationship.showDialog(relationship, mappedRelationships)
-              "
-              ><span class="glyphicon glyphicon-pencil link"></span
-            ></a>
-            </ng-container>
-          </td>
-          <td>
-            <ng-container *ngIf="!relationship.cr">
-            <a (click)="openConfirmDialog(relationship.uuid)"
-              ><span class="glyphicon glyphicon-remove link"></span
-            ></a>
             </ng-container>
           </td>
           <td>

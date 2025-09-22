@@ -244,6 +244,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   showOtpVericationDialog = false;
   hieDependants: HieClientDependant[] = [];
   formHieDependants: HieClientDependant[] = [];
+  usingHieData = false;
 
   constructor(
     public toastrService: ToastrService,
@@ -1406,6 +1407,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.sessionStorageService.remove('person');
     this.sessionStorageService.remove('CRPatient');
     this.errors = false;
+    this.usingHieData = false;
   }
 
   public cancel() {
@@ -1822,6 +1824,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   useHieData() {
     this.closehieVerification();
     this.patientExists = false;
+    this.usingHieData = true;
     this.formHieDependants = this.hieDependants;
     this.givenName = this.hieClient.first_name;
     this.middleName = this.hieClient.middle_name;
