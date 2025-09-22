@@ -25,18 +25,31 @@
         <tr>
           <th>Relationship</th>
           <th>Person Name</th>
+          <th>CR</th>
+          <th>Register</th>
           <th>Edit</th>
           <th>Delete</th>
           <th>View</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let relationship of relationships">
+        <tr *ngFor="let relationship of mappedRelationships">
           <td>{{ relationship.relationshipType }}</td>
           <td>{{ relationship.display }}</td>
+          <td>{{ relationship.cr }}</td>
+          <td>
+            <ng-container *ngIf="!relationship.cr">
+              <a class="afya-link"(click)="registerOnAfyaYangu()"
+                >Afya
+                Yangu</a
+              >
+            </ng-container>
+          </td>
           <td>
             <a
-              (click)="editRelationship.showDialog(relationship, relationships)"
+              (click)="
+                editRelationship.showDialog(relationship, mappedRelationships)
+              "
               ><span class="glyphicon glyphicon-pencil link"></span
             ></a>
           </td>

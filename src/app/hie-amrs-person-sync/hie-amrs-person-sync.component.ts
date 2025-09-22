@@ -1,19 +1,15 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges
 } from '@angular/core';
 import { ClientAmrsPatient } from './model';
-import {
-  HieAmrsObj,
-  HieClient,
-  HieClientDependant,
-  HieClientSearchDto
-} from '../models/hie-registry.model';
-import { HealthInformationExchangeService } from '../hie-api/health-information-exchange.service';
+import { HieAmrsObj, HieClientDependant } from '../models/hie-registry.model';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
@@ -28,19 +24,20 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { Relationship } from '../models/relationship.model';
 import { EMPTY, forkJoin, Observable, Subject } from 'rxjs';
 import { TitleCasePipe } from '@angular/common';
 import { IdentifierTypesUuids } from '../constants/identifier-types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-hie-amrs-person-sync',
   templateUrl: './hie-amrs-person-sync.component.html',
-  styleUrls: ['./hie-amrs-person-sync.component.css']
+  styleUrls: ['./hie-amrs-person-sync.component.scss']
 })
 export class HieToAmrsPersonSyncComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() clientPatient: ClientAmrsPatient;
+  @Output() closeSyncModal = new EventEmitter<boolean>();
   hieAmrsData: HieAmrsObj[] = [];
   hieDataToSync: string[] = [];
   dependants: HieClientDependant[] = [];
@@ -56,16 +53,25 @@ export class HieToAmrsPersonSyncComponent
   titleCasePipe = new TitleCasePipe();
   showLoader = false;
   loadingMessage = null;
-  hieIdentifiers = ['SHA Number', 'National ID', 'Household Number', 'id'];
+  hieIdentifiers = [
+    'SHA Number',
+    'National ID',
+    'Household Number',
+    'id',
+    'Refugee ID',
+    'Mandate Number',
+    'Alien ID'
+  ];
   identifierLocation = '';
 
   constructor(
-    private hieService: HealthInformationExchangeService,
     private patientResourceService: PatientResourceService,
     private personResourceService: PersonResourceService,
     private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
     private patientService: PatientService,
-    private patientRelationshipService: PatientRelationshipService
+    private patientRelationshipService: PatientRelationshipService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +123,6 @@ export class HieToAmrsPersonSyncComponent
         }),
         tap((res) => {
           this.patientRelationships = res;
-          console.log({ res });
         })
       )
       .subscribe();
@@ -209,6 +214,36 @@ export class HieToAmrsPersonSyncComponent
             )
           )
         );
+      } else if (d === 'Refugee ID') {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.REFUGEE_ID_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.clientPatient.client
+            )
+          )
+        );
+      } else if (d === 'Alien ID') {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.ALIEN_ID_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.clientPatient.client
+            )
+          )
+        );
+      } else if (d === 'Mandate Number') {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.clientPatient.client
+            )
+          )
+        );
       }
     }
 
@@ -281,6 +316,22 @@ export class HieToAmrsPersonSyncComponent
         : false;
     } else if (identifierTypeUuid === IdentifierTypesUuids.SHA_UUID) {
       return this.clientPatient.patient.commonIdentifiers.sha !== undefined
+        ? true
+        : false;
+    } else if (identifierTypeUuid === IdentifierTypesUuids.REFUGEE_ID_UUID) {
+      return this.clientPatient.patient.commonIdentifiers.refugeeId !==
+        undefined
+        ? true
+        : false;
+    } else if (identifierTypeUuid === IdentifierTypesUuids.ALIEN_ID_UUID) {
+      return this.clientPatient.patient.commonIdentifiers.alienId !== undefined
+        ? true
+        : false;
+    } else if (
+      identifierTypeUuid === IdentifierTypesUuids.MANDATE_NUMBER_UUID
+    ) {
+      return this.clientPatient.patient.commonIdentifiers.mandateNumber !==
+        undefined
         ? true
         : false;
     } else {
@@ -413,5 +464,14 @@ export class HieToAmrsPersonSyncComponent
     this.resetSuccess();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+  }
+  navigateToPatientRelationships() {
+    this.router
+      .navigate(['./general/general/patient-info'], {
+        relativeTo: this.route
+      })
+      .then(() => {
+        this.closeSyncModal.emit(true);
+      });
   }
 }

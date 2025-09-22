@@ -1,0 +1,27 @@
+.dependant-layout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 10px;
+    &__header{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        &__title{
+            display: flex;
+            flex-direction: row;
+            width: 52%;
+        }
+        &__action{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: auto;
+        }
+    }
+    &__content{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}

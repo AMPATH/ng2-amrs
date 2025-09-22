@@ -13,3 +13,6 @@
   max-height: 400px;
   overflow-y: scroll;
 }
+.remove-dependant-btn {
+  margin-top: 8%;
+}

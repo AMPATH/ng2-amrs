@@ -12,13 +12,6 @@
     <div class="row">
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
         <div
-          class="alert alert-success"
-          *ngIf="showSuccessAlert"
-          style="margin-top: 10px"
-        >
-          <strong>Done!</strong> {{ successAlert }}
-        </div>
-        <div
           class="alert alert-danger"
           *ngIf="showErrorAlert"
           style="margin-top: 10px"
@@ -29,19 +22,19 @@
       <ng-container *ngIf="hasOtp; else hasNoOtp">
         <form [formGroup]="otpVerificationForm">
         <div class="row">
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
           <div class="form-group">
               <label class="control-label">Phone Number</label>
               <input type="text"  class="form-control" formControlName="phoneNumber" required readonly/>
           </div>
           </div>
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <label class="control-label">OTP</label>
               <input type="text"  class="form-control" formControlName="otp" required/>
           </div>
         </div>
-         <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
               <div class="validate-otp-action">
               <button
                 class="btn btn-primary"
@@ -58,7 +51,7 @@
       <ng-template #hasNoOtp>
            <form [formGroup]="sendCustomOtpForm">
         <div class="row">
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-4">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <label class="control-label">Identification Type</label>
                <select class="form-control" formControlName="identificationType">
@@ -70,7 +63,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+          <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
             <div class="form-group">
               <label class="control-label">Identification Number</label>
               <input
@@ -80,7 +73,7 @@
               />
           </div>
         </div>
-         <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
               <div class="validate-otp-action">
               <button
                 class="btn btn-primary"

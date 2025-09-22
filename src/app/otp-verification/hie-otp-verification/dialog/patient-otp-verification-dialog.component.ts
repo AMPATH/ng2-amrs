@@ -34,7 +34,6 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     identificationType: new FormControl(null, Validators.required)
   });
   showErrorAlert = false;
-  showSuccessAlert = false;
   errorAlert = null;
   successAlert = null;
   hasOtp = false;
@@ -82,6 +81,9 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     this.showErrorAlert = false;
     this.errorAlert = null;
   }
+  resetAlerts() {
+    this.resetErrorAlert();
+  }
   generateValidateOtopPayload(): ValidateHieCustomOtpDto {
     const { sessionId, otp } = this.otpVerificationForm.value;
     return {
@@ -90,7 +92,7 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     };
   }
   validateHieOtp() {
-    this.resetErrorAlert();
+    this.resetAlerts();
     const payload = this.generateValidateOtopPayload();
     if (this.isValidHieOtpValidatePayload(payload)) {
       this.requestOtpValidation(payload);
@@ -124,10 +126,7 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
           this.hideLoader();
         }),
         catchError((error) => {
-          this.displayErrorAlert(
-            error.message ||
-              'An error occurred while Validating the OTP , please try again'
-          );
+          this.handleErrorResponse(error);
           throw error;
         })
       )
@@ -138,10 +137,26 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
   }
 
   requestCustomHieOtp() {
+    this.resetAlerts();
     const payload = this.generateRequestOtpPayload();
     if (this.isValidRequestCustomOtpPayload(payload)) {
       this.getCustomHieOtp(payload);
     }
+  }
+  handleErrorResponse(error: any) {
+    let errorMsg = '';
+    if (error.error) {
+      if (error.error.details) {
+        errorMsg = error.error.details;
+      } else {
+        errorMsg = error.error;
+      }
+    } else {
+      if (error.message) {
+        errorMsg = error.message;
+      }
+    }
+    this.displayErrorAlert(errorMsg);
   }
   getCustomHieOtp(requestCustomOtpDto: RequestCustomOtpDto) {
     this.displayLoader('Sending OTP to client. Please wait....');
@@ -170,10 +185,7 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
           this.hideLoader();
         }),
         catchError((error) => {
-          this.displayErrorAlert(
-            error.message ||
-              'An error occurred while requesting OTP message, please try again'
-          );
+          this.handleErrorResponse(error);
           throw error;
         })
       )

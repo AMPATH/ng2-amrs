@@ -117,6 +117,12 @@ export class Patient extends BaseModel {
       const upi = this.getIdentifierByType(identifier, 'UPI Number');
       const pid = this.getIdentifierByType(identifier, 'PASSPORT NUMBER');
       const cr = this.getIdentifierByType(identifier, 'CR');
+      const refugeeId = this.getIdentifierByType(identifier, 'Refugee ID');
+      const alienId = this.getIdentifierByType(identifier, 'Alien ID');
+      const mandateNumber = this.getIdentifierByType(
+        identifier,
+        'Mandate Number'
+      );
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -144,7 +150,10 @@ export class Patient extends BaseModel {
           birthNumber: birthNumber,
           upi: upi,
           pid: pid,
-          cr: cr
+          cr: cr,
+          refugeeId: refugeeId,
+          alienId: alienId,
+          mandateNumber: mandateNumber
         };
       }
       return filteredIdentifiers;
@@ -187,6 +196,12 @@ export class Patient extends BaseModel {
         'Social Health Insurance Number'
       );
       const hhNo = this.getIdentifierByType(identifiers, 'Household Number');
+      const refugeeId = this.getIdentifierByType(identifiers, 'Refugee ID');
+      const alienId = this.getIdentifierByType(identifiers, 'Alien ID');
+      const mandateNumber = this.getIdentifierByType(
+        identifiers,
+        'Mandate Number'
+      );
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -194,7 +209,10 @@ export class Patient extends BaseModel {
         cCC === undefined &&
         ovcid === undefined &&
         sha === undefined &&
-        hhNo === undefined
+        hhNo === undefined &&
+        refugeeId === undefined &&
+        alienId === undefined &&
+        mandateNumber === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -221,7 +239,10 @@ export class Patient extends BaseModel {
           pid: pid ? this._fromArrayToCommaSeparatedString(pid) : pid,
           cr: cr,
           sha: sha,
-          hhNo: hhNo
+          hhNo: hhNo,
+          refugeeId: refugeeId,
+          alienId: alienId,
+          mandateNumber: mandateNumber
         };
       }
       return filteredIdentifiers;

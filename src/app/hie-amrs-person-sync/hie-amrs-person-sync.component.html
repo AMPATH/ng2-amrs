@@ -72,20 +72,38 @@
             </div>
             <div id="dependants" class="tab-pane fade">
               <ng-container *ngIf="dependants.length > 0; else noDependants">
-                 <ng-container *ngFor="let dependant of dependants; let i = index">
-                <h4>Dependant - {{ i + 1 }} of {{ dependants.length }}</h4>
-
-                <app-hie-dependant
-                  [hieDependant]="dependant"
-                  [personRelationships]="patientRelationships"
-                  [currentPatient]="currentPatient"
-                ></app-hie-dependant>
-              </ng-container>
+                <ng-container
+                  *ngFor="let dependant of dependants; let i = index"
+                >
+                  <div class="dependant-layout">
+                    <div class="dependant-layout__header">
+                      <div class="dependant-layout__header__title">
+                        <h4>
+                          Dependant - {{ i + 1 }} of {{ dependants.length }}
+                        </h4>
+                      </div>
+                      <div class="dependant-layout__header__action">
+                        <button
+                          class="btn btn-primary"
+                          (click)="navigateToPatientRelationships()"
+                        >
+                          View Relationships
+                        </button>
+                      </div>
+                    </div>
+                    <div class="dependant-layout__content">
+                      <app-hie-dependant
+                        [hieDependant]="dependant"
+                        [personRelationships]="patientRelationships"
+                        [currentPatient]="currentPatient"
+                      ></app-hie-dependant>
+                    </div>
+                  </div>
+                </ng-container>
               </ng-container>
               <ng-template #noDependants>
-                 <h4>Patient has no dependants listed in Client Registry</h4>
+                <h4>Patient has no dependants listed in Client Registry</h4>
               </ng-template>
-              
             </div>
           </div>
         </div>

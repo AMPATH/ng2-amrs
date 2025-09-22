@@ -4,13 +4,12 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   SimpleChanges
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
+import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
 import { HealthInformationExchangeService } from '../../../../../hie-api/health-information-exchange.service';
 import {
   HieAmrsObj,
@@ -20,8 +19,7 @@ import {
 } from '../../../../../models/hie-registry.model';
 import { TitleCasePipe } from '@angular/common';
 import { Patient } from '../../../../../models/patient.model';
-import { PatientService } from 'src/app/patient-dashboard/services/patient.service';
-import { ClientAmrsPatient } from 'src/app/hie-amrs-person-sync/model';
+import { ClientAmrsPatient } from '../../../../../hie-amrs-person-sync/model';
 
 @Component({
   selector: 'app-verify-hie-dialog',
@@ -29,13 +27,13 @@ import { ClientAmrsPatient } from 'src/app/hie-amrs-person-sync/model';
   styleUrls: ['./verify-hie-identifier.dialog.component.scss']
 })
 export class VerifyHieIdentifierDialogComponent
-  implements OnInit, OnDestroy, OnChanges {
+  implements OnDestroy, OnChanges {
   @Input() show = false;
   @Output() hideVerifyDialog = new EventEmitter<boolean>();
   @Input() patient: Patient = new Patient({});
   @Input() otpConsent: ValidateHieCustomOtpResponse;
   verifyForm = new FormGroup({
-    identifierType: new FormControl('National ID', Validators.required),
+    identifierType: new FormControl(null, Validators.required),
     identifierValue: new FormControl(null, Validators.required)
   });
   showSuccessAlert = false;
@@ -57,14 +55,8 @@ export class VerifyHieIdentifierDialogComponent
 
   clientPatient: ClientAmrsPatient;
 
-  constructor(
-    private hieService: HealthInformationExchangeService,
-    private patientService: PatientService
-  ) {}
+  constructor(private hieService: HealthInformationExchangeService) {}
 
-  ngOnInit(): void {
-    this.setFormDefaultValues();
-  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.otpConsent) {
       if (changes.otpConsent.currentValue) {
@@ -77,28 +69,25 @@ export class VerifyHieIdentifierDialogComponent
       }
     }
   }
-  setFormDefaultValues() {
-    this.verifyForm.patchValue({
-      identifierType: 'National ID'
-    });
-  }
   hideDialog() {
     this.resetValues();
     this.show = false;
     this.hideVerifyDialog.emit(true);
-    this.patientService.reloadCurrentPatient();
   }
-  searchRegistry() {
+  searchClientRegistry() {
     const payload = this.generatePayload();
-    this.fetchClient(payload);
+    if (this.isValidPayload(payload)) {
+      this.fetchClient(payload);
+    }
   }
+
   fetchClient(hieClientSearchDto: HieClientSearchDto) {
     this.resetError();
     this.displayLoader('Fetching patient data from Client Registry...');
     this.hieService
       .fetchClient(hieClientSearchDto)
       .pipe(
-        tap((res) => {
+        tap((res: any) => {
           this.hieCleint = res.length > 0 ? res[0] : null;
           this.clientPatient = {
             client: this.hieCleint,
@@ -109,10 +98,7 @@ export class VerifyHieIdentifierDialogComponent
           this.hideLoader();
         }),
         catchError((error) => {
-          this.handleError(
-            error.error.details ||
-              'An error occurred while fetching the patient'
-          );
+          this.handleErrorResponse(error);
           throw error;
         }),
         takeUntil(this.destroy$)
@@ -122,6 +108,15 @@ export class VerifyHieIdentifierDialogComponent
   handleError(errorMessage: string) {
     this.showErrorAlert = true;
     this.errorAlert = errorMessage;
+  }
+  handleErrorResponse(error: any) {
+    let errorMsg = '';
+    if (error.message) {
+      errorMsg = error.message;
+    } else if (error.error) {
+      errorMsg = error.error;
+    }
+    this.handleError(errorMsg);
   }
   handleSuccess(mgs: string) {
     this.showSuccessAlert = true;
@@ -135,13 +130,29 @@ export class VerifyHieIdentifierDialogComponent
     this.showErrorAlert = false;
     this.errorAlert = null;
   }
+  resetAlerts() {
+    this.resetSuccess();
+    this.resetError();
+  }
 
   generatePayload(): HieClientSearchDto {
+    this.resetAlerts();
     const { identifierType, identifierValue } = this.verifyForm.value;
     return {
       identificationType: identifierType,
       identificationNumber: identifierValue
     };
+  }
+  isValidPayload(payload: HieClientSearchDto): boolean {
+    if (!payload.identificationNumber) {
+      this.handleError('Please ensure to provide the identification number');
+      return false;
+    }
+    if (!payload.identificationType) {
+      this.handleError('Please ensure to provide the identification type');
+      return false;
+    }
+    return true;
   }
   ngOnDestroy(): void {
     this.resetValues();
@@ -159,9 +170,11 @@ export class VerifyHieIdentifierDialogComponent
   resetValues() {
     this.hieCleint = null;
     this.hideLoader();
-    this.resetError();
-    this.resetSuccess();
+    this.resetAlerts();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+  }
+  closeSyncModal() {
+    this.hideDialog();
   }
 }

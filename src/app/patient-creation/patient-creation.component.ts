@@ -243,6 +243,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   });
   showOtpVericationDialog = false;
   hieDependants: HieClientDependant[] = [];
+  formHieDependants: HieClientDependant[] = [];
 
   constructor(
     public toastrService: ToastrService,
@@ -1202,10 +1203,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           tap((res) => {
             if (res) {
               const patient = res as any;
-              if (this.hieDependants.length > 0) {
+              if (this.formHieDependants.length > 0) {
                 this.createPatientDependantRelationsips(
                   patient.uuid,
-                  this.hieDependants
+                  this.formHieDependants
                 );
               }
             }
@@ -1770,13 +1771,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       .fetchClient(hieClientSearchDto)
       .pipe(
         takeUntil(this.destroy$),
-        tap((res) => {
+        tap((res: any) => {
           this.hieClient = res[0] || null;
           this.hiePatientData = this.hieAdapter.generateAmrsHiePatientData(
             this.hieClient,
             null
           );
-          this.patientExists = false;
           this.generateHieDependantsData();
           this.showHieModal();
         }),
@@ -1807,6 +1807,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   hideHieVerificationLoader() {
     this.showHieLoader = false;
   }
+  testHie() {
+    this.fetchHiePatient({
+      identificationNumber: 10101010,
+      identificationType: 'National ID' as any
+    });
+  }
   showHieModal() {
     this.modalRef = this.modalService.show(this.hieVerificationModal, {
       backdrop: 'static',
@@ -1815,6 +1821,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   useHieData() {
     this.closehieVerification();
+    this.patientExists = false;
+    this.formHieDependants = this.hieDependants;
     this.givenName = this.hieClient.first_name;
     this.middleName = this.hieClient.middle_name;
     this.familyName = this.hieClient.last_name;
@@ -1844,6 +1852,36 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         identifier: hieClient.identification_number,
         identifierType: IdentifierTypesUuids.NATIONAL_ID_UUID,
         identifierTypeName: 'National ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Refugee ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.REFUGEE_ID_UUID,
+        identifierTypeName: 'Refugee ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Alien ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.ALIEN_ID_UUID,
+        identifierTypeName: 'Alien ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Mandate Number' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+        identifierTypeName: 'Mandate Number'
       });
     }
     if (hieClient.other_identifications.length > 0) {
@@ -2071,6 +2109,17 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         throw err;
       })
     );
+  }
+  removeFormDependant(dependantToRemove: HieClientDependant) {
+    console.log({ dependantToRemove });
+    this.formHieDependants = this.formHieDependants.filter(
+      (dep: HieClientDependant) => {
+        return dep.id !== dependantToRemove.id;
+      }
+    );
+  }
+  public trackByFn(index: any, __: any) {
+    return index;
   }
 }
 

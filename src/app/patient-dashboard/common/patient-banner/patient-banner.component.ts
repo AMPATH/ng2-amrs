@@ -9,7 +9,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { take, takeUntil, tap } from 'rxjs/operators';
 import * as Moment from 'moment';
@@ -58,6 +58,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public verificationStatus = false;
   private isFamilyTestingEncounter = false;
   modalRef: BsModalRef;
+  hieVerificationModalRef: BsModalRef;
   modalConfig = {
     backdrop: true,
     ignoreBackdropClick: true
@@ -85,7 +86,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private patientRelationshipService: PatientRelationshipService,
     private modalService: BsModalService,
     private router: Router,
-    private route: ActivatedRoute,
     private propertyLocationService: UserDefaultPropertiesService,
     private familyTestingService: FamilyTestingService,
     private encounterResourceService: EncounterResourceService,
@@ -137,7 +137,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
             _.filter(patient.enrolledPrograms, 'isEnrolled')
           );
           this.getHIVPatient(_.filter(patient.enrolledPrograms, 'isEnrolled'));
-          this.showVerifyCrBtn = true;
+          this.showVerifyCrBtn = this.displayVerifyCrbtn();
           this.familyTestingService
             .getPatientEncounters(this.patient.uuid, true)
             .subscribe((response: any) => {
@@ -447,13 +447,26 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     this.showOtpVericationDialog = false;
   }
   showHeiDialog() {
-    this.modalRef = this.modalService.show(this.hieVerificationModal, {
-      backdrop: 'static',
-      keyboard: false
-    });
+    if (!this.showHieModal) {
+      this.showHieModal = true;
+      this.hieVerificationModalRef = this.modalService.show(
+        this.hieVerificationModal,
+        {
+          backdrop: 'static',
+          keyboard: false
+        }
+      );
+    }
   }
   hideHieDialog() {
     this.showHieModal = false;
-    this.modalRef.hide();
+    this.hieVerificationModalRef.hide();
+  }
+  displayVerifyCrbtn() {
+    if (this.birthdate && this.patient.person) {
+      return this.patient.person.age >= 18;
+    } else {
+      return false;
+    }
   }
 }
