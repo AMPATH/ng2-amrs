@@ -278,7 +278,6 @@ export class HieToAmrsPersonAdapter {
           addresses['address10'] = hieClient.place_of_birth;
         }
         if (d === 'county' && hieClient.county.length > 0) {
-          // addresses['county'] = this.titleCasePipe.transform(hieClient.county);
           addresses['countyDistrict'] = this.titleCasePipe.transform(
             hieClient.county
           );
