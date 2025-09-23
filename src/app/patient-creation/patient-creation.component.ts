@@ -115,7 +115,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public selectId;
 
   public patientPhoneNumber: number;
-  public alternativePhoneNumber: number;
+  public alternativePhoneNumber: number | string;
   public partnerPhoneNumber: number;
   public nextofkinPhoneNumber: number | string;
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
@@ -252,6 +252,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   civilStatus = '';
   alternativeContacts: AlternateContact[] = [];
   alternativeContact: AlternateContact;
+  nextOfKinContact: AlternateContact;
 
   constructor(
     public toastrService: ToastrService,
@@ -923,13 +924,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.country) {
       this.errors = true;
     }
-    if (!this.address1) {
+    if (!this.address1 && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.address2) {
+    if (!this.address2 && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.cityVillage) {
+    if (!this.cityVillage && !this.usingHieData) {
       this.errors = true;
     }
     if (!this.patientPhoneNumber) {
@@ -1732,7 +1733,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
               this.hieClient.alternative_contacts.length > 0
             ) {
               this.alternativeContacts = this.hieClient.alternative_contacts;
-              this.alternativeContact = this.alternativeContacts[0];
+              this.nextOfKinContact = this.alternativeContacts.find((a) => {
+                return a.remarks === 'Next Of Kin';
+              });
+              this.alternativeContact = this.alternativeContacts.find((a) => {
+                return a.relationship === 'Alternative Phone Number';
+              });
             }
           }
 
@@ -1788,11 +1794,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       this.citizenship
     );
     if (this.alternativeContact) {
-      this.kinName = this.alternativeContact.contact_name;
-      this.kinRelationship = this.alternativeContact.relationship;
       if (this.alternativeContact.contact_type === 'Phone') {
-        this.nextofkinPhoneNumber = this.alternativeContact.contact_id;
+        this.alternativePhoneNumber = this.alternativeContact.contact_id;
       }
+    }
+    if (this.nextOfKinContact) {
+      if (this.nextOfKinContact.contact_type === 'Phone') {
+        this.nextofkinPhoneNumber = this.nextOfKinContact.contact_id;
+      }
+      this.kinName = this.nextOfKinContact.contact_name;
+      this.kinRelationship = this.nextOfKinContact.relationship;
     }
 
     this.updateBirthDate(this.hieClient.date_of_birth);
@@ -1881,7 +1892,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.maritalStatusVal = this.hieAdapter.getAmrsConceptUuidFromField(
       hieClient.civil_status
     );
-    this.setCountry(hieClient.country);
   }
   addResidencyHieDataToForm(hieCleint: HieClient) {
     this.longitude = hieCleint.longitude;

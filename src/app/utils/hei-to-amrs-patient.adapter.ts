@@ -436,6 +436,9 @@ export class HieToAmrsPersonAdapter {
       case 'SOMALI':
         country = 'Somali';
         break;
+      case 'FOREIGN NATIONAL':
+        country = '';
+        break;
       default:
         country = 'Kenya';
     }

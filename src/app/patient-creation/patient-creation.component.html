@@ -547,7 +547,7 @@
           </div>
 
           <ng-container *ngIf="usingHieData; else alternativeContactData">
-            <ng-container *ngIf="alternativeContact">
+            <ng-container *ngIf="nextOfKinContact">
               <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
                 <div class="form-group">
                   <label for="kinName">Next of Kin Name</label>
@@ -556,6 +556,18 @@
                     class="form-control"
                     [(ngModel)]="kinName"
                     name="kinName"
+                    [readOnly]="usingHieData"
+                  />
+                </div>
+              </div>
+               <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                <div class="form-group">
+                  <label for="nextofkinPhoneNumber">Next of Kin Phone Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="nextofkinPhoneNumber"
+                    name="nextofkinPhoneNumber"
                     [readOnly]="usingHieData"
                   />
                 </div>
@@ -588,6 +600,24 @@
               </div>
             </ng-container>
           </ng-container>
+          <ng-container *ngIf="alternativeContact && usingHieData">
+           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <div class="form-group">
+                <label for="alternativePhoneNumber" class="control-label"
+                  >Alternative Phone Number</label
+                >
+                <input
+                  type="text"
+                  id="alternativePhoneNumber"
+                  class="form-control"
+                  [(ngModel)]="alternativePhoneNumber"
+                  name="alternativePhoneNumber"
+                  #names="ngModel"
+                  [readOnly]="usingHieData"
+                />
+            </div>
+          </div>
+          </ng-container>
           <ng-template #alternativeContactData>
             <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
               <div class="form-group">
@@ -600,8 +630,6 @@
                   class="form-control"
                   [(ngModel)]="alternativePhoneNumber"
                   name="alternativePhoneNumber"
-                  minlength="10"
-                  [pattern]="pattern"
                   #names="ngModel"
                 />
                 <div
@@ -847,18 +875,6 @@
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
           <ng-container *ngIf="usingHieData; else originData">
-            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-              <label id="citizenship" for="citizenship" class="control-label"
-                >Citizenship</label
-              >
-              <input
-                id="citizenship"
-                class="form-control"
-                [(ngModel)]="citizenship"
-                name="citizenship"
-                [readOnly]="usingHieData"
-              />
-            </div>
             <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
               <label id="placeOfBirth" for="placeOfBirth" class="control-label"
                 >Place of Birth</label
@@ -1237,10 +1253,10 @@
           <div class="alert alert-danger" *ngIf="!birthDate">
             Birth Date is required!
           </div>
-          <div class="alert alert-danger" *ngIf="!occupation">
+          <div class="alert alert-danger" *ngIf="!occupation && !usingHieData">
             Occupation is required!
           </div>
-          <div class="alert alert-danger" *ngIf="!patientHighestEducation">
+          <div class="alert alert-danger" *ngIf="!patientHighestEducation && !useHieData">
             Highest Education Level is required!
           </div>
           <span *ngIf="!patientExists">
@@ -1275,16 +1291,16 @@
             <div class="alert alert-danger" *ngIf="!selectedLocation">
               Identifier Location is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!country">
+            <div class="alert alert-danger" *ngIf="!country && !usingHieData">
               Country is required
             </div>
-            <div class="alert alert-danger" *ngIf="!address1">
+            <div class="alert alert-danger" *ngIf="!address1 && !usingHieData">
               Current County is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!address2">
+            <div class="alert alert-danger" *ngIf="!address2 && !usingHieData">
               Sub County is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!cityVillage">
+            <div class="alert alert-danger" *ngIf="!cityVillage && !usingHieData">
               Village/Estate is required!
             </div>
           </span>
