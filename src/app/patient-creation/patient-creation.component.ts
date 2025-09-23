@@ -921,7 +921,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.selectedLocation && this.isNewPatient === 1) {
       this.errors = true;
     }
-    if (!this.country) {
+    if (!this.country && !this.usingHieData) {
       this.errors = true;
     }
     if (!this.address1 && !this.usingHieData) {
