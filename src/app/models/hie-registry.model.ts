@@ -19,6 +19,14 @@ export interface HieDependant {
   result: HieClient[];
 }
 
+export interface AlternateContact {
+  contact_type: string;
+  contact_id: string;
+  contact_name: string;
+  relationship: string;
+  remarks: string;
+}
+
 export interface HieClient {
   resourceType: string;
   id: string;
@@ -75,7 +83,7 @@ export interface HieClient {
   in_lawful_custody: string;
   admission_remand_number: string;
   document_uploads: any[];
-  alternative_contacts: any[];
+  alternative_contacts: AlternateContact[];
   gross_income: number;
   gross_income_currency: string;
   postal_address: string;

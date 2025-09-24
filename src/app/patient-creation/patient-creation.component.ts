@@ -43,6 +43,7 @@ import { LocationUnitsService } from './../etl-api/location-units.service';
 import { FormControl } from '@angular/forms';
 import { HealthInformationExchangeService } from '../hie-api/health-information-exchange.service';
 import {
+  AlternateContact,
   HieClient,
   HieClientDependant,
   HieClientSearchDto,
@@ -59,6 +60,7 @@ import { HieOtpClientConsentService } from '../otp-verification/hie-otp-verifica
 import { PatientRelationshipService } from '../patient-dashboard/common/patient-relationships/patient-relationship.service';
 import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
+import { PersonAttributeTypeUuids } from '../constants/attribute-types.constants';
 /**
  * ADDRESS MAPPINGS
  * country: country
@@ -113,9 +115,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public selectId;
 
   public patientPhoneNumber: number;
-  public alternativePhoneNumber: number;
+  public alternativePhoneNumber: number | string;
   public partnerPhoneNumber: number;
-  public nextofkinPhoneNumber: number;
+  public nextofkinPhoneNumber: number | string;
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
@@ -244,6 +246,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   showOtpVericationDialog = false;
   hieDependants: HieClientDependant[] = [];
   formHieDependants: HieClientDependant[] = [];
+  usingHieData = false;
+  citizenship = '';
+  placeOfBirth = '';
+  civilStatus = '';
+  alternativeContacts: AlternateContact[] = [];
+  alternativeContact: AlternateContact;
+  nextOfKinContact: AlternateContact;
 
   constructor(
     public toastrService: ToastrService,
@@ -269,6 +278,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
+    this.patientExists = false;
     this.listenToHieOtpConsentChanges();
     this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
@@ -516,74 +526,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     }
   }
 
-  public searchNewPatient() {
-    this.resetForm();
-    this.patientCreationResourceService
-      .searchRegistry(
-        this.patientIdentifierType.val,
-        this.commonIdentifier.toString(),
-        this.countrySearchParam.value
-      )
-      .subscribe(
-        (data: any) => {
-          const ids = [];
-          const searchIdValue = this.commonIdentifier;
-          if (data.clientExists) {
-            this.patientExists = false;
-            this.createDataExists = 1;
-            this.unsavedUpi = data.client.clientNumber;
-            ids.push({
-              identifierType: this.patientIdentifierType.val,
-              label: this.patientIdentifierType.label,
-              identifier: this.commonIdentifier.toString(),
-              location: this.identifierLocation,
-              preferred: false
-            });
-
-            ids.push({
-              identifierType: 'cba702b9-4664-4b43-83f1-9ab473cbd64d',
-              label: 'UPI Number',
-              identifier: this.unsavedUpi,
-              location: this.identifierLocation,
-              preferred: false
-            });
-
-            this.uniqueIds = ids;
-
-            data.client.localIds = ids;
-            data.client.uuid = this.patients.person.uuid;
-            this.populateFormData(data.client);
-            this.searchResult = `This ID number (${searchIdValue}) was used to verify ${
-              this.givenName
-            } ${this.middleName} ${this.familyName} of DOB ${moment(
-              this.birthDate
-            ).format(
-              'DD/MM/YYYY'
-            )}. If this name is different from what is in the ID URGENTLY contact system support`;
-          } else {
-            this.identifiers.push({
-              identifierType: this.patientIdentifierType.val,
-              identifierTypeName: this.patientIdentifierType.label,
-              identifier: this.commonIdentifier.toString(),
-              location: this.identifierLocation,
-              preferred: false
-            });
-            this.searchResult = 'PATIENT NOT FOUND, Proceed with registration';
-            this.verificationFacility = '';
-            this.createDataExists = 0;
-          }
-          this.modalRef = this.modalService.show(this.verificationModal, {
-            backdrop: 'static',
-            keyboard: false
-          });
-        },
-        (err) => {
-          this.createDataExists = 0;
-          console.log('Error', err);
-        }
-      );
-  }
-
   public openUserFeedback() {
     this.router.navigate(['/feed-back']);
     this.modalRef.hide();
@@ -726,8 +668,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       !this.gender ||
       this.birthError ||
       !this.birthDate ||
-      !this.occupation ||
-      !this.patientHighestEducation
+      (!this.occupation && !this.usingHieData) ||
+      (!this.patientHighestEducation && !this.usingHieData)
     ) {
       this.errors = true;
     } else {
@@ -961,7 +903,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.gender) {
       this.errors = true;
     }
-    if (!this.occupation) {
+    if (!this.occupation && !this.usingHieData) {
       this.errors = true;
     }
     if (!this.birthDate) {
@@ -979,16 +921,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.selectedLocation && this.isNewPatient === 1) {
       this.errors = true;
     }
-    if (!this.country) {
+    if (!this.country && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.address1) {
+    if (!this.address1 && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.address2) {
+    if (!this.address2 && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.cityVillage) {
+    if (!this.cityVillage && !this.usingHieData) {
       this.errors = true;
     }
     if (!this.patientPhoneNumber) {
@@ -1048,7 +990,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
-          value: this.patientPhoneNumber,
+          value: String(this.patientPhoneNumber),
           attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
         });
       }
@@ -1140,6 +1082,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         attributes.push({
           value: this.kinName,
           attributeType: '72a75bec-1359-11df-a1f1-0026b9348838'
+        });
+      }
+
+      if (this.civilStatus) {
+        attributes.push({
+          value: this.hieAdapter.getAmrsConceptUuidFromField(this.civilStatus),
+          attributeType: '8d871f2a-c2cc-11de-8d13-0010c6dffd0f'
         });
       }
 
@@ -1406,6 +1355,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.sessionStorageService.remove('person');
     this.sessionStorageService.remove('CRPatient');
     this.errors = false;
+    this.usingHieData = false;
   }
 
   public cancel() {
@@ -1777,6 +1727,21 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
             this.hieClient,
             null
           );
+          if (this.hieClient) {
+            if (
+              this.hieClient.alternative_contacts &&
+              this.hieClient.alternative_contacts.length > 0
+            ) {
+              this.alternativeContacts = this.hieClient.alternative_contacts;
+              this.nextOfKinContact = this.alternativeContacts.find((a) => {
+                return a.remarks === 'Next Of Kin';
+              });
+              this.alternativeContact = this.alternativeContacts.find((a) => {
+                return a.relationship === 'Alternative Phone Number';
+              });
+            }
+          }
+
           this.generateHieDependantsData();
           this.showHieModal();
         }),
@@ -1807,12 +1772,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   hideHieVerificationLoader() {
     this.showHieLoader = false;
   }
-  testHie() {
-    this.fetchHiePatient({
-      identificationNumber: 10101010,
-      identificationType: 'National ID' as any
-    });
-  }
   showHieModal() {
     this.modalRef = this.modalService.show(this.hieVerificationModal, {
       backdrop: 'static',
@@ -1822,11 +1781,31 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   useHieData() {
     this.closehieVerification();
     this.patientExists = false;
+    this.usingHieData = true;
     this.formHieDependants = this.hieDependants;
     this.givenName = this.hieClient.first_name;
     this.middleName = this.hieClient.middle_name;
     this.familyName = this.hieClient.last_name;
     this.gender = this.hieClient.gender === 'Male' ? 'M' : 'F';
+    this.citizenship = this.hieClient.citizenship;
+    this.placeOfBirth = this.hieClient.place_of_birth;
+    this.civilStatus = this.hieClient.civil_status;
+    this.country = this.hieAdapter.getAmrsCountryFromHieCitizenship(
+      this.citizenship
+    );
+    if (this.alternativeContact) {
+      if (this.alternativeContact.contact_type === 'Phone') {
+        this.alternativePhoneNumber = this.alternativeContact.contact_id;
+      }
+    }
+    if (this.nextOfKinContact) {
+      if (this.nextOfKinContact.contact_type === 'Phone') {
+        this.nextofkinPhoneNumber = this.nextOfKinContact.contact_id;
+      }
+      this.kinName = this.nextOfKinContact.contact_name;
+      this.kinRelationship = this.nextOfKinContact.relationship;
+    }
+
     this.updateBirthDate(this.hieClient.date_of_birth);
     this.addPatientHieIdentifiersToForm(this.hieClient);
     this.addPatientHieAttributesToForm(this.hieClient);
@@ -1913,7 +1892,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.maritalStatusVal = this.hieAdapter.getAmrsConceptUuidFromField(
       hieClient.civil_status
     );
-    this.setCountry(hieClient.country);
   }
   addResidencyHieDataToForm(hieCleint: HieClient) {
     this.longitude = hieCleint.longitude;
@@ -2120,6 +2098,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   public trackByFn(index: any, __: any) {
     return index;
+  }
+  public testHie() {
+    this.fetchHiePatient(null);
   }
 }
 

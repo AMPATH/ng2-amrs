@@ -418,6 +418,33 @@ export class HieToAmrsPersonAdapter {
 
     return relationShipTypeUuid;
   }
+  getAmrsCountryFromHieCitizenship(citizenship: string) {
+    let country = '';
+    switch (citizenship) {
+      case 'KENYAN':
+        country = 'Kenya';
+        break;
+      case 'UGANDAN':
+        country = 'Uganda';
+        break;
+      case 'TANZANIAN':
+        country = 'Tanzania';
+        break;
+      case 'ETHIOPIAN':
+        country = 'Ethiopia';
+        break;
+      case 'SOMALI':
+        country = 'Somali';
+        break;
+      case 'FOREIGN NATIONAL':
+        country = 'FOREIGN NATIONAL';
+        break;
+      default:
+        country = 'Kenya';
+    }
+
+    return country;
+  }
   getPatientRelationshipPayload(
     relationship: string,
     personAuuid: string,
