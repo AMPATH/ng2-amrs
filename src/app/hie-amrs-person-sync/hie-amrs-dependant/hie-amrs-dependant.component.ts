@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import {
   HieAmrsObj,
-  HieClientDependant
+  HieClientDependant,
+  HieIdentificationType
 } from '../../models/hie-registry.model';
 import { HieToAmrsPersonAdapter } from '../../utils/hei-to-amrs-patient.adapter';
 import {
@@ -139,12 +140,12 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   syncPatientIdentifiers() {
     this.displayLoader('Syncing patient identifiers...');
     const reqObs$: Observable<any>[] = [];
-    const dataToSync = this.hieDataToSync.filter((d) => {
+    const dataToSync = this.hieDataToSync.filter((d: HieIdentificationType) => {
       return this.hieIdentifiers.includes(d);
     });
 
     for (const d of dataToSync) {
-      if (d === 'id') {
+      if (d === HieIdentificationType.Cr) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
@@ -154,7 +155,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
             )
           )
         );
-      } else if (d === 'SHA Number') {
+      } else if (d === HieIdentificationType.SHANumber) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.SHA_UUID,
@@ -164,7 +165,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
             )
           )
         );
-      } else if (d === 'Household Number') {
+      } else if (d === HieIdentificationType.HouseholdNumber) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID,
@@ -205,9 +206,8 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   }
   syncPersonAttributes() {
     this.displayLoader('Syncing patient attributes...');
-    const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonAttributeData(
+    const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.hieDependant,
-      this.patient,
       this.hieDataToSync
     );
     if (Object.keys(attributePayload).length > 0) {
@@ -392,6 +392,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
     this.hieAmrsData = [];
   }
   createDependant() {
+    /*
     const attributes = [
       'first_name',
       'middle_name',
@@ -414,10 +415,10 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
       'kra_pin',
       'id'
     ];
-    const createPersonPayload = this.hieToAmrsPersonAdapter.generateAmrsPersonAttributeData(
+    */
+    const createPersonPayload = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.hieDependant,
-      this.patient,
-      attributes
+      null
     );
     this.createPerson(createPersonPayload)
       .pipe(

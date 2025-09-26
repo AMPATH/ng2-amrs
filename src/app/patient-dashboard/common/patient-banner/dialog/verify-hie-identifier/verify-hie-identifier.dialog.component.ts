@@ -47,10 +47,6 @@ export class VerifyHieIdentifierDialogComponent
   titleCasePipe = new TitleCasePipe();
   showLoader = false;
   loadingMessage = null;
-
-  hieDataToSync = [];
-
-  hieIdentifiers = ['SHA Number', 'National ID', 'Household Number', 'id'];
   identifierLocation = '';
 
   clientPatient: ClientAmrsPatient;
@@ -171,7 +167,6 @@ export class VerifyHieIdentifierDialogComponent
     this.hieCleint = null;
     this.hideLoader();
     this.resetAlerts();
-    this.hieDataToSync = [];
     this.hieAmrsData = [];
   }
   closeSyncModal() {

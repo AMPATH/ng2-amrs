@@ -2032,15 +2032,11 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   }
   createDependant(hieDependant: HieClientDependant) {
     const depentantPersonPayload = this.createDependantPersonPayload(
-      hieDependant,
-      null
+      hieDependant
     );
     return this.createDependantPerson(depentantPersonPayload);
   }
-  createDependantPersonPayload(
-    hieDependant: HieClientDependant,
-    patient: Patient | null
-  ) {
+  createDependantPersonPayload(hieDependant: HieClientDependant) {
     const attributes = [
       'first_name',
       'middle_name',
@@ -2063,10 +2059,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       'kra_pin',
       'id'
     ];
-    const createPersonPayload = this.hieAdapter.generateAmrsPersonAttributeData(
+    const createPersonPayload = this.hieAdapter.generateAmrsPersonPayload(
       hieDependant,
-      patient,
-      attributes
+      null
     );
     return createPersonPayload;
   }

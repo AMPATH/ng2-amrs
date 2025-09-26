@@ -469,4 +469,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       return false;
     }
   }
+  testHieDialog() {
+    this.showHeiDialog();
+  }
 }

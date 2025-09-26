@@ -9,7 +9,11 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { ClientAmrsPatient } from './model';
-import { HieAmrsObj, HieClientDependant } from '../models/hie-registry.model';
+import {
+  HieAmrsObj,
+  HieClientDependant,
+  HieIdentificationType
+} from '../models/hie-registry.model';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
@@ -54,15 +58,16 @@ export class HieToAmrsPersonSyncComponent
   showLoader = false;
   loadingMessage = null;
   hieIdentifiers = [
-    'SHA Number',
-    'National ID',
-    'Household Number',
-    'id',
-    'Refugee ID',
-    'Mandate Number',
-    'Alien ID'
+    HieIdentificationType.SHANumber,
+    HieIdentificationType.NationalID,
+    HieIdentificationType.HouseholdNumber,
+    HieIdentificationType.Cr,
+    HieIdentificationType.RefugeeID,
+    HieIdentificationType.MandateNumber,
+    HieIdentificationType.AlienID
   ];
   identifierLocation = '';
+  syncColumns: string[] = [];
 
   constructor(
     private patientResourceService: PatientResourceService,
@@ -108,6 +113,9 @@ export class HieToAmrsPersonSyncComponent
     this.dependants = this.hieToAmrsPersonAdapter.generateHieDependantsArray(
       this.clientPatient.client.dependants
     );
+    this.syncColumns = this.hieAmrsData.map((d) => {
+      return d.key;
+    });
   }
   getPatientRelationships() {
     this.patientRelationshipService
@@ -164,7 +172,7 @@ export class HieToAmrsPersonSyncComponent
 
   addToSyncData(d: string, checked: boolean) {
     if (checked) {
-      this.hieDataToSync.push(d);
+      this.hieDataToSync = [...this.hieDataToSync, d];
     } else {
       this.hieDataToSync = this.hieDataToSync.filter((v) => {
         return v !== d;
@@ -179,12 +187,12 @@ export class HieToAmrsPersonSyncComponent
   syncPatientIdentifiers() {
     this.displayLoader('Syncing patient identifiers...');
     const reqObs$: Observable<any>[] = [];
-    const dataToSync = this.hieDataToSync.filter((d) => {
+    const dataToSync = this.hieDataToSync.filter((d: HieIdentificationType) => {
       return this.hieIdentifiers.includes(d);
     });
 
     for (const d of dataToSync) {
-      if (d === 'id') {
+      if (d === HieIdentificationType.Cr) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
@@ -194,7 +202,7 @@ export class HieToAmrsPersonSyncComponent
             )
           )
         );
-      } else if (d === 'SHA Number') {
+      } else if (d === HieIdentificationType.SHANumber) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.SHA_UUID,
@@ -204,7 +212,7 @@ export class HieToAmrsPersonSyncComponent
             )
           )
         );
-      } else if (d === 'Household Number') {
+      } else if (d === HieIdentificationType.HouseholdNumber) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID,
@@ -214,7 +222,7 @@ export class HieToAmrsPersonSyncComponent
             )
           )
         );
-      } else if (d === 'Refugee ID') {
+      } else if (d === HieIdentificationType.RefugeeID) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.REFUGEE_ID_UUID,
@@ -224,7 +232,7 @@ export class HieToAmrsPersonSyncComponent
             )
           )
         );
-      } else if (d === 'Alien ID') {
+      } else if (d === HieIdentificationType.AlienID) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.ALIEN_ID_UUID,
@@ -234,10 +242,20 @@ export class HieToAmrsPersonSyncComponent
             )
           )
         );
-      } else if (d === 'Mandate Number') {
+      } else if (d === HieIdentificationType.MandateNumber) {
         reqObs$.push(
           this.handleIdentifierUpdate(
             IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
+              d,
+              this.clientPatient.client
+            )
+          )
+        );
+      } else if (d === HieIdentificationType.NationalID) {
+        reqObs$.push(
+          this.handleIdentifierUpdate(
+            IdentifierTypesUuids.NATIONAL_ID_UUID,
             this.hieToAmrsPersonAdapter.getHieIdentifierByName(
               d,
               this.clientPatient.client
@@ -305,37 +323,46 @@ export class HieToAmrsPersonSyncComponent
   }
   getCommonIdentifier(identifierTypeUuid: string) {
     if (identifierTypeUuid === IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID) {
-      return this.clientPatient.patient.commonIdentifiers.cr !== undefined
-        ? true
-        : false;
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.cr
+      );
     } else if (
       identifierTypeUuid === IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID
     ) {
-      return this.clientPatient.patient.commonIdentifiers.hhNo !== undefined
-        ? true
-        : false;
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.hhNo
+      );
     } else if (identifierTypeUuid === IdentifierTypesUuids.SHA_UUID) {
-      return this.clientPatient.patient.commonIdentifiers.sha !== undefined
-        ? true
-        : false;
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.sha
+      );
     } else if (identifierTypeUuid === IdentifierTypesUuids.REFUGEE_ID_UUID) {
-      return this.clientPatient.patient.commonIdentifiers.refugeeId !==
-        undefined
-        ? true
-        : false;
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.refugeeId
+      );
     } else if (identifierTypeUuid === IdentifierTypesUuids.ALIEN_ID_UUID) {
-      return this.clientPatient.patient.commonIdentifiers.alienId !== undefined
-        ? true
-        : false;
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.alienId
+      );
     } else if (
       identifierTypeUuid === IdentifierTypesUuids.MANDATE_NUMBER_UUID
     ) {
-      return this.clientPatient.patient.commonIdentifiers.mandateNumber !==
-        undefined
-        ? true
-        : false;
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.mandateNumber
+      );
+    } else if (identifierTypeUuid === IdentifierTypesUuids.NATIONAL_ID_UUID) {
+      return this.checkIdentifierValue(
+        this.clientPatient.patient.commonIdentifiers.kenyaNationalId
+      );
     } else {
       return false;
+    }
+  }
+  checkIdentifierValue(identifierValue: any) {
+    if (!identifierValue) {
+      return false;
+    } else {
+      return true;
     }
   }
   getIdentifier(identifierTypeUuid: string) {
@@ -346,9 +373,8 @@ export class HieToAmrsPersonSyncComponent
   }
   syncPersonAttributes() {
     this.displayLoader('Syncing patient attributes...');
-    const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonAttributeData(
+    const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.clientPatient.client,
-      this.clientPatient.patient,
       this.hieDataToSync
     );
     if (Object.keys(attributePayload).length > 0) {
@@ -473,5 +499,12 @@ export class HieToAmrsPersonSyncComponent
       .then(() => {
         this.closeSyncModal.emit(true);
       });
+  }
+  syncAllData(checked: boolean) {
+    if (checked) {
+      this.hieDataToSync = this.syncColumns;
+    } else {
+      this.hieDataToSync = [];
+    }
   }
 }

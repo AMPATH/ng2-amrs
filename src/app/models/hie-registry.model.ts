@@ -4,7 +4,8 @@ export enum HieIdentificationType {
   HouseholdNumber = 'Household Number',
   RefugeeID = 'Refugee ID',
   AlienID = 'Alien ID',
-  MandateNumber = 'Mandate Number'
+  MandateNumber = 'Mandate Number',
+  Cr = 'id'
 }
 
 export interface HieIdentifications {

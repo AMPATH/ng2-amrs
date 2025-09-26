@@ -82,7 +82,12 @@
                 <span class="glyphicon glyphicon-info-sign"></span>
                 <span>Verify CR</span>
               </button>
+             
             </ng-container>
+               <button (click)="testHieDialog()" class="btn verify-cr-btn">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span>Test Verify CR</span>
+              </button>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
                 *ngIf="!searchIdentifiers?.hei"
@@ -290,7 +295,12 @@
                 <span class="glyphicon glyphicon-info-sign"></span>
                 <span>Verify CR</span>
               </button>
+              
             </ng-container>
+             <button (click)="testHieDialog()" class="btn verify-cr-btn">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span>Test Verify CR</span>
+              </button>
 
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
