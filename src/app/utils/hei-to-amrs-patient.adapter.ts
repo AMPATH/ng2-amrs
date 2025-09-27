@@ -232,6 +232,10 @@ export class HieToAmrsPersonAdapter {
     const mainIdentificationData = this.generateIdentificationData(
       [
         {
+          identification_type: HieIdentificationType.Cr,
+          identification_number: hieClient.id
+        },
+        {
           identification_type: hieClient.identification_type,
           identification_number: hieClient.identification_number
         }
