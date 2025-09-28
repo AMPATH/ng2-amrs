@@ -2,8 +2,12 @@ import { take } from 'rxjs/operators/take';
 import { PatientService } from '../../services/patient.service';
 import { PatientRelationshipService } from './patient-relationship.service';
 import { OnInit, Component, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { Relationship } from '../../../models/relationship.model';
+import { PatientIdentifierResourceService } from 'src/app/openmrs-api/patient-identifier-resource.service';
+import { finalize, takeUntil, tap } from 'rxjs/operators';
+import { PatientIdentifier } from '../../../models/patient-identifier.model';
+import { IdentifierTypesUuids } from '../../../constants/identifier-types';
 
 @Component({
   selector: 'patient-relationships',
@@ -11,7 +15,6 @@ import { Relationship } from '../../../models/relationship.model';
   styleUrls: ['./patient-relationships.component.css']
 })
 export class PatientRelationshipsComponent implements OnInit, OnDestroy {
-  public subscription: Subscription;
   public displayConfirmDialog = false;
   public patientUuid: string;
   public loadingRelationships = false;
@@ -24,10 +27,14 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   public errorAlert: string;
   public errorTitle: string;
   public mappedRelationships = [];
+  private patientIdentifiersMap = new Map<string, PatientIdentifier>();
+  private patientMap = new Map<string, boolean>();
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private patientService: PatientService,
-    private patientRelationshipService: PatientRelationshipService
+    private patientRelationshipService: PatientRelationshipService,
+    private patientIdentifierResourceService: PatientIdentifierResourceService
   ) {}
 
   public ngOnInit(): void {
@@ -35,43 +42,47 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.patientMap.clear();
+    this.patientIdentifiersMap.clear();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public getPatientRelationships(): void {
     this.loadingRelationships = true;
-    this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
-      (patient) => {
-        if (patient !== null) {
-          this.patientUuid = patient.person.uuid;
-          const request = this.patientRelationshipService.getRelationships(
-            this.patientUuid
-          );
-          request.pipe(take(1)).subscribe((relationships) => {
-            if (relationships) {
-              this.relationships = relationships;
-              this.generateMappedRelationships();
-              this.loadingRelationships = false;
-            }
+    this.patientService.currentlyLoadedPatient
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (patient) => {
+          if (patient !== null) {
+            this.patientUuid = patient.person.uuid;
+            const request = this.patientRelationshipService.getRelationships(
+              this.patientUuid
+            );
+            request.pipe(take(1)).subscribe((relationships) => {
+              if (relationships) {
+                this.relationships = relationships;
+                this.getPatientIdentifiers(this.relationships);
+                this.loadingRelationships = false;
+              }
+            });
+          }
+        },
+        (err) => {
+          this.loadingRelationships = false;
+          this.errors.push({
+            id: 'patient',
+            message: 'error fetching patient'
           });
         }
-      },
-      (err) => {
-        this.loadingRelationships = false;
-        this.errors.push({
-          id: 'patient',
-          message: 'error fetching patient'
-        });
-      }
-    );
+      );
   }
 
   public voidRelationship() {
     if (this.selectedRelationshipUuid) {
       this.patientRelationshipService
         .voidRelationship(this.selectedRelationshipUuid)
+        .pipe(takeUntil(this.destroy$))
         .subscribe(
           (success) => {
             this.patientService.reloadCurrentPatient();
@@ -119,12 +130,17 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   }
   private addPersonAttributes(relationships: Relationship[]) {
     return relationships.map((rel) => {
+      const personUuid = rel.relatedPersonUuid;
       return {
         relationshipType: rel.relationshipType,
         display: rel.display,
         uuid: rel.uuid,
         relatedPersonUuid: rel.relatedPersonUuid,
-        cr: this.getAttributeByName('CR Number', rel.relatedPerson.attributes)
+        cr: this.getAttributeByName('CR Number', rel.relatedPerson.attributes),
+        crIdentifier: this.patientIdentifiersMap.has(personUuid)
+          ? this.patientIdentifiersMap.get(personUuid).identifier
+          : '',
+        isPatient: this.patientMap.has(personUuid)
       };
     });
   }
@@ -139,5 +155,53 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   }
   public registerOnAfyaYangu() {
     window.open('https://afyayangu.go.ke/', '_blank');
+  }
+  private getPatientIdentifier(patientUuid: string) {
+    return this.patientIdentifierResourceService
+      .getPatientIdentifiers(patientUuid)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res) {
+            this.generatePatientCrIdentifierMap(res, patientUuid);
+            this.patientMap.set(patientUuid, true);
+          }
+        })
+      );
+  }
+  private getPatientIdentifiers(relationShips: Relationship[]) {
+    const patientUuids = relationShips.map((rel) => {
+      return rel.relatedPersonUuid;
+    });
+    const identifiersArr$: Observable<any>[] = [];
+    for (const patientUuid of patientUuids) {
+      identifiersArr$.push(this.getPatientIdentifier(patientUuid));
+    }
+    forkJoin(identifiersArr$)
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.generateMappedRelationships();
+        })
+      )
+      .subscribe();
+  }
+  private generatePatientCrIdentifierMap(
+    results: PatientIdentifier[],
+    patientUuid: string
+  ): void {
+    const crIdentifier = this.getCrIdentifierFromIdentifiers(results);
+    if (crIdentifier) {
+      this.patientIdentifiersMap.set(patientUuid, crIdentifier);
+    }
+  }
+  private getCrIdentifierFromIdentifiers(
+    identifiers: PatientIdentifier[]
+  ): PatientIdentifier {
+    return identifiers.find((id) => {
+      return (
+        id.identifierType.uuid === IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID
+      );
+    });
   }
 }
