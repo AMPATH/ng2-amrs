@@ -8,9 +8,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
-import { HealthInformationExchangeService } from '../../../../../hie-api/health-information-exchange.service';
 import {
   HieAmrsObj,
   HieClient,
@@ -20,6 +19,8 @@ import {
 import { TitleCasePipe } from '@angular/common';
 import { Patient } from '../../../../../models/patient.model';
 import { ClientAmrsPatient } from '../../../../../hie-amrs-person-sync/model';
+import { PatientService } from '../../../../../patient-dashboard/services/patient.service';
+import { HealthInformationExchangeService } from '../../../../../hie-api/health-information-exchange.service';
 
 @Component({
   selector: 'app-verify-hie-dialog',
@@ -51,7 +52,10 @@ export class VerifyHieIdentifierDialogComponent
 
   clientPatient: ClientAmrsPatient;
 
-  constructor(private hieService: HealthInformationExchangeService) {}
+  constructor(
+    private patientService: PatientService,
+    private hieService: HealthInformationExchangeService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.otpConsent) {
@@ -68,6 +72,7 @@ export class VerifyHieIdentifierDialogComponent
   hideDialog() {
     this.resetValues();
     this.show = false;
+    this.patientService.reloadCurrentPatient();
     this.hideVerifyDialog.emit(true);
   }
   searchClientRegistry() {

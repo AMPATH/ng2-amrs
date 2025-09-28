@@ -27,6 +27,7 @@ import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
 import { PersonResourceService } from 'src/app/openmrs-api/person-resource.service';
 import { PatientRelationshipService } from 'src/app/patient-dashboard/common/patient-relationships/patient-relationship.service';
 import { CreateRelationshipDto } from 'src/app/interfaces/relationship.interface';
+import { CreatePersonDto } from 'src/app/interfaces/person.interface';
 
 @Component({
   selector: 'app-hie-dependant',
@@ -134,8 +135,18 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
     }
   }
   syncData() {
-    this.syncPersonAttributes();
-    this.syncPatientIdentifiers();
+    if (this.isValidateSyncCols()) {
+      this.syncPersonAttributes();
+      this.syncPatientIdentifiers();
+    }
+  }
+  isValidateSyncCols(): boolean {
+    if (!this.hieDataToSync.includes('id')) {
+      this.handleError('Please ensure you have selected CR Number to sync');
+      return false;
+    }
+
+    return true;
   }
   syncPatientIdentifiers() {
     this.displayLoader('Syncing patient identifiers...');
@@ -206,7 +217,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   }
   syncPersonAttributes() {
     this.displayLoader('Syncing patient attributes...');
-    const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
+    const attributePayload: CreatePersonDto = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.hieDependant,
       this.hieDataToSync
     );
@@ -392,31 +403,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
     this.hieAmrsData = [];
   }
   createDependant() {
-    /*
-    const attributes = [
-      'first_name',
-      'middle_name',
-      'last_name',
-      'gender',
-      'date_of_birth',
-      'is_alive',
-      'deceased_datetime',
-      'country',
-      'place_of_birth',
-      'county',
-      'sub_county',
-      'ward',
-      'village_estate',
-      'longitude',
-      'latitude',
-      'phone',
-      'email',
-      'civil_status',
-      'kra_pin',
-      'id'
-    ];
-    */
-    const createPersonPayload = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
+    const createPersonPayload: CreatePersonDto = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.hieDependant,
       null
     );
@@ -444,7 +431,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
       .subscribe();
   }
 
-  createPerson(createPersonPayload) {
+  createPerson(createPersonPayload: CreatePersonDto) {
     return this.personResourceService.createPerson(createPersonPayload).pipe(
       take(1),
       map((res) => {

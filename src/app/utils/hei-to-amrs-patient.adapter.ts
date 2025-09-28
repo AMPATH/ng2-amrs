@@ -17,6 +17,7 @@ import { RelationshipTypeUuids } from '../constants/relationship-types';
 import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 import { PersonAttribute } from '../models/person-attribute.model';
 import { Person } from '../models/person.model';
+import { CreatePersonDto } from '../interfaces/person.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -332,8 +333,11 @@ export class HieToAmrsPersonAdapter {
     });
   }
 
-  generateAmrsPersonPayload(hieClient: HieClient, hieFields?: string[]) {
-    const createPersonPayload = {};
+  generateAmrsPersonPayload(
+    hieClient: HieClient,
+    hieFields?: string[]
+  ): CreatePersonDto {
+    const createPersonPayload: CreatePersonDto = {};
     const namesAttribute = {};
     const addresses = {};
     const attributes = [];

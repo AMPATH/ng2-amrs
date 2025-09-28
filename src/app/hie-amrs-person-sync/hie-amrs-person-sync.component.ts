@@ -32,6 +32,7 @@ import { EMPTY, forkJoin, Observable, Subject } from 'rxjs';
 import { TitleCasePipe } from '@angular/common';
 import { IdentifierTypesUuids } from '../constants/identifier-types';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CreatePersonDto } from '../interfaces/person.interface';
 
 @Component({
   selector: 'app-hie-amrs-person-sync',
@@ -68,6 +69,7 @@ export class HieToAmrsPersonSyncComponent
   ];
   identifierLocation = '';
   syncColumns: string[] = [];
+  errors: string[] = [];
 
   constructor(
     private patientResourceService: PatientResourceService,
@@ -139,6 +141,17 @@ export class HieToAmrsPersonSyncComponent
   handleError(errorMessage: string) {
     this.showErrorAlert = true;
     this.errorAlert = errorMessage;
+    this.errors.push(errorMessage);
+  }
+  private getErrorMsgFromErrorResponseMsg(error: any) {
+    let errMsg = '';
+    if (error.message) {
+      errMsg = error.message;
+    }
+    if (error.error.message) {
+      errMsg = error.error.message;
+    }
+    return errMsg;
   }
   handleSuccess(mgs: string) {
     this.showSuccessAlert = true;
@@ -151,6 +164,7 @@ export class HieToAmrsPersonSyncComponent
   resetError() {
     this.showErrorAlert = false;
     this.errorAlert = null;
+    this.errors = [];
   }
   setDefaultIdentifierLocation() {
     if (
@@ -181,8 +195,27 @@ export class HieToAmrsPersonSyncComponent
   }
 
   syncData() {
-    this.syncPersonAttributes();
-    this.syncPatientIdentifiers();
+    if (this.isValidateSyncCols()) {
+      this.syncPersonAttributes();
+      this.syncPatientIdentifiers();
+    }
+  }
+  isValidateSyncCols(): boolean {
+    if (!this.hieDataToSync.includes('id')) {
+      // check if patient has CR Number already
+      const patient = this.clientPatient.patient || null;
+      if (
+        patient &&
+        patient.searchIdentifiers &&
+        patient.searchIdentifiers.cr
+      ) {
+      } else {
+        this.handleError('Please ensure you have selected CR Number to sync');
+        return false;
+      }
+    }
+
+    return true;
   }
   syncPatientIdentifiers() {
     this.displayLoader('Syncing patient identifiers...');
@@ -373,7 +406,7 @@ export class HieToAmrsPersonSyncComponent
   }
   syncPersonAttributes() {
     this.displayLoader('Syncing patient attributes...');
-    const attributePayload = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
+    const attributePayload: CreatePersonDto = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.clientPatient.client,
       this.hieDataToSync
     );

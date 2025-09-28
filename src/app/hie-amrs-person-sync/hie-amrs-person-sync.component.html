@@ -16,13 +16,16 @@
             >
               <strong>Done!</strong> {{ successAlert }}
             </div>
-            <div
+            <ng-container *ngFor="let errMsg of errors">
+              <div
               class="alert alert-danger"
               *ngIf="showErrorAlert"
               style="margin-top: 10px"
             >
-              <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+               {{ errMsg }}
             </div>
+            </ng-container>
+            
           </div>
           <ul class="nav nav-tabs">
             <li class="active">

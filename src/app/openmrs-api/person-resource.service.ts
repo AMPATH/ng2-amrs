@@ -4,6 +4,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import * as _ from 'lodash';
+import { CreatePersonDto } from '../interfaces/person.interface';
 
 @Injectable()
 export class PersonResourceService {
@@ -46,7 +47,7 @@ export class PersonResourceService {
     );
   }
 
-  public createPerson(payload) {
+  public createPerson(payload: CreatePersonDto) {
     if (!payload) {
       return null;
     }

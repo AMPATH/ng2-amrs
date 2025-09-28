@@ -61,6 +61,7 @@ import { PatientRelationshipService } from '../patient-dashboard/common/patient-
 import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
 import { PersonAttributeTypeUuids } from '../constants/attribute-types.constants';
+import { CreatePersonDto } from '../interfaces/person.interface';
 /**
  * ADDRESS MAPPINGS
  * country: country
@@ -253,6 +254,15 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   alternativeContacts: AlternateContact[] = [];
   alternativeContact: AlternateContact;
   nextOfKinContact: AlternateContact;
+  public nonEditableIdentifierTypes = [
+    IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
+    IdentifierTypesUuids.SHA_UUID,
+    IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID,
+    IdentifierTypesUuids.ALIEN_ID_UUID,
+    IdentifierTypesUuids.REFUGEE_ID_UUID,
+    IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+    IdentifierTypesUuids.NATIONAL_ID_UUID
+  ];
 
   constructor(
     public toastrService: ToastrService,
@@ -668,8 +678,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       !this.gender ||
       this.birthError ||
       !this.birthDate ||
-      (!this.occupation && !this.usingHieData) ||
-      (!this.patientHighestEducation && !this.usingHieData)
+      !this.occupation ||
+      !this.patientHighestEducation
     ) {
       this.errors = true;
     } else {
@@ -2037,35 +2047,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     return this.createDependantPerson(depentantPersonPayload);
   }
   createDependantPersonPayload(hieDependant: HieClientDependant) {
-    const attributes = [
-      'first_name',
-      'middle_name',
-      'last_name',
-      'gender',
-      'date_of_birth',
-      'is_alive',
-      'deceased_datetime',
-      'country',
-      'place_of_birth',
-      'county',
-      'sub_county',
-      'ward',
-      'village_estate',
-      'longitude',
-      'latitude',
-      'phone',
-      'email',
-      'civil_status',
-      'kra_pin',
-      'id'
-    ];
-    const createPersonPayload = this.hieAdapter.generateAmrsPersonPayload(
+    const createPersonPayload: CreatePersonDto = this.hieAdapter.generateAmrsPersonPayload(
       hieDependant,
       null
     );
     return createPersonPayload;
   }
-  createDependantPerson(createPersonPayload) {
+  createDependantPerson(createPersonPayload: CreatePersonDto) {
     return this.personResourceService.createPerson(createPersonPayload).pipe(
       take(1),
       map((res) => {
@@ -2084,7 +2072,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     );
   }
   removeFormDependant(dependantToRemove: HieClientDependant) {
-    console.log({ dependantToRemove });
     this.formHieDependants = this.formHieDependants.filter(
       (dep: HieClientDependant) => {
         return dep.id !== dependantToRemove.id;
