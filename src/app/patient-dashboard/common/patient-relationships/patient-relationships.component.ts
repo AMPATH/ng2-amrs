@@ -8,6 +8,7 @@ import { PatientIdentifierResourceService } from 'src/app/openmrs-api/patient-id
 import { finalize, takeUntil, tap } from 'rxjs/operators';
 import { PatientIdentifier } from '../../../models/patient-identifier.model';
 import { IdentifierTypesUuids } from '../../../constants/identifier-types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'patient-relationships',
@@ -34,7 +35,8 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
   constructor(
     private patientService: PatientService,
     private patientRelationshipService: PatientRelationshipService,
-    private patientIdentifierResourceService: PatientIdentifierResourceService
+    private patientIdentifierResourceService: PatientIdentifierResourceService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -203,5 +205,10 @@ export class PatientRelationshipsComponent implements OnInit, OnDestroy {
         id.identifierType.uuid === IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID
       );
     });
+  }
+  public navigateToPatientRegistration() {
+    this.router.navigate([
+      '/patient-dashboard/patient-search/patient-registration'
+    ]);
   }
 }
