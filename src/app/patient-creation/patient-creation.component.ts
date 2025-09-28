@@ -46,9 +46,7 @@ import {
   AlternateContact,
   HieClient,
   HieClientDependant,
-  HieClientSearchDto,
-  HieDependant,
-  HieIdentificationType
+  HieClientSearchDto
 } from '../models/hie-registry.model';
 import {
   HieClientVerificationIdentifierType,
@@ -60,7 +58,6 @@ import { HieOtpClientConsentService } from '../otp-verification/hie-otp-verifica
 import { PatientRelationshipService } from '../patient-dashboard/common/patient-relationships/patient-relationship.service';
 import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
-import { PersonAttributeTypeUuids } from '../constants/attribute-types.constants';
 import { CreatePersonDto } from '../interfaces/person.interface';
 /**
  * ADDRESS MAPPINGS

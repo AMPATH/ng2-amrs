@@ -44,7 +44,8 @@ export class HieToAmrsPersonAdapter {
     HieIdentificationType.RefugeeID,
     HieIdentificationType.MandateNumber,
     HieIdentificationType.AlienID,
-    HieIdentificationType.NationalID
+    HieIdentificationType.NationalID,
+    HieIdentificationType.TemporaryDependantID
   ];
   private hieAmrsSyncFields = [
     ...this.identifierFields,
@@ -128,6 +129,12 @@ export class HieToAmrsPersonAdapter {
           patient
         );
         break;
+      case HieIdentificationType.TemporaryDependantID:
+        val = this.getIdentifierValue(
+          IdentifierTypesUuids.TEMPORARY_DEPENDANT_ID_UUID,
+          patient
+        );
+        break;
       case 'ward':
         val = patient ? this.getAddressValue('ward', patient.person) : '';
         break;
@@ -200,6 +207,11 @@ export class HieToAmrsPersonAdapter {
         return id.identifierType.uuid === identifierTypeUuid;
       });
       return identifier;
+    } else if (patient && patient.identifiers) {
+      const identifier = (patient.identifiers as any).find((id) => {
+        return id.identifierType.uuid === identifierTypeUuid;
+      });
+      return identifier;
     } else {
       return undefined;
     }
@@ -215,7 +227,8 @@ export class HieToAmrsPersonAdapter {
       HieIdentificationType.RefugeeID,
       HieIdentificationType.MandateNumber,
       HieIdentificationType.AlienID,
-      HieIdentificationType.NationalID
+      HieIdentificationType.NationalID,
+      HieIdentificationType.TemporaryDependantID
     ];
     if (otherMainIds.includes(identifierName)) {
       return hieCleint.identification_number;

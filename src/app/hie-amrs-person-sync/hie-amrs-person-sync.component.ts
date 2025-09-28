@@ -14,8 +14,6 @@ import {
   HieClientDependant,
   HieIdentificationType
 } from '../models/hie-registry.model';
-import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import { PersonResourceService } from '../openmrs-api/person-resource.service';
 import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
 import { PatientService } from '../patient-dashboard/services/patient.service';
 import { Patient } from '../models/patient.model';
@@ -28,11 +26,10 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { EMPTY, forkJoin, Observable, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { TitleCasePipe } from '@angular/common';
-import { IdentifierTypesUuids } from '../constants/identifier-types';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreatePersonDto } from '../interfaces/person.interface';
+import { HieClientAmrsPersonSyncService } from './hie-amrs-person-sync.service';
 
 @Component({
   selector: 'app-hie-amrs-person-sync',
@@ -72,13 +69,12 @@ export class HieToAmrsPersonSyncComponent
   errors: string[] = [];
 
   constructor(
-    private patientResourceService: PatientResourceService,
-    private personResourceService: PersonResourceService,
     private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
     private patientService: PatientService,
     private patientRelationshipService: PatientRelationshipService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private hieClientAmrsPersonSyncService: HieClientAmrsPersonSyncService
   ) {}
 
   ngOnInit(): void {
@@ -143,16 +139,6 @@ export class HieToAmrsPersonSyncComponent
     this.errorAlert = errorMessage;
     this.errors.push(errorMessage);
   }
-  private getErrorMsgFromErrorResponseMsg(error: any) {
-    let errMsg = '';
-    if (error.message) {
-      errMsg = error.message;
-    }
-    if (error.error.message) {
-      errMsg = error.error.message;
-    }
-    return errMsg;
-  }
   handleSuccess(mgs: string) {
     this.showSuccessAlert = true;
     this.successAlert = mgs;
@@ -195,6 +181,7 @@ export class HieToAmrsPersonSyncComponent
   }
 
   syncData() {
+    this.resetMessages();
     if (this.isValidateSyncCols()) {
       this.syncPersonAttributes();
       this.syncPatientIdentifiers();
@@ -219,103 +206,28 @@ export class HieToAmrsPersonSyncComponent
   }
   syncPatientIdentifiers() {
     this.displayLoader('Syncing patient identifiers...');
-    const reqObs$: Observable<any>[] = [];
-    const dataToSync = this.hieDataToSync.filter((d: HieIdentificationType) => {
-      return this.hieIdentifiers.includes(d);
-    });
-
-    for (const d of dataToSync) {
-      if (d === HieIdentificationType.Cr) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      } else if (d === HieIdentificationType.SHANumber) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.SHA_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      } else if (d === HieIdentificationType.HouseholdNumber) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      } else if (d === HieIdentificationType.RefugeeID) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.REFUGEE_ID_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      } else if (d === HieIdentificationType.AlienID) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.ALIEN_ID_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      } else if (d === HieIdentificationType.MandateNumber) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.MANDATE_NUMBER_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      } else if (d === HieIdentificationType.NationalID) {
-        reqObs$.push(
-          this.handleIdentifierUpdate(
-            IdentifierTypesUuids.NATIONAL_ID_UUID,
-            this.hieToAmrsPersonAdapter.getHieIdentifierByName(
-              d,
-              this.clientPatient.client
-            )
-          )
-        );
-      }
-    }
-
-    forkJoin(reqObs$)
+    this.hieClientAmrsPersonSyncService
+      .syncPatientIdentifiers(
+        this.hieDataToSync,
+        this.clientPatient.client,
+        this.clientPatient.patient,
+        this.identifierLocation
+      )
       .pipe(
+        takeUntil(this.destroy$),
         map((res) => {
           if (res) {
             this.handleSuccess('Patient Identifiers successfully set');
             return res;
           } else {
-            throw new Error(
-              'An error occurred while syncing patient identifiers'
-            );
+            return EMPTY;
           }
         }),
-        takeUntil(this.destroy$),
         catchError((error) => {
-          this.handleError(
-            error.error.message ||
-              'An error occurred while syncing the patient identifiers'
+          const errMsg = this.hieClientAmrsPersonSyncService.getErrorMsgFromErrorResponseMsg(
+            error
           );
+          this.handleError(errMsg);
           throw EMPTY;
         }),
         finalize(() => {
@@ -324,190 +236,34 @@ export class HieToAmrsPersonSyncComponent
       )
       .subscribe();
   }
-  getHieOtherIdentifier(identifierType: string) {
-    return this.clientPatient.client.other_identifications.find((ident) => {
-      return ident.identification_type === identifierType;
-    });
-  }
-  handleIdentifierUpdate(identifierTypeUuid: string, identifier: string) {
-    // check if patient has existing identifier
-    if (this.getCommonIdentifier(identifierTypeUuid)) {
-      const selectedIdentifier = this.getIdentifier(identifierTypeUuid);
-      return this.updatePatientIdentifier(
-        this.clientPatient.patient.uuid,
-        selectedIdentifier.uuid,
-        {
-          identifier: identifier,
-          location: selectedIdentifier.location.uuid || '',
-          identifierType: identifierTypeUuid
-        }
-      );
-    } else {
-      // if not create a new one
-      return this.createPatientIdentifier({
-        patientUuid: this.clientPatient.patient.uuid,
-        identifier: {
-          identifier: identifier,
-          location: this.identifierLocation,
-          identifierTypeUuid: identifierTypeUuid
-        }
-      });
-    }
-  }
-  getCommonIdentifier(identifierTypeUuid: string) {
-    if (identifierTypeUuid === IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.cr
-      );
-    } else if (
-      identifierTypeUuid === IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID
-    ) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.hhNo
-      );
-    } else if (identifierTypeUuid === IdentifierTypesUuids.SHA_UUID) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.sha
-      );
-    } else if (identifierTypeUuid === IdentifierTypesUuids.REFUGEE_ID_UUID) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.refugeeId
-      );
-    } else if (identifierTypeUuid === IdentifierTypesUuids.ALIEN_ID_UUID) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.alienId
-      );
-    } else if (
-      identifierTypeUuid === IdentifierTypesUuids.MANDATE_NUMBER_UUID
-    ) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.mandateNumber
-      );
-    } else if (identifierTypeUuid === IdentifierTypesUuids.NATIONAL_ID_UUID) {
-      return this.checkIdentifierValue(
-        this.clientPatient.patient.commonIdentifiers.kenyaNationalId
-      );
-    } else {
-      return false;
-    }
-  }
-  checkIdentifierValue(identifierValue: any) {
-    if (!identifierValue) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  getIdentifier(identifierTypeUuid: string) {
-    const identifier = this.clientPatient.patient._identifier.find((id) => {
-      return id.identifierType.uuid === identifierTypeUuid;
-    });
-    return identifier;
-  }
+
   syncPersonAttributes() {
     this.displayLoader('Syncing patient attributes...');
-    const attributePayload: CreatePersonDto = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
-      this.clientPatient.client,
-      this.hieDataToSync
-    );
-    if (Object.keys(attributePayload).length > 0) {
-      this.updatePersonAttributes({
-        patientUuid: this.clientPatient.patient.uuid,
-        payload: attributePayload
-      });
-    }
-  }
-  updatePersonAttributes(updatePersonAttributePayload: {
-    patientUuid: string;
-    payload: any;
-  }) {
-    const { patientUuid, payload } = updatePersonAttributePayload;
-    this.personResourceService
-      .saveUpdatePerson(patientUuid, payload)
+    this.hieClientAmrsPersonSyncService
+      .syncPersonAttributes(
+        this.hieDataToSync,
+        this.clientPatient.client,
+        this.clientPatient.patient
+      )
       .pipe(
         takeUntil(this.destroy$),
         map((res) => {
           if (res) {
-            this.handleSuccess('Patient Attributes successfully set');
+            this.handleSuccess('Done! Successfully updated patient attributes');
             return res;
           } else {
-            throw new Error(
-              'An error occurred while syncing patient attributes'
-            );
+            return EMPTY;
           }
         }),
         catchError((error) => {
-          this.handleError(
-            error.error.message ||
-              'An error occurred while syncing the patient attributes'
+          const errMsg = this.hieClientAmrsPersonSyncService.getErrorMsgFromErrorResponseMsg(
+            error
           );
-          throw EMPTY;
-        }),
-        finalize(() => {
-          this.hideLoader();
+          this.handleError(errMsg);
+          return of(null);
         })
       )
       .subscribe();
-  }
-  updatePatientIdentifier(
-    patientUuid: string,
-    identifierUuid: string,
-    identifierPayload: {
-      identifier: string;
-      location: string;
-      identifierType: string;
-    }
-  ) {
-    return this.patientResourceService
-      .saveUpdatePatientIdentifier(
-        patientUuid,
-        identifierUuid,
-        identifierPayload
-      )
-      .pipe(takeUntil(this.destroy$));
-  }
-  createPatientIdentifier(createIdentifierPayload: {
-    patientUuid: string;
-    identifier: {
-      identifier: string;
-      location: string;
-      identifierTypeUuid: string;
-    };
-  }) {
-    const identifierPayload = {
-      identifier: createIdentifierPayload.identifier.identifier,
-      location: createIdentifierPayload.identifier.location,
-      identifierType: createIdentifierPayload.identifier.identifierTypeUuid
-    };
-    return this.patientResourceService
-      .saveUpdatePatientIdentifier(
-        createIdentifierPayload.patientUuid,
-        '',
-        identifierPayload
-      )
-      .pipe(
-        takeUntil(this.destroy$),
-        map((res) => {
-          if (res) {
-            this.handleSuccess('Patient Attributes successfully set');
-            return res;
-          } else {
-            throw new Error(
-              'An error occurred while syncing patient attributes'
-            );
-          }
-        }),
-        catchError((error) => {
-          this.handleError(
-            error.error.message ||
-              'An error occurred while syncing the patient attributes'
-          );
-          throw EMPTY;
-        }),
-        finalize(() => {
-          this.hideLoader();
-        })
-      );
   }
   displayLoader(message: string) {
     this.showLoader = true;
@@ -523,6 +279,10 @@ export class HieToAmrsPersonSyncComponent
     this.resetSuccess();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+  }
+  resetMessages() {
+    this.resetSuccess();
+    this.resetError();
   }
   navigateToPatientRelationships() {
     this.router
