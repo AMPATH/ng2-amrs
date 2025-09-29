@@ -34,4 +34,12 @@
     justify-content: flex-end;
     padding-top: 10px;
     padding-right: 60px;
+    &__label-input{
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+    }
+}
+.sync-label{
+    margin-top: 10px;
 }

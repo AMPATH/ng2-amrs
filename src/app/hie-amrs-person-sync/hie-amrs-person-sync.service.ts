@@ -229,10 +229,41 @@ export class HieClientAmrsPersonSyncService {
       return true;
     }
   }
-  hasIdentifier(identifierTypeUuid: string, patient: Patient) {
-    return (patient.identifiers as any).some((id: PatientIdentifier) => {
-      return id.identifierType.uuid === identifierTypeUuid;
-    });
+  hasIdentifier(identifierTypeUuid: string, patient) {
+    if ('_identifier' in patient) {
+      if (Array.isArray(patient._identifier)) {
+        return patient._identifier.some((id: PatientIdentifier) => {
+          return id.identifierType.uuid === identifierTypeUuid;
+        });
+      } else {
+        return false;
+      }
+    } else if ('identifiers' in patient) {
+      if (Array.isArray(patient.identifiers)) {
+        return (patient.identifiers as any).some((id: PatientIdentifier) => {
+          return id.identifierType.uuid === identifierTypeUuid;
+        });
+      } else {
+        if ('openmrsModel' in patient) {
+          if (
+            'identifiers' in patient.openmrsModel &&
+            Array.isArray(patient.openmrsModel.identifiers)
+          ) {
+            return (patient.identifiers as any).some(
+              (id: PatientIdentifier) => {
+                return id.identifierType.uuid === identifierTypeUuid;
+              }
+            );
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
   }
   updatePatientIdentifier(
     patientUuid: string,

@@ -297,7 +297,7 @@
             >
             <div *ngIf="errors && !patientIdentifier">
               <div class="help-block" style="color: red">
-                Universal ID is required!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -316,20 +316,20 @@
             </div>
             <div
               *ngIf="
-                errors && identifiers && patientIdentifier && !identifierAdded
+                errors && identifiers && patientIdentifier && !identifierAdded && !usingHieData
               "
             >
               <div class="help-block" style="color: red">
-                Please add the Universal ID!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
             <div
               *ngIf="
-                !errors && identifiers && patientIdentifier && !identifierAdded
+                !errors && identifiers && patientIdentifier && !identifierAdded && !usingHieData
               "
             >
               <div class="help-block" style="color: blue">
-                Please add the Universal ID!
+               To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -784,8 +784,8 @@
 
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
-              <label for="civilStatus">Civil Status </label>
               <ng-container *ngIf="usingHieData; else maritalStatusData">
+                <label for="civilStatus">Civil Status </label>
                 <input
                   type="text"
                   id="civilStatus"
@@ -1263,7 +1263,7 @@
               class="alert alert-danger"
               *ngIf="identifiers.length === 0 && !patientIdentifier"
             >
-              Universal ID is required!
+              To proceed, please assign the client a Universal ID
             </div>
             <div
               class="alert alert-danger"
@@ -1302,7 +1302,7 @@
             <div class="alert alert-danger" *ngIf="!cityVillage && !usingHieData">
               Village/Estate is required!
             </div>
-             <ng-container *ngIf="!patientIdentifier">
+             <ng-container *ngIf="!patientIdentifier && usingHieData">
               <div class="alert alert-danger">
                 To proceed, please assign the client a Universal ID
               </div>

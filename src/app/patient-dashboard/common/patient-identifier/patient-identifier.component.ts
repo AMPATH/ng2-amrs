@@ -17,7 +17,10 @@ export class PatientIdentifierComponent implements OnInit {
     IdentifierTypesUuids.ALIEN_ID_UUID,
     IdentifierTypesUuids.REFUGEE_ID_UUID,
     IdentifierTypesUuids.MANDATE_NUMBER_UUID,
-    IdentifierTypesUuids.NATIONAL_ID_UUID
+    IdentifierTypesUuids.NATIONAL_ID_UUID,
+    IdentifierTypesUuids.AMRS_UNIVERSAL_ID_UUID,
+    IdentifierTypesUuids.UPI_NUMBER_UUID,
+    IdentifierTypesUuids.TEMPORARY_DEPENDANT_ID_UUID
   ];
   public customIdentifiers = [];
   @Input()

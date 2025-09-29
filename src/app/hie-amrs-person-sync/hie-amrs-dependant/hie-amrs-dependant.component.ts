@@ -33,7 +33,7 @@ import { PatientIdentifier } from 'src/app/models/patient-identifier.model';
 @Component({
   selector: 'app-hie-dependant',
   templateUrl: './hie-amrs-dependant.component.html',
-  styleUrls: ['./hie-amrs-dependant.component.css']
+  styleUrls: ['./hie-amrs-dependant.component.scss']
 })
 export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   @Input() hieDependant: HieClientDependant;

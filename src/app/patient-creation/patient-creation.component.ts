@@ -258,7 +258,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     IdentifierTypesUuids.ALIEN_ID_UUID,
     IdentifierTypesUuids.REFUGEE_ID_UUID,
     IdentifierTypesUuids.MANDATE_NUMBER_UUID,
-    IdentifierTypesUuids.NATIONAL_ID_UUID
+    IdentifierTypesUuids.NATIONAL_ID_UUID,
+    IdentifierTypesUuids.UPI_NUMBER_UUID,
+    IdentifierTypesUuids.TEMPORARY_DEPENDANT_ID_UUID
   ];
 
   constructor(
