@@ -74,14 +74,9 @@
                           <td>{{ data.amrsValue }}</td>
                           <td>{{ data.hieValue }}</td>
                           <td>
-                            <ng-container
-                              *ngIf="
-                                hieDataToSync.length < syncColumns.length;
-                                else allCols
-                              "
-                            >
                               <input
                                 type="checkbox"
+                                [checked]="selectedColMap.has(data.key)"
                                 (change)="
                                   addToSyncData(
                                     data.key,
@@ -89,10 +84,6 @@
                                   )
                                 "
                               />
-                            </ng-container>
-                            <ng-template #allCols>
-                              <input type="checkbox" [checked]="true" />
-                            </ng-template>
                           </td>
                         </tr>
                       </ng-container>

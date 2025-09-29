@@ -67,6 +67,7 @@ export class HieToAmrsPersonSyncComponent
   identifierLocation = '';
   syncColumns: string[] = [];
   errors: string[] = [];
+  selectedColMap = new Map<string, string>();
 
   constructor(
     private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
@@ -172,12 +173,16 @@ export class HieToAmrsPersonSyncComponent
 
   addToSyncData(d: string, checked: boolean) {
     if (checked) {
-      this.hieDataToSync = [...this.hieDataToSync, d];
+      this.selectedColMap.set(d, d);
     } else {
-      this.hieDataToSync = this.hieDataToSync.filter((v) => {
-        return v !== d;
-      });
+      if (this.selectedColMap.has(d)) {
+        this.selectedColMap.delete(d);
+      }
     }
+    this.generateHieDataToSyncFromMap();
+  }
+  generateHieDataToSyncFromMap() {
+    this.hieDataToSync = Array.from(this.selectedColMap.keys());
   }
 
   syncData() {
@@ -194,7 +199,8 @@ export class HieToAmrsPersonSyncComponent
       if (
         patient &&
         patient.searchIdentifiers &&
-        patient.searchIdentifiers.cr
+        patient.searchIdentifiers.cr &&
+        patient.searchIdentifiers.cr === this.clientPatient.client.id
       ) {
       } else {
         this.handleError('Please ensure you have selected CR Number to sync');
@@ -279,6 +285,7 @@ export class HieToAmrsPersonSyncComponent
     this.resetSuccess();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+    this.selectedColMap.clear();
   }
   resetMessages() {
     this.resetSuccess();
@@ -295,9 +302,12 @@ export class HieToAmrsPersonSyncComponent
   }
   syncAllData(checked: boolean) {
     if (checked) {
-      this.hieDataToSync = this.syncColumns;
+      this.syncColumns.forEach((c) => {
+        this.selectedColMap.set(c, c);
+      });
     } else {
-      this.hieDataToSync = [];
+      this.selectedColMap.clear();
     }
+    this.generateHieDataToSyncFromMap();
   }
 }
