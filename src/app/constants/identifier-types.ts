@@ -6,6 +6,9 @@ const PROVIDER_NATIONAL_ID_UUID = '4550df92-c684-4597-8ab8-d6b10eabdcfb';
 const REFUGEE_ID_UUID = '465e81af-8d69-47e9-9127-53a94adc75fb';
 const MANDATE_NUMBER_UUID = 'aae2d097-20ba-43ca-9b71-fd8296068f39';
 const ALIEN_ID_UUID = '12f5b147-3403-4a73-913d-7ded9ffec094';
+const TEMPORARY_DEPENDANT_ID_UUID = 'a3d34214-93e8-4faf-bf4d-0272eee079eb';
+const AMRS_UNIVERSAL_ID_UUID = '58a4732e-1359-11df-a1f1-0026b9348838';
+const UPI_NUMBER_UUID = 'cba702b9-4664-4b43-83f1-9ab473cbd64d';
 
 export const IdentifierTypesUuids = {
   HOUSE_HOLD_NUMBER_UUID,
@@ -15,7 +18,10 @@ export const IdentifierTypesUuids = {
   PROVIDER_NATIONAL_ID_UUID,
   REFUGEE_ID_UUID,
   MANDATE_NUMBER_UUID,
-  ALIEN_ID_UUID
+  ALIEN_ID_UUID,
+  TEMPORARY_DEPENDANT_ID_UUID,
+  AMRS_UNIVERSAL_ID_UUID,
+  UPI_NUMBER_UUID
 };
 
 export enum HieClientVerificationIdentifierType {

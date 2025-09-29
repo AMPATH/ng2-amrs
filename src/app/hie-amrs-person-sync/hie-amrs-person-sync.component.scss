@@ -28,3 +28,18 @@
 .data-mismatch {
   color: red;
 }
+.sync-all-data-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-top: 10px;
+    padding-right: 60px;
+    &__label-input{
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+    }
+}
+.sync-label{
+    margin-top: 10px;
+}

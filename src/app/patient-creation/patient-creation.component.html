@@ -149,7 +149,6 @@
         </div>
         <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
           <div class="form-group">
-            <ng-container *ngIf="!usingHieData">
               <label for="occupation"
                 >Occupation
                 <span *ngIf="!occupation" class="required"> *</span></label
@@ -169,12 +168,10 @@
                   >Occupation is required!</span
                 >
               </div>
-            </ng-container>
           </div>
         </div>
         <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
           <div class="form-group">
-            <ng-container *ngIf="!usingHieData">
               <label for="levelOfEducation"
                 >Highest Education Level
                 <span *ngIf="!patientHighestEducation" class="required">
@@ -199,7 +196,6 @@
                   >Highest education level is required!</span
                 >
               </div>
-            </ng-container>
           </div>
         </div>
       </div>
@@ -301,7 +297,7 @@
             >
             <div *ngIf="errors && !patientIdentifier">
               <div class="help-block" style="color: red">
-                Universal ID is required!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -320,20 +316,20 @@
             </div>
             <div
               *ngIf="
-                errors && identifiers && patientIdentifier && !identifierAdded
+                errors && identifiers && patientIdentifier && !identifierAdded && !usingHieData
               "
             >
               <div class="help-block" style="color: red">
-                Please add the Universal ID!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
             <div
               *ngIf="
-                !errors && identifiers && patientIdentifier && !identifierAdded
+                !errors && identifiers && patientIdentifier && !identifierAdded && !usingHieData
               "
             >
               <div class="help-block" style="color: blue">
-                Please add the Universal ID!
+               To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -434,7 +430,8 @@
                     {{ identifier.identifier }}
                   </td>
                   <td>
-                    <a title="Remove Identifier"
+                    <ng-container *ngIf="!nonEditableIdentifierTypes.includes(identifier.identifierType)">
+                        <a title="Remove Identifier"
                       ><i
                         class="fa fa-trash-o"
                         (click)="removeIdentifer(i, identifier)"
@@ -442,6 +439,8 @@
                         style="color: red"
                       ></i
                     ></a>
+                    </ng-container>
+                   
                   </td>
                 </tr>
               </tbody>
@@ -785,8 +784,8 @@
 
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
-              <label for="civilStatus">Civil Status </label>
               <ng-container *ngIf="usingHieData; else maritalStatusData">
+                <label for="civilStatus">Civil Status </label>
                 <input
                   type="text"
                   id="civilStatus"
@@ -1253,10 +1252,10 @@
           <div class="alert alert-danger" *ngIf="!birthDate">
             Birth Date is required!
           </div>
-          <div class="alert alert-danger" *ngIf="!occupation && !usingHieData">
+          <div class="alert alert-danger" *ngIf="!occupation">
             Occupation is required!
           </div>
-          <div class="alert alert-danger" *ngIf="!patientHighestEducation && !useHieData">
+          <div class="alert alert-danger" *ngIf="!patientHighestEducation">
             Highest Education Level is required!
           </div>
           <span *ngIf="!patientExists">
@@ -1264,7 +1263,7 @@
               class="alert alert-danger"
               *ngIf="identifiers.length === 0 && !patientIdentifier"
             >
-              Universal ID is required!
+              To proceed, please assign the client a Universal ID
             </div>
             <div
               class="alert alert-danger"
@@ -1303,6 +1302,11 @@
             <div class="alert alert-danger" *ngIf="!cityVillage && !usingHieData">
               Village/Estate is required!
             </div>
+             <ng-container *ngIf="!patientIdentifier && usingHieData">
+              <div class="alert alert-danger">
+                To proceed, please assign the client a Universal ID
+              </div>
+            </ng-container>
           </span>
         </div>
       </div>

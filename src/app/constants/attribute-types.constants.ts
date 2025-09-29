@@ -7,6 +7,7 @@ const KRA_PIN_UUID = 'ae683747-b3fc-4e5c-bad3-c3be743b248f';
 const CIVIL_STATUS_UUID = '8d871f2a-c2cc-11de-8d13-0010c6dffd0f';
 const CLIENT_REGISTRY_ID_UUID = 'e068e02b-faac-4baf-bd58-fe6e0c29a81f';
 const PLACE_OF_BIRTH_UUID = '8d8718c2-c2cc-11de-8d13-0010c6dffd0f';
+const EMAIL_UUID = '2f65dbcb-3e58-45a3-8be7-fd1dc9aa0faa';
 
 export const PersonAttributeTypeUuids = {
   CONTACT_PHONE_NUMBER_UUID,
@@ -16,5 +17,6 @@ export const PersonAttributeTypeUuids = {
   KRA_PIN_UUID,
   CIVIL_STATUS_UUID,
   CLIENT_REGISTRY_ID_UUID,
-  PLACE_OF_BIRTH_UUID
+  PLACE_OF_BIRTH_UUID,
+  EMAIL_UUID
 };

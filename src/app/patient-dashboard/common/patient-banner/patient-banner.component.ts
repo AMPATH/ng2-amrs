@@ -10,8 +10,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { take, takeUntil, tap } from 'rxjs/operators';
+import { of, Subject, Subscription } from 'rxjs';
+import { catchError, finalize, take, takeUntil, tap } from 'rxjs/operators';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -29,6 +29,7 @@ import { PatientProgramService } from '../../programs/patient-programs.service';
 import { ValidateHieCustomOtpResponse } from 'src/app/models/hie-registry.model';
 import { HieOtpClientConsentService } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.service';
 import { ClientAmrsPatient } from 'src/app/hie-amrs-person-sync/model';
+import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -80,6 +81,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public destroy$ = new Subject<boolean>();
   public validateOtpResponse: ValidateHieCustomOtpResponse;
   public clientPatient: ClientAmrsPatient;
+  public relationIsAPatient = false;
 
   constructor(
     private patientService: PatientService,
@@ -91,7 +93,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private encounterResourceService: EncounterResourceService,
     private personAttributeResourceService: PersonAttributeResourceService,
     private patientProgramService: PatientProgramService,
-    private hieOtpClientConsentService: HieOtpClientConsentService
+    private hieOtpClientConsentService: HieOtpClientConsentService,
+    private patientResourceService: PatientResourceService
   ) {}
 
   public ngOnInit() {
@@ -253,9 +256,33 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public openRelationshipModal(template: TemplateRef<any>, relationship) {
+    this.relationIsAPatient = false;
     this.relationship = relationship;
     this.isHEIActive = relationship.programs[26].isEnrolled;
-    this.modalRef = this.modalService.show(template, this.modalConfig);
+    this.getRelationshipPatient(this.relationship.relatedPersonUuid, template);
+  }
+
+  private getRelationshipPatient(
+    patientUuid: string,
+    template: TemplateRef<any>
+  ) {
+    this.patientResourceService
+      .getPatientByUuid(patientUuid)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res) {
+            this.relationIsAPatient = true;
+          }
+        }),
+        catchError((__) => {
+          return of(null);
+        }),
+        finalize(() => {
+          this.modalRef = this.modalService.show(template, this.modalConfig);
+        })
+      )
+      .subscribe();
   }
 
   public closeRelationshipModal() {
@@ -468,5 +495,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       return false;
     }
+  }
+  testHieDialog() {
+    this.showHeiDialog();
   }
 }

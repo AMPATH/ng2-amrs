@@ -4,20 +4,21 @@
     </div>
     <div class="row">
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-        <div
+        <ng-container *ngFor="let msg of sucessMsgs">
+             <div
           class="alert alert-success"
-          *ngIf="showSuccessAlert"
-          style="margin-top: 10px"
         >
-          <strong>Done!</strong> {{ successAlert }}
+          {{ msg }}
         </div>
-        <div
+        </ng-container>
+        <ng-container *ngFor="let err of errors">
+             <div
           class="alert alert-danger"
-          *ngIf="showErrorAlert"
-          style="margin-top: 10px"
         >
-          <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+          {{ err }}
         </div>
+        </ng-container>
+       
       </div>
     </div>
     <ng-container *ngIf="!dependantPersonCreated">
@@ -41,7 +42,6 @@
       </div>
        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
            <ng-container *ngIf="!amrsRelationExists">
-            {{ hieDataToSync }}
             <div class="create-dependant-actions">
               <button class="btn btn-success" (click)="createDependant()">
               <i class="fa fa-user fa-fw"></i> Create Dependant in AMRS</button>
@@ -51,6 +51,19 @@
        </div>
     </div>
     <div class="row">
+       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <ng-container *ngIf="amrsRelationExists">
+          <div class="sync-all-data-input">
+                   <div class="form-group">
+                    <div class="sync-all-data-input__label-input">
+                    <label class="sync-label">Select All </label>
+                    <input type="checkbox" (change)="syncAllData($event?.target?.checked)"/>
+                    </div>
+                  </div>
+                </div>
+        </ng-container>
+       </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -78,12 +91,25 @@
                       <td>
                         <ng-container *ngIf="amrsRelationExists">
 
-                          <input
-                          type="checkbox"
-                          (change)="
-                            addToSyncData(data.key, $event?.target?.checked)
-                          "
-                        />
+                            <ng-container
+                              *ngIf="
+                                hieDataToSync.length < syncColumns.length;
+                                else allCols
+                              "
+                            >
+                              <input
+                                type="checkbox"
+                                (change)="
+                                  addToSyncData(
+                                    data.key,
+                                    $event?.target?.checked
+                                  )
+                                "
+                              />
+                            </ng-container>
+                            <ng-template #allCols>
+                              <input type="checkbox" [checked]="true" />
+                            </ng-template>
 
                         </ng-container>
                         
@@ -92,6 +118,7 @@
                   </ng-container>
                 </tbody>
               </table>
+          </div>
     </div>
      <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">

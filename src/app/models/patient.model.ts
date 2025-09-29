@@ -5,6 +5,7 @@ import { BaseModel } from './base-model.model';
 import { serializable } from './serializable.decorator';
 import { Person } from './person.model';
 import { PatientIdentifier } from './patient-identifier.model';
+import { HieIdentificationType } from './hie-registry.model';
 
 export class Patient extends BaseModel {
   public _identifier = this.openmrsModel.identifiers;
@@ -117,11 +118,21 @@ export class Patient extends BaseModel {
       const upi = this.getIdentifierByType(identifier, 'UPI Number');
       const pid = this.getIdentifierByType(identifier, 'PASSPORT NUMBER');
       const cr = this.getIdentifierByType(identifier, 'CR');
-      const refugeeId = this.getIdentifierByType(identifier, 'Refugee ID');
-      const alienId = this.getIdentifierByType(identifier, 'Alien ID');
+      const refugeeId = this.getIdentifierByType(
+        identifier,
+        HieIdentificationType.RefugeeID
+      );
+      const alienId = this.getIdentifierByType(
+        identifier,
+        HieIdentificationType.AlienID
+      );
       const mandateNumber = this.getIdentifierByType(
         identifier,
-        'Mandate Number'
+        HieIdentificationType.MandateNumber
+      );
+      const temporaryDepandantId = this.getIdentifierByType(
+        identifier,
+        HieIdentificationType.TemporaryDependantID
       );
       if (
         kenyaNationalId === undefined &&
@@ -153,7 +164,8 @@ export class Patient extends BaseModel {
           cr: cr,
           refugeeId: refugeeId,
           alienId: alienId,
-          mandateNumber: mandateNumber
+          mandateNumber: mandateNumber,
+          temporaryDepandantId: temporaryDepandantId
         };
       }
       return filteredIdentifiers;
@@ -195,12 +207,25 @@ export class Patient extends BaseModel {
         identifiers,
         'Social Health Insurance Number'
       );
-      const hhNo = this.getIdentifierByType(identifiers, 'Household Number');
-      const refugeeId = this.getIdentifierByType(identifiers, 'Refugee ID');
-      const alienId = this.getIdentifierByType(identifiers, 'Alien ID');
+      const hhNo = this.getIdentifierByType(
+        identifiers,
+        HieIdentificationType.HouseholdNumber
+      );
+      const refugeeId = this.getIdentifierByType(
+        identifiers,
+        HieIdentificationType.RefugeeID
+      );
+      const alienId = this.getIdentifierByType(
+        identifiers,
+        HieIdentificationType.AlienID
+      );
       const mandateNumber = this.getIdentifierByType(
         identifiers,
-        'Mandate Number'
+        HieIdentificationType.MandateNumber
+      );
+      const temporaryDepandantId = this.getIdentifierByType(
+        identifiers,
+        HieIdentificationType.TemporaryDependantID
       );
       if (
         kenyaNationalId === undefined &&
@@ -212,7 +237,8 @@ export class Patient extends BaseModel {
         hhNo === undefined &&
         refugeeId === undefined &&
         alienId === undefined &&
-        mandateNumber === undefined
+        mandateNumber === undefined &&
+        temporaryDepandantId === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -242,7 +268,8 @@ export class Patient extends BaseModel {
           hhNo: hhNo,
           refugeeId: refugeeId,
           alienId: alienId,
-          mandateNumber: mandateNumber
+          mandateNumber: mandateNumber,
+          temporaryDepandantId: temporaryDepandantId
         };
       }
       return filteredIdentifiers;
