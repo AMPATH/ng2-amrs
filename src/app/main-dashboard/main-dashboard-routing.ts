@@ -68,6 +68,11 @@ export const dashboardRoutes: Routes = [
         path: 'patient-list-cohort',
         loadChildren:
           '../patient-list-cohort/patient-list-cohort.module#PatientListCohortModule'
+      },
+      {
+        path: 'facility',
+        loadChildren:
+          '../facility-management/facility-management.module#FacilityManagementModule'
       }
     ]
   }
