@@ -97,4 +97,7 @@ export class StaticNavBarComponent implements OnInit {
       RoleUuids.CLINICAL_STAFF_VIEWER.name
     );
   }
+  navigateToAfyaYangu() {
+    window.open('https://afyayangu.go.ke/', '_blank');
+  }
 }

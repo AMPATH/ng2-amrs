@@ -54,6 +54,7 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   syncColumns: string[] = [];
   errors: string[] = [];
   sucessMsgs: string[] = [];
+  selectedColMap = new Map<string, string>();
 
   constructor(
     private hieToAmrsPersonAdapter: HieToAmrsPersonAdapter,
@@ -88,12 +89,16 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   }
   addToSyncData(d: string, checked: boolean) {
     if (checked) {
-      this.hieDataToSync = [...this.hieDataToSync, d];
+      this.selectedColMap.set(d, d);
     } else {
-      this.hieDataToSync = this.hieDataToSync.filter((v) => {
-        return v !== d;
-      });
+      if (this.selectedColMap.has(d)) {
+        this.selectedColMap.delete(d);
+      }
     }
+    this.generateHieDataToSyncFromMap();
+  }
+  generateHieDataToSyncFromMap() {
+    this.hieDataToSync = Array.from(this.selectedColMap.keys());
   }
   onSelectAmrsDependant($event) {
     if ($event.length > 0) {
@@ -267,8 +272,10 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
     this.resetSuccess();
     this.hieDataToSync = [];
     this.hieAmrsData = [];
+    this.selectedColMap.clear();
   }
   createDependant() {
+    this.resetMsgs();
     const createPersonPayload: CreatePersonDto = this.hieToAmrsPersonAdapter.generateAmrsPersonPayload(
       this.hieDependant,
       null
@@ -293,6 +300,13 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
             this.handleSuccess('Dependant Created in AMRS');
             this.dependantPersonCreated = true;
           }
+        }),
+        catchError((error) => {
+          const errMsg = this.hieClientAmrsPersonSyncService.getErrorMsgFromErrorResponseMsg(
+            error
+          );
+          this.handleError(errMsg);
+          return of(null);
         })
       )
       .subscribe();
@@ -306,14 +320,15 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
           this.handleSuccess('Person has been successfully created');
           return res;
         } else {
-          throw new Error('An error occurred while creating person');
+          return EMPTY;
         }
       }),
-      catchError((err: Error) => {
-        this.handleError(
-          err.message || 'An error occurred while creating the dependant person'
+      catchError((error) => {
+        const errMsg = this.hieClientAmrsPersonSyncService.getErrorMsgFromErrorResponseMsg(
+          error
         );
-        throw err;
+        this.handleError(errMsg);
+        return of(null);
       })
     );
   }
@@ -343,9 +358,12 @@ export class HieAmrsDependantComponent implements OnChanges, OnDestroy {
   }
   syncAllData(checked: boolean) {
     if (checked) {
-      this.hieDataToSync = this.syncColumns;
+      this.syncColumns.forEach((c) => {
+        this.selectedColMap.set(c, c);
+      });
     } else {
-      this.hieDataToSync = [];
+      this.selectedColMap.clear();
     }
+    this.generateHieDataToSyncFromMap();
   }
 }

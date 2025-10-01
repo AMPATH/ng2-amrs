@@ -26,7 +26,19 @@ export class HieToAmrsPersonAdapter {
   private titleCasePipe = new TitleCasePipe();
 
   private nameFields = ['first_name', 'middle_name', 'last_name'];
-  private attributeFields = ['phone', 'email', 'civil_status'];
+  private otherPersonFields = [
+    'gender',
+    'date_of_birth',
+    'is_alive',
+    'deceased_datetime'
+  ];
+  private attributeFields = [
+    'phone',
+    'email',
+    'civil_status',
+    'place_of_birth',
+    'citizenship'
+  ];
   private addressFields = [
     'country',
     'county',
@@ -50,6 +62,7 @@ export class HieToAmrsPersonAdapter {
   private hieAmrsSyncFields = [
     ...this.identifierFields,
     ...this.nameFields,
+    ...this.otherPersonFields,
     ...this.attributeFields,
     ...this.addressFields
   ];
@@ -321,6 +334,16 @@ export class HieToAmrsPersonAdapter {
             amrsValue: this.titleCasePipe.transform(pa.value)
           });
         }
+        if (
+          pa.attributeType.uuid === PersonAttributeTypeUuids.CITIZENSHIP_UUID
+        ) {
+          attr.push({
+            key: 'citizenship',
+            title: 'Citizenship',
+            hieValue: this.titleCasePipe.transform(hieClient.citizenship),
+            amrsValue: this.titleCasePipe.transform(pa.value)
+          });
+        }
       }
     });
     return attr;
@@ -441,6 +464,12 @@ export class HieToAmrsPersonAdapter {
         attributes.push({
           value: hieClient.id,
           attributeType: PersonAttributeTypeUuids.CLIENT_REGISTRY_ID_UUID
+        });
+      }
+      if (d === 'citizenship' && hieClient.citizenship) {
+        attributes.push({
+          value: hieClient.citizenship,
+          attributeType: PersonAttributeTypeUuids.CITIZENSHIP_UUID
         });
       }
     });
