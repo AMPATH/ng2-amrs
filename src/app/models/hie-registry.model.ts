@@ -154,3 +154,37 @@ export interface HieClientDependant extends HieClient {
   date_added: string;
   relationship: string;
 }
+
+export interface HieFacility {
+  id: string;
+  facility_name: string;
+  registration_number: string;
+  facility_code: string;
+  regulator: string;
+  facility_level: string;
+  facility_category: string;
+  facility_owner: string;
+  facility_type: string;
+  county: string;
+  sub_county: string;
+  ward: string;
+  found: number;
+  approved: number;
+  operational_status: string;
+  current_license_expiry_date: string;
+}
+
+export interface HieFacilitySearchResponse {
+  message: HieFacility;
+}
+
+export interface FacilitySearchFilter {
+  filterType: string;
+  filterValue: string;
+}
+
+export enum FacilitySearchFilterType {
+  location = 'location',
+  facilityCode = 'facilityCode',
+  registrationNumber = 'registrationNumber'
+}

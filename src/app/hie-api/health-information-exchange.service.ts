@@ -1,8 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  FacilitySearchFilter,
+  FacilitySearchFilterType,
   HieClient,
   HieClientSearchDto,
+  HieFacilitySearchResponse,
   RequestCustomOtpDto,
   RequestCustomOtpErrorResponse,
   RequestCustomOtpResponse,
@@ -112,5 +115,18 @@ export class HealthInformationExchangeService {
     return this.http.post<
       RequestCustomOtpResponse | RequestCustomOtpErrorResponse
     >(requestOtpUrL, requestCustomOtpDto);
+  }
+  searchFacility(filter: FacilitySearchFilter) {
+    const searchFacilityUrl = `${this.baseUrl}/facility/search`;
+    let httpParams = new HttpParams();
+    if (filter.filterValue) {
+      httpParams = httpParams.set('filterValue', filter.filterValue);
+    }
+    if (filter.filterType) {
+      httpParams = httpParams.set('filterType', filter.filterType);
+    }
+    return this.http.get<HieFacilitySearchResponse>(searchFacilityUrl, {
+      params: httpParams
+    });
   }
 }
