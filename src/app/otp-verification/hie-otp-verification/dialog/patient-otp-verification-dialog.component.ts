@@ -23,6 +23,7 @@ import {
 })
 export class PatientOtpVerificationDialogComponent implements OnDestroy {
   @Input() show = false;
+  @Input() source: string;
   @Output() hideVerifyOtpDialog = new EventEmitter<boolean>();
   otpVerificationForm = new FormGroup({
     phoneNumber: new FormControl(null, Validators.required),
@@ -118,7 +119,7 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
         }),
         tap((res) => {
           if (res.data) {
-            this.hieOtpClientConsentService.validateOtp(res);
+            this.hieOtpClientConsentService.validateOtp(res, this.source);
             this.hideDialog();
           }
         }),

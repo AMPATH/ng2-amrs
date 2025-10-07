@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   FacilitySearchFilter,
-  FacilitySearchFilterType,
   HieClient,
   HieClientSearchDto,
   HieFacilitySearchResponse,
@@ -21,6 +20,8 @@ import {
   Providers
 } from '../models/practitioner.model';
 import { catchError, map } from 'rxjs/operators';
+import { mockBundle } from './mock-bundle';
+import { FhirBundle } from '../models/hie-shr.model';
 
 @Injectable({
   providedIn: 'root'
@@ -128,5 +129,17 @@ export class HealthInformationExchangeService {
     return this.http.get<HieFacilitySearchResponse>(searchFacilityUrl, {
       params: httpParams
     });
+  }
+  getPatientShrSummary(crNo: string): Observable<FhirBundle> {
+    /*
+    const shrSummaryUrl = `${this.baseUrl}/v1/shr/summary`;
+    const httpParams = new HttpParams().set('cr_id',crNo);
+
+    return this.http.get<FhirBundle>(shrSummaryUrl, {
+      params: httpParams
+    });
+    */
+
+    return of(mockBundle);
   }
 }

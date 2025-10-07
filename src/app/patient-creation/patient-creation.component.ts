@@ -262,6 +262,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     IdentifierTypesUuids.UPI_NUMBER_UUID,
     IdentifierTypesUuids.TEMPORARY_DEPENDANT_ID_UUID
   ];
+  public source = 'patient-registration';
 
   constructor(
     public toastrService: ToastrService,
@@ -1924,7 +1925,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         tap((res) => {
-          if (res && res.data && res.data.status === 'valid') {
+          if (
+            res &&
+            res.data &&
+            res.data.status === 'valid' &&
+            res.source === this.source
+          ) {
             this.fetchHiePatient({
               identificationNumber: res.data.identification_number,
               identificationType: res.data.identification_type as any

@@ -128,6 +128,7 @@ export interface ValidateHieCustomOtpResponse {
     identification_number: string;
     status: HieOtpValidationStatus;
   };
+  source?: string;
 }
 
 export interface ValidateHieCustomOtpErrorResponse {
