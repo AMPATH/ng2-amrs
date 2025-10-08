@@ -24,13 +24,12 @@
         <td><strong>Location : </strong>{{ identifier.location.name }}</td>
         <td>
           <ng-container *ngIf="identifier?.editable">
-             <a
-            (click)="editIdentifiers.showDialog('edit', identifier)"
-            class="edit_link"
-            ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
-          >
+            <a
+              (click)="editIdentifiers.showDialog('edit', identifier)"
+              class="edit_link"
+              ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
+            >
           </ng-container>
-         
         </td>
       </tr>
     </tbody>

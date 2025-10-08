@@ -149,53 +149,53 @@
         </div>
         <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
           <div class="form-group">
-              <label for="occupation"
-                >Occupation
-                <span *ngIf="!occupation" class="required"> *</span></label
+            <label for="occupation"
+              >Occupation
+              <span *ngIf="!occupation" class="required"> *</span></label
+            >
+            <select
+              id="occupation"
+              class="form-control"
+              [(ngModel)]="occupation"
+              name="occupaton"
+            >
+              <option *ngFor="let oc of occupations" [value]="oc.val">
+                {{ oc.label | titlecase }}
+              </option>
+            </select>
+            <div *ngIf="errors && !occupation" class="required">
+              <span class="help-block" style="color: red"
+                >Occupation is required!</span
               >
-              <select
-                id="occupation"
-                class="form-control"
-                [(ngModel)]="occupation"
-                name="occupaton"
-              >
-                <option *ngFor="let oc of occupations" [value]="oc.val">
-                  {{ oc.label | titlecase }}
-                </option>
-              </select>
-              <div *ngIf="errors && !occupation" class="required">
-                <span class="help-block" style="color: red"
-                  >Occupation is required!</span
-                >
-              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
           <div class="form-group">
-              <label for="levelOfEducation"
-                >Highest Education Level
-                <span *ngIf="!patientHighestEducation" class="required">
-                  *</span
-                ></label
+            <label for="levelOfEducation"
+              >Highest Education Level
+              <span *ngIf="!patientHighestEducation" class="required">
+                *</span
+              ></label
+            >
+            <select
+              id="educationLevel"
+              class="form-control"
+              name="education"
+              [(ngModel)]="patientHighestEducation"
+            >
+              <option
+                *ngFor="let level of levelOfEducation"
+                [value]="level.value"
               >
-              <select
-                id="educationLevel"
-                class="form-control"
-                name="education"
-                [(ngModel)]="patientHighestEducation"
+                {{ level.name | titlecase }}
+              </option>
+            </select>
+            <div *ngIf="errors && !patientHighestEducation" class="required">
+              <span class="help-block" style="color: red"
+                >Highest education level is required!</span
               >
-                <option
-                  *ngFor="let level of levelOfEducation"
-                  [value]="level.value"
-                >
-                  {{ level.name | titlecase }}
-                </option>
-              </select>
-              <div *ngIf="errors && !patientHighestEducation" class="required">
-                <span class="help-block" style="color: red"
-                  >Highest education level is required!</span
-                >
-              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -316,7 +316,11 @@
             </div>
             <div
               *ngIf="
-                errors && identifiers && patientIdentifier && !identifierAdded && !usingHieData
+                errors &&
+                identifiers &&
+                patientIdentifier &&
+                !identifierAdded &&
+                !usingHieData
               "
             >
               <div class="help-block" style="color: red">
@@ -325,11 +329,15 @@
             </div>
             <div
               *ngIf="
-                !errors && identifiers && patientIdentifier && !identifierAdded && !usingHieData
+                !errors &&
+                identifiers &&
+                patientIdentifier &&
+                !identifierAdded &&
+                !usingHieData
               "
             >
               <div class="help-block" style="color: blue">
-               To proceed, please assign the client a Universal ID
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -430,17 +438,22 @@
                     {{ identifier.identifier }}
                   </td>
                   <td>
-                    <ng-container *ngIf="!nonEditableIdentifierTypes.includes(identifier.identifierType)">
-                        <a title="Remove Identifier"
-                      ><i
-                        class="fa fa-trash-o"
-                        (click)="removeIdentifer(i, identifier)"
-                        aria-hidden="true"
-                        style="color: red"
-                      ></i
-                    ></a>
+                    <ng-container
+                      *ngIf="
+                        !nonEditableIdentifierTypes.includes(
+                          identifier.identifierType
+                        )
+                      "
+                    >
+                      <a title="Remove Identifier"
+                        ><i
+                          class="fa fa-trash-o"
+                          (click)="removeIdentifer(i, identifier)"
+                          aria-hidden="true"
+                          style="color: red"
+                        ></i
+                      ></a>
                     </ng-container>
-                   
                   </td>
                 </tr>
               </tbody>
@@ -559,9 +572,11 @@
                   />
                 </div>
               </div>
-               <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+              <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
                 <div class="form-group">
-                  <label for="nextofkinPhoneNumber">Next of Kin Phone Number</label>
+                  <label for="nextofkinPhoneNumber"
+                    >Next of Kin Phone Number</label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -600,7 +615,7 @@
             </ng-container>
           </ng-container>
           <ng-container *ngIf="alternativeContact && usingHieData">
-           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
               <div class="form-group">
                 <label for="alternativePhoneNumber" class="control-label"
                   >Alternative Phone Number</label
@@ -614,8 +629,8 @@
                   #names="ngModel"
                   [readOnly]="usingHieData"
                 />
+              </div>
             </div>
-          </div>
           </ng-container>
           <ng-template #alternativeContactData>
             <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
@@ -1299,10 +1314,13 @@
             <div class="alert alert-danger" *ngIf="!address2 && !usingHieData">
               Sub County is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!cityVillage && !usingHieData">
+            <div
+              class="alert alert-danger"
+              *ngIf="!cityVillage && !usingHieData"
+            >
               Village/Estate is required!
             </div>
-             <ng-container *ngIf="!patientIdentifier && usingHieData">
+            <ng-container *ngIf="!patientIdentifier && usingHieData">
               <div class="alert alert-danger">
                 To proceed, please assign the client a Universal ID
               </div>

@@ -82,7 +82,6 @@
                 <span class="glyphicon glyphicon-info-sign"></span>
                 <span>Verify CR</span>
               </button>
-             
             </ng-container>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
@@ -291,7 +290,6 @@
                 <span class="glyphicon glyphicon-info-sign"></span>
                 <span>Verify CR</span>
               </button>
-              
             </ng-container>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
@@ -500,22 +498,22 @@
                   <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     <mat-tab-group animationDuration="0ms">
                       <mat-tab label="Hiv Summary Snapshot">
-                        <ng-container *ngIf="relationIsAPatient; else notAPatient">
-                              <hiv-summary-latest
-                                *ngIf="relationship"
-                                [patientUuid]="relationship.relatedPerson.uuid"
-                                [isHEIActive]="isHEIActive"
-                              >
-                              </hiv-summary-latest>
+                        <ng-container
+                          *ngIf="relationIsAPatient; else notAPatient"
+                        >
+                          <hiv-summary-latest
+                            *ngIf="relationship"
+                            [patientUuid]="relationship.relatedPerson.uuid"
+                            [isHEIActive]="isHEIActive"
+                          >
+                          </hiv-summary-latest>
                         </ng-container>
                         <ng-template #notAPatient>
-                             <div
-                                class="alert alert-danger"
-                              >
-                              {{ relationship?.display }} is not a patient hence has no summary
-                               </div>
+                          <div class="alert alert-danger">
+                            {{ relationship?.display }} is not a patient hence
+                            has no summary
+                          </div>
                         </ng-template>
-                       
                       </mat-tab>
                     </mat-tab-group>
                   </div>
@@ -575,13 +573,13 @@
       </div>
     </div>
   </p-dialog>
-    <ng-template #hieVerificationModal>
-      <app-verify-hie-dialog
-        [patient]="patient"
-        [otpConsent]="validateOtpResponse"
-        (hideVerifyDialog)="hideHieDialog()"
-      ></app-verify-hie-dialog>
-    </ng-template>
+  <ng-template #hieVerificationModal>
+    <app-verify-hie-dialog
+      [patient]="patient"
+      [otpConsent]="validateOtpResponse"
+      (hideVerifyDialog)="hideHieDialog()"
+    ></app-verify-hie-dialog>
+  </ng-template>
 
   <ng-container *ngIf="showOtpVericationDialog">
     <app-otp-verification
