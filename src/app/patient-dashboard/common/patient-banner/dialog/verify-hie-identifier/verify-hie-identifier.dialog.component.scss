@@ -6,24 +6,24 @@
   width: 100%;
   padding: 10px 10px;
   align-items: center;
-  &__header{
+  &__header {
     display: flex;
     flex-direction: row;
     width: 100%;
     padding: 10px 10px;
     column-gap: 5px;
-    &__title{
+    &__title {
       display: flex;
       flex-direction: column;
       width: 85%;
     }
-    &__action{
+    &__action {
       display: flex;
       flex-direction: column;
       width: 10%;
     }
   }
-  &__content{
+  &__content {
     display: flex;
     flex-direction: column;
     width: 95%;

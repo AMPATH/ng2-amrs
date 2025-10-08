@@ -44,13 +44,12 @@
               </a>
             </li>
           </ng-container>
-           <li class="facility-search">
-              <a routerLink="/facility/search" routerLinkActive="active">
-                <i class="fa fa-hospital-o mr-1"></i>
-                <span>Facility Registry</span>
-              </a>
+          <li class="facility-search">
+            <a routerLink="/facility/search" routerLinkActive="active">
+              <i class="fa fa-hospital-o mr-1"></i>
+              <span>Facility Registry</span>
+            </a>
           </li>
-         
         </ul>
       </li>
       <li
@@ -60,7 +59,7 @@
       >
         <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-user"></i>
-           <span class="username hidden-xs mr-1">{{ user.display }}</span>
+          <span class="username hidden-xs mr-1">{{ user.display }}</span>
           <span class="caret"></span>
         </a>
         <ul *dropdownMenu class="dropdown-menu">
@@ -98,13 +97,13 @@
               Settings
             </a>
           </li>
-           <li>
-             <a routerLink="/practitioner/profile" routerLinkActive="active">
+          <li>
+            <a routerLink="/practitioner/profile" routerLinkActive="active">
               <i class="fa fa-user-md fa-fw"></i>Health Worker Profile
             </a>
           </li>
           <li>
-             <a (click)="navigateToAfyaYangu()">
+            <a (click)="navigateToAfyaYangu()">
               <i class="fa fa-stethoscope fa-fw"></i>Afya Yangu
             </a>
           </li>
