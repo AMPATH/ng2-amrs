@@ -1,0 +1,46 @@
+<h4 class="component-title" style="color: green">
+  <span class="fa fa-list"></span> Pre Appointment Summary
+</h4>
+<div class="loader" *ngIf="loadingpreAppointmentOutreachSummary">
+  <span
+    ><i class="fa fa-spinner fa-spin"></i>Loading pre-appointment
+    Summary...</span
+  >
+</div>
+<div class="container-fluid">
+  <div class="dropdown-container">
+    <select [(ngModel)]="selectedMonth" class="dropdown" (change)="getSumary()">
+      <option *ngFor="let month of months" [value]="month">
+        {{ month }}
+      </option>
+    </select>
+    <select [(ngModel)]="selectedYear" class="dropdown" (change)="getSumary()">
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+  </div>
+</div>
+
+<div
+  class="loader"
+  *ngIf="
+    preAppointmentSummaryList == null &&
+    loadingpreAppointmentOutreachSummary == false
+  "
+>
+  <span><i class="fa"></i>No Data for the selected Location</span>
+</div>
+
+<ag-grid-angular
+  #agGrid
+  style="width: 100%; height: 400px; display: block"
+  class="ag-blue"
+  [columnDefs]="colDefs"
+  [rowData]="rowData"
+  [gridOptions]="gridOptions"
+  *ngIf="preAppointmentSummaryList"
+  (cellClicked)="onCellClicked($event)"
+  (gridReady)="onGridReady($event)"
+  [getRowHeight]="getRowHeight"
+  (firstDataRendered)="onFirstDataRendered($event)"
+>
+</ag-grid-angular>

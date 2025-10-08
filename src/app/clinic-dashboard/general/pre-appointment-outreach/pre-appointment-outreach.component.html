@@ -1,102 +1,111 @@
-<h4 class="component-title" style="color: green">
-  <span class="fa fa-list"></span> Pre Appointment Outreach List
-</h4>
-<div class="loader" *ngIf="loadingpreAppointmentOutreachList">
-  <span
-    ><i class="fa fa-spinner fa-spin"></i>Loading pre-appointment outreach
-    list...</span
-  >
-</div>
-<div class="container-fluid">
-  <form class="form-horizontal">
-    <div class="row pre-appointment-outreach-container">
-      <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
-        <h4 for="week-selector">
-          <b>Year Week: </b> {{ selectedFormattedWeek }}
-        </h4>
-        <select
-          id="week-selector"
-          class="form-control"
-          name="week-selector"
-          [(ngModel)]="selectedWeek"
-          (ngModelChange)="setSelectedWeek()"
-        >
-          <option *ngFor="let week of weeks" [value]="week.value">
-            {{ week.label }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
-        <h4 for="week-selector">
-          <b>Filter Type: </b> {{ explainedFilterType }}
-        </h4>
-        <select
-          id="filterType-selector"
-          class="form-control"
-          name="filterType-selector"
-          [(ngModel)]="selectedFilterType"
-          (ngModelChange)="setSelectedFilterType()"
-        >
-          <option *ngFor="let filter of filterTypeOptions" [value]="filter">
-            {{ filter }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">
-        <div>
-          <label for="btn-generate-report"></label>
-          <button
-            type="button"
-            id="btn-generate-report"
-            class="btn btn-primary btn-search btn-filter"
-            (click)="generateReport()"
-          >
-            Generate Patient List<i class="fa fa-tasks fa-fw"></i>
-          </button>
+<p-tabView>
+  <p-tabPanel header="Pre Appointment Outreach List">
+    <h4 class="component-title" style="color: green">
+      <span class="fa fa-list"></span> Pre Appointment Outreach List
+    </h4>
+    <div class="loader" *ngIf="loadingpreAppointmentOutreachList">
+      <span
+        ><i class="fa fa-spinner fa-spin"></i>Loading pre-appointment outreach
+        list...</span
+      >
+    </div>
+    <div class="container-fluid">
+      <form class="form-horizontal">
+        <div class="row pre-appointment-outreach-container">
+          <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
+            <h4 for="week-selector">
+              <b>Year Week: </b> {{ selectedFormattedWeek }}
+            </h4>
+            <select
+              id="week-selector"
+              class="form-control"
+              name="week-selector"
+              [(ngModel)]="selectedWeek"
+              (ngModelChange)="setSelectedWeek()"
+            >
+              <option *ngFor="let week of weeks" [value]="week.value">
+                {{ week.label }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
+            <h4 for="week-selector">
+              <b>Filter Type: </b> {{ explainedFilterType }}
+            </h4>
+            <select
+              id="filterType-selector"
+              class="form-control"
+              name="filterType-selector"
+              [(ngModel)]="selectedFilterType"
+              (ngModelChange)="setSelectedFilterType()"
+            >
+              <option *ngFor="let filter of filterTypeOptions" [value]="filter">
+                {{ filter }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">
+            <div>
+              <label for="btn-generate-report"></label>
+              <button
+                type="button"
+                id="btn-generate-report"
+                class="btn btn-primary btn-search btn-filter"
+                (click)="generateReport()"
+              >
+                Generate Patient List<i class="fa fa-tasks fa-fw"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+          <span
+            >Key
+            <span
+              class="label label-success"
+              style="font-size: 12px; color: black"
+              >Successful contact attempts</span
+            >
+            <span
+              class="label"
+              style="background-color: pink; font-size: 12px; color: black"
+              >Unsuccessful contact attempts</span
+            >
+            <span
+              class="label"
+              style="background-color: yellow; font-size: 12px; color: black"
+              >Requested reschedule</span
+            >
+          </span>
         </div>
       </div>
     </div>
-  </form>
-  <div class="row" style="margin-bottom: 10px">
-    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-      <span
-        >Key
-        <span class="label label-success" style="font-size: 12px; color: black"
-          >Successful contact attempts</span
-        >
-        <span
-          class="label"
-          style="background-color: pink; font-size: 12px; color: black"
-          >Unsuccessful contact attempts</span
-        >
-        <span
-          class="label"
-          style="background-color: yellow; font-size: 12px; color: black"
-          >Requested reschedule</span
-        >
-      </span>
+
+    <div *ngIf="errors" style="color: red !important">
+      <div *ngFor="let error of errors">{{ error.message }}</div>
     </div>
-  </div>
-</div>
 
-<div *ngIf="errors" style="color: red !important">
-  <div *ngFor="let error of errors">{{ error.message }}</div>
-</div>
+    <pre-appointment-extended-list
+      [data]="preAppointmentOutreachList"
+      [extraColumns]="extraColumns()"
+    ></pre-appointment-extended-list>
 
-<pre-appointment-extended-list
-  [data]="preAppointmentOutreachList"
-  [extraColumns]="extraColumns()"
-></pre-appointment-extended-list>
-
-<p
-  class="bg-info"
-  style="padding: 4px"
-  *ngIf="preAppointmentOutreachList.length > 0"
->
-  <b>
-    <span style="color: green" class="glyphicon glyphicon-ok"
-      >All records loaded
-      {{ '[ ' + preAppointmentOutreachList.length + ']' }}</span
-    ></b
-  >
-</p>
+    <p
+      class="bg-info"
+      style="padding: 4px"
+      *ngIf="preAppointmentOutreachList.length > 0"
+    >
+      <b>
+        <span style="color: green" class="glyphicon glyphicon-ok"
+          >All records loaded
+          {{ '[ ' + preAppointmentOutreachList.length + ']' }}</span
+        ></b
+      >
+    </p>
+  </p-tabPanel>
+  <p-tabPanel header="Pre Appointment Summary">
+    <app-pre-appointment-summary></app-pre-appointment-summary>
+  </p-tabPanel>
+</p-tabView>
