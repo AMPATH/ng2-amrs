@@ -1,0 +1,93 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="hie-verify-dialog-layout">
+      <div class="hie-verify-dialog-layout__header">
+        <div class="hie-verify-dialog-layout__header__title">
+          <h4 class="component-title">
+            <i class="fa fa-clipboard fa-fw"></i>Client Registry Verification
+          </h4>
+        </div>
+        <div class="hie-verify-dialog-layout__header__action">
+          <button
+            class="btn btn-danger pull-right"
+            type="button"
+            (click)="hideDialog()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <div class="hie-verify-dialog-layout__content">
+        <div class="loader" *ngIf="showLoader">
+          <span>
+            <i class="fa fa-spinner fa-spin"></i>{{ loadingMessage }}
+          </span>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <div
+              class="alert alert-success"
+              *ngIf="showSuccessAlert"
+              style="margin-top: 10px"
+            >
+              <strong>Done!</strong> {{ successAlert }}
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="showErrorAlert"
+              style="margin-top: 10px"
+            >
+              <strong>{{ errorTitle }}</strong> {{ errorAlert }}
+            </div>
+          </div>
+          <form [formGroup]="verifyForm">
+            <div class="row">
+              <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label">Patient Identifier Type:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="identifierType"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label">Value</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="identifierValue"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    (click)="searchClientRegistry()"
+                  >
+                    <span>Search Client Registry</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <ng-container *ngIf="hieCleint">
+          <app-hie-amrs-person-sync
+            [clientPatient]="clientPatient"
+            (closeSyncModal)="closeSyncModal()"
+          ></app-hie-amrs-person-sync>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

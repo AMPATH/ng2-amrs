@@ -20,6 +20,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   public stateProvince: string;
   public latitude: string;
   public longitude: string;
+  public country = '';
 
   constructor(private patientService: PatientService) {}
   public ngOnInit(): void {
@@ -55,6 +56,8 @@ export class AddressComponent implements OnInit, OnDestroy {
               .preferredAddress as any).latitude;
             this.longitude = (this.patients.person
               .preferredAddress as any).longitude;
+            this.country = (this.patients.person
+              .preferredAddress as any).country;
           }
         }
       }

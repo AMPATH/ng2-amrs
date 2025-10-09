@@ -25,40 +25,51 @@
         <tr>
           <th>Relationship</th>
           <th>Person Name</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th>CR</th>
+          <th>Register/Update</th>
           <th>View</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let relationship of relationships">
+        <tr *ngFor="let relationship of mappedRelationships">
           <td>{{ relationship.relationshipType }}</td>
           <td>{{ relationship.display }}</td>
           <td>
-            <a
-              (click)="editRelationship.showDialog(relationship, relationships)"
-              ><span class="glyphicon glyphicon-pencil link"></span
-            ></a>
+            {{ relationship.cr ? relationship.cr : relationship.crIdentifier }}
           </td>
           <td>
-            <a (click)="openConfirmDialog(relationship.uuid)"
-              ><span class="glyphicon glyphicon-remove link"></span
-            ></a>
+            <ng-container
+              *ngIf="
+                !relationship.crIdentifier && relationship.cr;
+                else registerAfyaYangu
+              "
+            >
+              <a class="afya-link" (click)="navigateToPatientRegistration()"
+                >Register in AMRS</a
+              >
+            </ng-container>
+            <ng-template #registerAfyaYangu>
+              <a class="afya-link" (click)="registerOnAfyaYangu()"
+                >Afya Yangu</a
+              >
+            </ng-template>
           </td>
           <td>
-            <a
-              [routerLink]="[
-                '/patient-dashboard',
-                'patient',
-                relationship.relatedPersonUuid,
-                'general',
-                'patient-info'
-              ]"
-              ><span
-                style="font-size: 14px"
-                class="glyphicon glyphicon-zoom-in"
-              ></span
-            ></a>
+            <ng-container *ngIf="relationship.isPatient">
+              <a
+                [routerLink]="[
+                  '/patient-dashboard',
+                  'patient',
+                  relationship.relatedPersonUuid,
+                  'general',
+                  'patient-info'
+                ]"
+                ><span
+                  style="font-size: 14px"
+                  class="glyphicon glyphicon-zoom-in"
+                ></span
+              ></a>
+            </ng-container>
           </td>
 
           <td></td>
