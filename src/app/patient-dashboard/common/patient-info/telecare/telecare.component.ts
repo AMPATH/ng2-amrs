@@ -50,7 +50,11 @@ export class TelecareComponent implements OnInit, OnDestroy {
           );
           this.clientConsent.encounterUuid = results[0].encounter.uuid;
           results.forEach((element) => {
-            if (element.encounter.encounterDatetime === encDateTime) {
+            if (
+              element &&
+              element.encounter &&
+              element.encounter.encounterDatetime === encDateTime
+            ) {
               if (this.conceptUuid.includes(element.concept.uuid)) {
                 if (element.concept.uuid === this.conceptUuid[0]) {
                   this.clientConsent.value = element.value;

@@ -1,0 +1,120 @@
+<div class="container-fluid">
+  <div class="loader" *ngIf="showLoader">
+    <span> <i class="fa fa-spinner fa-spin"></i>{{ loadingMessage }} </span>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+      <ng-container *ngFor="let msg of sucessMsgs">
+        <div class="alert alert-success">
+          {{ msg }}
+        </div>
+      </ng-container>
+      <ng-container *ngFor="let err of errors">
+        <div class="alert alert-danger">
+          {{ err }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <ng-container *ngIf="!dependantPersonCreated">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+          <label class="control-label">AMRS Dependants</label>
+          <select
+            class="form-control"
+            [(ngModel)]="selectedRelation"
+            (ngModelChange)="onSelectAmrsDependant($event)"
+            required
+          >
+            <option value="">Select AMRS Relation</option>
+            <option
+              *ngFor="let relation of personRelationships"
+              [value]="relation.relatedPerson.uuid"
+            >
+              {{ relation.display }}({{ relation.relationshipType }})
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <ng-container *ngIf="!amrsRelationExists">
+          <div class="create-dependant-actions">
+            <button class="btn btn-success" (click)="createDependant()">
+              <i class="fa fa-user fa-fw"></i> Create Dependant in AMRS
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ng-container *ngIf="amrsRelationExists">
+          <div class="sync-all-data-input">
+            <div class="form-group">
+              <div class="sync-all-data-input__label-input">
+                <label class="sync-label">Select All </label>
+                <input
+                  type="checkbox"
+                  (change)="syncAllData($event?.target?.checked)"
+                />
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>AMRS Person</th>
+              <th>HIE Patient</th>
+              <th>Sync</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let data of hieAmrsData">
+              <tr>
+                <td>
+                  <strong
+                    ><span
+                      [ngClass]="{
+                        'data-mismatch': data.amrsValue !== data.hieValue
+                      }"
+                      >{{ data.title }}</span
+                    >
+                  </strong>
+                </td>
+                <td>{{ data.amrsValue }}</td>
+                <td>{{ data.hieValue }}</td>
+                <td>
+                  <ng-container *ngIf="amrsRelationExists">
+                    <input
+                      type="checkbox"
+                      [checked]="selectedColMap.has(data.key)"
+                      (change)="
+                        addToSyncData(data.key, $event?.target?.checked)
+                      "
+                    />
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <ng-container *ngIf="hieDataToSync.length > 0">
+          <div class="form-group">
+            <button class="btn btn-primary" type="button" (click)="syncData()">
+              <span>Sync Data to AMRS</span>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>

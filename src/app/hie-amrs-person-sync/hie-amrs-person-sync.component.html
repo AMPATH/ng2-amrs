@@ -1,0 +1,146 @@
+<ng-container>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <div class="row">
+        <div class="hie-verify-dialog-layout-content">
+          <div class="loader" *ngIf="showLoader">
+            <span>
+              <i class="fa fa-spinner fa-spin"></i>{{ loadingMessage }}
+            </span>
+          </div>
+          <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <div
+              class="alert alert-success"
+              *ngIf="showSuccessAlert"
+              style="margin-top: 10px"
+            >
+              <strong>Done!</strong> {{ successAlert }}
+            </div>
+            <ng-container *ngFor="let errMsg of errors">
+              <div
+                class="alert alert-danger"
+                *ngIf="showErrorAlert"
+                style="margin-top: 10px"
+              >
+                {{ errMsg }}
+              </div>
+            </ng-container>
+          </div>
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a data-toggle="tab" href="#patient">Patient</a>
+            </li>
+            <li><a data-toggle="tab" href="#dependants">Dependants</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="patient" class="tab-pane fade in active">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="sync-all-data-input">
+                    <div class="form-group">
+                      <div class="sync-all-data-input__label-input">
+                        <label class="sync-label">Select All </label>
+                        <input
+                          type="checkbox"
+                          (change)="syncAllData($event?.target?.checked)"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Field</th>
+                        <th>AMRS Person</th>
+                        <th>HIE Patient</th>
+                        <th>Sync</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let data of hieAmrsData">
+                        <tr>
+                          <td>
+                            <strong
+                              ><span
+                                [ngClass]="{
+                                  'data-mismatch':
+                                    data.amrsValue !== data.hieValue
+                                }"
+                                >{{ data.title }}</span
+                              >
+                            </strong>
+                          </td>
+                          <td>{{ data.amrsValue }}</td>
+                          <td>{{ data.hieValue }}</td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              [checked]="selectedColMap.has(data.key)"
+                              (change)="
+                                addToSyncData(data.key, $event?.target?.checked)
+                              "
+                            />
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div></div>
+            </div>
+            <div id="dependants" class="tab-pane fade">
+              <ng-container *ngIf="dependants.length > 0; else noDependants">
+                <ng-container
+                  *ngFor="let dependant of dependants; let i = index"
+                >
+                  <div class="dependant-layout">
+                    <div class="dependant-layout__header">
+                      <div class="dependant-layout__header__title">
+                        <h4>
+                          Dependant - {{ i + 1 }} of {{ dependants.length }}
+                        </h4>
+                      </div>
+                      <div class="dependant-layout__header__action">
+                        <button
+                          class="btn btn-primary"
+                          (click)="navigateToPatientRelationships()"
+                        >
+                          View Relationships
+                        </button>
+                      </div>
+                    </div>
+                    <div class="dependant-layout__content">
+                      <app-hie-dependant
+                        [hieDependant]="dependant"
+                        [personRelationships]="patientRelationships"
+                        [currentPatient]="currentPatient"
+                      ></app-hie-dependant>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-template #noDependants>
+                <h4>Patient has no dependants listed in Client Registry</h4>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+      <ng-container *ngIf="hieDataToSync.length > 0">
+        <div class="form-group">
+          <button class="btn btn-primary" type="button" (click)="syncData()">
+            <span>Sync Data</span>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

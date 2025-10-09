@@ -2,81 +2,44 @@
   <div class="component-wrapper">
     <div style="margin-bottom: 0.5cm" *ngIf="!found">
       <!-- Search Registry -->
-
+      <ng-container *ngIf="hasHieVerificationError">
+        <div class="alert alert-danger" style="margin-top: 10px">
+          {{ hieVerificationMg }}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="showHieLoader">
+        <div class="loader" *ngIf="showHieLoader">
+          <span>
+            <i class="fa fa-spinner fa-spin"></i>{{ hieLoadingMessage }}</span
+          >
+        </div>
+      </ng-container>
       <div class="row" *ngIf="isNewPatient === 1">
         <h2 style="color: #76b5c5">Patient Verification</h2>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label
-              id="countrySearchParam"
-              for="countrySearchParam"
-              class="control-label"
-              >Country<span *ngIf="!countrySearchParam" class="required">
-                *</span
-              ></label
-            >
-            <ng-select
-              [typeahead]="countrySuggest"
-              class="sharp-corners select"
-              [items]="countries"
-              name="countryInput"
-              [(ngModel)]="countrySearchParam"
-              #countryInput="ngModel"
-              required
-            ></ng-select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Verification ID Type:</label>
-            <select
-              id="identifierType"
-              class="form-control"
-              [ngModel]="patientIdentifierType"
-              (ngModelChange)="setIdentifierType($event)"
-            >
-              <option></option>
-              <option
-                *ngFor="let c of verificationIdentifierTypes"
-                [ngValue]="c"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <div *ngIf="!patientIdentifierType">
-              <div class="help-block">Verification ID is required!</div>
+        <ng-container *ngIf="usingHieData">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <label for="citizenship">Citizenship</label>
+              <input
+                id="citizenship"
+                type="text"
+                class="form-control"
+                [(ngModel)]="citizenship"
+                name="citizenship"
+                [readOnly]="usingHieData"
+              />
             </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Patient Identifier</label>
-            <input
-              [disabled]="!patientIdentifierType"
-              type="text"
-              id="commonIdentifier"
-              class="form-control"
-              [(ngModel)]="commonIdentifier"
-              (ngModelChange)="checkIdentifier($event)"
-            />
-            <div *ngIf="identifierValidity">
-              <span
-                style="color: red"
-                class="glyphicon glyphicon-exclamation-sign"
-                >{{ identifierValidity }}</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="col-md-1">
+        </ng-container>
+        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
           <div class="form-group">
             <button
-              id="updateCrBtn"
+              id="searchHieBtn"
               class="btn btn-primary"
-              (click)="searchNewPatient()"
+              (click)="displayHieOtpDialog()"
               style="margin-left: 20px; margin-top: 23px"
             >
-              Search Registry
+              Verify CR
             </button>
           </div>
         </div>
@@ -100,6 +63,7 @@
               placeholder="First Name (Required)"
               required
               #fname="ngModel"
+              [readOnly]="usingHieData"
             />
             <div *ngIf="errors && !givenName" class="required">
               <span class="help-block" style="color: red"
@@ -118,6 +82,7 @@
               [(ngModel)]="middleName"
               name="middleName"
               placeholder="Middle Name"
+              [readOnly]="usingHieData"
             />
           </div>
         </div>
@@ -136,6 +101,7 @@
               placeholder="Family Name (Required)"
               required
               #gname="ngModel"
+              [readOnly]="usingHieData"
             />
             <div *ngIf="errors && !familyName" class="required">
               <span class="help-block" style="color: red"
@@ -152,21 +118,33 @@
             <label for="gender"
               >Gender <span *ngIf="!gender" class="required"> * </span></label
             >
-            <select
-              id="gender"
-              class="form-control"
-              [(ngModel)]="gender"
-              name="gender"
-            >
-              <option *ngFor="let opt of genderOptions" [value]="opt.val">
-                {{ opt.label }}
-              </option>
-            </select>
-            <div *ngIf="errors && !gender" class="required">
-              <span class="help-block" style="color: red"
-                >Gender is required!</span
+            <ng-container *ngIf="usingHieData; else nonHieGender">
+              <input
+                id="gender"
+                type="text"
+                class="form-control"
+                [(ngModel)]="gender"
+                #gname="ngModel"
+                [readOnly]="usingHieData"
+              />
+            </ng-container>
+            <ng-template #nonHieGender>
+              <select
+                id="gender"
+                class="form-control"
+                [(ngModel)]="gender"
+                name="gender"
               >
-            </div>
+                <option *ngFor="let opt of genderOptions" [value]="opt.val">
+                  {{ opt.label }}
+                </option>
+              </select>
+              <div *ngIf="errors && !gender" class="required">
+                <span class="help-block" style="color: red"
+                  >Gender is required!</span
+                >
+              </div>
+            </ng-template>
           </div>
         </div>
         <div class="col-md-4 col-lg- col-sm-4 col-xs-4">
@@ -228,20 +206,32 @@
               >Birthdate <span>(Format: mm/dd/yyyy)</span>
               <span *ngIf="!birthDate" class="required"> * </span></label
             ><br />
-            <date-time-picker
-              tabindex="0"
-              [modelValue]="birthDate"
-              [id]="'birthDate'"
-              (onDateChange)="updateBirthDate($event)"
-            ></date-time-picker>
-            <div *ngIf="birthError">
-              <span class="required">{{ birthError }}</span>
-            </div>
-            <div *ngIf="errors && !birthDate" class="required">
-              <span class="help-block" style="color: red"
-                >Birth Date is required!</span
-              >
-            </div>
+            <ng-container *ngIf="usingHieData; else nonHiebirthDate">
+              <input
+                id="birthDate"
+                type="text"
+                class="form-control"
+                [(ngModel)]="birthDate"
+                #gname="ngModel"
+                [readOnly]="usingHieData"
+              />
+            </ng-container>
+            <ng-template #nonHiebirthDate>
+              <date-time-picker
+                tabindex="0"
+                [modelValue]="birthDate"
+                [id]="'birthDate'"
+                (onDateChange)="updateBirthDate($event)"
+              ></date-time-picker>
+              <div *ngIf="birthError">
+                <span class="required">{{ birthError }}</span>
+              </div>
+              <div *ngIf="errors && !birthDate" class="required">
+                <span class="help-block" style="color: red"
+                  >Birth Date is required!</span
+                >
+              </div>
+            </ng-template>
           </div>
         </div>
         <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
@@ -254,6 +244,7 @@
               [(ngModel)]="ageEstimate"
               name="ageEstimate"
               (ngModelChange)="updateDOBDetails()"
+              [readOnly]="usingHieData"
             />
           </div>
         </div>
@@ -306,7 +297,7 @@
             >
             <div *ngIf="errors && !patientIdentifier">
               <div class="help-block" style="color: red">
-                Universal ID is required!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -325,20 +316,28 @@
             </div>
             <div
               *ngIf="
-                errors && identifiers && patientIdentifier && !identifierAdded
+                errors &&
+                identifiers &&
+                patientIdentifier &&
+                !identifierAdded &&
+                !usingHieData
               "
             >
               <div class="help-block" style="color: red">
-                Please add the Universal ID!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
             <div
               *ngIf="
-                !errors && identifiers && patientIdentifier && !identifierAdded
+                !errors &&
+                identifiers &&
+                patientIdentifier &&
+                !identifierAdded &&
+                !usingHieData
               "
             >
               <div class="help-block" style="color: blue">
-                Please add the Universal ID!
+                To proceed, please assign the client a Universal ID
               </div>
             </div>
           </div>
@@ -439,14 +438,22 @@
                     {{ identifier.identifier }}
                   </td>
                   <td>
-                    <a title="Remove Identifier"
-                      ><i
-                        class="fa fa-trash-o"
-                        (click)="removeIdentifer(i, identifier)"
-                        aria-hidden="true"
-                        style="color: red"
-                      ></i
-                    ></a>
+                    <ng-container
+                      *ngIf="
+                        !nonEditableIdentifierTypes.includes(
+                          identifier.identifierType
+                        )
+                      "
+                    >
+                      <a title="Remove Identifier"
+                        ><i
+                          class="fa fa-trash-o"
+                          (click)="removeIdentifer(i, identifier)"
+                          aria-hidden="true"
+                          style="color: red"
+                        ></i
+                      ></a>
+                    </ng-container>
                   </td>
                 </tr>
               </tbody>
@@ -530,6 +537,7 @@
                 minlength="10"
                 [pattern]="pattern"
                 #name="ngModel"
+                [readOnly]="usingHieData"
               />
               <div
                 *ngIf="name.errors && (name.dirty || name.touched)"
@@ -550,34 +558,213 @@
             </div>
           </div>
 
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-            <div class="form-group">
-              <label for="alternativePhoneNumber" class="control-label"
-                >Alternative Phone Number</label
-              >
-              <input
-                type="text"
-                id="alternativePhoneNumber"
-                class="form-control"
-                [(ngModel)]="alternativePhoneNumber"
-                name="alternativePhoneNumber"
-                minlength="10"
-                [pattern]="pattern"
-                #names="ngModel"
-              />
-              <div
-                *ngIf="names.errors && (names.dirty || names.touched)"
-                class="alert alert-danger"
-              >
-                <div [hidden]="!names.errors.minlength">
-                  Phone number must be at least 10 digits.
+          <ng-container *ngIf="usingHieData; else alternativeContactData">
+            <ng-container *ngIf="nextOfKinContact">
+              <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                <div class="form-group">
+                  <label for="kinName">Next of Kin Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="kinName"
+                    name="kinName"
+                    [readOnly]="usingHieData"
+                  />
                 </div>
-                <div *ngIf="names.errors.pattern">
-                  Valid phone number is required
+              </div>
+              <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                <div class="form-group">
+                  <label for="nextofkinPhoneNumber"
+                    >Next of Kin Phone Number</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="nextofkinPhoneNumber"
+                    name="nextofkinPhoneNumber"
+                    [readOnly]="usingHieData"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                <div class="form-group">
+                  <label for="kinRelationship">Next of Kin Relationship</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="kinRelationship"
+                    name="kinRelationship"
+                    [readOnly]="usingHieData"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                <div class="form-group">
+                  <label for="nextOfKin">Next Of Kin Phone Number</label>
+                  <input
+                    type="text"
+                    id="nextofkinPhoneNumber"
+                    class="form-control"
+                    [(ngModel)]="nextofkinPhoneNumber"
+                    nextOfKin="nextofkinPhoneNumber"
+                    name="nextofkinPhoneNumber"
+                    [readOnly]="usingHieData"
+                  />
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="alternativeContact && usingHieData">
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <div class="form-group">
+                <label for="alternativePhoneNumber" class="control-label"
+                  >Alternative Phone Number</label
+                >
+                <input
+                  type="text"
+                  id="alternativePhoneNumber"
+                  class="form-control"
+                  [(ngModel)]="alternativePhoneNumber"
+                  name="alternativePhoneNumber"
+                  #names="ngModel"
+                  [readOnly]="usingHieData"
+                />
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #alternativeContactData>
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <div class="form-group">
+                <label for="alternativePhoneNumber" class="control-label"
+                  >Alternative Phone Number</label
+                >
+                <input
+                  type="text"
+                  id="alternativePhoneNumber"
+                  class="form-control"
+                  [(ngModel)]="alternativePhoneNumber"
+                  name="alternativePhoneNumber"
+                  #names="ngModel"
+                />
+                <div
+                  *ngIf="names.errors && (names.dirty || names.touched)"
+                  class="alert alert-danger"
+                >
+                  <div [hidden]="!names.errors.minlength">
+                    Phone number must be at least 10 digits.
+                  </div>
+                  <div *ngIf="names.errors.pattern">
+                    Valid phone number is required
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <div class="form-group">
+                <label for="spousePhoneNumber" class="control-label"
+                  >Spouse Phone Number</label
+                >
+                <input
+                  type="text"
+                  id="partnerPhoneNumber"
+                  class="form-control"
+                  name="partnerPhoneNumber"
+                  [(ngModel)]="partnerPhoneNumber"
+                  spousePhoneNumber="partnerPhoneNumber"
+                  minlength="10"
+                  [pattern]="pattern"
+                  #spousePhoneNumber="ngModel"
+                />
+                <div
+                  *ngIf="
+                    spousePhoneNumber.errors &&
+                    (spousePhoneNumber.dirty || spousePhoneNumber.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div [hidden]="!spousePhoneNumber.errors.minlength">
+                    Phone number must be at least 10 digits.
+                  </div>
+                  <div *ngIf="spousePhoneNumber.errors.pattern">
+                    Valid phone number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+              <div class="form-group">
+                <label for="kinName">Next of Kin Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="kinName"
+                  name="kinName"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+              <div class="form-group">
+                <label for="kinRelationship">Next of Kin Relationship</label>
+                <select
+                  [(ngModel)]="kinRelationship"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                >
+                  <option value="null"></option>
+                  <option
+                    *ngFor="
+                      let patientRelationshipType of patientRelationshipTypes
+                    "
+                    [ngValue]="patientRelationshipType.display"
+                  >
+                    {{ patientRelationshipType.display }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <div class="form-group">
+                <label for="nextOfKin">Next Of Kin Phone Number</label>
+                <input
+                  type="text"
+                  id="nextofkinPhoneNumber"
+                  class="form-control"
+                  [(ngModel)]="nextofkinPhoneNumber"
+                  nextOfKin="nextofkinPhoneNumber"
+                  minlength="10"
+                  [pattern]="pattern"
+                  #nextOfKin="ngModel"
+                  name="nextofkinPhoneNumber"
+                />
+                <div
+                  *ngIf="
+                    nextOfKin.errors && (nextOfKin.dirty || nextOfKin.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div [hidden]="!nextOfKin.errors.minlength">
+                    Phone number must be at least 10 digits.
+                  </div>
+                  <div *ngIf="nextOfKin.errors.pattern">
+                    Valid phone number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+              <div class="form-group">
+                <label for="kinResidence">Next of Kin Residence</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="kinResidence"
+                  name="kinResidence"
+                  required
+                />
+              </div>
+            </div>
+          </ng-template>
           <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
             <div class="form-group">
               <label for="email">Email Address</label>
@@ -586,338 +773,327 @@
                 class="form-control"
                 [(ngModel)]="email"
                 name="email"
+                [readOnly]="usingHieData"
               />
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-            <div class="form-group">
-              <label for="religion">Religion </label>
-              <select
-                id="religion"
-                class="form-control"
-                [(ngModel)]="religionVal"
-                name="religion"
-              >
-                <option *ngFor="let r of religionOptions" [value]="r.val">
-                  {{ r.label | titlecase }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-            <div class="form-group">
-              <label for="maritalStatus"
-                >Marital Status
-                <span *ngIf="!maritalStatus" class="required"> *</span></label
-              >
-              <select
-                id="maritalStatus"
-                class="form-control"
-                [(ngModel)]="maritalStatusVal"
-                name="maritalStatus"
-              >
-                <option *ngFor="let oc of maritalStatus" [value]="oc.val">
-                  {{ oc.label | titlecase }}
-                </option>
-              </select>
-              <div *ngIf="errors && !maritalStatus" class="required">
-                <span class="help-block" style="color: red"
-                  >Marital is required!</span
+          <ng-container *ngIf="!usingHieData">
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <div class="form-group">
+                <label for="religion">Religion </label>
+                <select
+                  id="religion"
+                  class="form-control"
+                  [(ngModel)]="religionVal"
+                  name="religion"
                 >
+                  <option *ngFor="let r of religionOptions" [value]="r.val">
+                    {{ r.label | titlecase }}
+                  </option>
+                </select>
               </div>
             </div>
-          </div>
+          </ng-container>
+
           <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
             <div class="form-group">
-              <label for="spousePhoneNumber" class="control-label"
-                >Spouse Phone Number</label
-              >
+              <ng-container *ngIf="usingHieData; else maritalStatusData">
+                <label for="civilStatus">Civil Status </label>
+                <input
+                  type="text"
+                  id="civilStatus"
+                  class="form-control"
+                  name="civilStatus"
+                  [(ngModel)]="civilStatus"
+                  [readOnly]="usingHieData"
+                />
+              </ng-container>
+              <ng-template #maritalStatusData>
+                <label for="maritalStatus"
+                  >Marital Status
+                  <span *ngIf="!maritalStatus" class="required"> *</span></label
+                >
+
+                <select
+                  id="maritalStatus"
+                  class="form-control"
+                  [(ngModel)]="maritalStatusVal"
+                  name="maritalStatus"
+                >
+                  <option *ngFor="let oc of maritalStatus" [value]="oc.val">
+                    {{ oc.label | titlecase }}
+                  </option>
+                </select>
+                <div *ngIf="errors && !maritalStatus" class="required">
+                  <span class="help-block" style="color: red"
+                    >Marital is required!</span
+                  >
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <ng-container *ngIf="!usingHieData">
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+              <div class="form-group">
+                <label for="careGivername">Caregiver Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="careGivername"
+                  name="careGivername"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+              <div class="form-group">
+                <label for="relationshipToCareGiver"
+                  >Caregiver Relationship</label
+                >
+                <select
+                  [(ngModel)]="relationshipToCareGiver"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                >
+                  <option value="null"></option>
+                  <option
+                    *ngFor="
+                      let patientRelationshipType of patientRelationshipTypes
+                    "
+                    [ngValue]="patientRelationshipType.display"
+                  >
+                    {{ patientRelationshipType.display }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+              <label for="careGiverPhoneNumber">Caregiver Phone Number</label>
               <input
                 type="text"
-                id="partnerPhoneNumber"
+                id="careGiverPhoneNumber"
                 class="form-control"
-                name="partnerPhoneNumber"
-                [(ngModel)]="partnerPhoneNumber"
-                spousePhoneNumber="partnerPhoneNumber"
+                [(ngModel)]="careGiverPhoneNumber"
                 minlength="10"
+                maxlength="15"
                 [pattern]="pattern"
-                #spousePhoneNumber="ngModel"
-              />
-              <div
-                *ngIf="
-                  spousePhoneNumber.errors &&
-                  (spousePhoneNumber.dirty || spousePhoneNumber.touched)
-                "
-                class="alert alert-danger"
-              >
-                <div [hidden]="!spousePhoneNumber.errors.minlength">
-                  Phone number must be at least 10 digits.
-                </div>
-                <div *ngIf="spousePhoneNumber.errors.pattern">
-                  Valid phone number is required
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
-            <div class="form-group">
-              <label for="kinName">Next of Kin Name</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="kinName"
-                name="kinName"
-                required
+                name="caregiverPhoneNumber"
               />
             </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
-            <div class="form-group">
-              <label for="kinRelationship">Next of Kin Relationship</label>
-              <select
-                [(ngModel)]="kinRelationship"
-                [ngModelOptions]="{ standalone: true }"
-                class="form-control"
-              >
-                <option value="null"></option>
-                <option
-                  *ngFor="
-                    let patientRelationshipType of patientRelationshipTypes
-                  "
-                  [ngValue]="patientRelationshipType.display"
-                >
-                  {{ patientRelationshipType.display }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-            <div class="form-group">
-              <label for="nextOfKin">Next Of Kin Phone Number</label>
-              <input
-                type="text"
-                id="nextofkinPhoneNumber"
-                class="form-control"
-                [(ngModel)]="nextofkinPhoneNumber"
-                nextOfKin="nextofkinPhoneNumber"
-                minlength="10"
-                [pattern]="pattern"
-                #nextOfKin="ngModel"
-                name="nextofkinPhoneNumber"
-              />
-              <div
-                *ngIf="
-                  nextOfKin.errors && (nextOfKin.dirty || nextOfKin.touched)
-                "
-                class="alert alert-danger"
-              >
-                <div [hidden]="!nextOfKin.errors.minlength">
-                  Phone number must be at least 10 digits.
-                </div>
-                <div *ngIf="nextOfKin.errors.pattern">
-                  Valid phone number is required
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
-            <div class="form-group">
-              <label for="kinResidence">Next of Kin Residence</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="kinResidence"
-                name="kinResidence"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
-            <div class="form-group">
-              <label for="careGivername">Caregiver Name</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="careGivername"
-                name="careGivername"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
-            <div class="form-group">
-              <label for="relationshipToCareGiver"
-                >Caregiver Relationship</label
-              >
-              <select
-                [(ngModel)]="relationshipToCareGiver"
-                [ngModelOptions]="{ standalone: true }"
-                class="form-control"
-              >
-                <option value="null"></option>
-                <option
-                  *ngFor="
-                    let patientRelationshipType of patientRelationshipTypes
-                  "
-                  [ngValue]="patientRelationshipType.display"
-                >
-                  {{ patientRelationshipType.display }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-            <label for="careGiverPhoneNumber">Caregiver Phone Number</label>
-            <input
-              type="text"
-              id="careGiverPhoneNumber"
-              class="form-control"
-              [(ngModel)]="careGiverPhoneNumber"
-              minlength="10"
-              maxlength="15"
-              [pattern]="pattern"
-              name="caregiverPhoneNumber"
-            />
-          </div>
+          </ng-container>
         </div>
         <!-- End Of Phone Number -->
 
         <hr class="intro-divider patient-info-divider" />
         <div class="row">
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-              <label id="country" for="country" class="control-label"
-                >Country of Origin<span *ngIf="!country" class="required">
-                  *</span
-                ></label
+          <ng-container *ngIf="usingHieData; else originData">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+              <label id="placeOfBirth" for="placeOfBirth" class="control-label"
+                >Place of Birth</label
               >
-              <select
-                id="country"
+              <input
+                id="placeOfBirth"
                 class="form-control"
-                [(ngModel)]="country"
-                name="country"
-                (ngModelChange)="setCountry($event)"
-              >
-                <option
-                  *ngFor="let country of countries"
-                  [ngValue]="country.label"
-                  [selected]="address9 === country.label"
-                >
-                  {{ country.label }}
-                </option>
-              </select>
+                [(ngModel)]="placeOfBirth"
+                name="placeOfBirth"
+                [readOnly]="usingHieData"
+              />
             </div>
-          </div>
-          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-              <label id="address10" for="address10" class="control-label"
-                >County of Origin</label
-              >
-              <select
-                id="address10"
-                class="form-control"
-                [(ngModel)]="address10"
-                name="address10"
-                (ngModelChange)="setCountyOfBirth($event)"
-              >
-                <option
-                  *ngFor="let county of nCounties"
-                  [ngValue]="county.label"
-                  [selected]="address10 === county.label"
+          </ng-container>
+          <ng-template #originData>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <label id="country" for="country" class="control-label"
+                  >Country of Origin<span *ngIf="!country" class="required">
+                    *</span
+                  ></label
                 >
-                  {{ county.label }}
-                </option>
-              </select>
+                <select
+                  id="country"
+                  class="form-control"
+                  [(ngModel)]="country"
+                  name="country"
+                  (ngModelChange)="setCountry($event)"
+                >
+                  <option
+                    *ngFor="let country of countries"
+                    [ngValue]="country.label"
+                    [selected]="address9 === country.label"
+                  >
+                    {{ country.label }}
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <label id="address10" for="address10" class="control-label"
+                  >County of Origin</label
+                >
+                <select
+                  id="address10"
+                  class="form-control"
+                  [(ngModel)]="address10"
+                  name="address10"
+                  (ngModelChange)="setCountyOfBirth($event)"
+                >
+                  <option
+                    *ngFor="let county of nCounties"
+                    [ngValue]="county.label"
+                    [selected]="address10 === county.label"
+                  >
+                    {{ county.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </ng-template>
+
           <div class="col-md-9 col-lg-9 col-sm-9 col-xs-9">
             <h3 style="color: #76b5c5">Current Residence</h3>
           </div>
           <hr class="intro-divider patient-info-divider" />
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label id="address1" for="address1" class="control-label"
-                >Current County<span *ngIf="!address1" class="required">
-                  *</span
-                ></label
-              >
-              <select
-                id="address1"
-                class="form-control"
-                [(ngModel)]="address1"
-                name="address1"
-                (ngModelChange)="setCounty($event)"
-              >
-                <option
-                  *ngFor="let county of nCounties"
-                  [ngValue]="county.label"
-                  [selected]="address1 === county.label"
+              <ng-container *ngIf="usingHieData; else countyData">
+                <label id="address1" for="address1" class="control-label"
+                  >Current County
+                </label>
+                <input
+                  id="address1"
+                  class="form-control"
+                  [(ngModel)]="address1"
+                  name="address1"
+                  [readOnly]="usingHieData"
+                />
+              </ng-container>
+              <ng-template #countyData>
+                <label id="address1" for="address1" class="control-label"
+                  >Current County
+                  <span *ngIf="!address1" class="required"> *</span></label
                 >
-                  {{ county.label }}
-                </option>
-              </select>
+                <select
+                  id="address1"
+                  class="form-control"
+                  [(ngModel)]="address1"
+                  name="address1"
+                  (ngModelChange)="setCounty($event)"
+                >
+                  <option
+                    *ngFor="let county of nCounties"
+                    [ngValue]="county.label"
+                    [selected]="address1 === county.label"
+                  >
+                    {{ county.label }}
+                  </option>
+                </select>
+              </ng-template>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label id="address2" for="address2" class="control-label"
-                >SubCounty<span *ngIf="!address2" class="required">
-                  *</span
-                ></label
-              >
-              <select
-                id="address2"
-                class="form-control"
-                [(ngModel)]="address2"
-                name="address2"
-                (ngModelChange)="setSubCounty($event)"
-              >
-                <option
-                  *ngFor="let sb of subCounties"
-                  [ngValue]="sb.label"
-                  [selected]="address2 === sb.label"
+              <ng-container *ngIf="usingHieData; else subCountyData">
+                <label id="address2" for="address2" class="control-label"
+                  >SubCounty</label
                 >
-                  {{ sb.label }}
-                </option>
-              </select>
+                <input
+                  type="text"
+                  id="address2"
+                  class="form-control"
+                  [(ngModel)]="address2"
+                  name="address2"
+                  [readOnly]="usingHieData"
+                  (ngModelChange)="setSubCounty($event)"
+                />
+              </ng-container>
+              <ng-template #subCountyData>
+                <label id="address2" for="address2" class="control-label"
+                  >SubCounty<span *ngIf="!address2" class="required">
+                    *</span
+                  ></label
+                >
+                <select
+                  id="address2"
+                  class="form-control"
+                  [(ngModel)]="address2"
+                  name="address2"
+                  (ngModelChange)="setSubCounty($event)"
+                >
+                  <option
+                    *ngFor="let sb of subCounties"
+                    [ngValue]="sb.label"
+                    [selected]="address2 === sb.label"
+                  >
+                    {{ sb.label }}
+                  </option>
+                </select>
+              </ng-template>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
               <label id="ward" for="ward" class="control-label">Ward</label>
-              <select
-                id="ward"
-                class="form-control"
-                [(ngModel)]="ward"
-                name="ward"
-                (ngModelChange)="setWard($event)"
-              >
-                <option
-                  *ngFor="let w of wards"
-                  [ngValue]="w.label"
-                  [selected]="ward === w.label"
+              <ng-container *ngIf="usingHieData; else wardData">
+                <input
+                  type="text"
+                  id="ward"
+                  class="form-control"
+                  [(ngModel)]="ward"
+                  name="ward"
+                  [readOnly]="usingHieData"
+                />
+              </ng-container>
+              <ng-template #wardData>
+                <select
+                  id="ward"
+                  class="form-control"
+                  [(ngModel)]="ward"
+                  name="ward"
+                  (ngModelChange)="setWard($event)"
                 >
-                  {{ w.label }}
-                </option>
-              </select>
+                  <option
+                    *ngFor="let w of wards"
+                    [ngValue]="w.label"
+                    [selected]="ward === w.label"
+                  >
+                    {{ w.label }}
+                  </option>
+                </select>
+              </ng-template>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
             <div class="form-group">
-              <label for="cityVillage" class="control-label"
-                >Estate/Village<span *ngIf="!cityVillage" class="required">
-                  *</span
-                ></label
-              >
-              <input
-                type="text"
-                id="cityVillage"
-                class="form-control"
-                [(ngModel)]="cityVillage"
-                name="cityVillage"
-              />
+              <ng-container *ngIf="usingHieData; else estateData">
+                <label for="cityVillage" class="control-label"
+                  >Estate/Village</label
+                >
+                <input
+                  type="text"
+                  id="cityVillage"
+                  class="form-control"
+                  [(ngModel)]="cityVillage"
+                  name="cityVillage"
+                  [readOnly]="usingHieData"
+                />
+              </ng-container>
+              <ng-template #estateData>
+                <label for="cityVillage" class="control-label"
+                  >Estate/Village<span *ngIf="!cityVillage" class="required">
+                    *</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="cityVillage"
+                  class="form-control"
+                  [(ngModel)]="cityVillage"
+                  name="cityVillage"
+                  required
+                />
+              </ng-template>
             </div>
           </div>
           <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
@@ -931,6 +1107,7 @@
                 class="form-control"
                 [(ngModel)]="address3"
                 name="address3"
+                [readOnly]="usingHieData"
               />
             </div>
           </div>
@@ -945,6 +1122,7 @@
                 class="form-control"
                 [(ngModel)]="residenceAddress"
                 name="residenceAddress"
+                [readOnly]="usingHieData"
               />
             </div>
           </div>
@@ -957,6 +1135,7 @@
                 class="form-control"
                 [(ngModel)]="latitude"
                 name="latitude"
+                [readOnly]="usingHieData"
               />
             </div>
           </div>
@@ -969,10 +1148,65 @@
                 class="form-control"
                 [(ngModel)]="longitude"
                 name="longitude"
+                [readOnly]="usingHieData"
               />
             </div>
           </div>
         </div>
+        <hr class="intro-divider patient-info-divider" />
+        <ng-container *ngIf="formHieDependants && formHieDependants.length > 0">
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <h3 style="color: #76b5c5">Dependants</h3>
+            </div>
+            <ng-container
+              *ngFor="let dependant of formHieDependants; trackBy: trackByFn"
+            >
+              <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <label class="control-label">CR</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    [value]="dependant.id"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <label class="control-label">Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    [value]="
+                      dependant.first_name +
+                      ' ' +
+                      dependant.middle_name +
+                      ' ' +
+                      dependant.last_name
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <label class="control-label">Relationship</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    [value]="dependant.relationship"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <hr class="intro-divider patient-info-divider" />
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
 
         <!-- Start of Form Commands -->
         <div class="row">
@@ -1044,7 +1278,7 @@
               class="alert alert-danger"
               *ngIf="identifiers.length === 0 && !patientIdentifier"
             >
-              Universal ID is required!
+              To proceed, please assign the client a Universal ID
             </div>
             <div
               class="alert alert-danger"
@@ -1071,18 +1305,26 @@
             <div class="alert alert-danger" *ngIf="!selectedLocation">
               Identifier Location is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!country">
+            <div class="alert alert-danger" *ngIf="!country && !usingHieData">
               Country is required
             </div>
-            <div class="alert alert-danger" *ngIf="!address1">
+            <div class="alert alert-danger" *ngIf="!address1 && !usingHieData">
               Current County is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!address2">
+            <div class="alert alert-danger" *ngIf="!address2 && !usingHieData">
               Sub County is required!
             </div>
-            <div class="alert alert-danger" *ngIf="!cityVillage">
+            <div
+              class="alert alert-danger"
+              *ngIf="!cityVillage && !usingHieData"
+            >
               Village/Estate is required!
             </div>
+            <ng-container *ngIf="!patientIdentifier && usingHieData">
+              <div class="alert alert-danger">
+                To proceed, please assign the client a Universal ID
+              </div>
+            </ng-container>
           </span>
         </div>
       </div>
@@ -1266,5 +1508,122 @@
         </div>
       </div>
     </ng-template>
+    <ng-template #hieVerificationModal>
+      <div bsModal class="modal-header">
+        <h4 class="modal-title pull-left">
+          <span class="glyphicon glyphicon-info-sign"></span> &nbsp; &nbsp;
+          Client Information.
+        </h4>
+      </div>
+      <div bsModal class="modal-body" [config]="{ backdrop: 'static' }">
+        <div class="row hie-data-layout">
+          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <ul class="nav nav-tabs">
+              <li class="active">
+                <a data-toggle="tab" href="#patient">Patient</a>
+              </li>
+              <li><a data-toggle="tab" href="#dependants">Dependants</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div id="patient" class="tab-pane fade in active">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Client Registry</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let data of hiePatientData">
+                      <tr>
+                        <td>
+                          <strong
+                            ><span>{{ data.title }}</span>
+                          </strong>
+                        </td>
+                        <td>{{ data.hieValue }}</td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+              <div id="dependants" class="tab-pane fade">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>CR</th>
+                            <th>Relationship</th>
+                            <th>Full Name</th>
+                            <th>Gender</th>
+                            <th>Date of Birth</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container
+                            *ngFor="
+                              let dependant of hieDependants;
+                              let i = index
+                            "
+                          >
+                            <tr>
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ dependant.id }}</td>
+                              <td>
+                                {{ dependant.relationship }}
+                              </td>
+                              <td>
+                                {{ dependant.first_name }}
+                                {{ dependant.middle_name }}
+                                {{ dependant.last_name }}
+                              </td>
+                              <td>{{ dependant.gender }}</td>
+                              <td>{{ dependant.date_of_birth }}</td>
+                            </tr>
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div bsModal class="modal-footer">
+        <div class="row">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+            <button
+              type="button"
+              class="btn btn-success pull-right"
+              (click)="useHieData()"
+            >
+              Use Data
+            </button>
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+            <button
+              type="button"
+              class="btn btn-danger pull-right"
+              (click)="closehieVerification()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
+
+<ng-container *ngIf="showOtpVericationDialog">
+  <app-otp-verification
+    [show]="showOtpVericationDialog"
+    (hideVerifyOtpDialog)="hideHieOtpDialog()"
+  ></app-otp-verification>
+</ng-container>

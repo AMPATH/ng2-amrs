@@ -1,0 +1,262 @@
+.container-fluid {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  transition: all 0.2s ease;
+  height: 34px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.form-label {
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.control-label {
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+}
+
+.btn {
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  height: 34px;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.btn-block {
+  width: 100%;
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label[class*='control-label'] {
+  min-height: 20px;
+}
+
+select.form-control,
+input.form-control,
+.btn {
+  height: 34px;
+}
+
+.table th {
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.table tbody tr {
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.badge {
+  font-size: 0.75rem;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.btn-success {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+  border-color: #146c43;
+}
+
+.btn-info {
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
+}
+
+.btn-info:hover {
+  background-color: #31d2f2;
+  border-color: #25cff2;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.input-group .btn {
+  border-left: 0;
+  padding: 10px 16px;
+}
+
+.input-group .form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  z-index: 3;
+}
+
+.input-group .form-control:focus + .btn {
+  border-color: #86b7fe;
+}
+
+.align-items-end .d-flex {
+  height: 38px;
+}
+
+.d-flex.gap-2 {
+  gap: 0.5rem !important;
+}
+
+.table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.table td {
+  vertical-align: middle;
+}
+.panel-heading {
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .col-md-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+
+  .col-md-3 {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1.25rem !important;
+  }
+
+  .row.align-items-end {
+    align-items: stretch !important;
+  }
+
+  .row.align-items-end > div:first-child {
+    margin-bottom: 1rem;
+  }
+
+  .d-flex.flex-wrap {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .d-flex.flex-wrap .btn {
+    width: 100%;
+  }
+
+  .table-responsive {
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+  }
+
+  .col-md-3,
+  .col-md-4,
+  .col-md-2 {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group .form-control {
+    border-radius: 6px !important;
+    margin-bottom: 8px;
+  }
+
+  .input-group .btn {
+    border-radius: 6px !important;
+    border-left: 1px solid #dee2e6;
+    width: 100%;
+  }
+}
+
+.fas {
+  font-size: 0.9rem;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.row {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
+.row > [class*='col-'] {
+  padding-left: 8px;
+  padding-right: 8px;
+}
