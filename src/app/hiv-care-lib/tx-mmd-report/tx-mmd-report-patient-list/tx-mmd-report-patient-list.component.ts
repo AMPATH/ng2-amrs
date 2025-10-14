@@ -56,6 +56,7 @@ export class TxMmdReportPatientListComponent implements OnInit {
     const extraColumns = {
       weight: 'Weight',
       phone_number: 'Phone',
+      location: 'Location',
       enrollment_date: 'Enrolment Date',
       last_appointment: 'Last Appointment',
       latest_rtc_date: 'Latest RTC Date',
