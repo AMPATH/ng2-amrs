@@ -1,10 +1,14 @@
-import { map, take, filter } from 'rxjs/operators';
+import { map, take, filter, expand, reduce } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable, of } from 'rxjs';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { DataCacheService } from '../shared/services/data-cache.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as locationIds from '../shared/locations/location_data.json';
+import {
+  AmrsLocationResponse,
+  LocationResponseLink
+} from '../interfaces/location.interface';
 @Injectable()
 export class LocationResourceService {
   private locations = new ReplaySubject(1);
@@ -26,17 +30,8 @@ export class LocationResourceService {
    */
   public getLocations(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
-
-    const params = new HttpParams().set('v', 'full');
-
     if (!this.locations.observers.length || forceRefresh) {
-      this.http
-        .get<any>(
-          this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location',
-          {
-            params: params
-          }
-        )
+      this.getAllLocations()
         .pipe(take(1))
         .subscribe(
           (data) => this.locations.next(data.results),
@@ -45,6 +40,44 @@ export class LocationResourceService {
     }
 
     return this.locations;
+  }
+
+  public getAllLocations() {
+    let startIndex = 0;
+    return this.fetchLocations(startIndex).pipe(
+      expand((res) => {
+        if (this.hasNextPage(res.links)) {
+          startIndex += 500;
+          return this.fetchLocations(startIndex);
+        } else {
+          return of();
+        }
+      }),
+      map((res) => res.results),
+      reduce((acc, results) => acc.concat(results), []),
+      map((allData) => ({ results: allData }))
+    );
+  }
+
+  private hasNextPage(links: LocationResponseLink[]): boolean {
+    if (!links) {
+      return false;
+    }
+    return links.some((l) => {
+      return l.rel === 'next';
+    });
+  }
+
+  private fetchLocations(startIndex: number) {
+    return this.http.get<AmrsLocationResponse>(
+      this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'location',
+      {
+        params: {
+          startIndex: String(startIndex),
+          v: 'full'
+        }
+      }
+    );
   }
 
   public getUrl(): string {
