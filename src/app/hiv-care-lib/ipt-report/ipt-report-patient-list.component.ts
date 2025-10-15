@@ -42,6 +42,7 @@ export class IptReportPatientListComponent implements OnInit {
       height: 'Height',
       stage: 'WHO Stage',
       phone_number: 'Phone Number',
+      location: 'Location',
       enrollment_date: 'Date Enrolled',
       last_appointment: 'Latest Appointment',
       patient_category: 'Patient Category',

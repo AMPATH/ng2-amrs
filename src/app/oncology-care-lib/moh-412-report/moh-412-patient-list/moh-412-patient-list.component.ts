@@ -64,6 +64,11 @@ export class MOH412PatientListComponent implements OnInit {
     { headerName: 'HIV Status', field: 'hiv_status', width: 200 },
     { headerName: 'Screening Date', field: 'screening_date', width: 200 },
     {
+      headerName: 'Location',
+      field: 'location',
+      width: 200
+    },
+    {
       headerName: 'Primary Facility',
       field: 'primary_care_facility',
       width: 200

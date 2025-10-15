@@ -58,6 +58,7 @@ export class PlhivNcdV2ReportPatientListComponent implements OnInit {
   public addExtraColumns() {
     const extraColumns = {
       phone_number: 'Phone',
+      location: 'Location',
       enrollment_date: 'Enrolment Date',
       last_appointment: 'Last Appointment',
       latest_rtc_date: 'Latest RTC Date',
@@ -75,16 +76,18 @@ export class PlhivNcdV2ReportPatientListComponent implements OnInit {
       ovcid_id: 'OVCID'
     };
 
-    const status = this.selectedIndicatorGender.split(' - ')[0];
-    if (status === 'Died') {
-      Object.assign(extraColumns, {
-        death_date: 'Death Date',
-        cause_of_death: 'Cause of Death'
-      });
-    } else if (status === 'Transferred Out') {
-      Object.assign(extraColumns, {
-        transfer_out_date_v1: 'Transfer out date'
-      });
+    if (this.selectedIndicatorGender) {
+      const status = this.selectedIndicatorGender.split(' - ')[0];
+      if (status === 'Died') {
+        Object.assign(extraColumns, {
+          death_date: 'Death Date',
+          cause_of_death: 'Cause of Death'
+        });
+      } else if (status === 'Transferred Out') {
+        Object.assign(extraColumns, {
+          transfer_out_date_v1: 'Transfer out date'
+        });
+      }
     }
     for (const indicator in extraColumns) {
       if (indicator) {

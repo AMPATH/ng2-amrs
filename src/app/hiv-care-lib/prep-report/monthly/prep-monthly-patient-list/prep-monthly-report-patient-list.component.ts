@@ -57,6 +57,7 @@ export class PrepMonthlyReportPatientListComponent implements OnInit {
   public addExtraColumns() {
     const extraColumns = {
       phone_number: 'Phone',
+      location: 'Location',
       enrollment_date: 'Date Enrolled',
       last_appointment: 'Last Appointment',
       prev_rtc_date: 'Previous RTC Date',
