@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output,
   SimpleChanges
 } from '@angular/core';
@@ -21,6 +22,7 @@ import { Patient } from '../../../../../models/patient.model';
 import { ClientAmrsPatient } from '../../../../../hie-amrs-person-sync/model';
 import { PatientService } from '../../../../../patient-dashboard/services/patient.service';
 import { HealthInformationExchangeService } from '../../../../../hie-api/health-information-exchange.service';
+import { UserDefaultPropertiesService } from '../../../../../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'app-verify-hie-dialog',
@@ -28,7 +30,7 @@ import { HealthInformationExchangeService } from '../../../../../hie-api/health-
   styleUrls: ['./verify-hie-identifier.dialog.component.scss']
 })
 export class VerifyHieIdentifierDialogComponent
-  implements OnDestroy, OnChanges {
+  implements OnDestroy, OnChanges, OnInit {
   @Input() show = false;
   @Output() hideVerifyDialog = new EventEmitter<boolean>();
   @Input() patient: Patient = new Patient({});
@@ -51,11 +53,17 @@ export class VerifyHieIdentifierDialogComponent
   identifierLocation = '';
 
   clientPatient: ClientAmrsPatient;
+  public currentUserLocation: { uuid: string; display: string };
 
   constructor(
     private patientService: PatientService,
-    private hieService: HealthInformationExchangeService
+    private hieService: HealthInformationExchangeService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
+
+  ngOnInit(): void {
+    this.getUserCurrentLocation();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.otpConsent) {
@@ -68,6 +76,9 @@ export class VerifyHieIdentifierDialogComponent
         });
       }
     }
+  }
+  getUserCurrentLocation() {
+    this.currentUserLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
   }
   hideDialog() {
     this.resetValues();
@@ -141,7 +152,8 @@ export class VerifyHieIdentifierDialogComponent
     const { identifierType, identifierValue } = this.verifyForm.value;
     return {
       identificationType: identifierType,
-      identificationNumber: identifierValue
+      identificationNumber: identifierValue,
+      locationUuid: this.currentUserLocation.uuid || ''
     };
   }
   isValidPayload(payload: HieClientSearchDto): boolean {
@@ -151,6 +163,10 @@ export class VerifyHieIdentifierDialogComponent
     }
     if (!payload.identificationType) {
       this.handleError('Please ensure to provide the identification type');
+      return false;
+    }
+    if (!payload.locationUuid) {
+      this.handleError('User default location has not been set');
       return false;
     }
     return true;

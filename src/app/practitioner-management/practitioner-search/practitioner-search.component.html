@@ -1,10 +1,11 @@
 <div class="container-fluid py-4">
+  <div class="practitioner-search-layout">
   <div class="row">
     <div class="col-md-12">
       <div class="card shadow-sm mb-4">
         <div class="card-header bg-light py-3 d-flex align-items-center">
-          <i class="fas fa-search me-2 text-primary"></i>
-          <h3 class="card-title mb-0">Health Worker Search</h3>
+          
+          <h3 class="card-title mb-0"> <i class="fa fa-search me-2"></i> Health Worker Search</h3>
         </div>
         <div class="card-body p-4">
           <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
@@ -49,7 +50,7 @@
                     class="btn btn-primary btn-block"
                     [disabled]="isLoading"
                   >
-                    <i class="fas fa-search"></i> Search
+                    <i class="fa fa-search fa-fw"></i> Search
                   </button>
                 </div>
               </div>
@@ -63,7 +64,7 @@
                     (click)="getAllProviders()"
                     [disabled]="isLoading"
                   >
-                    <i class="fas fa-users"></i> Get All Providers
+                    <i class="fa fa-users fa-fw"></i> Get All Providers
                   </button>
                 </div>
               </div>
@@ -172,5 +173,6 @@
       (closeModal)="closeModal()"
     >
     </app-practitioner-detail-modal>
+  </div>
   </div>
 </div>

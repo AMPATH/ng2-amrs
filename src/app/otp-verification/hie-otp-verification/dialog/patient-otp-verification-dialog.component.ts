@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,13 +16,15 @@ import {
   RequestCustomOtpDto,
   ValidateHieCustomOtpDto
 } from 'src/app/models/hie-registry.model';
+import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'app-otp-verification',
   templateUrl: './patient-otp-verification-dialog.component.html',
   styleUrls: ['./patient-otp-verification-dialog.component.css']
 })
-export class PatientOtpVerificationDialogComponent implements OnDestroy {
+export class PatientOtpVerificationDialogComponent
+  implements OnInit, OnDestroy {
   @Input() show = false;
   @Output() hideVerifyOtpDialog = new EventEmitter<boolean>();
   otpVerificationForm = new FormGroup({
@@ -50,11 +53,21 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
       value: HieClientVerificationIdentifierType[key]
     };
   });
+  public currentUserLocation: { uuid: string; display: string };
 
   constructor(
     private hieService: HealthInformationExchangeService,
-    private hieOtpClientConsentService: HieOtpClientConsentService
+    private hieOtpClientConsentService: HieOtpClientConsentService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
+
+  ngOnInit(): void {
+    this.getUserCurrentLocation();
+  }
+
+  getUserCurrentLocation() {
+    this.currentUserLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -88,7 +101,8 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     const { sessionId, otp } = this.otpVerificationForm.value;
     return {
       sessionId: sessionId,
-      otp: otp
+      otp: otp,
+      locationUuid: this.currentUserLocation.uuid || ''
     };
   }
   validateHieOtp() {
@@ -204,7 +218,8 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     } = this.sendCustomOtpForm.value;
     return {
       identificationNumber: identificationNumber,
-      identificationType: identificationType
+      identificationType: identificationType,
+      locationUuid: this.currentUserLocation.uuid || ''
     };
   }
   isValidRequestCustomOtpPayload(payload: RequestCustomOtpDto) {
@@ -217,6 +232,12 @@ export class PatientOtpVerificationDialogComponent implements OnDestroy {
     if (!payload.identificationType) {
       this.displayErrorAlert(
         'Please ensure you have the correct identification type'
+      );
+      return false;
+    }
+    if (!payload.locationUuid) {
+      this.displayErrorAlert(
+        'Please ensure you have selected a user default location'
       );
       return false;
     }
