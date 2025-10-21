@@ -53,4 +53,100 @@ export class RegistersResourceService {
         })
       );
   }
+  public getMaternityRegister(params: any): Observable<any> {
+    return this.http
+      .get(
+        `${this.url}registers/maternity?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
+      )
+      .pipe(
+        catchError((err: any) => {
+          const error: any = err;
+          const errorObj = {
+            error: error.status,
+            message: error.statusText
+          };
+          return Observable.of(errorObj);
+        }),
+        map((response: Response) => {
+          return response;
+        })
+      );
+  }
+  public getPncRegister(params: any): Observable<any> {
+    return this.http
+      .get(
+        `${this.url}registers/pncregister?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
+      )
+      .pipe(
+        catchError((err: any) => {
+          const error: any = err;
+          const errorObj = {
+            error: error.status,
+            message: error.statusText
+          };
+          return Observable.of(errorObj);
+        }),
+        map((response: Response) => {
+          return response;
+        })
+      );
+  }
+  public getNutritionRegister(params: any): Observable<any> {
+    return this.http
+      .get(
+        `${this.url}registers/nutrition?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
+      )
+      .pipe(
+        catchError((err: any) => {
+          const error: any = err;
+          const errorObj = {
+            error: error.status,
+            message: error.statusText
+          };
+          return Observable.of(errorObj);
+        }),
+        map((response: Response) => {
+          return response;
+        })
+      );
+  }
+
+  public getOTZRegister(params: any): Observable<any> {
+    return this.http
+      .get(
+        `${this.url}registers/otz-register?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
+      )
+      .pipe(
+        catchError((err: any) => {
+          const error: any = err;
+          const errorObj = {
+            error: error.status,
+            message: error.statusText
+          };
+          return Observable.of(errorObj);
+        }),
+        map((response: Response) => {
+          return response;
+        })
+      );
+  }
+  public getMoh731Register(params: any): Observable<any> {
+    return this.http
+      .get(
+        `${this.url}moh-731?month=${params.month}&startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
+      )
+      .pipe(
+        catchError((err: any) => {
+          const error: any = err;
+          const errorObj = {
+            error: error.status,
+            message: error.statusText
+          };
+          return Observable.of(errorObj);
+        }),
+        map((response: Response) => {
+          return response;
+        })
+      );
+  }
 }
