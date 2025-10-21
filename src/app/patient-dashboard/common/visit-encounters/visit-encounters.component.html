@@ -11,7 +11,9 @@
     </p-tabPanel>
     <ng-container *ngIf="patient?.searchIdentifiers?.cr">
       <p-tabPanel header="Shared Health Records">
-        <app-shr-encounters [crNo]="patient?.searchIdentifiers?.cr"></app-shr-encounters>
+        <app-shr-encounters
+          [crNo]="patient?.searchIdentifiers?.cr"
+        ></app-shr-encounters>
       </p-tabPanel>
     </ng-container>
   </p-tabView>

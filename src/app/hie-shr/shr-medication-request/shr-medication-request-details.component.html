@@ -5,265 +5,296 @@
       <th></th>
     </thead>
     <tbody>
-        <tr>
-            <td><strong> ID: </strong> </td>
-            <td>{{shrMedicationRequest.id}} </td>
-        </tr>
-        <tr>
-            <td><strong> Status: </strong> </td>
-            <td>{{shrMedicationRequest.status}} </td>
-        </tr>
-         <tr>
-            <td><strong>Intent: </strong>  </td>
-            <td>{{shrMedicationRequest.intent}} </td>
-        </tr>
-        <tr>
-            <td><strong>Priority: </strong>  </td>
-            <td>{{shrMedicationRequest.priority}} </td>
-        </tr>
-        <tr>
-            <td><strong>Identifier : </strong>  </td>
-            <td> 
-                <ng-container *ngIf="shrMedicationRequest.identifier">
-                    <tr *ngFor="let id of shrMedicationRequest.identifier">
-                      <app-shr-identifier [shrIdentifier]="id"></app-shr-identifier>
-                    </tr>
-                </ng-container>
-              
+      <tr>
+        <td><strong> ID: </strong></td>
+        <td>{{ shrMedicationRequest.id }}</td>
+      </tr>
+      <tr>
+        <td><strong> Status: </strong></td>
+        <td>{{ shrMedicationRequest.status }}</td>
+      </tr>
+      <tr>
+        <td><strong>Intent: </strong></td>
+        <td>{{ shrMedicationRequest.intent }}</td>
+      </tr>
+      <tr>
+        <td><strong>Priority: </strong></td>
+        <td>{{ shrMedicationRequest.priority }}</td>
+      </tr>
+      <tr>
+        <td><strong>Identifier : </strong></td>
+        <td>
+          <ng-container *ngIf="shrMedicationRequest.identifier">
+            <tr *ngFor="let id of shrMedicationRequest.identifier">
+              <app-shr-identifier [shrIdentifier]="id"></app-shr-identifier>
+            </tr>
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Subject : </strong></td>
+        <td>
+          <tr>
+            <td><strong> Reference :</strong></td>
+            <td>{{ shrMedicationRequest.subject.reference }}</td>
+          </tr>
+          <tr>
+            <td><strong> Type :</strong></td>
+            <td>{{ shrMedicationRequest.subject.reference }}</td>
+          </tr>
+          <tr>
+            <td><strong>Identifier : </strong></td>
+            <td>
+              <app-shr-identifier
+                [shrIdentifier]="shrMedicationRequest.subject.identifier"
+              ></app-shr-identifier>
             </td>
-        </tr>
-         <tr>
-                <td><strong>Subject : </strong></td>
-                <td>
-                    <tr>
-                        <td><strong> Reference :</strong> </td>
-                        <td> {{ shrMedicationRequest.subject.reference }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong> Type :</strong> </td>
-                        <td> {{ shrMedicationRequest.subject.reference }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Identifier : </strong>  </td>
-                        <td> 
-                           <app-shr-identifier [shrIdentifier]="shrMedicationRequest.subject.identifier"></app-shr-identifier>
-                        </td>
-                    </tr>
-                </td>
+          </tr>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Medication Codeable Concept: </strong></td>
+        <td>
+          <ng-container
+            *ngIf="
+              shrMedicationRequest.medicationCodeableConcept &&
+              shrMedicationRequest.medicationCodeableConcept.coding
+            "
+          >
+            <tr>
+              <td>Text:</td>
+              <td>{{ shrMedicationRequest.medicationCodeableConcept.text }}</td>
             </tr>
             <tr>
-            <td><strong>Medication Codeable Concept: </strong>  </td>
-            <td>
-               
-                <ng-container *ngIf="shrMedicationRequest.medicationCodeableConcept && shrMedicationRequest.medicationCodeableConcept.coding">
-                     <tr>
-                     <td>Text: </td>
-                     <td>{{ shrMedicationRequest.medicationCodeableConcept.text }}</td>
-                     </tr>
-                     <tr>
-                        <td>
-                        <ng-container *ngFor="let shrCode of shrMedicationRequest.medicationCodeableConcept.coding">
-                             <app-shr-coding [shrCoding]="shrCode"></app-shr-coding>
-                        </ng-container>
-                        </td>
-                    </tr>
+              <td>
+                <ng-container
+                  *ngFor="
+                    let shrCode of shrMedicationRequest
+                      .medicationCodeableConcept.coding
+                  "
+                >
+                  <app-shr-coding [shrCoding]="shrCode"></app-shr-coding>
                 </ng-container>
-            </td>
-        </tr>
-        <ng-container *ngIf="shrMedicationRequest.encounter">
+              </td>
+            </tr>
+          </ng-container>
+        </td>
+      </tr>
+      <ng-container *ngIf="shrMedicationRequest.encounter">
         <tr>
-                <td><strong>Encounter: </strong> </td>
-                <td>
-                    <tr>
-                        <td><strong>Reference: </strong> </td>
-                        <td>{{shrMedicationRequest.encounter.reference}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Display: </strong> </td>
-                        <td>{{shrMedicationRequest.encounter.display}}</td>
-                    </tr>
-                </td>
-       </tr>
-       </ng-container>
-       <tr>
-            <td><strong>Authored On: </strong> </td>
-            <td>{{shrMedicationRequest.authoredOn | date:'medium' }} </td>
+          <td><strong>Encounter: </strong></td>
+          <td>
+            <tr>
+              <td><strong>Reference: </strong></td>
+              <td>{{ shrMedicationRequest.encounter.reference }}</td>
+            </tr>
+            <tr>
+              <td><strong>Display: </strong></td>
+              <td>{{ shrMedicationRequest.encounter.display }}</td>
+            </tr>
+          </td>
         </tr>
+      </ng-container>
+      <tr>
+        <td><strong>Authored On: </strong></td>
+        <td>{{ shrMedicationRequest.authoredOn | date: 'medium' }}</td>
+      </tr>
       <ng-container *ngIf="shrMedicationRequest.requester">
-          <tr>
-            <td><strong>Requester: </strong></td>
-            <td>
+        <tr>
+          <td><strong>Requester: </strong></td>
+          <td>
+            <tr>
+              <td><strong>Reference : </strong></td>
+              <td>{{ shrMedicationRequest?.requester.reference }}</td>
+            </tr>
+            <tr>
+              <td><strong>Type : </strong></td>
+              <td>{{ shrMedicationRequest?.requester.type }}</td>
+            </tr>
+            <tr>
+              <td><strong>Display : </strong></td>
+              <td>{{ shrMedicationRequest?.requester.display }}</td>
+            </tr>
+            <tr>
+              <td><strong>Identifier : </strong></td>
+              <td>
+                <ng-container
+                  *ngIf="shrMedicationRequest?.requester?.identifier"
+                >
+                  <app-shr-identifier
+                    [shrIdentifier]="
+                      shrMedicationRequest?.requester?.identifier
+                    "
+                  ></app-shr-identifier>
+                </ng-container>
+              </td>
+            </tr>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="shrMedicationRequest.note">
+        <tr>
+          <td><strong>Note: </strong></td>
+          <td>
+            <ng-container *ngFor="let note of shrMedicationRequest.note">
               <tr>
-                 <td><strong>Reference : </strong></td>
-                 <td>{{ shrMedicationRequest?.requester.reference }}</td>
+                <td><strong> Author: </strong></td>
+                <td>{{ note?.authorString }}</td>
               </tr>
               <tr>
-                 <td><strong>Type : </strong></td>
-                 <td>{{ shrMedicationRequest?.requester.type }}</td>
+                <td><strong> Time: </strong></td>
+                <td>{{ note?.time | date: 'medium' }}</td>
               </tr>
               <tr>
-                 <td><strong>Display : </strong></td>
-                 <td>{{ shrMedicationRequest?.requester.display }}</td>
+                <td><strong> Text: </strong></td>
+                <td>{{ note?.text }}</td>
               </tr>
-               <tr>
-                 <td><strong>Identifier : </strong></td>
-                 <td>
-                    <ng-container *ngIf="shrMedicationRequest?.requester?.identifier">
-                        <app-shr-identifier [shrIdentifier]="shrMedicationRequest?.requester?.identifier"></app-shr-identifier>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="shrMedicationRequest.dosageInstruction">
+        <tr>
+          <td><strong>Dosage Instruction: </strong></td>
+          <td>
+            <ng-container
+              *ngFor="let d of shrMedicationRequest.dosageInstruction"
+            >
+              <tr>
+                <td><strong> Text: </strong></td>
+                <td>{{ d?.text }}</td>
+              </tr>
+              <tr>
+                <td><strong> As Needed: </strong></td>
+                <td>{{ d?.asNeededBoolean }}</td>
+              </tr>
+              <ng-container *ngIf="d.timing">
+                <tr>
+                  <td><strong> Timing: </strong></td>
+                  <td>
+                    <ng-container *ngIf="d.timing.repeat">
+                      <tr>
+                        <td>Repeat</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <tr>
+                            <td><strong>Duration : </strong></td>
+                            <td>
+                              {{ d.timing.repeat.duration }}
+                              {{ d.timing.repeat.durationUnit }}
+                            </td>
+                          </tr>
+                        </td>
+                      </tr>
                     </ng-container>
-                 </td>
-              </tr>
-             
-            </td>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="shrMedicationRequest.note">
-          <tr>
-            <td><strong>Note: </strong></td>
-            <td>
-             <ng-container *ngFor="let note of shrMedicationRequest.note">
-                   <tr>
-                    <td><strong> Author: </strong> </td>
-                    <td>{{ note?.authorString }}</td>
-                  </tr>
-                   <tr>
-                    <td><strong> Time: </strong> </td>
-                    <td> {{ note?.time | date:'medium' }}</td>
-                  </tr>
-                  <tr>
-                    <td><strong> Text: </strong> </td>
-                    <td>{{ note?.text }}</td>
-                  </tr>
-                </ng-container>
-            </td>
-          </tr>
-        </ng-container>
-         <ng-container *ngIf="shrMedicationRequest.dosageInstruction">
-          <tr>
-            <td><strong>Dosage Instruction: </strong></td>
-            <td>
-             <ng-container *ngFor="let d of shrMedicationRequest.dosageInstruction">
-                   <tr>
-                    <td><strong> Text: </strong> </td>
-                    <td>{{ d?.text }}</td>
-                  </tr>
-                   <tr>
-                    <td><strong> As Needed: </strong> </td>
-                    <td> {{ d?.asNeededBoolean }}</td>
-                  </tr>
-                  <ng-container *ngIf="d.timing">
-                  <tr>
-                    <td><strong> Timing: </strong> </td>
-                    <td>
-                        <ng-container *ngIf="d.timing.repeat">
-                        <tr>
-                            <td>Repeat</td>
-                        </tr>
-                        <tr>
-                            
-                            <td>
-                                <tr>
-                                    <td><strong>Duration : </strong></td>
-                                     <td>{{ d.timing.repeat.duration}} {{ d.timing.repeat.durationUnit }}</td>
-                                </tr>
-                            </td>
-                        </tr>
-                        </ng-container>
-                        <ng-container *ngIf="d.timing.code">
-                        <tr>
-                            <td><strong>Code</strong></td>
-                            <td>
-                                <ng-container *ngFor="let code of d.timing.code.coding">
-                                     <tr>
-                                           <app-shr-coding [shrCoding]="code"></app-shr-coding>
-                                     </tr>
-                                </ng-container>
-                            </td>
-                        </tr>
-                        </ng-container>
-                    </td>
-                  </tr>
-                  </ng-container>
-                  <ng-container *ngIf="d.route">
-                     <tr>
-                        <td><strong>Route: </strong></td>
+                    <ng-container *ngIf="d.timing.code">
+                      <tr>
+                        <td><strong>Code</strong></td>
                         <td>
-                            <ng-container *ngFor="let code of d.route.coding">
-                               <tr>
-                                   <app-shr-coding [shrCoding]="code"></app-shr-coding>
-                               </tr>
-                            </ng-container>
-                           
-                        </td>
-                     </tr>
-                      
-                  </ng-container>
-                  <ng-container *ngIf="d.doseAndRate">
-                     <tr>
-                        <td><strong>Dose and Rate: </strong></td>
-                        <td></td>
-                     </tr>
-                     <tr>
-                        <td></td>
-                        <td>
-                            <ng-container *ngFor="let code of d.doseAndRate">
-                               <tr>
-                                    <td><strong> Dose Quantity : </strong> </td>
-                                    <td>
-                                        <tr>
-                                            <td><strong>Value : </strong></td>
-                                            <td>{{ code.doseQuantity.value }}</td>
-                                        </tr>
-                                         <tr>
-                                            <td><strong>Unit : </strong></td>
-                                            <td>{{ code.doseQuantity.unit }}</td>
-                                        </tr>
-                                         <tr>
-                                            <td><strong>Code : </strong></td>
-                                            <td>{{ code.doseQuantity.code }}</td>
-                                        </tr>
-                                    </td>
-                               </tr>
-                            </ng-container>
-                           
-                        </td>
-                     </tr>
-                      
-                  </ng-container>
-                </ng-container>
-            </td>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="shrMedicationRequest.dispenseRequest">
-          <tr>
-            <td><strong>Dispense Request : </strong></td>
-            <td>
-                <ng-container *ngIf="shrMedicationRequest.dispenseRequest.validityPeriod">
-                <tr>
-                    <td><strong> ValidityPeriod : </strong> </td>
-                   
-                    <td>
+                          <ng-container
+                            *ngFor="let code of d.timing.code.coding"
+                          >
                             <tr>
-                                <td>Start : </td>
-                                <td> {{shrMedicationRequest.dispenseRequest.validityPeriod.start | date:'medium'}} </td>
+                              <app-shr-coding
+                                [shrCoding]="code"
+                              ></app-shr-coding>
                             </tr>
-                    </td>
-                   
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </td>
                 </tr>
-                </ng-container>
-                <ng-container *ngIf="shrMedicationRequest.dispenseRequest.numberOfRepeatsAllowed !== null">
-                    
+              </ng-container>
+              <ng-container *ngIf="d.route">
                 <tr>
-                    <td><strong> Number Of Repeats Allowed : </strong> </td>
-                   
-                    <td> {{ shrMedicationRequest.dispenseRequest.numberOfRepeatsAllowed  }} </td>
-                   
+                  <td><strong>Route: </strong></td>
+                  <td>
+                    <ng-container *ngFor="let code of d.route.coding">
+                      <tr>
+                        <app-shr-coding [shrCoding]="code"></app-shr-coding>
+                      </tr>
+                    </ng-container>
+                  </td>
                 </tr>
-                </ng-container>
-            </td>
-          </tr>
-        </ng-container>
-        
-   </tbody>
-</table>
+              </ng-container>
+              <ng-container *ngIf="d.doseAndRate">
+                <tr>
+                  <td><strong>Dose and Rate: </strong></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <ng-container *ngFor="let code of d.doseAndRate">
+                      <tr>
+                        <td><strong> Dose Quantity : </strong></td>
+                        <td>
+                          <tr>
+                            <td><strong>Value : </strong></td>
+                            <td>{{ code.doseQuantity.value }}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Unit : </strong></td>
+                            <td>{{ code.doseQuantity.unit }}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Code : </strong></td>
+                            <td>{{ code.doseQuantity.code }}</td>
+                          </tr>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="shrMedicationRequest.dispenseRequest">
+        <tr>
+          <td><strong>Dispense Request : </strong></td>
+          <td>
+            <ng-container
+              *ngIf="shrMedicationRequest.dispenseRequest.validityPeriod"
+            >
+              <tr>
+                <td><strong> ValidityPeriod : </strong></td>
+
+                <td>
+                  <tr>
+                    <td>Start :</td>
+                    <td>
+                      {{
+                        shrMedicationRequest.dispenseRequest.validityPeriod
+                          .start | date: 'medium'
+                      }}
+                    </td>
+                  </tr>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                shrMedicationRequest.dispenseRequest.numberOfRepeatsAllowed !==
+                null
+              "
+            >
+              <tr>
+                <td><strong> Number Of Repeats Allowed : </strong></td>
+
+                <td>
+                  {{
+                    shrMedicationRequest.dispenseRequest.numberOfRepeatsAllowed
+                  }}
+                </td>
+              </tr>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
 </ng-container>

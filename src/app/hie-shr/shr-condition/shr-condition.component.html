@@ -1,101 +1,92 @@
 <ng-container *ngIf="shrCondition">
+  <table class="table table-striped">
+    <thead>
+      <th>Condition</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ID :</td>
+        <td>{{ shrCondition.id }}</td>
+      </tr>
+      <tr>
+        <td>Last Updated:</td>
+        <td>{{ shrCondition?.meta?.lastUpdated | date: 'medium' }}</td>
+      </tr>
+      <ng-container *ngIf="shrCondition.clinicalStatus">
+        <tr>
+          <table class="table table-striped">
+            <thead>
+              <th>Clinical Status:</th>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="shrCondition.clinicalStatus.coding">
+                <tr>
+                  <td>Coding:</td>
+                </tr>
 
-    <table class="table table-striped">
-      <thead>
-        <th>Condition</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr>
-          <td>ID :</td>
-          <td>{{ shrCondition.id }}</td>
-        </tr>
-        <tr>
-          <td>Last Updated:</td>
-          <td>{{ shrCondition?.meta?.lastUpdated | date: 'medium' }}</td>
-        </tr>
-        <ng-container *ngIf="shrCondition.clinicalStatus">
-          <tr>
-            <table class="table table-striped">
-              <thead>
-                <th>Clinical Status:</th>
-              </thead>
-              <tbody>
-                <ng-container *ngIf="shrCondition.clinicalStatus.coding">
+                <ng-container
+                  *ngFor="let coding of shrCondition.clinicalStatus.coding"
+                >
                   <tr>
-                    <td>Coding:</td>
-                   
+                    <td>
+                      <app-shr-coding [shrCoding]="coding"></app-shr-coding>
+                    </td>
                   </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="shrCondition.verificationStatus">
+        <tr>
+          <table class="table table-striped">
+            <thead>
+              <th>Verification Status:</th>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="shrCondition.verificationStatus.coding">
+                <tr>
+                  <td>Coding:</td>
+                </tr>
 
-                  <ng-container
-                    *ngFor="let coding of shrCondition.clinicalStatus.coding"
-                  >
+                <ng-container
+                  *ngFor="let coding of shrCondition.verificationStatus.coding"
+                >
+                  <tr>
+                    <td>
+                      <app-shr-coding [shrCoding]="coding"></app-shr-coding>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="shrCondition.category">
+        <tr>
+          <table class="table table-striped">
+            <thead>
+              <th>Category:</th>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="shrCondition.category">
+                <ng-container *ngFor="let category of shrCondition.category">
+                  <ng-container *ngFor="let coding of category.coding">
                     <tr>
                       <td>
                         <app-shr-coding [shrCoding]="coding"></app-shr-coding>
                       </td>
-                      
                     </tr>
                   </ng-container>
                 </ng-container>
-              </tbody>
-            </table>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="shrCondition.verificationStatus">
-          <tr>
-            <table class="table table-striped">
-              <thead>
-                <th>Verification Status:</th>
-              </thead>
-              <tbody>
-                <ng-container *ngIf="shrCondition.verificationStatus.coding">
-                  <tr>
-                    <td>Coding:</td>
-                  </tr>
-
-                  <ng-container
-                    *ngFor="let coding of shrCondition.verificationStatus.coding"
-                  >
-                    <tr>
-                      <td>
-                        <app-shr-coding [shrCoding]="coding"></app-shr-coding>
-                      </td>
-                      
-                    </tr>
-                  </ng-container>
-                </ng-container>
-              </tbody>
-            </table>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="shrCondition.category">
-          <tr>
-            <table class="table table-striped">
-              <thead>
-                <th>Category:</th>
-              </thead>
-              <tbody>
-                <ng-container *ngIf="shrCondition.category">
-                  <ng-container
-                    *ngFor="let category of shrCondition.category"
-                  >
-                   <ng-container
-                    *ngFor="let coding of category.coding"
-                  >
-                    <tr>
-                        <td>
-                        <app-shr-coding [shrCoding]="coding"></app-shr-coding>
-                      </td>
-                      
-                    </tr>
-                    </ng-container>
-                  </ng-container>
-                </ng-container>
-              </tbody>
-            </table>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+              </ng-container>
+            </tbody>
+          </table>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
 </ng-container>

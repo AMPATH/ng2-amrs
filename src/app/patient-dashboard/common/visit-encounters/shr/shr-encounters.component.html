@@ -18,7 +18,7 @@
       <ng-container *ngIf="patientFhirBundle; else noShirData">
         <app-shir-renderer [shrBundle]="patientFhirBundle"></app-shir-renderer>
       </ng-container>
-      <ng-template #noShirData> 
+      <ng-template #noShirData>
         <div class="form-group">
           <button
             (click)="fetchShrData()"

@@ -1,112 +1,120 @@
 <ng-container *ngIf="shrEncounter">
-   <div class="col-lg-12 col-sm-12 col-xs-12">
-      <table class="table">
-          <thead>
-            <th>Encounter</th>
-            <th></th>
-          </thead>
-          <tbody>
+  <div class="col-lg-12 col-sm-12 col-xs-12">
+    <table class="table">
+      <thead>
+        <th>Encounter</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ID: </strong></td>
+          <td>{{ shrEncounter.id }}</td>
+        </tr>
+        <ng-container *ngIf="shrEncounter.identifier">
+          <ng-container *ngFor="let id of shrEncounter.identifier">
             <tr>
-                <td><strong>ID: </strong></td>
-                <td>{{ shrEncounter.id }}</td>
+              <td><strong>Identifier :</strong></td>
+              <td>
+                <app-shr-identifier [shrIdentifier]="id"></app-shr-identifier>
+              </td>
             </tr>
-            <ng-container *ngIf="shrEncounter.identifier">
-            <ng-container *ngFor="let id of shrEncounter.identifier">
-                <tr>
-                    <td><strong>Identifier :</strong></td>
-                    <td>
-                        <app-shr-identifier [shrIdentifier]="id"></app-shr-identifier>
-                    </td>
-                </tr>
-            </ng-container>
-             
-            </ng-container>
-           
-             <tr>
-                <td><strong>Status :</strong></td>
-                <td>{{ shrEncounter.status }}</td>
-            </tr>
-             <tr>
-                <td><strong>Class : </strong></td>
-                <td>
-                    <app-shr-coding [shrCoding]="shrEncounter.class"></app-shr-coding>
-                </td>
-            </tr>
-             <tr>
-                <td><strong>Type :</strong></td>
-                <td>
-                    <ng-container *ngFor="let type of shrEncounter.type">
-                         <ng-container *ngFor="let shrCode of type.coding">
-                             <app-shr-coding [shrCoding]="shrCode"></app-shr-coding>
-                         </ng-container>
-                    </ng-container>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Priority :</strong></td>
-                <td>
-                    <ng-container *ngIf="shrEncounter.priority && shrEncounter.priority.coding">
-                        <ng-container *ngFor="let shrCode of shrEncounter.priority.coding">
-                             <app-shr-coding [shrCoding]="shrCode"></app-shr-coding>
-                         </ng-container>
-                    </ng-container>
-                </td>
-            </tr>
-             <tr>
-                <td><strong>Subject : </strong></td>
-                <td>
-                    <tr>
-                        <td><strong> Reference :</strong> </td>
-                        <td> {{ shrEncounter.subject.reference }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Identifier : </strong>  </td>
-                        <td> 
-                           <app-shr-identifier [shrIdentifier]="shrEncounter.subject.identifier"></app-shr-identifier>
-                        </td>
-                    </tr>
-                </td>
-            </tr>
-             <tr>
-                <td><strong>Participant : </strong></td>
-                <td>
-                    <ng-container *ngFor="let participant of shrEncounter.participant">
-                        <ng-container *ngIf="participant.individual">
-                              <app-shr-identifier [shrIdentifier]="participant.individual.identifier"></app-shr-identifier>
-                        </ng-container>
+          </ng-container>
+        </ng-container>
 
-                    </ng-container>
-                </td>
+        <tr>
+          <td><strong>Status :</strong></td>
+          <td>{{ shrEncounter.status }}</td>
+        </tr>
+        <tr>
+          <td><strong>Class : </strong></td>
+          <td>
+            <app-shr-coding [shrCoding]="shrEncounter.class"></app-shr-coding>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Type :</strong></td>
+          <td>
+            <ng-container *ngFor="let type of shrEncounter.type">
+              <ng-container *ngFor="let shrCode of type.coding">
+                <app-shr-coding [shrCoding]="shrCode"></app-shr-coding>
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Priority :</strong></td>
+          <td>
+            <ng-container
+              *ngIf="shrEncounter.priority && shrEncounter.priority.coding"
+            >
+              <ng-container
+                *ngFor="let shrCode of shrEncounter.priority.coding"
+              >
+                <app-shr-coding [shrCoding]="shrCode"></app-shr-coding>
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Subject : </strong></td>
+          <td>
+            <tr>
+              <td><strong> Reference :</strong></td>
+              <td>{{ shrEncounter.subject.reference }}</td>
             </tr>
             <tr>
-                <td><strong>Period :</strong> </td>
-                <td>
-                   <tr>
-                      <td><strong> Start : </strong></td>
-                      <td>{{shrEncounter.period.start | date: 'medium'}}</td>
-                   </tr>
-                   <tr>
-                      <td><strong>End : </strong></td>
-                      <td>{{shrEncounter.period.end | date: 'medium'}}</td>
-                   </tr>
-                </td>
+              <td><strong>Identifier : </strong></td>
+              <td>
+                <app-shr-identifier
+                  [shrIdentifier]="shrEncounter.subject.identifier"
+                ></app-shr-identifier>
+              </td>
+            </tr>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Participant : </strong></td>
+          <td>
+            <ng-container *ngFor="let participant of shrEncounter.participant">
+              <ng-container *ngIf="participant.individual">
+                <app-shr-identifier
+                  [shrIdentifier]="participant.individual.identifier"
+                ></app-shr-identifier>
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Period :</strong></td>
+          <td>
+            <tr>
+              <td><strong> Start : </strong></td>
+              <td>{{ shrEncounter.period.start | date: 'medium' }}</td>
             </tr>
             <tr>
-                <td><strong>Service Provider : </strong></td>
-                <td>
-                    <tr>
-                        <td><strong> Reference :</strong> </td>
-                        <td> {{ shrEncounter.serviceProvider.reference }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Identifier : </strong>  </td>
-                        <td> 
-                           <app-shr-identifier [shrIdentifier]="shrEncounter.serviceProvider.identifier"></app-shr-identifier>
-                        </td>
-                    </tr>
-                </td>
+              <td><strong>End : </strong></td>
+              <td>{{ shrEncounter.period.end | date: 'medium' }}</td>
             </tr>
-          </tbody>
-      </table>
-   </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Service Provider : </strong></td>
+          <td>
+            <tr>
+              <td><strong> Reference :</strong></td>
+              <td>{{ shrEncounter.serviceProvider.reference }}</td>
+            </tr>
+            <tr>
+              <td><strong>Identifier : </strong></td>
+              <td>
+                <app-shr-identifier
+                  [shrIdentifier]="shrEncounter.serviceProvider.identifier"
+                ></app-shr-identifier>
+              </td>
+            </tr>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </ng-container>
