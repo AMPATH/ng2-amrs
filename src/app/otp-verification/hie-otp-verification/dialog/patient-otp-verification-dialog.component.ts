@@ -254,4 +254,7 @@ export class PatientOtpVerificationDialogComponent
   registerOnAfyaYangu() {
     window.open('https://afyayangu.go.ke/', '_blank');
   }
+  resendHieOtp() {
+    this.requestCustomHieOtp();
+  }
 }
