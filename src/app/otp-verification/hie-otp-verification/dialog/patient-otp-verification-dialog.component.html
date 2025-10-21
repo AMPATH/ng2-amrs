@@ -20,7 +20,10 @@
         </div>
       </div>
       <ng-container *ngIf="hasOtp; else hasNoOtp">
-        <form [formGroup]="otpVerificationForm" (keydown.enter)="$event.preventDefault()">
+        <form
+          [formGroup]="otpVerificationForm"
+          (keydown.enter)="$event.preventDefault()"
+        >
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
               <div class="form-group">
@@ -47,35 +50,42 @@
             </div>
             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
               <div class="row">
-               <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-              <div class="validate-otp-action">
-                <button
-                  class="btn btn-primary otp-action-btn"
-                  type="button"
-                  (click)="validateHieOtp()"
-                >
-                  <span><i class="fa fa-check fa-fw"></i> Validate OTP</span>
-                </button>
-              </div>
-              </div>
-              <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-              <div class="validate-otp-action">
-                <button
-                  class="btn btn-success otp-action-btn"
-                  type="button"
-                  (click)="resendHieOtp()"
-                >
-                  <span><i class="fa fa-envelope fa-fw"></i> Re-send OTP</span>
-                </button>
-              </div>
-            </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                  <div class="validate-otp-action">
+                    <button
+                      class="btn btn-primary otp-action-btn"
+                      type="button"
+                      (click)="validateHieOtp()"
+                    >
+                      <span
+                        ><i class="fa fa-check fa-fw"></i> Validate OTP</span
+                      >
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                  <div class="validate-otp-action">
+                    <button
+                      class="btn btn-success otp-action-btn"
+                      type="button"
+                      (click)="resendHieOtp()"
+                    >
+                      <span
+                        ><i class="fa fa-envelope fa-fw"></i> Re-send OTP</span
+                      >
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </form>
       </ng-container>
       <ng-template #hasNoOtp>
-        <form [formGroup]="sendCustomOtpForm" (keydown.enter)="$event.preventDefault()">
+        <form
+          [formGroup]="sendCustomOtpForm"
+          (keydown.enter)="$event.preventDefault()"
+        >
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
               <div class="form-group">
@@ -103,32 +113,32 @@
                 />
               </div>
             </div>
-             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <div class="row">
-              <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
-              <div class="validate-otp-action">
-                <button
-                  class="btn btn-success otp-action-btn"
-                  (click)="registerOnAfyaYangu()"
-                >
-                  <i class="fa fa-stethoscope fa-fw"></i> Register on Afya Yangu
-                </button>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+              <div class="row">
+                <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
+                  <div class="validate-otp-action">
+                    <button
+                      class="btn btn-success otp-action-btn"
+                      (click)="registerOnAfyaYangu()"
+                    >
+                      <i class="fa fa-stethoscope fa-fw"></i> Register on Afya
+                      Yangu
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                  <div class="validate-otp-action">
+                    <button
+                      class="btn btn-primary otp-action-btn"
+                      type="button"
+                      (click)="requestCustomHieOtp()"
+                    >
+                      <span><i class="fa fa-envelope fa-fw"></i> Send OTP</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-              <div class="validate-otp-action">
-                <button
-                  class="btn btn-primary otp-action-btn"
-                  type="button"
-                  (click)="requestCustomHieOtp()"
-                >
-                  <span><i class="fa fa-envelope fa-fw"></i> Send OTP</span>
-                </button>
-              </div>
-            </div>
-            </div>
-           </div>
-            
           </div>
         </form>
       </ng-template>
