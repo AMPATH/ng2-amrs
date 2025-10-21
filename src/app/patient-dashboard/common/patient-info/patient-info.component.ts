@@ -20,6 +20,7 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
   showHieVerificationModal: any;
   showHieModal = false;
   hieVerificationModalRef: BsModalRef;
+  public source = 'patient-info';
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,

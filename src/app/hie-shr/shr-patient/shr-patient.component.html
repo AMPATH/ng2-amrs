@@ -1,0 +1,51 @@
+<div class="shr-patient-layout">
+    <h4>Patient Info </h4>
+    <div class="patient-data">
+       <table class="table table-striped">
+          <thead>
+              <th></th>
+              <th></th>
+          </thead>
+          <tbody>
+             <tr>
+                <td> <strong>ID: </strong> </td>
+                <td> {{ shrPatient?.id }} </td>
+             </tr>
+              <tr>
+                <td> <strong>Last Updated :</strong> </td>
+                <td> {{ shrPatient?.meta?.lastUpdated }} </td>
+              </tr>
+              <tr>
+                <td><strong>Gender : </strong>  </td>
+                <td> {{ shrPatient?.gender }} </td>
+              </tr>
+              <tr>
+                <td><strong> Birth Date : </strong> </td>
+                <td> {{ shrPatient?.birthDate }} </td>
+              </tr>
+               <tr>
+                <td><strong> Name : </strong> </td>
+                <td>
+                  <ng-container *ngFor="let name of shrPatient.name">
+                     <tr>
+                        <td>{{ name.text }}</td>
+                     </tr>
+
+                  </ng-container>
+                </td>
+              </tr>
+               <tr>
+                <td><strong> Identifier : </strong> </td>
+                <td>
+                  <ng-container *ngFor="let identifier of shrPatient.identifier">
+                     <tr>
+                        <app-shr-identifier [shrIdentifier]="identifier"></app-shr-identifier>
+                     </tr>
+
+                  </ng-container>
+                </td>
+              </tr>
+          </tbody>
+       </table>
+    </div>
+</div>
