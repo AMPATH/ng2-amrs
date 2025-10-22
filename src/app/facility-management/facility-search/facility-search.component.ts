@@ -11,6 +11,7 @@ import {
   FacilitySearchFilterType,
   HieFacility
 } from '../../models/hie-registry.model';
+import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 
 enum AlertType {
   Success = 'Success',
@@ -56,12 +57,15 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
   public alertType: AlertType;
   public showLoader = false;
   public loadingMessage = '';
+  public currentUserLocation: { uuid: string; display: string };
 
   constructor(
     private locationResourceService: LocationResourceService,
-    private hieService: HealthInformationExchangeService
+    private hieService: HealthInformationExchangeService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
   ngOnInit(): void {
+    this.getUserCurrentLocation();
     this.getAmrsLocations();
     this.listenToFilterChanges();
     this.listenToLocationChanges();
@@ -70,16 +74,24 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
+  getUserCurrentLocation() {
+    this.currentUserLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+  }
   getAmrsLocations() {
+    this.displayLoader('Fetching locations. Please wait....');
     this.locationResourceService
       .getLocations()
       .pipe(
         takeUntil(this.destroy$),
         tap((res: Location[]) => {
-          console.log({ res });
           this.locations = res;
           this.generateLocationOptions(this.locations);
           this.generateLocationMflMapping(this.locations);
+          this.hideLoader();
+        }),
+        catchError((error) => {
+          this.handleError(error);
+          throw error;
         })
       )
       .subscribe();
@@ -113,7 +125,6 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(
         takeUntil(this.destroy$),
         tap((locationChange) => {
-          console.log({ locationChange });
           if (locationChange && locationChange.value) {
             if (this.locationMflMap.has(locationChange.value)) {
               const mflCode = this.locationMflMap.get(locationChange.value);
@@ -165,9 +176,10 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
     filterType: string;
     value: string;
   }): FacilitySearchFilter {
-    const payload = {
+    const payload: FacilitySearchFilter = {
       filterType: '',
-      filterValue: ''
+      filterValue: '',
+      locationUuid: this.currentUserLocation.uuid || ''
     };
     if (
       [this.filterTypes.location, this.filterTypes.facilityCode].includes(
@@ -199,6 +211,13 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
     }
     if (!payload.filterValue) {
       this.setAlert('Value is missing', AlertType.Danger);
+      return false;
+    }
+    if (!payload.locationUuid) {
+      this.setAlert(
+        'User location is not set. Please set location in user default properties page',
+        AlertType.Danger
+      );
       return false;
     }
     return true;

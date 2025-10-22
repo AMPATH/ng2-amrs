@@ -63,6 +63,9 @@ export class HealthInformationExchangeService {
         .set('identifierType', 'Name')
         .set('identifierValue', params.name);
     }
+    if (params.locationUuid) {
+      httpParams = httpParams.set('locationUuid', params.locationUuid);
+    }
     if (params.refresh) {
       httpParams = httpParams.set('refresh', String(params.refresh));
     }
@@ -124,6 +127,9 @@ export class HealthInformationExchangeService {
     }
     if (filter.filterType) {
       httpParams = httpParams.set('filterType', filter.filterType);
+    }
+    if (filter.locationUuid) {
+      httpParams = httpParams.set('locationUuid', filter.locationUuid);
     }
     return this.http.get<HieFacilitySearchResponse>(searchFacilityUrl, {
       params: httpParams

@@ -59,6 +59,7 @@ import { PatientRelationshipService } from '../patient-dashboard/common/patient-
 import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
 import { CreatePersonDto } from '../interfaces/person.interface';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 /**
  * ADDRESS MAPPINGS
  * country: country
@@ -262,6 +263,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     IdentifierTypesUuids.UPI_NUMBER_UUID,
     IdentifierTypesUuids.TEMPORARY_DEPENDANT_ID_UUID
   ];
+  public currentUserLocation: { uuid: string; display: string };
 
   constructor(
     public toastrService: ToastrService,
@@ -283,11 +285,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private hieAdapter: HieToAmrsPersonAdapter,
     private hieOtpClientConsentService: HieOtpClientConsentService,
     private patientRelationshipService: PatientRelationshipService,
-    private personResourceService: PersonResourceService
+    private personResourceService: PersonResourceService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
 
   public ngOnInit() {
     this.patientExists = false;
+    this.getUserCurrentLocation();
     this.listenToHieOtpConsentChanges();
     this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
@@ -364,6 +368,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.hasIds = true;
       }
     }
+  }
+
+  getUserCurrentLocation() {
+    this.currentUserLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
   }
 
   public setUpCountryTypeAhead() {
@@ -1927,7 +1935,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
           if (res && res.data && res.data.status === 'valid') {
             this.fetchHiePatient({
               identificationNumber: res.data.identification_number,
-              identificationType: res.data.identification_type as any
+              identificationType: res.data.identification_type as any,
+              locationUuid: this.currentUserLocation.uuid || ''
             });
           }
         })

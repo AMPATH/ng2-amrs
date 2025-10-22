@@ -106,6 +106,7 @@ export interface HieClient {
 export interface HieClientSearchDto {
   identificationNumber: number | string;
   identificationType: HieIdentificationType;
+  locationUuid: string;
 }
 
 export interface HieAmrsObj {
@@ -118,6 +119,7 @@ export interface HieAmrsObj {
 export interface ValidateHieCustomOtpDto {
   sessionId: string;
   otp: number | string;
+  locationUuid: string;
 }
 
 export type HieOtpValidationStatus = 'valid' | 'invalid';
@@ -138,6 +140,7 @@ export interface ValidateHieCustomOtpErrorResponse {
 export interface RequestCustomOtpDto {
   identificationNumber: string | number;
   identificationType: string;
+  locationUuid: string;
 }
 
 export interface RequestCustomOtpResponse {
@@ -181,6 +184,7 @@ export interface HieFacilitySearchResponse {
 export interface FacilitySearchFilter {
   filterType: string;
   filterValue: string;
+  locationUuid: string;
 }
 
 export enum FacilitySearchFilterType {

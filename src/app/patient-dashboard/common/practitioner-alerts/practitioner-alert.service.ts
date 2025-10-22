@@ -17,9 +17,10 @@ import {
   PractitionerAlert,
   PractitionerSearchParams
 } from '../../../models/practitioner.model';
-import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
+import { IdentifierTypesUuids } from '../../../constants/identifier-types';
 import * as moment from 'moment';
-import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
+import { ToastrFunctionService } from '../../../shared/services/toastr-function.service';
+import { UserDefaultPropertiesService } from '../../../user-default-properties/user-default-properties.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,19 +30,26 @@ export class PractitionerAlertService {
   public alerts$ = this.alertsSubj.asObservable();
   private loadingSub = new Subject<{ loading: boolean; message: string }>();
   public loading$ = this.loadingSub.asObservable();
+  private currentUserLocation: { uuid: string; display: string };
 
   constructor(
     private userService: UserService,
     private hieService: HealthInformationExchangeService,
     private providerResourceService: ProviderResourceService,
-    private toasterService: ToastrFunctionService
+    private toasterService: ToastrFunctionService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
 
   public getUserAlerts(refresh?: boolean) {
     const user = this.getCurrentUser();
-    if (user && user.person.uuid) {
+    this.currentUserLocation = this.getUserCurrentLocation();
+    if (user && user.person.uuid && this.currentUserLocation) {
       this.getPractitionerAlertsByPersonUuid(user.person.uuid, refresh);
     }
+  }
+
+  private getUserCurrentLocation() {
+    return this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
   }
 
   private getCurrentUser() {
@@ -71,7 +79,11 @@ export class PractitionerAlertService {
           if (!res) {
             throw new Error('Practitioner data could not be found');
           } else {
-            return this.getPractionerByNationalId(res, refresh);
+            return this.getPractionerByNationalId(
+              res,
+              this.currentUserLocation.uuid,
+              refresh
+            );
           }
         }),
         map((res) => {
@@ -106,9 +118,14 @@ export class PractitionerAlertService {
       )
       .subscribe();
   }
-  private getPractionerByNationalId(nationalId: string, refresh?: boolean) {
+  private getPractionerByNationalId(
+    nationalId: string,
+    locationUuid: string,
+    refresh?: boolean
+  ) {
     const searchParams: PractitionerSearchParams = {
-      nationalId: nationalId
+      nationalId: nationalId,
+      locationUuid: locationUuid
     };
     if (refresh) {
       searchParams['refresh'] = refresh;

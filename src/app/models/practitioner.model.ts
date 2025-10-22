@@ -69,6 +69,7 @@ export interface PractitionerSearchParams {
   licenseNumber?: string;
   registrationNumber?: string;
   refresh?: boolean;
+  locationUuid: string;
 }
 
 export interface ErrorPractitionerResp {

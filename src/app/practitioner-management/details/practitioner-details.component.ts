@@ -1,12 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  catchError,
-  finalize,
-  map,
-  switchMap,
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { catchError, finalize, map, switchMap, take } from 'rxjs/operators';
 import { HealthInformationExchangeService } from 'src/app/hie-api/health-information-exchange.service';
 import {
   Practitioner,
@@ -15,7 +8,8 @@ import {
 import { ProviderResourceService } from 'src/app/openmrs-api/provider-resource.service';
 import { UserService } from '../../openmrs-api/user.service';
 import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
-import { EMPTY, Subject } from 'rxjs';
+import { EMPTY } from 'rxjs';
+import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
 
 @Component({
   selector: 'app-practitioner-details',
@@ -30,15 +24,21 @@ export class PractitionerDetailsComponent implements OnInit {
   errorAlert = '';
   showLoader = false;
   loadingMessage = null;
+  public currentUsertLocation: { uuid: string; display: string };
 
   constructor(
     private userService: UserService,
     private providerResourceService: ProviderResourceService,
-    private hieService: HealthInformationExchangeService
+    private hieService: HealthInformationExchangeService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
 
   ngOnInit(): void {
     this.getCurrentUser();
+    this.getUserCurrentLocation();
+  }
+  getUserCurrentLocation() {
+    this.currentUsertLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
   }
   getCurrentUser() {
     const user = this.userService.getLoggedInUser();
@@ -78,24 +78,33 @@ export class PractitionerDetailsComponent implements OnInit {
             return EMPTY;
           }
         }),
-        catchError((error: Error) => {
-          this.displayErrorAlert(
-            error.message ||
-              'An error occurred while fetching practitioner details, please refresh or contact admin'
-          );
-
+        catchError((error: any) => {
+          const errorMsg = this.handleError(error);
+          this.displayErrorAlert(errorMsg);
           throw error;
         }),
         finalize(() => {
-          console.log('finalize...');
           this.hideLoader();
         })
       )
       .subscribe();
   }
+  handleError(error: any): string {
+    let errorMsg = '';
+    if (error.error && error.error.error) {
+      errorMsg = error.error.error;
+    } else if (error.message) {
+      errorMsg = error.message;
+    } else {
+      errorMsg =
+        'An error occurred while fetching practitioner details, please refresh or contact admin';
+    }
+    return errorMsg;
+  }
   getPractionerByNationalId(nationalId: string) {
     const searchParams: PractitionerSearchParams = {
-      nationalId: nationalId
+      nationalId: nationalId,
+      locationUuid: this.currentUsertLocation.uuid
     };
     return this.hieService.searchPractitioners(searchParams);
   }
