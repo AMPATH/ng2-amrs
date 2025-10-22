@@ -22,12 +22,13 @@ export class IptReportService {
   public getIptReportData(params: {
     locationUuids: string;
     endDate: Date;
+    isAggregated: Boolean;
   }): Observable<IptReportResponse> {
     return this.http
       .get(
         `${this.url}tb-preventive-monthly-summary?locationUuids=${
           params.locationUuids
-        }&endDate=${Moment(params.endDate).format('YYYY-MM-DD')}`
+        }&endDate=${Moment(params.endDate).format('YYYY-MM-DD')}&isAggregated=${params.isAggregated}`
       )
       .pipe(
         catchError((err: any) => {
