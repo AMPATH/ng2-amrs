@@ -1,0 +1,106 @@
+<div class="shr-renderer-layout">
+  <ng-container *ngIf="shrBundle">
+    <div class="row section-header">
+      <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">Date</div>
+      <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">Request Type</div>
+    </div>
+    <ng-container *ngIf="shrBundle.entry">
+      <div class="panel-group">
+        <ng-container *ngFor="let entry of shrBundle.entry">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <div class="row">
+                  <a data-toggle="collapse" [href]="'#' + entry.resource.id">
+                    <ng-container [ngSwitch]="entry.resource.resourceType">
+                      <ng-container *ngSwitchCase="'Patient'">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                          {{
+                            entry?.resource?.meta?.lastUpdated | date: 'medium'
+                          }}
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+                          {{ entry.resource.resourceType }}
+                        </div>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'ServiceRequest'">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                          {{
+                            entry?.resource?.authoredOn ||
+                              entry?.resource?.occurrenceDateTime
+                              | date: 'medium'
+                          }}
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+                          {{ entry.resource.resourceType }}
+                        </div>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'Condition'">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                          {{ entry?.resource?.recordedDate | date: 'medium' }}
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+                          {{ entry.resource.resourceType }}
+                        </div>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'Encounter'">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                          {{ entry?.resource?.period.start | date: 'medium' }}
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+                          {{ entry.resource.resourceType }}
+                        </div>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'MedicationRequest'">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                          {{ entry?.resource?.authoredOn | date: 'medium' }}
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
+                          {{ entry.resource.resourceType }}
+                        </div>
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        {{ entry.resource.resourceType }}
+                      </ng-container>
+                    </ng-container>
+                  </a>
+                </div>
+              </h4>
+            </div>
+            <div [id]="entry.resource.id" class="panel-collapse collapse">
+              <div class="panel-body">
+                <ng-container [ngSwitch]="entry.resource.resourceType">
+                  <ng-container *ngSwitchCase="'Patient'">
+                    <app-shr-patient
+                      [shrPatient]="entry.resource"
+                    ></app-shr-patient>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'ServiceRequest'">
+                    <app-shr-service-request
+                      [shrServiceRequest]="entry.resource"
+                    ></app-shr-service-request>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Condition'">
+                    <app-shr-condition
+                      [shrCondition]="entry.resource"
+                    ></app-shr-condition>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Encounter'">
+                    <app-shr-encounter
+                      [shrEncounter]="entry.resource"
+                    ></app-shr-encounter>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'MedicationRequest'">
+                    <app-shr-medication-request-details
+                      [shrMedicationRequest]="entry.resource"
+                    ></app-shr-medication-request-details>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

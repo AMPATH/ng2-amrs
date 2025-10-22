@@ -1,10 +1,10 @@
 import { take } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
-import { PatientEncounterService } from '../patient-encounters/patient-encounters.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { VisitResourceService } from '../../../openmrs-api/visit-resource.service';
 import { Subscription } from 'rxjs';
+import { Patient } from '../../../models/patient.model';
+import { UserDefaultPropertiesService } from '../../../user-default-properties';
 
 @Component({
   selector: 'visit-encounters',
@@ -23,14 +23,11 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
     busy: false,
     message: '' // default message
   };
-
+  public patient: Patient;
   private subs: Subscription[] = [];
-
   constructor(
     private _patientService: PatientService,
-    private _patientEncountersService: PatientEncounterService,
-    private _encounterResourceService: EncounterResourceService,
-    private _visitResourceService: VisitResourceService
+    private _encounterResourceService: EncounterResourceService
   ) {}
   public ngOnInit() {
     this.getPatientUuid();
@@ -47,6 +44,7 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
     const sub = this._patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         if (patient !== null) {
+          this.patient = patient;
           this.patientUuid = patient.uuid;
           this.getPatientEncounters(patient.uuid);
         }

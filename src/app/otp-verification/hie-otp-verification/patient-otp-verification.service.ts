@@ -8,8 +8,18 @@ import { ValidateHieCustomOtpResponse } from 'src/app/models/hie-registry.model'
 export class HieOtpClientConsentService {
   private otpValidationSubj = new Subject<ValidateHieCustomOtpResponse>();
   public otpValidation$ = this.otpValidationSubj.asObservable();
+  public source: string;
 
-  validateOtp(validateHieCustomOtpResponse: ValidateHieCustomOtpResponse) {
-    this.otpValidationSubj.next(validateHieCustomOtpResponse);
+  validateOtp(
+    validateHieCustomOtpResponse: ValidateHieCustomOtpResponse,
+    source?: string
+  ) {
+    this.otpValidationSubj.next({
+      ...validateHieCustomOtpResponse,
+      source: source
+    });
+  }
+  setSource(sourceName: string) {
+    this.source = sourceName;
   }
 }

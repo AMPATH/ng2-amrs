@@ -26,6 +26,7 @@ import { UserDefaultPropertiesService } from '../../../user-default-properties/u
 export class PatientOtpVerificationDialogComponent
   implements OnInit, OnDestroy {
   @Input() show = false;
+  @Input() source: string;
   @Output() hideVerifyOtpDialog = new EventEmitter<boolean>();
   otpVerificationForm = new FormGroup({
     phoneNumber: new FormControl(null, Validators.required),
@@ -132,7 +133,7 @@ export class PatientOtpVerificationDialogComponent
         }),
         tap((res) => {
           if (res.data) {
-            this.hieOtpClientConsentService.validateOtp(res);
+            this.hieOtpClientConsentService.validateOtp(res, this.source);
             this.hideDialog();
           }
         }),

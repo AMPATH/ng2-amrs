@@ -144,6 +144,8 @@ import { PractionerAlertComponent } from './practitioner-alerts/practitioner-ale
 import { PractitionerAlertService } from './practitioner-alerts/practitioner-alert.service';
 import { PatientOtpVerificationModule } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.module';
 import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs-person-sync.module';
+import { HieShrModule } from '../../hie-shr/hie-shr.module';
+import { ShrEncountersComponent } from './visit-encounters/shr/shr-encounters.component';
 @NgModule({
   imports: [
     HttpClientModule,
@@ -183,7 +185,8 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     ProgramManagerModule,
     GroupEnrollmentModule,
     PatientOtpVerificationModule,
-    HieToAmrsPersonSyncModule
+    HieToAmrsPersonSyncModule,
+    HieShrModule
   ],
   exports: [
     PatientInfoComponent,
@@ -242,7 +245,8 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     AddPatientEducationComponent,
     EditPatientEducationComponent,
     VerifyHieIdentifierDialogComponent,
-    PractionerAlertComponent
+    PractionerAlertComponent,
+    ShrEncountersComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -308,7 +312,8 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     ProjectBeyondComponent,
     OtzConsentComponent,
     VerifyHieIdentifierDialogComponent,
-    PractionerAlertComponent
+    PractionerAlertComponent,
+    ShrEncountersComponent
   ],
   providers: [
     {
