@@ -82,6 +82,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public validateOtpResponse: ValidateHieCustomOtpResponse;
   public clientPatient: ClientAmrsPatient;
   public relationIsAPatient = false;
+  public source = 'patient-banner';
 
   constructor(
     private patientService: PatientService,
@@ -184,7 +185,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
         tap((res) => {
           if (res.data) {
             this.validateOtpResponse = res;
-            if (res.data.status === 'valid') {
+            if (res.data.status === 'valid' && res.source === this.source) {
               this.showHeiDialog();
             }
           }

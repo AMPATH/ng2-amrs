@@ -1,0 +1,57 @@
+<ng-container *ngIf="shrObservation">
+  <table class="table">
+    <thead>
+      <th>Observation</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ID :</td>
+        <td>{{ shrObservation?.id }}</td>
+      </tr>
+      <tr>
+        <td>Status :</td>
+        <td>{{ shrObservation?.status }}</td>
+      </tr>
+      <ng-container *ngIf="shrObservation.code && shrObservation.code.coding">
+        <table class="table table-striped">
+          <thead>
+            <th>Coding</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let code of shrObservation.code.coding">
+              <tr>
+                <td>Display :</td>
+                <td>{{ code?.display }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container
+        *ngIf="
+          shrObservation.valueCodeableConcept &&
+          shrObservation.valueCodeableConcept.coding
+        "
+      >
+        <table class="table table-striped">
+          <thead>
+            <th>Coded Concept</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <ng-container
+              *ngFor="let concept of shrObservation.valueCodeableConcept.coding"
+            >
+              <tr>
+                <td>Display :</td>
+                <td>{{ concept?.display }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>

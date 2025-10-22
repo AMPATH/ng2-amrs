@@ -130,6 +130,7 @@ export interface ValidateHieCustomOtpResponse {
     identification_number: string;
     status: HieOtpValidationStatus;
   };
+  source?: string;
 }
 
 export interface ValidateHieCustomOtpErrorResponse {
@@ -191,4 +192,9 @@ export enum FacilitySearchFilterType {
   location = 'location',
   facilityCode = 'facilityCode',
   registrationNumber = 'registrationNumber'
+}
+
+export interface PatientShrSummaryFilter {
+  cr_id: string;
+  locationUuid: string;
 }
