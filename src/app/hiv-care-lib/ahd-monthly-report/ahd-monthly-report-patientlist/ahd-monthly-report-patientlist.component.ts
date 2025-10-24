@@ -64,6 +64,7 @@ export class AhdMonthlyReportPatientlistComponent implements OnInit {
   public addExtraColumns() {
     const extraColumns = {
       phone_number: 'Phone',
+      location: 'Location',
       enrollment_date: 'Enrollment Date',
 
       who_stage: 'WHO stage',
