@@ -6,3 +6,13 @@
 .ttt {
   background-color: #d9edf7 !important;
 }
+
+.hie-data-layout {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+.remove-dependant-btn {
+  margin-top: 8%;
+}

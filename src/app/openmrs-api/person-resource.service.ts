@@ -4,6 +4,7 @@ import { AppSettingsService } from '../app-settings/app-settings.service';
 import { Observable } from 'rxjs';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import * as _ from 'lodash';
+import { CreatePersonDto } from '../interfaces/person.interface';
 
 @Injectable()
 export class PersonResourceService {
@@ -42,6 +43,19 @@ export class PersonResourceService {
     return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
       map((response: any) => {
         return response.person;
+      })
+    );
+  }
+
+  public createPerson(payload: CreatePersonDto) {
+    if (!payload) {
+      return null;
+    }
+    const url = this.getUrl();
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, JSON.stringify(payload), { headers }).pipe(
+      map((response: any) => {
+        return response;
       })
     );
   }

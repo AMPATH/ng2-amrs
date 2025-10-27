@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HieIdentificationType } from 'src/app/models/hie-registry.model';
 
 @Injectable()
 export class PatientIdentifierService {
@@ -171,6 +172,48 @@ export class PatientIdentifierService {
         format: '^\\d{4}/\\d{2}/\\d{5}$',
         checkdigit: 0,
         val: '328d1e06-268c-4a6b-b292-c15e12c470c9'
+      },
+      {
+        label: 'CR',
+        format: '^CR\\d{13}-\\d$',
+        checkdigit: 0,
+        val: 'e88dc246-3614-4ee3-8141-1f2a83054e72'
+      },
+      {
+        label: 'Household Number',
+        format: '^HH\\d{13}-\\d$',
+        checkdigit: 0,
+        val: 'bb74b20e-dcee-4f59-bdf1-2dffc3abf106'
+      },
+      {
+        label: 'SHA Number',
+        format: '^SHA\\d{13}-\\d$',
+        checkdigit: 0,
+        val: 'cf5362b2-8049-4442-b3c6-36f870e320cb'
+      },
+      {
+        label: HieIdentificationType.RefugeeID,
+        format: '^RFG-\\d{8}$',
+        checkdigit: 0,
+        val: '465e81af-8d69-47e9-9127-53a94adc75fb'
+      },
+      {
+        label: HieIdentificationType.AlienID,
+        format: null,
+        checkdigit: null,
+        val: '12f5b147-3403-4a73-913d-7ded9ffec094'
+      },
+      {
+        label: HieIdentificationType.MandateNumber,
+        format: '^MN-\\d{8}$',
+        checkdigit: null,
+        val: 'aae2d097-20ba-43ca-9b71-fd8296068f39'
+      },
+      {
+        label: HieIdentificationType.TemporaryDependantID,
+        format: null,
+        checkdigit: null,
+        val: 'a3d34214-93e8-4faf-bf4d-0272eee079eb'
       }
     ];
   }

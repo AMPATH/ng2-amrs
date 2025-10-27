@@ -7,14 +7,23 @@ import {
   EventEmitter
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 
 import 'ag-grid-enterprise/main';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import * as Fuse from 'fuse.js';
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, switchMap, take } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  finalize,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -30,10 +39,27 @@ import { SessionStorageService } from '../utils/session-storage.service';
 import { PatientRelationshipTypeService } from '../patient-dashboard/common/patient-relationships/patient-relation-type.service';
 import { PatientEducationService } from '../etl-api/patient-education.service';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
-import { LocalStorageService } from './../utils/local-storage.service';
 import { LocationUnitsService } from './../etl-api/location-units.service';
 import { FormControl } from '@angular/forms';
-
+import { HealthInformationExchangeService } from '../hie-api/health-information-exchange.service';
+import {
+  AlternateContact,
+  HieClient,
+  HieClientDependant,
+  HieClientSearchDto
+} from '../models/hie-registry.model';
+import {
+  HieClientVerificationIdentifierType,
+  IdentifierTypesUuids
+} from '../constants/identifier-types';
+import { HieToAmrsPersonAdapter } from '../utils/hei-to-amrs-patient.adapter';
+import { AmrsErrorResponse } from '../interfaces/amrs-error.interface';
+import { HieOtpClientConsentService } from '../otp-verification/hie-otp-verification/patient-otp-verification.service';
+import { PatientRelationshipService } from '../patient-dashboard/common/patient-relationships/patient-relationship.service';
+import { CreateRelationshipDto } from '../interfaces/relationship.interface';
+import { PersonResourceService } from '../openmrs-api/person-resource.service';
+import { CreatePersonDto } from '../interfaces/person.interface';
+import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
 /**
  * ADDRESS MAPPINGS
  * country: country
@@ -55,6 +81,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: BsModalRef;
   @ViewChild('confirmModal') public confirmModal: BsModalRef;
   @ViewChild('verificationModal') public verificationModal: BsModalRef;
+  @ViewChild('hieVerificationModal') public hieVerificationModal: BsModalRef;
 
   public patients: Patient = new Patient({});
   public person: any;
@@ -87,9 +114,9 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   public selectId;
 
   public patientPhoneNumber: number;
-  public alternativePhoneNumber: number;
+  public alternativePhoneNumber: number | string;
   public partnerPhoneNumber: number;
-  public nextofkinPhoneNumber: number;
+  public nextofkinPhoneNumber: number | string;
   public r1 = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))/;
   public r2 = /(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
   public pattern = new RegExp(this.r1.source + this.r2.source);
@@ -198,6 +225,46 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   options: string[] = [];
   public countries: any = [];
   public countrySuggest: Subject<any> = new Subject();
+  hieClient: HieClient;
+  hiePatientData = [];
+  hasHieVerificationError = false;
+  hieVerificationMg = null;
+  showHieLoader = false;
+  hieLoadingMessage = null;
+  private titleCasePipe = new TitleCasePipe();
+  private destroy$ = new Subject<boolean>();
+  patientCreationErrors: string[] = [];
+  hieClientVerificationIdentifierTypes = Object.keys(
+    HieClientVerificationIdentifierType
+  ).map((key) => {
+    return {
+      label: HieClientVerificationIdentifierType[key],
+      value: key
+    };
+  });
+  showOtpVericationDialog = false;
+  hieDependants: HieClientDependant[] = [];
+  formHieDependants: HieClientDependant[] = [];
+  usingHieData = false;
+  citizenship = '';
+  placeOfBirth = '';
+  civilStatus = '';
+  alternativeContacts: AlternateContact[] = [];
+  alternativeContact: AlternateContact;
+  nextOfKinContact: AlternateContact;
+  public nonEditableIdentifierTypes = [
+    IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
+    IdentifierTypesUuids.SHA_UUID,
+    IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID,
+    IdentifierTypesUuids.ALIEN_ID_UUID,
+    IdentifierTypesUuids.REFUGEE_ID_UUID,
+    IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+    IdentifierTypesUuids.NATIONAL_ID_UUID,
+    IdentifierTypesUuids.UPI_NUMBER_UUID,
+    IdentifierTypesUuids.TEMPORARY_DEPENDANT_ID_UUID
+  ];
+  public currentUserLocation: { uuid: string; display: string };
+  public source = 'patient-registration';
 
   constructor(
     public toastrService: ToastrService,
@@ -213,12 +280,20 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private patientRelationshipTypeService: PatientRelationshipTypeService,
     private patientEducationService: PatientEducationService,
     private patientResourceService: PatientResourceService,
-    private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
-    private locationUnitsService: LocationUnitsService
+    private locationUnitsService: LocationUnitsService,
+    private hieService: HealthInformationExchangeService,
+    private hieAdapter: HieToAmrsPersonAdapter,
+    private hieOtpClientConsentService: HieOtpClientConsentService,
+    private patientRelationshipService: PatientRelationshipService,
+    private personResourceService: PersonResourceService,
+    private userDefaultPropertiesService: UserDefaultPropertiesService
   ) {}
 
   public ngOnInit() {
+    this.patientExists = false;
+    this.getUserCurrentLocation();
+    this.listenToHieOtpConsentChanges();
     this.locationUnitsService.getAdministrativeUnits().subscribe((arg) => {
       this.administrativeUnits = arg;
       this.nCounties = arg;
@@ -294,6 +369,10 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         this.hasIds = true;
       }
     }
+  }
+
+  getUserCurrentLocation() {
+    this.currentUserLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
   }
 
   public setUpCountryTypeAhead() {
@@ -463,74 +542,6 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         }
       }
     }
-  }
-
-  public searchNewPatient() {
-    this.resetForm();
-    this.patientCreationResourceService
-      .searchRegistry(
-        this.patientIdentifierType.val,
-        this.commonIdentifier.toString(),
-        this.countrySearchParam.value
-      )
-      .subscribe(
-        (data: any) => {
-          const ids = [];
-          const searchIdValue = this.commonIdentifier;
-          if (data.clientExists) {
-            this.patientExists = false;
-            this.createDataExists = 1;
-            this.unsavedUpi = data.client.clientNumber;
-            ids.push({
-              identifierType: this.patientIdentifierType.val,
-              label: this.patientIdentifierType.label,
-              identifier: this.commonIdentifier.toString(),
-              location: this.identifierLocation,
-              preferred: false
-            });
-
-            ids.push({
-              identifierType: 'cba702b9-4664-4b43-83f1-9ab473cbd64d',
-              label: 'UPI Number',
-              identifier: this.unsavedUpi,
-              location: this.identifierLocation,
-              preferred: false
-            });
-
-            this.uniqueIds = ids;
-
-            data.client.localIds = ids;
-            data.client.uuid = this.patients.person.uuid;
-            this.populateFormData(data.client);
-            this.searchResult = `This ID number (${searchIdValue}) was used to verify ${
-              this.givenName
-            } ${this.middleName} ${this.familyName} of DOB ${moment(
-              this.birthDate
-            ).format(
-              'DD/MM/YYYY'
-            )}. If this name is different from what is in the ID URGENTLY contact system support`;
-          } else {
-            this.identifiers.push({
-              identifierType: this.patientIdentifierType.val,
-              identifierTypeName: this.patientIdentifierType.label,
-              identifier: this.commonIdentifier.toString(),
-              location: this.identifierLocation,
-              preferred: false
-            });
-            this.searchResult = 'PATIENT NOT FOUND, Proceed with registration';
-            this.verificationFacility = '';
-            this.createDataExists = 0;
-          }
-          this.modalRef = this.modalService.show(this.verificationModal, {
-            backdrop: 'static',
-            keyboard: false
-          });
-        },
-        (err) => {
-          this.createDataExists = 0;
-          console.log('Error', err);
-        }
-      );
   }
 
   public openUserFeedback() {
@@ -910,7 +921,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.gender) {
       this.errors = true;
     }
-    if (!this.occupation) {
+    if (!this.occupation && !this.usingHieData) {
       this.errors = true;
     }
     if (!this.birthDate) {
@@ -928,16 +939,16 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.selectedLocation && this.isNewPatient === 1) {
       this.errors = true;
     }
-    if (!this.country) {
+    if (!this.country && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.address1) {
+    if (!this.address1 && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.address2) {
+    if (!this.address2 && !this.usingHieData) {
       this.errors = true;
     }
-    if (!this.cityVillage) {
+    if (!this.cityVillage && !this.usingHieData) {
       this.errors = true;
     }
     if (!this.patientPhoneNumber) {
@@ -997,7 +1008,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
       const attributes = [];
       if (this.patientPhoneNumber) {
         attributes.push({
-          value: this.patientPhoneNumber,
+          value: String(this.patientPhoneNumber),
           attributeType: '72a759a8-1359-11df-a1f1-0026b9348838'
         });
       }
@@ -1092,6 +1103,13 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
         });
       }
 
+      if (this.civilStatus) {
+        attributes.push({
+          value: this.hieAdapter.getAmrsConceptUuidFromField(this.civilStatus),
+          attributeType: '8d871f2a-c2cc-11de-8d13-0010c6dffd0f'
+        });
+      }
+
       if (this.kinRelationship) {
         attributes.push({
           value: this.kinRelationship,
@@ -1147,63 +1165,50 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     if (!this.errors) {
       const savePatientSub = this.patientCreationResourceService
         .savePatient(payload)
-        .pipe(take(1))
-        .subscribe(
-          (success) => {
-            this.loaderStatus = false;
-            this.sessionStorageService.remove('person');
-            this.createdPatient = success;
-            const patientResult: any = success;
-            if (
-              !payload.identifiers.find(
-                (x) =>
-                  x.identifierType === 'cba702b9-4664-4b43-83f1-9ab473cbd64d'
-              )
-            ) {
-              console.log(
-                'Check if MOH no. will be assigned twice during patient creation'
-              );
-              this.patientCreationResourceService
-                .generateUPI(
-                  patientResult.person.uuid,
-                  this.countrySearchParam.value
-                )
-                .subscribe(
-                  (data) => {
-                    console.log('Success data', data);
-                  },
-                  (err) => {
-                    console.log('Error', err);
-                  }
+        .pipe(
+          take(1),
+          tap((res) => {
+            if (res) {
+              const patient = res as any;
+              if (this.formHieDependants.length > 0) {
+                this.createPatientDependantRelationsips(
+                  patient.uuid,
+                  this.formHieDependants
                 );
+              }
             }
-            if (this.createdPatient && !this.patientObsGroupId) {
-              this.modalRef = this.modalService.show(this.successModal, {
-                backdrop: 'static',
-                keyboard: false
-              });
-            } else if (this.patientObsGroupId) {
-              const patient: Patient = success as Patient;
-              this.patientCreationResourceService
-                .updatePatientContact(
-                  patient.person.uuid,
-                  this.patientObsGroupId
-                )
-                .subscribe((response) => {
-                  this.router.navigate([
-                    '/patient-dashboard/patient/' +
-                      patient.person.uuid +
-                      '/general/general/landing-page'
-                  ]);
-                });
-            }
-          },
-          (err) => {
+          }),
+          catchError((error: AmrsErrorResponse) => {
+            this.handleErrors(error);
+            throw error;
+          }),
+          finalize(() => {
             this.loaderStatus = false;
-            this.errorAlert = true;
-            this.errorAlerts = this.processErrors(err.error);
+          })
+        )
+        .subscribe((success) => {
+          this.loaderStatus = false;
+          this.sessionStorageService.remove('person');
+          this.createdPatient = success;
+
+          if (this.createdPatient && !this.patientObsGroupId) {
+            this.modalRef = this.modalService.show(this.successModal, {
+              backdrop: 'static',
+              keyboard: false
+            });
+          } else if (this.patientObsGroupId) {
+            const patient: Patient = success as Patient;
+            this.patientCreationResourceService
+              .updatePatientContact(patient.person.uuid, this.patientObsGroupId)
+              .subscribe((response) => {
+                this.router.navigate([
+                  '/patient-dashboard/patient/' +
+                    patient.person.uuid +
+                    '/general/general/landing-page'
+                ]);
+              });
           }
-        );
+        });
 
       this.subscriptions.push(savePatientSub);
     }
@@ -1215,6 +1220,25 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     const o = n.split(',');
 
     return o;
+  }
+  private handleErrors(error: AmrsErrorResponse) {
+    const errors = [];
+    if (error && error.error && error.error.error) {
+      const globalErrors = error.error.error.globalErrors || null;
+      if (globalErrors) {
+        this.errorAlert = true;
+        for (const err of globalErrors) {
+          errors.push(err.message);
+        }
+      } else {
+        this.errorAlert = true;
+        errors.push(
+          error.error.error.message ||
+            'An error occurred while creating the patient. Please try again or contact support'
+        );
+      }
+    }
+    this.errorAlerts = errors;
   }
 
   public updateVerify() {
@@ -1349,6 +1373,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.sessionStorageService.remove('person');
     this.sessionStorageService.remove('CRPatient');
     this.errors = false;
+    this.usingHieData = false;
   }
 
   public cancel() {
@@ -1359,6 +1384,8 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.subscriptions.map((sub) => sub.unsubscribe);
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public generatePatientIdentifier() {
@@ -1694,6 +1721,382 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     this.careGiverPhoneNumber = '';
     this.selectedLocation = '';
     this.partnerPhoneNumber = null;
+  }
+  resetHieError() {
+    this.hieVerificationMg = null;
+    this.hasHieVerificationError = false;
+  }
+  setHieError(msg: string) {
+    this.hieVerificationMg = msg;
+    this.hasHieVerificationError = true;
+  }
+  fetchHiePatient(hieClientSearchDto: HieClientSearchDto) {
+    this.resetHieError();
+    this.showHieVerificationLoader(
+      'Fetching client from HIE Registry...please wait'
+    );
+    this.hieService
+      .fetchClient(hieClientSearchDto)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res: any) => {
+          this.hieClient = res[0] || null;
+          this.hiePatientData = this.hieAdapter.generateAmrsHiePatientData(
+            this.hieClient,
+            null
+          );
+          if (this.hieClient) {
+            if (
+              this.hieClient.alternative_contacts &&
+              this.hieClient.alternative_contacts.length > 0
+            ) {
+              this.alternativeContacts = this.hieClient.alternative_contacts;
+              this.nextOfKinContact = this.alternativeContacts.find((a) => {
+                return a.remarks === 'Next Of Kin';
+              });
+              this.alternativeContact = this.alternativeContacts.find((a) => {
+                return a.relationship === 'Alternative Phone Number';
+              });
+            }
+          }
+
+          this.generateHieDependantsData();
+          this.showHieModal();
+        }),
+        finalize(() => {
+          this.hideHieVerificationLoader();
+          this.resetForm();
+        }),
+        catchError((error) => {
+          let msg = '';
+          if (error && error.error && error.error.details) {
+            msg = error.error.details;
+          } else if (error.message) {
+            msg = error.message;
+          } else {
+            msg =
+              'An error occurred while fetching the HIE client, please try again or contact support';
+          }
+          this.setHieError(msg);
+          throw error;
+        })
+      )
+      .subscribe();
+  }
+  showHieVerificationLoader(msg: string) {
+    this.showHieLoader = true;
+    this.hieVerificationMg = msg;
+  }
+  hideHieVerificationLoader() {
+    this.showHieLoader = false;
+  }
+  showHieModal() {
+    this.modalRef = this.modalService.show(this.hieVerificationModal, {
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+  useHieData() {
+    this.closehieVerification();
+    this.patientExists = false;
+    this.usingHieData = true;
+    this.formHieDependants = this.hieDependants;
+    this.givenName = this.hieClient.first_name;
+    this.middleName = this.hieClient.middle_name;
+    this.familyName = this.hieClient.last_name;
+    this.gender = this.hieClient.gender === 'Male' ? 'M' : 'F';
+    this.citizenship = this.hieClient.citizenship;
+    this.placeOfBirth = this.hieClient.place_of_birth;
+    this.civilStatus = this.hieClient.civil_status;
+    this.country = this.hieAdapter.getAmrsCountryFromHieCitizenship(
+      this.citizenship
+    );
+    if (this.alternativeContact) {
+      if (this.alternativeContact.contact_type === 'Phone') {
+        this.alternativePhoneNumber = this.alternativeContact.contact_id;
+      }
+    }
+    if (this.nextOfKinContact) {
+      if (this.nextOfKinContact.contact_type === 'Phone') {
+        this.nextofkinPhoneNumber = this.nextOfKinContact.contact_id;
+      }
+      this.kinName = this.nextOfKinContact.contact_name;
+      this.kinRelationship = this.nextOfKinContact.relationship;
+    }
+
+    this.updateBirthDate(this.hieClient.date_of_birth);
+    this.addPatientHieIdentifiersToForm(this.hieClient);
+    this.addPatientHieAttributesToForm(this.hieClient);
+    this.addResidencyHieDataToForm(this.hieClient);
+  }
+  closehieVerification() {
+    this.modalRef.hide();
+    this.errorAlert = false;
+  }
+  addPatientHieIdentifiersToForm(hieClient: HieClient) {
+    this.identifiers.push({
+      identifier: hieClient.id,
+      identifierType: IdentifierTypesUuids.CLIENT_REGISTRY_NO_UUID,
+      identifierTypeName: 'CR'
+    });
+    this.identifierAdded = true;
+    this.commonAdded = true;
+    if (
+      hieClient.identification_type === 'National ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.NATIONAL_ID_UUID,
+        identifierTypeName: 'National ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Refugee ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.REFUGEE_ID_UUID,
+        identifierTypeName: 'Refugee ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Alien ID' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.ALIEN_ID_UUID,
+        identifierTypeName: 'Alien ID'
+      });
+    }
+    if (
+      hieClient.identification_type === 'Mandate Number' &&
+      hieClient.identification_number !== ''
+    ) {
+      this.identifiers.push({
+        identifier: hieClient.identification_number,
+        identifierType: IdentifierTypesUuids.MANDATE_NUMBER_UUID,
+        identifierTypeName: 'Mandate Number'
+      });
+    }
+    if (hieClient.other_identifications.length > 0) {
+      hieClient.other_identifications.forEach((otherId) => {
+        let identifierTypeUuid = null;
+        let identifierTypeName = null;
+
+        if (otherId.identification_type === 'SHA Number') {
+          identifierTypeUuid = IdentifierTypesUuids.SHA_UUID;
+          identifierTypeName = 'SHA Number';
+        }
+        if (otherId.identification_type === 'Household Number') {
+          identifierTypeUuid = IdentifierTypesUuids.HOUSE_HOLD_NUMBER_UUID;
+          identifierTypeName = 'Household Number';
+        }
+        if (identifierTypeUuid && identifierTypeName) {
+          this.identifiers.push({
+            identifier: otherId.identification_number,
+            identifierType: identifierTypeUuid,
+            identifierTypeName: identifierTypeName
+          });
+        }
+      });
+    }
+  }
+  addPatientHieAttributesToForm(hieClient: HieClient) {
+    this.patientPhoneNumber = +hieClient.phone;
+    this.email = hieClient.email;
+    this.maritalStatusVal = this.hieAdapter.getAmrsConceptUuidFromField(
+      hieClient.civil_status
+    );
+  }
+  addResidencyHieDataToForm(hieCleint: HieClient) {
+    this.longitude = hieCleint.longitude;
+    this.latitude = hieCleint.latitude;
+    this.setCounty(this.titleCasePipe.transform(hieCleint.county));
+    this.setSubCounty(this.titleCasePipe.transform(hieCleint.sub_county));
+    this.setWard(this.titleCasePipe.transform(hieCleint.ward));
+    this.cityVillage = this.hieClient.village_estate;
+  }
+  registerOnAfyaYangu() {
+    window.open('https://afyayangu.go.ke/', '_blank');
+  }
+  displayHieOtpDialog() {
+    this.showOtpVericationDialog = true;
+  }
+  hideHieOtpDialog() {
+    this.showOtpVericationDialog = false;
+  }
+  listenToHieOtpConsentChanges() {
+    this.hieOtpClientConsentService.otpValidation$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (
+            res &&
+            res.data &&
+            res.data.status === 'valid' &&
+            res.source === this.source
+          ) {
+            this.fetchHiePatient({
+              identificationNumber: res.data.identification_number,
+              identificationType: res.data.identification_type as any,
+              locationUuid: this.currentUserLocation.uuid || ''
+            });
+          }
+        })
+      )
+      .subscribe();
+  }
+  generateHieDependantsData() {
+    const dependants: HieClientDependant[] = [];
+    this.hieClient.dependants.forEach((d) => {
+      const dep = d.result[0];
+      if (dep) {
+        dependants.push({
+          relationship: d.relationship,
+          date_added: d.date_added,
+          ...dep
+        });
+      }
+    });
+    this.hieDependants = dependants;
+  }
+  createPatientDependantRelationsips(
+    patientUuid: string,
+    hieClientDependants: HieClientDependant[]
+  ) {
+    const patientRelationships$: Observable<any>[] = [];
+    for (const dependant of hieClientDependants) {
+      patientRelationships$.push(
+        this.createPatientDependantRelationsip(patientUuid, dependant)
+      );
+    }
+
+    forkJoin(patientRelationships$)
+      .pipe(
+        take(1),
+        catchError((err: Error) => {
+          return EMPTY;
+        })
+      )
+      .subscribe();
+  }
+  createPatientDependantRelationsip(
+    patientUuid: string,
+    hieDependant: HieClientDependant
+  ) {
+    return this.createDependant(hieDependant).pipe(
+      takeUntil(this.destroy$),
+      switchMap((res) => {
+        if (res) {
+          const dependantPersonUuid = res.uuid;
+          return this.createDependantRelationship(
+            hieDependant,
+            patientUuid,
+            dependantPersonUuid
+          );
+        } else {
+          return of([]);
+        }
+      }),
+      catchError((err: Error) => {
+        console.log({ err });
+        return EMPTY;
+      })
+    );
+  }
+  generateRelationshipPayload(
+    hieDependant: HieClientDependant,
+    patientUuid: string,
+    dependantPersonUuid: string
+  ) {
+    const payload = this.hieAdapter.getPatientRelationshipPayload(
+      hieDependant.relationship,
+      patientUuid,
+      dependantPersonUuid
+    );
+
+    return payload;
+  }
+  createDependantRelationship(
+    hieDependant: HieClientDependant,
+    patientUuid: string,
+    dependantPersonUuid: string
+  ) {
+    const relationshipPayload = this.generateRelationshipPayload(
+      hieDependant,
+      patientUuid,
+      dependantPersonUuid
+    );
+    return this.createRelationship(relationshipPayload);
+  }
+  createRelationship(relationshipPayload: CreateRelationshipDto) {
+    return this.patientRelationshipService
+      .saveRelationship(relationshipPayload)
+      .pipe(
+        take(1),
+        map((res) => {
+          if (!res) {
+            throw new Error(
+              'An error occurred while creating the relationship'
+            );
+          } else {
+            return res;
+          }
+        }),
+        catchError((err: Error) => {
+          this.setErroMessage(
+            err.message || 'An error occurred while creating the relationship'
+          );
+          throw err;
+        })
+      );
+  }
+  createDependant(hieDependant: HieClientDependant) {
+    const depentantPersonPayload = this.createDependantPersonPayload(
+      hieDependant
+    );
+    return this.createDependantPerson(depentantPersonPayload);
+  }
+  createDependantPersonPayload(hieDependant: HieClientDependant) {
+    const createPersonPayload: CreatePersonDto = this.hieAdapter.generateAmrsPersonPayload(
+      hieDependant,
+      null
+    );
+    return createPersonPayload;
+  }
+  createDependantPerson(createPersonPayload: CreatePersonDto) {
+    return this.personResourceService.createPerson(createPersonPayload).pipe(
+      take(1),
+      map((res) => {
+        if (res) {
+          return res;
+        } else {
+          throw new Error('An error occurred while creating person');
+        }
+      }),
+      catchError((err: Error) => {
+        this.setErroMessage(
+          err.message || 'An error occurred while creating the dependant person'
+        );
+        throw err;
+      })
+    );
+  }
+  removeFormDependant(dependantToRemove: HieClientDependant) {
+    this.formHieDependants = this.formHieDependants.filter(
+      (dep: HieClientDependant) => {
+        return dep.id !== dependantToRemove.id;
+      }
+    );
+  }
+  public trackByFn(index: any, __: any) {
+    return index;
+  }
+  public testHie() {
+    this.fetchHiePatient(null);
   }
 }
 
