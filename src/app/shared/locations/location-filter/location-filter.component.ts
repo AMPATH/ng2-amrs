@@ -70,6 +70,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   @Input() public facility: string;
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onLocationChange = new EventEmitter<any>();
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() public onAggregateChange = new EventEmitter<any>();
 
   private _locationUuids: any | Array<any>;
@@ -92,7 +93,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   }
 
   public set isAggregated(v: any) {
-      this._isAggregated = v;
+    this._isAggregated = v;
   }
 
   private _programLocations: Array<any> = [];

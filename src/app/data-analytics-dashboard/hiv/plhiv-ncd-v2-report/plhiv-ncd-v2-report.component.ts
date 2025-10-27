@@ -113,7 +113,7 @@ export class PlhivNcdV2ReportComponent
       .getIsAggregated()
       .pipe()
       .subscribe((data) => {
-        if(data) {
+        if (data) {
           this.isAggregated = data.isAggregated;
         }
       });
