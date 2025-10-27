@@ -291,7 +291,7 @@ export class MOH412FilterComponent implements OnInit, OnChanges {
       .getIsAggregated()
       .pipe()
       .subscribe((data) => {
-        if(data) {
+        if (data) {
           this.isAggregated = data.isAggregated;
         }
       });

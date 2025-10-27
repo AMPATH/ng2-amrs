@@ -97,7 +97,7 @@ export class IPTReportComponent
       .getIsAggregated()
       .pipe()
       .subscribe((data) => {
-        if(data) {
+        if (data) {
           this.isAggregated = data.isAggregated;
         }
       });
