@@ -30,6 +30,7 @@ import { ValidateHieCustomOtpResponse } from 'src/app/models/hie-registry.model'
 import { HieOtpClientConsentService } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.service';
 import { ClientAmrsPatient } from 'src/app/hie-amrs-person-sync/model';
 import { PatientResourceService } from 'src/app/openmrs-api/patient-resource.service';
+import { FeatureFlagService } from '../../../feature-flag/feature-flag.service';
 @Component({
   selector: 'patient-banner',
   templateUrl: './patient-banner.component.html',
@@ -83,6 +84,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   public clientPatient: ClientAmrsPatient;
   public relationIsAPatient = false;
   public source = 'patient-banner';
+  public hieClientRegistryFeatureFlag = false;
 
   constructor(
     private patientService: PatientService,
@@ -95,7 +97,8 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
     private personAttributeResourceService: PersonAttributeResourceService,
     private patientProgramService: PatientProgramService,
     private hieOtpClientConsentService: HieOtpClientConsentService,
-    private patientResourceService: PatientResourceService
+    private patientResourceService: PatientResourceService,
+    private featureFlagService: FeatureFlagService
   ) {}
 
   public ngOnInit() {
@@ -103,6 +106,7 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
       this.isStaging = false;
     }
     this.listenToOtpValidationStatus();
+    this.getClientRegistryFeatureFlag();
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
         this.patient = new Patient({});
@@ -499,5 +503,18 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
   }
   testHieDialog() {
     this.showHeiDialog();
+  }
+  getClientRegistryFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('client-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieClientRegistryFeatureFlag = res.location;
+          }
+        })
+      )
+      .subscribe();
   }
 }

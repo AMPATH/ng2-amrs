@@ -60,6 +60,7 @@ import { CreateRelationshipDto } from '../interfaces/relationship.interface';
 import { PersonResourceService } from '../openmrs-api/person-resource.service';
 import { CreatePersonDto } from '../interfaces/person.interface';
 import { UserDefaultPropertiesService } from '../user-default-properties/user-default-properties.service';
+import { FeatureFlagService } from '../feature-flag/feature-flag.service';
 /**
  * ADDRESS MAPPINGS
  * country: country
@@ -265,6 +266,7 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
   ];
   public currentUserLocation: { uuid: string; display: string };
   public source = 'patient-registration';
+  public hieClientRegistryFeatureFlag = false;
 
   constructor(
     public toastrService: ToastrService,
@@ -287,10 +289,12 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
     private hieOtpClientConsentService: HieOtpClientConsentService,
     private patientRelationshipService: PatientRelationshipService,
     private personResourceService: PersonResourceService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private featureFlagService: FeatureFlagService
   ) {}
 
   public ngOnInit() {
+    this.getClientRegistryFeatureFlag();
     this.patientExists = false;
     this.getUserCurrentLocation();
     this.listenToHieOtpConsentChanges();
@@ -373,6 +377,19 @@ export class PatientCreationComponent implements OnInit, OnDestroy {
 
   getUserCurrentLocation() {
     this.currentUserLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
+  }
+  getClientRegistryFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('client-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieClientRegistryFeatureFlag = res.location;
+          }
+        })
+      )
+      .subscribe();
   }
 
   public setUpCountryTypeAhead() {

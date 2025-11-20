@@ -1,6 +1,7 @@
 <h4 class="component-title">
   <i class="fa fa-clipboard fa-fw"></i>Patient Information
 </h4>
+<ng-container *ngIf="hieClientRegistryFeatureFlag">
 <div class="row patient-info-row">
   <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
     <button (click)="showHieOtpDialog()" class="btn update-cr-btn">
@@ -8,6 +9,7 @@
     </button>
   </div>
 </div>
+</ng-container>
 
 <div class="row patient-info-row">
   <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
