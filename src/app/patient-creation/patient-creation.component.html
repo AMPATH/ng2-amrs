@@ -15,36 +15,36 @@
         </div>
       </ng-container>
       <ng-container *ngIf="hieClientRegistryFeatureFlag">
-      <div class="row" *ngIf="isNewPatient === 1">
-        <h2 style="color: #76b5c5">Patient Verification</h2>
-        <ng-container *ngIf="usingHieData">
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="row" *ngIf="isNewPatient === 1">
+          <h2 style="color: #76b5c5">Patient Verification</h2>
+          <ng-container *ngIf="usingHieData">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label for="citizenship">Citizenship</label>
+                <input
+                  id="citizenship"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="citizenship"
+                  name="citizenship"
+                  [readOnly]="usingHieData"
+                />
+              </div>
+            </div>
+          </ng-container>
+          <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
             <div class="form-group">
-              <label for="citizenship">Citizenship</label>
-              <input
-                id="citizenship"
-                type="text"
-                class="form-control"
-                [(ngModel)]="citizenship"
-                name="citizenship"
-                [readOnly]="usingHieData"
-              />
+              <button
+                id="searchHieBtn"
+                class="btn btn-primary"
+                (click)="displayHieOtpDialog()"
+                style="margin-left: 20px; margin-top: 23px"
+              >
+                Verify CR
+              </button>
             </div>
           </div>
-        </ng-container>
-        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
-          <div class="form-group">
-            <button
-              id="searchHieBtn"
-              class="btn btn-primary"
-              (click)="displayHieOtpDialog()"
-              style="margin-left: 20px; margin-top: 23px"
-            >
-              Verify CR
-            </button>
-          </div>
         </div>
-      </div>
       </ng-container>
 
       <!-- Start of Demographics -->
