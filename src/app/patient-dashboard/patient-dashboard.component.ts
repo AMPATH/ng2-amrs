@@ -1,4 +1,4 @@
-import { take } from 'rxjs/operators';
+import { take, takeUntil, tap } from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -8,7 +8,7 @@ import {
   DoCheck
 } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { PatientService } from './services/patient.service';
 import { Patient } from '../models/patient.model';
 import { LabsResourceService } from '../etl-api/labs-resource.service';
@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppFeatureAnalytics } from '../shared/app-analytics/app-feature-analytics.service';
 import { DynamicRoutesService } from '../shared/dynamic-route/dynamic-routes.service';
 import { PatientRoutesFactory } from '../navigation/side-navigation/patient-side-nav/patient-side-nav-routes.factory';
+import { FeatureFlagService } from '../feature-flag/feature-flag.service';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -43,6 +44,8 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
   private bodyElement;
   @ViewChild('containerElement')
   private containerElement;
+  public hieHwrFeatureFlag = false;
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private router: Router,
@@ -52,10 +55,12 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     private appFeatureAnalytics: AppFeatureAnalytics,
     private patientRoutesFactory: PatientRoutesFactory,
     private dynamicRoutesService: DynamicRoutesService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private featureFlagService: FeatureFlagService
   ) {}
 
   public ngOnInit() {
+    this.getHwrFeatureFlag();
     const sub = this.patientService.currentlyLoadedPatient.subscribe(
       (patientObject) => {
         if (patientObject) {
@@ -101,6 +106,8 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
     this.subscriptions.forEach((element) => {
       element.unsubscribe();
     });
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public getNewResults() {
@@ -184,5 +191,18 @@ export class PatientDashboardComponent implements OnInit, OnDestroy, DoCheck {
       })
     );
     return combineLatest(batch);
+  }
+  getHwrFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('health-worker-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieHwrFeatureFlag = res.location;
+          }
+        })
+      )
+      .subscribe();
   }
 }

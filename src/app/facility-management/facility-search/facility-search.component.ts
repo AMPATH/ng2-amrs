@@ -12,6 +12,7 @@ import {
   HieFacility
 } from '../../models/hie-registry.model';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
+import { FeatureFlagService } from '../../feature-flag/feature-flag.service';
 
 enum AlertType {
   Success = 'Success',
@@ -58,13 +59,16 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
   public showLoader = false;
   public loadingMessage = '';
   public currentUserLocation: { uuid: string; display: string };
+  public hieFacilityRegistryFeatureFlag = false;
 
   constructor(
     private locationResourceService: LocationResourceService,
     private hieService: HealthInformationExchangeService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private featureFlagService: FeatureFlagService
   ) {}
   ngOnInit(): void {
+    this.getFacilityRegistryFeatureFlag();
     this.getUserCurrentLocation();
     this.getAmrsLocations();
     this.listenToFilterChanges();
@@ -306,5 +310,18 @@ export class FacilitySearchComponent implements OnInit, OnDestroy {
   hideLoader() {
     this.showLoader = false;
     this.loadingMessage = '';
+  }
+  getFacilityRegistryFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('facility-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieFacilityRegistryFeatureFlag = res.location;
+          }
+        })
+      )
+      .subscribe();
   }
 }

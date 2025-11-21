@@ -77,11 +77,13 @@
               <span class="id-label">CR:</span>
               <span>{{ searchIdentifiers?.cr }}</span>
             </span>
-            <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
-              <button (click)="showHieOtpDialog()" class="btn verify-cr-btn">
-                <span class="glyphicon glyphicon-info-sign"></span>
-                <span>Verify CR</span>
-              </button>
+            <ng-container *ngIf="hieClientRegistryFeatureFlag">
+              <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
+                <button (click)="showHieOtpDialog()" class="btn verify-cr-btn">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                  <span>Verify CR</span>
+                </button>
+              </ng-container>
             </ng-container>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span
@@ -285,11 +287,13 @@
               <span class="id-label">CR:</span>
               <span>{{ searchIdentifiers?.cr }}</span>
             </span>
-            <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
-              <button (click)="showHieOtpDialog()" class="btn verify-cr-btn">
-                <span class="glyphicon glyphicon-info-sign"></span>
-                <span>Verify CR</span>
-              </button>
+            <ng-container *ngIf="hieClientRegistryFeatureFlag">
+              <ng-container *ngIf="!searchIdentifiers?.cr && showVerifyCrBtn">
+                <button (click)="showHieOtpDialog()" class="btn verify-cr-btn">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                  <span>Verify CR</span>
+                </button>
+              </ng-container>
             </ng-container>
             <span *ngIf="searchIdentifiers && enrolledToHEIProgram">
               <span

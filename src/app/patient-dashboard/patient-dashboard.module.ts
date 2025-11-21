@@ -38,6 +38,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
 import { GeneralLandingPageComponent } from './general-landing-page/landing-page.component';
 import { HieShrModule } from '../hie-shr/hie-shr.module';
+import { FeatureFlagModule } from '../feature-flag/feature-flag.module';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { HieShrModule } from '../hie-shr/hie-shr.module';
     ProgramManagerModule,
     GroupEnrollmentModule,
     RouterModule.forChild(routes),
-    HieShrModule
+    HieShrModule,
+    FeatureFlagModule
   ],
   declarations: [PatientDashboardComponent, GeneralLandingPageComponent],
   providers: [

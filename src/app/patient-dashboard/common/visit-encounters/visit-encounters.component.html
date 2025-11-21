@@ -9,7 +9,7 @@
     <p-tabPanel header="Encounters">
       <app-patient-encounters></app-patient-encounters>
     </p-tabPanel>
-    <ng-container *ngIf="patient?.searchIdentifiers?.cr">
+    <ng-container *ngIf="patient?.searchIdentifiers?.cr && hieShrFeatureFlag">
       <p-tabPanel header="Shared Health Records">
         <app-shr-encounters
           [crNo]="patient?.searchIdentifiers?.cr"

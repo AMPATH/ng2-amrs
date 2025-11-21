@@ -1,5 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { catchError, finalize, map, switchMap, take } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  catchError,
+  finalize,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { HealthInformationExchangeService } from 'src/app/hie-api/health-information-exchange.service';
 import {
   Practitioner,
@@ -8,15 +16,16 @@ import {
 import { ProviderResourceService } from 'src/app/openmrs-api/provider-resource.service';
 import { UserService } from '../../openmrs-api/user.service';
 import { IdentifierTypesUuids } from 'src/app/constants/identifier-types';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Subject } from 'rxjs';
 import { UserDefaultPropertiesService } from '../../user-default-properties/user-default-properties.service';
+import { FeatureFlagService } from '../../feature-flag/feature-flag.service';
 
 @Component({
   selector: 'app-practitioner-details',
   styleUrls: ['./practitioner-details.component.css'],
   templateUrl: './practitioner-details.component.html'
 })
-export class PractitionerDetailsComponent implements OnInit {
+export class PractitionerDetailsComponent implements OnInit, OnDestroy {
   practitioner: Practitioner;
   showSuccessAlert = false;
   successAlert = '';
@@ -25,17 +34,23 @@ export class PractitionerDetailsComponent implements OnInit {
   showLoader = false;
   loadingMessage = null;
   public currentUsertLocation: { uuid: string; display: string };
+  public hieHwrFeatureFlag = false;
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private userService: UserService,
     private providerResourceService: ProviderResourceService,
     private hieService: HealthInformationExchangeService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private featureFlagService: FeatureFlagService
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
-    this.getUserCurrentLocation();
+    this.getHwrFeatureFlag();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
   getUserCurrentLocation() {
     this.currentUsertLocation = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
@@ -140,5 +155,20 @@ export class PractitionerDetailsComponent implements OnInit {
   hideLoader() {
     this.showLoader = false;
     this.loadingMessage = null;
+  }
+  getHwrFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('health-worker-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieHwrFeatureFlag = res.location;
+            this.getCurrentUser();
+            this.getUserCurrentLocation();
+          }
+        })
+      )
+      .subscribe();
   }
 }

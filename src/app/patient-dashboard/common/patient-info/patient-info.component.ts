@@ -7,6 +7,7 @@ import { Subject, Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { takeUntil, tap } from 'rxjs/operators';
 import { ValidateHieCustomOtpResponse } from 'src/app/models/hie-registry.model';
+import { FeatureFlagService } from 'src/app/feature-flag/feature-flag.service';
 
 @Component({
   selector: 'app-patient-info',
@@ -25,15 +26,18 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
   public source = 'patient-info';
   private destroy$ = new Subject<boolean>();
   validateOtpResponse: ValidateHieCustomOtpResponse;
+  public hieClientRegistryFeatureFlag = false;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
     private patientService: PatientService,
     private modalService: BsModalService,
-    private hieOtpClientConsentService: HieOtpClientConsentService
+    private hieOtpClientConsentService: HieOtpClientConsentService,
+    private featureFlagService: FeatureFlagService
   ) {}
 
   public ngOnInit() {
+    this.getClientRegistryFeatureFlag();
     this.listenToHieOtpConsentChanges();
     const patientSub = this.patientService.currentlyLoadedPatient.subscribe(
       (patient) => {
@@ -95,6 +99,19 @@ export class PatientInfoComponent implements OnInit, OnDestroy {
           ) {
             this.validateOtpResponse = res;
             this.showHeVerificationiDialog();
+          }
+        })
+      )
+      .subscribe();
+  }
+  getClientRegistryFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('client-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieClientRegistryFeatureFlag = res.location;
           }
         })
       )
