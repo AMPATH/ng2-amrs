@@ -1,10 +1,11 @@
-import { take } from 'rxjs/operators';
+import { take, takeUntil, tap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Patient } from '../../../models/patient.model';
 import { UserDefaultPropertiesService } from '../../../user-default-properties';
+import { FeatureFlagService } from '../../../feature-flag/feature-flag.service';
 
 @Component({
   selector: 'visit-encounters',
@@ -25,11 +26,15 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
   };
   public patient: Patient;
   private subs: Subscription[] = [];
+  public hieShrFeatureFlag = false;
+  private destroy$ = new Subject<boolean>();
   constructor(
     private _patientService: PatientService,
-    private _encounterResourceService: EncounterResourceService
+    private _encounterResourceService: EncounterResourceService,
+    private featureFlagService: FeatureFlagService
   ) {}
   public ngOnInit() {
+    this.getShrFeatureFlag();
     this.getPatientUuid();
     this.encounterDetail = true;
   }
@@ -38,6 +43,8 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public getPatientUuid() {
@@ -68,5 +75,18 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
   }
   public showEncounters() {
     this.showVisitsObservations = false;
+  }
+  getShrFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('shared-health-records')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieShrFeatureFlag = res.location;
+          }
+        })
+      )
+      .subscribe();
   }
 }

@@ -15,10 +15,6 @@ export class FeatureFlagService {
 
   getFeatureFlag(featureFlagName: string): Observable<FeatureFlagResponse> {
     {
-      console.log(
-        'LOCATION: ' +
-          this.userDefaultPropertyService.getCurrentUserDefaultLocation()
-      );
       return this.httpClient.post(this.fatureFlagBaseUrl, {
         featureFlagName,
         context: this.getContext()

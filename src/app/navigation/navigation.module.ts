@@ -13,6 +13,7 @@ import { FormSchemaService } from '../patient-dashboard/common/formentry/form-sc
 import { FormSchemaCompiler } from '@ampath-kenya/ngx-openmrs-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
+import { FeatureFlagService } from '../feature-flag/feature-flag.service';
 
 @NgModule({
   imports: [RouterModule, CommonModule, NgamrsSharedModule],
@@ -34,7 +35,8 @@ import { FormListService } from '../patient-dashboard/common/forms/form-list.ser
     FormOrderMetaDataService,
     FormSchemaService,
     FormSchemaCompiler,
-    FormListService
+    FormListService,
+    FeatureFlagService
   ]
 })
 export class NavigationModule {}

@@ -36,7 +36,7 @@
               <span>Data Analytics</span>
             </a>
           </li>
-          <ng-container *ngIf="viewPractionionerData">
+          <ng-container *ngIf="viewPractionionerData && hieHwrFeatureFlag">
             <li class="practitioner-search">
               <a routerLink="/practitioner/search" routerLinkActive="active">
                 <i class="fa fa-users mr-1"></i>
@@ -44,12 +44,15 @@
               </a>
             </li>
           </ng-container>
-          <li class="facility-search">
+          <ng-container *ngIf="hieFrFeatureFlag">
+            <li class="facility-search">
             <a routerLink="/facility/search" routerLinkActive="active">
               <i class="fa fa-hospital-o mr-1"></i>
               <span>Facility Registry</span>
             </a>
           </li>
+          </ng-container>
+          
         </ul>
       </li>
       <li
@@ -97,11 +100,13 @@
               Settings
             </a>
           </li>
-          <li>
+          <ng-container *ngIf="hieHwrFeatureFlag">
+             <li>
             <a routerLink="/practitioner/profile" routerLinkActive="active">
               <i class="fa fa-user-md fa-fw"></i>Health Worker Profile
             </a>
           </li>
+          </ng-container>
           <li>
             <a (click)="navigateToAfyaYangu()">
               <i class="fa fa-stethoscope fa-fw"></i>Afya Yangu

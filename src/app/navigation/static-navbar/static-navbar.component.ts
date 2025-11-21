@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserService } from '../../openmrs-api/user.service';
@@ -8,16 +8,22 @@ import { User } from '../../models/user.model';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { FormUpdaterService } from '../../patient-dashboard/common/formentry/form-updater.service';
 import { RoleUuids } from 'src/app/constants/role.contants';
+import { FeatureFlagService } from '../../feature-flag/feature-flag.service';
+import { takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
 @Component({
   selector: 'static-navbar',
   templateUrl: './static-navbar.component.html',
   styles: ['.mr-1 { margin-right: 1rem }']
 })
-export class StaticNavBarComponent implements OnInit {
+export class StaticNavBarComponent implements OnInit, OnDestroy {
   public user: User;
   public userLocation = '';
   public department: any;
   private viewPractionionerData = false;
+  private hieHwrFeatureFlag = false;
+  private hieFrFeatureFlag = false;
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private router: Router,
@@ -25,10 +31,12 @@ export class StaticNavBarComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private userDefaultSettingsService: UserDefaultPropertiesService,
     private userService: UserService,
-    private formUpdaterService: FormUpdaterService
+    private formUpdaterService: FormUpdaterService,
+    private featureFlagService: FeatureFlagService
   ) {}
 
   public ngOnInit() {
+    this.getFeatureFlags();
     this.setUserLocation();
     const department = this.localStore.getItem('userDefaultDepartment');
     if (department) {
@@ -43,6 +51,11 @@ export class StaticNavBarComponent implements OnInit {
       localStorage.removeItem('cacheCleared');
     }
     this.canViewPractitioners();
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public logout() {
@@ -99,5 +112,33 @@ export class StaticNavBarComponent implements OnInit {
   }
   navigateToAfyaYangu() {
     window.open('https://afyayangu.go.ke/', '_blank');
+  }
+  getFeatureFlags() {
+    combineLatest([
+      this.getHwrFeatureFlag(),
+      this.getFacilityRegistryFeatureFlag()
+    ])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(([hwrFf, frFF]) => {
+          if (hwrFf.location) {
+            this.hieHwrFeatureFlag = hwrFf.location;
+          }
+          if (frFF.location) {
+            this.hieFrFeatureFlag = frFF.location;
+          }
+        })
+      )
+      .subscribe();
+  }
+  getHwrFeatureFlag() {
+    return this.featureFlagService
+      .getFeatureFlag('health-worker-registry')
+      .pipe(takeUntil(this.destroy$));
+  }
+  getFacilityRegistryFeatureFlag() {
+    return this.featureFlagService
+      .getFeatureFlag('facility-registry')
+      .pipe(takeUntil(this.destroy$));
   }
 }

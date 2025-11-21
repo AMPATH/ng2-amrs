@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HealthInformationExchangeService } from 'src/app/hie-api/health-information-exchange.service';
 import {
@@ -7,13 +7,16 @@ import {
   Providers
 } from '../../models/practitioner.model';
 import { UserDefaultPropertiesService } from '../../user-default-properties';
+import { FeatureFlagService } from '../../feature-flag/feature-flag.service';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-practitioner-search',
   templateUrl: './practitioner-search.component.html',
   styleUrls: ['./practitioner-search.component.css']
 })
-export class PractitionerSearchComponent implements OnInit {
+export class PractitionerSearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   providers: Providers[] = [];
   allProviders: Providers[] = [];
@@ -23,12 +26,15 @@ export class PractitionerSearchComponent implements OnInit {
   showModal = false;
   errorMessage: string | null = null;
   public currentUserLocation: { uuid: string; display: string };
+  public hieHwrFeatureFlag = false;
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
     private practitionerService: HealthInformationExchangeService,
     private propertyLocationService: UserDefaultPropertiesService,
-    private userDefaultPropertiesService: UserDefaultPropertiesService
+    private userDefaultPropertiesService: UserDefaultPropertiesService,
+    private featureFlagService: FeatureFlagService
   ) {
     this.searchForm = this.fb.group({
       searchType: ['NATIONAL_ID'],
@@ -37,7 +43,12 @@ export class PractitionerSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getHwrFeatureFlag();
     this.getUserCurrentLocation();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   private getUserCurrentLocation() {
@@ -47,17 +58,20 @@ export class PractitionerSearchComponent implements OnInit {
   getAllProviders(): void {
     this.isLoading = true;
     const currentLocation = this.propertyLocationService.getCurrentUserDefaultLocationObject();
-    this.practitionerService.getAllProviders(currentLocation.uuid).subscribe({
-      next: (providers) => {
-        this.allProviders = providers;
-        this.providers = providers;
-        this.isLoading = false;
-        this.searchPerformed = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      }
-    });
+    this.practitionerService
+      .getAllProviders(currentLocation.uuid)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (providers) => {
+          this.allProviders = providers;
+          this.providers = providers;
+          this.isLoading = false;
+          this.searchPerformed = false;
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
   }
 
   onSearch(): void {
@@ -99,33 +113,36 @@ export class PractitionerSearchComponent implements OnInit {
         break;
     }
 
-    this.practitionerService.searchPractitioners(searchParams).subscribe({
-      next: (practitioners) => {
-        if (practitioners && practitioners.length > 0) {
-          this.selectedPractitioner = practitioners[0];
-          this.showModal = true;
-          if (searchValueControl) {
-            searchValueControl.setValue('');
+    this.practitionerService
+      .searchPractitioners(searchParams)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (practitioners) => {
+          if (practitioners && practitioners.length > 0) {
+            this.selectedPractitioner = practitioners[0];
+            this.showModal = true;
+            if (searchValueControl) {
+              searchValueControl.setValue('');
+            }
+          } else {
+            this.errorMessage =
+              'No practitioner found with the provided search criteria.';
+            setTimeout(() => {
+              this.errorMessage = null;
+            }, 5000);
           }
-        } else {
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
           this.errorMessage =
-            'No practitioner found with the provided search criteria.';
+            error.message ||
+            'Failed to search practitioner. Please try again later.';
           setTimeout(() => {
             this.errorMessage = null;
           }, 5000);
         }
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        this.errorMessage =
-          error.message ||
-          'Failed to search practitioner. Please try again later.';
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 5000);
-      }
-    });
+      });
   }
 
   onReset(): void {
@@ -145,28 +162,44 @@ export class PractitionerSearchComponent implements OnInit {
       locationUuid: this.currentUserLocation.uuid
     };
 
-    this.practitionerService.searchPractitioners(searchParams).subscribe({
-      next: (practitioners) => {
-        if (practitioners && practitioners.length > 0) {
-          this.selectedPractitioner = practitioners[0];
-          this.showModal = true;
+    this.practitionerService
+      .searchPractitioners(searchParams)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (practitioners) => {
+          if (practitioners && practitioners.length > 0) {
+            this.selectedPractitioner = practitioners[0];
+            this.showModal = true;
+          }
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage =
+            error.message ||
+            'Failed to load provider details. Please try again later.';
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 5000);
         }
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        this.errorMessage =
-          error.message ||
-          'Failed to load provider details. Please try again later.';
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 5000);
-      }
-    });
+      });
   }
 
   closeModal(): void {
     this.showModal = false;
     this.selectedPractitioner = null;
+  }
+  getHwrFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('health-worker-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => {
+          if (res.location) {
+            this.hieHwrFeatureFlag = res.location;
+          }
+        })
+      )
+      .subscribe();
   }
 }
