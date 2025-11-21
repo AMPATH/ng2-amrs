@@ -10,7 +10,7 @@ import { FormUpdaterService } from '../../patient-dashboard/common/formentry/for
 import { RoleUuids } from 'src/app/constants/role.contants';
 import { FeatureFlagService } from '../../feature-flag/feature-flag.service';
 import { takeUntil, tap } from 'rxjs/operators';
-import { combineLatest, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'static-navbar',
   templateUrl: './static-navbar.component.html',
@@ -20,9 +20,9 @@ export class StaticNavBarComponent implements OnInit, OnDestroy {
   public user: User;
   public userLocation = '';
   public department: any;
-  private viewPractionionerData = false;
-  private hieHwrFeatureFlag = false;
-  private hieFrFeatureFlag = false;
+  public viewPractionionerData = false;
+  public hieHwrFeatureFlag = false;
+  public hieFrFeatureFlag = false;
   private destroy$ = new Subject<boolean>();
 
   constructor(
@@ -114,31 +114,32 @@ export class StaticNavBarComponent implements OnInit, OnDestroy {
     window.open('https://afyayangu.go.ke/', '_blank');
   }
   getFeatureFlags() {
-    combineLatest([
-      this.getHwrFeatureFlag(),
-      this.getFacilityRegistryFeatureFlag()
-    ])
+    this.getHwrFeatureFlag(), this.getFacilityRegistryFeatureFlag();
+  }
+  getHwrFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('health-worker-registry')
       .pipe(
         takeUntil(this.destroy$),
-        tap(([hwrFf, frFF]) => {
+        tap((hwrFf) => {
           if (hwrFf.location) {
             this.hieHwrFeatureFlag = hwrFf.location;
           }
+        })
+      )
+      .subscribe();
+  }
+  getFacilityRegistryFeatureFlag() {
+    this.featureFlagService
+      .getFeatureFlag('facility-registry')
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((frFF) => {
           if (frFF.location) {
             this.hieFrFeatureFlag = frFF.location;
           }
         })
       )
       .subscribe();
-  }
-  getHwrFeatureFlag() {
-    return this.featureFlagService
-      .getFeatureFlag('health-worker-registry')
-      .pipe(takeUntil(this.destroy$));
-  }
-  getFacilityRegistryFeatureFlag() {
-    return this.featureFlagService
-      .getFeatureFlag('facility-registry')
-      .pipe(takeUntil(this.destroy$));
   }
 }
