@@ -273,7 +273,10 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       cervical_screening_result: 'Cervical Screening Result',
       sms_consent_provided: 'SMS Consent Provided',
       sms_receive_time: 'SMS Time',
-      nearest_center: 'Nearest Center'
+      nearest_center: 'Nearest Center',
+      patient_categorization: 'Patient Categorization',
+      service_delivery_model: 'Service Model',
+      dsd_model: 'DSD Model'
     };
 
     // tslint:disable-next-line

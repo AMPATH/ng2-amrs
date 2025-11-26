@@ -117,6 +117,21 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       headerName: 'Latest VL Date',
       width: 150,
       field: 'latest_vl_date'
+    },
+    {
+      headerName: 'Patient Categorization',
+      width: 150,
+      field: 'patient_categorization'
+    },
+    {
+      headerName: 'Service Model',
+      width: 150,
+      field: 'service_delivery_model'
+    },
+    {
+      headerName: 'DSD Model',
+      width: 150,
+      field: 'dsd_model'
     }
   ];
   public errors: any[] = [];
