@@ -24,6 +24,7 @@ import { CommunityGroupService } from '../../../../openmrs-api/community-group-r
 import { ProviderResourceService } from '../../../../openmrs-api/provider-resource.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 
 @Component({
   selector: 'app-visit-starter',
@@ -123,7 +124,8 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
     private communityGroupService: CommunityGroupService,
     private datePipe: DatePipe,
     private route: ActivatedRoute,
-    private providerResourceService: ProviderResourceService
+    private providerResourceService: ProviderResourceService,
+    private toastrService: ToastrFunctionService
   ) {}
 
   public ngOnInit() {
@@ -192,6 +194,24 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
 
   public startVisit(visitType) {
     this.selectedVisitType = visitType;
+    const hivAgeFriendlyVisitAllowedLocations = [
+      '18c343eb-b353-462a-9139-b16606e6b6c2', // location test
+      '08feae7c-1352-11df-a1f1-0026b9348838', // module 1
+      '08fec056-1352-11df-a1f1-0026b9348838', // module 2
+      '08fec150-1352-11df-a1f1-0026b9348838' // module 3
+    ];
+
+    if (
+      this.selectedVisitType.uuid === '92e0e4da-5013-4a39-89ca-f7ee7e1e979a' &&
+      !hivAgeFriendlyVisitAllowedLocations.includes(this.selectedLocation.value)
+    ) {
+      this.toastrService.showToastr(
+        'error',
+        'This visit is currently being piloted at only MTRH Modules 1-3 for patients aged over 50 years.',
+        ''
+      );
+      return;
+    }
     if (visitType.groupVisit) {
       this._subscription.add(
         this.communityGroupMemberService
