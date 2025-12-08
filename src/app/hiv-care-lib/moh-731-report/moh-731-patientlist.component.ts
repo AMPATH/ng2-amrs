@@ -243,6 +243,9 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       weight: 'Weight',
       height: 'Height',
       stage: 'WHO Stage',
+      patient_categorization: 'Patient Categorization',
+      service_delivery_model: 'Service Model',
+      dsd_model: 'DSD Model',
       location: 'Location',
       enrollment_date: 'Enrollment Date',
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
@@ -273,10 +276,7 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       cervical_screening_result: 'Cervical Screening Result',
       sms_consent_provided: 'SMS Consent Provided',
       sms_receive_time: 'SMS Time',
-      nearest_center: 'Nearest Center',
-      patient_categorization: 'Patient Categorization',
-      service_delivery_model: 'Service Model',
-      dsd_model: 'DSD Model'
+      nearest_center: 'Nearest Center'
     };
 
     // tslint:disable-next-line

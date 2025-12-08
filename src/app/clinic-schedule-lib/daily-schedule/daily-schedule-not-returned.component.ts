@@ -56,6 +56,21 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       field: 'stage'
     },
     {
+      headerName: 'Patient Categorization',
+      width: 150,
+      field: 'patient_categorization'
+    },
+    {
+      headerName: 'Service Model',
+      width: 150,
+      field: 'service_delivery_model'
+    },
+    {
+      headerName: 'DSD Model',
+      width: 150,
+      field: 'dsd_model'
+    },
+    {
       headerName: 'Covid-19 Assessment Status',
       width: 250,
       field: 'covid_19_vaccination_status'
@@ -106,21 +121,6 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       headerName: 'SMS Delivery Status',
       width: 100,
       field: 'sms_delivery_status'
-    },
-    {
-      headerName: 'Patient Categorization',
-      width: 150,
-      field: 'patient_categorization'
-    },
-    {
-      headerName: 'Service Model',
-      width: 150,
-      field: 'service_delivery_model'
-    },
-    {
-      headerName: 'DSD Model',
-      width: 150,
-      field: 'dsd_model'
     }
   ];
   public filter: any = {

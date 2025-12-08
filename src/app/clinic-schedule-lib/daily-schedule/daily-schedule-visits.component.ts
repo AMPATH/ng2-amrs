@@ -29,6 +29,21 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       field: 'program'
     },
     {
+      headerName: 'Patient Categorization',
+      width: 150,
+      field: 'patient_categorization'
+    },
+    {
+      headerName: 'Service Model',
+      width: 150,
+      field: 'service_delivery_model'
+    },
+    {
+      headerName: 'DSD Model',
+      width: 150,
+      field: 'dsd_model'
+    },
+    {
       headerName: 'ART start date',
       width: 120,
       field: 'arv_first_regimen_start_date'
@@ -84,21 +99,6 @@ export class DailyScheduleVisitsComponent implements OnInit, OnDestroy {
       headerName: 'SMS Delivery Status',
       width: 100,
       field: 'sms_delivery_status'
-    },
-    {
-      headerName: 'Patient Categorization',
-      width: 150,
-      field: 'patient_categorization'
-    },
-    {
-      headerName: 'Service Model',
-      width: 150,
-      field: 'service_delivery_model'
-    },
-    {
-      headerName: 'DSD Model',
-      width: 150,
-      field: 'dsd_model'
     }
   ];
   public filter: any = {
