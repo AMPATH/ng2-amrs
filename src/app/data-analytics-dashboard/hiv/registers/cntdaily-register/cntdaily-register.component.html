@@ -1,0 +1,235 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [monthString]="_month"
+        (onMonthChange)="onMonthChange($event)"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot *ngIf="careTreatmentRegisterData && careTreatmentRegisterData.length > 0">
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>HIV Care Treatment Daily Activity Register MOH 366</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="4">No</th>
+          <th colspan="2" rowspan="4">Date</th>
+          <th colspan="3">National Identification Number</th>
+          <th colspan="3" rowspan="4">Client CCC Number</th>
+          <th rowspan="4">Age</th>
+          <th colspan="14" class="text-centre">Starting ART</th>
+          <th colspan="4" class="text-centre">
+            TB in HIV Care <br />(Newly Initiated on ART)
+          </th>
+          <th colspan="14" class="text-centre">
+            Currently on ART (Starting and Continuing ART)
+          </th>
+          <th colspan="4" class="text-centre">DSD</th>
+          <th colspan="4" rowspan="4" class="text-centre">Remarks</th>
+        </tr>
+        <tr>
+          <th colspan="3" rowspan="3">Client Unique Number (NUPI)</th>
+          <th colspan="14" rowspan="2" class="text-centre">
+            Tick as appropriate for age
+          </th>
+          <th colspan="2">Screened for TB</th>
+          <th colspan="2">Started TPT</th>
+          <th colspan="14" rowspan="2" class="text-centre">
+            Indicate No. of months of till next appointment or <br />
+            "R"for patients making unscheduled visits
+          </th>
+          <th colspan="2">Status</th>
+          <th colspan="2">Type</th>
+        </tr>
+        <tr>
+          <th colspan="4" class="text-centre">Indicate Y/N/NA</th>
+          <th colspan="2" rowspan="2" class="text-center vertical-text">
+            E=Established <br />
+            NE=Not Established
+          </th>
+          <th colspan="2" rowspan="2" class="text-center">
+            C<br />
+            FT<br />
+            HFAG<br />
+            PFAG<br />
+            HCAG<br />
+            PCAG<br />
+            CP<br />
+            CADP<br />
+            IACD
+          </th>
+        </tr>
+        <tr>
+          <th class="text-center vertical-text">< 1 yrs (M)</th>
+          <th class="text-center vertical-text">< 1 yrs (F)</th>
+          <th class="text-center vertical-text">1-4 yrs (M)</th>
+          <th class="text-center vertical-text">1-4 yrs (F)</th>
+          <th class="text-center vertical-text">5-9 yrs (M)</th>
+          <th class="text-center vertical-text">5-9 yrs (F)</th>
+          <th class="text-center vertical-text">10-14 yrs (M)</th>
+          <th class="text-center vertical-text">10-14 yrs (F)</th>
+          <th class="text-center vertical-text">15-19 yrs (M)</th>
+          <th class="text-center vertical-text">15-19 yrs (F)</th>
+          <th class="text-center vertical-text">20-24 yrs(M)</th>
+          <th class="text-center vertical-text">20-24 yrs (F)</th>
+          <th class="text-center vertical-text">25+ yrs (M)</th>
+          <th class="text-center vertical-text">25+ yrs (F)</th>
+          <th class="text-center vertical-text">< 15 yrs</th>
+          <th class="text-center vertical-text">15+ yrs</th>
+          <th class="text-center vertical-text">< 15 yrs</th>
+          <th class="text-center vertical-text">15+ yrs</th>
+          <th class="text-center vertical-text">< 1 yrs (M)</th>
+          <th class="text-center vertical-text">< 1 yrs (F)</th>
+          <th class="text-center vertical-text">1-4 yrs (M)</th>
+          <th class="text-center vertical-text">1-4 yrs (F)</th>
+          <th class="text-center vertical-text">5-9 yrs (M)</th>
+          <th class="text-center vertical-text">5-9 yrs (F)</th>
+          <th class="text-center vertical-text">10-14 yrs (M)</th>
+          <th class="text-center vertical-text">10-14 yrs (F)</th>
+          <th class="text-center vertical-text">15-19 yrs (M)</th>
+          <th class="text-center vertical-text">15-19 yrs (F)</th>
+          <th class="text-center vertical-text">20-24 yrs(M)</th>
+          <th class="text-center vertical-text">20-24 yrs (F)</th>
+          <th class="text-center vertical-text">25+ yrs (M)</th>
+          <th class="text-center vertical-text">25+ yrs (F)</th>
+        </tr>
+        <tr>
+          <th class="text-center">(a)</th>
+          <th colspan="2" class="text-center">(b)</th>
+          <th colspan="3" class="text-center">(c)</th>
+          <th colspan="3" class="text-center">(d)</th>
+          <th class="text-center">(e)</th>
+          <th class="text-center">(f)</th>
+          <th class="text-center">(g)</th>
+          <th class="text-center">(h)</th>
+          <th class="text-center">(i)</th>
+          <th class="text-center">(j)</th>
+          <th class="text-center">(k)</th>
+          <th class="text-center">(l)</th>
+          <th class="text-center">(m)</th>
+          <th class="text-center">(n)</th>
+          <th class="text-center">(o)</th>
+          <th class="text-center">(q)</th>
+          <th class="text-center">(r)</th>
+          <th class="text-center">(s)</th>
+          <th class="text-center">(t)</th>
+          <th class="text-center">(u)</th>
+          <th class="text-center">(v)</th>
+          <th class="text-center">(w)</th>
+          <th class="text-center">(x)</th>
+          <th class="text-center">(y)</th>
+          <th class="text-center">(z)</th>
+          <th class="text-center">(aa)</th>
+          <th class="text-center">(ab)</th>
+          <th class="text-center">(ac)</th>
+          <th class="text-center">(ad)</th>
+          <th class="text-center">(ae)</th>
+          <th class="text-center">(af)</th>
+          <th class="text-center">(ag)</th>
+          <th class="text-center">(ah)</th>
+          <th class="text-center">(ai)</th>
+          <th class="text-center">(aj)</th>
+          <th class="text-center">(ak)</th>
+          <th class="text-center">(al)</th>
+          <th colspan="2" class="text-center">(am)</th>
+          <th colspan="2" class="text-center">(an)</th>
+          <th colspan="4" class="text-center">(ao)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container
+            *ngFor="let data of careTreatmentRegisterData; let a = index"
+          >
+          <tr>
+            <td class="text-center" rowspan="2">{{a+1}}</td>
+            <td colspan="2" class="text-center" rowspan="2">{{data.DATE}}</td>
+            <td colspan="3" class="text-center">{{data.National_ID}}</td>
+            <td colspan="3" class="text-center" rowspan="2">{{data.CCC_Number}}</td>
+            <td class="text-center" rowspan="2">{{data.Age}}</td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td class="text-center" rowspan="2"></td>
+            <td colspan="2" class="text-center" rowspan="2"></td>
+            <td colspan="2" class="text-center" rowspan="2"></td>
+            <td colspan="4" class="text-center" rowspan="2"></td>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-center">{{data.NUPI}}</td>
+          </tr>
+        </ng-container>
+
+      
+       
+      </tbody>
+    </table>
+  </div>
+</div>
