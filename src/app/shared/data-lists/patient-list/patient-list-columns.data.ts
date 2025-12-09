@@ -34,6 +34,18 @@ export class PatientListColumns {
         pinned: true
       },
       {
+        headerName: 'CR',
+        width: 150,
+        field: 'cr_id',
+        pinned: true
+      },
+      {
+        headerName: 'SHA',
+        width: 150,
+        field: 'sha_id',
+        pinned: true
+      },
+      {
         headerName: 'Gender',
         width: 75,
         field: 'gender'
