@@ -322,7 +322,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
           this.patientUuId = this.patient.person.uuid;
           this.getHistoricalPatientLabResults(this.patientUuId, {
             startIndex: this.nextStartIndex.toString(),
-            limit: '20'
+            limit: '200'
           });
         }
       }
@@ -375,7 +375,7 @@ export class LabResultComponent implements OnInit, OnDestroy {
     this.labsResourceService
       .getHistoricalPatientLabResults(this.patientUuId, {
         startIndex: this.nextStartIndex.toString(),
-        limit: '20'
+        limit: params.limit // '200'
       })
       .pipe(take(1))
       .subscribe(
