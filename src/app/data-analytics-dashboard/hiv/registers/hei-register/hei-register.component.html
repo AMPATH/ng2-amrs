@@ -9,15 +9,15 @@
 <p-tabView>
   <div>
     <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
-      <report-filters
-        [enabledControls]="enabledControls"
-        (startDateChange)="onMonthChange($event)"
+      <app-hei-register-filters
         [(startDate)]="startDate"
         [(endDate)]="endDate"
-        [reportName]="reportName"
+        [(locationUuids)]="jointLocationUuids"
+        [showLocationsControl]="showLocationsControl"
+        [showIsAggregateControl]="showIsAggregateControl"
         (generateReport)="generateReport()"
       >
-      </report-filters>
+      </app-hei-register-filters>
     </p-tabPanel>
   </div>
 </p-tabView>
@@ -67,8 +67,9 @@
       <thead>
         <tr>
           <th colspan="58">
-            Cohort: Month/Year
-            (MMM-YYYY).........................../..............................................
+            Cohort: Month/Year (MMM-YYYY)...........................{{
+              formattedStartDate
+            }}..............................................
           </th>
         </tr>
         <tr>
@@ -91,9 +92,7 @@
         </tr>
         <tr>
           <th colspan="1" rowspan="2">Serial No.</th>
-          <th colspan="3" rowspan="2">
-            Date of Collected enrollment (DD/MM/YYYY)
-          </th>
+          <th colspan="3" rowspan="2">Date of enrollment (DD/MM/YYYY)</th>
           <th colspan="3">
             Birth Certificate<br />
             Number
@@ -183,72 +182,90 @@
               {{ data.HEI_ID }}
             </td>
             <td colspan="4" rowspan="2">
-              {{ data.Infant_name }}
+              {{ data.given_name }} {{ data.middle_name }}
+              {{ data.family_name }}
             </td>
             <td colspan="2" rowspan="2">
-              {{ transformDate(data.birth_date) }}
+              {{ transformDate(data.dob) }}
             </td>
             <td colspan="2">Sex</td>
-            <td colspan="3" rowspan="2">{{ null }}</td>
+            <td colspan="3" rowspan="2">{{ data.infant_prophylaxis }}</td>
             <td colspan="4">{{ data.parent_name }}</td>
             <td rowspan="2">
-              {{ data.age_in_weeks_on_first_pcr }}
+              {{ data.pcr_one ? data.pcr_one_age_weeks : '' }}
             </td>
             <td colspan="2" rowspan="2">
               {{ date_enrolled }}
             </td>
-            <td colspan="2">{{ transformDate(data.first_pcr_date) }}</td>
-            <td colspan="2" rowspan="2">
-              {{ data.age_in_months_on_second_pcr }}
+            <td colspan="2">
+              {{ transformDate(data.pcr_one ? data.pcr_one_date : '') }}
             </td>
-            <td colspan="2">{{ transformDate(data.second_pcr_date) }}</td>
             <td colspan="2" rowspan="2">
-              {{ data.age_in_months_on_third_pcr }}
+              {{ data.pcr_two ? data.pcr_two_age_months : '' }}
             </td>
-            <td colspan="2">{{ transformDate(data.third_pcr_date) }}</td>
+            <td colspan="2">
+              {{ transformDate(data.pcr_two ? data.pcr_two_date : '') }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ data.pcr_three ? data.pcr_three_age_months : '' }}
+            </td>
+            <td colspan="2">
+              {{ transformDate(data.pcr_three ? data.pcr_three_date : '') }}
+            </td>
             <td colspan="2">Infant Feeding</td>
             <td colspan="2" rowspan="2">
-              {{ data.hei_outcome }}
+              {{ null }}
             </td>
             <td colspan="2" rowspan="2">
-              {{ data.age_in_months_on_confirm_pcr }}
+              {{ data.confirm_pcr ? data.confirm_pcr_age_months : '' }}
             </td>
-            <td colspan="2">{{ transformDate(data.confirm_pcr_date) }}</td>
+            <td colspan="2">
+              {{ transformDate(data.confirm_pcr ? data.confirm_pcr_date : '') }}
+            </td>
             <td colspan="2" rowspan="2">
               {{ data.age_in_months_on_first_antibody }}
             </td>
             <td colspan="2">
-              {{ transformDate(data.first_antibody_date) }}
+              {{ transformDate(data.antibody_date) }}
             </td>
             <td colspan="2">{{ null }}</td>
-            <td colspan="2">{{ null }}</td>
-            <td colspan="4" rowspan="2">{{ null }}</td>
+            <td colspan="2">
+              {{ data.death_date ? data.death_date : data.hei_outcome }}
+            </td>
+            <td colspan="4" rowspan="2">{{ data.remarks }}</td>
           </tr>
           <tr>
             <td colspan="3">{{ data.NUPI }}</td>
             <td colspan="2">{{ data.gender }}</td>
             <td colspan="4">{{ data.Phone_Number }}</td>
             <td colspan="2">
-              {{ data.results_pcr_first_pcr }}
+              {{ data.pcr_one }}
             </td>
             <td colspan="2">
-              {{ data.results_pcr_second_pcr }}
+              {{ data.pcr_two }}
             </td>
             <td colspan="2">
-              {{ data.results_pcr_third_pcr }}
-            </td>
-            <td colspan="2">{{ data.infant_feeding }}</td>
-            <td colspan="2">
-              {{ data.results_confirm_pcr }}
+              {{ data.pcr_three }}
             </td>
             <td colspan="2">
-              {{ data.results_first_antibody }}
+              {{ data.infant_feeding }}
             </td>
-            <td colspan="2">{{ null }}</td>
+            <td colspan="2">
+              {{ data.confirm_confirm }}
+            </td>
+            <td colspan="2">
+              {{ data.antibody_test }}
+            </td>
+            <td colspan="2">
+              {{ data.age_in_months === 24 ? data.infant_feeding : '' }}
+            </td>
             <td colspan="2">{{ null }}</td>
           </tr>
         </ng-container>
       </tbody>
     </table>
   </div>
+</div>
+<div *ngIf="heiRegisterData.length === 0 && generated">
+  <i class="alert alert-danger">No record found</i>
 </div>

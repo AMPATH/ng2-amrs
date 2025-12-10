@@ -11,7 +11,6 @@ import * as _ from 'lodash';
 import * as Moment from 'moment';
 import { DataAnalyticsDashboardService } from 'src/app/data-analytics-dashboard/services/data-analytics-dashboard.services';
 import { HeiRegisterResourceService } from 'src/app/etl-api/hei-register-resource.service';
-import { RegistersResourceService } from 'src/app/etl-api/registers-resource.service';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 @Component({
@@ -45,6 +44,9 @@ export class HeiRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
+  public showLocationsControl = true;
+  public showIsAggregateControl = false;
   @ViewChild('heicontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -62,7 +64,7 @@ export class HeiRegisterComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
-  private _startDate: Date = Moment().toDate();
+  private _startDate: Date = Moment().startOf('month').toDate();
   public get startDate(): Date {
     return this._startDate;
   }
@@ -71,7 +73,7 @@ export class HeiRegisterComponent implements OnInit {
     this._startDate = v;
   }
 
-  private _endDate: Date = new Date();
+  private _endDate: Date = Moment().endOf('month').toDate();
   public get endDate(): Date {
     return this._endDate;
   }
@@ -119,11 +121,19 @@ export class HeiRegisterComponent implements OnInit {
     this.getHeiRegisterData(this.params);
   }
 
+  get formattedStartDate(): string {
+    return this.startDate
+      ? Moment(this.startDate).subtract(1, 'year').format('MMM-YYYY')
+      : '';
+  }
+
   public storeParamsInUrl() {
+    const startDateMinusOneYear = Moment(this.startDate).subtract(1, 'year');
+    const endDateMinusOneYear = Moment(this.endDate).subtract(1, 'year');
     this.params = {
-      locationUuids: this.jointLocationUuids,
-      startDate: Moment(this.startDate).format('YYYY-MM-DD'),
-      endDate: Moment(this.endDate).format('YYYY-MM-DD')
+      locationUuids: this.getSelectedLocations(this.jointLocationUuids),
+      startDate: startDateMinusOneYear.format('YYYY-MM-DD'),
+      endDate: endDateMinusOneYear.format('YYYY-MM-DD')
     };
     this.router.navigate([], {
       relativeTo: this.route,
@@ -141,8 +151,8 @@ export class HeiRegisterComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.columnDefs = data.sectionDefinitions;
-        console.log('HEI DATA IS: ' + JSON.stringify(data));
         this.heiRegisterData = data;
+        this.generated = true;
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
       }
@@ -216,5 +226,23 @@ export class HeiRegisterComponent implements OnInit {
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('MOH 408 HIV Exposed Infant Register.pdf');
     });
+  }
+  private getSelectedLocations(locationUuids: any): string {
+    if (!locationUuids || locationUuids.length === 0) {
+      return '';
+    }
+
+    let selectedLocations = '';
+
+    for (let i = 0; i < locationUuids.length; i++) {
+      const value = `'${(locationUuids[i] as any).value}'`;
+      if (i === 0) {
+        selectedLocations = value;
+      } else {
+        selectedLocations = selectedLocations + ', ' + value;
+      }
+    }
+
+    return selectedLocations;
   }
 }
