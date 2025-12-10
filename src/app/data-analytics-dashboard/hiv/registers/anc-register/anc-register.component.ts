@@ -44,6 +44,7 @@ export class AncRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
   @ViewChild('cntdarcontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -116,6 +117,7 @@ export class AncRegisterComponent implements OnInit {
     });
     this.ancRegisterData = [];
     this.getANCRegisterData(this.params);
+    this.generated = true;
   }
 
   public storeParamsInUrl() {
@@ -207,13 +209,75 @@ export class AncRegisterComponent implements OnInit {
   public takeSnapshotAndExport() {
     const elementToSnapshot = this.contentToSnapshot.nativeElement;
 
-    html2canvas(elementToSnapshot).then((canvas) => {
+    html2canvas(elementToSnapshot, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; // A4 width in mm
+      const pdf = new jsPDF('p', 'mm', 'a0');
+
+      const pageWidth = 841; // A0 width (portrait)
+      const pageHeight = 1189; // A0 height
+
+      const imgWidth = pageWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+      heightLeft -= pageHeight;
+
+      // Add additional pages if required
+      while (heightLeft > 0) {
+        pdf.addPage();
+        position = heightLeft - imgHeight;
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
       pdf.save('MOH 405 ANC Register.pdf');
     });
+  }
+  filterData(summaryData: any, condition: string, value) {
+    if (!summaryData) {
+      return '';
+    }
+    return (
+      summaryData.filter((data) => {
+        const field = data[condition];
+
+        if (!value) {
+          return;
+        }
+
+        return field === value;
+      }).length || ''
+    );
+  }
+
+  getPropertyTotals(
+    summaryData: any[],
+    property: string,
+    propertyValue: string
+  ) {
+    return (
+      summaryData.filter((data) => data[property] === propertyValue).length ||
+      ''
+    );
+  }
+
+  getPropertyTotalsWithAge(
+    summaryData: any[],
+    property: string,
+    propertyValue: string,
+    minAge: number,
+    maxAge: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data[property] === propertyValue &&
+          data['age'] >= minAge &&
+          data['age'] <= maxAge
+      ).length || ''
+    );
   }
 }

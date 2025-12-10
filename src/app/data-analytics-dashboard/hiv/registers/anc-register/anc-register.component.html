@@ -73,6 +73,7 @@
             Number/NUPI<br />
             (Re Visit)
           </th>
+          <th rowspan="7">AMRSID</th>
           <th rowspan="7">
             Number of <br />
             Visits <br />
@@ -359,6 +360,7 @@
           <td class="text-center">(aq)</td>
           <td class="text-center">(ar)</td>
           <td class="text-center">(as)</td>
+          <td class="text-center">(at)</td>
         </tr>
         <ng-container *ngFor="let data of ancRegisterData; let a = index">
           <tr>
@@ -367,6 +369,7 @@
             </td>
             <td class="text-center">{{ data.anc_number }}</td>
             <td class="text-center" rowspan="2">{{ data.anc_number_NUPI }}</td>
+            <td class="text-center" rowspan="2">{{ data.amrsID }}</td>
             <td class="text-center" rowspan="2">
               {{ data.number_of_anc_visits }}
             </td>
@@ -403,10 +406,29 @@
             <td class="text-center">{{ data.rpr_vdrl_duo }}</td>
             <td class="text-center">{{ data.hepatitisB }}</td>
             <td class="text-center" rowspan="2">{{ data.tb_screening }}</td>
-            <td class="text-center" rowspan="2">{{ data.hiv_test_type }}</td>
-            <td class="text-center">{{ data.hiv_test_1_kit_name }}</td>
-            <td class="text-center">{{ data.hiv_test_2_kit_name }}</td>
-            <td class="text-center">{{ data.hiv_test_3_kit_name }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_type }}
+            </td>
+            <td class="text-center">
+              {{ data.hiv_test_1_kit_name }} / {{ data.hiv_test_1_lot_no }} /{{
+                data.hiv_test_1_expiry_date
+              }}
+              / {{ data.hiv_test_1_test_result }}
+            </td>
+            <td class="text-center">
+              {{ data.hiv_test_2_kit_name }} /
+              {{ data.hiv_test_2_lot_number }} /{{
+                data.hiv_test_2_expiry_date
+              }}
+              / {{ data.hiv_test_2_test_result }}
+            </td>
+            <td class="text-center">
+              {{ data.hiv_test_3_kit_name }} /
+              {{ data.hiv_test_3_lot_number }} /{{
+                data.hiv_test_3_expiry_date
+              }}
+              /{{ data.hiv_test_3_test_result }}
+            </td>
             <td class="text-center" rowspan="2">{{ data.hiv_results }}</td>
             <td class="text-center" rowspan="2">{{ data.maternal_haart }}</td>
             <td class="text-center" rowspan="2">
@@ -449,5 +471,437 @@
         </ng-container>
       </tbody>
     </table>
+    <ng-container *ngIf="ancRegisterData !== []">
+      <div class="summary">
+        <div class="inner">
+          <div class="flex-item">
+            <table class="table table-bordered text-centre">
+              <thead>
+                <tr>
+                  <th>HIV Testing</th>
+                  <th>Tests (ab)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Initial</td>
+                  <td>
+                    {{ filterData(ancRegisterData, 'hiv_test_type', 'I') }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Retest</td>
+                  <td>
+                    {{ filterData(ancRegisterData, 'hiv_test_type', 'R') }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total (Initial + Retest)</td>
+                  <td>
+                    {{
+                      filterData(ancRegisterData, 'hiv_test_type', 'I') +
+                        filterData(ancRegisterData, 'hiv_test_type', 'R')
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Known HIV Positive</td>
+                  <td>
+                    {{ filterData(ancRegisterData, 'hiv_results', 'NA') }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex-item">
+            <table class="table table-bordered text-centre">
+              <tbody>
+                <tr>
+                  <td>Partner Testing (al)</td>
+                  <td>
+                    {{
+                      filterData(ancRegisterData, 'partner_hiv_testing', 'P')
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th>HIV Test Kit</th>
+                <th>Test 1 (ac)</th>
+                <th>Test 2 (ad)</th>
+                <th>Test 3 (ae)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>N: Negative</td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'N'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_2_test_result',
+                      'N'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_3_test_result',
+                      'N'
+                    )
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>P: Positive</td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'P'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_2_test_result',
+                      'P'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_3_test_result',
+                      'P'
+                    )
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>I: Invalid</td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'I'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_2_test_result',
+                      'I'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_3_test_result',
+                      'I'
+                    )
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>Wastage:</td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'NA'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_2_test_result',
+                      'NA'
+                    )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_3_test_result',
+                      'NA'
+                    )
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>T: Total</td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'N'
+                    ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_1_test_result',
+                        'P'
+                      ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_1_test_result',
+                        'I'
+                      ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_1_test_result',
+                        'NA'
+                      )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_2_test_result',
+                      'N'
+                    ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_2_test_result',
+                        'P'
+                      ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_2_test_result',
+                        'I'
+                      ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_2_test_result',
+                        'NA'
+                      )
+                  }}
+                </td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hiv_test_3_test_result',
+                      'N'
+                    ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_3_test_result',
+                        'P'
+                      ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_3_test_result',
+                        'I'
+                      ) +
+                      getPropertyTotals(
+                        ancRegisterData,
+                        'hiv_test_3_test_result',
+                        'NA'
+                      )
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th>HIV Results</th>
+                <th>Results (af)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Positive</td>
+                <td>{{ filterData(ancRegisterData, 'hiv_results', 'P') }}</td>
+              </tr>
+              <tr>
+                <td>Negative</td>
+                <td>{{ filterData(ancRegisterData, 'hiv_results', 'N') }}</td>
+              </tr>
+              <tr>
+                <td>Total</td>
+                <td>
+                  {{
+                    filterData(ancRegisterData, 'hiv_results', 'P') +
+                      filterData(ancRegisterData, 'hiv_results', 'N')
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th colspan="2">
+                  Adolescents(10-19Yrs) testing and result (f)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Initial - 10-19yrs (ab)</td>
+                <td>
+                  {{
+                    getPropertyTotalsWithAge(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'P',
+                      10,
+                      19
+                    )
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>Positive - 10-19yrs (af)</td>
+                <td>
+                  {{
+                    getPropertyTotalsWithAge(
+                      ancRegisterData,
+                      'hiv_test_1_test_result',
+                      'P',
+                      10,
+                      19
+                    )
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>Started on HAART - 10-19yrs (ag)</td>
+                <td>
+                  {{
+                    getPropertyTotalsWithAge(
+                      ancRegisterData,
+                      'maternal_haart',
+                      'P',
+                      10,
+                      19
+                    )
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th>Started on HAART</th>
+                <th>HAART (ag)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>New On ART</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>On ART at 1st ANC</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th>Screened for Syphillis</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Testing (y)</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Testing Results (y)</td>
+                <td>
+                  {{ getPropertyTotals(ancRegisterData, 'rpr_vdrl_duo', 'P') }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th>HBV Screening</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Positive(z)</td>
+                <td>
+                  {{ getPropertyTotals(ancRegisterData, 'hepatitisB', 'P') }}
+                </td>
+              </tr>
+              <tr>
+                <td>Treatment(z)</td>
+                <td>
+                  {{
+                    getPropertyTotals(
+                      ancRegisterData,
+                      'hepatitisB_treatment',
+                      '2'
+                    )
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ng-container>
   </div>
+</div>
+<div
+  *ngIf="ancRegisterData.length == 0 && generated"
+  class="text-center rounded"
+>
+  <i class="alert alert-info text-center" style="width: 100%"
+    >No record found</i
+  >
 </div>

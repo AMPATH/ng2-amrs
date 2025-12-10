@@ -15,3 +15,25 @@ tbody tr {
 th {
   min-width: 70px;
 }
+
+.summary {
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.flex-item {
+  flex: 1 1 30%;
+  min-width: 250px;
+  box-sizing: border-box;
+}
+table {
+  width: 100%;
+  height: auto;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+}
