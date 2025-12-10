@@ -55,7 +55,11 @@ import { DefaultertracingRegisterComponent } from './registers/defaultertracing-
 import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
 import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
 import { OtzRegisterComponent } from './registers/otz-register/otz-register.component';
-import { Moh731RegisterComponent } from './registers/moh731-register/moh731-register.component';
+import { Report731Component } from './report731/report731.component';
+import { Moh731FiltersComponent } from './report731/moh731-filters/moh731-filters.component';
+import { Moh731ReportPatientListComponent } from './report731/moh731-report-patient-list/moh731-report-patient-list.component';
+import { Moh731ReportViewComponent } from './report731/moh731-report-view/moh731-report-view.component';
+import { HeiRegisterFiltersComponent } from './registers/hei-register/hei-register-filters/hei-register-filters.component';
 
 @NgModule({
   imports: [
@@ -121,7 +125,11 @@ import { Moh731RegisterComponent } from './registers/moh731-register/moh731-regi
     PrepdailyRegisterComponent,
     CntdailyRegisterComponent,
     OtzRegisterComponent,
-    Moh731RegisterComponent
+    Report731Component,
+    Moh731FiltersComponent,
+    Moh731ReportPatientListComponent,
+    Moh731ReportViewComponent,
+    HeiRegisterFiltersComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

@@ -69,6 +69,10 @@ import { PncRegisterComponent } from './registers/pnc-register/pnc-register.comp
 import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
 import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
 import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
+import { Report731Component } from './report731/report731.component';
+import { Moh731ReportViewComponent } from './report731/moh731-report-view/moh731-report-view.component';
+import { Moh731ReportPatientListComponent } from './report731/moh731-report-patient-list/moh731-report-patient-list.component';
+import { OtzRegisterComponent } from './registers/otz-register/otz-register.component';
 
 const routes: Routes = [
   {
@@ -298,6 +302,19 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'report-moh-731',
+    children: [
+      {
+        path: '',
+        component: Report731Component
+      },
+      {
+        path: 'patient-list',
+        component: Moh731ReportPatientListComponent
+      }
+    ]
+  },
+  {
     path: 'registers',
     children: [
       {
@@ -382,6 +399,15 @@ const routes: Routes = [
           {
             path: '',
             component: CntdailyRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'otz-register',
+        children: [
+          {
+            path: '',
+            component: OtzRegisterComponent
           }
         ]
       }

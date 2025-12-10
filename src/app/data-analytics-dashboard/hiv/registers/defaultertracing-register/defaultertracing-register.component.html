@@ -106,6 +106,7 @@
           </tr>
           <tr>
             <th rowspan="2" class="text-center">S/No.</th>
+            <th rowspan="2" class="text-center">AMRSID.</th>
             <th class="text-center">
               Client Identification /<br />
               Number
@@ -149,6 +150,7 @@
           >
             <tr>
               <td rowspan="2">{{ a + 1 }}</td>
+              <td rowspan="2">{{ data.amrsID }}</td>
               <td>{{ data.client_id_No }}</td>
               <td rowspan="2">
                 {{ data.first_name }} {{ data.middle }} {{ data.last_name }}
@@ -162,7 +164,7 @@
               <td rowspan="2">
                 {{ data.date_of_outcomes | date: 'dd/MM/yyyy' }}
               </td>
-              <td rowspan="2" style="max-width: 350px">{{ data.outcomes }}</td>
+              <td rowspan="2" style="max-width: 350px">{{ data.remarks }}</td>
             </tr>
             <tr>
               <td>{{ data.nupi }}</td>
