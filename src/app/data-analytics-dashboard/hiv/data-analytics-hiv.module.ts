@@ -44,6 +44,22 @@ import { TxMmdReportComponent } from './datim-reports/tx-mmd-report.component';
 import { TxRttReportComponent } from './datim-reports/tx-rtt-report.component';
 import { AhdReportComponent } from './ahd-report/ahd-report.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { RegistersComponent } from './registers/registers.component';
+import { HeiRegisterComponent } from './registers/hei-register/hei-register.component';
+import { AncRegisterComponent } from './registers/anc-register/anc-register.component';
+import { NutritionRegisterComponent } from './registers/nutrition-register/nutrition-register.component';
+import { MaternityRegisterComponent } from './registers/maternity-register/maternity-register.component';
+import { HtsrefferallinkageRegisterComponent } from './registers/htsrefferallinkage-register/htsrefferallinkage-register.component';
+import { PncRegisterComponent } from './registers/pnc-register/pnc-register.component';
+import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
+import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
+import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
+import { OtzRegisterComponent } from './registers/otz-register/otz-register.component';
+import { Report731Component } from './report731/report731.component';
+import { Moh731FiltersComponent } from './report731/moh731-filters/moh731-filters.component';
+import { Moh731ReportPatientListComponent } from './report731/moh731-report-patient-list/moh731-report-patient-list.component';
+import { Moh731ReportViewComponent } from './report731/moh731-report-view/moh731-report-view.component';
+import { HeiRegisterFiltersComponent } from './registers/hei-register/hei-register-filters/hei-register-filters.component';
 
 @NgModule({
   imports: [
@@ -97,7 +113,23 @@ import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-re
     TxMmdReportComponent,
     TxRttReportComponent,
     PlhivNcdV2ReportComponent,
-    AhdReportComponent
+    AhdReportComponent,
+    RegistersComponent,
+    HeiRegisterComponent,
+    AncRegisterComponent,
+    NutritionRegisterComponent,
+    MaternityRegisterComponent,
+    HtsrefferallinkageRegisterComponent,
+    PncRegisterComponent,
+    DefaultertracingRegisterComponent,
+    PrepdailyRegisterComponent,
+    CntdailyRegisterComponent,
+    OtzRegisterComponent,
+    Report731Component,
+    Moh731FiltersComponent,
+    Moh731ReportPatientListComponent,
+    Moh731ReportViewComponent,
+    HeiRegisterFiltersComponent
   ],
   providers: [
     DataAnalyticsDashboardService,

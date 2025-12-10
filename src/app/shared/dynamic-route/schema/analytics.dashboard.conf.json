@@ -115,6 +115,18 @@
           "isSideBarOpen": false
         },
         {
+          "url": "registers",
+          "label": "Registers",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
+          "url": "report-moh-731",
+          "label": "MOH-731",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
           "url": "select-department",
           "label": "Change Department",
           "icon": "fa fa-exchange",
