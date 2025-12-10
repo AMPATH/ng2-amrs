@@ -8,7 +8,19 @@ tbody tr {
 }
 .vertical-text {
   writing-mode: vertical-rl;
-  text-orientation: mixed;
   transform: rotate(180deg);
-  white-space: nowrap;
+}
+
+.center {
+  vertical-align: middle;
+  font-weight: bold;
+  text-align: center;
+}
+
+.bold {
+  font-weight: bolder;
+}
+
+.right {
+  text-align: right;
 }

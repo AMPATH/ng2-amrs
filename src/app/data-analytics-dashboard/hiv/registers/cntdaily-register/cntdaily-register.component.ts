@@ -44,6 +44,8 @@ export class CntdailyRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
+
   @ViewChild('cntdarcontentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
@@ -116,6 +118,7 @@ export class CntdailyRegisterComponent implements OnInit {
     });
     this.careTreatmentRegisterData = [];
     this.getCareTreatmentRegisterData(this.params);
+    this.generated = true;
   }
 
   public storeParamsInUrl() {
@@ -141,7 +144,6 @@ export class CntdailyRegisterComponent implements OnInit {
           this.errorMessage = `There has been an error while loading the report, please retry again`;
           this.isLoading = false;
         } else {
-          console.log('Care&Treatment', data);
           this.showInfoMessage = false;
           this.columnDefs = data.sectionDefinitions;
           this.careTreatmentRegisterData = data;
@@ -211,13 +213,120 @@ export class CntdailyRegisterComponent implements OnInit {
   public takeSnapshotAndExport() {
     const elementToSnapshot = this.contentToSnapshot.nativeElement;
 
-    html2canvas(elementToSnapshot).then((canvas) => {
+    html2canvas(elementToSnapshot, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; // A4 width in mm
+      const pdf = new jsPDF('p', 'mm', 'a0');
+
+      const pageWidth = 841; // A0 width (portrait)
+      const pageHeight = 1189; // A0 height
+
+      const imgWidth = pageWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('MOH 366 Care and Treatment Daily Activity.pdf');
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+      heightLeft -= pageHeight;
+
+      // Add additional pages if required
+      while (heightLeft > 0) {
+        pdf.addPage();
+        position = heightLeft - imgHeight;
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      pdf.save('MOH_366_Care_and_Treatment_Daily_Activity.pdf');
     });
+  }
+
+  getStartingARTTotals(
+    summaryData: any[],
+    genderValue: string,
+    minAge: number,
+    maxAge?: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['started_on_art'] === 'Y' &&
+          data['gender'] === genderValue &&
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+  getCurrentOnARTTotals(
+    summaryData: any[],
+    genderValue: string,
+    minAge: number,
+    maxAge?: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['current_on_art'] !== null &&
+          data['current_on_art'] !== undefined &&
+          data['gender'] === genderValue &&
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+
+  getLessThanOneTotals(summaryData: any[], genderValue: string) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['started_on_art'] === 'Y' &&
+          data['age'] < 1 &&
+          data['gender'] === genderValue
+      ).length || ''
+    );
+  }
+  currentOnArtLessOneTotals(summaryData: any[], genderValue: string) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['current_on_art'] !== null &&
+          data['current_on_art'] !== undefined &&
+          data['age'] < 1 &&
+          data['gender'] === genderValue
+      ).length || ''
+    );
+  }
+
+  getAppointmentTotals(
+    summaryData: any[],
+    artValue: number,
+    gender: string,
+    minAge: number,
+    maxAge?: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['current_on_art'] === artValue &&
+          data['gender'] === gender &&
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+
+  getAppointmentTotalsAgeLessThanOne(
+    summaryData: any[],
+    artValue: number,
+    gender: string
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['current_on_art'] === artValue &&
+          data['age'] < 1 &&
+          data['gender'] === gender
+      ).length || ''
+    );
   }
 }
