@@ -1,0 +1,39 @@
+tr,
+.table-bordered th,
+.table-bordered td {
+  border: 2px solid #000; /* Darker border color */
+}
+tbody tr {
+  height: 20px; /* Adjust the height as per your design */
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+th {
+  min-width: 70px;
+}
+
+.summary {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.flex-item {
+  flex: 1 1 30%;
+  min-width: 250px;
+  box-sizing: border-box;
+}
+table {
+  width: 100%;
+  height: auto;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+}

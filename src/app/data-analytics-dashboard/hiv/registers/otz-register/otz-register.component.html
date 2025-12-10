@@ -1,0 +1,357 @@
+<section>
+  <h3><b class="">OTZ Register</b></h3>
+  <ul class="collapsible-list">
+    <li>
+      <div class="item-details">
+        <div class="prescriptionform" style="padding: 12px">
+          <p-tabView>
+            <div>
+              <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+                <report-filters
+                  [enabledControls]="enabledControls"
+                  [(startDate)]="startDate"
+                  [(endDate)]="endDate"
+                  (onMonthChange)="onMonthChange($event)"
+                  [reportName]="reportName"
+                  (generateReport)="generateReport()"
+                >
+                </report-filters>
+              </p-tabPanel>
+            </div>
+          </p-tabView>
+
+          <div *ngIf="!isReleased" class="alert alert-warning">
+            <span class="fa fa-info-circle"></span> This report is a draft and
+            is subject to change.
+          </div>
+
+          <div *ngIf="isLoading" class="text-center">
+            <i class="fa fa-spinner fa-spin fa-2x"></i>
+            <p>Loading data, please wait...</p>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</section>
+<div *ngIf="!isLoading && showInfoMessage" class="alert alert-danger">
+  <span class="fa fa-exclamation-circle"></span> {{ errorMessage }}
+</div>
+<div
+  class="table-responsive"
+  *ngIf="otzRegisterData && otzRegisterData.length > 0"
+  style="overflow-x: auto"
+>
+  <table id="otzRegister" class="medication-list">
+    <thead>
+      <tr>
+        <th colspan="3" rowspan="4" style="width: 5%">
+          <b>Serial Counter</b>
+        </th>
+        <th colspan="12" style="text-align: center; min-width: 400px">
+          <h4><b>Registration Details</b></h4>
+        </th>
+        <th colspan="9" style="text-align: center; min-width: 400px">
+          <b>Status at Enrollment into OTZ</b>
+        </th>
+        <th colspan="3" style="text-align: center; min-width: 100px"></th>
+        <th
+          colspan="12"
+          rowspan="2"
+          style="text-align: center; min-width: 400px"
+        >
+          <b>ART Regimen Switch Post Enrolment into OTZ</b>
+        </th>
+        <th
+          colspan="6"
+          rowspan="2"
+          style="text-align: center; min-width: 400px"
+        >
+          <b>Viral Load Post Enrolment into OTZ</b>
+        </th>
+        <th
+          colspan="6"
+          rowspan="2"
+          style="text-align: center; min-width: 200px"
+        >
+          <b>Transition/Attrition</b>
+        </th>
+        <th
+          colspan="2"
+          rowspan="3"
+          style="text-align: center; min-width: 200px"
+        >
+          <b>OTZ Modules Completion Tracker</b>
+        </th>
+        <th
+          colspan="2"
+          rowspan="5"
+          style="text-align: center; min-width: 200px"
+        >
+          <b>Remarks</b>
+        </th>
+      </tr>
+      <tr>
+        <td colspan="2" rowspan="3">Date of enrollment to OTZ (dd/mm/yyyy)</td>
+        <td colspan="2" rowspan="2" style="border-bottom: none">
+          Date of Birth (dd/mm/yyyy)
+        </td>
+        <td colspan="2" rowspan="3">Unique Patient Number (CCC Number)</td>
+        <td colspan="2" rowspan="2">ART Start Date</td>
+        <td colspan="2">Patient's Name</td>
+        <td
+          colspan="2"
+          rowspan="3"
+          style="text-align: center; width: 5%; min-width: 20px !important"
+        >
+          Sex (M/F)
+        </td>
+        <td colspan="6">Most Current Viral load</td>
+        <td colspan="3">Most Current ART Regimen</td>
+        <td colspan="3" rowspan="3">Current Regimen Line(1st/2nd/3rd)</td>
+      </tr>
+      <tr>
+        <td colspan="2">First Name, Middle Name</td>
+        <td colspan="3">VL Results (copies/ml)</td>
+        <td colspan="3" rowspan="2">VL Done Within 6 months (Yes/No)</td>
+        <td colspan="3">ART Regimen</td>
+        <td colspan="2">1st Regimen Switch</td>
+        <td colspan="2">Date</td>
+        <td colspan="2">Reasons</td>
+        <td colspan="2">3rd Regimen Switch</td>
+        <td colspan="2">Date</td>
+        <td colspan="2">Reasons</td>
+        <ng-container *ngFor="let i of counterArray">
+          <td colspan="2">Viral load Results (copies/ml)</td>
+        </ng-container>
+        <td colspan="6" style="width: 30px">
+          Outcomes (1=Transfer Out, 2=LTFU, 3=Dead,4=Opt Out,5=Transition to
+          Adult Care)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">Age at enrolment (in completed years)</td>
+        <td colspan="2">Original ART Regimen</td>
+        <td colspan="2">Last (Surname)</td>
+        <td colspan="3">Date Done</td>
+        <td colspan="3">Date Started on Current Regimen</td>
+        <td colspan="2">2nd Regimen Switch</td>
+        <td colspan="2">Date</td>
+        <td colspan="2">Reasons</td>
+        <td colspan="2">4th Regimen Switch</td>
+        <td colspan="2">Date</td>
+        <td colspan="2">Reasons</td>
+        <ng-container *ngFor="let i of counterArray">
+          <td colspan="2">Date of VL</td>
+        </ng-container>
+        <td colspan="6">Date</td>
+        <td colspan="2">Tick for each session completed</td>
+      </tr>
+      <tr class="alphabets">
+        <td colspan="3">(a)</td>
+        <td colspan="2">(b)</td>
+        <td colspan="2">(c)</td>
+        <td colspan="2">(d)</td>
+        <td colspan="2">(e)</td>
+        <td colspan="2">(f)</td>
+        <td colspan="2">(g)</td>
+        <td colspan="3">(h)</td>
+        <td colspan="3">(i)</td>
+        <td colspan="3">(j)</td>
+        <td colspan="3">(k)</td>
+        <td colspan="12">(l)</td>
+        <td colspan="6">(m)</td>
+        <td colspan="6">(n)</td>
+        <td colspan="2">(o)</td>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let patient of otzRegisterData; let i = index">
+        <tr>
+          <td colspan="3" rowspan="2" style="width: 10%">
+            {{ ('00' + (i + 1)).slice(-3) }}
+          </td>
+          <td colspan="2" rowspan="2" style="text-align: center">
+            {{ patient.date_of_enrollment | date: 'dd/MM/yyyy' }}
+          </td>
+          <td colspan="2" style="width: 20%; text-align: center">
+            {{ patient.date_of_birth | date: 'dd/MM/yyyy' }}
+          </td>
+          <td colspan="2" rowspan="2" style="width: 20%; text-align: center">
+            {{ patient.CCC }}
+          </td>
+          <td colspan="2" style="width: 20%; text-align: center">
+            {{ patient.arv_start_date | date: 'dd/MM/yyyy' }}
+          </td>
+          <td colspan="2" style="width: 20%; text-align: center">
+            {{ patient.first_name }}, {{ patient.middle_name }}
+          </td>
+          <td colspan="2" rowspan="2" style="width: 10%; text-align: center">
+            {{ patient.sex }}
+          </td>
+          <td colspan="3" style="text-align: center">
+            {{ patient.vl_1 }}
+          </td>
+          <td colspan="3" rowspan="2" style="text-align: center">
+            {{ isWithinLast6Months(patient.vl_1_date) ? 'Y' : 'N' }}
+          </td>
+          <td colspan="3" style="width: 20%; text-align: center">
+            {{ patient.art_regimen }}
+          </td>
+          <td colspan="3" rowspan="2" style="width: 20%; text-align: center">
+            {{ patient.cur_arv_line_reported }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.first_substitution_regimen &&
+              patient.first_substitution_date >= patient.date_of_enrollment
+                ? patient.first_substitution_regimen
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.first_substitution_regimen &&
+              patient.first_substitution_date >= patient.date_of_enrollment
+                ? (patient.first_substitution_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.first_substitution_regimen &&
+              patient.first_substitution_date >= patient.date_of_enrollment
+                ? patient.reason
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.third_substitution_regimen &&
+              patient.third_substitution_date >= patient.date_of_enrollment
+                ? patient.third_substitution_regimen
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.third_substitution_regimen &&
+              patient.third_substitution_date >= patient.date_of_enrollment
+                ? (patient.third_substitution_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.third_substitution_regimen &&
+              patient.third_substitution_date >= patient.date_of_enrollment
+                ? patient.reason
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{ isWithinLast6Months(patient.vl_1_date) ? patient.vl_1 : '' }}
+          </td>
+          <td colspan="2">
+            {{ isWithinLast6Months(patient.vl_2_date) ? patient.vl_2 : '' }}
+          </td>
+          <td colspan="2">
+            {{ isWithinLast6Months(patient.vl_3_date) ? patient.vl_3 : '' }}
+          </td>
+          <td colspan="6">{{ patient.outcomes }}</td>
+          <td colspan="2" rowspan="2">
+            <div class="box-grid">
+              <div class="box" *ngFor="let box of patient.boxes">
+                {{ box.label }}
+                <span *ngIf="box.isChecked">✔</span>
+              </div>
+            </div>
+          </td>
+          <td colspan="2" rowspan="2">{{ patient.remarks }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">{{ patient.age }}</td>
+          <td colspan="2">{{ patient.prev_art_regimen }}</td>
+          <td colspan="2">{{ patient.last_name }}</td>
+          <td colspan="3">{{ patient.vl_1_date | date: 'dd/MM/yyyy' }}</td>
+          <td colspan="3">
+            {{
+              patient.art_regimen
+                ? (patient.arv_start_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.second_substitution_regimen &&
+              patient.second_substitution_date >= patient.date_of_enrollment
+                ? patient.second_substitution_regimen
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.second_substitution_regimen &&
+              patient.second_substitution_date >= patient.date_of_enrollment
+                ? (patient.second_substitution_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              patient.second_substitution_regimen &&
+              patient.second_substitution_date >= patient.date_of_enrollment
+                ? patient.reason
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{ null }}
+          </td>
+          <td colspan="2">
+            {{ null }}
+          </td>
+          <td colspan="2">
+            {{ null }}
+          </td>
+          <td colspan="2">
+            {{
+              isWithinLast6Months(patient.vl_1_date)
+                ? (patient.vl_1_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              isWithinLast6Months(patient.vl_2_date)
+                ? (patient.vl_2_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="2">
+            {{
+              isWithinLast6Months(patient.vl_3_date)
+                ? (patient.vl_3_date | date: 'dd/MM/yyyy')
+                : ''
+            }}
+          </td>
+          <td colspan="6">
+            {{ null }}
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div
+  *ngIf="!isLoading && hasData"
+  class="exportToExcelBtn"
+  style="margin-top: 15px"
+>
+  <button
+    (click)="exportTableToExcel()"
+    class="btn btn-danger pull-right btn-sm"
+  >
+    <i class="fa fa-download"></i> Export Form to Excel
+  </button>
+</div>
