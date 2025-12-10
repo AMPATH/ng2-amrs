@@ -1,7 +1,19 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { DataAnalyticsDashboardService } from 'src/app/data-analytics-dashboard/services/data-analytics-dashboard.services';
+import * as html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
+import { RegistersResourceService } from 'src/app/etl-api/registers-resource.service';
+
 @Component({
   selector: 'app-pnc-register',
   templateUrl: './pnc-register.component.html',
@@ -12,7 +24,7 @@ export class PncRegisterComponent implements OnInit {
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public txnewReportSummaryData: any = [];
+  public pncSummaryData: any = [];
   public columnDefs: any = [];
   public reportName = 'PNC Register';
   public currentView = 'monthly';
@@ -22,16 +34,19 @@ export class PncRegisterComponent implements OnInit {
   public quarter: string;
   public eDate: string;
   public sDate: string;
+  public jointLocationUuids: string;
 
   public statusError = false;
   public errorMessage = '';
   public showInfoMessage = false;
   public isLoading = false;
   public reportHead: any;
-  public enabledControls = 'locationControl,monthControl';
+  public enabledControls = 'datesControl, locationControl';
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
+  @ViewChild('contentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -48,7 +63,31 @@ export class PncRegisterComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
-  constructor(public router: Router, public route: ActivatedRoute) {
+  private _startDate: Date = Moment().toDate();
+  public get startDate(): Date {
+    return this._startDate;
+  }
+
+  public set startDate(v: Date) {
+    this._startDate = v;
+  }
+
+  private _endDate: Date = new Date();
+  public get endDate(): Date {
+    return this._endDate;
+  }
+
+  public set endDate(v: Date) {
+    this._endDate = v;
+  }
+
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public register: RegistersResourceService,
+    private datePipe: DatePipe,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService
+  ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
         ? (this._month = Moment()
@@ -64,24 +103,33 @@ export class PncRegisterComponent implements OnInit {
   ngOnInit() {}
 
   public onMonthChange(value): any {
-    this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
+    this._month = Moment(value).format('YYYY-MM-DD');
   }
 
   public generateReport(): any {
+    this.dataAnalyticsDashboardService
+      .getSelectedLocations()
+      .subscribe((data) => {
+        const locationValues = data.locations.map(
+          (location) => `'${location.value}'`
+        );
+        this.jointLocationUuids = locationValues.join(', ');
+      });
+
     this.route.parent.parent.params.subscribe((params: any) => {
-      this.storeParamsInUrl(params.location_uuid);
+      this.storeParamsInUrl();
     });
-    this.txnewReportSummaryData = [];
-    // this.getTxNewReport(this.params);
+    this.pncSummaryData = [];
+    this.getPncRegisterData(this.params);
+    this.generated = true;
   }
 
-  public storeParamsInUrl(param) {
+  public storeParamsInUrl() {
     this.params = {
-      locationUuids: param,
-      _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
+      locationUuids: this.jointLocationUuids,
+      month: Moment(this._month).format('YYYY-MM-DD'),
+      startDate: Moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: Moment(this.endDate).format('YYYY-MM-DD')
     };
     this.router.navigate([], {
       relativeTo: this.route,
@@ -89,31 +137,31 @@ export class PncRegisterComponent implements OnInit {
     });
   }
 
-  // public getTxNewReport(params: any) {
-  //   this.isLoading = true;
-  //   this.txnewReport.getTxNewReport(params).subscribe((data) => {
-  //     if (data.error) {
-  //       this.showInfoMessage = true;
-  //       this.errorMessage = `There has been an error while loading the report, please retry again`;
-  //       this.isLoading = false;
-  //     } else {
-  //       this.showInfoMessage = false;
-  //       this.columnDefs = data.sectionDefinitions;
-  //       this.txnewReportSummaryData = data.result;
-  //       this.calculateTotalSummary();
-  //       this.isLoading = false;
-  //       this.showDraftReportAlert(this._month);
-  //     }
-  //   });
-  // }
+  public getPncRegisterData(params: any) {
+    this.isLoading = true;
+    this.register.getPncRegister(params).subscribe((data) => {
+      if (data.error) {
+        this.showInfoMessage = true;
+        this.errorMessage = `There has been an error while loading the report, please retry again`;
+        this.isLoading = false;
+      } else {
+        this.showInfoMessage = false;
+        this.columnDefs = data.sectionDefinitions;
+        this.pncSummaryData = data;
+        this.calculateTotalSummary();
+        this.isLoading = false;
+        this.showDraftReportAlert(this._month);
+      }
+    });
+  }
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.txnewReportSummaryData.length > 0) {
+    if (this.pncSummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.txnewReportSummaryData, (row) => {
+      _.each(this.pncSummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
@@ -157,5 +205,79 @@ export class PncRegisterComponent implements OnInit {
     } else {
       this.isReleased = true;
     }
+  }
+
+  transformDate(date: string): string | null {
+    return this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
+
+  public takeSnapshotAndExport() {
+    const elementToSnapshot = this.contentToSnapshot.nativeElement;
+
+    html2canvas(elementToSnapshot).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('MOH 366 Care and Treatment Daily Activity.pdf');
+    });
+  }
+
+  calculateAgeTotal(summaryData: any[], minAge: number, maxAge?: number) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+
+  getHivTotals(summaryData: any[], hivTestType: string, hivTestResult: string) {
+    return (
+      summaryData.filter((data) => data[hivTestType] === hivTestResult)
+        .length || ''
+    );
+  }
+  getCevicalCancerScreeningTotals(
+    summaryData: any[],
+    screeningMethod: string,
+    screenigValue: string
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['cervical_cancer_method'] === screeningMethod &&
+          data['cervical_cancer_results'] === screenigValue
+      ).length || ''
+    );
+  }
+
+  getPropertyTotals(
+    summaryData: any[],
+    property: string,
+    propertyValue: string
+  ) {
+    return (
+      summaryData.filter((data) => data[property] === propertyValue).length ||
+      ''
+    );
+  }
+  getPropertyWithAgeTotals(
+    summaryData: any[],
+    property: string,
+    propertyValue: string,
+    minAge: number,
+    maxAge: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data[property] === propertyValue &&
+          data['age'] >= minAge &&
+          data['age'] <= maxAge
+      ).length || ''
+    );
   }
 }
