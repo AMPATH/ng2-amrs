@@ -78,6 +78,7 @@
         <tr>
           <th rowspan="2" colspan="2">PrEP No</th>
           <th rowspan="2" colspan="2">Date of Visit</th>
+          <th rowspan="2" colspan="2">AMRSID</th>
           <th colspan="3" style="max-width: 120px">
             National Identification Number
           </th>
@@ -129,6 +130,7 @@
         <tr>
           <th colspan="2" class="text-center">(a)</th>
           <th colspan="2" class="text-center">(b)</th>
+          <th colspan="2" class="text-center">(l)</th>
           <th colspan="3" class="text-center">(c)</th>
           <th colspan="2" class="text-center">(d)</th>
           <th colspan="2" class="text-center">(e)</th>
@@ -148,6 +150,9 @@
             </td>
             <td colspan="2" rowspan="2">
               {{ transformDate(data.Date_Of_Visit) }}
+            </td>
+            <td colspan="2" rowspan="2">
+              {{ data.amrsId }}
             </td>
             <td colspan="3">{{ data.National_ID }}</td>
             <td colspan="2" rowspan="2">{{ data.Age }}</td>
@@ -199,6 +204,3665 @@
         </tr>
       </tbody>
     </table>
+    <ng-container *ngIf="prepRegisterData != []">
+      <div class="summary">
+        <table class="table table-sm table-bordered text-centre">
+          <thead>
+            <tr>
+              <th rowspan="3" colspan="2"></th>
+              <th colspan="9" style="text-align: center">
+                Number initiated (New) on PrEP (g)
+              </th>
+              <th></th>
+            </tr>
+            <tr>
+              <th colspan="2">10-14 Yrs</th>
+              <th colspan="2">15-19 Yrs</th>
+              <th colspan="2">20-24 Yrs</th>
+              <th colspan="2">25-29 Yrs</th>
+              <th colspan="2">>=30 Yrs</th>
+            </tr>
+            <tr>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="2" class="bold">General popn</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">MSM/MSW</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">FSW</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">PWID/PWUD</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Discordant Couple</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Vulnerable Pop.</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'N'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'N' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">TOTAL</td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 10, {
+                    maxAge: 14,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 10, {
+                    maxAge: 14,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 15, {
+                    maxAge: 19,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 15, {
+                    maxAge: 19,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 20, {
+                    maxAge: 24,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 20, {
+                    maxAge: 24,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 25, {
+                    maxAge: 29,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 25, {
+                    maxAge: 29,
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 30, {
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 30, {
+                    prepStatus: 'client_prep_status',
+                    statusValue: 'N'
+                  })
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-sm table-bordered text-centre">
+          <thead>
+            <tr>
+              <th
+                rowspan="3"
+                colspan="2"
+                style="text-align: center; vertical-align: middle"
+              >
+                New + <br />Refill + <br />
+                Restart
+              </th>
+              <th colspan="9" style="text-align: center">
+                Number Current on PrEP
+              </th>
+              <th></th>
+            </tr>
+            <tr>
+              <th colspan="2">10-14 Yrs</th>
+              <th colspan="2">15-19 Yrs</th>
+              <th colspan="2">20-24 Yrs</th>
+              <th colspan="2">25-29 Yrs</th>
+              <th colspan="2">>=30 Yrs</th>
+            </tr>
+            <tr>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="2" class="bold">General popn</td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">MSM/MSW</td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">FSW</td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">PWID/PWUD</td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Discordant Couple</td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Vulnerable Pop.</td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinued(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">TOTAL</td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    10,
+                    {
+                      maxAge: 14,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    15,
+                    {
+                      maxAge: 19,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    20,
+                    {
+                      maxAge: 24,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    25,
+                    {
+                      maxAge: 29,
+                      prepStatus: 'client_prep_status',
+                      statusValue: 'D'
+                    }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepDiscontinuedTotal(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    30,
+                    { prepStatus: 'client_prep_status', statusValue: 'D' }
+                  )
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-sm table-bordered text-centre">
+          <thead>
+            <tr>
+              <th rowspan="3" colspan="2"></th>
+              <th colspan="9" style="text-align: center">
+                Number diagnosed with STI (j)
+              </th>
+              <th></th>
+            </tr>
+            <tr>
+              <th colspan="2">10-14 Yrs</th>
+              <th colspan="2">15-19 Yrs</th>
+              <th colspan="2">20-24 Yrs</th>
+              <th colspan="2">25-29 Yrs</th>
+              <th colspan="2">>=30 Yrs</th>
+            </tr>
+            <tr>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+              <th>M</th>
+              <th>F</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="2" class="bold">General popn</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '1',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '1',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">MSM/MSW</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '3',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '3',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">FSW</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '4',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '4',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">PWID/PWUD</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '5',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '5',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Discordant Couple</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '2',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '2',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Vulnerable Pop.</td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    10,
+                    { maxAge: 14, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    15,
+                    { maxAge: 19, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    20,
+                    { maxAge: 24, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    25,
+                    { maxAge: 29, stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'M',
+                    'population_type',
+                    '6',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepData(
+                    prepRegisterData,
+                    'Age',
+                    'Sex',
+                    'F',
+                    'population_type',
+                    '6',
+                    30,
+                    { stiStatus: 'with_STI', stiValue: 'Y' }
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">TOTAL</td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 10, {
+                    maxAge: 14,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 10, {
+                    maxAge: 14,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 15, {
+                    maxAge: 19,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 15, {
+                    maxAge: 19,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 20, {
+                    maxAge: 24,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 20, {
+                    maxAge: 24,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 25, {
+                    maxAge: 29,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 25, {
+                    maxAge: 29,
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'M', 'Age', 30, {
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+              <td>
+                {{
+                  getTotalData(prepRegisterData, 'Sex', 'F', 'Age', 30, {
+                    stiStatus: 'with_STI',
+                    stiValue: 'Y'
+                  })
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-sm table-bordered text-centre">
+          <thead>
+            <tr>
+              <th rowspan="2" colspan="2" style="vertical-align: middle">
+                Indicator/ <br />PrEP method
+              </th>
+              <th colspan="5" style="text-align: center">
+                Number of clients on each PrEP method (h)
+              </th>
+            </tr>
+            <tr>
+              <th>Event Driven</th>
+              <th>Daily Oral</th>
+              <th>Dapivirine Vaginal</th>
+              <th>Cabotegravir injectable</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="2" class="bold">Number initiated (New) on PrEP</td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '2',
+                    'client_prep_status',
+                    'N'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '1',
+                    'client_prep_status',
+                    'N'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '3',
+                    'client_prep_status',
+                    'N'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '4',
+                    'client_prep_status',
+                    'N'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  getPrepMethodTotal(
+                    prepRegisterData,
+                    'client_prep_status',
+                    'N'
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">
+                Number continuing / <br />
+                currently on (Refills) PrEP
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '2',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '1',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '3',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '4',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  getPrepMethodTotal(
+                    prepRegisterData,
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">Number Restarting PrEP</td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '2',
+                    'client_prep_status',
+                    'R'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '1',
+                    'client_prep_status',
+                    'R'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '3',
+                    'client_prep_status',
+                    'R'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '4',
+                    'client_prep_status',
+                    'R'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  getPrepMethodTotal(
+                    prepRegisterData,
+                    'client_prep_status',
+                    'R'
+                  )
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="bold">
+                Number on PrEP for at-least 3 months
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '2',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '1',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '3',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  filterPrepMethod(
+                    prepRegisterData,
+                    'prep_method',
+                    '4',
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+              <td>
+                {{
+                  getPrepMethodTotal(
+                    prepRegisterData,
+                    'client_prep_status',
+                    'C'
+                  )
+                }}
+              </td>
+            </tr>
+            <br />
+            <tr>
+              <td colspan="2" class="bold">
+                Number Seroconverting while on PrEP (i)
+              </td>
+              <td colspan="10"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
   </div>
 </div>
 <div

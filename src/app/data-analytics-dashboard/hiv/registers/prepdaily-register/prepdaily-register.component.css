@@ -12,3 +12,12 @@ tbody tr {
   transform: rotate(180deg);
   white-space: nowrap;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.summary {
+  display: flex;
+  gap: 5px;
+}

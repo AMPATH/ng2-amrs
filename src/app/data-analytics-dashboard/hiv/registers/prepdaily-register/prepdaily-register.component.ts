@@ -3,8 +3,6 @@ import {
   Component,
   OnInit,
   Output,
-  Input,
-  OnDestroy,
   ViewChild,
   ElementRef
 } from '@angular/core';
@@ -15,6 +13,15 @@ import { RegistersResourceService } from 'src/app/etl-api/registers-resource.ser
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import { DataAnalyticsDashboardService } from 'src/app/data-analytics-dashboard/services/data-analytics-dashboard.services';
+
+interface FilterPrepOptions {
+  maxAge?: number;
+  prepStatus?: string;
+  statusValue?: string;
+  stiStatus?: string;
+  stiValue?: string;
+}
+
 @Component({
   selector: 'app-prepdaily-register',
   templateUrl: './prepdaily-register.component.html',
@@ -138,7 +145,6 @@ export class PrepdailyRegisterComponent implements OnInit {
 
   public getPrEPRegisterReport(params: any) {
     this.isLoading = true;
-    console.log('PREP PARAMS ARE: ' + JSON.stringify(params));
     this.register.getPrEPRegisterReport(params).subscribe((data) => {
       if (data.error) {
         this.showInfoMessage = true;
@@ -147,7 +153,6 @@ export class PrepdailyRegisterComponent implements OnInit {
       } else {
         this.showInfoMessage = false;
         this.prepRegisterData = data;
-        console.log('PREP DATA IS: ' + JSON.stringify(data));
         this.isLoading = false;
         this.showDraftReportAlert(this._month);
       }
@@ -191,5 +196,195 @@ export class PrepdailyRegisterComponent implements OnInit {
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('MOH 267 PrEP Daily Activity Register.pdf');
     });
+  }
+
+  filterPrepData(
+    data: any[],
+    age: string,
+    gender: string,
+    genderValue: string,
+    populationType: string,
+    populationValue: string,
+    minAge: number,
+    options: FilterPrepOptions = {}
+  ): number | string {
+    if (!Array.isArray(data)) {
+      return '';
+    }
+    const { maxAge, prepStatus, statusValue, stiStatus, stiValue } = options;
+
+    return (
+      data.filter((item) => {
+        const ageValue = item[age];
+        const genderMatch = item[gender] === genderValue;
+        const popTypeMatch = item[populationType] === populationValue;
+        const minAgeMatch = ageValue >= minAge;
+        const maxAgeMatch = maxAge !== undefined ? ageValue <= maxAge : true;
+        const prepStatusMatch =
+          prepStatus && statusValue ? item[prepStatus] === statusValue : true;
+
+        const stiStatusMatch =
+          stiStatus && stiValue ? item[stiStatus] === stiValue : true;
+
+        return (
+          genderMatch &&
+          popTypeMatch &&
+          minAgeMatch &&
+          maxAgeMatch &&
+          prepStatusMatch &&
+          stiStatusMatch
+        );
+      }).length || ''
+    );
+  }
+
+  filterPrepDiscontinued(
+    data: any[],
+    age: string,
+    gender: string,
+    genderValue: string,
+    populationType: string,
+    populationValue: string,
+    minAge: number,
+    options: FilterPrepOptions = {}
+  ): number | string {
+    if (!Array.isArray(data)) {
+      return '';
+    }
+    const { maxAge, prepStatus, statusValue, stiStatus, stiValue } = options;
+
+    return (
+      data.filter((item) => {
+        const ageValue = item[age];
+        const genderMatch = item[gender] === genderValue;
+        const popTypeMatch = item[populationType] === populationValue;
+        const minAgeMatch = ageValue >= minAge;
+        const maxAgeMatch = maxAge !== undefined ? ageValue <= maxAge : true;
+        const prepStatusMatch =
+          prepStatus && statusValue
+            ? item[prepStatus] === 'R' ||
+              item[prepStatus] === 'N' ||
+              item[prepStatus] === 'C'
+            : true;
+
+        const stiStatusMatch =
+          stiStatus && stiValue ? item[stiStatus] === stiValue : true;
+
+        return (
+          genderMatch &&
+          popTypeMatch &&
+          minAgeMatch &&
+          maxAgeMatch &&
+          prepStatusMatch &&
+          stiStatusMatch
+        );
+      }).length || ''
+    );
+  }
+
+  filterPrepDiscontinuedTotal(
+    data: any[],
+    age: string,
+    gender: string,
+    genderValue: string,
+    minAge: number,
+    options: FilterPrepOptions = {}
+  ): number | string {
+    if (!Array.isArray(data)) {
+      return '';
+    }
+    const { maxAge, prepStatus, statusValue, stiStatus, stiValue } = options;
+
+    return (
+      data.filter((item) => {
+        const ageValue = item[age];
+        const genderMatch = item[gender] === genderValue;
+        const minAgeMatch = ageValue >= minAge;
+        const maxAgeMatch = maxAge !== undefined ? ageValue <= maxAge : true;
+        const prepStatusMatch =
+          prepStatus && statusValue
+            ? item[prepStatus] === 'R' ||
+              item[prepStatus] === 'N' ||
+              item[prepStatus] === 'C'
+            : true;
+
+        const stiStatusMatch =
+          stiStatus && stiValue ? item[stiStatus] === stiValue : true;
+
+        return (
+          genderMatch &&
+          minAgeMatch &&
+          maxAgeMatch &&
+          prepStatusMatch &&
+          stiStatusMatch
+        );
+      }).length || ''
+    );
+  }
+
+  getTotalData(
+    summaryData: any[],
+    gender: string,
+    genderValue: string,
+    age: string,
+    minAge: number,
+    options: FilterPrepOptions = {}
+  ): number | string {
+    if (!Array.isArray(summaryData)) {
+      return '';
+    }
+
+    const { maxAge, prepStatus, statusValue, stiStatus, stiValue } = options;
+
+    return (
+      summaryData.filter((data) => {
+        const ageValue = data[age];
+        const genderMatch = data[gender] === genderValue;
+        const minAgeMatch = ageValue >= minAge;
+        const maxAgeMatch = maxAge !== undefined ? ageValue <= maxAge : true;
+        const prepStatusMatch =
+          prepStatus && statusValue ? data[prepStatus] === statusValue : true;
+
+        const stiStatusMatch =
+          stiStatus && stiValue ? data[stiStatus] === stiValue : true;
+
+        return (
+          genderMatch &&
+          minAgeMatch &&
+          maxAgeMatch &&
+          prepStatusMatch &&
+          stiStatusMatch
+        );
+      }).length || ''
+    );
+  }
+
+  filterPrepMethod(
+    data: any[],
+    prepMethod: string,
+    prepMethodValue: number,
+    prepStatus: string,
+    prepStatusValue: string
+  ) {
+    return (
+      data.filter(
+        (param) =>
+          param[prepMethod] === prepMethodValue &&
+          param[prepStatus] === prepStatusValue
+      ).length || ''
+    );
+  }
+
+  getPrepMethodTotal(data: any[], prepStatus: string, prepStatusValue: number) {
+    return (
+      data.filter(
+        (param) =>
+          (param['prep_method'] === '1' ||
+            param['prep_method'] === '2' ||
+            param['prep_method'] === '3' ||
+            param['prep_method'] === '4') &&
+          param[prepStatus] === prepStatusValue
+      ).length || ''
+    );
   }
 }
