@@ -37,7 +37,11 @@
   This report is likely to change without warning.
 </div>
 
-<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot1>
+<div
+  *ngIf="htsLabData && htsLabData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot1
+>
   <div class="table-responsive">
     <div class="row">
       <div class="col-md-4">
@@ -65,6 +69,7 @@
             Identification <br />
             Number
           </th>
+          <th rowspan="5" class="text-center">AMRSID</th>
           <th rowspan="5" class="text-center">
             Date of visit <br />
             (DD/MM/YYYY)
@@ -178,57 +183,461 @@
           <th class="text-center">(p)</th>
           <th class="text-center">(q)</th>
           <th class="text-center">(r)</th>
+          <th class="text-center">(s)</th>
         </tr>
       </thead>
       <tbody>
         <ng-container *ngFor="let item of htsLabData">
           <tr>
-            <td class="text-center" rowspan="4">{{ item.serialNumber }}</td>
+            <td class="text-center" rowspan="2">{{ item.serialNumber }}</td>
             <td class="text-center">{{ item.nupiNumber }}</td>
-            <td class="text-center" rowspan="4">{{ item.visitDate }}</td>
-            <td class="text-center" rowspan="4">{{ item.clientName }}</td>
-            <td class="text-center" rowspan="4">{{ item.age }}</td>
-            <td class="text-center" rowspan="4">{{ item.sex }}</td>
-            <td class="text-center" rowspan="4">{{ item.telephoneNumber }}</td>
-            <td class="text-center" rowspan="4">{{ item.maritalStatus }}</td>
-            <td class="text-center" rowspan="4">{{ item.populationType }}</td>
-            <td class="text-center" rowspan="4">{{ item.setting }}</td>
-            <td class="text-center">{{ item.hivTest1.kitName }}</td>
-            <td class="text-center">{{ item.hivTest2.kitName }}</td>
-            <td class="text-center">{{ item.hivTest3.kitName }}</td>
-            <td class="text-center" rowspan="4">{{ item.finalHivResult }}</td>
-            <td class="text-center" rowspan="4">{{ item.discordantCouple }}</td>
-            <td class="text-center" rowspan="4">
-              {{ item.referredForPrevention }}
+            <td class="text-center" rowspan="2">{{ item.amrsID }}</td>
+            <td class="text-center" rowspan="2">{{ item.visitDate }}</td>
+            <td class="text-center" rowspan="2">{{ item.clientName }}</td>
+            <td class="text-center" rowspan="2">{{ item.age }}</td>
+            <td class="text-center" rowspan="2">{{ item.sex }}</td>
+            <td class="text-center" rowspan="2">{{ item.telephoneNumber }}</td>
+            <td class="text-center" rowspan="2">{{ item.maritalStatus }}</td>
+            <td class="text-center">{{ item.populationType }}</td>
+            <td class="text-center" rowspan="2">{{ item.setting }}</td>
+            <td class="text-center" rowspan="2">
+              {{ item.hivTest1.kitName }} / {{ item.hivTest1.lotNumber }} /
+              {{ item.hivTest1.expiryDate }}
             </td>
-            <td class="text-center" rowspan="4">{{ item.htsProvider }}</td>
-            <td class="text-center" rowspan="4">{{ item.remarks }}</td>
+            <td class="text-center" rowspan="2">
+              {{ item.hivTest2.kitName }} / {{ item.hivTest2.lotNumber }} /
+              {{ item.hivTest2.expiryDate }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ item.hivTest3.kitName }} / {{ item.hivTest3.lotNumber }} /
+              {{ item.hivTest3.expiryDate }}
+            </td>
+            <td class="text-center" rowspan="2">{{ item.finalHivResult }}</td>
+            <td class="text-center" rowspan="2">{{ item.discordantCouple }}</td>
+            <td class="text-center" rowspan="2">
+              {{ null }}
+            </td>
+            <td class="text-center" rowspan="2">{{ item.htsProvider }}</td>
+            <td class="text-center" rowspan="2">{{ item.remarks }}</td>
           </tr>
           <tr>
             <td class="text-center">{{ item.nationalId }}</td>
-            <td class="text-center">{{ item.hivTest1.lotNumber }}</td>
-            <td class="text-center">{{ item.hivTest2.lotNumber }}</td>
-            <td class="text-center">{{ item.hivTest3.lotNumber }}</td>
-          </tr>
-          <tr>
-            <td class="text-center"></td>
-            <td class="text-center">{{ item.hivTest1.expiryDate }}</td>
-            <td class="text-center">{{ item.hivTest2.expiryDate }}</td>
-            <td class="text-center">{{ item.hivTest3.expiryDate }}</td>
-          </tr>
-          <tr>
-            <td class="text-center"></td>
-            <td class="text-center">{{ item.hivTest1.result }}</td>
-            <td class="text-center">{{ item.hivTest2.result }}</td>
-            <td class="text-center">{{ item.hivTest3.result }}</td>
+            <td class="text-center">{{ item.subPopulation }}</td>
           </tr>
         </ng-container>
       </tbody>
     </table>
+    <div
+      class="summary table-responsive"
+      *ngIf="htsLabData && htsLabData.length > 0"
+    >
+      <div class="inner">
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Tests (n)</th>
+                <th class="highlighted-row">2-9</th>
+                <th class="highlighted-row">10-14</th>
+                <th class="highlighted-row">15-19</th>
+                <th class="highlighted-row">20-24</th>
+                <th class="highlighted-row">25+</th>
+                <th class="highlighted-row">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Male</th>
+                <td>{{ getTotals(htsLabData, 'M', 2, 9) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 10, 14) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 15, 19) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 20, 24) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 25) }}</td>
+                <td>{{ getTotal(htsLabData, 'M') }}</td>
+              </tr>
+            </tbody>
+            <tr>
+              <th>Female</th>
+              <td>{{ getTotals(htsLabData, 'F', 2, 9) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 10, 14) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 15, 19) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 20, 24) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 25) }}</td>
+              <td>{{ getTotal(htsLabData, 'F') }}</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 2, 9) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 10, 14) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 15, 19) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 20, 24) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 25) }}</th>
+              <th>{{ htsLabData.length }}</th>
+            </tr>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Positive (n)</th>
+                <th class="highlighted-row">2-9</th>
+                <th class="highlighted-row">10-14</th>
+                <th class="highlighted-row">15-19</th>
+                <th class="highlighted-row">20-24</th>
+                <th class="highlighted-row">25+</th>
+                <th class="highlighted-row">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Male</th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      2,
+                      9
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      10,
+                      14
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      15,
+                      19
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      20,
+                      24
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      25
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotals(htsLabData, 'finalHivResult', 'P', 'M')
+                  }}
+                </th>
+              </tr>
+            </tbody>
+            <tr>
+              <th>Female</th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    2,
+                    9
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    10,
+                    14
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    15,
+                    19
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    20,
+                    24
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    25
+                  )
+                }}
+              </th>
+              <th>
+                {{ getParameterTotals(htsLabData, 'finalHivResult', 'P', 'F') }}
+              </th>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 2, 9) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 10, 14) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 15, 19) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 20, 24) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 25) }}
+              </th>
+              <th>{{ getPositiveTotal(htsLabData) }}</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="inner">
+        <div class="flex-item">
+          <table class="table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Total Negative (n)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center; font-weight: bold">
+                  {{ getParameterTotals(htsLabData, 'finalHivResult', 'N') }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Inconclusive test (n)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center; font-weight: bold">
+                  {{ getParameterTotals(htsLabData, 'finalHivResult', 'I') }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="inner">
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Tests Facility (j)</th>
+                <th>{{ getParameterTotals(htsLabData, 'setting', '1') }}</th>
+              </tr>
+              <tr>
+                <th class="highlighted-row">Tests Community (j)</th>
+                <th>{{ getParameterTotals(htsLabData, 'setting', '2') }}</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Discordant (o)</th>
+                <th>
+                  {{ getParameterTotals(htsLabData, 'discordantCouple', 'Y') }}
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Tests Key pops (i)</th>
+                <th>
+                  {{ getParameterTotals(htsLabData, 'populationType', '2') }}
+                </th>
+              </tr>
+              <tr>
+                <th class="highlighted-row">Positive key pops (i) & (n)</th>
+                <th>
+                  {{
+                    getParameterTotals(htsLabData, 'populationType', '2') +
+                      getParameterTotals(htsLabData, 'finalHivResult', 'P')
+                  }}
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="flex-item">
+        <table class="table table-bordered text-centre">
+          <thead>
+            <tr>
+              <th colspan="2" class="highlighted-row">HIV Test 1 (k) Number</th>
+              <th class="highlighted-row">HIV Test 2 (I)</th>
+              <th class="highlighted-row">Number</th>
+              <th class="highlighted-row">HIV Test 3 (m)</th>
+              <th class="highlighted-row">Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="highlighted-row">N: Negative</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'N') }}
+              </td>
+              <th class="highlighted-row">N: Negative</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'N') }}
+              </td>
+              <th class="highlighted-row">N: Negative</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'N') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">P: Positive</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'P') }}
+              </td>
+              <th class="highlighted-row">P: Positive</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'P') }}
+              </td>
+              <th class="highlighted-row">P: Positive</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'P') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">I: Invalid</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'I') }}
+              </td>
+              <th class="highlighted-row">I: Invalid</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'I') }}
+              </td>
+              <th class="highlighted-row">I: Invalid</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'P') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">Wastage:</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'NA') }}
+              </td>
+              <th class="highlighted-row">Wastage:</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'NA') }}
+              </td>
+              <th class="highlighted-row">Wastage:</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'NA') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">Total:</th>
+              <td>
+                {{
+                  getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'N') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'P') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'I') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'NA')
+                }}
+              </td>
+              <th class="highlighted-row">Total:</th>
+              <td>
+                {{
+                  getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'N') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'P') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'I') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'NA')
+                }}
+              </td>
+              <th class="highlighted-row">Total:</th>
+              <td>
+                {{
+                  getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'N') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'P') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'I') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'NA')
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 <br />
-<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+<div
+  *ngIf="htsLabData && htsLabData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot
+>
   <div class="table-responsive">
     <div class="row">
       <div class="col-md-4">
@@ -251,6 +660,7 @@
             Serial<br />
             Number
           </th>
+          <th rowspan="2">AMRSID</th>
           <th>
             National Identification<br />
             Number
@@ -301,6 +711,7 @@
         <ng-container *ngFor="let item of htsLinkageData">
           <tr>
             <td rowspan="2">{{ item.serialNumber }}</td>
+            <td rowspan="2">{{ item.amrsID }}</td>
             <td>{{ item.nupiNumber }}</td>
             <td rowspan="2">{{ item.clientName }}</td>
             <td>{{ item.telephoneNumber }}</td>

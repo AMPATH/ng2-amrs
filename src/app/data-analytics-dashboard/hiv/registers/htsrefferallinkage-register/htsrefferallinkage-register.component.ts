@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { zhCnLocale } from 'ngx-bootstrap';
 import { DataAnalyticsDashboardService } from 'src/app/data-analytics-dashboard/services/data-analytics-dashboard.services';
 // import { HtsrefferallinkageRegisterService } from './htsrefferallinkage-register.service';
 import { HtsReferralLinkageService } from 'src/app/etl-api/hts-refferal-linkage.service';
@@ -160,6 +161,7 @@ export class HtsrefferallinkageRegisterComponent implements OnInit {
     return {
       htsLabData: apiData.map((item) => ({
         serialNumber: item.serial_number || '',
+        amrsID: item.amrsID || '',
         nupiNumber: item.nupi || '',
         nationalId: item.id_number || '',
         visitDate: item.date_of_visit
@@ -171,8 +173,9 @@ export class HtsrefferallinkageRegisterComponent implements OnInit {
         age: item.age || '',
         sex: item.sex || '',
         telephoneNumber: item.telephone || '',
-        maritalStatus: '', // Not available in API data
+        maritalStatus: item.marital_status || '',
         populationType: item.population_type || '',
+        subPopulation: item.sub_population || '',
         setting: item.setting || '',
         hivTest1: {
           kitName: item.kit1_name || '',
@@ -206,6 +209,7 @@ export class HtsrefferallinkageRegisterComponent implements OnInit {
       })),
       htsLinkageData: apiData.map((item) => ({
         serialNumber: item.serial_number || '',
+        amrsID: item.amrsID || '',
         nupiNumber: item.nupi || '',
         nationalId: item.id_number || '',
         clientName: `${item.first_name || ''} ${item.middle_name || ''} ${
@@ -282,5 +286,96 @@ export class HtsrefferallinkageRegisterComponent implements OnInit {
     } else {
       this.isReleased = true;
     }
+  }
+  getTotal(summaryData: any[], gender: string) {
+    return summaryData.filter((data) => data['sex'] === gender).length || '';
+  }
+  getMaleAndFemaleTotal(summaryData: any[], minAge: number, maxAge?: number) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+  getPositiveMaleAndFemaleTotalWithAge(
+    summaryData: any[],
+    minAge: number,
+    maxAge?: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['final_result'] === 'P' &&
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+  getPositiveTotal(summaryData: any[]) {
+    return (
+      summaryData.filter((data) => data['final_result'] === 'P').length || ''
+    );
+  }
+  getTotals(
+    summaryData: any[],
+    gender: string,
+    minAge: number,
+    maxAge?: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge) &&
+          data['sex'] === gender
+      ).length || ''
+    );
+  }
+  getParameterTotalsWithAge(
+    summaryData: any[],
+    parameter: string,
+    parameterValue: string,
+    gender: string,
+    minAge: number,
+    maxAge?: number
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['age'] >= minAge &&
+          data[parameter] === parameterValue &&
+          data['sex'] === gender &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+
+  getParameterTotals(
+    summaryData: any[],
+    parameter: string,
+    parameterValue: string,
+    gender?: string
+  ) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data[parameter] === parameterValue &&
+          (gender === undefined || data['sex'] === gender)
+      ).length || ''
+    );
+  }
+
+  getHivTestTypesAndTotals(
+    summaryData: any[],
+    testType: string,
+    value: string
+  ) {
+    return (
+      summaryData.filter(
+        (data) => data[testType] && data[testType]['result'] === value
+      ).length || ''
+    );
   }
 }
