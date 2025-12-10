@@ -59,6 +59,16 @@ import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 import { CaseSurveillanceBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-base/case-surveillance-base.component';
 import { CaseSurveillancePatientListComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-patient-list/case-surveillance-patient-list.component';
+import { RegistersComponent } from './registers/registers.component';
+import { HeiRegisterComponent } from './registers/hei-register/hei-register.component';
+import { AncRegisterComponent } from './registers/anc-register/anc-register.component';
+import { NutritionRegisterComponent } from './registers/nutrition-register/nutrition-register.component';
+import { MaternityRegisterComponent } from './registers/maternity-register/maternity-register.component';
+import { HtsrefferallinkageRegisterComponent } from './registers/htsrefferallinkage-register/htsrefferallinkage-register.component';
+import { PncRegisterComponent } from './registers/pnc-register/pnc-register.component';
+import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
+import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
+import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
 
 const routes: Routes = [
   {
@@ -282,6 +292,96 @@ const routes: Routes = [
           {
             path: 'patient-list',
             component: AhdMonthlyReportPatientlistComponent
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'registers',
+    children: [
+      {
+        path: '',
+        component: RegistersComponent
+      },
+      {
+        path: 'hei-register',
+        children: [
+          {
+            path: '',
+            component: HeiRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'anc-register',
+        children: [
+          {
+            path: '',
+            component: AncRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'nutrition-register',
+        children: [
+          {
+            path: '',
+            component: NutritionRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'maternity-register',
+        children: [
+          {
+            path: '',
+            component: MaternityRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'htsrefferallinkage-register',
+        children: [
+          {
+            path: '',
+            component: HtsrefferallinkageRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'pnc-register',
+        children: [
+          {
+            path: '',
+            component: PncRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'defaultertracing-register',
+        children: [
+          {
+            path: '',
+            component: DefaultertracingRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'prepdaily-register',
+        children: [
+          {
+            path: '',
+            component: PrepdailyRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'cntdaily-register',
+        children: [
+          {
+            path: '',
+            component: CntdailyRegisterComponent
           }
         ]
       }
