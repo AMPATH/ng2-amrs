@@ -1,10 +1,10 @@
 tr,
 .table-bordered th,
 .table-bordered td {
-  border: 2px solid #000; /* Darker border color */
+  border: 2px solid #000;
 }
 tbody tr {
-  height: 20px; /* Adjust the height as per your design */
+  height: 20px;
 }
 .vertical-text {
   writing-mode: vertical-rl;
@@ -14,4 +14,32 @@ tbody tr {
 }
 th {
   min-width: 70px;
+}
+
+.summary {
+  display: flex;
+  gap: 50px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.flex-item {
+  flex: 1 1 30%;
+  min-width: 250px;
+  box-sizing: border-box;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.table.table-bordered thead tr th.no-border {
+  border: none !important;
+}
+
+.center {
+  text-align: center;
+}
+.bold {
+  font-weight: bold;
 }
