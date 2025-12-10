@@ -1,7 +1,19 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
+import { DataAnalyticsDashboardService } from 'src/app/data-analytics-dashboard/services/data-analytics-dashboard.services';
+import { RegistersResourceService } from 'src/app/etl-api/registers-resource.service';
+import * as html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
+
 @Component({
   selector: 'app-maternity-register',
   templateUrl: './maternity-register.component.html',
@@ -12,7 +24,7 @@ export class MaternityRegisterComponent implements OnInit {
   public params: any;
   public indicators: string;
   public selectedIndicators = [];
-  public txnewReportSummaryData: any = [];
+  public maternitySummaryData: any = [];
   public columnDefs: any = [];
   public reportName = 'Martenity Register';
   public currentView = 'monthly';
@@ -22,6 +34,7 @@ export class MaternityRegisterComponent implements OnInit {
   public quarter: string;
   public eDate: string;
   public sDate: string;
+  public jointLocationUuids: string;
 
   public statusError = false;
   public errorMessage = '';
@@ -32,6 +45,8 @@ export class MaternityRegisterComponent implements OnInit {
   public pinnedBottomRowData: any = [];
   public _month: string;
   public isReleased = true;
+  public generated = false;
+  @ViewChild('contentToSnapshot') contentToSnapshot!: ElementRef;
 
   public _locationUuids: any = [];
   public get locationUuids(): Array<string> {
@@ -66,7 +81,13 @@ export class MaternityRegisterComponent implements OnInit {
     this._endDate = v;
   }
 
-  constructor(public router: Router, public route: ActivatedRoute) {
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public register: RegistersResourceService,
+    private datePipe: DatePipe,
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService
+  ) {
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
         ? (this._month = Moment()
@@ -82,24 +103,31 @@ export class MaternityRegisterComponent implements OnInit {
   ngOnInit() {}
 
   public onMonthChange(value): any {
-    this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
+    // this._month = Moment(value).endOf('month').format('YYYY-MM-DD');
+    this._month = Moment(value).format('YYYY-MM-DD');
   }
 
   public generateReport(): any {
+    this.dataAnalyticsDashboardService
+      .getSelectedLocations()
+      .subscribe((data) => {
+        const locationValues = data.locations.map(
+          (location) => `'${location.value}'`
+        );
+        this.jointLocationUuids = locationValues.join(', ');
+      });
     this.route.parent.parent.params.subscribe((params: any) => {
-      this.storeParamsInUrl(params.location_uuid);
+      this.storeParamsInUrl();
     });
-    this.txnewReportSummaryData = [];
-    // this.getTxNewReport(this.params);
+    this.maternitySummaryData = [];
+    this.getMaternityRegister(this.params);
+    this.generated = true;
   }
 
-  public storeParamsInUrl(param) {
+  public storeParamsInUrl() {
     this.params = {
-      locationUuids: param,
-      _month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-      reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY'),
+      locationUuids: this.jointLocationUuids,
+      month: Moment(this._month).format('YYYY-MM-DD'),
       startDate: Moment(this.startDate).format('YYYY-MM-DD'),
       endDate: Moment(this.endDate).format('YYYY-MM-DD')
     };
@@ -109,31 +137,31 @@ export class MaternityRegisterComponent implements OnInit {
     });
   }
 
-  // public getTxNewReport(params: any) {
-  //   this.isLoading = true;
-  //   this.txnewReport.getTxNewReport(params).subscribe((data) => {
-  //     if (data.error) {
-  //       this.showInfoMessage = true;
-  //       this.errorMessage = `There has been an error while loading the report, please retry again`;
-  //       this.isLoading = false;
-  //     } else {
-  //       this.showInfoMessage = false;
-  //       this.columnDefs = data.sectionDefinitions;
-  //       this.txnewReportSummaryData = data.result;
-  //       this.calculateTotalSummary();
-  //       this.isLoading = false;
-  //       this.showDraftReportAlert(this._month);
-  //     }
-  //   });
-  // }
+  public getMaternityRegister(params: any) {
+    this.isLoading = true;
+    this.register.getMaternityRegister(params).subscribe((data) => {
+      if (data.error) {
+        this.showInfoMessage = true;
+        this.errorMessage = `There has been an error while loading the report, please retry again`;
+        this.isLoading = false;
+      } else {
+        this.showInfoMessage = false;
+        this.columnDefs = data.sectionDefinitions;
+        this.maternitySummaryData = data;
+        this.calculateTotalSummary();
+        this.isLoading = false;
+        this.showDraftReportAlert(this._month);
+      }
+    });
+  }
 
   public calculateTotalSummary() {
     const totalsRow = [];
-    if (this.txnewReportSummaryData.length > 0) {
+    if (this.maternitySummaryData.length > 0) {
       const totalObj = {
         location: 'Totals'
       };
-      _.each(this.txnewReportSummaryData, (row) => {
+      _.each(this.maternitySummaryData, (row) => {
         Object.keys(row).map((key) => {
           if (Number.isInteger(row[key]) === true) {
             if (totalObj[key]) {
@@ -177,5 +205,53 @@ export class MaternityRegisterComponent implements OnInit {
     } else {
       this.isReleased = true;
     }
+  }
+
+  transformDate(date: string): string | null {
+    return this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
+
+  public takeSnapshotAndExport() {
+    const elementToSnapshot = this.contentToSnapshot.nativeElement;
+
+    html2canvas(elementToSnapshot).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('MOH 366 Care and Treatment Daily Activity.pdf');
+    });
+  }
+
+  calculateAgeTotals(summaryData: any[], minAge: number, maxAge?: number) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+
+  getMaternalDeathTotals(summaryData: any[], minAge: number, maxAge?: number) {
+    return (
+      summaryData.filter(
+        (data) =>
+          data['maternal_deaths_notified'] === 'Y' &&
+          data['age'] >= minAge &&
+          (maxAge === undefined || data['age'] <= maxAge)
+      ).length || ''
+    );
+  }
+  getParameterTotals(
+    summaryData: any[],
+    parameterName: string,
+    parameterValue: string | number
+  ) {
+    return (
+      summaryData.filter((data) => data[parameterName] === parameterValue)
+        .length || ''
+    );
   }
 }
