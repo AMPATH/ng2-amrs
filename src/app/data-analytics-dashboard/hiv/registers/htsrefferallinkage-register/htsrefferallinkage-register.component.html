@@ -1,0 +1,738 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        (onMonthChange)="onMonthChange($event)"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div
+  *ngIf="htsLabData && htsLabData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot1
+>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b
+          >MOH 362 HTS LAB, REFERRAL AND LINKAGE REGISTER <br />
+          MOH 362: HTS LAB REGISTER</b
+        >
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="5" class="text-center">
+            Serial <br />
+            Number
+          </th>
+          <th class="text-center">
+            National <br />
+            Identification <br />
+            Number
+          </th>
+          <th rowspan="5" class="text-center">AMRSID</th>
+          <th rowspan="5" class="text-center">
+            Date of visit <br />
+            (DD/MM/YYYY)
+          </th>
+          <th rowspan="5" class="text-center">
+            Client Name <br />
+            (First, Middle, Last)
+          </th>
+          <th rowspan="5" class="text-center">Age</th>
+          <th rowspan="5" class="text-center">
+            Sex<br />
+            (M/F)
+          </th>
+          <th rowspan="5" class="text-center">Telephone Number</th>
+          <th rowspan="5" class="text-center">
+            Marital<br />
+            Status <br />
+            1=Married<br />
+            2=Widowed <br />
+            3=Single<br />
+            4=Divorced<br />
+            5=Separated
+          </th>
+          <th rowspan="5" class="text-center">
+            Population Type <br />
+            1. Gen Pop<br />
+            2. Key and <br />
+            Vulnerable Pop. <br />
+            Codes for KVP<br />
+            - DC<br />
+            - MSM/MSW<br />
+            - FSW<br />
+            - PWID/PWUD<br />
+            - VP
+          </th>
+          <th rowspan="5" class="text-center">
+            Setting <br />
+            (1=Facility<br />
+            2=Community)
+          </th>
+          <th class="text-center">HIV Test 1</th>
+          <th class="text-center">HIV Test 2</th>
+          <th class="text-center">HIV Test 3</th>
+          <th class="text-center">
+            Final HIV <br />
+            Result
+          </th>
+          <th class="text-center">
+            Discordant <br />
+            Couple
+          </th>
+          <th rowspan="5" class="text-center">
+            Referred for <br />
+            Prevention <br />
+            Services<br />
+            1. PrEP<br />
+            2. PEP<br />
+            3. VMMC<br />
+            4. PMTCT<br />
+            5.NA
+          </th>
+          <th rowspan="5" class="text-center">
+            HTS Provider <br />
+            (Name)
+          </th>
+          <th rowspan="5" class="text-center">Remarks</th>
+        </tr>
+        <tr>
+          <th rowspan="4" class="text-center">
+            National Unique <br />
+            Patient Identifier <br />
+            (NUPI) Number
+          </th>
+          <th class="text-center">Kit Name:</th>
+          <th class="text-center">Kit Name:</th>
+          <th class="text-center">Kit Name:</th>
+          <th rowspan="4" class="text-center">(N,P,Ic)</th>
+          <th rowspan="4" class="text-center">(Y/N/NA)</th>
+        </tr>
+        <tr>
+          <th class="text-center">Lot No.</th>
+          <th class="text-center">Lot No.</th>
+          <th class="text-center">Lot No.</th>
+        </tr>
+        <tr>
+          <th class="text-center">Expiry Date / /</th>
+          <th class="text-center">Expiry Date / /</th>
+          <th class="text-center">Expiry Date / /</th>
+        </tr>
+        <tr>
+          <th class="text-center">(N,P,I)</th>
+          <th class="text-center">(N,P,I,NA)</th>
+          <th class="text-center">(N,P,I,NA)</th>
+        </tr>
+        <tr>
+          <th class="text-center">(a)</th>
+          <th class="text-center">(b)</th>
+          <th class="text-center">(c)</th>
+          <th class="text-center">(d)</th>
+          <th class="text-center">(e)</th>
+          <th class="text-center">(f)</th>
+          <th class="text-center">(g)</th>
+          <th class="text-center">(h)</th>
+          <th class="text-center">(i)</th>
+          <th class="text-center">(j)</th>
+          <th class="text-center">(k)</th>
+          <th class="text-center">(l)</th>
+          <th class="text-center">(m)</th>
+          <th class="text-center">(n)</th>
+          <th class="text-center">(o)</th>
+          <th class="text-center">(p)</th>
+          <th class="text-center">(q)</th>
+          <th class="text-center">(r)</th>
+          <th class="text-center">(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of htsLabData">
+          <tr>
+            <td class="text-center" rowspan="2">{{ item.serialNumber }}</td>
+            <td class="text-center">{{ item.nupiNumber }}</td>
+            <td class="text-center" rowspan="2">{{ item.amrsID }}</td>
+            <td class="text-center" rowspan="2">{{ item.visitDate }}</td>
+            <td class="text-center" rowspan="2">{{ item.clientName }}</td>
+            <td class="text-center" rowspan="2">{{ item.age }}</td>
+            <td class="text-center" rowspan="2">{{ item.sex }}</td>
+            <td class="text-center" rowspan="2">{{ item.telephoneNumber }}</td>
+            <td class="text-center" rowspan="2">{{ item.maritalStatus }}</td>
+            <td class="text-center">{{ item.populationType }}</td>
+            <td class="text-center" rowspan="2">{{ item.setting }}</td>
+            <td class="text-center" rowspan="2">
+              {{ item.hivTest1.kitName }} / {{ item.hivTest1.lotNumber }} /
+              {{ item.hivTest1.expiryDate }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ item.hivTest2.kitName }} / {{ item.hivTest2.lotNumber }} /
+              {{ item.hivTest2.expiryDate }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ item.hivTest3.kitName }} / {{ item.hivTest3.lotNumber }} /
+              {{ item.hivTest3.expiryDate }}
+            </td>
+            <td class="text-center" rowspan="2">{{ item.finalHivResult }}</td>
+            <td class="text-center" rowspan="2">{{ item.discordantCouple }}</td>
+            <td class="text-center" rowspan="2">
+              {{ null }}
+            </td>
+            <td class="text-center" rowspan="2">{{ item.htsProvider }}</td>
+            <td class="text-center" rowspan="2">{{ item.remarks }}</td>
+          </tr>
+          <tr>
+            <td class="text-center">{{ item.nationalId }}</td>
+            <td class="text-center">{{ item.subPopulation }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div
+      class="summary table-responsive"
+      *ngIf="htsLabData && htsLabData.length > 0"
+    >
+      <div class="inner">
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Tests (n)</th>
+                <th class="highlighted-row">2-9</th>
+                <th class="highlighted-row">10-14</th>
+                <th class="highlighted-row">15-19</th>
+                <th class="highlighted-row">20-24</th>
+                <th class="highlighted-row">25+</th>
+                <th class="highlighted-row">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Male</th>
+                <td>{{ getTotals(htsLabData, 'M', 2, 9) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 10, 14) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 15, 19) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 20, 24) }}</td>
+                <td>{{ getTotals(htsLabData, 'M', 25) }}</td>
+                <td>{{ getTotal(htsLabData, 'M') }}</td>
+              </tr>
+            </tbody>
+            <tr>
+              <th>Female</th>
+              <td>{{ getTotals(htsLabData, 'F', 2, 9) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 10, 14) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 15, 19) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 20, 24) }}</td>
+              <td>{{ getTotals(htsLabData, 'F', 25) }}</td>
+              <td>{{ getTotal(htsLabData, 'F') }}</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 2, 9) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 10, 14) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 15, 19) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 20, 24) }}</th>
+              <th>{{ getMaleAndFemaleTotal(htsLabData, 25) }}</th>
+              <th>{{ htsLabData.length }}</th>
+            </tr>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Positive (n)</th>
+                <th class="highlighted-row">2-9</th>
+                <th class="highlighted-row">10-14</th>
+                <th class="highlighted-row">15-19</th>
+                <th class="highlighted-row">20-24</th>
+                <th class="highlighted-row">25+</th>
+                <th class="highlighted-row">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Male</th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      2,
+                      9
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      10,
+                      14
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      15,
+                      19
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      20,
+                      24
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotalsWithAge(
+                      htsLabData,
+                      'finalHivResult',
+                      'P',
+                      'M',
+                      25
+                    )
+                  }}
+                </th>
+                <th>
+                  {{
+                    getParameterTotals(htsLabData, 'finalHivResult', 'P', 'M')
+                  }}
+                </th>
+              </tr>
+            </tbody>
+            <tr>
+              <th>Female</th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    2,
+                    9
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    10,
+                    14
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    15,
+                    19
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    20,
+                    24
+                  )
+                }}
+              </th>
+              <th>
+                {{
+                  getParameterTotalsWithAge(
+                    htsLabData,
+                    'finalHivResult',
+                    'P',
+                    'F',
+                    25
+                  )
+                }}
+              </th>
+              <th>
+                {{ getParameterTotals(htsLabData, 'finalHivResult', 'P', 'F') }}
+              </th>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 2, 9) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 10, 14) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 15, 19) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 20, 24) }}
+              </th>
+              <th>
+                {{ getPositiveMaleAndFemaleTotalWithAge(htsLabData, 25) }}
+              </th>
+              <th>{{ getPositiveTotal(htsLabData) }}</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="inner">
+        <div class="flex-item">
+          <table class="table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Total Negative (n)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center; font-weight: bold">
+                  {{ getParameterTotals(htsLabData, 'finalHivResult', 'N') }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Inconclusive test (n)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center; font-weight: bold">
+                  {{ getParameterTotals(htsLabData, 'finalHivResult', 'I') }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="inner">
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Tests Facility (j)</th>
+                <th>{{ getParameterTotals(htsLabData, 'setting', '1') }}</th>
+              </tr>
+              <tr>
+                <th class="highlighted-row">Tests Community (j)</th>
+                <th>{{ getParameterTotals(htsLabData, 'setting', '2') }}</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Discordant (o)</th>
+                <th>
+                  {{ getParameterTotals(htsLabData, 'discordantCouple', 'Y') }}
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="flex-item">
+          <table class="table table-bordered text-centre">
+            <thead>
+              <tr>
+                <th class="highlighted-row">Tests Key pops (i)</th>
+                <th>
+                  {{ getParameterTotals(htsLabData, 'populationType', '2') }}
+                </th>
+              </tr>
+              <tr>
+                <th class="highlighted-row">Positive key pops (i) & (n)</th>
+                <th>
+                  {{
+                    getParameterTotals(htsLabData, 'populationType', '2') +
+                      getParameterTotals(htsLabData, 'finalHivResult', 'P')
+                  }}
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="flex-item">
+        <table class="table table-bordered text-centre">
+          <thead>
+            <tr>
+              <th colspan="2" class="highlighted-row">HIV Test 1 (k) Number</th>
+              <th class="highlighted-row">HIV Test 2 (I)</th>
+              <th class="highlighted-row">Number</th>
+              <th class="highlighted-row">HIV Test 3 (m)</th>
+              <th class="highlighted-row">Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="highlighted-row">N: Negative</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'N') }}
+              </td>
+              <th class="highlighted-row">N: Negative</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'N') }}
+              </td>
+              <th class="highlighted-row">N: Negative</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'N') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">P: Positive</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'P') }}
+              </td>
+              <th class="highlighted-row">P: Positive</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'P') }}
+              </td>
+              <th class="highlighted-row">P: Positive</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'P') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">I: Invalid</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'I') }}
+              </td>
+              <th class="highlighted-row">I: Invalid</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'I') }}
+              </td>
+              <th class="highlighted-row">I: Invalid</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'P') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">Wastage:</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'NA') }}
+              </td>
+              <th class="highlighted-row">Wastage:</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'NA') }}
+              </td>
+              <th class="highlighted-row">Wastage:</th>
+              <td>
+                {{ getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'NA') }}
+              </td>
+            </tr>
+            <tr>
+              <th class="highlighted-row">Total:</th>
+              <td>
+                {{
+                  getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'N') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'P') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'I') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest1', 'NA')
+                }}
+              </td>
+              <th class="highlighted-row">Total:</th>
+              <td>
+                {{
+                  getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'N') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'P') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'I') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest2', 'NA')
+                }}
+              </td>
+              <th class="highlighted-row">Total:</th>
+              <td>
+                {{
+                  getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'N') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'P') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'I') +
+                    getHivTestTypesAndTotals(htsLabData, 'hivTest3', 'NA')
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div
+  *ngIf="htsLabData && htsLabData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot
+>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b
+          >MOH 362 HTS LAB, REFERRAL AND LINKAGE REGISTER <br />
+          REFERRAL AND LINKAGE REGISTER</b
+        >
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="2">
+            Serial<br />
+            Number
+          </th>
+          <th rowspan="2">AMRSID</th>
+          <th>
+            National Identification<br />
+            Number
+          </th>
+          <th rowspan="2">Client Names</th>
+          <th>Telephone Number</th>
+          <th rowspan="2">
+            Identification <br />
+            Strategy <br />
+            (VCT/IT/HIVST<br />
+            /SNS)
+          </th>
+          <th rowspan="2">Patient referred to</th>
+          <th rowspan="2">
+            Handed over to: <br />
+            (Indicate Name (upper cell) <br />
+            and Cadre (lower cell)
+          </th>
+          <th rowspan="2">
+            Date started on <br />
+            ART
+          </th>
+          <th rowspan="2">CCC Number</th>
+          <th rowspan="2">Remarks</th>
+        </tr>
+        <tr>
+          <th>
+            National Unique <br />
+            Patient Identifier <br />
+            (NUPI) Number
+          </th>
+          <th>Residence</th>
+        </tr>
+        <tr>
+          <th class="text-centre">(a)</th>
+          <th class="text-centre">(b)</th>
+          <th class="text-centre">(c)</th>
+          <th class="text-centre">(d)</th>
+          <th class="text-centre">(e)</th>
+          <th class="text-centre">(f)</th>
+          <th class="text-centre">(g)</th>
+          <th class="text-centre">(h)</th>
+          <th class="text-centre">(i)</th>
+          <th class="text-centre">(j)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of htsLinkageData">
+          <tr>
+            <td rowspan="2">{{ item.serialNumber }}</td>
+            <td rowspan="2">{{ item.amrsID }}</td>
+            <td>{{ item.nupiNumber }}</td>
+            <td rowspan="2">{{ item.clientName }}</td>
+            <td>{{ item.telephoneNumber }}</td>
+            <td rowspan="2">{{ item.identificationStrategy }}</td>
+            <td rowspan="2">{{ item.patientReferredTo }}</td>
+            <td>{{ item.handedOverTo }}</td>
+            <td rowspan="2">{{ item.artStartDate }}</td>
+            <td rowspan="2">{{ item.cccNumber }}</td>
+            <td rowspan="2">{{ item.remarks }}</td>
+          </tr>
+          <tr>
+            <td>{{ item.nationalId }}</td>
+            <td>{{ item.residence }}</td>
+            <td>{{ item.cadre }}</td>
+          </tr>
+        </ng-container>
+        <tr *ngIf="pinnedBottomRowData.length > 0">
+          <td colspan="9"><b>Totals Clients Linked</b></td>
+          <td>{{ pinnedBottomRowData[0].totalLinked }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
