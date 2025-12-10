@@ -1,0 +1,2879 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <app-moh731-filters
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        [(locationUuids)]="jointLocationUuids"
+        [showLocationsControl]="showLocationsControl"
+        [showIsAggregateControl]="showIsAggregateControl"
+        (generateReport)="generateReport()"
+      >
+      </app-moh731-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div class="table-responsible">
+  <div class="row">
+    <div class="col-md-4">
+      <b>Ministry Of Health</b>
+    </div>
+    <div class="col-md-4 text-right">
+      <b>Ver. July 2023</b>
+    </div>
+  </div>
+  <div class="table table-bordered border border-2">
+    <table style="width: 100%">
+      <tr>
+        <td style="text-align: center; font-weight: bold">
+          National AIDS & STI Control Program- NASCOP <br />
+          Comprehensive HIV/ AIDS reporting form
+          <div style="text-align: end; margin-bottom: 1%">
+            <span style="text-align: end; border: 2px dotted #000"
+              >(MOH 731-Ver. July 2023)</span
+            >
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <table class="table" style="margin-top: 0.5%">
+    <tr>
+      <td style="padding-left: 40%; padding-bottom: 1%">
+        County______________________SubCounty___________________Facility___________________MFL_______Month______year______
+      </td>
+    </tr>
+  </table>
+  <table class="table" style="margin-top: 1%">
+    <thead>
+      <tr>
+        <th class="border">1. HIV Testing & Pre exposure Prophylaxis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <div class="flex-row">
+        <div class="flex-column">
+          <tr>
+            <td class="space-after" style="font-weight: bold">1.1 HIV Tests</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="font-weight: bold; padding-left: 60px">Male</td>
+            <td style="padding-left: 77px; font-weight: bold">
+              Female(Including<br />
+              PMTCT)
+            </td>
+          </tr>
+          <tr>
+            <td>Tests</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('HIV Tests', 'hiv_male', 'M')"
+            >
+              <span>HV01-01</span>
+              <div class="rectangle">{{ MOH731RegisterData.hiv_male }}</div>
+            </td>
+            <td (click)="onIndicatorSelected('HIV Tests', 'hiv_female', 'F')">
+              <div class="text-box text-box2">
+                <span>HV01-02</span>
+                <div class="rectangle">{{ MOH731RegisterData.hiv_female }}</div>
+              </div>
+            </td>
+          </tr>
+          <tr class="margin">
+            <td>Tests_Facility</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('HIV Tests', 'hiv_setting_facility', '')
+              "
+            >
+              <span>HV01-03</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.hiv_setting_facility }}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Tests_Community</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('HIV Tests', 'hiv_setting_community', '')
+              "
+            >
+              <span>HV01-04</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.hiv_setting_community }}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Tested KVP</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('HIV Tests', 'hiv_setting_kvp', '')"
+            >
+              <span>HV01-05</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.hiv_setting_kvp }}
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              1.3 No. Initiated on PrEP(NEW)
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="font-weight: bold; padding-left: 70px">Male</td>
+            <td style="font-weight: bold; padding-left: 75px">Female</td>
+          </tr>
+          <tr>
+            <td>General popn</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_male_general_pop',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-19</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_new_male_general_pop }}
+              </div>
+            </td>
+            <td>
+              <div
+                class="text-box text-box2"
+                (click)="
+                  onIndicatorSelected(
+                    'Initiated on PrEP(NEW)',
+                    'prep_new_female_general_pop',
+                    'F'
+                  )
+                "
+              >
+                <span>HV01-20</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_female_general_pop }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>MSM/MSW</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_msm',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-21</span>
+              <div class="rectangle">{{ MOH731RegisterData.prep_new_msm }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>FSW</td>
+            <td></td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_fsw',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-22</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_fsw }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>PWID/PWUD</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_pwud_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-23</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_new_pwud_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_pwud_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-24</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_pwud_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Discordant Couple</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW) Discordant Couple',
+                  'prep_new_discordant_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-25</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_new_discordant_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_discordant_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-26</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_discordant_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Vulnerable Pop.</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_vulnerable_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-27</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_new_vulnerable_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_vulnerable_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-28</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_vulnerable_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>AYP (10-24yrs)</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_ayp',
+                  'F'
+                )
+              "
+            >
+              <span>HV01-29</span>
+              <div class="rectangle">{{ MOH731RegisterData.prep_new_ayp }}</div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_ayp',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-30</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_ayp }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Pregnant and breastfeeding women</td>
+            <td></td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Initiated on PrEP(NEW)',
+                  'prep_new_preg_breastfeeding',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-31</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_new_preg_breastfeeding }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              1.5 No. Seroconverted while on PrEP
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Male</td>
+            <td style="padding-left: 60px">Female</td>
+          </tr>
+          <tr>
+            <td>HIV Positive</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Seroconverted while on PrEP Male',
+                  'seroconverted_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-45</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.seroconverted_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Seroconverted while on PrEP Female',
+                  'seroconverted_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-46</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.seroconverted_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+        </div>
+        <div class="flex-column">
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              1.2 HIV Positive Results
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="font-weight: bold; padding-left: 62px">Male</td>
+            <td style="padding-left: 72px; font-weight: bold">Female</td>
+          </tr>
+          <tr>
+            <td>Positive_2-9</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'male_2_9', 'M')
+              "
+            >
+              <span>HV01-06</span>
+              <div class="rectangle">{{ MOH731RegisterData.male_2_9 }}</div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'female_2_9', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-07</span>
+                <div class="rectangle">{{ MOH731RegisterData.female_2_9 }}</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Positive_10-14</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'male_10_14', 'M')
+              "
+            >
+              <span>HV01-08</span>
+              <div class="rectangle">{{ MOH731RegisterData.male_10_14 }}</div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'female_10_14', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-09</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.female_10_14 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Positive_15-19</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'male_15_19', 'M')
+              "
+            >
+              <span>HV01-10</span>
+              <div class="rectangle">{{ MOH731RegisterData.male_15_19 }}</div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'female_15_19', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-11</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.female_15_19 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Positive_20-24</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'male_20_24', 'M')
+              "
+            >
+              <span>HV01-12</span>
+              <div class="rectangle">{{ MOH731RegisterData.male_20_24 }}</div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('HIV Positive Results', 'female_20_24', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-13</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.female_20_24 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Positive_25+</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'HIV Positive Results',
+                  'male_25_above',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-14</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.male_25_above }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'HIV Positive Results',
+                  'female_25_above',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-15</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.female_25_above }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Positive_KVP</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('HIV Positive Results', '', 'M')"
+            >
+              <span>HV01-16</span>
+              <div class="rectangle"></div>
+            </td>
+          </tr>
+          <tr style="padding-top: 10px; padding-bottom: 10px">
+            <td>Discordant</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('HIV Positive Results', '', 'M')"
+            >
+              <span>HV01-17</span>
+              <div class="rectangle"></div>
+            </td>
+            <td (click)="onIndicatorSelected('HIV Positive Results', '', 'F')">
+              <div class="text-box text-box2">
+                <span>HV01-18</span>
+                <div class="rectangle"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Inconclusive Test Results</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('HIV Positive Results', '', 'M')"
+            >
+              <span>HV01-47</span>
+              <div class="rectangle"></div>
+            </td>
+            <td (click)="onIndicatorSelected('HIV Positive Results', '', 'F')">
+              <div class="text-box text-box2">
+                <span>HV01-48</span>
+                <div class="rectangle"></div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              1.4 No. on PrEP Diagnosed with STI
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="font-weight: bold; padding-left: 62px">Male</td>
+            <td style="padding-left: 72px; font-weight: bold">Female</td>
+          </tr>
+          <tr>
+            <td>General popn</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_male_general_pop',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-32</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_sti_male_general_pop }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_female_general_pop',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-33</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_sti_female_general_pop }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>MSM/MSW</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_msm',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-34</span>
+              <div class="rectangle">{{ MOH731RegisterData.prep_sti_msm }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>FSW</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_fsw',
+                  'F'
+                )
+              "
+            >
+              <span>HV01-35</span>
+              <div class="rectangle">{{ MOH731RegisterData.prep_sti_fsw }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>PWID/PWUD</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_pwud_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-36</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_sti_pwud_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_pwud_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-37</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_sti_pwud_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Discordant Couple</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_discordant_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-38</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_sti_discordant_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_discordant_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-39</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_sti_discordant_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Vulnerable Pop.</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_vulnerable_male',
+                  'M'
+                )
+              "
+            >
+              <span>HV01-40</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.prep_sti_vulnerable_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_vulnerable_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-41</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_sti_vulnerable_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>AYP(10-24 yrs)</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_ayp',
+                  'F'
+                )
+              "
+            >
+              <span>HV01-42</span>
+              <div class="rectangle">{{ MOH731RegisterData.prep_sti_ayp }}</div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_ayp',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-43</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_sti_ayp }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Pregnant and breastfeeding women</td>
+            <td></td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'No. on PrEP Diagnosed with STI',
+                  'prep_sti_preg_breastfeeding',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV01-44</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.prep_sti_preg_breastfeeding }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+        </div>
+      </div>
+    </tbody>
+    <thead>
+      <tr>
+        <th class="border2">
+          2. Elimination of Mother-to-Child Transmission(EMTCT)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <div class="flex-row">
+        <div class="flex-column">
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              2.1 Maternal HIV Testing
+            </td>
+          </tr>
+          <tr>
+            <td>Known Positive at 1st ANC</td>
+            <td class="text-box">
+              <span>HV02-01</span>
+              <div
+                class="rectangle"
+                (click)="
+                  onIndicatorSelected(
+                    'Elimination of Mother-to-Child Transmission(EMTCT)',
+                    'known_positive_1st_anc',
+                    ''
+                  )
+                "
+              >
+                {{ MOH731RegisterData.known_positive_1st_anc }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="font-weight: bold; padding-left: 70px">Initial</td>
+            <td style="padding-left: 80px; font-weight: bold">Retest</td>
+          </tr>
+          <tr>
+            <td>Tested at ANC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'initial_test_anc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-02</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.initial_test_anc }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'retest_anc',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-03</span>
+                <div class="rectangle">{{ MOH731RegisterData.retest_anc }}</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Tested at L&D</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'initial_test_LD',
+                  ''
+                )
+              "
+            >
+              <span>HV02-04</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.initial_test_LD }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'retest_LD',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-05</span>
+                <div class="rectangle">{{ MOH731RegisterData.retest_LD }}</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Tested at PNC_<=6weeks</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'initial_test_pnc_less_6_weeks',
+                  ''
+                )
+              "
+            >
+              <span>HV02-06</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.initial_test_pnc_less_6_weeks }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'retest_pnc_less_6_weeks',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-07</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.retest_pnc_less_6_weeks }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Tested at PNC_>6weeks</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'initial_test_pnc_greater_6_weeks',
+                  ''
+                )
+              "
+            >
+              <span>HV02-08</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.initial_test_pnc_greater_6_weeks }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'retest_pnc_greater_6_weeks',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-09</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.retest_pnc_greater_6_weeks }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              2.2 HIV Positive Results
+            </td>
+          </tr>
+          <tr>
+            <td>Tested at ANC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'positive_anc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-10</span>
+              <div class="rectangle">{{ MOH731RegisterData.positive_anc }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Tested at L&D</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'positive_LD',
+                  ''
+                )
+              "
+            >
+              <span>HV02-11</span>
+              <div class="rectangle">{{ MOH731RegisterData.positive_LD }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Tested at PNC_<=6weeks</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'positive_pnc_less_6_weeks',
+                  ''
+                )
+              "
+            >
+              <span>HV02-12</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.positive_pnc_less_6_weeks }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Tested at PNC_>6weeks</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'positive_pnc_greater_6_weeks',
+                  ''
+                )
+              "
+            >
+              <span>HV02-13</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.positive_pnc_greater_6_weeks }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              2.3 Maternal HAART
+            </td>
+          </tr>
+          <tr>
+            <td>On HAART at 1st ANC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'maternal_haart_1st_anc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-14</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.maternal_haart_1st_anc }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Start HAART_ANC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'start_maternal_haart_1st_anc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-15</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_maternal_haart_1st_anc }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Start HAART_L&D</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'start_maternal_haart_LD',
+                  ''
+                )
+              "
+            >
+              <span>HV02-16</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_maternal_haart_LD }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Start HAART_PNC_< =6weeks</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'maternal_haart_less_6_weeks',
+                  ''
+                )
+              "
+            >
+              <span>HV02-17</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.maternal_haart_less_6_weeks }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Start HAART_PNC_>6weeks</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'maternal_haart_more_6_weeks',
+                  ''
+                )
+              "
+            >
+              <span>HV02-18</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.maternal_haart_more_6_weeks }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+        </div>
+        <div class="flex-column">
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              2.4 HBV Screening at ANC
+            </td>
+          </tr>
+          <tr>
+            <td>Screened_HBV_ANC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  '',
+                  ''
+                )
+              "
+            >
+              <span>HV02-19</span>
+              <div class="rectangle"></div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>HBV Screened_Positive</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'hbv_screened_positive_anc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-20</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.hbv_screened_positive_anc }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td style="font-weight: bold">
+              2.5 Adolescents girls & Young Women (10-24 Yrs)<br />
+              testing & results
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="font-weight: bold; padding-left: 62px">10-19yrs</td>
+            <td style="padding-left: 72px; font-weight: bold">20-24yrs</td>
+          </tr>
+          <tr>
+            <td>1st ANC KP</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'known_positive_ayp_10_19',
+                  ''
+                )
+              "
+            >
+              <span>HV02-21</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.known_positive_ayp_10_19 }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'known_positive_ayp_20_24',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-22</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.known_positive_ayp_20_24 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>New HIV Positive</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'new_positive_ayp_10_19',
+                  ''
+                )
+              "
+            >
+              <span>HV02-23</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.new_positive_ayp_10_19 }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'new_positive_ayp_20_24',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-24</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.new_positive_ayp_20_24 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On HAART 1st ANC KP</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'on_art_ayp_10_19',
+                  ''
+                )
+              "
+            >
+              <span>HV02-25</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_ayp_10_19 }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'on_art_ayp_20_24',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-26</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_ayp_20_24 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Started HAART New</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'start_art_ayp_10_19',
+                  ''
+                )
+              "
+            >
+              <span>HV02-27</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_art_ayp_10_19 }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'start_art_ayp_20_24',
+                  ''
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>HV02-28</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.start_art_ayp_20_24 }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              2.6 Infant Prophylaxis
+            </td>
+          </tr>
+          <tr>
+            <td>Infant ARV Prophylaxis_ANC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'infant_arv_anc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-29</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.infant_arv_anc }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Infant ARV Prophylaxis_L&D</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'infant_arv_ld',
+                  ''
+                )
+              "
+            >
+              <span>HV02-30</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.infant_arv_ld }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Infant ARV Prophylaxis_L&PNC</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'infant_arv_pnc',
+                  ''
+                )
+              "
+            >
+              <span>HV02-31</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.infant_arv_pnc }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              2.7 Infant Feeding
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold">Below 6 months</td>
+          </tr>
+          <tr>
+            <td>Exclusive Breastfeeding (EBF)</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'exclusive_bf',
+                  ''
+                )
+              "
+            >
+              <span>HV02-32</span>
+              <div class="rectangle">{{ MOH731RegisterData.exclusive_bf }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold">6 to 24 months</td>
+          </tr>
+          <tr>
+            <td>Breastfeeding (BF)</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'bf',
+                  ''
+                )
+              "
+            >
+              <span>HV02-33</span>
+              <div class="rectangle">{{ MOH731RegisterData.bf }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="space-after">Not Breastfeeding (NBF)</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Elimination of Mother-to-Child Transmission(EMTCT)',
+                  'weaning',
+                  ''
+                )
+              "
+            >
+              <span>HV02-34</span>
+              <div class="rectangle">{{ MOH731RegisterData.weaning }}</div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+        </div>
+      </div>
+    </tbody>
+    <thead>
+      <tr>
+        <th class="border2">3. HIV and TB treatment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <div class="flex-row">
+        <div class="flex-column border-right">
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.1 Starting ART
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART_<1</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_less_1_male', 'M')
+              "
+            >
+              <span>(M) HV03-01</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_less_1_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Starting ART',
+                  'art_new_less_1_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-02</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_less_1_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART 1-4</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_1_4_male', 'M')
+              "
+            >
+              <span>(M) HV03-03</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_1_4_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_1_4_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-04</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_1_4_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART 5-9</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_5_9_male', 'M')
+              "
+            >
+              <span>(M) HV03-05</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_5_9_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_5_9_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-06</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_5_9_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART 10-14</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_10_14_male', 'M')
+              "
+            >
+              <span>(M) HV03-07</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_10_14_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_10_14_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-08</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_10_14_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART 15-19</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_15_19_male', 'M')
+              "
+            >
+              <span>(M) HV03-09</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_15_19_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_15_19_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-10</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_15_19_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART 20-24</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_20_24_male', 'M')
+              "
+            >
+              <span>(M) HV03-11</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_20_24_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Starting ART', 'art_new_20_24_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-12</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_20_24_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Start ART 25+</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Starting ART',
+                  'art_new_25_above_male',
+                  'M'
+                )
+              "
+            >
+              <span>(M) HV03-013</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.art_new_25_above_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Starting ART',
+                  'art_new_25_above_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-014</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.art_new_25_above_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.2 Curently on ART ([ALL])
+            </td>
+          </tr>
+          <tr>
+            <td>On ART_<1</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_less_1_male',
+                  'M'
+                )
+              "
+            >
+              <span>(M) HV03-015</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_less_1_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_less_1_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-016</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_less_1_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On ART 1-4</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_1_4_male', 'M')
+              "
+            >
+              <span>(M) HV03-017</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_1_4_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_1_4_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-018</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_1_4_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On ART 5-9</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_5_9_male', 'M')
+              "
+            >
+              <span>(M) HV03-019</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_5_9_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_5_9_female', 'F')
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-020</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_5_9_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On ART 10-14</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_10_14_male', 'M')
+              "
+            >
+              <span>(M) HV03-021</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_10_14_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_10_14_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-022</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_10_14_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On ART 15-19</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_15_19_male', 'M')
+              "
+            >
+              <span>(M) HV03-023</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_15_19_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_15_19_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-024</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_15_19_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On ART 20-24</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Curently on ART', 'on_art_20_24_male', 'M')
+              "
+            >
+              <span>(M) HV03-025</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_20_24_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_20_24_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-026</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_20_24_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>On ART 25+</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_25_above_male',
+                  'M'
+                )
+              "
+            >
+              <span>(M) HV03-027</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.on_art_25_above_male }}
+              </div>
+            </td>
+            <td
+              (click)="
+                onIndicatorSelected(
+                  'Curently on ART',
+                  'on_art_25_above_female',
+                  'F'
+                )
+              "
+            >
+              <div class="text-box text-box2">
+                <span>(F) HV03-028</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.on_art_25_above_female }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.3 TB Screening
+            </td>
+          </tr>
+          <tr>
+            <td>Screened for TB_<15</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('TB Screening', 'screened_tb_less_15', '')
+              "
+            >
+              <span>HV03-029</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.screened_tb_less_15 }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Screened for TB_15+</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'TB Screening',
+                  'screened_tb_greater_15',
+                  ''
+                )
+              "
+            >
+              <span>HV03-030</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.screened_tb_greater_15 }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.4 Starting TPT
+            </td>
+          </tr>
+          <tr>
+            <td>Start TPT_<15</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting TPT', 'start_tpt_less_15', '')
+              "
+            >
+              <span>HV03-031</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_tpt_less_15 }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Start TPT_15+</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected('Starting TPT', 'start_tpt_greater_15', '')
+              "
+            >
+              <span>HV03-032</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_tpt_greater_15 }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.5 Differentiated Service Delivery
+            </td>
+          </tr>
+          <tr>
+            <td>Established</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Differentiated Service Delivery Established',
+                  'established',
+                  ''
+                )
+              "
+            >
+              <span>HV03-033</span>
+              <div class="rectangle">{{ MOH731RegisterData.established }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Not Established</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Differentiated Service Delivery Not Established',
+                  'not_established',
+                  ''
+                )
+              "
+            >
+              <span>HV03-034</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.not_established }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Community</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Differentiated Service Delivery Community',
+                  'community',
+                  ''
+                )
+              "
+            >
+              <span>HV03-035</span>
+              <div class="rectangle">{{ MOH731RegisterData.community }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Facility</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Differentiated Service Delivery Facility',
+                  'facility',
+                  ''
+                )
+              "
+            >
+              <span>HV03-036</span>
+              <div class="rectangle">{{ MOH731RegisterData.facility }}</div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+        </div>
+        <div class="flex-column">
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.6 Nutrition and HIV
+            </td>
+          </tr>
+          <tr>
+            <td>Number SAM +</td>
+          </tr>
+          <tr>
+            <td>0-5Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM +',
+                  'has_sam_0_5_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-037</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_sam_0_5_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>6-59Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM +',
+                  'has_sam_6_59_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-038</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_sam_6_59_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>5-9Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM +',
+                  'has_sam_5_9_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-039</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_sam_5_9_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>10-17Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM +',
+                  'has_sam_10_17_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-040</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_sam_10_17_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>18+Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM +',
+                  'has_sam_18_and_above_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-041</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_sam_18_and_above_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Pregnant & Lactating</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('Nutrition Number SAM +', '', '')"
+            >
+              <span>HV03-042</span>
+              <div class="rectangle"></div>
+            </td>
+            <td></td>
+          </tr>
+          <div style="height: 2vh"></div>
+          <tr>
+            <td class="space-after">Number MAM +</td>
+          </tr>
+          <tr>
+            <td>0-5Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM +',
+                  'has_smm_0_5_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-043</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_smm_0_5_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>6-59Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM +',
+                  'has_smm_6_59_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-044</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_smm_6_59_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>5-9Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM +',
+                  'has_smm_5_9_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-045</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_smm_5_9_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>10-17Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM +',
+                  'has_smm_10_17_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-046</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_smm_10_17_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>18+Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM +',
+                  'has_smm_18_and_above_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-047</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.has_smm_18_and_above_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Pregnant & Lactating</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('Nutrition Number MAM +', '', '')"
+            >
+              <span>HV03-048</span>
+              <div class="rectangle"></div>
+            </td>
+            <td></td>
+          </tr>
+          <div style="height: 2vh"></div>
+          <tr>
+            <td>Number SAM + receiving therapeutic foods</td>
+          </tr>
+          <tr>
+            <td>0-5Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM + receiving therapeutic foods',
+                  'severe_acute_supp_0_5_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-049</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_acute_supp_0_5_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>6-59Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM + receiving therapeutic foods',
+                  'severe_acute_supp_6_59_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-050</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_acute_supp_6_59_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>5-9Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM + receiving therapeutic foods',
+                  'severe_acute_supp_5_9_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-051</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_acute_supp_5_9_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>10-17Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM + receiving therapeutic foods',
+                  'severe_acute_supp_10_17_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-052</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_acute_supp_10_17_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>18+Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM + receiving therapeutic foods',
+                  'severe_acute_supp_18_and_above_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-053</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_acute_supp_18_and_above_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Pregnant & Lactating</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number SAM + receiving therapeutic foods',
+                  '',
+                  ''
+                )
+              "
+            >
+              <span>HV03-054</span>
+              <div class="rectangle"></div>
+            </td>
+            <td></td>
+          </tr>
+          <div style="height: 2vh"></div>
+          <tr>
+            <td>Number MAM + receiving Supplimental foods</td>
+          </tr>
+          <tr>
+            <td>0-5Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM + receiving therapeutic foods',
+                  'severe_moderate_supp_0_5_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-055</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_moderate_supp_0_5_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>6-59Months</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM + receiving therapeutic foods',
+                  'severe_moderate_supp_6_59_months',
+                  ''
+                )
+              "
+            >
+              <span>HV03-056</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_moderate_supp_6_59_months }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>5-9Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM + receiving therapeutic foods',
+                  'severe_moderate_supp_5_9_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-057</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_moderate_supp_5_9_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>10-17Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM + receiving therapeutic foods',
+                  'severe_moderate_supp_10_17_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-058</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_moderate_supp_10_17_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>18+Years</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM + receiving therapeutic foods',
+                  'severe_moderate_supp_18_and_above_years',
+                  ''
+                )
+              "
+            >
+              <span>HV03-059</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.severe_moderate_supp_18_and_above_years }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Pregnant & Lactating</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'Nutrition Number MAM + receiving therapeutic foods',
+                  '',
+                  ''
+                )
+              "
+            >
+              <span>HV03-060</span>
+              <div class="rectangle"></div>
+            </td>
+            <td></td>
+          </tr>
+        </div>
+        <div class="flex-column border-left">
+          <tr>
+            <td class="space-after" style="font-weight: bold">
+              3.7 HIV in TB Clinic
+            </td>
+          </tr>
+          <tr>
+            <td>TB cases_New</td>
+            <td
+              class="text-box"
+              (click)="onIndicatorSelected('TB cases_New', 'start_tb', '')"
+            >
+              <span>HV03-061</span>
+              <div class="rectangle">{{ MOH731RegisterData.start_tb }}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              TB_New_Known HIV<br />
+              Positive(KPs)
+            </td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'TB_New_Known HIV Positive(KPs)',
+                  'start_tb_known_positive',
+                  ''
+                )
+              "
+            >
+              <span>HV03-062</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_tb_known_positive }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>TB_New HIV Positive</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'TB_New HIV Positive',
+                  'start_tb_positive',
+                  ''
+                )
+              "
+            >
+              <span>HV03-063</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_tb_positive }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              TB_New_Known HIV<br />
+              Positive(KP) on HAART
+            </td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'TB_New_Known HIV Positive(KP) on HAART',
+                  'start_tb_on_art',
+                  ''
+                )
+              "
+            >
+              <span>HV03-064</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_tb_on_art }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>TB New_Start_HAART</td>
+            <td
+              class="text-box"
+              (click)="
+                onIndicatorSelected(
+                  'TB New_Start_HAART',
+                  'start_tb_art_new',
+                  ''
+                )
+              "
+            >
+              <span>HV03-065</span>
+              <div class="rectangle">
+                {{ MOH731RegisterData.start_tb_art_new }}
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          ____________________________________________________________________
+          <thead>
+            <tr>
+              <th class="border2">4. Medical Male Circumcision</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="space-after" style="font-weight: bold">
+                4.1 Number circumcised
+              </td>
+            </tr>
+            <tr>
+              <td>Circumcised_0-60 days</td>
+              <td class="text-box">
+                <span>HV04-01</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Circumcised_61 days -9 yrs days</td>
+              <td class="text-box">
+                <span>HV04-02</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Circumcised_10-14</td>
+              <td class="text-box">
+                <span>HV04-03</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Circumcised_15 +</td>
+              <td class="text-box">
+                <span>HV04-04</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            ____________________________________________________________________
+            <tr>
+              <td class="space-after">Tested_ HIV+</td>
+              <td class="text-box">
+                <span>HV04-05</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="space-after">Tested_ HIV-</td>
+              <td class="text-box">
+                <span>HV04-06</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            ____________________________________________________________________
+            <tr>
+              <td class="space-after" style="font-weight: bold">
+                4.2 Type of circumcission
+              </td>
+            </tr>
+            <tr>
+              <td>Surgical</td>
+              <td class="text-box">
+                <span>HV04-07</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Devices</td>
+              <td class="text-box">
+                <span>HV04-08</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            ____________________________________________________________________
+            <tr>
+              <td class="space-after" style="font-weight: bold">
+                4.3 Circumcission Adverse Events
+              </td>
+            </tr>
+            <tr>
+              <td>AE_During_Moderate</td>
+              <td class="text-box">
+                <span>HV04-09</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>AE_During_Severe</td>
+              <td class="text-box">
+                <span>HV04-10</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            ____________________________________________________________________
+            <tr>
+              <td class="space-after">AE_Post_Moderate</td>
+              <td class="text-box">
+                <span>HV04-11</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="space-after">AE_Post_Severe</td>
+              <td class="text-box">
+                <span>HV04-12</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+            ____________________________________________________________________
+            <tr>
+              <td class="space-after">Follow up visit < 14d</td>
+              <td class="text-box">
+                <span>HV04-13</span>
+                <div class="rectangle"></div>
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th class="border2">5. Post Exposure Prophylaxis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Exposed_Occupational</td>
+              <td
+                class="text-box"
+                (click)="
+                  onIndicatorSelected(
+                    'Exposed Occupational',
+                    'exposed_occupational',
+                    ''
+                  )
+                "
+              >
+                <span>HV05-01</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.exposed_occupational }}
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Exposed Other</td>
+              <td
+                class="text-box"
+                (click)="
+                  onIndicatorSelected(
+                    'Exposed Other',
+                    'exposed_non_occupational',
+                    ''
+                  )
+                "
+              >
+                <span>HV05-02</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.exposed_non_occupational }}
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>PEP_Occupational</td>
+              <td
+                class="text-box"
+                (click)="
+                  onIndicatorSelected(
+                    'PEP Occupational',
+                    'pep_occupational',
+                    ''
+                  )
+                "
+              >
+                <span>HV05-03</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.pep_occupational }}
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>PEP_Other</td>
+              <td
+                class="text-box"
+                (click)="
+                  onIndicatorSelected('PEP Other', 'pep_non_occupational', '')
+                "
+              >
+                <span>HV05-04</span>
+                <div class="rectangle">
+                  {{ MOH731RegisterData.pep_non_occupational }}
+                </div>
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </div>
+      </div>
+    </tbody>
+    <thead>
+      <div class="review-section border3">
+        <div>Reviewed by:</div>
+        <div>Name</div>
+        <div>Designation</div>
+        <div>Signature</div>
+        <div>Date</div>
+
+        <div></div>
+        <div>_______________________________________</div>
+        <div>______________________</div>
+        <div>_____________</div>
+        <div>____________</div>
+      </div>
+    </thead>
+  </table>
+</div>
