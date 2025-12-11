@@ -196,8 +196,9 @@ export class PatientBannerComponent implements OnInit, OnDestroy, OnChanges {
 
   public getVerificationStatus() {
     const verificationStatusUuid = this.patient.uuid;
+    const custom = 'custom:(uuid,value,attributeType:(uuid,name))';
     this.personAttributeResourceService
-      .getPersonAttributesByUuid(verificationStatusUuid)
+      .getPersonAttributesByUuid(verificationStatusUuid, false, custom)
       .subscribe((res) => {
         const value = res.results.filter((a: any) => {
           return (
