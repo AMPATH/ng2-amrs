@@ -56,11 +56,6 @@ export const dashboardRoutes: Routes = [
         component: LabOrderSearchContainerComponent
       },
       {
-        path: 'practitioner',
-        loadChildren:
-          '../practitioner-management/practitioner-management.module#PractitionerManagementModule'
-      },
-      {
         path: 'useful-links',
         component: UsefulLinksComponent
       },
@@ -68,11 +63,6 @@ export const dashboardRoutes: Routes = [
         path: 'patient-list-cohort',
         loadChildren:
           '../patient-list-cohort/patient-list-cohort.module#PatientListCohortModule'
-      },
-      {
-        path: 'facility',
-        loadChildren:
-          '../facility-management/facility-management.module#FacilityManagementModule'
       }
     ]
   }

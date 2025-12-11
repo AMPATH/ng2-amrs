@@ -30,6 +30,7 @@ export class LocationResourceService {
    */
   public getLocations(forceRefresh?: boolean) {
     // If the Subject was NOT subscribed before OR if forceRefresh is requested
+
     if (!this.locations.observers.length || forceRefresh) {
       this.getAllLocations()
         .pipe(take(1))

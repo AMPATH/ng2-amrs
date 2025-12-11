@@ -7,7 +7,6 @@ import { AuthenticationService } from '../../openmrs-api/authentication.service'
 import { User } from '../../models/user.model';
 import { LocalStorageService } from '../../utils/local-storage.service';
 import { FormUpdaterService } from '../../patient-dashboard/common/formentry/form-updater.service';
-import { RoleUuids } from 'src/app/constants/role.contants';
 @Component({
   selector: 'static-navbar',
   templateUrl: './static-navbar.component.html',
@@ -17,7 +16,6 @@ export class StaticNavBarComponent implements OnInit {
   public user: User;
   public userLocation = '';
   public department: any;
-  private viewPractionionerData = false;
 
   constructor(
     private router: Router,
@@ -42,7 +40,6 @@ export class StaticNavBarComponent implements OnInit {
       );
       localStorage.removeItem('cacheCleared');
     }
-    this.canViewPractitioners();
   }
 
   public logout() {
@@ -91,13 +88,5 @@ export class StaticNavBarComponent implements OnInit {
           });
       });
     }
-  }
-  public canViewPractitioners() {
-    this.viewPractionionerData = this.userService.hasRole(
-      RoleUuids.CLINICAL_STAFF_VIEWER.name
-    );
-  }
-  navigateToAfyaYangu() {
-    window.open('https://afyayangu.go.ke/', '_blank');
   }
 }
