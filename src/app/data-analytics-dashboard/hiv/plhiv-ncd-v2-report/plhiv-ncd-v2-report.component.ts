@@ -36,6 +36,7 @@ export class PlhivNcdV2ReportComponent
 
   public generateReport() {
     this.setSelectedLocation();
+    this.setIsAggregated();
     this.storeParamsInUrl();
 
     if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
@@ -45,7 +46,8 @@ export class PlhivNcdV2ReportComponent
         startDate: Moment(this._startDate).format('YYYY-MM-DD'),
         endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
         reportName: this.reportName,
-        currentView: this.currentView
+        currentView: this.currentView,
+        isAggregated: this.getIsAggregated()
       };
       super.generateReport();
       super.showDraftReportAlert(this._month);
@@ -61,7 +63,8 @@ export class PlhivNcdV2ReportComponent
       startDate: Moment(this._startDate).format('YYYY-MM-DD'),
       endDate: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
       reportName: this.reportName,
-      currentView: this.currentView
+      currentView: this.currentView,
+      isAggregated: this.getIsAggregated()
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
@@ -82,6 +85,7 @@ export class PlhivNcdV2ReportComponent
       this.startDate = state.startDate;
       this.endDate = state.endDate;
       this.currentView = state.currentView;
+      this.isAggregated = state.isAggregated;
     }
 
     if (path.queryParams['state']) {
@@ -102,5 +106,20 @@ export class PlhivNcdV2ReportComponent
 
   private getSelectedLocations(locationUuids: Array<any>): string {
     return locationUuids.map((location) => location.value).join(',');
+  }
+
+  public setIsAggregated() {
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if (data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
+  }
+
+  private getIsAggregated() {
+    return this.isAggregated;
   }
 }

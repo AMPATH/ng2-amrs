@@ -111,5 +111,20 @@
       </div>
     </div>
   </div>
+  <div
+    [ngClass]="{
+      'hide hidden': disableCounty,
+      'col-md-6 col-sm-12 col-xs-12': !disableCounty
+    }"
+    *ngIf="showAggregateControl"
+  >
+    <label>Aggregate Locations</label>
+    <input
+      type="checkbox"
+      name="isAggregated"
+      [(ngModel)]="isAggregated"
+      (ngModelChange)="onAggregateChanged($event)"
+    />
+  </div>
   <div class="clear"></div>
 </div>

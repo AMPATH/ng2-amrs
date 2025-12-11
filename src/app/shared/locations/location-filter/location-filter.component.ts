@@ -62,11 +62,16 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
   @Input('multiple')
   public multiple = false;
 
+  @Input('showAggregateControl')
+  public showAggregateControl = false;
+
   @Input('showLabel') public showLabel = true;
   @Input() public county: string;
   @Input() public facility: string;
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onLocationChange = new EventEmitter<any>();
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() public onAggregateChange = new EventEmitter<any>();
 
   private _locationUuids: any | Array<any>;
   @Input()
@@ -79,6 +84,16 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       this.selectedLocations = v;
       this._locationUuids = v;
     }
+  }
+
+  private _isAggregated = false;
+  @Input()
+  public get isAggregated(): any {
+    return this._isAggregated;
+  }
+
+  public set isAggregated(v: any) {
+    this._isAggregated = v;
   }
 
   private _programLocations: Array<any> = [];
@@ -193,6 +208,12 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
             facility: this.selectedFacility
           });
         });
+    });
+  }
+
+  public onAggregateChanged() {
+    this.onAggregateChange.emit({
+      isAggregated: this.isAggregated
     });
   }
 

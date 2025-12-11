@@ -36,6 +36,16 @@ export class DailyScheduleNotReturnedComponent implements OnInit, OnDestroy {
       field: 'program'
     },
     {
+      headerName: 'CD4',
+      width: 150,
+      field: 'cd4_results'
+    },
+    {
+      headerName: 'CD4 Date',
+      width: 150,
+      field: 'cd4_date'
+    },
+    {
       headerName: 'ART start date',
       width: 120,
       field: 'arv_first_regimen_start_date'
