@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class CaseSurveillanceService {
+export class HeiRegisterResourceService {
   public get url(): string {
     return this.appSettingsService.getEtlRestbaseurl().trim();
   }
@@ -14,11 +14,11 @@ export class CaseSurveillanceService {
     public http: HttpClient,
     public appSettingsService: AppSettingsService
   ) {}
-  public getCaseSurveillanceReport(params: any): Observable<any> {
+  public getHeiRegister(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}cs-case-surveillance?startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
+        `${this.url}registers/heiregister?startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}`
       )
       .pipe(
         catchError((err: any) => {
@@ -34,11 +34,11 @@ export class CaseSurveillanceService {
         })
       );
   }
-  public getCaseSurveillancePatientList(params: any): Observable<any> {
+  public getTxNewPatientList(params: any): Observable<any> {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}cs-case-surveillance-patient-list?startDate=${params.startDate}&endDate=${params.endDate}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
+        `${this.url}txnew-summary-patient-list?endDate=${params.month}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
       )
       .pipe(
         catchError((err: any) => {
