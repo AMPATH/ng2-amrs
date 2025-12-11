@@ -1,13 +1,6 @@
 <h4 class="component-title">
   <i class="fa fa-clipboard fa-fw"></i>Patient Information
 </h4>
-<div class="row patient-info-row">
-  <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-    <button (click)="showHieOtpDialog()" class="btn update-cr-btn">
-      <i class="fa fa-download fa-fw"></i> Update from CR
-    </button>
-  </div>
-</div>
 
 <div class="row patient-info-row">
   <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
@@ -97,20 +90,3 @@
   <locator-map-details></locator-map-details>
   <locator-map></locator-map>
 </div>
-<ng-container>
-  <ng-template #hieVerificationModal>
-    <app-verify-hie-dialog
-      [patient]="patient"
-      [otpConsent]="validateOtpResponse"
-      (hideVerifyDialog)="hideHieDialog()"
-    ></app-verify-hie-dialog>
-  </ng-template>
-
-  <ng-container *ngIf="showOtpVericationDialog">
-    <app-otp-verification
-      [source]="source"
-      [show]="showOtpVericationDialog"
-      (hideVerifyOtpDialog)="hideHieOtpDialog()"
-    ></app-otp-verification>
-  </ng-container>
-</ng-container>
