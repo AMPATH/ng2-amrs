@@ -175,7 +175,6 @@ export class OtzRegisterComponent implements OnInit {
         this.showInfoMessage = true;
         this.errorMessage =
           'There has been an error while loading the report, please retry again';
-        console.error('Error fetching OTZ register data:', error);
       }
     );
   }

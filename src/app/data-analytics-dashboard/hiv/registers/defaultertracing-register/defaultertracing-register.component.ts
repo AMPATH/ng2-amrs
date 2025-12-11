@@ -144,7 +144,6 @@ export class DefaultertracingRegisterComponent implements OnInit {
         this.isLoading = false;
       } else {
         this.showInfoMessage = false;
-        console.log('data: ' + JSON.stringify(data));
         this.defaulterTracingRegisterData = data;
         this.isLoading = false;
         this.showDraftReportAlert(this._month);

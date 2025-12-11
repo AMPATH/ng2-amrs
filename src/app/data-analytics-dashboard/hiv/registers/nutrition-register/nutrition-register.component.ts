@@ -129,7 +129,6 @@ export class NutritionRegisterComponent implements OnInit {
       startDate: Moment(this.startDate).format('YYYY-MM-DD'),
       endDate: Moment(this.endDate).format('YYYY-MM-DD')
     };
-    console.log('NUTRITION PARAMS: ' + JSON.stringify(this.params));
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: this.params
@@ -144,9 +143,7 @@ export class NutritionRegisterComponent implements OnInit {
         this.errorMessage = `There has been an error while loading the report, please retry again`;
         this.isLoading = false;
       } else {
-        console.log('Nutrition data', data);
         this.showInfoMessage = false;
-        // this.columnDefs = data.sectionDefinitions;
         this.nutritionSummaryData = data;
         this.calculateTotalSummary();
         this.isLoading = false;

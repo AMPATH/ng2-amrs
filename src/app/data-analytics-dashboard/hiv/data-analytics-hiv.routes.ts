@@ -65,6 +65,16 @@ import { MohPatientListComponent } from './registers/moh731-register/moh-patient
 import { Report731Component } from './report731/report731.component';
 import { Moh731ReportViewComponent } from './report731/moh731-report-view/moh731-report-view.component';
 import { Moh731ReportPatientListComponent } from './report731/moh731-report-patient-list/moh731-report-patient-list.component';
+import { RegistersComponent } from './registers/registers.component';
+import { HeiRegisterComponent } from './registers/hei-register/hei-register.component';
+import { AncRegisterComponent } from './registers/anc-register/anc-register.component';
+import { NutritionRegisterComponent } from './registers/nutrition-register/nutrition-register.component';
+import { MaternityRegisterComponent } from './registers/maternity-register/maternity-register.component';
+import { HtsrefferallinkageRegisterComponent } from './registers/htsrefferallinkage-register/htsrefferallinkage-register.component';
+import { PncRegisterComponent } from './registers/pnc-register/pnc-register.component';
+import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
+import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
+import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
 
 const routes: Routes = [
   {
