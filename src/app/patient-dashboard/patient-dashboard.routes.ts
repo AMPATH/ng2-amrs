@@ -77,6 +77,10 @@ export const routes = [
             component: PatientInfoComponent
           },
           {
+            path: 'kvp/:program/landing-page', // KVP Landing Page
+            component: PatientInfoComponent
+          },
+          {
             path: ':programClass/:program/patient-info',
             component: PatientInfoComponent
           },

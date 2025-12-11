@@ -617,6 +617,16 @@
       "shared-routes-class": "mnch",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "KP Program",
+      "programUuid": "317f07b1-23f5-43f2-82bc-57a3c3790698",
+      "baseRoute": "317f07b1-23f5-43f2-82bc-57a3c3790698",
+      "alias": "kvp",
+      "published": true,
+      "shared-routes-class": "kvp",
+      "requiresPatientEnrollment": true,
+      "routes": []
     }
   ],
 
@@ -738,6 +748,53 @@
       }
     ],
     "mnch": [
+      {
+        "url": "visit",
+        "label": "Visit",
+        "icon": "icon-i-outpatient"
+      },
+      {
+        "url": "patient-encounters",
+        "label": "Encounters",
+        "icon": "icon-i-immunizations"
+      },
+      {
+        "url": "patient-vitals",
+        "label": "Vitals",
+        "icon": "fa fa-heartbeat"
+      },
+      {
+        "url": "hiv-summary",
+        "label": "HIV Summary",
+        "icon": "fa fa-medkit"
+      },
+      {
+        "url": "patient-monthly-status-history",
+        "label": "Monthly Status History",
+        "icon": "fa fa-medkit"
+      },
+      {
+        "url": "clinical-notes",
+        "label": "Clinical Notes",
+        "icon": "fa fa-book"
+      },
+      {
+        "url": "lab-data-summary",
+        "label": "Lab Data Summary",
+        "icon": "icon-i-laboratory"
+      },
+      {
+        "url": "lab-orders",
+        "label": "Lab Orders",
+        "icon": "icon-i-pathology"
+      },
+      {
+        "url": "patient-imaging",
+        "label": "Imaging",
+        "icon": "icon-i-radiology"
+      }
+    ],
+    "kvp": [
       {
         "url": "visit",
         "label": "Visit",

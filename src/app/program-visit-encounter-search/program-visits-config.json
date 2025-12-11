@@ -732,5 +732,83 @@
         ]
       }
     ]
+  },
+  "317f07b1-23f5-43f2-82bc-57a3c3790698": {
+    "name": "KP PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters"
+    ],
+    "visitTypes": [
+      {
+        "uuid": "67f0683b-be07-4845-acbd-05c38d22e9f6",
+        "name": "High Risk Population initial Visit",
+        "encounterTypes": [
+          {
+            "uuid": "9d6c3d51-843e-4a42-a0f2-a8e9ab554331",
+            "display": "KVPCONTACT"
+          },
+          {
+            "uuid": "73715d49-533f-4f41-8ac0-8965d4acc9fc",
+            "display": "KVPCLINICENROLMENT"
+          },
+          {
+            "uuid": "82749926-63b1-467b-9d41-453c7542678a",
+            "display": "HTSSCREENING"
+          },
+          {
+            "uuid": "eeae42af-51e3-465c-97b6-d893125a1751",
+            "display": "KVPCLINICALENCOUNTER"
+          },
+          {
+            "uuid": "cadf45ba-6326-4b52-b960-1a0cc5bbf782",
+            "display": "KVPPHQ9SCREENING"
+          },
+          {
+            "uuid": "37770eca-8a2f-48d6-b3c8-54af0fa989c2",
+            "display": "MENTALHEALTHSCREENING"
+          },
+          {
+            "uuid": "1da81e49-4ccb-4319-b423-3beb326bba4d",
+            "display": "KVPALCOHOLABUSE"
+          },
+          {
+            "uuid": "ddd96f1c-524f-4caa-81a6-1a6f9789a4bc",
+            "display": "PREPRETURN"
+          }
+        ]
+      },
+      {
+        "uuid": "b27bb94b-2006-473d-aa6c-6d94eda9b12a",
+        "name": "High Risk  Population Return Visit",
+        "encounterTypes": [
+          {
+            "uuid": "82749926-63b1-467b-9d41-453c7542678a",
+            "display": "HTSSCREENING"
+          },
+          {
+            "uuid": "eeae42af-51e3-465c-97b6-d893125a1751",
+            "display": "KVPCLINICALENCOUNTER"
+          },
+          {
+            "uuid": "cadf45ba-6326-4b52-b960-1a0cc5bbf782",
+            "display": "KVPPHQ9SCREENING"
+          },
+          {
+            "uuid": "37770eca-8a2f-48d6-b3c8-54af0fa989c2",
+            "display": "MENTALHEALTHSCREENING"
+          },
+          {
+            "uuid": "1da81e49-4ccb-4319-b423-3beb326bba4d",
+            "display": "KVPALCOHOLABUSE"
+          },
+          {
+            "uuid": "ddd96f1c-524f-4caa-81a6-1a6f9789a4bc",
+            "display": "PREPRETURN"
+          }
+        ]
+      }
+    ]
   }
 }
