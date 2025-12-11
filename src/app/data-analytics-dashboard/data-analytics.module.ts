@@ -37,6 +37,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
 import { ClinicRoutesFactory } from '../navigation/side-navigation/clinic-side-nav/clinic-side-nav-routes.factory';
 import { DataAnalyticsDashboardComponent } from './data-analytics.component';
+import { DataAnalyticsHtsModule } from './hts/data-analytics-hts.module';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -67,7 +68,8 @@ import { DataAnalyticsDashboardComponent } from './data-analytics.component';
     MatProgressBarModule,
     CacheModule,
     DataEntryStatisticsModule,
-    DataAnalyticsCdmModule
+    DataAnalyticsCdmModule,
+    DataAnalyticsHtsModule
   ],
   declarations: [DataAnalyticsDashboardComponent],
   providers: [

@@ -67,6 +67,11 @@ const clinicDashboardRoutes: Routes = [
           )
       },
       {
+        path: 'hts',
+        loadChildren: () =>
+          System.import('./hts/hts-program.module').then((mod) => mod.HTSModule)
+      },
+      {
         path: '',
         redirectTo: 'general',
         pathMatch: 'prefix'
