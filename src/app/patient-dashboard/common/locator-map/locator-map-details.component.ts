@@ -86,8 +86,9 @@ export class LocatorMapDetailsComponent implements OnInit {
 
   public getPatientLocation() {
     const patientUuid = this.patient.uuid;
+    const custom = 'custom:(uuid,value,attributeType:(uuid,name))';
     this.personAttributeResourceService
-      .getPersonAttributesByUuid(patientUuid)
+      .getPersonAttributesByUuid(patientUuid, false, custom)
       .subscribe((res) => {
         res.results.forEach((a: any) => {
           if (a.attributeType.uuid === '4dcc4901-d4a1-422a-b6a0-2b24594a0dc6') {
