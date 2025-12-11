@@ -112,7 +112,9 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
   }
 
   public indicatorSelected($event: any) {
-    const location = this.params.isAggregated ? this.params.locationUuids : $event.locationUuids;
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : $event.locationUuids;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {

@@ -129,9 +129,9 @@ export class PatientGainsAndLosesComponent implements OnInit {
   public onIndicatorSelected($event: any) {
     const location = this.params.isAggregated
       ? this.params.locationUuids
-      : ($event.location.length > 0
+      : $event.location.length > 0
       ? $event.location
-      : this.params.locationUuids);
+      : this.params.locationUuids;
 
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,

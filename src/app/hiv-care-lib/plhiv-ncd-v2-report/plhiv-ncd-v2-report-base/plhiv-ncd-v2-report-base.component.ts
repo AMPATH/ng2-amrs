@@ -188,7 +188,9 @@ export class PlhivNcdV2ReportBaseComponent implements OnInit {
     }
   }
   public onIndicatorSelected($event) {
-    const location = this.params.isAggregated ? this.params.locationUuids : $event.location;
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : $event.location;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {

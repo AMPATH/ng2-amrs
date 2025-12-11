@@ -78,7 +78,9 @@ export class IptBaseReportComponent implements OnInit {
     headerName: string;
     location: string;
   }) {
-    const location = this.params.isAggregated ? this.params.locationUuids : value.location;
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : value.location;
     this.router.navigate(['ipt-report-patientlist'], {
       relativeTo: this.route,
       queryParams: {

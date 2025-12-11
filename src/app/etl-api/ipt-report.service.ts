@@ -28,7 +28,9 @@ export class IptReportService {
       .get(
         `${this.url}tb-preventive-monthly-summary?locationUuids=${
           params.locationUuids
-        }&endDate=${Moment(params.endDate).format('YYYY-MM-DD')}&isAggregated=${params.isAggregated}`
+        }&endDate=${Moment(params.endDate).format('YYYY-MM-DD')}&isAggregated=${
+          params.isAggregated
+        }`
       )
       .pipe(
         catchError((err: any) => {

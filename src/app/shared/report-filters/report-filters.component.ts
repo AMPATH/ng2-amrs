@@ -582,14 +582,14 @@ export class ReportFiltersComponent
   }
 
   public getCachedIsAggregated() {
-      this.dataAnalyticsDashboardService
-        .getIsAggregated()
-        .pipe()
-        .subscribe((data) => {
-          if (data) {
-            this.isAggregated = data.isAggregated;
-          }
-        });
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if (data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
   }
 
   public onIndicatorSelected(indicator) {

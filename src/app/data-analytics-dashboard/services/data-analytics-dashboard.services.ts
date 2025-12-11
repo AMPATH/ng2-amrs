@@ -7,7 +7,9 @@ export class DataAnalyticsDashboardService {
   private selectedFilters;
   private locations;
   private urlSource;
-  private dataIsAggregatedSubject = new BehaviorSubject({ isAggregated: false});
+  private dataIsAggregatedSubject = new BehaviorSubject({
+    isAggregated: false
+  });
   private dataSubject = new ReplaySubject<any>(1);
   private dataIndicactorSubject = new ReplaySubject<any>(1);
   private dataMontthlyIndicactorSubject = new ReplaySubject<any>(1);

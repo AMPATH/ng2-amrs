@@ -54,7 +54,6 @@ export class AhdReportBaseComponent implements OnInit {
     this._isAggregated = v;
   }
 
-
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -148,7 +147,9 @@ export class AhdReportBaseComponent implements OnInit {
     }
   }
   public onIndicatorSelected(value) {
-    const location = this.params.isAggregated ? this.params.locationUuids : value.location;
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : value.location;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {

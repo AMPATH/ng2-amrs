@@ -148,7 +148,9 @@ export class PrepReportBaseComponent implements OnInit {
     }
   }
   public onIndicatorSelected(value) {
-    const location = this.params.isAggregated ? this.params.locationUuids : value.location;
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : value.location;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
