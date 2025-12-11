@@ -1,0 +1,1470 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [monthString]="_month"
+        (onMonthChange)="onMonthChange($event)"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>NUTRITION SERVICE REGISTER MOH 407 </b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th class="text-center" rowspan="2">NO</th>
+          <th class="text-center" rowspan="2">
+            Date:<br />
+            (dd/mm/yyyy)
+          </th>
+          <th class="text-center">
+            National<br />
+            Identification<br />
+            Number
+          </th>
+          <th class="text-center" rowspan="2">CCC Number</th>
+          <th class="text-center" rowspan="2">
+            Patient Names<br />
+            (First/Middle/Last)
+          </th>
+          <th class="text-center" rowspan="2">
+            Patient visit<br />
+            type:<br />
+            1=New,<br />
+            2=Revisit
+          </th>
+          <th class="text-center" rowspan="2">
+            Residence:<br />
+            Village/Estate
+          </th>
+          <th class="text-center" rowspan="2">
+            Sex:<br />
+            M=Male,<br />
+            F=Female
+          </th>
+          <th class="text-center" colspan="2">AGE</th>
+          <th class="text-center" rowspan="2">
+            Pregnant<br />
+            and<br />
+            Lactating<br />
+            (Y/N/NA)
+          </th>
+          <th class="text-center" rowspan="2">
+            Nutrition assessment<br />
+            1. Weight for Height (Under 5’s)<br />
+            2. Weight for Age (Under 5’s)<br />
+            3. MUAC (6-59months),<br />
+            Pregnant, Lactating, and any<br />
+            other bedridden client.<br />
+            4. BMI for Age(5-17Years)<br />
+            5. BMI Kg/m(18+Years)
+          </th>
+          <th class="text-center" rowspan="2">
+            Nutrition<br />
+            Status<br />
+            (Indicate codes)<br />
+            1. SAM<br />
+            2. MAM<br />
+            3. Mild/At risk 4.<br />
+            Normal<br />
+            5. Overweight<br />
+            /Obese
+          </th>
+          <th class="text-center" rowspan="2">
+            Serostatus<br />
+            (N/P/HEI/U)
+          </th>
+          <th class="text-center" rowspan="2">
+            Comorbidities<br />
+            1-TB<br />
+            2-Diabetes<br />
+            3-Hypertenstion<br />
+            4-Others specify<br />
+            5-None
+          </th>
+          <th class="text-center" rowspan="2">
+            Food<br />
+            Secure<br />
+            1-Yes<br />
+            2-No
+          </th>
+          <th class="text-center" rowspan="2">Remarks</th>
+        </tr>
+        <tr>
+          <th class="text-center">
+            Client Unique<br />
+            Number<br />
+            (NUPI)
+          </th>
+          <th class="text-center">Years</th>
+          <th class="text-center">Months</th>
+        </tr>
+        <tr>
+          <th class="text-centre"></th>
+          <th class="text-centre">A</th>
+          <th class="text-centre">B</th>
+          <th class="text-centre">C</th>
+          <th class="text-centre">D</th>
+          <th class="text-centre">E</th>
+          <th class="text-centre">F</th>
+          <th class="text-centre">G</th>
+          <th class="text-centre" colspan="2">H</th>
+          <th class="text-centre">I</th>
+          <th class="text-centre">J</th>
+          <th class="text-centre">K</th>
+          <th class="text-centre">L</th>
+          <th class="text-centre">M</th>
+          <th class="text-centre">N</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br />
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot1>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>NUTRITION SERVICE REGISTER MOH 407</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th class="text-center" colspan="79">Client's follow up Register</th>
+        </tr>
+        <tr>
+          <th class="text-center" rowspan="2" colspan="12">Clients' Details</th>
+          <th class="text-center" rowspan="2" colspan="6">On Admission</th>
+          <th class="text-center" colspan="42"></th>
+          <th class="text-center" colspan="9"></th>
+          <th class="text-center" rowspan="2" colspan="5">
+            Discharge/Transfer <br />
+            Measurements
+          </th>
+          <th class="text-center" rowspan="2" colspan="5">Outcome</th>
+        </tr>
+        <tr>
+          <th class="text-center" colspan="4">week1</th>
+          <th class="text-center" colspan="4">Week2</th>
+          <th class="text-center" colspan="4">week3</th>
+          <th class="text-center" colspan="5">week4</th>
+          <th class="text-center" colspan="4">week5</th>
+          <th class="text-center" colspan="4">week6</th>
+          <th class="text-center" colspan="4">week7</th>
+          <th class="text-center" colspan="5">week8</th>
+          <th class="text-center" colspan="4">week9</th>
+          <th class="text-center" colspan="4">week10</th>
+          <th class="text-center" colspan="4">week11</th>
+          <th class="text-center" colspan="5">week12</th>
+        </tr>
+        <tr>
+          <th class="text-center" rowspan="2">SNO.</th>
+          <th class="text-center" rowspan="2">
+            Date:<br />
+            dd/mm/yyyy
+          </th>
+          <th class="text-center">
+            National <br />
+            Identification <br />
+            Number
+          </th>
+          <th class="text-center" rowspan="2">CCC Number</th>
+          <th class="text-center" rowspan="2">Client's Name</th>
+          <th class="text-center" rowspan="2">Village/Estate/Landmark</th>
+          <th class="text-center" rowspan="2">Mobile number</th>
+          <th class="text-center" colspan="2">AGE</th>
+          <th class="text-center" rowspan="2">
+            Sex <br />
+            (M/F)
+          </th>
+          <th class="text-center" rowspan="2">
+            Type of Admission <br />
+            1. new-admission <br />
+            2. relapse <br />
+            3. returned <br />
+            defaulter
+          </th>
+          <th class="text-center" rowspan="2">Pregnant/ lactating (Y/N/NA)</th>
+          <th class="text-center" rowspan="2">
+            Serostatus <br />
+            (P/N/HEI/U)
+          </th>
+          <th class="text-center" rowspan="2">
+            Admission<br />
+            Criteria <br />
+            1. WFH Z-score <br />
+            2. MUAC <br />
+            3. BMI <br />
+            for age <br />
+            4. BMI <br />
+            kg/m2
+          </th>
+          <th class="text-center" rowspan="2">
+            Weight<br />
+            (Kg)
+          </th>
+          <th class="text-center" rowspan="2">
+            Height<br />
+            (cm)
+          </th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2 (1-3)
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Height/Length(cm)
+          </th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Height/Length(cm)
+          </th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Height/Length(cm)
+          </th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center vertical-text" rowspan="2">Weight(Kg)</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Height/Length(cm)
+          </th>
+          <th class="text-center vertical-text" rowspan="2">
+            W/H Zscore/BMI For Age/BMIKg/m2
+          </th>
+          <th class="text-center vertical-text" rowspan="2">MUAC</th>
+          <th class="text-center vertical-text" rowspan="2">
+            Nutrition Intervention
+          </th>
+          <th class="text-center" rowspan="2">
+            Exit<br />
+            dd/mm/yyyy
+          </th>
+          <th class="text-center vertical-text" rowspan="2">
+            Length of stay in days
+          </th>
+          <th class="text-center" rowspan="2" colspan="2">
+            Exit Outcome<br />
+            1-Cured,<br />
+            2-Defaulter,<br />
+            3-Non -<br />
+            Respondant,<br />
+            4-Referral ,<br />
+            5-Transfer,<br />
+            6- Death
+          </th>
+        </tr>
+        <tr>
+          <th class="text-center">
+            Client Unique <br />
+            Number<br />
+            (NUPI)
+          </th>
+          <th class="text-center">Years</th>
+          <th class="text-center">Months</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-centre"></td>
+          <td class="text-centre">(a)</td>
+          <td class="text-centre">(b)</td>
+          <td class="text-centre">(c)</td>
+          <td class="text-centre">(d)</td>
+          <td class="text-centre">(e)</td>
+          <td class="text-centre">(f)</td>
+          <td class="text-centre" colspan="2">(g)</td>
+          <td class="text-centre">(h)</td>
+          <td class="text-centre">(i)</td>
+          <td class="text-centre">(j)</td>
+          <td class="text-centre">(k)</td>
+          <td class="text-centre">(l)</td>
+          <td class="text-centre">(m)</td>
+          <td class="text-centre">(n)</td>
+          <td class="text-centre">(o)</td>
+          <td class="text-centre">(p)</td>
+          <td class="text-centre">(q)</td>
+          <td class="text-centre">(r)</td>
+          <td class="text-centre">(s)</td>
+          <td class="text-centre">(t)</td>
+          <td class="text-centre">(u)</td>
+          <td class="text-centre">(v)</td>
+          <td class="text-centre">(w)</td>
+          <td class="text-centre">(x)</td>
+          <td class="text-centre">(y)</td>
+          <td class="text-centre">(z)</td>
+          <td class="text-centre">(aa)</td>
+          <td class="text-centre">(ab)</td>
+          <td class="text-centre">(ac)</td>
+          <td class="text-centre">(ad)</td>
+          <td class="text-centre">(ae)</td>
+          <td class="text-centre">(af)</td>
+          <td class="text-centre">(ag)</td>
+          <td class="text-centre">(ah)</td>
+          <td class="text-centre">(ai)</td>
+          <td class="text-centre">(aj)</td>
+          <td class="text-centre">(ak)</td>
+          <td class="text-centre">(al)</td>
+          <td class="text-centre">(am)</td>
+          <td class="text-centre">(an)</td>
+          <td class="text-centre">(ao)</td>
+          <td class="text-centre">(ap)</td>
+          <td class="text-centre">(aq)</td>
+          <td class="text-centre">(ar)</td>
+          <td class="text-centre">(as)</td>
+          <td class="text-centre">(at)</td>
+          <td class="text-centre">(au)</td>
+          <td class="text-centre">(av)</td>
+          <td class="text-centre">(aw)</td>
+          <td class="text-centre">(ax)</td>
+          <td class="text-centre">(ay)</td>
+          <td class="text-centre">(az)</td>
+          <td class="text-centre">(ba)</td>
+          <td class="text-centre">(bb)</td>
+          <td class="text-centre">(bc)</td>
+          <td class="text-centre">(bd)</td>
+          <td class="text-centre">(be)</td>
+          <td class="text-centre">(bf)</td>
+          <td class="text-centre">(bg)</td>
+          <td class="text-centre">(bh)</td>
+          <td class="text-centre">(bi)</td>
+          <td class="text-centre">(bj)</td>
+          <td class="text-centre">(bk)</td>
+          <td class="text-centre">(bl)</td>
+          <td class="text-centre">(bm)</td>
+          <td class="text-centre">(bn)</td>
+          <td class="text-centre">(bo)</td>
+          <td class="text-centre">(bp)</td>
+          <td class="text-centre">(bq)</td>
+          <td class="text-centre">(br)</td>
+          <td class="text-centre">(bs)</td>
+          <td class="text-centre">(bt)</td>
+          <td class="text-centre">(bu)</td>
+          <td class="text-centre">(bv)</td>
+          <td class="text-centre">(bw)</td>
+          <td class="text-centre">(bx)</td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+        <tr>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+          <td class="text-centre" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-centre"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
