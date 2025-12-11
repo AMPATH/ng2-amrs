@@ -45,6 +45,15 @@ export class AhdReportBaseComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
+  public _isAggregated = false;
+  public get isAggregated(): boolean {
+    return this._isAggregated;
+  }
+
+  public set isAggregated(v: boolean) {
+    this._isAggregated = v;
+  }
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -138,7 +147,9 @@ export class AhdReportBaseComponent implements OnInit {
     }
   }
   public onIndicatorSelected(value) {
-    console.log('value', value);
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : value.location;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
@@ -146,7 +157,7 @@ export class AhdReportBaseComponent implements OnInit {
         indicatorHeader: value.headerName,
         indicatorGender: value.gender,
         month: Moment(this._month).endOf('month').format('YYYY-MM-DD'),
-        locationUuids: value.location,
+        locationUuids: location,
         currentView: this.currentView
       }
     });

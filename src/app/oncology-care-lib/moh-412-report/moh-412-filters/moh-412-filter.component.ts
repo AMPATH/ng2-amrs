@@ -35,7 +35,7 @@ export class MOH412FilterComponent implements OnInit, OnChanges {
   public title = 'Filters';
   public data = [];
   public sectionsDef = [];
-  public isAggregated: boolean;
+  public isAggregated = false;
   public selectedIndicators = [];
   public enabledControls = 'monthControl,locationControl,locationTypeControl';
   public isLoadingReport = false;
@@ -123,6 +123,7 @@ export class MOH412FilterComponent implements OnInit, OnChanges {
   public generateReport() {
     this.isLoadingReport = true;
     this.getLocationsSelected();
+    this.setIsAggregated();
     this.storeReportParamsInUrl();
     this.encounteredError = false;
     this.errorMessage = '';
@@ -145,7 +146,8 @@ export class MOH412FilterComponent implements OnInit, OnChanges {
       currentView: this.currentView,
       reportIndex: this.reportIndex,
       reportUuid: this.reportUuid,
-      locationUuids: this.getDashboardOrAnnalyticsLocation(this.dashboardType)
+      locationUuids: this.getDashboardOrAnnalyticsLocation(this.dashboardType),
+      isAggregated: this.isAggregated
     };
 
     this.router.navigate(['./'], {
@@ -282,5 +284,16 @@ export class MOH412FilterComponent implements OnInit, OnChanges {
   }
   public locationTypeChange($event) {
     this.selectedLocationType = $event;
+  }
+
+  public setIsAggregated() {
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if (data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
   }
 }

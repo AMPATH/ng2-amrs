@@ -49,6 +49,8 @@ export class PatientGainsAndLosesComponent implements OnInit {
     .toDate();
   public isDraftReport = false;
   public gainsAndLossesSections: any;
+  public isAggregated = false;
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -125,6 +127,12 @@ export class PatientGainsAndLosesComponent implements OnInit {
     }
   }
   public onIndicatorSelected($event: any) {
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : $event.location.length > 0
+      ? $event.location
+      : this.params.locationUuids;
+
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
@@ -136,10 +144,7 @@ export class PatientGainsAndLosesComponent implements OnInit {
         endingMonth: Moment(this.params.endingMonth)
           .endOf('month')
           .format('YYYY-MM-DD'),
-        locationUuids:
-          $event.location.length > 0
-            ? $event.location
-            : this.params.locationUuids
+        locationUuids: location
       }
     });
   }
@@ -156,7 +161,8 @@ export class PatientGainsAndLosesComponent implements OnInit {
       startingMonth: this.startMonth,
       endingMonth: this.endMonth,
       reportName: this.reportName,
-      _date: Moment(this._month).format('DD-MM-YYYY')
+      _date: Moment(this._month).format('DD-MM-YYYY'),
+      isAggregated: this.isAggregated
     };
   }
   public calculateNetGainLoss(data: any) {
@@ -172,5 +178,9 @@ export class PatientGainsAndLosesComponent implements OnInit {
 
   public locationsSet($event: any): void {
     this.locationUuids = $event;
+  }
+
+  public isAggregateSet($event: any): void {
+    this.isAggregated = $event;
   }
 }

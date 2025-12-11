@@ -364,7 +364,10 @@
         <location-filter
           [multiple]="true"
           [locationUuids]="locations"
+          [showAggregateControl]="showAggregateControl"
+          [isAggregated]="isAggregated"
           (onLocationChange)="getSelectedLocations($event)"
+          (onAggregateChange)="onAggregateChange($event)"
         ></location-filter>
       </div>
       <div

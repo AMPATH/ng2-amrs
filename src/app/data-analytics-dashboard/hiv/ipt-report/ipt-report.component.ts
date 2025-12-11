@@ -35,12 +35,14 @@ export class IPTReportComponent
 
   public generateReport() {
     this.setSelectedLocation();
+    this.setIsAggregated();
     this.storeParamsInUrl();
     if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
       this.params = {
         locationUuids: this.getSelectedLocations(this.locationUuids),
         endDate: Moment(this.month).endOf('month').format('YYYY-MM-DD'),
-        displayTabularFilters: false
+        displayTabularFilters: false,
+        isAggregated: this.getIsAggregated()
       };
       super.generateReport();
     } else {
@@ -50,7 +52,8 @@ export class IPTReportComponent
   public storeParamsInUrl() {
     const state = {
       locationUuids: this.getSelectedLocations(this.locationUuids),
-      month: Moment(this.month).endOf('month').format('YYYY-MM-DD')
+      month: Moment(this.month).endOf('month').format('YYYY-MM-DD'),
+      isAggregated: this.getIsAggregated()
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
@@ -68,6 +71,7 @@ export class IPTReportComponent
       const state = rison.decode(path.queryParams['state']);
       this.month = state.month;
       this.locationUuids = state.locations;
+      this.isAggregated = state.isAggregated;
     }
 
     if (path.queryParams['state']) {
@@ -86,5 +90,20 @@ export class IPTReportComponent
   }
   private getSelectedLocations(locationUuids: Array<any>): string {
     return locationUuids.map((location) => location.value).join(',');
+  }
+
+  public setIsAggregated() {
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if (data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
+  }
+
+  private getIsAggregated() {
+    return this.isAggregated;
   }
 }
