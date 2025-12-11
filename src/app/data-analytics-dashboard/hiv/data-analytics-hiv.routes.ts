@@ -57,6 +57,8 @@ import { AhdReportComponent } from './ahd-report/ahd-report.component';
 import { AhdMonthlyReportPatientlistComponent } from 'src/app/hiv-care-lib/ahd-monthly-report/ahd-monthly-report-patientlist/ahd-monthly-report-patientlist.component';
 import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { CaseSurveillanceBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-base/case-surveillance-base.component';
+import { CaseSurveillancePatientListComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-patient-list/case-surveillance-patient-list.component';
 
 const routes: Routes = [
   {
@@ -372,6 +374,19 @@ const routes: Routes = [
           {
             path: 'dqa-report-patientlist',
             component: ChartAbstractionPatientlistComponent
+          }
+        ]
+      },
+      {
+        path: 'case-surveillance',
+        children: [
+          {
+            path: '',
+            component: CaseSurveillanceBaseComponent
+          },
+          {
+            path: 'cs-report-patientlist',
+            component: CaseSurveillancePatientListComponent
           }
         ]
       },

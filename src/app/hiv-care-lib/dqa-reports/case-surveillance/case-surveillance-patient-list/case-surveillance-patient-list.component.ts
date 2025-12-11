@@ -1,59 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AhdResourceService } from 'src/app/etl-api/ahd-resource.service';
+import { CaseSurveillanceService } from 'src/app/etl-api/case-surveillance.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-
+import * as Moment from 'moment';
 @Component({
-  selector: 'app-ahd-monthly-report-patientlist',
-  templateUrl: './ahd-monthly-report-patientlist.component.html',
-  styleUrls: ['./ahd-monthly-report-patientlist.component.css']
+  selector: 'app-case-surveillance-patient-list',
+  templateUrl: './case-surveillance-patient-list.component.html',
+  styleUrls: ['./case-surveillance-patient-list.component.css']
 })
-export class AhdMonthlyReportPatientlistComponent implements OnInit {
+export class CaseSurveillancePatientListComponent implements OnInit {
   public params: any;
   public patientData: any;
   public extraColumns: Array<any> = [];
   public isLoading = true;
   public overrideColumns: Array<any> = [];
   public selectedIndicator: string;
-  public selectedIndicatorGender: string;
   public hasLoadedAll = false;
   public hasError = false;
   public selectedMonth: String;
-  locationUuid: string;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private _location: Location,
-    public ahdResourceService: AhdResourceService
+    public caseSurveillanceService: CaseSurveillanceService
   ) {}
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.locationUuid = params['location_uuid'];
-    });
 
+  ngOnInit() {
     this.route.queryParams.subscribe(
       (params) => {
-        // if (params && params.sDate) {
-        if (params) {
+        if (params && params.startDate && params.endDate) {
           this.params = params;
           this.selectedIndicator = params.indicatorHeader;
-          this.selectedIndicatorGender = params.indicatorGender;
-          this.getPatientList(params, this.locationUuid);
+          this.getPatientList(params);
         }
       },
       (error) => {
         console.error('Error', error);
       }
     );
-
     this.addExtraColumns();
   }
 
-  private getPatientList(params: any, location: string) {
-    this.ahdResourceService
-      .getAhdPatientList(params, location)
+  private getPatientList(params: any) {
+    this.caseSurveillanceService
+      .getCaseSurveillancePatientList(params)
       .subscribe((data) => {
         this.isLoading = false;
         this.patientData = data.results.results;
@@ -63,29 +54,27 @@ export class AhdMonthlyReportPatientlistComponent implements OnInit {
 
   public addExtraColumns() {
     const extraColumns = {
+      weight: 'Weight',
       phone_number: 'Phone',
-      location: 'Location',
-      enrollment_date: 'Enrollment Date',
-
-      who_stage: 'WHO stage',
-
+      enrollment_date: 'Enrolment Date',
+      last_appointment: 'Last Appointment',
+      latest_rtc_date: 'Latest RTC Date',
+      days_since_rtc_date: 'Days since RTC',
+      arv_first_regimen: 'ARV first regimen',
+      cd4_1: 'CD4',
+      cd4_1_date: 'CD4 Date',
       arv_first_regimen_start_date: 'First ARV start date',
       cur_meds: 'Current Regimen',
       cur_arv_line: 'Current ARV Line',
-      cd4_date: 'CD4 Date',
-      cd4_results: 'CD4 Results'
+      arv_start_date: 'ARV Start Date',
+      latest_vl: 'Latest VL',
+      vl_category: 'VL Category',
+      latest_vl_date: 'Latest VL Date',
+      previous_vl: 'Previous VL',
+      previous_vl_date: 'Previous VL Date',
+      ovcid_id: 'OVCID'
     };
-    const status = this.selectedIndicatorGender.split(' - ')[0];
-    if (status === 'Died') {
-      Object.assign(extraColumns, {
-        death_date: 'Death Date',
-        cause_of_death: 'Cause of Death'
-      });
-    } else if (status === 'Transferred Out') {
-      Object.assign(extraColumns, {
-        transfer_out_date_v1: 'Transfer out date'
-      });
-    }
+
     for (const indicator in extraColumns) {
       if (indicator) {
         this.extraColumns.push({
