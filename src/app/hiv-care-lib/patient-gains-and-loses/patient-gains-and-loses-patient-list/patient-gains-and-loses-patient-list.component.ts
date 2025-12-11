@@ -47,6 +47,7 @@ export class PatientGainsAndLosesPatientListComponent implements OnInit {
     },
     { headerName: 'Gender', field: 'gender', width: 100 },
     { headerName: 'Age', field: 'age', width: 100 },
+    { headerName: 'Location', field: 'location', width: 150 },
     {
       headerName: 'Identifiers',
       field: 'identifiers',
