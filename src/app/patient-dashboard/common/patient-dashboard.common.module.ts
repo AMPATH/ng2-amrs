@@ -138,12 +138,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { OtzSnapshotComponent } from './otz-snapshot/otz-snapshot.component';
 import { ProjectBeyondComponent } from './patient-info/project-beyond/project-beyond.component';
 import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.component';
-import { VerifyHieIdentifierDialogComponent } from './patient-banner/dialog/verify-hie-identifier/verify-hie-identifier.dialog.component';
-import { HieToAmrsPersonAdapter } from '../../utils/hei-to-amrs-patient.adapter';
-import { PractionerAlertComponent } from './practitioner-alerts/practitioner-alert.component';
-import { PractitionerAlertService } from './practitioner-alerts/practitioner-alert.service';
-import { PatientOtpVerificationModule } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.module';
-import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs-person-sync.module';
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -181,9 +176,7 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     PatientSearchModule,
     PatientReferralsModule,
     ProgramManagerModule,
-    GroupEnrollmentModule,
-    PatientOtpVerificationModule,
-    HieToAmrsPersonSyncModule
+    GroupEnrollmentModule
   ],
   exports: [
     PatientInfoComponent,
@@ -240,9 +233,7 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     EditOccupationComponent,
     PatientEducationComponent,
     AddPatientEducationComponent,
-    EditPatientEducationComponent,
-    VerifyHieIdentifierDialogComponent,
-    PractionerAlertComponent
+    EditPatientEducationComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -306,9 +297,7 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     OvcSnapshotComponent,
     OtzSnapshotComponent,
     ProjectBeyondComponent,
-    OtzConsentComponent,
-    VerifyHieIdentifierDialogComponent,
-    PractionerAlertComponent
+    OtzConsentComponent
   ],
   providers: [
     {
@@ -349,9 +338,7 @@ import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs
     VitalsDatasource,
     TodayVisitService,
     PatientTransferService,
-    UserDefaultPropertiesService,
-    HieToAmrsPersonAdapter,
-    PractitionerAlertService
+    UserDefaultPropertiesService
   ]
 })
 export class PatientDashboardCommonModule {}
