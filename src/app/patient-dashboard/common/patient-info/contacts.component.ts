@@ -20,8 +20,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
   private careGivername: string;
   private relationshipToCareGiver: string;
   private careGiverPhoneNumber: number;
-  private contactEmailAddressUuid = '2f65dbcb-3e58-45a3-8be7-fd1dc9aa0faa';
-  patientEmail: string;
   constructor(private patientService: PatientService) {}
 
   public ngOnInit() {
@@ -47,9 +45,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
           this.careGivername = patient.person.caregiverName;
           this.relationshipToCareGiver = patient.person.relationshipToCaregiver;
           this.careGiverPhoneNumber = patient.person.caregiverPhoneNumber;
-          this.patientEmail = patient.person.getPersonAttribute(
-            this.contactEmailAddressUuid
-          );
         }
       }
     );

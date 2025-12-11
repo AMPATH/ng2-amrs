@@ -30,10 +30,3 @@
   width: 16px;
   margin-right: 8px;
 }
-
-.visit-encounter-layout {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 700px;
-}

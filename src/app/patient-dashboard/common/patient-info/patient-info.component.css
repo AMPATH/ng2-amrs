@@ -25,16 +25,3 @@
 .smaller-icon {
   font-size: 12px;
 }
-
-.update-cr-btn {
-  color: #fff;
-  border: 1px solid #822ab4;
-  border-color: #822ab4;
-  background-color: #822ab4;
-  padding-left: 4px;
-  padding: 7px 7px;
-  cursor: pointer;
-  margin-right: 5px;
-  margin-left: 5px;
-  width: auto;
-}

@@ -19,7 +19,6 @@ import {
   MatCardModule,
   MatSelectModule
 } from '@angular/material';
-import { PatientOtpVerificationModule } from '../otp-verification/hie-otp-verification/patient-otp-verification.module';
 
 @NgModule({
   imports: [
@@ -33,8 +32,7 @@ import { PatientOtpVerificationModule } from '../otp-verification/hie-otp-verifi
     MatCardModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatAutocompleteModule,
-    PatientOtpVerificationModule
+    MatAutocompleteModule
   ],
   declarations: [PatientCreationComponent],
   exports: [PatientCreationComponent],

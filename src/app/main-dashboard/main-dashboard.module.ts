@@ -9,6 +9,7 @@ import { AgGridModule } from 'ag-grid-angular/main';
 import { LabOrderSearchModule } from '../lab-order-search';
 import { UsefulLinksModule } from '../useful-links';
 import { DataListsModule } from '../shared/data-lists/data-lists.module';
+import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.module';
 import { NgamrsSharedModule } from '../shared/ngamrs-shared.module';
 import { MainDashboardGuard } from './main-dashboard.guard';
 import { UserService } from '../openmrs-api/user.service';
@@ -18,10 +19,10 @@ import { CohortMemberResourceService } from '../openmrs-api/cohort-member-resour
 import { MOTDNotificationComponent } from './../Motd/motd-notification.component';
 import { MOTDNotificationService } from './../etl-api/motd.notification.service';
 import { CookieService } from 'ngx-cookie';
+import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
+import { CacheModule } from 'ionic-cache';
 import { NavigationModule } from '../navigation';
 import { RetrospectiveDataEntryModule } from '../retrospective-data-entry/retrospective-data-entry.module';
-import { PractitionerManagementModule } from '../practitioner-management/practitioner-management.module';
-import { FacilityManagementModule } from '../facility-management/facility-management.module';
 
 @NgModule({
   imports: [
@@ -35,9 +36,7 @@ import { FacilityManagementModule } from '../facility-management/facility-manage
     LabOrderSearchModule,
     UsefulLinksModule,
     UserDefaultPropertiesModule,
-    RetrospectiveDataEntryModule,
-    PractitionerManagementModule,
-    FacilityManagementModule
+    RetrospectiveDataEntryModule
   ],
   declarations: [MainDashboardComponent, MOTDNotificationComponent],
   providers: [
