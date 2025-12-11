@@ -10,7 +10,7 @@ export class GroupByPriority implements PipeTransform {
 
     /*   1. STANDARD HIV TREATMENT
      2. PREVENTION OF MOTHER-TO-CHILD TRANSMISSION OF HIV
-     3. HIV DIFFERENTIATED CARE PROGRAM
+     3. DIFFERENTIATED SERVICE DELIVERY PROGRAM
      4. VIREMIA PROGRAM
      5. the rest arrange random or alphabetically */
 
@@ -31,7 +31,7 @@ export class GroupByPriority implements PipeTransform {
             priority: 2
           });
           break;
-        case 'HIV DIFFERENTIATED CARE PROGRAM':
+        case 'DIFFERENTIATED SERVICE DELIVERY PROGRAM':
           sorted_programs.push({
             name: program.name,
             uuid: program.uuid,

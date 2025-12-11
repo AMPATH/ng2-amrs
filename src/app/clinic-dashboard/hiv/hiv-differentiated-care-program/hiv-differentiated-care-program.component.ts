@@ -12,8 +12,8 @@ import { HivDifferentiatedCareResourceService } from '../../../etl-api/hiv-diffe
   styleUrls: ['./hiv-differentiated-care-program.component.css']
 })
 export class HivDifferentiatedCareComponent implements OnInit {
-  public title = 'HIV Differentiated Care Program Reports';
-  public reportName = 'HIV Differentiated Care Program Reports';
+  public title = 'Differentiated Service Delivery Program Reports';
+  public reportName = 'Differentiated Service Delivery Program Reports';
   public patientData: Array<any> = [];
   public isLoadingPatientList = false;
   public locationUuid = '';

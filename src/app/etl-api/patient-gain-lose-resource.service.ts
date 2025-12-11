@@ -19,7 +19,7 @@ export class PatientGainLoseResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}patient-gain-loses-numbers?endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}`
+        `${this.url}patient-gain-loses-numbers?endingMonth=${params.endingMonth}&startingMonth=${params.startingMonth}&locationUuid=${params.locationUuids}&isAggregated=${params.isAggregated}`
       )
       .pipe(
         catchError((err: any) => {

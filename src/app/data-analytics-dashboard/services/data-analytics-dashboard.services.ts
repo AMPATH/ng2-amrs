@@ -7,6 +7,9 @@ export class DataAnalyticsDashboardService {
   private selectedFilters;
   private locations;
   private urlSource;
+  private dataIsAggregatedSubject = new BehaviorSubject({
+    isAggregated: false
+  });
   private dataSubject = new ReplaySubject<any>(1);
   private dataIndicactorSubject = new ReplaySubject<any>(1);
   private dataMontthlyIndicactorSubject = new ReplaySubject<any>(1);
@@ -56,5 +59,13 @@ export class DataAnalyticsDashboardService {
 
   public getUrlSource() {
     return this.urlSource;
+  }
+
+  public setIsAggregated(al) {
+    this.dataIsAggregatedSubject.next(al);
+  }
+
+  public getIsAggregated() {
+    return this.dataIsAggregatedSubject;
   }
 }

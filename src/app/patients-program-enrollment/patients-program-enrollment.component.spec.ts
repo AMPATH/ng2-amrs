@@ -69,7 +69,7 @@ const mockEnrollmentSummary = [
   {
     enrollment_count: 1,
     patient_program_id: 399775,
-    program_name: 'HIV DIFFERENTIATED CARE PROGRAM',
+    program_name: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
     program_uuid: '334c9e98-173f-4454-a8ce-f80b20b7fdf0'
   },
   {
@@ -157,7 +157,7 @@ const mockActiveEnrollmentsResult: any = [
     person_id: '528495',
     person_uuid: 'f4788c38',
     program_id: '2',
-    program_name: 'HIV DIFFERENTIATED CARE PROGRAM',
+    program_name: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
     program_uuid: 'uuid2'
   }
 ];
@@ -172,7 +172,7 @@ const mockEnrollmentSummaryResult: any = [
   {
     enrollment_count: 1000,
     patient_program_id: 2,
-    program_name: 'HIV DIFFERENTIATED CARE PROGRAM',
+    program_name: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
     program_uuid: 'uuid2'
   }
 ];
@@ -187,7 +187,7 @@ const mockDepartmentConfig = {
       },
       {
         uuid: 'uuid2',
-        name: 'HIV DIFFERENTIATED CARE PROGRAM'
+        name: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM'
       }
     ]
   },
@@ -211,7 +211,7 @@ const mockSummaryList = [
   },
   {
     dept: 'HIV',
-    program: 'HIV DIFFERENTIATED CARE PROGRAM',
+    program: 'DIFFERENTIATED SERVICE DELIVERY PROGRAM',
     enrolled: 1000,
     programUuid: 'uuid2'
   },

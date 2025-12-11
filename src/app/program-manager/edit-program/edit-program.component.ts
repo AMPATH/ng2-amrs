@@ -240,7 +240,7 @@ export class EditProgramComponent
         case 'dc':
           this.title = 'Program Successfully Started';
           this.showMessage(
-            'The patient has been enrolled in HIV Differentiated Care Program successfully.',
+            'The patient has been enrolled in Differentiated Service Delivery Program successfully.',
             'info'
           );
           break;

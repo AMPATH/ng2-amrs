@@ -25,6 +25,7 @@ import { RoutesProviderService } from '../../shared/dynamic-route/route-config-p
 import { CommunityGroupMemberService } from '../../openmrs-api/community-group-member-resource.service';
 import { LocationResourceService } from '../../openmrs-api/location-resource.service';
 import { RisonService } from '../../shared/services/rison-service';
+import { PatientTypeService } from 'src/app/etl-api/patient-type.service';
 
 @Component({
   selector: 'new-program',
@@ -55,6 +56,7 @@ export class NewProgramComponent
   public autoEnrolFromGroup = false;
   public isHTSIncompatible = false;
   showOtzEnrollmentForm = false;
+  patientType: string;
 
   constructor(
     public patientService: PatientService,
@@ -71,7 +73,8 @@ export class NewProgramComponent
     private locationResourceService: LocationResourceService,
     private groupMemberService: CommunityGroupMemberService,
     private risonService: RisonService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public patientTypeService: PatientTypeService
   ) {
     super(
       patientService,
@@ -246,6 +249,19 @@ export class NewProgramComponent
   }
 
   public enrollPatientToProgram() {
+    if (
+      this.selectedProgram.programUuid ===
+        'c19aec66-1a40-4588-9b03-b6be55a8dd1d' &&
+      this.patient.person.age < 15
+    ) {
+      this.showMessage(
+        'Clients aged 15 and above are eligible for PrEP enrollment'
+      );
+      setTimeout(() => {
+        this.removeMessage();
+      }, 5000);
+      return;
+    }
     this.enrolling = true;
     const payload = {
       programUuid: this.selectedProgram.programUuid,
@@ -255,6 +271,14 @@ export class NewProgramComponent
       location: this.selectedLocation.value,
       enrollmentUuid: ''
     };
+    const params = {
+      value: this.patientType,
+      patient: this.patient.uuid
+    };
+    this.patientTypeService.setPatientStatus(params).subscribe({
+      next: (data) => {},
+      error: (e) => {}
+    });
     this.programManagerService
       .enrollPatient(payload)
       .subscribe((enrollment) => {
@@ -392,6 +416,9 @@ export class NewProgramComponent
   }
 
   public onRequiredQuestionChange(question) {
+    if (question.qtype === 'patient Type') {
+      this.patientType = question.value;
+    }
     question = this.checkRelatedQuestions(question);
     // pick questions that have wrong answer
     const questionWithWrongAnswer = _.find(

@@ -48,6 +48,15 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
     this._locationUuids = locationUuids;
   }
 
+  public _isAggregated = false;
+  public get isAggregated(): boolean {
+    return this._isAggregated;
+  }
+
+  public set isAggregated(v: boolean) {
+    this._isAggregated = v;
+  }
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -103,13 +112,16 @@ export class PrepMonthlyReportBaseComponent implements OnInit {
   }
 
   public indicatorSelected($event: any) {
+    const location = this.params.isAggregated
+      ? this.params.locationUuids
+      : $event.locationUuids;
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
         indicators: $event.indicator,
         indicatorHeader: $event.indicatorHeader,
         month: $event.month,
-        locationUuids: $event.locationUuids
+        locationUuids: location
       }
     });
   }

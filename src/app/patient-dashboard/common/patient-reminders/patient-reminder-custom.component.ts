@@ -44,7 +44,8 @@ export class PatientReminderCustomComponent extends Toast {
     public localStorageService: LocalStorageService
   ) {
     super(toastrService, toastPackage);
-    this.options['timeOut'] = 0;
+    this.options['timeOut'] = 3000;
+    this.options['disableTimeOut'] = false;
     Object.assign(this._options, this.options);
   }
 

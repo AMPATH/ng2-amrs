@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { PreAppointmentOutreachResourceService } from 'src/app/etl-api/pre-appointment-outreach-resource.service';
+import { getISOWeek } from 'date-fns';
 
 interface ReportParams {
   locationUuids: string;
@@ -53,7 +54,7 @@ export class PreAppointmentOutreachComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     const today = new Date();
-    const currentWeek = this.getISOWeek(today);
+    const currentWeek = getISOWeek(today);
     const currentYear = today.getFullYear();
     const startYear = 2023;
     const numberOfWeeks = 52; // Set the maximum number of weeks to 52
@@ -360,22 +361,5 @@ export class PreAppointmentOutreachComponent implements OnInit {
         (week - 1) * 7 * 24 * 60 * 60 * 1000 +
         (day - 1) * 24 * 60 * 60 * 1000
     );
-  }
-
-  private getISOWeek(date: Date): number {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const daysOffset = firstDayOfYear.getDay() - 1;
-    const firstMondayOfYear = new Date(
-      firstDayOfYear.getFullYear(),
-      0,
-      1 + (daysOffset > 0 ? 7 - daysOffset : 0)
-    );
-
-    const daysPassed = Math.floor(
-      (date.getTime() - firstMondayOfYear.getTime()) / 86400000
-    );
-    const weeksPassed = Math.floor(daysPassed / 7) + 1;
-
-    return weeksPassed;
   }
 }

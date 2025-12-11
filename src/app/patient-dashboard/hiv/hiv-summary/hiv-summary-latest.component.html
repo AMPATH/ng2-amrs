@@ -119,6 +119,30 @@
       RTC Date: {{ hivSummary?.rtc_date | date: 'dd-MM-yyyy' }}
     </li>
     <li
+      *ngIf="hivSummary?.hpv != null"
+      class="list-group-item"
+      style="font-size: large"
+    >
+      HPV Test:
+      {{
+        hivSummary?.hpv == 664
+          ? 'NEGATIVE'
+          : hivSummary?.hpv == 703
+          ? 'POSITIVE'
+          : hivSummary?.hpv == 1138
+          ? 'INDETERMINATE'
+          : ''
+      }}
+    </li>
+    <li
+      *ngIf="hivSummary?.hpv != null"
+      class="list-group-item"
+      style="font-size: large"
+    >
+      HPV Test Date:
+      {{ hivSummary?.hpv_test_date | date: 'dd-MM-yyyy' }}
+    </li>
+    <li
       *ngIf="
         hivSummary?.med_pickup_rtc_date &&
         hivSummary?.med_pickup_rtc_date !== null
