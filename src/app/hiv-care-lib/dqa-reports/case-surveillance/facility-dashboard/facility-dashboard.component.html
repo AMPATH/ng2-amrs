@@ -1,0 +1,86 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h4>{{ title }}</h4>
+    </div>
+    <div class="timestamp">
+      <span>{{ facilityName }}</span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      class="tab"
+      [class.active]="activeTab === 'realtime'"
+      (click)="switchTab('realtime')"
+    >
+      Realtime gap review
+    </button>
+
+    <button
+      class="tab"
+      [class.active]="activeTab === 'progress'"
+      (click)="switchTab('progress')"
+    >
+      Progress tracker
+    </button>
+  </div>
+
+  <!-- =====================
+        REALTIME GAP REVIEW
+       ===================== -->
+  <div *ngIf="activeTab === 'realtime'" class="card-grid">
+    <div class="card" *ngFor="let item of cards">
+      <div class="card-header">
+        <h4>{{ item.title }}</h4>
+        <span class="dot" [ngClass]="item.percent >= 25 ? 'red' : 'green'">
+        </span>
+      </div>
+
+      <div class="card-value" *ngIf="isLoadingCards">Loading...</div>
+      <div class="card-value" *ngIf="!isLoadingCards">
+        <span
+          class="num clickable"
+          (click)="openPatientList(item, 'numerator')"
+          title="View numerator clients"
+        >
+          {{ item.numerator[0] }}
+        </span>
+
+        <span> / </span>
+
+        <span
+          class="den clickable"
+          (click)="openPatientList(item, 'denominator')"
+          title="View denominator clients"
+        >
+          {{ item.denominator[0] }}
+        </span>
+
+        <span class="percent">({{ item.percent }}%)</span>
+      </div>
+
+      <p class="card-desc" *ngIf="!isLoadingCards">{{ item.description }}</p>
+    </div>
+  </div>
+
+  <!-- =====================
+        PROGRESS TRACKER TAB
+       ===================== -->
+  <div *ngIf="activeTab === 'progress'" class="progress-container">
+    <p>This section will display progress indicators, graphs, or KPIs.</p>
+
+    <!-- Example Progress Boxes -->
+    <div class="progress-box">
+      <h4>Linkage Progress</h4>
+      <p>achieved</p>
+    </div>
+
+    <div class="progress-box">
+      <h4>VL Suppression Progress</h4>
+      <p>achieved</p>
+    </div>
+  </div>
+</div>
