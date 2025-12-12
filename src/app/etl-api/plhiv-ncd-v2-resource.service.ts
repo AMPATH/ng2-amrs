@@ -21,7 +21,7 @@ export class PlhivNcdV2ResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}plhiv-ncd-v2-monthly-report?startDate=${params.startDate}&endDate=${params.month}&locationUuids=${params.locationUuids}&currentView=${params.currentView}`
+        `${this.url}plhiv-ncd-v2-monthly-report?startDate=${params.startDate}&endDate=${params.month}&locationUuids=${params.locationUuids}&currentView=${params.currentView}&isAggregated=${params.isAggregated}`
       )
       .pipe(
         catchError((err: any) => {

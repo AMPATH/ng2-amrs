@@ -31,12 +31,21 @@ export class DqaReportsComponent implements OnInit {
 
   public navigateToReport(reportName: any) {
     if (this.multipleLocation) {
-      this.router.navigate(['dqa-filter'], {
-        relativeTo: this.route,
-        queryParams: {
-          reportId: reportName.id
+      this.router.navigate(
+        [
+          reportName.id === '1'
+            ? 'dqa-filter'
+            : reportName.id === '2'
+            ? 'case-surveillance'
+            : 'dqa-filter'
+        ],
+        {
+          relativeTo: this.route,
+          queryParams: {
+            reportId: reportName.id
+          }
         }
-      });
+      );
     } else {
       this.route.parent.parent.params.subscribe((params) => {
         const locationUuid = params['location_uuid'];

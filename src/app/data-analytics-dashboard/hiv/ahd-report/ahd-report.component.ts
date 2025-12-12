@@ -35,12 +35,14 @@ export class AhdReportComponent
 
   public generateReport() {
     this.setSelectedLocation();
+    this.setIsAggregated();
     this.storeParamsInUrl();
 
     if (Array.isArray(this.locationUuids) && this.locationUuids.length > 0) {
       this.params = {
         locationUuids: this.getSelectedLocations(this.locationUuids),
-        month: this._month
+        month: this._month,
+        isAggregated: this.getIsAggregated()
       };
       super.generateReport();
       super.showDraftReportAlert(this._month);
@@ -52,7 +54,8 @@ export class AhdReportComponent
   public storeParamsInUrl() {
     const state = {
       locationUuids: this.getSelectedLocations(this.locationUuids),
-      month: this._month
+      month: this._month,
+      isAggregated: this.getIsAggregated()
     };
     const stateUrl = rison.encode(state);
     const path = this.router.parseUrl(this.location.path());
@@ -69,6 +72,7 @@ export class AhdReportComponent
       const state = rison.decode(path.queryParams['state']);
       this.locationUuids = state.locations;
       this.month = state.month;
+      this.isAggregated = state.isAggregated;
     }
 
     if (path.queryParams['state']) {
@@ -89,5 +93,20 @@ export class AhdReportComponent
 
   private getSelectedLocations(locationUuids: Array<any>): string {
     return locationUuids.map((location) => location.value).join(',');
+  }
+
+  public setIsAggregated() {
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if (data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
+  }
+
+  private getIsAggregated() {
+    return this.isAggregated;
   }
 }

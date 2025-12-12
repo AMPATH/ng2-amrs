@@ -21,7 +21,7 @@ export class AhdResourceService {
     const stardDate = this.getDates(params.month).currentMonthFirstDate;
     return this.http
       .get(
-        `${this.url}ahd-monthly-summary?endDate=${params.month}&startDate=${stardDate}&locationUuids=${params.locationUuids}`
+        `${this.url}ahd-monthly-summary?endDate=${params.month}&startDate=${stardDate}&locationUuids=${params.locationUuids}&isAggregated=${params.isAggregated}`
       )
       .pipe(
         catchError((err: any) => {

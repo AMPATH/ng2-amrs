@@ -44,6 +44,7 @@ import { MOH412ResourceService } from './moh-412-resource.service';
 import { ClinicFlowResourceService } from './clinic-flow-resource.service';
 import { Covid19ResourceService } from './covid-19-resource-service';
 import { LocationUnitsService } from './location-units.service';
+import { HolidaysResourceService } from './holidays-resource-service';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
@@ -93,7 +94,8 @@ import { LocationUnitsService } from './location-units.service';
     MOH412ResourceService,
     ClinicFlowResourceService,
     Covid19ResourceService,
-    LocationUnitsService
+    LocationUnitsService,
+    HolidaysResourceService
   ],
   exports: []
 })

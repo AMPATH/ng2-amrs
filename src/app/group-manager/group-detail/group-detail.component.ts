@@ -86,7 +86,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public isFiltered = true;
   public subscriptions = new Subscription();
   public visitType = '0d608b80-1cb5-4c85-835a-29072683ca27';
+  public standardVisitType = '41c54687-8596-4071-a235-96d80f3fd039';
   public otzVisitType = 'd3d5fd4a-508c-4610-97b7-5197a0bdb88d';
+  public selectedVisitType = '';
   public currentMonth = Moment().month() + 1;
   public today = {
     year: Moment().year(),
@@ -169,6 +171,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.communityGroupService.getGroupByUuid(uuid)
     ]);
     dcOtzSubs.subscribe((results) => {
+      console.log('results here', results);
       const res = results[0];
       this.numberOfMembers = res.cohortMembers.length;
       this.group = res;
@@ -198,6 +201,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           return a.cohortAttributeType.name === 'programUuid';
         }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
       this.isOtzProgram = isOtz;
+      this.selectedVisitType = this.determineNextVisitType();
+
       this.checkIfTodayVisitStarted(this.cohortVisits);
       this.generateMembersData(res.cohortMembers, res.cohortVisits);
     });
@@ -220,7 +225,17 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  public getVisitTypeDisplayName(visitTypeUuid: string): string {
+    if (visitTypeUuid === this.visitType) {
+      return 'Community';
+    } else if (visitTypeUuid === this.standardVisitType) {
+      return 'Standard';
+    }
+    return '';
+  }
+
   public generateMembersData(cohortMembers, cohortVisits) {
+    console.log('cohortMembers', cohortMembers);
     this.membersData = [];
     this.columns = [];
     const memberUuids = this.generatePatientUuids(cohortMembers);
@@ -427,8 +442,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public saveGroupVisit() {
     this.savingVisit = true;
+    const visitTypeToUse = this.selectedVisitType;
     const groupVisit = {
-      visitType: this.isOtzProgram ? this.otzVisitType : this.visitType,
+      visitType: visitTypeToUse,
       location: this.group.location.uuid,
       startDate: this.groupVisitDate.jsdate,
       cohort: this.group.uuid
@@ -436,7 +452,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.communityGroupService.startGroupVisit(groupVisit).subscribe(
       (result) => {
         this.showSuccessModal(
-          `${this.isOtzProgram ? 'OTZ' : ''} Visit started successfully!`
+          `${
+            this.isOtzProgram
+              ? 'OTZ'
+              : this.getVisitTypeDisplayName(visitTypeToUse)
+          } Visit started successfully!`
         );
         this.savingVisit = false;
         this.closeModal(this.startGroupVisitModal);
@@ -453,6 +473,49 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
     }
+  }
+
+  public shouldShowVisitType(item: any): boolean {
+    if (this.isOtzProgram) {
+      return item.display.toLowerCase().includes('otz');
+    }
+    return item.uuid === this.selectedVisitType;
+  }
+
+  public determineNextVisitType(): string {
+    if (this.isOtzProgram) {
+      return this.otzVisitType;
+    }
+
+    if (!this.cohortVisits || this.cohortVisits.length === 0) {
+      return this.visitType;
+    }
+
+    const sortedCohortVisits = [...this.cohortVisits].sort((a, b) => {
+      const dateA = new Date(a.startDate);
+      const dateB = new Date(b.startDate);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    const mostRecentVisit = sortedCohortVisits[0];
+
+    const hasEncounters =
+      mostRecentVisit.cohortMemberVisits &&
+      mostRecentVisit.cohortMemberVisits.length > 0;
+
+    if (!hasEncounters) {
+      return mostRecentVisit.visitType.uuid;
+    }
+
+    if (mostRecentVisit.visitType.uuid === this.visitType) {
+      return this.standardVisitType;
+    }
+
+    if (mostRecentVisit.visitType.uuid === this.standardVisitType) {
+      return this.visitType;
+    }
+
+    return this.visitType;
   }
 
   checkIfDrugPickupFilled(personuuid, cohortVisit) {

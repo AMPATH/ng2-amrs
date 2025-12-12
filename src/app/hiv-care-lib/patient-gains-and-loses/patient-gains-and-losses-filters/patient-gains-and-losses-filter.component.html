@@ -32,6 +32,8 @@
               [multiple]="true"
               [locationUuids]="locationUuids"
               (onLocationChange)="onLocationsSelected($event)"
+              [showAggregateControl]="true"
+              (onAggregateChange)="onAggregateChange($event)"
             ></location-filter>
           </div>
         </div>

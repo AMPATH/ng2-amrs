@@ -21,26 +21,46 @@ export class FormsResourceService {
    * @memberOf AmrsDataService
    */
   public getForms(forceRefresh?: boolean) {
-    // If the Subject was NOT subscribed before OR if forceRefresh is requested
-
     const params = new HttpParams()
       .set(
         'v',
         'custom:(uuid,name,encounterType:(uuid,name),version,' +
           'published,retired,resources:(uuid,name,dataType,valueReference))'
       )
-      .set('q', 'POC');
+      .set('q', 'POC')
+      .set('limit', '500');
 
     if (!this.forms.observers.length || forceRefresh) {
       this.http
         .get<any>(
           this.appSettingsService.getOpenmrsRestbaseurl().trim() + 'form',
-          {
-            params: params
-          }
+          { params: params }
         )
         .subscribe(
-          (data) => this.forms.next(data.results),
+          (data) => {
+            let allResults = data.results;
+            const nextLink =
+              data.links && data.links.find((link) => link.rel === 'next');
+
+            if (nextLink) {
+              const secondPageParams = params.set('startIndex', '500');
+              this.http
+                .get<any>(
+                  this.appSettingsService.getOpenmrsRestbaseurl().trim() +
+                    'form',
+                  { params: secondPageParams }
+                )
+                .subscribe(
+                  (secondPageData) => {
+                    allResults = allResults.concat(secondPageData.results);
+                    this.forms.next(allResults);
+                  },
+                  (error) => this.forms.error(error)
+                );
+            } else {
+              this.forms.next(allResults);
+            }
+          },
           (error) => this.forms.error(error)
         );
     }
