@@ -1,20 +1,11 @@
-<div class="visit-encounter-layout">
-  <p-tabView>
-    <p-tabPanel header="Visits">
-      <visit-encounters-list
-        [encounters]="patientEncounters"
-        [showVisitsObservations]="showVisitsObservations"
-      ></visit-encounters-list>
-    </p-tabPanel>
-    <p-tabPanel header="Encounters">
-      <app-patient-encounters></app-patient-encounters>
-    </p-tabPanel>
-    <ng-container *ngIf="patient?.searchIdentifiers?.cr">
-      <p-tabPanel header="Shared Health Records">
-        <app-shr-encounters
-          [crNo]="patient?.searchIdentifiers?.cr"
-        ></app-shr-encounters>
-      </p-tabPanel>
-    </ng-container>
-  </p-tabView>
-</div>
+<p-tabView>
+  <p-tabPanel header="Visits">
+    <visit-encounters-list
+      [encounters]="patientEncounters"
+      [showVisitsObservations]="showVisitsObservations"
+    ></visit-encounters-list>
+  </p-tabPanel>
+  <p-tabPanel header="Encounters">
+    <app-patient-encounters></app-patient-encounters>
+  </p-tabPanel>
+</p-tabView>

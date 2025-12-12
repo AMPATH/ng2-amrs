@@ -32,7 +32,8 @@ export class MOH412ResourceService {
     let urlParams: HttpParams = new HttpParams()
       .set('endDate', payload.endDate)
       .set('startDate', payload.startDate)
-      .set('locationType', payload.locationType);
+      .set('locationType', payload.locationType)
+      .set('isAggregated', payload.isAggregated);
     if (payload.locationUuids) {
       if (payload.locationUuids.length > 0) {
         urlParams = urlParams.set('locationUuids', payload.locationUuids);

@@ -18,7 +18,7 @@ export class PrepMonthlyResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}prep-monthly-report?endDate=${params.month}&locationUuids=${params.locationUuids}`
+        `${this.url}prep-monthly-report?endDate=${params.month}&locationUuids=${params.locationUuids}&isAggregated=${params.isAggregated}`
       )
       .pipe(
         catchError((err: any) => {

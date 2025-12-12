@@ -54,6 +54,7 @@ import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.int
 // constants
 import { FormUuids } from './../../../constants/forms.constants';
 import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
+import { HolidaysResourceService } from 'src/app/etl-api/holidays-resource-service';
 
 interface RefProgram {
   uuid: string;
@@ -145,6 +146,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
     'a899b35c-1350-11df-a1f1-0026b9348838';
   private COMMUNITY_PHARMACY_CONCEPT = '33363568-fb62-4063-b0ac-e37be1d23514';
   private isEligibleForDelivery = false;
+  private kenyaHolidays: any;
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -174,7 +176,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     public patientConsentResourceService: PatientConsentResourceService,
     private covid19Service: Covid19ResourceService,
     private propertyLocationService: UserDefaultPropertiesService,
-    private programManagerService: ProgramManagerService
+    private programManagerService: ProgramManagerService,
+    private holidaysResourceService: HolidaysResourceService
   ) {}
 
   public ngOnInit() {
@@ -915,6 +918,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.patient = data[1] || null;
           this.encounter = data[2] || null;
           this.getPatientCovid19VaccineStatus(this.patient.uuid);
+          this.getKenyaHolidays();
           // fetch patient consent after patient has been loaded
           this.patientConsentResourceService
             .getPatientCallConsent(this.patient.uuid)
@@ -1052,6 +1056,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.fileUploadResourceService
         )
       });
+      this.dataSources.registerDataSource('holidays', this.kenyaHolidays);
       // set up visit encounters data source
       this.setUpVisitEncountersDataObject();
 
@@ -1907,5 +1912,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
           this.covid19VaccineStatus = result.vaccination_status_code;
         }
       });
+  }
+
+  private getKenyaHolidays() {
+    this.holidaysResourceService.getKenyaHolidays().subscribe((result) => {
+      if (result) {
+        this.kenyaHolidays = result;
+      }
+    });
   }
 }

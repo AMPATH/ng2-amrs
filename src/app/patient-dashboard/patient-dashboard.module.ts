@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 
 import {
   SharedModule,
@@ -37,7 +38,6 @@ import { GroupEnrollmentModule } from './group-enrollment/group-enrollment.modul
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PocHttpInteceptor } from '../shared/services/poc-http-interceptor';
 import { GeneralLandingPageComponent } from './general-landing-page/landing-page.component';
-import { HieShrModule } from '../hie-shr/hie-shr.module';
 
 @NgModule({
   imports: [
@@ -62,8 +62,7 @@ import { HieShrModule } from '../hie-shr/hie-shr.module';
     PatientSearchModule,
     ProgramManagerModule,
     GroupEnrollmentModule,
-    RouterModule.forChild(routes),
-    HieShrModule
+    RouterModule.forChild(routes)
   ],
   declarations: [PatientDashboardComponent, GeneralLandingPageComponent],
   providers: [

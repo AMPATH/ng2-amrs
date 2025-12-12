@@ -13,7 +13,7 @@
           </p>
         </td>
       </tr>
-      <tr *ngFor="let identifier of customIdentifiers">
+      <tr *ngFor="let identifier of identifiers">
         <td>
           <strong>{{ identifier.identifierType.name }} : </strong>
           {{ identifier.identifier }}
@@ -23,13 +23,11 @@
         </td>
         <td><strong>Location : </strong>{{ identifier.location.name }}</td>
         <td>
-          <ng-container *ngIf="identifier?.editable">
-            <a
-              (click)="editIdentifiers.showDialog('edit', identifier)"
-              class="edit_link"
-              ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
-            >
-          </ng-container>
+          <a
+            (click)="editIdentifiers.showDialog('edit', identifier)"
+            class="edit_link"
+            ><span><i class="fa fa-edit fa-fw"></i> Edit</span></a
+          >
         </td>
       </tr>
     </tbody>

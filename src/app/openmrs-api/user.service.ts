@@ -74,15 +74,4 @@ export class UserService {
       params: params
     });
   }
-  hasRole(roleName?: string, roleUuid?: string): boolean {
-    const user = this.getLoggedInUser();
-    if (user && user.roles.length > 0) {
-      const { roles } = user;
-      return roles.some((role) => {
-        return role['uuid'] === roleUuid || role['name'] === roleName;
-      });
-    } else {
-      return false;
-    }
-  }
 }

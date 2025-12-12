@@ -26,6 +26,10 @@ export const routes: Routes = [
       {
         path: 'cdm',
         loadChildren: './cdm/data-analytics-cdm.module#DataAnalyticsCdmModule'
+      },
+      {
+        path: 'hts',
+        loadChildren: './hts/data-analytics-hts.module#DataAnalyticsHtsModule'
       }
     ]
   }

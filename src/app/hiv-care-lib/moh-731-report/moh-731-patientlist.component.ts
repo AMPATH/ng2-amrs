@@ -247,6 +247,8 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
       service_delivery_model: 'Service Model',
       dsd_model: 'DSD Model',
       location: 'Location',
+      cd4_1: 'CD4',
+      cd4_date: 'CD4 Date',
       enrollment_date: 'Enrollment Date',
       arv_first_regimen_start_date: 'ARVs Initial Start Date',
       cur_regimen_arv_start_date: 'Current ARV Regimen Start Date (edited)',

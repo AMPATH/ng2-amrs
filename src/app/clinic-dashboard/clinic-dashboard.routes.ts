@@ -32,6 +32,10 @@ export const routes = [
             path: 'mnch',
             loadChildren: './mnch/mnch-program.module#MNCHModule'
           },
+          {
+            path: 'hts',
+            loadChildren: './hts/hts-program.module#HTSModule'
+          },
           { path: '', redirectTo: 'general', pathMatch: 'prefix' }
         ]
       }

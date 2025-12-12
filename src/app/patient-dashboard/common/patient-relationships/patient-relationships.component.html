@@ -25,51 +25,40 @@
         <tr>
           <th>Relationship</th>
           <th>Person Name</th>
-          <th>CR</th>
-          <th>Register/Update</th>
+          <th>Edit</th>
+          <th>Delete</th>
           <th>View</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let relationship of mappedRelationships">
+        <tr *ngFor="let relationship of relationships">
           <td>{{ relationship.relationshipType }}</td>
           <td>{{ relationship.display }}</td>
           <td>
-            {{ relationship.cr ? relationship.cr : relationship.crIdentifier }}
+            <a
+              (click)="editRelationship.showDialog(relationship, relationships)"
+              ><span class="glyphicon glyphicon-pencil link"></span
+            ></a>
           </td>
           <td>
-            <ng-container
-              *ngIf="
-                !relationship.crIdentifier && relationship.cr;
-                else registerAfyaYangu
-              "
-            >
-              <a class="afya-link" (click)="navigateToPatientRegistration()"
-                >Register in AMRS</a
-              >
-            </ng-container>
-            <ng-template #registerAfyaYangu>
-              <a class="afya-link" (click)="registerOnAfyaYangu()"
-                >Afya Yangu</a
-              >
-            </ng-template>
+            <a (click)="openConfirmDialog(relationship.uuid)"
+              ><span class="glyphicon glyphicon-remove link"></span
+            ></a>
           </td>
           <td>
-            <ng-container *ngIf="relationship.isPatient">
-              <a
-                [routerLink]="[
-                  '/patient-dashboard',
-                  'patient',
-                  relationship.relatedPersonUuid,
-                  'general',
-                  'patient-info'
-                ]"
-                ><span
-                  style="font-size: 14px"
-                  class="glyphicon glyphicon-zoom-in"
-                ></span
-              ></a>
-            </ng-container>
+            <a
+              [routerLink]="[
+                '/patient-dashboard',
+                'patient',
+                relationship.relatedPersonUuid,
+                'general',
+                'patient-info'
+              ]"
+              ><span
+                style="font-size: 14px"
+                class="glyphicon glyphicon-zoom-in"
+              ></span
+            ></a>
           </td>
 
           <td></td>
