@@ -218,5 +218,9 @@ export const routes = [
         component: PatientCreationComponent
       }
     ]
+  },
+  {
+    path: 'kvp/:program/landing-page', // KVP Landing Page
+    component: PatientInfoComponent
   }
 ];

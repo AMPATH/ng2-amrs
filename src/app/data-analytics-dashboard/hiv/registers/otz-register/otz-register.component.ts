@@ -179,17 +179,6 @@ export class OtzRegisterComponent implements OnInit {
     );
   }
 
-  // exportTableToExcel(): void {
-  //   const table = document.getElementById('otzRegister');
-  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'OTZ Register');
-
-  //   // Format the current date for the filename
-  //   const currentDate = Moment().format('YYYY-MM-DD');
-  //   XLSX.writeFile(wb, `otz_register_${currentDate}.xlsx`);
-  // }
-
   public showDraftReportAlert(date) {
     if (date != null && date >= Moment().endOf('month').format('YYYY-MM-DD')) {
       this.isReleased = false;
