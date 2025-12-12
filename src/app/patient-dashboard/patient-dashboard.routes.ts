@@ -201,6 +201,10 @@ export const routes = [
           {
             path: ':programClass/:program/patient-otz-enrollment',
             component: OtzSnapshotComponent
+          },
+          {
+            path: 'kvp/:program/landing-page', // CDM Landing Page
+            component: PatientInfoComponent
           }
         ]
       }
