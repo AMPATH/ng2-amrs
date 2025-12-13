@@ -7,7 +7,7 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class PersonAttributeResourceService {
-  public v = 'full';
+  public v = 'custom:(display,uuid,value,attributeType:(uuid,display))';
   constructor(
     protected http: HttpClient,
     protected appSettingsService: AppSettingsService
