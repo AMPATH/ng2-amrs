@@ -285,7 +285,7 @@ export class VisitDetailsComponent implements OnInit {
         'form:(uuid,name),location:ref,' +
         'encounterType:ref,provider:ref),patient:(uuid,uuid),' +
         'visitType:(uuid,name),location:ref,startDatetime,' +
-        'stopDatetime,attributes:(uuid,value,attributeType))';
+        'stopDatetime,attributes:(uuid,value,attributeType:(uuid,name)))';
       this.visitResourceService
         .getVisitByUuid(visitUuid, { v: custom })
         .subscribe(
