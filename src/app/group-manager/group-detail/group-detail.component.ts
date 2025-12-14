@@ -187,11 +187,13 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         res.cohortMembers,
         (member) => !member.endDate
       );
-      this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
-        return Math.abs(
-          new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-        );
-      });
+      if (res.cohortVisits) {
+        this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
+          return Math.abs(
+            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+          );
+        });
+      }
       this.groupVisitDate = {
         date: this.today,
         jsdate: new Date()
