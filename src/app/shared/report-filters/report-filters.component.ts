@@ -91,6 +91,7 @@ export class ReportFiltersComponent
   > = new EventEmitter<string>();
   selectedYear: string;
   selectedQuarter: string;
+  isAggregated: boolean;
   years: string[] = [];
   showQuarters = false;
   quarters: string[] = [];
@@ -250,6 +251,8 @@ export class ReportFiltersComponent
   public locations: any;
   @Output()
   public startWeekChange = new EventEmitter<Date>();
+  @Input()
+  public showAggregateControl = false;
 
   @Output()
   public endDateChange = new EventEmitter<Date>();
@@ -511,6 +514,7 @@ export class ReportFiltersComponent
       this._programs = this.programOptions;
     }
     this.getCachedLocations();
+    this.getCachedIsAggregated();
   }
   public isEnabled(control: string): boolean {
     return this.enabledControls.indexOf(control) > -1;
@@ -575,6 +579,17 @@ export class ReportFiltersComponent
           }
         });
     }
+  }
+
+  public getCachedIsAggregated() {
+    this.dataAnalyticsDashboardService
+      .getIsAggregated()
+      .pipe()
+      .subscribe((data) => {
+        if (data) {
+          this.isAggregated = data.isAggregated;
+        }
+      });
   }
 
   public onIndicatorSelected(indicator) {
@@ -876,5 +891,9 @@ export class ReportFiltersComponent
 
   public elicitationEndDateChange(value) {
     this.getSelectedElicitedEndDate.emit(value);
+  }
+
+  public onAggregateChange(value) {
+    this.dataAnalyticsDashboardService.setIsAggregated(value);
   }
 }

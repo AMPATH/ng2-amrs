@@ -69,6 +69,11 @@ export const routes = [
             component: GeneralLandingPageComponent
           },
           {
+            // HTS Landing Page
+            path: 'hts/:program/landing-page',
+            component: GeneralLandingPageComponent
+          },
+          {
             path: 'cdm/:program/landing-page', // CDM Landing Page
             component: CdmSummaryComponent
           },
@@ -196,6 +201,10 @@ export const routes = [
           {
             path: ':programClass/:program/patient-otz-enrollment',
             component: OtzSnapshotComponent
+          },
+          {
+            path: 'kvp/:program/landing-page', // CDM Landing Page
+            component: PatientInfoComponent
           }
         ]
       }
@@ -213,5 +222,9 @@ export const routes = [
         component: PatientCreationComponent
       }
     ]
+  },
+  {
+    path: 'kvp/:program/landing-page', // KVP Landing Page
+    component: PatientInfoComponent
   }
 ];

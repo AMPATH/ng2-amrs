@@ -57,6 +57,24 @@ import { AhdReportComponent } from './ahd-report/ahd-report.component';
 import { AhdMonthlyReportPatientlistComponent } from 'src/app/hiv-care-lib/ahd-monthly-report/ahd-monthly-report-patientlist/ahd-monthly-report-patientlist.component';
 import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv-ncd-v2-report/plhiv-ncd-v2-report-patient-list/plhiv-ncd-v2-report-patient-list.component';
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
+import { CaseSurveillanceBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-base/case-surveillance-base.component';
+import { CaseSurveillancePatientListComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-patient-list/case-surveillance-patient-list.component';
+import { OtzRegisterComponent } from './registers/otz-register/otz-register.component';
+import { Moh731RegisterComponent } from './registers/moh731-register/moh731-register.component';
+import { MohPatientListComponent } from './registers/moh731-register/moh-patient-list/moh-patient-list.component';
+import { Report731Component } from './report731/report731.component';
+import { Moh731ReportViewComponent } from './report731/moh731-report-view/moh731-report-view.component';
+import { Moh731ReportPatientListComponent } from './report731/moh731-report-patient-list/moh731-report-patient-list.component';
+import { RegistersComponent } from './registers/registers.component';
+import { HeiRegisterComponent } from './registers/hei-register/hei-register.component';
+import { AncRegisterComponent } from './registers/anc-register/anc-register.component';
+import { NutritionRegisterComponent } from './registers/nutrition-register/nutrition-register.component';
+import { MaternityRegisterComponent } from './registers/maternity-register/maternity-register.component';
+import { HtsrefferallinkageRegisterComponent } from './registers/htsrefferallinkage-register/htsrefferallinkage-register.component';
+import { PncRegisterComponent } from './registers/pnc-register/pnc-register.component';
+import { DefaultertracingRegisterComponent } from './registers/defaultertracing-register/defaultertracing-register.component';
+import { PrepdailyRegisterComponent } from './registers/prepdaily-register/prepdaily-register.component';
+import { CntdailyRegisterComponent } from './registers/cntdaily-register/cntdaily-register.component';
 
 const routes: Routes = [
   {
@@ -285,6 +303,120 @@ const routes: Routes = [
       }
     ]
   },
+
+  {
+    path: 'report-moh-731',
+    children: [
+      {
+        path: '',
+        component: Report731Component
+      },
+      {
+        path: 'patient-list',
+        component: Moh731ReportPatientListComponent
+      }
+    ]
+  },
+
+  {
+    path: 'registers',
+    children: [
+      {
+        path: '',
+        component: RegistersComponent
+      },
+      {
+        path: 'hei-register',
+        children: [
+          {
+            path: '',
+            component: HeiRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'anc-register',
+        children: [
+          {
+            path: '',
+            component: AncRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'nutrition-register',
+        children: [
+          {
+            path: '',
+            component: NutritionRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'maternity-register',
+        children: [
+          {
+            path: '',
+            component: MaternityRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'htsrefferallinkage-register',
+        children: [
+          {
+            path: '',
+            component: HtsrefferallinkageRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'pnc-register',
+        children: [
+          {
+            path: '',
+            component: PncRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'defaultertracing-register',
+        children: [
+          {
+            path: '',
+            component: DefaultertracingRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'prepdaily-register',
+        children: [
+          {
+            path: '',
+            component: PrepdailyRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'cntdaily-register',
+        children: [
+          {
+            path: '',
+            component: CntdailyRegisterComponent
+          }
+        ]
+      },
+      {
+        path: 'otz-register',
+        children: [
+          {
+            path: '',
+            component: OtzRegisterComponent
+          }
+        ]
+      }
+    ]
+  },
   {
     path: 'datim-report',
     children: [
@@ -372,6 +504,19 @@ const routes: Routes = [
           {
             path: 'dqa-report-patientlist',
             component: ChartAbstractionPatientlistComponent
+          }
+        ]
+      },
+      {
+        path: 'case-surveillance',
+        children: [
+          {
+            path: '',
+            component: CaseSurveillanceBaseComponent
+          },
+          {
+            path: 'cs-report-patientlist',
+            component: CaseSurveillancePatientListComponent
           }
         ]
       },

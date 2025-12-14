@@ -5,7 +5,6 @@ import { BaseModel } from './base-model.model';
 import { serializable } from './serializable.decorator';
 import { Person } from './person.model';
 import { PatientIdentifier } from './patient-identifier.model';
-import { HieIdentificationType } from './hie-registry.model';
 
 export class Patient extends BaseModel {
   public _identifier = this.openmrsModel.identifiers;
@@ -117,23 +116,6 @@ export class Patient extends BaseModel {
       );
       const upi = this.getIdentifierByType(identifier, 'UPI Number');
       const pid = this.getIdentifierByType(identifier, 'PASSPORT NUMBER');
-      const cr = this.getIdentifierByType(identifier, 'CR');
-      const refugeeId = this.getIdentifierByType(
-        identifier,
-        HieIdentificationType.RefugeeID
-      );
-      const alienId = this.getIdentifierByType(
-        identifier,
-        HieIdentificationType.AlienID
-      );
-      const mandateNumber = this.getIdentifierByType(
-        identifier,
-        HieIdentificationType.MandateNumber
-      );
-      const temporaryDepandantId = this.getIdentifierByType(
-        identifier,
-        HieIdentificationType.TemporaryDependantID
-      );
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
@@ -160,12 +142,7 @@ export class Patient extends BaseModel {
           prep: prep,
           birthNumber: birthNumber,
           upi: upi,
-          pid: pid,
-          cr: cr,
-          refugeeId: refugeeId,
-          alienId: alienId,
-          mandateNumber: mandateNumber,
-          temporaryDepandantId: temporaryDepandantId
+          pid: pid
         };
       }
       return filteredIdentifiers;
@@ -202,43 +179,12 @@ export class Patient extends BaseModel {
       );
       const upi = this.getIdentifierByType(identifiers, 'UPI Number');
       const pid = this.getIdentifierByType(identifiers, 'PASSPORT NUMBER');
-      const cr = this.getIdentifierByType(identifiers, 'CR');
-      const sha = this.getIdentifierByType(
-        identifiers,
-        'Social Health Insurance Number'
-      );
-      const hhNo = this.getIdentifierByType(
-        identifiers,
-        HieIdentificationType.HouseholdNumber
-      );
-      const refugeeId = this.getIdentifierByType(
-        identifiers,
-        HieIdentificationType.RefugeeID
-      );
-      const alienId = this.getIdentifierByType(
-        identifiers,
-        HieIdentificationType.AlienID
-      );
-      const mandateNumber = this.getIdentifierByType(
-        identifiers,
-        HieIdentificationType.MandateNumber
-      );
-      const temporaryDepandantId = this.getIdentifierByType(
-        identifiers,
-        HieIdentificationType.TemporaryDependantID
-      );
       if (
         kenyaNationalId === undefined &&
         amrsMrn === undefined &&
         ampathMrsUId === undefined &&
         cCC === undefined &&
-        ovcid === undefined &&
-        sha === undefined &&
-        hhNo === undefined &&
-        refugeeId === undefined &&
-        alienId === undefined &&
-        mandateNumber === undefined &&
-        temporaryDepandantId === undefined
+        ovcid === undefined
       ) {
         if (this._identifier[0].identifier) {
           filteredIdentifiers = { default: this._identifier[0].identifier };
@@ -262,14 +208,7 @@ export class Patient extends BaseModel {
             ? this._fromArrayToCommaSeparatedString(birthNumber)
             : birthNumber,
           upi: upi ? this._fromArrayToCommaSeparatedString(upi) : upi,
-          pid: pid ? this._fromArrayToCommaSeparatedString(pid) : pid,
-          cr: cr,
-          sha: sha,
-          hhNo: hhNo,
-          refugeeId: refugeeId,
-          alienId: alienId,
-          mandateNumber: mandateNumber,
-          temporaryDepandantId: temporaryDepandantId
+          pid: pid ? this._fromArrayToCommaSeparatedString(pid) : pid
         };
       }
       return filteredIdentifiers;

@@ -195,7 +195,7 @@ export class AhdReportViewComponent implements OnInit {
       headerName: col.headerName,
       field: col.field[arraypos],
       gender: gender,
-      location: this.reportDetails.locationUuids
+      location: val.location
     };
     this.CellSelection.emit(selectedIndicator);
   }

@@ -54,6 +54,7 @@ export class NewProgramComponent
   public enrollPatientToGroup = false;
   public modalRef: BsModalRef;
   public autoEnrolFromGroup = false;
+  public isHTSIncompatible = false;
   showOtzEnrollmentForm = false;
   patientType: string;
 
@@ -692,6 +693,13 @@ export class NewProgramComponent
 
   private unenrollAndGoToDetails() {
     if (this.isIncompatibleChoice()) {
+      if (this.program === 'a0f8382f-df8a-4f1d-8959-9fb6eef90353') {
+        this.isHTSIncompatible = true;
+        this.showMessage(
+          'The patient is already confirmed **HIV-positive** and cannot be enrolled in the HTS program. '
+        );
+        return;
+      }
       _.each(this.incompatibleProgrames, (program) => {
         if (program.uuid === '334c9e98-173f-4454-a8ce-f80b20b7fdf0') {
           this.autoEnrolFromGroup = true;

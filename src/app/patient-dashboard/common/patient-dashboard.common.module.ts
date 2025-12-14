@@ -138,14 +138,7 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { OtzSnapshotComponent } from './otz-snapshot/otz-snapshot.component';
 import { ProjectBeyondComponent } from './patient-info/project-beyond/project-beyond.component';
 import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.component';
-import { VerifyHieIdentifierDialogComponent } from './patient-banner/dialog/verify-hie-identifier/verify-hie-identifier.dialog.component';
-import { HieToAmrsPersonAdapter } from '../../utils/hei-to-amrs-patient.adapter';
-import { PractionerAlertComponent } from './practitioner-alerts/practitioner-alert.component';
-import { PractitionerAlertService } from './practitioner-alerts/practitioner-alert.service';
-import { PatientOtpVerificationModule } from 'src/app/otp-verification/hie-otp-verification/patient-otp-verification.module';
-import { HieToAmrsPersonSyncModule } from 'src/app/hie-amrs-person-sync/hie-amrs-person-sync.module';
-import { HieShrModule } from '../../hie-shr/hie-shr.module';
-import { ShrEncountersComponent } from './visit-encounters/shr/shr-encounters.component';
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -183,10 +176,7 @@ import { ShrEncountersComponent } from './visit-encounters/shr/shr-encounters.co
     PatientSearchModule,
     PatientReferralsModule,
     ProgramManagerModule,
-    GroupEnrollmentModule,
-    PatientOtpVerificationModule,
-    HieToAmrsPersonSyncModule,
-    HieShrModule
+    GroupEnrollmentModule
   ],
   exports: [
     PatientInfoComponent,
@@ -243,10 +233,7 @@ import { ShrEncountersComponent } from './visit-encounters/shr/shr-encounters.co
     EditOccupationComponent,
     PatientEducationComponent,
     AddPatientEducationComponent,
-    EditPatientEducationComponent,
-    VerifyHieIdentifierDialogComponent,
-    PractionerAlertComponent,
-    ShrEncountersComponent
+    EditPatientEducationComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -310,10 +297,7 @@ import { ShrEncountersComponent } from './visit-encounters/shr/shr-encounters.co
     OvcSnapshotComponent,
     OtzSnapshotComponent,
     ProjectBeyondComponent,
-    OtzConsentComponent,
-    VerifyHieIdentifierDialogComponent,
-    PractionerAlertComponent,
-    ShrEncountersComponent
+    OtzConsentComponent
   ],
   providers: [
     {
@@ -354,9 +338,7 @@ import { ShrEncountersComponent } from './visit-encounters/shr/shr-encounters.co
     VitalsDatasource,
     TodayVisitService,
     PatientTransferService,
-    UserDefaultPropertiesService,
-    HieToAmrsPersonAdapter,
-    PractitionerAlertService
+    UserDefaultPropertiesService
   ]
 })
 export class PatientDashboardCommonModule {}

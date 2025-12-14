@@ -32,6 +32,16 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       field: 'program'
     },
     {
+      headerName: 'CD4',
+      width: 150,
+      field: 'cd4_results'
+    },
+    {
+      headerName: 'CD4 Date',
+      width: 150,
+      field: 'cd4_date'
+    },
+    {
       headerName: 'ART start date',
       width: 120,
       field: 'arv_first_regimen_start_date'
@@ -50,6 +60,21 @@ export class DailyScheduleAppointmentsComponent implements OnInit, OnDestroy {
       headerName: 'WHO Stage',
       width: 200,
       field: 'stage'
+    },
+    {
+      headerName: 'Patient Categorization',
+      width: 150,
+      field: 'patient_categorization'
+    },
+    {
+      headerName: 'Service Model',
+      width: 150,
+      field: 'service_delivery_model'
+    },
+    {
+      headerName: 'DSD Model',
+      width: 150,
+      field: 'dsd_model'
     },
     {
       headerName: 'Covid-19 Assessment Status',

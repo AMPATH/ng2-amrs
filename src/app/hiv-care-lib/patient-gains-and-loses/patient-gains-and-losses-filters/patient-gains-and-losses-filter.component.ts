@@ -30,6 +30,7 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
   @Output() public filterSet = new EventEmitter();
   @Output() public filteReset = new EventEmitter();
   @Output() public locationsSet = new EventEmitter();
+  @Output() public isAggregateSet = new EventEmitter();
   public selectedGender: any = [];
   public locationUuids: Array<string>;
   public selectedlocationUuids: Array<string>;
@@ -82,7 +83,8 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
       startingMonth: Moment(this.monthString)
         .endOf('month')
         .format('YYYY-MM-DD'),
-      locationUuids: ''
+      locationUuids: '',
+      isAggregated: false
     };
   }
 
@@ -126,5 +128,9 @@ export class PatientGainsFiltersComponent implements OnInit, OnChanges {
     });
 
     this.locationsSet.emit(this.selectedlocationUuids);
+  }
+
+  public onAggregateChange(value) {
+    this.isAggregateSet.emit(value.isAggregated);
   }
 }
