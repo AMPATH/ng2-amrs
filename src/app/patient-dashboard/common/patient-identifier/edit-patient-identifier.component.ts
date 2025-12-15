@@ -399,6 +399,23 @@ export class EditPatientIdentifierComponent implements OnInit, OnDestroy {
     this.router.navigate(['/feed-back']);
   }
 
+  public generatePatientIdentifier() {
+    this.patientCreationResourceService
+      .generateIdentifier(this.userId)
+      .pipe(take(1))
+      .subscribe(
+        (data: any) => {
+          this.patientIdentifier = data.identifier;
+          this.checkUniversal = false;
+        },
+        (error) => {
+          this.showErrorAlert = true;
+          this.errorAlert = 'Error generating identifier';
+          console.error('Error generating identifier:', error);
+        }
+      );
+  }
+
   public updatePatientIdentifier(isVerifyDialog?: Boolean) {
     const person = {
       uuid: this.patients.person.uuid
