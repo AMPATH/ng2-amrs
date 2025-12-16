@@ -226,6 +226,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "register",
+          "label": "Registers",
+          "icon": "fa fa-list-alt",
+          "isSideBarOpen": false
+        },
+        {
           "url": "select-department",
           "label": "Change Department",
           "icon": "fa fa-exchange",
