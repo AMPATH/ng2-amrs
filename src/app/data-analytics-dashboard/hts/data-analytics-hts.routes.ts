@@ -6,6 +6,7 @@ import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrol
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
 import { AdminDashboardClinicFlowComponent } from '../hiv/clinic-flow/admin-dashboard-clinic-flow';
+import { HtsrefferallinkageRegisterComponent } from './hts-registers/htsrefferallinkage-register/htsrefferallinkage-register.component';
 const routes: Routes = [
   {
     path: 'clinic-flow',
@@ -37,12 +38,13 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'register', component: HtsrefferallinkageRegisterComponent },
   {
     path: 'select-department',
     component: ChangeDepartmentComponent
   }
 ];
 
-export const DataAnalyticsDashboardOncologyRouting: ModuleWithProviders = RouterModule.forChild(
+export const dataAnalyticsDashboardHtsRouting: ModuleWithProviders = RouterModule.forChild(
   routes
 );

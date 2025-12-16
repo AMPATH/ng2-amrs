@@ -1,0 +1,57 @@
+<h4 class="component-title"><span class="fa fa-medkit"></span> HTS Summary</h4>
+<busy *ngIf="loadingSummary" [message]="'Please Wait...'"></busy>
+
+<div *ngFor="let error of errors" class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    ×
+  </button>
+  {{ error.message }}
+</div>
+
+<div *ngIf="summaryData">
+  <ul class="list-group">
+    <li class="list-group-item" style="font-size: large">
+      Last Test Result: {{ summaryData.last_test_result }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Testing Date:
+      {{ (summaryData.testing_date | date: 'dd/MM/yyyy') || '--' }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Testing Strategy: {{ summaryData.testing_strategy }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Client Type: {{ summaryData.client_type }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Entry Point: {{ summaryData.entry_point }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Consent Given: {{ summaryData.consent_given }}
+    </li>
+    <li class="list-group-item" style="font-size: large">
+      Provider: {{ summaryData.provider }}
+    </li>
+    <li class="list-group-item">
+      <span class="hts-text-bold">Linkage Status:</span>
+      <span
+        class="hts-badge"
+        [ngClass]="{
+          'linkage-status-linked':
+            summaryData.linkage_status === 'Client Linked',
+          'linkage-status-not-linked':
+            summaryData.linkage_status === 'Client Not Linked',
+          'linkage-status-not-applicable':
+            summaryData.linkage_status === 'Not Applicable' ||
+            !summaryData.linkage_status
+        }"
+      >
+        {{ summaryData.linkage_status || 'Not Available' }}
+      </span>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="!summaryData && !loadingSummary">
+  <p class="alert alert-danger">No HTS Summary Data Available</p>
+</div>

@@ -312,6 +312,9 @@ export class GeneralLandingPageComponent implements OnInit, OnDestroy {
     if (programGroup.cdm) {
       newArr.push(_.max(programGroup.cdm));
     }
+    if (programGroup.hts) {
+      newArr.push(_.max(programGroup.hts));
+    }
     this.lastEnrolledPrograms = newArr;
   }
 
