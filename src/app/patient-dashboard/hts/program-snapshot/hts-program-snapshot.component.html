@@ -1,0 +1,85 @@
+<div class="snapshot">
+  <div *ngIf="hasError">
+    <p class="alert alert-error text-error">
+      Error generating HTS program snapshot
+    </p>
+  </div>
+  <div *ngIf="!hasData && !hasError && hasLoadedData">
+    <p class="alert alert-warning">
+      No patient data to generate HTS program snapshot
+    </p>
+  </div>
+  <div *ngIf="hasData && !hasError">
+    <div class="snapshot-summary">
+      <h4 class="component-title">Last Encounter</h4>
+      <div class="col-md-12">
+        <div class="full-width" *ngIf="!latestEncounterLocation">
+          <p>
+            Location:
+            <span>{{ latestHTSEncounterDetails?.location_name || '--' }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="snapshot-body">
+        <!-- <div *ngIf="summaryData"></div> -->
+        <div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-xs-12">
+              <p>
+                HIV Test Result:
+                <span>{{
+                  latestHTSEncounterDetails?.hiv_test_1_results || '--'
+                }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-xs-12">
+              <p>
+                Date of Last HIV Test:
+                <span>
+                  {{
+                    (latestHTSEncounterDetails?.date_of_last_hiv_test
+                      | date: 'dd/MM/yyyy') || '--'
+                  }}</span
+                >
+              </p>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <p>
+                Date of Initial HIV Test:
+                <span>
+                  {{
+                    (latestHTSEncounterDetails?.date_of_initial_hiv_test
+                      | date: 'dd/MM/yyyy') || '--'
+                  }}</span
+                >
+              </p>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <p>
+                Type of HIV Tests: ({{
+                  latestHTSEncounterDetails?.rapid_antibody_results || '--'
+                }})
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-md-6 col-xs-12"
+            *ngIf="latestHTSEncounterDetails?.hiv_test_1_results === 'POSITIVE'"
+          >
+            <p>
+              Retest Results:
+              {{ latestHTSEncounterDetails?.final_results || '--' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!hasLoadedData && !hasError">
+    <p>Loading patient data here....</p>
+  </div>
+</div>
