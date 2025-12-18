@@ -95,7 +95,7 @@ export class CommunityGroupService {
     let group: any;
     const params = new HttpParams().set(
       'v',
-      'custom:(attributes,auditInfo,cohortLeaders,cohortType,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
+      'custom:(attributes,auditInfo,cohortLeaders,cohortType,cohortVisits,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
     );
     const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
     return this.http

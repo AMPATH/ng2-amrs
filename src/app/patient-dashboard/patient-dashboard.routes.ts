@@ -30,7 +30,7 @@ import { GroupEnrollmentSummaryComponent } from './group-enrollment/group-enroll
 import { OncologySummaryComponent } from './oncology/oncology-summary/oncology-summary.component';
 import { OvcSnapshotComponent } from './common/ovc-snapshot/ovc-snapshot.component';
 import { OtzSnapshotComponent } from './common/otz-snapshot/otz-snapshot.component';
-
+import { HtsSummaryComponent } from './hts/hts-summary/hts-summary.component';
 export const routes = [
   {
     path: '',
@@ -71,7 +71,7 @@ export const routes = [
           {
             // HTS Landing Page
             path: 'hts/:program/landing-page',
-            component: GeneralLandingPageComponent
+            component: HtsSummaryComponent
           },
           {
             path: 'cdm/:program/landing-page', // CDM Landing Page

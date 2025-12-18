@@ -15,6 +15,7 @@ import { GroupSearchInputComponent } from './group-manager-search/group-search-i
 import { PatientSearchModule } from '../patient-search/patient-search.module';
 import { CohortOtzModuleResourceService } from '../etl-api/cohort-otz-module-resource.service';
 import { MedicationDeliveryResourceService } from '../etl-api/medication-delivery-list.service';
+import { HTSModuleResourceService } from '../etl-api/hts-module-resource.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MedicationDeliveryResourceService } from '../etl-api/medication-deliver
   providers: [
     DatePipe,
     CohortOtzModuleResourceService,
-    MedicationDeliveryResourceService
+    MedicationDeliveryResourceService,
+    HTSModuleResourceService
   ],
   entryComponents: [
     DatePickerModalComponent,
