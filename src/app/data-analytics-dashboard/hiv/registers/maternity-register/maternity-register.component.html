@@ -1,0 +1,1206 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        (onMonthChange)="onMonthChange($event)"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div style="padding: 20px; font-size: 12px !important" #contentToSnapshot>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>MOH 333 Maternity Register</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th rowspan="6">
+            Date of<br />
+            Admission <br />
+            (dd/mm/yyyy)
+          </th>
+          <th>Admission number (yyyy-mm-nnnn)</th>
+          <th rowspan="6">
+            Full Name<br />
+            (First, Middle, surname)
+          </th>
+          <th>
+            Date of Birth <br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="6">
+            County/ <br />
+            Subcounty
+          </th>
+          <th>
+            Village/<br />
+            Estate/<br />
+            Land mark
+          </th>
+          <th rowspan="6">
+            Marital Status <br />
+            1 = Married<br />
+            2 = Widowed <br />
+            3 = Single<br />
+            4 = Divorced<br />
+            5 = Separated
+          </th>
+          <th rowspan="6">
+            Parity<br />
+            (X+Y)
+          </th>
+          <th rowspan="6">Gravidae</th>
+          <th rowspan="6">
+            No. of <br />
+            ANC <br />
+            visits
+          </th>
+          <th rowspan="6">
+            Date of Last<br />
+            Menstrual<br />
+            Period (LMP) <br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="6">
+            Estimated Date <br />
+            of Delivery<br />
+            (EDD)<br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="6">Diagnosis</th>
+          <th colspan="13">Delivery</th>
+          <th colspan="9"></th>
+          <th>
+            VDRL/<br />
+            RPR<br />
+            Results<br />
+            (Specify<br />
+            1-VDRL<br />
+            2-RPR<br />
+            3-Duo<br />
+            testing)
+          </th>
+          <th colspan="4">Baby</th>
+          <th>
+            Maternal <br />
+            HAART
+          </th>
+          <th>
+            Infant <br />
+            Prophylaxis
+          </th>
+          <th>
+            Partner <br />
+            Tested for <br />
+            HIV
+          </th>
+          <th rowspan="6">
+            Counselled <br />
+            on infant <br />
+            feeding <br />
+            (Y/N/NA)
+          </th>
+          <th rowspan="6">
+            Delivery <br />
+            Conducted by <br />
+            (Enter Name)
+          </th>
+          <th rowspan="6">
+            Birth <br />
+            Notification <br />
+            Number
+          </th>
+          <th colspan="2">Discharge</th>
+          <th colspan="3">Referral</th>
+          <th rowspan="6">Comments</th>
+        </tr>
+        <tr>
+          <th rowspan="5">NUPI</th>
+          <th rowspan="5">Age</th>
+          <th rowspan="5">Phone number</th>
+          <th rowspan="5">
+            Duration of <br />
+            labour<br />
+            (hours)
+          </th>
+          <th rowspan="5">
+            Date of<br />
+            Delivery <br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="5">
+            Time of<br />
+            Delivery
+          </th>
+          <th rowspan="5">
+            Gestation<br />
+            at Birth<br />
+            (wks)
+          </th>
+          <th rowspan="5">
+            Mode of <br />
+            Delivery <br />
+            1) SVD<br />
+            2) CS<br />
+            3) Breech<br />
+            4) AVD
+          </th>
+          <th rowspan="5">
+            No.of babies <br />
+            delivered
+          </th>
+          <th rowspan="5">
+            Placenta<br />
+            Complete <br />
+            1=Yes<br />
+            2=No<br />
+            3=BBA
+          </th>
+          <th rowspan="5">
+            Uterotonic <br />
+            given <br />
+            1=oxytocin <br />
+            2=Carbetocin <br />
+            3=Others <br />
+            Specify<br />
+            4= None
+          </th>
+          <th rowspan="5">
+            Vaginal<br />
+            Examination<br />
+            1= Normal<br />
+            2=Episiotomy<br />
+            3=Vaginal tear<br />
+            4=FGM<br />
+            5=Vaginal warts
+          </th>
+          <th rowspan="5">
+            Blood<br />
+            loss<br />
+            (mls)
+          </th>
+          <th rowspan="5">
+            Mother's <br />
+            status after <br />
+            Delivery<br />
+            (Alive/ <br />
+            Dead)
+          </th>
+          <th>
+            Maternal deaths <br />
+            Notified <br />
+            (Y/N/NA)
+          </th>
+          <th rowspan="5">
+            Delivery<br />
+            Complications<br />
+            1=A.P.H. (Ante Partum <br />
+            Haemorrhage); <br />
+            2=P.P.H. (Post Partum <br />
+            Haemorrhage); <br />
+            3= Eclampsia; <br />
+            4=Ruptured Uterus;<br />
+            5=Obstructed labour; <br />
+            6=Sepsis <br />
+            7= NA
+          </th>
+          <th rowspan="5">
+            APGAR <br />
+            Score
+          </th>
+          <th rowspan="5">
+            Birth<br />
+            Outcome<br />
+            (LB/FSB/ <br />
+            MSB)
+          </th>
+          <th rowspan="5">
+            Birth <br />
+            Weight<br />
+            (grams)
+          </th>
+          <th rowspan="5">
+            Sex <br />
+            (M/F)
+          </th>
+          <th>
+            Initiated on <br />
+            BF in<br />
+            < 1hr<br />
+            (Y/N)
+          </th>
+          <th rowspan="5">
+            TEO<br />
+            given at<br />
+            birth? <br />
+            (Y/N)
+          </th>
+          <th rowspan="5">
+            Chlorhexidine <br />
+            applied on <br />
+            cord stump<br />
+            (Y/N)
+          </th>
+          <th>
+            Birth with <br />
+            deformity <br />
+            (Y/N)
+          </th>
+          <th rowspan="5">
+            Given<br />
+            Vitamin <br />
+            K <br />
+            (Y/N)
+          </th>
+          <th rowspan="5">(P/N/ND)</th>
+          <th>HIV Test 1</th>
+          <th>HIV Test 2</th>
+          <th>HIV Test 3</th>
+          <th>
+            HIV Result <br />
+            Maternity <br />
+            (N/P/Inc/U/NA)
+          </th>
+          <th>
+            Start at <br />
+            Maternity
+          </th>
+          <th rowspan="5">(Y/N/NA)</th>
+          <th rowspan="5">(Y/N/NA)</th>
+          <th rowspan="5">
+            Date <br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="5">
+            Status of <br />
+            Baby<br />
+            A= Alive<br />
+            D= Dead
+          </th>
+          <th>From</th>
+          <th>To</th>
+          <th rowspan="5">Reason for referral</th>
+        </tr>
+        <tr>
+          <th rowspan="4">
+            Date Death <br />
+            notified
+          </th>
+          <th rowspan="4">
+            Kangaroo <br />
+            Mother <br />
+            Care <br />
+            (Y/N)
+          </th>
+          <th rowspan="4">
+            1- congenital <br />
+            syphilis.<br />
+            2- spina bifida, <br />
+            3- Hydrocephalus,<br />
+            4- Talipes
+          </th>
+          <th>Kit Name:</th>
+          <th>Kit Name:</th>
+          <th>Kit Name:</th>
+          <th rowspan="4">
+            Initial/Retest/<br />
+            NA
+          </th>
+          <th rowspan="4">(Y/N/NA)</th>
+          <th rowspan="4">
+            1= From Community <br />
+            Unit,<br />
+            2= From Another<br />
+            Health Facility, <br />
+            3=Not Applicable
+          </th>
+          <th rowspan="4">
+            1= To Community<br />
+            Unit, <br />
+            2=Referred to HIV <br />
+            preventive services<br />
+            3=Another Health <br />
+            Facility,<br />
+            4=Not Applicable
+          </th>
+        </tr>
+        <tr>
+          <th>Lot No.</th>
+          <th>Lot No.</th>
+          <th>Lot No.</th>
+        </tr>
+        <tr>
+          <th>Expiry / /</th>
+          <th>Expiry / /</th>
+          <th>Expiry / /</th>
+        </tr>
+        <tr>
+          <th>(N/P/I/NA)</th>
+          <th>(N/P/I/NA)</th>
+          <th>(N/P/I/NA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">(a)</td>
+          <td class="text-center">(b)</td>
+          <td class="text-center">(c)</td>
+          <td class="text-center">(d)</td>
+          <td class="text-center">(e)</td>
+          <td class="text-center">(f)</td>
+          <td class="text-center">(g)</td>
+          <td class="text-center">(h)</td>
+          <td class="text-center">(i)</td>
+          <td class="text-center">(j)</td>
+          <td class="text-center">(k)</td>
+          <td class="text-center">(l)</td>
+          <td class="text-center">(m)</td>
+          <td class="text-center">(n)</td>
+          <td class="text-center">(o)</td>
+          <td class="text-center">(p)</td>
+          <td class="text-center">(q)</td>
+          <td class="text-center">(r)</td>
+          <td class="text-center">(s)</td>
+          <td class="text-center">(t)</td>
+          <td class="text-center">(u)</td>
+          <td class="text-center">(v)</td>
+          <td class="text-center">(w)</td>
+          <td class="text-center">(x)</td>
+          <td class="text-center">(y)</td>
+          <td class="text-center">(z)</td>
+          <td class="text-center">(aa)</td>
+          <td class="text-center">(ab)</td>
+          <td class="text-center">(ac)</td>
+          <td class="text-center">(ad)</td>
+          <td class="text-center">(ae)</td>
+          <td class="text-center">(af)</td>
+          <td class="text-center">(ag)</td>
+          <td class="text-center">(ah)</td>
+          <td class="text-center">(ai)</td>
+          <td class="text-center">(aj)</td>
+          <td colspan="3" class="text-center">(ak)</td>
+          <td class="text-center">(al)</td>
+          <td class="text-center">(am)</td>
+          <td class="text-center">(an)</td>
+          <td class="text-center">(ao)</td>
+          <td class="text-center">(ap)</td>
+          <td class="text-center">(aq)</td>
+          <td class="text-center">(ar)</td>
+          <td class="text-center">(as)</td>
+          <td class="text-center">(at)</td>
+          <td class="text-center">(au)</td>
+          <td class="text-center">(av)</td>
+          <td class="text-center">(aw)</td>
+          <td class="text-center">(ax)</td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+        <tr>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+          <td class="text-center" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+      </tbody>
+    </table>
+    <tr>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+    </tr>
+    <tr>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+    </tr>
+    <tr>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+      <td class="text-center" rowspan="2"></td>
+    </tr>
+    <tr>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+    </tr>
+  </div>
+</div>
