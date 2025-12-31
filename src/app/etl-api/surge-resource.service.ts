@@ -50,7 +50,7 @@ export class SurgeResourceService {
           `${this.url}surge-report-patient-list?indicators=${
             params.indicators
           }&year_week=${Moment(params.year_week).format(
-            'YYYYWW'
+            'GGGGWW'
           )}&locationUuids=${params.locationUuids}`
         )
         .pipe(
