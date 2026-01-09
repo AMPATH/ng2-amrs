@@ -1,0 +1,178 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+
+<div
+  class="btn-group pull-left"
+  *ngIf="
+    defaulterTracingRegisterData && defaulterTracingRegisterData.length > 0
+  "
+>
+  <button
+    class="btn btn-primary"
+    (click)="takeSnapshotAndExport()"
+    [disabled]="defaulterTracingRegisterData.length == 0"
+  >
+    <i class="fa fa-download"> </i> Download Pdf
+  </button>
+</div>
+<br />
+<div
+  *ngIf="
+    defaulterTracingRegisterData &&
+    defaulterTracingRegisterData.length > 0 &&
+    generated
+  "
+  style="padding: 20px; font-size: 12px !important"
+  #defaulterTracingcontentToSnapshot
+>
+  <div
+    style="padding: 20px; font-size: 12px !important"
+    #defaulterTracingcontentToSnapshot
+  >
+    <div class="table-responsive">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th colspan="9" class="text-center">
+              Defaulter Tracing Register<br />
+              Enter all current clients that did not come for their scheduled
+              appointment
+            </th>
+          </tr>
+          <tr>
+            <th colspan="5" class="text-center">Section A</th>
+            <th></th>
+            <th colspan="2" class="text-center">Section B</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th colspan="5" class="text-center">Client Tracking Information</th>
+            <th></th>
+            <th colspan="2" class="text-center">Defaulter Tracing Outcomes</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th class="text-center">(a)</th>
+            <th class="text-center">(b)</th>
+            <th class="text-center">(c)</th>
+            <th class="text-center">(d)</th>
+            <th class="text-center">(e)</th>
+            <th class="text-center">(f)</th>
+            <th class="text-center">(g)</th>
+            <th class="text-center">(h)</th>
+            <th class="text-center">(i)</th>
+          </tr>
+          <tr>
+            <th rowspan="2" class="text-center">S/No.</th>
+            <th class="text-center">
+              Client Identification /<br />
+              Number
+            </th>
+            <th rowspan="2" class="text-center">
+              Client Name<br />
+              (First,Middle,Last)
+            </th>
+            <th rowspan="2" class="text-center">
+              Village/Estate/<br />
+              Landmark
+            </th>
+            <th rowspan="2" class="text-center">Telephone number</th>
+            <th rowspan="2" class="text-center">
+              Date of missed<br />
+              appointment
+            </th>
+            <th rowspan="2" class="text-center">
+              Return to Care/<br />
+              Dead/<br />
+              Transferred/<br />
+              Stopped Treatment/<br />
+              On follow up
+            </th>
+            <th rowspan="2" class="text-center">
+              Date of outcome<br />
+              (dd/mm/yyyy)
+            </th>
+            <th rowspan="2" class="text-center">Remarks</th>
+          </tr>
+          <tr>
+            <th class="text-center">
+              Unique Patient<br />
+              Number (NUPI)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container
+            *ngFor="let data of defaulterTracingRegisterData; let a = index"
+          >
+            <tr>
+              <td rowspan="2">{{ a + 1 }}</td>
+              <td>{{ data.client_id_No }}</td>
+              <td rowspan="2">
+                {{ data.first_name }} {{ data.middle }} {{ data.last_name }}
+              </td>
+              <td rowspan="2" style="max-width: 250px">{{ data.village }}</td>
+              <td rowspan="2">{{ data.telephone_number }}</td>
+              <td rowspan="2">
+                {{ data.date_of_missed_appointment | date: 'dd/MM/yyyy' }}
+              </td>
+              <td rowspan="2">{{ data.defaulter_tracing_outcomes }}</td>
+              <td rowspan="2">
+                {{ data.date_of_outcomes | date: 'dd/MM/yyyy' }}
+              </td>
+              <td rowspan="2" style="max-width: 350px">{{ data.outcomes }}</td>
+            </tr>
+            <tr>
+              <td>{{ data.nupi }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="defaulterTracingRegisterData.length == 0 && generated">
+    <i class="alert alert-danger">No record found</i>
+  </div>
+</div>
