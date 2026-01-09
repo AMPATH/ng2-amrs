@@ -277,6 +277,12 @@
           "isSideBarOpen": false
         },
         {
+          "url": "pt4a-peer",
+          "label": "PT4A Peer",
+          "icon": "fa fa-th-large",
+          "isSideBarOpen": false
+        },
+        {
           "url": "department-select",
           "label": "Change Department",
           "icon": "fa fa-exchange",

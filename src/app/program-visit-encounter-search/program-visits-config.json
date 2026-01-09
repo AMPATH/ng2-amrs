@@ -810,5 +810,30 @@
         ]
       }
     ]
+  },
+  "fd7e9fc1-690d-4179-b630-1d292beb2006": {
+    "name": "PT4A PROGRAM",
+    "dataDependencies": [
+      "patient",
+      "enrollment",
+      "hivLastTenClinicalEncounters",
+      "patientEnrollment",
+      "patientEncounters",
+      "isPatientTransferredOut",
+      "latestCovidAssessment"
+    ],
+    "incompatibleWith": [],
+    "visitTypes": [
+      {
+        "uuid": "b721427d-55e5-48f8-9e79-1e8c5ffc0716",
+        "name": "PT4A Peer Visit",
+        "encounterTypes": [
+          {
+            "uuid": "7d3a8d87-3fae-4727-8065-99e4c514585d",
+            "display": "PT4APEER"
+          }
+        ]
+      }
+    ]
   }
 }

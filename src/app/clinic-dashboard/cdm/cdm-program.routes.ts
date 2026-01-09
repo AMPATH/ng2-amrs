@@ -14,6 +14,7 @@ import { PatientsProgramEnrollmentComponent } from '../../patients-program-enrol
 import { ProgramEnrollmentPatientListComponent } from '../../patients-program-enrollment/program-enrollent-patient-list.component';
 import { ClinicLabOrdersComponent } from '../general/clinic-lab-orders/clinic-lab-orders.component';
 import { ChangeDepartmentComponent } from '../change-department/change-department.component';
+import { Pt4aComponent } from './pt4a/pt4a.component';
 const routes: Routes = [
   {
     path: 'daily-schedule',
@@ -67,6 +68,7 @@ const routes: Routes = [
     loadChildren:
       '../referral/patient-referral-program.module#PatientReferralProgramModule'
   },
+  { path: 'pt4a-peer', component: Pt4aComponent },
   {
     path: 'department-select',
     component: ChangeDepartmentComponent

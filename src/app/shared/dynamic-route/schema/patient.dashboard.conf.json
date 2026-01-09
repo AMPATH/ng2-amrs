@@ -658,6 +658,15 @@
       "shared-routes-class": "kvp",
       "requiresPatientEnrollment": true,
       "routes": []
+    },
+    {
+      "programName": "PT4A Program",
+      "programUuid": "fd7e9fc1-690d-4179-b630-1d292beb2006",
+      "baseRoute": "fd7e9fc1-690d-4179-b630-1d292beb2006",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true
     }
   ],
 
