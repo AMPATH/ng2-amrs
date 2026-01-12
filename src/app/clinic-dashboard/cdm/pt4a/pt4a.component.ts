@@ -20,10 +20,10 @@ export class Pt4aComponent implements OnInit {
   rowData: any[] = [];
 
   columnDefs = [
-    { headerName: 'NAME', field: 'name' },
-    { headerName: 'IDENTIFIER', field: 'identifier' },
-    { headerName: 'TCA', field: 'tca' },
-    { headerName: 'DRUG', field: 'drug' }
+    { headerName: 'NAME', field: 'name', width: 220 },
+    { headerName: 'IDENTIFIER', field: 'identifier', width: 200 },
+    { headerName: 'TCA', field: 'tca', width: 120 },
+    { headerName: 'DRUG', field: 'drug', width: 300 }
   ];
 
   constructor(
