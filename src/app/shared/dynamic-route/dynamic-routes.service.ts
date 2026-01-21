@@ -10,6 +10,7 @@ export class DynamicRoutesService {
   public patientRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public clinicRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public analyticsRoutes = new ReplaySubject<Array<RouteModel>>(1);
+  public registersRoutes = new ReplaySubject<Array<RouteModel>>(1);
   public selectedDepartment = 'HIV';
   public routesModel = {};
   public dashboardConfig: DashboardModel = null;
@@ -18,6 +19,7 @@ export class DynamicRoutesService {
   public patientDashboardConfig: object = require('./schema/patient.dashboard.conf.json');
   public patientListCohortConfig: object = require('./schema/patientlist.dashboard.conf.json');
   public providerDashboardConfig: object = require('./schema/provider.dashboard.conf.json');
+  public registersDashboardConfig: object = require('./schema/registers.dashboard.conf.json');
 
   constructor() {
     this.dashboardConfig = {
@@ -25,7 +27,8 @@ export class DynamicRoutesService {
       clinicDashboard: this.clinicDashboardConfig,
       patientDashboard: this.patientDashboardConfig,
       patientListCohorts: this.patientListCohortConfig,
-      providerDashboard: this.providerDashboardConfig
+      providerDashboard: this.providerDashboardConfig,
+      registersDashboard: this.registersDashboardConfig
     };
   }
 
@@ -41,6 +44,7 @@ export class DynamicRoutesService {
     this.patientRoutes.next(new Array<RouteModel>());
     this.clinicRoutes.next(new Array<RouteModel>());
     this.analyticsRoutes.next(new Array<RouteModel>());
+    this.registersRoutes.next(new Array<RouteModel>());
   }
 
   public setRoutes(route: DynamicRouteModel) {
@@ -65,6 +69,10 @@ export class DynamicRoutesService {
 
   public setAnalyticsDashBoardRoutes(aRoutes: Array<RouteModel>) {
     this.analyticsRoutes.next(aRoutes);
+  }
+
+  public setRegistersDashBoardRoutes(rRoutes: Array<RouteModel>) {
+    this.registersRoutes.next(rRoutes);
   }
 
   public extractRoutes(
