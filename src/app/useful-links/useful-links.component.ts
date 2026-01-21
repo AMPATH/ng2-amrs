@@ -41,7 +41,11 @@ export class UsefulLinksComponent implements OnInit {
     },
     {
       url: 'https://kmhfl.health.go.ke/#/home',
-      title: 'Facilities Referral Directory'
+      title: 'Kenya Master Health Facility Registry'
+    },
+    {
+      url: 'https://ushauri.nascop.org/directory',
+      title: 'Nascop Facility Directory'
     }
   ];
   constructor(private linksService: UsefulLinksService) {
