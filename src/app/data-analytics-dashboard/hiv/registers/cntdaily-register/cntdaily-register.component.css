@@ -1,0 +1,26 @@
+tr,
+.table-bordered th,
+.table-bordered td {
+  border: 2px solid #000; /* Darker border color */
+}
+tbody tr {
+  height: 20px; /* Adjust the height as per your design */
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.center {
+  vertical-align: middle;
+  font-weight: bold;
+  text-align: center;
+}
+
+.bold {
+  font-weight: bolder;
+}
+
+.right {
+  text-align: right;
+}

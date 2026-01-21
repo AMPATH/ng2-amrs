@@ -1,0 +1,23 @@
+tr,
+.table-bordered th,
+.table-bordered td {
+  border: 2px solid #000; /* Darker border color */
+}
+tbody tr {
+  height: 20px; /* Adjust the height as per your design */
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.summary {
+  display: flex;
+  gap: 5px;
+}
