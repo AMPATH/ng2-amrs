@@ -213,7 +213,8 @@ export class HivReferralComponent implements OnInit, OnChanges, OnDestroy {
           referredToStandard = true;
         } else if (
           this.referredHivProgram.uuid === Programs.PNC_PROGRAM.uuid ||
-          this.referredHivProgram.uuid === Programs.ANC_PROGRAM.uuid
+          this.referredHivProgram.uuid === Programs.ANC_PROGRAM.uuid ||
+          this.referredHivProgram.uuid === Programs.PMTCT_PROGRAM.uuid
         ) {
         } else {
           return {
