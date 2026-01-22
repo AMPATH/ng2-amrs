@@ -411,6 +411,20 @@ export class ClinicLabOrdersComponent implements OnInit, OnDestroy {
         pinned: true
       },
       {
+        headerName: 'CR',
+        field: 'cr_id',
+        width: 150,
+        filter: 'text',
+        pinned: true
+      },
+      {
+        headerName: 'SHA',
+        field: 'sha_id',
+        width: 150,
+        filter: 'text',
+        pinned: true
+      },
+      {
         headerName: 'Person Name',
         field: 'person_name',
         width: 120,
