@@ -1,0 +1,1005 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-table"></span>{{ reportName }}
+</h4>
+
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+
+<p-tabView>
+  <div>
+    <p-tabPanel header="Monthly" leftIcon="fa-calendar-o">
+      <report-filters
+        [enabledControls]="enabledControls"
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        (onMonthChange)="onMonthChange($event)"
+        [reportName]="reportName"
+        (generateReport)="generateReport()"
+      >
+      </report-filters>
+    </p-tabPanel>
+  </div>
+</p-tabView>
+
+<div class="alert alert-danger fade in" *ngIf="showInfoMessage">
+  <a href="#" class="close" data-dismiss="alert">&times;</a>
+  <h4 *ngIf="!statusError">
+    <strong><span class="glyphicon glyphicon-warning-sign"></span> </strong> An
+    error occurred while trying to load the report. Please try again.
+  </h4>
+  <p>
+    <small>{{ errorMessage }}</small>
+  </p>
+</div>
+<div *ngIf="!isReleased" class="alert alert-warning">
+  <strong>Viewing a Draft Version of the Report for the chosen month. </strong>
+  This report is likely to change without warning.
+</div>
+
+<div
+  *ngIf="pncSummaryData && pncSummaryData.length > 0"
+  style="padding: 20px; font-size: 12px !important"
+  #contentToSnapshot
+>
+  <div class="table-responsive">
+    <div class="row">
+      <div class="col-md-4">
+        <b>Ministry Of Health</b>
+      </div>
+      <div class="col-md-4 text-center">
+        <b>MOH 406 Post Natal Register</b>
+      </div>
+      <div class="col-md-4 text-right">
+        <b>Ver. July 2023</b>
+      </div>
+    </div>
+    <table class="table table-bordered text-centre">
+      <thead>
+        <tr>
+          <th colspan="8">Registration Information</th>
+          <th colspan="3">Maternity History</th>
+          <th colspan="2">Postpartum Visit</th>
+          <th colspan="3">Vital Signs</th>
+          <th colspan="8">Postnatal Examinations</th>
+          <th>TB screening</th>
+          <th colspan="6"></th>
+          <th colspan="4">HAART & Infant Prophylaxis and Treatment</th>
+          <th>
+            Cervical Cancer<br />
+            Screening<br />
+            (VIA/VILLI/PAP<br />
+            Smear/ND)
+          </th>
+          <th>
+            Modern Post<br />
+            Partum Family<br />
+            Planning<br />
+            (Y/N)
+          </th>
+          <th>
+            Other Maternal<br />
+            Complications
+          </th>
+          <th>
+            Haematinics<br />
+            (Y/N)
+          </th>
+          <th colspan="3">Refferals</th>
+          <th rowspan="7">Remarks</th>
+        </tr>
+        <tr>
+          <th rowspan="6">
+            Date of Visit<br />
+            (dd/mm/yyyy)
+          </th>
+          <th>
+            PNC Number<br />
+            (New Visit)
+          </th>
+          <th rowspan="6">
+            PNC Number/NUPI <br />
+            (Revisit)
+          </th>
+          <th rowspan="6">AMRSID</th>
+          <th rowspan="6">
+            Full Name(first name, middle and <br />
+            surname)
+          </th>
+          <th>
+            Date of Birth<br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="6">
+            County/ <br />
+            SubCounty
+          </th>
+          <th>Village/Estate/ Landmark</th>
+          <th rowspan="6">
+            Date of Delivery<br />
+            (dd/mm/yyyy)
+          </th>
+          <th rowspan="6">
+            Place of <br />
+            Delivery<br />
+            1)Facility <br />
+            2) Home<br />
+            3) BBA
+          </th>
+          <th rowspan="6">
+            Mode of<br />
+            Delivery<br />
+            1) SVD<br />
+            2) CS<br />
+            3) Breech<br />
+            4) AVD
+          </th>
+          <th>
+            Timing <br />
+            Mother
+          </th>
+          <th>Timing Baby</th>
+          <th rowspan="6">Temp</th>
+          <th rowspan="6">Pulse</th>
+          <th rowspan="6">
+            Blood <br />
+            Pressure
+          </th>
+          <th>
+            Pallor<br />
+            (Y/N)
+          </th>
+          <th rowspan="6">
+            Breast <br />
+            1=normal <br />
+            2= cracked<br />
+            nipple<br />
+            3=engorged <br />
+            4=mastitis
+          </th>
+          <th rowspan="6">
+            Uterus <br />
+            1=<br />
+            contracte d<br />
+            2= not<br />
+            contracte d <br />
+            3= Others<br />
+            Specify
+          </th>
+          <th rowspan="6">
+            PPH <br />
+            1=present<br />
+            2=Absent
+          </th>
+          <th rowspan="6">
+            C-Section Site <br />
+            1=Bleeding <br />
+            2=Normal <br />
+            3=Infected<br />
+            4=Gapping <br />
+            5=N/A
+          </th>
+          <th rowspan="6">
+            Lochia <br />
+            1=Normal <br />
+            2=Foul <br />
+            smelling <br />
+            3=Excessi <br />
+            ve
+          </th>
+          <th rowspan="6">
+            Episiotomy <br />
+            1=Repaired <br />
+            2=Gaping <br />
+            3=Infected <br />
+            4=Healed <br />
+            5=N/
+          </th>
+          <th rowspan="6">
+            Fistula <br />
+            1=VVF <br />
+            2=RVF <br />
+            3=VVR <br />
+            4=Non
+          </th>
+          <th>
+            TB Screening<br />
+            1: Presumed TB<br />
+            2: No signs<br />
+            3: On TB treatment<br />
+            4: On TPT<br />
+            5: Not done
+          </th>
+          <th>Tested PNC</th>
+          <th>HIV Test 1</th>
+          <th>HIV Test 2</th>
+          <th>HIV Test 3</th>
+          <th colspan="2">Results in PNC</th>
+          <th colspan="2"><=6wks</th>
+          <th colspan="2">>6wks</th>
+          <th>
+            Results<br />
+            1=Normal,<br />
+            2=Suspected,<br />
+            3= Confirmed,<br />
+            4= Not done
+          </th>
+          <th>
+            Counseled <br />
+            Method received
+          </th>
+          <th rowspan="6"></th>
+          <th rowspan="6"></th>
+          <th>From</th>
+          <th>To</th>
+          <th>
+            Reasons for <br />
+            referral <br />
+            (specify)
+          </th>
+        </tr>
+        <tr>
+          <th rowspan="6">NUPI</th>
+          <th rowspan="6">Age in Years</th>
+          <th rowspan="6">Telephone number</th>
+          <th rowspan="5">
+            1=no change, <br />
+            2=10 days to<br />
+            14 days; <br />
+            3=4 to 6 <br />
+            weeks; <br />
+            4=4 to 6 <br />
+            months
+          </th>
+          <th rowspan="5">
+            1=no change,<br />
+            2=10 days to <br />
+            14 days; <br />
+            3=4 to 6 <br />
+            weeks; <br />
+            4=4 to 6 <br />
+            months
+          </th>
+          <th rowspan="5">
+            1= mild;<br />
+            2= moderate;<br />
+            3= severe
+          </th>
+          <th rowspan="5"></th>
+          <th rowspan="5">(I/R/ND/KP)</th>
+          <th>Kit Name:</th>
+          <th>Kit Name:</th>
+          <th>Kit Name:</th>
+          <th><=6wks</th>
+          <th>>6wks</th>
+          <th>Infant</th>
+          <th>Mother</th>
+          <th>Infant</th>
+          <th>Mother</th>
+          <th rowspan="5"></th>
+          <th rowspan="5"></th>
+          <th>
+            1 = Community Unit<br />
+            2 = Another Health<br />
+            Facility<br />
+            3 = Not Applicable
+          </th>
+          <th>
+            1 = Community Unit<br /><br />
+            2 = Another Health<br />
+            Facility<br />
+            3 = Not Applicable
+          </th>
+          <th rowspan="5"></th>
+        </tr>
+        <tr>
+          <th>Lot No.</th>
+          <th>Lot No.</th>
+          <th>Lot No.</th>
+          <th rowspan="4">(N/P/Ic/NA)</th>
+          <th rowspan="4">(N/P/Ic/NA)</th>
+          <th>
+            NVP +AZT<br />
+            +CTX<br />
+            or<br />
+            NVP +CTX
+          </th>
+          <th>HAART</th>
+          <th>
+            NVP +AZT<br />
+            +CTX<br />
+            or<br />
+            NVP +CTX
+          </th>
+          <th>HAART</th>
+          <th rowspan="4"></th>
+          <th rowspan="4"></th>
+        </tr>
+        <tr>
+          <th>Expiry No. / /</th>
+          <th>Expiry No. / /</th>
+          <th>Expiry No. / /</th>
+          <th rowspan="3">(Y/N/NA/R)</th>
+          <th rowspan="3">(Y/N/NA/R)</th>
+          <th rowspan="3">(Y/N/NA/R)</th>
+          <th rowspan="3">(Y/N/NA/R)</th>
+        </tr>
+        <tr>
+          <th rowspan="2">(N,P,I,NA)</th>
+          <th rowspan="2">(N,P,I,NA)</th>
+          <th rowspan="2">(N,P,I,NA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">(a)</td>
+          <td class="text-center">(b)</td>
+          <td class="text-center">(c)</td>
+          <td class="text-center">(d)</td>
+          <td class="text-center">(e)</td>
+          <td class="text-center">(f)</td>
+          <td class="text-center">(g)</td>
+          <td class="text-center">(h)</td>
+          <td class="text-center">(i)</td>
+          <td class="text-center">(j)</td>
+          <td class="text-center">(k)</td>
+          <td class="text-center">(l)</td>
+          <td class="text-center">(m)</td>
+          <td class="text-center">(n)</td>
+          <td class="text-center">(o)</td>
+          <td class="text-center">(p)</td>
+          <td class="text-center">(q)</td>
+          <td class="text-center">(r)</td>
+          <td class="text-center">(s)</td>
+          <td class="text-center">(t)</td>
+          <td class="text-center">(u)</td>
+          <td class="text-center">(v)</td>
+          <td class="text-center">(w)</td>
+          <td class="text-center">(x)</td>
+          <td class="text-center">(y)</td>
+          <td class="text-center">(z)</td>
+          <td class="text-center">(aa)</td>
+          <td class="text-center">(ab)</td>
+          <td class="text-center">(ac)</td>
+          <td class="text-center">(ad)</td>
+          <td class="text-center">(ae)</td>
+          <td class="text-center">(af)</td>
+          <td class="text-center">(ag)</td>
+          <td class="text-center">(ah)</td>
+          <td class="text-center">(ai)</td>
+          <td class="text-center">(aj)</td>
+          <td class="text-center">(ak)</td>
+          <td class="text-center">(al)</td>
+          <td class="text-center">(am)</td>
+          <td class="text-center">(an)</td>
+          <td class="text-center">(ao)</td>
+          <td class="text-center">(ap)</td>
+          <td class="text-center">(aq)</td>
+        </tr>
+        <ng-container *ngFor="let data of pncSummaryData; let a = index">
+          <tr>
+            <td class="text-center" rowspan="2">
+              {{ data.date_of_visit | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center">{{ data.pnc_number }}</td>
+            <td class="text-center" rowspan="2">{{ data.pnc_number }}</td>
+            <td class="text-center" rowspan="2">{{ data.amrsID }}</td>
+            <td class="text-center" rowspan="2">{{ data.full_names }}</td>
+            <td class="text-center">
+              {{ data.date_of_birth | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.subcounty_county }}</td>
+            <td class="text-center">{{ data.village_estate_landmark }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.date_of_delivery | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.place_of_delivery }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.mode_of_delivery }}</td>
+            <td class="text-center" rowspan="2">{{ data.timing_mother }}</td>
+            <td class="text-center" rowspan="2">{{ data.timing_baby }}</td>
+            <td class="text-center" rowspan="2">{{ data.temperature }}</td>
+            <td class="text-center" rowspan="2">{{ data.pulse }}</td>
+            <td class="text-center" rowspan="2">{{ data.blood_pressure }}</td>
+            <td class="text-center">{{ data.pallor_present }}</td>
+            <td class="text-center" rowspan="2">{{ data.breast }}</td>
+            <td class="text-center" rowspan="2">{{ data.uterus }}</td>
+            <td class="text-center" rowspan="2">{{ data.pph }}</td>
+            <td class="text-center" rowspan="2">{{ data.c_section_site }}</td>
+            <td class="text-center" rowspan="2">{{ data.lochia }}</td>
+            <td class="text-center" rowspan="2">{{ data.episiotomy }}</td>
+            <td class="text-center" rowspan="2">{{ data.fistula }}</td>
+            <td class="text-center" rowspan="2">{{ data.tb_screening }}</td>
+            <td class="text-center" rowspan="2">{{ data.tested_pnc }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_1_kit_name }}/ {{ data.hiv_test_1_lot_no }} /
+              {{ data.hiv_test_1_expiry_date }} /
+              {{ data.hiv_test_1_test_result }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_2_kit_name }}/ {{ data.hiv_test_2_lot_no }} /
+              {{ data.hiv_test_2_expiry_date }} /
+              {{ data.hiv_test_1_test_result }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.hiv_test_3_kit_name }}/ {{ data.hiv_test_3_lot_no }} /
+              {{ data.hiv_test_3_expiry_date }} /
+              {{ data.hiv_test_1_test_result }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.results_less_6_weeks }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.results_greater_6_weeks }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.infant_prophylaxis_less_6_weeks }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.maternal_haart_less_6_weeks }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.infant_prophylaxis_greater_6_weeks }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.maternal_haart_greater_6_weeks }}
+            </td>
+            <td class="text-center">{{ data.cervical_cancer_method }}</td>
+            <td class="text-center">{{ data.counselled }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.other_maternal_complications }}
+            </td>
+            <td class="text-center" rowspan="2">{{ data.haematinics }}</td>
+            <td class="text-center" rowspan="2">{{ data.referrals_from }}</td>
+            <td class="text-center" rowspan="2">{{ data.referrals_to }}</td>
+            <td class="text-center" rowspan="2">
+              {{ data.reason_for_referral }}
+            </td>
+            <td class="text-center" rowspan="2">
+              {{ data.remarks }}
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">{{ data.nupi }}</td>
+            <td class="text-center">{{ data.age }}</td>
+            <td class="text-center">{{ data.phone_number }}</td>
+            <td class="text-center">{{ data.pallor }}</td>
+            <td class="text-center">{{ data.cervical_cancer_results }}</td>
+            <td class="text-center">{{ data.family_planning_method }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div
+    *ngIf="pncSummaryData && pncSummaryData.length > 0"
+    class="summary table-responsive"
+  >
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr class="highlighted-row">
+            <th>CLIENT AGE (f)</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10-14yrs</td>
+            <td>{{ calculateAgeTotal(pncSummaryData, 10, 14) }}</td>
+          </tr>
+          <tr>
+            <td>15-19yrs</td>
+            <td>{{ calculateAgeTotal(pncSummaryData, 15, 19) }}</td>
+          </tr>
+          <tr>
+            <td>20-24yrs</td>
+            <td>{{ calculateAgeTotal(pncSummaryData, 20, 24) }}</td>
+          </tr>
+          <tr>
+            <td>25yrs Plus</td>
+            <td>{{ calculateAgeTotal(pncSummaryData, 25) }}</td>
+          </tr>
+          <tr>
+            <td>Totals</td>
+            <td>{{ pncSummaryData.length }}</td>
+          </tr>
+          <tr class="highlighted-row">
+            <th colspan="2">New PNC Visits (c)</th>
+          </tr>
+          <tr>
+            <td>PNC Revisit (d)</td>
+            <td>
+              {{
+                getPropertyTotals(
+                  pncSummaryData,
+                  'postpartum_visit_baby',
+                  'R'
+                ) +
+                  getPropertyTotals(
+                    pncSummaryData,
+                    'postpartum_visit_mother',
+                    'R'
+                  )
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td>Total PNC Visits</td>
+            <td>
+              {{
+                getPropertyTotals(
+                  pncSummaryData,
+                  'postpartum_visit_baby',
+                  'Y'
+                ) +
+                  getPropertyTotals(
+                    pncSummaryData,
+                    'postpartum_visit_mother',
+                    'Y'
+                  )
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="inner">
+      <div class="flex-item">
+        <table class="table table-bordered text-centre">
+          <thead>
+            <tr class="highlighted-row">
+              <th>PNC Visit Mother</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>New PNC Visit within 48 hours</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>New PNC Visit 3 days < 6 weeks</td>
+              <td>
+                {{
+                  getPropertyTotals(pncSummaryData, 'results_less_6_weeks', 'Y')
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td>New PNC Visit after 6 weeks</td>
+              <td>
+                {{
+                  getPropertyTotals(
+                    pncSummaryData,
+                    'results_greater_6_weeks',
+                    'Y'
+                  )
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex-item">
+        <table class="table table-bordered text-centre">
+          <thead>
+            <tr class="highlighted-row">
+              <th>PNC Visit Baby</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>New PNC Visit within 48 hours</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>New PNC Visit 3 days < 6 weeks</td>
+              <td>
+                {{
+                  getPropertyTotals(pncSummaryData, 'results_less_6_weeks', 'Y')
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td>New PNC Visit after 6 weeks</td>
+              <td>
+                {{
+                  getPropertyTotals(
+                    pncSummaryData,
+                    'results_greater_6_weeks',
+                    'Y'
+                  )
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr class="highlighted-row">
+            <th>Codes for Col (p)</th>
+            <th>Codes for Col (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1=Mild</td>
+            <td>1=Normal</td>
+          </tr>
+          <tr>
+            <td>2=Moderate</td>
+            <td>2=Cracked nipple</td>
+          </tr>
+          <tr>
+            <td>3=Servere</td>
+            <td>3=Engorged</td>
+          </tr>
+          <tr>
+            <td class="highlighted-row"></td>
+            <td>4=Mastitis</td>
+          </tr>
+          <tr class="highlighted-row">
+            <th>Codes for col (r)</th>
+            <th>Codes for Col (s)</th>
+          </tr>
+          <tr>
+            <td>1=Contracted</td>
+            <td>1=Present</td>
+          </tr>
+          <tr>
+            <td>2=Not Contracted</td>
+            <td>2=Absent</td>
+          </tr>
+          <tr>
+            <td>3=Other (Specify)</td>
+            <td class="highlighted-row"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr class="highlighted-row">
+            <th>Codes for Col (i)</th>
+            <th>Codes for Col (j)</th>
+            <th>Codes for Col (t)</th>
+            <th>Codes for Col (u)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>F=Facility</td>
+            <td>1=SVD</td>
+            <td>1=Bleeding</td>
+            <td>1=Normal</td>
+          </tr>
+          <tr>
+            <td>H=Home</td>
+            <td>2=CS</td>
+            <td>2=Normal</td>
+            <td>2=Foul smelling</td>
+          </tr>
+          <tr>
+            <td>BBA=Born Before Arrival</td>
+            <td>3=Breech</td>
+            <td>3=Infected</td>
+            <td>3=Excessive</td>
+          </tr>
+          <tr>
+            <td class="highlighted-row"></td>
+            <td>4=AVD</td>
+            <td>4=Gaping</td>
+            <td rowspan="2" class="highlighted-row"></td>
+          </tr>
+          <tr class="no-border-row">
+            <td colspan="2" class="no-border"></td>
+            <th>5=NA</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th class="highlighted-row">Codes for Col (v)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1=Repaired</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>2=Gaping</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>3=Infected</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>4=Healed</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>5=NA</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <tbody>
+          <tr>
+            <td>No. Tests at PNC: (ac) & (ad):</td>
+            <td>{{ getPropertyTotals(pncSummaryData, 'tested_pnc', 'Y') }}</td>
+          </tr>
+          <tr>
+            <td>No.HIV Positive results (ac) & (ad):</td>
+            <td>
+              {{
+                getPropertyTotals(pncSummaryData, 'hiv_test_results_pnc', 'P')
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td>No. Positive Adolescents 10-19 yrs_PNC (ac)(e) & (ad)(e)</td>
+            <td>
+              {{
+                getPropertyWithAgeTotals(
+                  pncSummaryData,
+                  'hiv_test_results_pnc',
+                  'P',
+                  10,
+                  19
+                )
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td>No. Started HAART Adolescents 10-19 yrs (af)(e) & (ah)(e)</td>
+            <td>
+              {{
+                getPropertyWithAgeTotals(
+                  pncSummaryData,
+                  'maternal_haart',
+                  'P',
+                  10,
+                  19
+                )
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td>No. Start HAART_PNC (af) & (ah):</td>
+            <td>
+              {{ getPropertyTotals(pncSummaryData, 'maternal_haart', 'Y') }}
+            </td>
+          </tr>
+          <tr>
+            <td>No.Infant ARV prophylaxis (ae) & (ag):</td>
+            <td>
+              {{ getPropertyTotals(pncSummaryData, 'infant_prophylaxis', 'Y') }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th>HIV TEST 1 (z)</th>
+            <th>NUMBER</th>
+          </tr>
+          <tr>
+            <th>N: Negative</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'N') }}
+            </th>
+          </tr>
+          <tr>
+            <th>P: Positive</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'P') }}
+            </th>
+          </tr>
+          <tr>
+            <th>I: Invalid</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'I') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Westage:</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'NA') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Total:</th>
+            <th>
+              {{
+                getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'N') +
+                  getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'P') +
+                  getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'I') +
+                  getHivTotals(pncSummaryData, 'hiv_test_1_test_result', 'NA')
+              }}
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th>HIV TEST 2 (aa)</th>
+            <th>NUMBER</th>
+          </tr>
+          <tr>
+            <th>N: Negative</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'N') }}
+            </th>
+          </tr>
+          <tr>
+            <th>P: Positive</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'P') }}
+            </th>
+          </tr>
+          <tr>
+            <th>I: Invalid</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'I') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Westage:</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'NA') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Total:</th>
+            <th>
+              {{
+                getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'N') +
+                  getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'P') +
+                  getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'I') +
+                  getHivTotals(pncSummaryData, 'hiv_test_2_test_result', 'NA')
+              }}
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th>HIV TEST 3 (ab)</th>
+            <th>NUMBER</th>
+          </tr>
+          <tr>
+            <th>N: Negative</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'N') }}
+            </th>
+          </tr>
+          <tr>
+            <th>P: Positive</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'P') }}
+            </th>
+          </tr>
+          <tr>
+            <th>I: Invalid</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'I') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Westage:</th>
+            <th>
+              {{ getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'NA') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Total:</th>
+            <th>
+              {{
+                getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'N') +
+                  getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'P') +
+                  getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'I') +
+                  getHivTotals(pncSummaryData, 'hiv_test_3_test_result', 'NA')
+              }}
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th>Screened for Cervical Cancer (PAP) (ai)</th>
+            <th>
+              {{
+                getCevicalCancerScreeningTotals(pncSummaryData, 'PAP S', 'P')
+              }}
+            </th>
+          </tr>
+          <tr>
+            <th>Screened for Cervical Cancer (VIA) (ai)</th>
+            <th>
+              {{ getCevicalCancerScreeningTotals(pncSummaryData, 'VIA', 'P') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Screened for Cervical Cancer (VILI) (ai)</th>
+            <th>
+              {{ getCevicalCancerScreeningTotals(pncSummaryData, 'VILI', 'P') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Screened for Cervical Cancer (HPV) (ai)</th>
+            <th>
+              {{ getCevicalCancerScreeningTotals(pncSummaryData, 'HPV', 'P') }}
+            </th>
+          </tr>
+          <tr>
+            <th>Received an FP method (ai)</th>
+            <th>{{ getPropertyTotals(pncSummaryData, 'ppfp_done', 'Y') }}</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="flex-item">
+      <table class="table table-bordered text-centre">
+        <thead>
+          <tr>
+            <th>Codes of Col (ai)</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>1=Normal</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>2=Suspected</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>3=Confirmed</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>4=ND if not done</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="pncSummaryData.length == 0 && generated"
+  class="text-center rounded"
+>
+  <i class="alert alert-info text-center" style="width: 100%"
+    >No record found</i
+  >
+</div>
