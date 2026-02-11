@@ -539,6 +539,16 @@
       "routes": []
     },
     {
+      "programName": "NCD PROGRAM",
+      "programUuid": "4b738a10-b952-4e62-b215-30520fd9e113",
+      "baseRoute": "4b738a10-b952-4e62-b215-30520fd9e113",
+      "alias": "cdm",
+      "published": true,
+      "shared-routes-class": "cdm",
+      "requiresPatientEnrollment": true,
+      "routes": []
+    },
+    {
       "programName": "Refferal Peer Navigator",
       "programUuid": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
       "baseRoute": "a15a58a4-0daa-4195-bf29-b4bccd5df01e",
