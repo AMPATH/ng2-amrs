@@ -539,7 +539,7 @@
       "routes": []
     },
     {
-      "programName": "NCD PROGRAM",
+      "programName": "NCD",
       "programUuid": "4b738a10-b952-4e62-b215-30520fd9e113",
       "baseRoute": "4b738a10-b952-4e62-b215-30520fd9e113",
       "alias": "cdm",
