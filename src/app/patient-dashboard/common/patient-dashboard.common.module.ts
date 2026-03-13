@@ -138,6 +138,8 @@ import { UserDefaultPropertiesService } from 'src/app/user-default-properties/us
 import { OtzSnapshotComponent } from './otz-snapshot/otz-snapshot.component';
 import { ProjectBeyondComponent } from './patient-info/project-beyond/project-beyond.component';
 import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.component';
+import { ConfirmModalComponent } from './formentry/confirm-modal.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
@@ -176,7 +178,8 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     PatientSearchModule,
     PatientReferralsModule,
     ProgramManagerModule,
-    GroupEnrollmentModule
+    GroupEnrollmentModule,
+    ModalModule.forRoot()
   ],
   exports: [
     PatientInfoComponent,
@@ -233,7 +236,8 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     EditOccupationComponent,
     PatientEducationComponent,
     AddPatientEducationComponent,
-    EditPatientEducationComponent
+    EditPatientEducationComponent,
+    ConfirmModalComponent
   ],
   declarations: [
     VisitSummaryComponent,
@@ -297,7 +301,8 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     OvcSnapshotComponent,
     OtzSnapshotComponent,
     ProjectBeyondComponent,
-    OtzConsentComponent
+    OtzConsentComponent,
+    ConfirmModalComponent
   ],
   providers: [
     {
@@ -339,6 +344,7 @@ import { OtzConsentComponent } from './patient-info/otz-consent/otz-consent.comp
     TodayVisitService,
     PatientTransferService,
     UserDefaultPropertiesService
-  ]
+  ],
+  entryComponents: [ConfirmModalComponent]
 })
 export class PatientDashboardCommonModule {}

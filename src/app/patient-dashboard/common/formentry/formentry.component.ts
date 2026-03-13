@@ -55,6 +55,8 @@ import { Covid19StatusSummary } from './../../../interfaces/covid-19-summary.int
 import { FormUuids } from './../../../constants/forms.constants';
 import { ProgramManagerService } from 'src/app/program-manager/program-manager.service';
 import { HolidaysResourceService } from 'src/app/etl-api/holidays-resource-service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ConfirmModalComponent } from './confirm-modal.component';
 
 interface RefProgram {
   uuid: string;
@@ -147,6 +149,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private COMMUNITY_PHARMACY_CONCEPT = '33363568-fb62-4063-b0ac-e37be1d23514';
   private isEligibleForDelivery = false;
   private kenyaHolidays: any;
+  modalRef?: BsModalRef;
+  public hivAgeFriendlyVisitAllowedLocations = [
+    '18c343eb-b353-462a-9139-b16606e6b6c2', // location test
+    '08feae7c-1352-11df-a1f1-0026b9348838', // module 1
+    '08fec056-1352-11df-a1f1-0026b9348838', // module 2
+    '08fec150-1352-11df-a1f1-0026b9348838' // module 3
+  ];
 
   constructor(
     private appFeatureAnalytics: AppFeatureAnalytics,
@@ -177,7 +186,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
     private covid19Service: Covid19ResourceService,
     private propertyLocationService: UserDefaultPropertiesService,
     private programManagerService: ProgramManagerService,
-    private holidaysResourceService: HolidaysResourceService
+    private holidaysResourceService: HolidaysResourceService,
+    public modalService: BsModalService
   ) {}
 
   public ngOnInit() {
@@ -469,6 +479,17 @@ export class FormentryComponent implements OnInit, OnDestroy {
               '/formentry/3fbc8512-b37b-4bc2-a0f4-8d0ac7955127'
           ]);
         }
+        break;
+      case 'ageFriendlyTool':
+        this.showSuccessDialog = false;
+        this.preserveFormAsDraft = false;
+        this.router.navigate([
+          '/patient-dashboard/patient/' +
+            this.patient.uuid +
+            '/hiv/' +
+            this.activeProgram +
+            '/formentry/c3f7a81e-bc9e-4209-934a-f87017f27959'
+        ]);
         break;
       default:
         console.error('unknown path');
@@ -1291,6 +1312,28 @@ export class FormentryComponent implements OnInit, OnDestroy {
     }).pipe(first());
   }
 
+  private openAgeFriendlyModal(
+    payloadTypes: Array<string> = ['encounter', 'personAttribute']
+  ) {
+    const initialState = {
+      title: 'Confirm',
+      message:
+        'The patient is 50 years or above. Would you like to proceed and fill the age friendly tool?'
+    };
+
+    this.modalRef = this.modalService.show(ConfirmModalComponent, {
+      initialState
+    });
+
+    this.modalRef.content.onConfirm = () => {
+      this.navigateTo('ageFriendlyTool');
+    };
+
+    this.modalRef.content.onCancel = () => {
+      this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
+    };
+  }
+
   private submitForm(
     payloadTypes: Array<string> = ['encounter', 'personAttribute']
   ): void {
@@ -1313,6 +1356,18 @@ export class FormentryComponent implements OnInit, OnDestroy {
               this.confirmRetrospectiveSubmission(payloadTypes);
             }
           } else {
+            if (
+              (this.formUuid === 'ecd6011b-3263-41c8-bc8e-a1dfa3b939f7' ||
+                this.formUuid === 'f6b22154-7df7-38a4-96bc-f457be0ae823' ||
+                this.formUuid === 'd2522122-4ea4-4a90-b23e-4f3e329144af' ||
+                this.formUuid === '38c9bb03-a1f7-3450-86aa-a3295ad5dd88') &&
+              this.patient.person.age >= 50 &&
+              this.hivAgeFriendlyVisitAllowedLocations.includes(
+                this.encounterLocation.value
+              )
+            ) {
+              this.openAgeFriendlyModal(payloadTypes);
+            }
             this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
           }
         }
