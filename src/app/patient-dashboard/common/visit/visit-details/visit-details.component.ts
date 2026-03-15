@@ -37,6 +37,7 @@ export class VisitDetailsComponent implements OnInit {
   public qualifiesForCovidScreening = false;
   public isViremicHighVL = false;
   public isRetrospectiveVisit = false;
+  public isAdultReturnVisitBeforeInitialVisit = false;
 
   public get visitEncounters(): any[] {
     const mappedEncounters: Encounter[] = new Array<Encounter>();
@@ -236,9 +237,17 @@ export class VisitDetailsComponent implements OnInit {
             if (
               e.errors &&
               e.errors.covidError &&
-              e.errors.covidError != null
+              e.errors.covidError != null &&
+              !this.isRetrospectiveVisit
             ) {
               this.qualifiesForCovidScreening = true;
+            }
+            if (
+              e.errors &&
+              e.errors.isAdultReturnVisitBeforeInitialVisit != null &&
+              this.isRetrospectiveVisit
+            ) {
+              this.isAdultReturnVisitBeforeInitialVisit = true;
             }
           });
         }
@@ -255,7 +264,8 @@ export class VisitDetailsComponent implements OnInit {
 
         if (
           Array.isArray(viremiaEncounterFilter) &&
-          viremiaEncounterFilter.length === 0
+          viremiaEncounterFilter.length === 0 &&
+          !this.isRetrospectiveVisit
         ) {
           this.isViremicHighVL = true;
         }
