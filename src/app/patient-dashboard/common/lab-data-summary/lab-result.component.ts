@@ -79,6 +79,9 @@ export class LabResultComponent implements OnInit, OnDestroy {
     cd4_count: {
       test: 'CD4'
     },
+    cd4_lateral_flow: {
+      test: 'CD4 Lateral Flow'
+    },
     cd4_percent: {
       test: 'CD4%'
     },
@@ -510,7 +513,26 @@ export class LabResultComponent implements OnInit, OnDestroy {
 
     Object.keys(verticalCols).forEach((key, index) => {
       if (verticalCols.hasOwnProperty('' + key + '')) {
-        if (
+        if (key === 'cd4_lateral_flow') {
+          const col = {
+            headerName: verticalCols[key].test,
+            width: 250,
+            pinned: '',
+            field: key,
+            cellStyle: {
+              'text-align': 'left'
+            },
+            tooltip: (params: any) => {
+              if (!_.isEmpty(params.data.toolTip)) {
+                return params.data.toolTip;
+              } else {
+                return '';
+              }
+            }
+          };
+
+          cols.push(col);
+        } else if (
           key !== 'testDatetime' &&
           key !== 'hiv_viral_load' &&
           key !== 'serum_crag' &&
