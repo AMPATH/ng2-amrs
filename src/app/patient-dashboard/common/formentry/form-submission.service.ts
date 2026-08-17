@@ -315,6 +315,8 @@ export class FormSubmissionService {
         const startPos = message.indexOf(': ') + 1;
         const endPos = message.length;
         message = message.substring(startPos, endPos);
+      } else if (response.error.split(',')[4].split('.')[0].split('=')[1]) {
+        message = response.error.split(',')[4].split('.')[0].split('=')[1];
       }
     }
 
