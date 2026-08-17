@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  ng2-amrs:
+    container_name: poc
+    image: ampathke/ng2-amrs:latest
+    ports:
+      - '8081:80'
+
