@@ -12,7 +12,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="pbConsentExist">
+      <tr
+        *ngIf="
+          pbConsentExist && pbClientConsent.deliveryConsent === 'YES';
+          else pbClientConsentedNo
+        "
+      >
         <td>
           <strong>How do you get ARV medicines? : </strong
           ><span class="{{ pbClientConsent.styling }}">{{
@@ -38,6 +43,14 @@
             ><i class="fa fa-plus fa-fw"></i>Add Project Beyond Consent
           </span></a
         >
+      </tr>
+      <tr>
+        <ng-template #pbClientConsentedNo>
+          <td>
+            Patient Consent for Medicine delivery:
+            {{ pbClientConsent.deliveryConsent }}
+          </td>
+        </ng-template>
       </tr>
     </tbody>
   </table>
