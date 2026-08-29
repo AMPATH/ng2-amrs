@@ -10,6 +10,7 @@ import { PatientDashboardModule } from '../patient-dashboard/patient-dashboard.m
 import { DataAnalyticsModule } from '../data-analytics-dashboard/data-analytics.module';
 import { PatientListCohortModule } from '../patient-list-cohort/patient-list-cohort.module';
 import { RetrospectiveContainerComponent } from '../retrospective-data-entry/components/container/retrospective-container.component';
+import { RegistersModule } from '../registers-dashboard/registers.module';
 export function patientDashboardModule() {
   return PatientDashboardModule;
 }
@@ -18,6 +19,9 @@ export function dataAnalyticsModule() {
 }
 export function patientListCohortModule() {
   return PatientListCohortModule;
+}
+export function registersModule() {
+  return RegistersModule;
 }
 export const dashboardRoutes: Routes = [
   {
@@ -63,6 +67,10 @@ export const dashboardRoutes: Routes = [
         path: 'patient-list-cohort',
         loadChildren:
           '../patient-list-cohort/patient-list-cohort.module#PatientListCohortModule'
+      },
+      {
+        path: 'registers-dashboard',
+        loadChildren: '../registers-dashboard/registers.module#RegistersModule'
       }
     ]
   }

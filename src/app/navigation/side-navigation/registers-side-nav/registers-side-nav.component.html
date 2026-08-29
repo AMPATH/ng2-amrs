@@ -1,0 +1,27 @@
+<div *ngIf="selectedRoute">
+  <ul class="sidebar-menu patient-dashboard">
+    <li style="border-bottom: 0.5px solid lightgray">
+      <span class="icon-menu">
+        <span class="icon-menu-letter">{{ selectedRoute.label }}</span>
+      </span>
+    </li>
+    <li
+      routerLinkActive="active"
+      *ngFor="let route of selectedRoute.childRoutes"
+    >
+      <a
+        routerLink="/{{ route.url }}"
+        (click)="collapseSideBar()"
+        [ngClass]="{ distinct: route.isDistinct === true }"
+      >
+        <span class="icon-menu">
+          <span class="icon-menu-letter">{{ route.initials }}</span>
+          <span class="icon-menu-icon"
+            ><i class="{{ route.renderingInfo.icon }}"></i
+          ></span>
+        </span>
+        <span class="icon-menu-label">{{ route.label }}</span>
+      </a>
+    </li>
+  </ul>
+</div>

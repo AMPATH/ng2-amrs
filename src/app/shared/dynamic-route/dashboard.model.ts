@@ -4,4 +4,5 @@ export class DashboardModel {
   public patientDashboard: object;
   public patientListCohorts: object;
   public providerDashboard: object;
+  public registersDashboard: object;
 }
