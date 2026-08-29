@@ -15,6 +15,7 @@ const STANDARD_HIV_CARE_REFERRAL_CONCEPT =
   'b412ae76-4ab4-4d00-800e-bd8d167769e1';
 const ANC_CONCEPT = '375e6d4a-ba94-41ac-8ac3-5a56015c4d92';
 const PNC_CONCEPT = 'c5789e91-2c76-450a-94f7-94fce32335d3';
+const PMTCT_CONCEPT = 'a89fbedc-1350-11df-a1f1-0026b9348838';
 
 export const ReferralConcepts = {
   differentiatedCareConceptUuid,
@@ -31,5 +32,6 @@ export const ReferralConcepts = {
   PATIENT_PREFERENCE_CONCEPT,
   STANDARD_HIV_CARE_REFERRAL_CONCEPT,
   ANC_CONCEPT,
-  PNC_CONCEPT
+  PNC_CONCEPT,
+  PMTCT_CONCEPT
 };
