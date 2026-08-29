@@ -52,6 +52,18 @@ export class RetentionReportPatientListComponent implements OnInit {
       pinned: true
     },
     {
+      headerName: 'CR',
+      field: 'cr_id',
+      width: 150,
+      pinned: true
+    },
+    {
+      headerName: 'SHA',
+      field: 'sha_id',
+      width: 150,
+      pinned: true
+    },
+    {
       headerName: 'Name',
       field: 'person_name',
       width: 200,
