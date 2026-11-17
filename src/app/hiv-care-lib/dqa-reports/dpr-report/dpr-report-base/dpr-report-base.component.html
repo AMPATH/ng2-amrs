@@ -1,0 +1,27 @@
+<h4 class="component-title text-success">
+  <span class="fa fa-pie-chart"></span>DPR Report
+</h4>
+<div class="dpr-intro">
+  <p class="dpr-intro-title">
+    Kenya DPR 2026: line list of Recipients of Care (RoC) who started ART in
+    the selected window, with their care status at 6, 12 and 24 months
+  </p>
+  <ul class="dpr-intro-list">
+    <li>
+      <span class="dpr-intro-label">Dates</span>
+      ART start window for the 12-month cohort
+    </li>
+    <li>
+      <span class="dpr-intro-label">24-month cohort</span>
+      Same window, one year earlier
+    </li>
+  </ul>
+</div>
+
+<report-filters
+  [enabledControls]="enabledControls"
+  [(startDate)]="startDate"
+  [(endDate)]="endDate"
+  (generateReport)="generateReport()"
+>
+</report-filters>

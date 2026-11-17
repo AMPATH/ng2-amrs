@@ -59,6 +59,8 @@ import { PlhivNcdV2ReportPatientListComponent } from 'src/app/hiv-care-lib/plhiv
 import { PlhivNcdV2ReportComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report.component';
 import { CaseSurveillanceBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-base/case-surveillance-base.component';
 import { CaseSurveillancePatientListComponent } from 'src/app/hiv-care-lib/dqa-reports/case-surveillance/case-surveillance-patient-list/case-surveillance-patient-list.component';
+import { DprReportBaseComponent } from 'src/app/hiv-care-lib/dqa-reports/dpr-report/dpr-report-base/dpr-report-base.component';
+import { DprReportPatientlistComponent } from 'src/app/hiv-care-lib/dqa-reports/dpr-report/dpr-report-patientlist/dpr-report-patientlist.component';
 import { OtzRegisterComponent } from './registers/otz-register/otz-register.component';
 import { Moh731RegisterComponent } from './registers/moh731-register/moh731-register.component';
 import { MohPatientListComponent } from './registers/moh731-register/moh-patient-list/moh-patient-list.component';
@@ -517,6 +519,19 @@ const routes: Routes = [
           {
             path: 'cs-report-patientlist',
             component: CaseSurveillancePatientListComponent
+          }
+        ]
+      },
+      {
+        path: 'dpr-report',
+        children: [
+          {
+            path: '',
+            component: DprReportBaseComponent
+          },
+          {
+            path: 'dpr-report-patientlist',
+            component: DprReportPatientlistComponent
           }
         ]
       },

@@ -67,7 +67,18 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
 
   @Input('showLabel') public showLabel = true;
   @Input() public county: string;
-  @Input() public facility: string;
+  private _facility: string;
+  @Input()
+  public get facility(): string {
+    return this._facility;
+  }
+
+  public set facility(v: string) {
+    if (v) {
+      this.selectedFacility = v;
+      this._facility = v;
+    }
+  }
   // tslint:disable-next-line:no-output-on-prefix
   @Output() public onLocationChange = new EventEmitter<any>();
   // tslint:disable-next-line:no-output-on-prefix
@@ -167,7 +178,8 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
       }
       this.onLocationChange.emit({
         locations: this.selectedLocations,
-        county: this.selectedCounty
+        county: this.selectedCounty,
+        facility: this.selectedFacility
       });
     });
   }
@@ -205,6 +217,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
           });
           this.onLocationChange.emit({
             locations: this.selectedLocations,
+            county: this.selectedCounty,
             facility: this.selectedFacility
           });
         });
@@ -245,7 +258,7 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
             };
             this.locations[location.location_id] = details;
           });
-          if (this.facility) {
+          if (this.facility && !this.locationUuids) {
             this.onFacilityChanged(this.selectedFacility);
           }
           if (this.locationUuids) {
@@ -386,13 +399,16 @@ export class LocationFilterComponent implements OnInit, AfterViewInit {
     }
     this.onLocationChange.emit({
       locations: this.selectedLocations,
-      county: this.selectedCounty
+      county: this.selectedCounty,
+      facility: this.selectedFacility
     });
   }
   public resetLocations() {
     this.showReset = false;
     this.allLocations = true;
     this.selectedCounty = '';
+    this.selectedFacility = '';
+    this._facility = '';
     this.allFromCounty = false;
     this.selectedLocations = [];
     this.onLocationChange.emit(null);

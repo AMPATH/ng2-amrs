@@ -150,6 +150,8 @@ import { PlhivNcdV2ReportPatientListComponent } from './plhiv-ncd-v2-report/plhi
 import { PlhivNcdV2ReportViewComponent } from './plhiv-ncd-v2-report/plhiv-ncd-v2-report-view/plhiv-ncd-v2-report-view.component';
 import { CaseSurveillanceBaseComponent } from './dqa-reports/case-surveillance/case-surveillance-base/case-surveillance-base.component';
 import { CaseSurveillancePatientListComponent } from './dqa-reports/case-surveillance/case-surveillance-patient-list/case-surveillance-patient-list.component';
+import { DprReportBaseComponent } from './dqa-reports/dpr-report/dpr-report-base/dpr-report-base.component';
+import { DprReportPatientlistComponent } from './dqa-reports/dpr-report/dpr-report-patientlist/dpr-report-patientlist.component';
 import { FacilityDashboardComponent } from './dqa-reports/case-surveillance/facility-dashboard/facility-dashboard.component';
 
 @NgModule({
@@ -354,6 +356,8 @@ import { FacilityDashboardComponent } from './dqa-reports/case-surveillance/faci
     PlhivNcdV2ReportViewComponent,
     CaseSurveillanceBaseComponent,
     CaseSurveillancePatientListComponent,
+    DprReportBaseComponent,
+    DprReportPatientlistComponent,
     FacilityDashboardComponent
   ],
   providers: [

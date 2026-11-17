@@ -1,0 +1,160 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { GridOptions } from 'ag-grid';
+import { Subscription } from 'rxjs';
+import * as Moment from 'moment';
+
+import { DprReportService } from 'src/app/etl-api/dpr-report.service';
+
+@Component({
+  selector: 'app-dpr-report-patientlist',
+  templateUrl: './dpr-report-patientlist.component.html',
+  styleUrls: ['./dpr-report-patientlist.component.css']
+})
+export class DprReportPatientlistComponent implements OnInit, OnDestroy {
+  public isLoading = false;
+  public hasError = false;
+  public errorMessage = '';
+  public showQaColumns = false;
+
+  public rowData: Array<any> = [];
+  public columnDefs: Array<any> = [];
+  public reportParams: any;
+  public gridOptions: GridOptions = {
+    enableColResize: true,
+    enableSorting: true,
+    enableFilter: true,
+    rowHeight: 28,
+    onGridReady: () => this.applyQaColumnVisibility()
+  } as GridOptions;
+
+  private schema: any;
+  private requestSub: Subscription;
+  private routeSub: Subscription;
+
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private dprReportService: DprReportService
+  ) {}
+
+  public ngOnInit() {
+    this.routeSub = this.route.queryParams.subscribe((params) => {
+      if (params && params.startDate && params.endDate) {
+        this.getPatientList({
+          locationUuids: params.locationUuids,
+          startDate: params.startDate,
+          endDate: params.endDate
+        });
+      }
+    });
+  }
+
+  public ngOnDestroy() {
+    if (this.requestSub) {
+      this.requestSub.unsubscribe();
+    }
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
+  }
+
+  public toggleQaColumns() {
+    this.showQaColumns = !this.showQaColumns;
+    this.applyQaColumnVisibility();
+  }
+
+  public exportToCsv() {
+    if (this.gridOptions.api) {
+      const suffix = this.reportParams
+        ? `${this.reportParams.m12Start}_${this.reportParams.m12End}`
+        : Moment().format('YYYY-MM-DD');
+      this.gridOptions.api.exportDataAsCsv({
+        fileName: `dpr-report_${suffix}.csv`
+      });
+    }
+  }
+
+  public goBack() {
+    this.location.back();
+  }
+
+  public get cohortNote(): string {
+    if (!this.reportParams) {
+      return '';
+    }
+    const p = this.reportParams;
+    return (
+      `12-month cohort: ART start ${p.m12Start} to ${p.m12End}; ` +
+      `24-month cohort: ART start ${p.m24Start} to ${p.m24End}` +
+      (p.studySitesOnly ? ' (DPR study sites only)' : '')
+    );
+  }
+
+  private getPatientList(params: any) {
+    if (this.requestSub) {
+      this.requestSub.unsubscribe();
+    }
+    this.isLoading = true;
+    this.hasError = false;
+    this.rowData = [];
+
+    this.requestSub = this.dprReportService
+      .getDprReport(params)
+      .subscribe((data: any) => {
+        this.isLoading = false;
+        if (!data || data.error) {
+          this.hasError = true;
+          this.errorMessage =
+            (data && data.message) ||
+            'There has been an error while loading the report, please retry again';
+          return;
+        }
+        this.reportParams = data.params;
+        if (data.sectionDefinitions) {
+          this.schema = data.sectionDefinitions;
+          this.columnDefs = this.buildColumnDefs(this.schema);
+        }
+        this.rowData = data.result || [];
+        this.applyQaColumnVisibility();
+      });
+  }
+
+  /**
+   * Turn the server column schema (sections -> columns) into ag-grid column
+   * groups. The CSV header uses the raw field names so the export lines up
+   * with the DPR data dictionary.
+   */
+  private buildColumnDefs(schema: any): Array<any> {
+    const pinned = ['roc_id'];
+    return (schema.sections || []).map((section: any) => ({
+      headerName: section.sectionTitle,
+      groupId: section.sectionKey,
+      children: section.columns.map((col: any) => ({
+        headerName: col.headerName,
+        headerTooltip: col.field,
+        field: col.field,
+        colId: col.field,
+        width: 160,
+        pinned: pinned.indexOf(col.field) > -1 ? 'left' : undefined,
+        hide: !!section.qa && !this.showQaColumns
+      }))
+    }));
+  }
+
+  private applyQaColumnVisibility() {
+    if (!this.gridOptions.columnApi || !this.schema) {
+      return;
+    }
+    const qaCols: string[] = [];
+    (this.schema.sections || [])
+      .filter((s: any) => s.qa)
+      .forEach((s: any) => s.columns.forEach((c: any) => qaCols.push(c.field)));
+    this.gridOptions.columnApi.setColumnsVisible(
+      qaCols,
+      this.showQaColumns,
+      'api'
+    );
+  }
+}

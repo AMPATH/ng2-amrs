@@ -249,6 +249,7 @@ export class ReportFiltersComponent
   @Output()
   public locationChange = new EventEmitter<any>();
   public locations: any;
+  public facility: string;
   @Output()
   public startWeekChange = new EventEmitter<Date>();
   @Input()
@@ -555,6 +556,7 @@ export class ReportFiltersComponent
         .subscribe((data) => {
           if (data) {
             this.locations = data.locations;
+            this.facility = data.facility;
           }
         });
     } else if (
@@ -567,6 +569,7 @@ export class ReportFiltersComponent
         .subscribe((data) => {
           if (data) {
             this.locations = data.locations;
+            this.facility = data.facility;
           }
         });
     } else {
@@ -576,6 +579,7 @@ export class ReportFiltersComponent
         .subscribe((data) => {
           if (data) {
             this.locations = data.locations;
+            this.facility = data.facility;
           }
         });
     }
