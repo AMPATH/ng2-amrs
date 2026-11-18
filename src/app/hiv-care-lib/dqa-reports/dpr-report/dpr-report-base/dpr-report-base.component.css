@@ -1,0 +1,38 @@
+.dpr-intro {
+  margin: 4px 0 12px;
+  padding: 8px 12px;
+  border-left: 3px solid #3c763d;
+  background: #f7f9f7;
+}
+
+.dpr-intro-title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: #333;
+}
+
+.dpr-intro-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #666;
+  font-size: 13px;
+}
+
+.dpr-intro-list li {
+  padding: 1px 0;
+}
+
+.dpr-intro-label {
+  display: inline-block;
+  min-width: 120px;
+  font-weight: 600;
+  color: #444;
+}
+
+@media (max-width: 480px) {
+  .dpr-intro-label {
+    display: block;
+    min-width: 0;
+  }
+}

@@ -1,0 +1,57 @@
+<div>
+  <button class="btn btn-primary" (click)="goBack()">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span> Back</span>
+  </button>
+</div>
+<div class="loader" *ngIf="isLoading">
+  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+</div>
+<h3>DPR patient list</h3>
+<hr />
+
+<div *ngIf="hasError">
+  <p class="alert-error alert">
+    Error loading patient list. <small>{{ errorMessage }}</small>
+  </p>
+</div>
+
+<div *ngIf="!isLoading && !hasError">
+  <div class="dpr-toolbar">
+    <div class="dpr-summary">
+      <p class="bg-info" style="padding: 4px; margin: 0">
+        <b>
+          <span style="color: green" class="glyphicon glyphicon-ok"
+            >All records loaded {{ '[ ' + rowData.length + ' ]' }}</span
+          ></b
+        >
+      </p>
+      <div class="dpr-cohort-note">{{ cohortNote }}</div>
+    </div>
+    <label>
+      <input
+        type="checkbox"
+        [checked]="showQaColumns"
+        (change)="toggleQaColumns()"
+      />
+      Show QA columns
+    </label>
+    <button
+      class="btn btn-info"
+      [disabled]="rowData.length === 0"
+      (click)="exportToCsv()"
+      style="color: #fff"
+    >
+      <i class="fa fa-file-excel-o"></i> Export CSV
+    </button>
+  </div>
+
+  <ag-grid-angular
+    style="width: 100%; height: 600px"
+    class="ag-blue"
+    [gridOptions]="gridOptions"
+    [columnDefs]="columnDefs"
+    [rowData]="rowData"
+  >
+  </ag-grid-angular>
+</div>

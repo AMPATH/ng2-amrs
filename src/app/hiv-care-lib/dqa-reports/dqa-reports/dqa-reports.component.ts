@@ -37,6 +37,8 @@ export class DqaReportsComponent implements OnInit {
             ? 'dqa-filter'
             : reportName.id === '2'
             ? 'case-surveillance'
+            : reportName.id === '3'
+            ? 'dpr-report'
             : 'dqa-filter'
         ],
         {

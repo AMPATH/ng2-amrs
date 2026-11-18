@@ -8,5 +8,10 @@
     "name": "Case Surveillance",
     "id": "2",
     "description": "Case Surveillance Report"
+  },
+  {
+    "name": "DPR Report",
+    "id": "3",
+    "description": "DPR Report"
   }
 ]

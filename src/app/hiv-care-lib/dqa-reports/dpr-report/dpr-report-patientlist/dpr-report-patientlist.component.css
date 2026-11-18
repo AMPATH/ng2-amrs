@@ -1,0 +1,21 @@
+.dpr-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.dpr-toolbar .dpr-summary {
+  flex: 1 1 auto;
+}
+
+.dpr-toolbar label {
+  font-weight: normal;
+  margin: 0;
+}
+
+.dpr-cohort-note {
+  color: #666;
+  margin-top: 4px;
+}
