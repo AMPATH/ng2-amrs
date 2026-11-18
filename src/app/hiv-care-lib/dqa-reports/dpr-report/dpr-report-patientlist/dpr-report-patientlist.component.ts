@@ -121,26 +121,43 @@ export class DprReportPatientlistComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * Turn the server column schema (sections -> columns) into ag-grid column
-   * groups. The CSV header uses the raw field names so the export lines up
-   * with the DPR data dictionary.
-   */
   private buildColumnDefs(schema: any): Array<any> {
-    const pinned = ['roc_id'];
-    return (schema.sections || []).map((section: any) => ({
-      headerName: section.sectionTitle,
-      groupId: section.sectionKey,
-      children: section.columns.map((col: any) => ({
-        headerName: col.headerName,
-        headerTooltip: col.field,
-        field: col.field,
-        colId: col.field,
-        width: 160,
-        pinned: pinned.indexOf(col.field) > -1 ? 'left' : undefined,
-        hide: !!section.qa && !this.showQaColumns
-      }))
-    }));
+    const pinnedFields = ['collection_date', 'roc_id'];
+    const leadingFields = ['patient_identifiers'];
+    const toColDef = (col: any, section: any) => ({
+      headerName: col.headerName,
+      headerTooltip: col.field,
+      field: col.field,
+      colId: col.field,
+      width: 160,
+      hide: !!section.qa && !this.showQaColumns
+    });
+
+    const pinnedDefs: Array<any> = [];
+    const leadingDefs: Array<any> = [];
+    const groupDefs: Array<any> = [];
+    (schema.sections || []).forEach((section: any) => {
+      const children: Array<any> = [];
+      section.columns.forEach((col: any) => {
+        if (pinnedFields.indexOf(col.field) > -1) {
+          pinnedDefs.push(
+            Object.assign(toColDef(col, section), { pinned: 'left' })
+          );
+        } else if (leadingFields.indexOf(col.field) > -1) {
+          leadingDefs.push(toColDef(col, section));
+        } else {
+          children.push(toColDef(col, section));
+        }
+      });
+      if (children.length > 0) {
+        groupDefs.push({
+          headerName: section.sectionTitle,
+          groupId: section.sectionKey,
+          children
+        });
+      }
+    });
+    return pinnedDefs.concat(leadingDefs, groupDefs);
   }
 
   private applyQaColumnVisibility() {
