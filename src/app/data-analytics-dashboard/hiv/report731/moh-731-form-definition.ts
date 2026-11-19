@@ -174,8 +174,8 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             {
               label: 'AYP (10-24yrs)',
               cells: [
-                { code: 'HV01-29', field: 'prep_new_ayp', gender: 'M' },
-                { code: 'HV01-30', field: 'prep_new_ayp', gender: 'F' }
+                { code: 'HV01-29', field: 'prep_new_ayp_male', gender: 'M' },
+                { code: 'HV01-30', field: 'prep_new_ayp_female', gender: 'F' }
               ]
             },
             {
@@ -249,17 +249,23 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             },
             {
               label: 'Positive_KVP',
-              cells: [{ code: 'HV01-16' }, null]
+              cells: [{ code: 'HV01-16', field: 'positive_kvp' }, null]
             },
             {
               label: 'Discordant',
               gapBefore: true,
-              cells: [{ code: 'HV01-17' }, { code: 'HV01-18' }]
+              cells: [
+                { code: 'HV01-17', field: 'discordant_male', gender: 'M' },
+                { code: 'HV01-18', field: 'discordant_female', gender: 'F' }
+              ]
             },
             {
               label: 'Inconclusive Test Results',
               gapBefore: true,
-              cells: [{ code: 'HV01-47' }, { code: 'HV01-48' }]
+              cells: [
+                { code: 'HV01-47', field: 'inconclusive_male', gender: 'M' },
+                { code: 'HV01-48', field: 'inconclusive_female', gender: 'F' }
+              ]
             }
           ]
         },
@@ -337,8 +343,8 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             {
               label: 'AYP (10-24 yrs)',
               cells: [
-                { code: 'HV01-42', field: 'prep_sti_ayp', gender: 'M' },
-                { code: 'HV01-43', field: 'prep_sti_ayp', gender: 'F' }
+                { code: 'HV01-42', field: 'prep_sti_ayp_male', gender: 'M' },
+                { code: 'HV01-43', field: 'prep_sti_ayp_female', gender: 'F' }
               ]
             },
             {
@@ -465,7 +471,9 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
           rows: [
             {
               label: 'Screened_HBV_ANC',
-              cells: [{ code: 'HV02-19' }]
+              cells: [
+                { code: 'HV02-19', field: 'hbv_screened_anc', gender: 'F' }
+              ]
             },
             {
               label: 'HBV Screened_Positive',
@@ -483,29 +491,45 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             {
               label: '1st ANC KP',
               cells: [
-                { code: 'HV02-21', field: 'known_positive_ayp_10_19' },
-                { code: 'HV02-22', field: 'known_positive_ayp_20_24' }
+                {
+                  code: 'HV02-21',
+                  field: 'known_positive_anc_10_19',
+                  gender: 'F'
+                },
+                {
+                  code: 'HV02-22',
+                  field: 'known_positive_anc_20_24',
+                  gender: 'F'
+                }
               ]
             },
             {
               label: 'New HIV Positive',
               cells: [
-                { code: 'HV02-23', field: 'new_positive_ayp_10_19' },
-                { code: 'HV02-24', field: 'new_positive_ayp_20_24' }
+                {
+                  code: 'HV02-23',
+                  field: 'positive_anc_ld_pnc_10_19',
+                  gender: 'F'
+                },
+                {
+                  code: 'HV02-24',
+                  field: 'positive_anc_ld_pnc_20_24',
+                  gender: 'F'
+                }
               ]
             },
             {
               label: 'On HAART 1st ANC KP',
               cells: [
-                { code: 'HV02-25', field: 'on_art_ayp_10_19' },
-                { code: 'HV02-26', field: 'on_art_ayp_20_24' }
+                { code: 'HV02-25', field: 'on_art_anc_10_19', gender: 'F' },
+                { code: 'HV02-26', field: 'on_art_anc_20_24', gender: 'F' }
               ]
             },
             {
               label: 'Started HAART New',
               cells: [
-                { code: 'HV02-27', field: 'start_art_ayp_10_19' },
-                { code: 'HV02-28', field: 'start_art_ayp_20_24' }
+                { code: 'HV02-27', field: 'start_art_10_19', gender: 'F' },
+                { code: 'HV02-28', field: 'start_art_20_24', gender: 'F' }
               ]
             }
           ]
@@ -845,7 +869,9 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             },
             {
               label: 'Pregnant & Lactating',
-              cells: [{ code: 'HV03-042' }]
+              cells: [
+                { code: 'HV03-042', field: 'has_sam_preg_lact', gender: 'F' }
+              ]
             },
             { heading: 'Number MAM +' },
             {
@@ -870,7 +896,9 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             },
             {
               label: 'Pregnant & Lactating',
-              cells: [{ code: 'HV03-048' }]
+              cells: [
+                { code: 'HV03-048', field: 'has_smm_preg_lact', gender: 'F' }
+              ]
             },
             { heading: 'Number SAM + receiving therapeutic foods' },
             {
@@ -908,7 +936,13 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             },
             {
               label: 'Pregnant & Lactating',
-              cells: [{ code: 'HV03-054' }]
+              cells: [
+                {
+                  code: 'HV03-054',
+                  field: 'severe_acute_supp_preg_lact',
+                  gender: 'F'
+                }
+              ]
             },
             { heading: 'Number MAM + receiving Supplemental foods' },
             {
@@ -946,7 +980,13 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
             },
             {
               label: 'Pregnant & Lactating',
-              cells: [{ code: 'HV03-060' }]
+              cells: [
+                {
+                  code: 'HV03-060',
+                  field: 'severe_moderate_supp_preg_lact',
+                  gender: 'F'
+                }
+              ]
             }
           ]
         }
@@ -958,23 +998,23 @@ export const MOH_731_SECTIONS: Moh731Section[] = [
           rows: [
             {
               label: 'TB cases _New',
-              cells: [{ code: 'HV03-061', field: 'start_tb' }]
+              cells: [{ code: 'HV03-061' }]
             },
             {
               label: 'TB New_Known HIV Positive(KPs)',
-              cells: [{ code: 'HV03-062', field: 'start_tb_known_positive' }]
+              cells: [{ code: 'HV03-062' }]
             },
             {
               label: 'TB_New HIV Positive',
-              cells: [{ code: 'HV03-063', field: 'start_tb_positive' }]
+              cells: [{ code: 'HV03-063' }]
             },
             {
               label: 'TB_New_Known HIV Positive(KP) on HAART',
-              cells: [{ code: 'HV03-064', field: 'start_tb_on_art' }]
+              cells: [{ code: 'HV03-064' }]
             },
             {
               label: 'TB New_start_HAART',
-              cells: [{ code: 'HV03-065', field: 'start_tb_art_new' }]
+              cells: [{ code: 'HV03-065' }]
             }
           ]
         },

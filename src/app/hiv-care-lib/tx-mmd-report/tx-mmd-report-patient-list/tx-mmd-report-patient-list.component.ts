@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  expectedFromParams,
+  linelistPageSize,
+  loadAllPages
+} from '../../linelist-loading/paged-linelist-loader';
 import { TxMmdResourceService } from 'src/app/etl-api/tx-mmd-resource.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,11 +13,15 @@ import * as Moment from 'moment';
   templateUrl: './tx-mmd-report-patient-list.component.html',
   styleUrls: ['./tx-mmd-report-patient-list.component.css']
 })
-export class TxMmdReportPatientListComponent implements OnInit {
+export class TxMmdReportPatientListComponent implements OnInit, OnDestroy {
   public params: any;
   public patientData: any;
   public extraColumns: Array<any> = [];
   public isLoading = true;
+  /** The figure the list was opened from, when known. */
+  public expectedTotal: number = null;
+  /** Identifies the current load, so a superseded one stops quietly. */
+  private runId = 0;
   public overrideColumns: Array<any> = [];
   public selectedIndicator: string;
   public selectedIndicatorGender: string;
@@ -26,6 +35,11 @@ export class TxMmdReportPatientListComponent implements OnInit {
     private _location: Location,
     public txMmdResourceService: TxMmdResourceService
   ) {}
+
+  /** Leaving the page stops any pages still to be fetched. */
+  ngOnDestroy() {
+    this.runId++;
+  }
 
   ngOnInit() {
     this.addExtraColumns();
@@ -45,11 +59,47 @@ export class TxMmdReportPatientListComponent implements OnInit {
   }
 
   private getPatientList(params: any) {
-    this.txMmdResourceService.getTxMmdPatientList(params).subscribe((data) => {
-      this.isLoading = false;
-      this.patientData = data.results.results;
-      this.hasLoadedAll = true;
-    });
+    const runId = ++this.runId;
+    this.isLoading = true;
+    this.hasLoadedAll = false;
+    this.hasError = false;
+    this.patientData = [];
+    this.expectedTotal = expectedFromParams(params);
+    loadAllPages(
+      (startIndex, limit) =>
+        this.txMmdResourceService
+          .getTxMmdPatientList(Object.assign({}, params, { startIndex, limit }))
+          .toPromise()
+          .then((data: any) => {
+            if (!data || data.error || !data.results) {
+              throw data;
+            }
+            return data.results.results || [];
+          }),
+      {
+        pageSize: linelistPageSize(this.expectedTotal),
+        concurrency: 4,
+        isCancelled: () => runId !== this.runId,
+        onProgress: (rows) => (this.patientData = rows)
+      }
+    ).then(
+      (rows) => {
+        if (runId !== this.runId) {
+          return;
+        }
+        this.patientData = rows;
+        this.isLoading = false;
+        this.hasLoadedAll = true;
+      },
+      (err) => {
+        if (runId !== this.runId) {
+          return;
+        }
+        console.error('Patient list failed', err);
+        this.isLoading = false;
+        this.hasError = true;
+      }
+    );
   }
 
   public addExtraColumns() {

@@ -133,6 +133,7 @@ import { PrepMonthlyReportBaseComponent } from './prep-report/monthly/prep-month
 import { PrepMonthlyReportViewComponent } from './prep-report/monthly/prep-monthly-report-view/prep-monthly-report-view.component';
 import { TxMlReportBaseComponent } from './tx-ml-report/tx-ml-report-base/tx-ml-report-base.component';
 import { TxMlReportPatientListComponent } from './tx-ml-report/tx-ml-report-patient-list/tx-ml-report-patient-list.component';
+import { LinelistLoadingOverlayComponent } from './linelist-loading/linelist-loading-overlay.component';
 import { TxMlReportViewComponent } from './tx-ml-report/tx-ml-report-view/tx-ml-report-view.component';
 import { TxNewReportBaseComponent } from './tx-new-report/tx-new-report-base/tx-new-report-base.component';
 import { TxNewReportPatientListComponent } from './tx-new-report/tx-new-report-patient-list/tx-new-report-patient-list.component';
@@ -339,6 +340,7 @@ import { FacilityDashboardComponent } from './dqa-reports/case-surveillance/faci
     PrepMonthlyReportViewComponent,
     TxMlReportBaseComponent,
     TxMlReportPatientListComponent,
+    LinelistLoadingOverlayComponent,
     TxMlReportViewComponent,
     TxNewReportBaseComponent,
     TxNewReportPatientListComponent,

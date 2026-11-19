@@ -174,11 +174,15 @@ export class TxMlReportViewComponent implements OnInit, OnChanges {
   public setCellSelection(col, val, arrayPosition, grid) {
     const gender = `${grid.headerName} - ${this.checkGender(arrayPosition)}`;
     const arraypos = arrayPosition === 3 ? 0 : arrayPosition;
+    const figure =
+      val && Array.isArray(val.value) ? val.value[arraypos] : val && val.value;
     const selectedIndicator = {
       headerName: col.headerName,
       field: col.field[arraypos],
       gender: gender,
-      location: val.location
+      location: val.location,
+      // The figure clicked, so the linelist can show how much has loaded.
+      value: figure
     };
     this.CellSelection.emit(selectedIndicator);
   }

@@ -146,6 +146,13 @@ export class TxNewReportBaseComponent implements OnInit {
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
+        expected:
+          value.value !== null &&
+          value.value !== undefined &&
+          value.value !== '' &&
+          !isNaN(+value.value)
+            ? +value.value
+            : undefined,
         indicators: value.field,
         indicatorHeader: value.headerName,
         indicatorGender: value.gender,

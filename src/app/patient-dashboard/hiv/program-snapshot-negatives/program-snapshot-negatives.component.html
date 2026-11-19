@@ -46,7 +46,17 @@
         </div>
         <div class="col-md-12">
           <div class="col-md-6 col-xs-12">
-            <p>Current PrEP Regimen: {{ patientData?.cur_prep_meds_names }}</p>
+            <p>
+              Current PrEP Regimen:
+              {{
+                patientData?.cur_prep_meds_names
+                  ? formatRegimen(patientData?.cur_prep_meds_names)
+                  : prepRegimenNote
+              }}
+            </p>
+            <p *ngIf="!patientData?.cur_prep_meds_names && lastPrepRegimen">
+              Last PrEP Regimen: {{ lastPrepRegimen }}
+            </p>
           </div>
           <div class="col-md-6 col-xs-12" *ngIf="showCareStatus">
             <p>

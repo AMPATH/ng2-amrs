@@ -14,9 +14,15 @@ import { DprReportService } from 'src/app/etl-api/dpr-report.service';
 })
 export class DprReportPatientlistComponent implements OnInit, OnDestroy {
   public isLoading = false;
+  /** Estimated progress while the list is built (see startProgress). */
+  public loadingProgress = 0;
+  public loadingSeconds = 0;
+  public loadingStatus = '';
+  private progressTimer: any = null;
   public hasError = false;
   public errorMessage = '';
-  public showQaColumns = false;
+  /** QA columns are always shown; there is no toggle on the page. */
+  public showQaColumns = true;
 
   public rowData: Array<any> = [];
   public columnDefs: Array<any> = [];
@@ -52,17 +58,13 @@ export class DprReportPatientlistComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
+    this.stopProgress();
     if (this.requestSub) {
       this.requestSub.unsubscribe();
     }
     if (this.routeSub) {
       this.routeSub.unsubscribe();
     }
-  }
-
-  public toggleQaColumns() {
-    this.showQaColumns = !this.showQaColumns;
-    this.applyQaColumnVisibility();
   }
 
   public exportToCsv() {
@@ -99,11 +101,13 @@ export class DprReportPatientlistComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.hasError = false;
     this.rowData = [];
+    this.startProgress();
 
     this.requestSub = this.dprReportService
       .getDprReport(params)
       .subscribe((data: any) => {
         this.isLoading = false;
+        this.stopProgress();
         if (!data || data.error) {
           this.hasError = true;
           this.errorMessage =
@@ -119,6 +123,33 @@ export class DprReportPatientlistComponent implements OnInit, OnDestroy {
         this.rowData = data.result || [];
         this.applyQaColumnVisibility();
       });
+  }
+
+  /**
+   * The line list is built on the server in a single request, so its real
+   * progress cannot be seen from here. The bar is an estimate from the time
+   * taken so far: it eases towards 95% and the overlay closes when the list
+   * arrives.
+   */
+  private startProgress() {
+    this.stopProgress();
+    const started = Date.now();
+    const tick = () => {
+      const seconds = (Date.now() - started) / 1000;
+      this.loadingSeconds = Math.floor(seconds);
+      this.loadingProgress = 95 * (1 - Math.exp(-seconds / 20));
+      this.loadingStatus =
+        'Building the DPR line list... ' + this.loadingSeconds + 's elapsed';
+    };
+    tick();
+    this.progressTimer = setInterval(tick, 500);
+  }
+
+  private stopProgress() {
+    if (this.progressTimer) {
+      clearInterval(this.progressTimer);
+      this.progressTimer = null;
+    }
   }
 
   private buildColumnDefs(schema: any): Array<any> {

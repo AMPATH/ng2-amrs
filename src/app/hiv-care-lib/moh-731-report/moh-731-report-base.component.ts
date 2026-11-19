@@ -14,6 +14,9 @@ import { Moh731ResourceService } from '../../etl-api/moh-731-resource.service';
   styleUrls: ['./moh-731-report-base.component.css']
 })
 export class Moh731ReportBaseComponent implements OnInit {
+  /** Value of the cell the patient list was opened from. */
+  public currentIndicatorValue: any;
+
   @ViewChild('mohPdf')
   public pdfView: any;
   public data = [];
@@ -159,6 +162,7 @@ export class Moh731ReportBaseComponent implements OnInit {
         ];
       }
       this.currentIndicator = indicator.indicator;
+      this.currentIndicatorValue = indicator.value;
       this.goToPatientList();
     }, 100);
   }
@@ -176,7 +180,15 @@ export class Moh731ReportBaseComponent implements OnInit {
         endDate: this.toDateString(this.endDate),
         locations: this.getSelectedLocations(this.patientListLocationUuids),
         indicators: this.currentIndicator,
-        isLegacy: this.isLegacyReport
+        isLegacy: this.isLegacyReport,
+        // The figure clicked, so the list can show how much of it has loaded.
+        expected:
+          this.currentIndicatorValue !== null &&
+          this.currentIndicatorValue !== undefined &&
+          this.currentIndicatorValue !== '' &&
+          !isNaN(+this.currentIndicatorValue)
+            ? +this.currentIndicatorValue
+            : undefined
       };
       // console.log('loading pl for', this.patientListLocationUuids);
       // console.log('loading pl for', this.currentIndicator);
