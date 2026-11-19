@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { take, finalize } from 'rxjs/operators';
 
 import * as _ from 'lodash';
+import * as Moment from 'moment';
 
 import { Patient } from '../../../models/patient.model';
 import { HivSummaryResourceService } from '../../../etl-api/hiv-summary-resource.service';
@@ -59,6 +60,8 @@ export class ProgramSnapshotNegativesComponent implements OnInit {
   public displayPrep = false;
   public displayPep = false;
   public gbvScreeningLabel: String;
+  public prepRegimenNote = '';
+  public lastPrepRegimen = '';
 
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
@@ -105,6 +108,9 @@ export class ProgramSnapshotNegativesComponent implements OnInit {
         }
 
         this.patientData = _.first(this.clinicalEncounters);
+        if (this.displayPrep) {
+          this.setPrepRegimenStatus(this.patientData, summary.PrEP.result);
+        }
         this.latestEncounterLocation = null;
         if (this.patientData.location_uuid) {
           this.resolveLastEncounterLocation(this.patientData.location_uuid);
@@ -144,6 +150,43 @@ export class ProgramSnapshotNegativesComponent implements OnInit {
           console.error('Error resolving locations', error);
         }
       );
+  }
+
+  // A blank regimen on the latest PrEP visit means the client is not on PrEP
+  // now (discontinued, or not prescribed at that visit), so say so and show
+  // the regimen they were last on instead of an empty field.
+  private setPrepRegimenStatus(latest: any, summaries: any[]) {
+    this.prepRegimenNote = '';
+    this.lastPrepRegimen = '';
+    if (!latest || latest.cur_prep_meds_names) {
+      return;
+    }
+    if (latest.discontinued_prep && latest.discontinued_prep_date) {
+      const date = Moment(latest.discontinued_prep_date).format('DD-MM-YYYY');
+      this.prepRegimenNote =
+        'None - PrEP discontinued on ' +
+        date +
+        (latest.discontinued_reason
+          ? ' (' + _.trim(latest.discontinued_reason) + ')'
+          : '');
+    } else {
+      this.prepRegimenNote = 'None - PrEP not prescribed at last visit';
+    }
+    const previous = _.find(
+      summaries || [],
+      (summary: any) =>
+        summary.cur_prep_meds_names &&
+        Moment(summary.encounter_datetime).isBefore(
+          Moment(latest.encounter_datetime)
+        )
+    );
+    this.lastPrepRegimen = previous
+      ? this.formatRegimen(previous.cur_prep_meds_names)
+      : '';
+  }
+
+  public formatRegimen(regimen: string): string {
+    return regimen ? regimen.split(' ## ').join(', ') : '';
   }
 
   private checkIfHasTransferEncounter(summaries: any[]): boolean {

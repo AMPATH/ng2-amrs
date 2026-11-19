@@ -39,7 +39,18 @@ export class TxMlResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}txml-quarterly-summary-patient-list?sDate=${params.sDate}&endDate=${params.eDate}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
+        `${this.url}txml-quarterly-summary-patient-list?sDate=${
+          params.sDate
+        }&endDate=${params.eDate}&locationUuids=${
+          params.locationUuids
+        }&indicators=${params.indicators}${
+          params.limit !== undefined
+            ? '&startIndex=' +
+              (params.startIndex || 0) +
+              '&limit=' +
+              params.limit
+            : ''
+        }`
       )
       .pipe(
         catchError((err: any) => {

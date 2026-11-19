@@ -39,7 +39,18 @@ export class TxCurrResourceService {
     // tslint:disable-next-line: max-line-length
     return this.http
       .get(
-        `${this.url}txcurr-summary-patient-list?endDate=${params.month}&locationUuids=${params.locationUuids}&indicators=${params.indicators}`
+        `${this.url}txcurr-summary-patient-list?endDate=${
+          params.month
+        }&locationUuids=${params.locationUuids}&indicators=${
+          params.indicators
+        }${
+          params.limit !== undefined
+            ? '&startIndex=' +
+              (params.startIndex || 0) +
+              '&limit=' +
+              params.limit
+            : ''
+        }`
       )
       .pipe(
         catchError((err: any) => {

@@ -1,6 +1,7 @@
 import { take } from 'rxjs/operators';
 import {
   Component,
+  OnDestroy,
   OnInit,
   Input,
   Output,
@@ -13,12 +14,37 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Moh731PatientListResourceService } from '../../etl-api/moh-731-patientlist-resource.service';
 
+/** Patients per page: small, so the progress bar moves steadily. */
+const PAGE_SIZE = 300;
+/** Pages fetched at the same time. */
+const CONCURRENT_PAGES = 4;
+
 @Component({
   selector: 'moh-731-patientlist',
   templateUrl: 'moh-731-patientlist.component.html',
   styleUrls: ['moh-731-patientlist.component.css']
 })
-export class Moh731PatientListComponent implements OnInit, OnChanges {
+export class Moh731PatientListComponent
+  implements OnInit, OnChanges, OnDestroy {
+  /** Patients per page for this list. */
+  public pageSize = PAGE_SIZE;
+  /** Identifies the current load, so a superseded one stops quietly. */
+  private runId = 0;
+
+  /** The figure the list was opened from, when known. */
+  public expectedTotal: number = null;
+
+  /** How far the list has got, for the progress bar. */
+  public get loadedPercent(): number {
+    if (!this.expectedTotal) {
+      return null;
+    }
+    const loaded = this.patientListPerIndicator
+      ? this.patientListPerIndicator.length
+      : 0;
+    return Math.min(100, Math.round((loaded / this.expectedTotal) * 100));
+  }
+
   public patientList: Array<any> = [];
   public patientListPerIndicator: Array<any> = [];
   public dataSource: any;
@@ -82,131 +108,116 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     );
   }
 
+  /** Leaving the page stops any pages still to be fetched. */
+  public ngOnDestroy() {
+    this.runId++;
+  }
+
+  /**
+   * Loads the whole list. Up to CONCURRENT_PAGES pages of PAGE_SIZE are fetched
+   * at once, one after another, until a page comes back short; rows are kept
+   * in page order whatever order they arrive in.
+   */
   public loadPatientList(params: any) {
-    this.busyIndicator = {
-      busy: true,
-      message: 'Loading Patient List...please wait'
-    };
+    const runId = ++this.runId;
+    this.isLoading = true;
+    this.hasLoadedAll = false;
+    this.hasError = false;
+    this.patientListPerIndicator = [];
+    this.expectedTotal =
+      params.expected !== undefined &&
+      params.expected !== '' &&
+      !isNaN(+params.expected)
+        ? +params.expected
+        : null;
+    this.pageSize = PAGE_SIZE;
     this.resetError();
-    const rowCount = 0;
-    let isLegacy = false;
-    let reportName = '';
-    if (params.isLegacy === true || params.isLegacy === 'true') {
-      isLegacy = true;
-      reportName = 'MOH-731-report';
-    } else {
-      reportName = 'MOH-731-report-2017';
-      isLegacy = false;
-    }
-    this.moh731PatientListResourceService
-      .getMoh731PatientListReport({
-        indicator: params.indicators,
-        isLegacy: isLegacy,
-        startIndex: this.startIndex[params.indicators]
-          ? this.startIndex[params.indicators]
-          : 0,
-        startDate: moment(params.startDate).format('YYYY-MM-DD'),
-        endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
-        reportName: reportName,
-        locationUuids: _.isArray(params.locations)
-          ? params.locations.join(',')
-          : params.locations
-      })
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.isLoading = false;
-          if (data.errorMessage) {
-            this.hasError = true;
-            console.log('MOH 731 patient list report', data);
-          } else {
-            /**
-             * Track everything per indicator provided
-             */
-            this.patientListPerIndicator = this.patientList[params.indicators]
-              ? this.patientList[params.indicators]
-              : [];
-            this.patientListPerIndicator = this.patientListPerIndicator.concat(
-              data.result
-            );
-            this.patientList[params.indicators] = this.patientListPerIndicator;
-            this.currentStartIndexPerIndicator = this.startIndex[
-              params.indicators
-            ];
-            this.currentStartIndexPerIndicator = this
-              .currentStartIndexPerIndicator
-              ? this.currentStartIndexPerIndicator
-              : 0;
-            this.currentStartIndexPerIndicator += data.size;
-            this.startIndex[
-              params.indicators
-            ] = this.currentStartIndexPerIndicator;
-            if (data.size < 300 && !this.dataLoaded[params.indicators]) {
-              this.dataLoaded[params.indicator] = true;
-            }
+    this.updateProgress();
 
-            if (data.result.length < 300) {
-              this.hasLoadedAll = true;
-            }
+    const isLegacy = params.isLegacy === true || params.isLegacy === 'true';
+    const request = {
+      indicator: params.indicators,
+      isLegacy: isLegacy,
+      limit: String(this.pageSize),
+      startDate: moment(params.startDate).format('YYYY-MM-DD'),
+      endDate: moment(params.endDate).endOf('day').format('YYYY-MM-DD'),
+      reportName: isLegacy ? 'MOH-731-report' : 'MOH-731-report-2017',
+      locationUuids: _.isArray(params.locations)
+        ? params.locations.join(',')
+        : params.locations
+    };
+    const pages = new Map<number, Array<any>>();
+    let next = 0;
+    let end: number = null;
+    let failed = false;
+    let described = false;
 
-            this.dataLoadedPerIndicator = this.dataLoaded[params.indicators];
-            this._startDate = moment(params.startDate);
-            this._endDate = moment(params.endDate);
-            if (data.locations) {
-              let _location = '';
-              _.each(data.locations, (location: any) => {
-                _location = _.trimStart(
-                  _.trimEnd(_location + ', ' + location.name, ','),
-                  ','
-                );
-              });
-              this._locations = _location;
-            }
-
-            if (data.indicators) {
-              this.searchIndicator(data.indicators, params.indicators).then(
-                (matchingIndicator: Array<any>) => {
-                  if (matchingIndicator.length > 0) {
-                    this._indicator = matchingIndicator[0]['label'];
-                  }
-                }
-              );
-            }
-            /*
-         rowCount += data.size;
-        this.dataSource = {
-         paginationPageSize: 50,
-         rowCount: rowCount,
-         getRows: function (params) {
-         let currentRowData = data.result.slice(params.startRow, params.endRow);
-         let lastRow = -1;
-         if (currentRowData.length <= params.endRow) {
-         lastRow = currentRowData.length;
-         }
-         params.successCallback(currentRowData, lastRow);
-         }
-         };*/
-            this.addExtraColumns(data.indicators);
-          }
-          this.busyIndicator = {
-            busy: false,
-            message: ''
-          };
-        },
-        (err) => {
-          this.isLoading = false;
+    const worker = async () => {
+      while (runId === this.runId && !failed && end === null) {
+        const start = next;
+        next += this.pageSize;
+        let data: any;
+        try {
+          data = await this.moh731PatientListResourceService
+            .getMoh731PatientListReport(
+              Object.assign({}, request, { startIndex: String(start) })
+            )
+            .pipe(take(1))
+            .toPromise();
+        } catch (err) {
+          data = null;
+        }
+        if (runId !== this.runId) {
+          return;
+        }
+        if (!data || data.errorMessage) {
+          failed = true;
+          this.hasError = !!(data && data.errorMessage);
           this.errorObj = {
             error: true,
             message:
               'An error occurred while trying to load the report.Please reload page'
           };
-          this.busyIndicator = {
-            busy: false,
-            message: ''
-          };
+          return;
         }
-      );
+        const page = data.result || [];
+        pages.set(start, page);
+        if (page.length < this.pageSize) {
+          end = end === null ? start : Math.min(end, start);
+        }
+        if (!described) {
+          described = true;
+          this.describeList(data, params);
+        }
+        this.patientListPerIndicator = Array.from(pages.keys())
+          .sort((a, b) => a - b)
+          .filter((key) => end === null || key <= end)
+          .reduce((rows, key) => rows.concat(pages.get(key)), []);
+        this.updateProgress();
+      }
+    };
 
+    const workers = [];
+    for (let i = 0; i < CONCURRENT_PAGES; i++) {
+      workers.push(worker());
+    }
+    Promise.all(workers).then(() => {
+      if (runId !== this.runId) {
+        return;
+      }
+      this.hasLoadedAll = !failed;
+      this.patientList[params.indicators] = this.patientListPerIndicator;
+      this.isLoading = false;
+      this.busyIndicator = { busy: false, message: '' };
+    });
+
+    this.addOverrideColumns();
+  }
+
+  private addOverrideColumns() {
+    if (this.overrideColumns.length > 0) {
+      return;
+    }
     this.overrideColumns.push({
       field: 'identifiers',
       onCellClicked: (column) => {
@@ -222,9 +233,42 @@ export class Moh731PatientListComponent implements OnInit, OnChanges {
     });
   }
 
-  public loadMorePatients() {
-    this.isLoading = true;
-    this.loadPatientList(this.params);
+  private updateProgress() {
+    const loaded = this.patientListPerIndicator
+      ? this.patientListPerIndicator.length
+      : 0;
+    this.busyIndicator = {
+      busy: true,
+      message:
+        loaded.toLocaleString() +
+        (this.expectedTotal
+          ? ' of ' + this.expectedTotal.toLocaleString()
+          : '') +
+        ' patients loaded'
+    };
+  }
+
+  /** Heading, locations and columns, taken from the first page that arrives. */
+  private describeList(data: any, params: any) {
+    this._startDate = moment(params.startDate);
+    this._endDate = moment(params.endDate);
+    if (data.locations) {
+      this._locations = _.map(data.locations, (location: any) => location.name)
+        .filter((name: string) => !!name)
+        .join(', ');
+    }
+    if (data.indicators) {
+      this.searchIndicator(data.indicators, params.indicators).then(
+        (matchingIndicator: Array<any>) => {
+          if (matchingIndicator.length > 0) {
+            this._indicator = matchingIndicator[0]['label'];
+          }
+        }
+      );
+    }
+    if (this.extraColumns.length === 0) {
+      this.addExtraColumns(data.indicators);
+    }
   }
 
   public goTopatientInfo(patientUuid: string) {

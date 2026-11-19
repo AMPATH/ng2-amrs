@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RegistersResourceService } from 'src/app/etl-api/registers-resource.service';
 import { Moh7312023ResourceService } from 'src/app/etl-api/moh-731-2023-resource.service';
 import { LocationResourceService } from 'src/app/openmrs-api/location-resource.service';
+import { UserService } from 'src/app/openmrs-api/user.service';
 import { take } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { DataAnalyticsDashboardService } from '../../services/data-analytics-dashboard.services';
@@ -23,8 +24,7 @@ import {
   Moh731Cell,
   Moh731Row,
   MOH_731_SECTIONS,
-  buildMoh731SectionDefs,
-  patientListIndicator
+  buildMoh731SectionDefs
 } from './moh-731-form-definition';
 
 @Component({
@@ -61,6 +61,12 @@ export class Report731Component implements OnInit {
   public isAggregated = false;
   public isReleased = false;
   public generated = false;
+  /**
+   * Sign-off, as on the O3 report: who produced the return and when.
+   * Designation and signature stay blank for filling in by hand.
+   */
+  public reviewedByName = '';
+  public reviewedOn = '';
 
   /** Layout of the paper form, shared by the report view and the tabular view. */
   public sections = MOH_731_SECTIONS;
@@ -152,8 +158,10 @@ export class Report731Component implements OnInit {
     private moh7312023: Moh7312023ResourceService,
     private locationResourceService: LocationResourceService,
     private datePipe: DatePipe,
-    private dataAnalyticsDashboardService: DataAnalyticsDashboardService
+    private dataAnalyticsDashboardService: DataAnalyticsDashboardService,
+    private userService: UserService
   ) {
+    this.reviewedByName = this.loggedInUserName();
     this.route.queryParams.subscribe((data) => {
       data.month === undefined
         ? (this._month = Moment().subtract(1, 'month').format('YYYY-MM-DD'))
@@ -440,6 +448,7 @@ export class Report731Component implements OnInit {
         this.isLoading = false;
         this.isReleased = data.isReleased === true;
         this.generatedWith = this.pendingFilters;
+        this.reviewedOn = Moment().format('DD-MM-YYYY');
       },
       () => {
         this.showInfoMessage = true;
@@ -627,7 +636,8 @@ export class Report731Component implements OnInit {
       title,
       cell.field,
       cell.gender || '',
-      sheet ? sheet.locationUuid : null
+      sheet ? sheet.locationUuid : null,
+      sheet && sheet.data ? sheet.data[cell.field] : null
     );
   }
 
@@ -639,7 +649,8 @@ export class Report731Component implements OnInit {
       selected.title,
       selected.indicator,
       selected.gender || '',
-      selected.location
+      selected.location,
+      selected.value
     );
   }
 
@@ -647,7 +658,8 @@ export class Report731Component implements OnInit {
     title: string,
     indicator: string,
     gender: string,
-    locationUuid?: string
+    locationUuid?: string,
+    figure?: any
   ) {
     // An indicator read off one location's sheet drills into that location
     // only. Aggregated numbers cover every location that was selected.
@@ -659,13 +671,18 @@ export class Report731Component implements OnInit {
     this.router.navigate(['patient-list'], {
       relativeTo: this.route,
       queryParams: {
-        // Named for the cell of the form rather than for the report column, so
-        // the list is the patients behind that box and not the whole row.
-        indicators: patientListIndicator(indicator),
+        // The O3 linelist endpoint filters on the same indicator the box shows,
+        // so the list is exactly the patients behind that figure.
+        indicators: indicator,
         indicatorHeader: title,
         month: this._month,
         locationUuids: locationUuids,
         indicatorGender: gender,
+        // The figure on the box, so the list can show how much of it has loaded.
+        expected:
+          figure !== null && figure !== undefined && !isNaN(+figure)
+            ? +figure
+            : undefined,
         // Formatted rather than handed over as Date objects: the url would
         // otherwise carry a js date string the server cannot parse, and the
         // period would reach the query as text that matches nothing.
@@ -796,5 +813,21 @@ export class Report731Component implements OnInit {
       .map((location: any) => location && location.label)
       .filter((label: any) => typeof label === 'string' && label.length > 0);
     return _.uniq(names).join(', ');
+  }
+
+  private loggedInUserName(): string {
+    try {
+      const user: any = this.userService.getLoggedInUser();
+      const person = user && user.person;
+      return (
+        (person &&
+          (person.display ||
+            (person.preferredName && person.preferredName.display))) ||
+        (user && user._openmrsModel && user._openmrsModel.display) ||
+        ''
+      );
+    } catch (e) {
+      return '';
+    }
   }
 }

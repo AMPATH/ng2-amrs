@@ -495,7 +495,13 @@
 
 .moh-form__footer-rule {
   border-bottom: 1px solid #000;
-  margin-top: 14px;
+  margin-top: 2px;
+  min-height: 16px;
+  line-height: 16px;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ---------- Measured geometry ----------

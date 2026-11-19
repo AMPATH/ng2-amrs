@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable, forkJoin, of as observableOf } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import * as Moment from 'moment';
@@ -8,8 +8,10 @@ import * as Moment from 'moment';
 /**
  * MOH 731 (Ver. July 2023).
  *
- * The report is computed a section at a time on the server, so a caller can ask
- * for the sections it is about to render rather than waiting on the whole form.
+ * Reads the same ETL endpoints as the O3 (3.x) MOH 731 report, so both show the
+ * same figures. `exactLocations` keeps this report's own location filter: the
+ * chosen locations are reported as they are, rather than widened to their
+ * whole facility as the O3 report does for its session location.
  */
 @Injectable({
   providedIn: 'root'
@@ -20,41 +22,71 @@ export class Moh7312023ResourceService {
     public appSettingsService: AppSettingsService
   ) {}
 
-  private get url(): string {
-    return (
-      this.appSettingsService.getEtlRestbaseurl().trim() + 'MOH-731-2023-report'
-    );
+  /** The O3 report routes sit at the ETL server root, beside its /etl routes. */
+  private get rootUrl(): string {
+    return this.appSettingsService
+      .getEtlRestbaseurl()
+      .trim()
+      .replace(/etl\/?$/, '');
   }
 
   /**
-   * @param sections Section numbers to compute, e.g. `['3']`. Omitted, the
-   *                 server computes every section it implements.
+   * The form for the selected locations: one combined sheet when aggregated,
+   * otherwise one sheet per location (the O3 endpoint always aggregates what it
+   * is given, so each location is asked for on its own).
+   *
+   * Returned in the `{ sections }` shape the report view folds together.
    */
   public getReport(params: any, sections?: string[]): Observable<any> {
-    let urlParams: HttpParams = new HttpParams()
+    const uuids: string[] = String(params.locationUuids || '')
+      .split(',')
+      .map((uuid) => uuid.trim())
+      .filter((uuid) => !!uuid);
+    const perLocation = !params.isAggregated && uuids.length > 1;
+    const requests = perLocation ? uuids : [uuids.join(',')];
+
+    return forkJoin(
+      requests.map((locationUuids) =>
+        this.getMonthlySummary(params, locationUuids).pipe(
+          map((response: any) => {
+            const row = Object.assign(
+              {},
+              ...((response && response.result) || [])
+            );
+            delete row.location;
+            delete row.location_id;
+            delete row.location_uuid;
+            if (!params.isAggregated) {
+              row.location_uuid = locationUuids;
+            }
+            return { row, isReleased: !!(response && response.isReleased) };
+          })
+        )
+      )
+    ).pipe(
+      map((parts: Array<any>) => ({
+        sections: { all: { result: parts.map((part) => part.row) } },
+        // released only when the server says the month is final
+        isReleased: parts.length > 0 && parts.every((part) => part.isReleased)
+      })),
+      catchError((err: any) => {
+        return observableOf({
+          error: err.status,
+          message: err.statusText
+        });
+      })
+    );
+  }
+
+  private getMonthlySummary(params: any, locationUuids: string) {
+    const urlParams: HttpParams = new HttpParams()
       .set('startDate', Moment(params.startDate).format('YYYY-MM-DD'))
       .set('endDate', Moment(params.endDate).format('YYYY-MM-DD'))
-      .set('isAggregated', params.isAggregated ? 'true' : 'false');
-
-    if (params.locationUuids) {
-      urlParams = urlParams.set('locationUuids', params.locationUuids);
-    }
-
-    if (sections && sections.length > 0) {
-      urlParams = urlParams.set('sections', sections.join(','));
-    }
-
-    return this.http
-      .get<any>(this.url, { params: urlParams })
-      .pipe(
-        map((response: any) => response),
-        catchError((err: any) => {
-          return observableOf({
-            error: err.status,
-            message: err.statusText
-          });
-        })
-      );
+      .set('locationUuids', locationUuids)
+      .set('exactLocations', 'true');
+    return this.http.get<any>(this.rootUrl + 'moh-731-monthly-summary', {
+      params: urlParams
+    });
   }
 
   /**
@@ -76,7 +108,8 @@ export class Moh7312023ResourceService {
     let urlParams: HttpParams = new HttpParams()
       .set('startDate', Moment(params.startDate).format('YYYY-MM-DD'))
       .set('endDate', Moment(params.endDate).format('YYYY-MM-DD'))
-      .set('isAggregated', params.isAggregated ? 'true' : 'false')
+      .set('isAggregated', 'true')
+      .set('exactLocations', 'true')
       .set('indicator', indicator)
       .set('startIndex', String(startIndex))
       .set('limit', String(limit));
@@ -89,13 +122,11 @@ export class Moh7312023ResourceService {
     }
 
     return this.http
-      .get<any>(
-        this.appSettingsService.getEtlRestbaseurl().trim() +
-          'MOH-731-2023-report/patient-list',
-        { params: urlParams }
-      )
+      .get<any>(this.rootUrl + 'moh-731-monthly-summary-patient-list', {
+        params: urlParams
+      })
       .pipe(
-        map((response: any) => response),
+        map((response: any) => this.toPatientListColumns(response)),
         catchError((err: any) => {
           // The server's own message is kept: a bare status tells the user
           // nothing about which indicator or parameter it objected to.
@@ -108,5 +139,31 @@ export class Moh7312023ResourceService {
           });
         })
       );
+  }
+
+  /**
+   * The O3 linelist names its columns differently from this report's patient
+   * list grid, so each row also carries the grid's names for the same values.
+   */
+  private toPatientListColumns(response: any): any {
+    const rows =
+      (response && response.results && response.results.results) || [];
+    const day = (value: any) =>
+      value ? Moment(value).format('YYYY-MM-DD') : value;
+    rows.forEach((row: any) => {
+      row.person_name = row.person_name || row.full_name;
+      row.identifiers =
+        row.identifiers ||
+        [row.amrs_number, row.ccc_number, row.nupi]
+          .filter((id: any) => !!id)
+          .join(', ');
+      row.upi_number = row.upi_number || row.nupi;
+      row.cur_meds = row.cur_meds || row.cur_arv_meds;
+      row.latest_rtc_date = row.latest_rtc_date || day(row.rtc_date);
+      row.last_appointment = row.last_appointment || day(row.last_visit_date);
+      row.enrollment_date = day(row.enrollment_date);
+      row.arv_first_regimen_start_date = day(row.arv_first_regimen_start_date);
+    });
+    return response;
   }
 }

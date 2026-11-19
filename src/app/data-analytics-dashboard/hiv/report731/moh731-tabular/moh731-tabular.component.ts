@@ -151,6 +151,8 @@ export class Moh731TabularViewComponent {
       headerTooltip: header + ' – click to list these patients',
       colId: 'total_' + sectionIndex,
       field: indicator,
+      // The total's patients are those of the boxes it adds up, listed together.
+      patientListIndicator: fields.join(','),
       indicatorTitle: header,
       indicatorGender: '',
       minWidth: 150,
@@ -206,7 +208,7 @@ export class Moh731TabularViewComponent {
       return;
     }
     this.indicatorSelected.emit({
-      indicator: event.colDef.field,
+      indicator: event.colDef.patientListIndicator || event.colDef.field,
       title: event.colDef.indicatorTitle || event.colDef.headerName,
       gender: event.colDef.indicatorGender || '',
       value: event.value,

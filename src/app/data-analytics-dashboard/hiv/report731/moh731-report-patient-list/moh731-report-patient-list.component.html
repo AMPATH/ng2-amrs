@@ -4,8 +4,30 @@
     <span>Go back to report view</span>
   </button>
 </div>
-<div class="loader" *ngIf="isLoading">
-  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
+<div
+  class="moh-loading-overlay"
+  *ngIf="isLoading"
+  role="status"
+  aria-live="polite"
+>
+  <div class="moh-loading-card">
+    <i class="fa fa-spinner fa-spin"></i>
+    <p class="moh-loading-title">
+      {{ selectedIndicatorGender }} {{ selectedIndicator || 'Patient list' }}
+    </p>
+    <p class="moh-loading-message">
+      {{ busyIndicator?.message || 'Loading patient list...' }}
+    </p>
+    <div class="progress" *ngIf="loadedPercent !== null">
+      <div
+        class="progress-bar progress-bar-striped active"
+        role="progressbar"
+        [style.width.%]="loadedPercent"
+      >
+        {{ loadedPercent }}%
+      </div>
+    </div>
+  </div>
 </div>
 <h3>
   <b>{{ selectedIndicatorGender }} {{ selectedIndicator }}</b> patient list
@@ -20,20 +42,6 @@
   [overrideColumns]="overrideColumns"
   [data]="patientData"
 ></patient-list>
-
-<div *ngIf="!hasLoadedAll">
-  <div class="button">
-    <button
-      class="btn btn-primary"
-      [ladda]="isLoading"
-      data-size="xs"
-      data-color="blue"
-      (click)="loadMorePatients()"
-    >
-      <span class=""></span>Load More...
-    </button>
-  </div>
-</div>
 
 <div *ngIf="hasLoadedAll">
   <p class="bg-info" style="padding: 4px">

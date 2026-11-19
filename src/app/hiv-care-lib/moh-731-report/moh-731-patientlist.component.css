@@ -37,3 +37,59 @@
   width: 16px;
   margin-right: 8px;
 }
+
+.moh-loading-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.moh-loading-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 28px;
+  background: #fff;
+  border: 1px solid #dde5ee;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.moh-loading-card .fa-spinner {
+  font-size: 30px;
+  color: #337ab7;
+}
+
+.moh-loading-title {
+  margin: 12px 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.moh-loading-message {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #666;
+}
+
+.moh-loading-card .progress {
+  height: 20px;
+  margin: 0;
+}
+
+.moh-loading-card .progress-bar {
+  min-width: 2.5em;
+  line-height: 20px;
+  transition: width 0.4s ease;
+}

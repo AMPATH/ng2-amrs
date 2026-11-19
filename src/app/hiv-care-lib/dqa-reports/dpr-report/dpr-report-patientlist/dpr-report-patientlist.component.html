@@ -4,9 +4,13 @@
     <span> Back</span>
   </button>
 </div>
-<div class="loader" *ngIf="isLoading">
-  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
-</div>
+<app-linelist-loading-overlay
+  *ngIf="isLoading"
+  title="DPR patient list"
+  [statusText]="loadingStatus"
+  [progress]="loadingProgress"
+  note="Estimated progress - the list is built on the server in one step."
+></app-linelist-loading-overlay>
 <h3>DPR patient list</h3>
 <hr />
 
@@ -28,14 +32,6 @@
       </p>
       <div class="dpr-cohort-note">{{ cohortNote }}</div>
     </div>
-    <label>
-      <input
-        type="checkbox"
-        [checked]="showQaColumns"
-        (change)="toggleQaColumns()"
-      />
-      Show QA columns
-    </label>
     <button
       class="btn btn-info"
       [disabled]="rowData.length === 0"

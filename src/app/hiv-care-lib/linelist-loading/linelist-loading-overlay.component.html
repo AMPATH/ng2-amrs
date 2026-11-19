@@ -1,0 +1,17 @@
+<div class="linelist-loading-overlay" role="status" aria-live="polite">
+  <div class="linelist-loading-card">
+    <i class="fa fa-spinner fa-spin"></i>
+    <p class="linelist-loading-title">{{ title || 'Patient list' }}</p>
+    <p class="linelist-loading-message">{{ message }}</p>
+    <div class="progress" *ngIf="percent !== null">
+      <div
+        class="progress-bar progress-bar-striped active"
+        role="progressbar"
+        [style.width.%]="percent"
+      >
+        {{ percent }}%
+      </div>
+    </div>
+    <p class="linelist-loading-note" *ngIf="note">{{ note }}</p>
+  </div>
+</div>

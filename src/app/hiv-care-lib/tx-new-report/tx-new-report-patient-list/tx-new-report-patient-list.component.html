@@ -4,9 +4,12 @@
     <span>Go back to report view</span>
   </button>
 </div>
-<div class="loader" *ngIf="isLoading">
-  <span><i class="fa fa-spinner fa-spin"></i>Loading...</span>
-</div>
+<app-linelist-loading-overlay
+  *ngIf="isLoading"
+  [title]="(selectedIndicatorGender || '') + ' ' + (selectedIndicator || '')"
+  [loaded]="patientData?.length || 0"
+  [expected]="expectedTotal"
+></app-linelist-loading-overlay>
 <h3>
   <b>{{ selectedIndicatorGender }} {{ selectedIndicator }}</b> patient list
 </h3>
