@@ -29,28 +29,16 @@
   </div>
   <div style="padding: 0px; border: 1px double lightgray" class="row">
     <div *ngIf="!filterCollapsed">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-12">
         <div class="form-row">
-          <label for="startDate">Start Date:</label>
+          <label for="month">Month:</label>
           <input
-            id="startDate"
-            type="date"
+            id="month"
+            type="month"
             class="form-control"
-            [(ngModel)]="startDateString"
+            [(ngModel)]="monthString"
           />
         </div>
-      </div>
-      <div class="form-group col-md-6">
-        <div class="form-row">
-          <label for="endDate">End Date:</label>
-          <input
-            id="endDate"
-            type="date"
-            class="form-control"
-            [(ngModel)]="endDateString"
-          />
-        </div>
-        <div></div>
       </div>
     </div>
   </div>
