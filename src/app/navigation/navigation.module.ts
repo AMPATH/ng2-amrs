@@ -13,6 +13,7 @@ import { FormSchemaService } from '../patient-dashboard/common/formentry/form-sc
 import { FormSchemaCompiler } from '@ampath-kenya/ngx-openmrs-formentry';
 import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import { FormListService } from '../patient-dashboard/common/forms/form-list.service';
+import { RegistersSideNavComponent } from './side-navigation/registers-side-nav/registers-side-nav.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, NgamrsSharedModule],
@@ -26,7 +27,8 @@ import { FormListService } from '../patient-dashboard/common/forms/form-list.ser
     SideNavigationComponent,
     StaticNavBarComponent,
     PatientSideNavComponent,
-    ClinicSideNavComponent
+    ClinicSideNavComponent,
+    RegistersSideNavComponent
   ],
   providers: [
     NavigationService,

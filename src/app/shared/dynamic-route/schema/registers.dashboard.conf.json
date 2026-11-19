@@ -1,0 +1,28 @@
+{
+  "id": "registersDashboard",
+  "name": "Registers Dashboard",
+  "baseRoute": "registers-dashboard",
+  "routeParameter": "",
+  "nonProgramRoutes": [
+    {
+      "url": "hiv/defaulter-tracing-register",
+      "label": "Defaulter Tracing Register",
+      "icon": "fa fa-file-text-o"
+    }
+  ],
+  "programs": [],
+  "departments": [
+    {
+      "departmentName": "HIV",
+      "baseRoute": "hiv",
+      "alias": "hiv",
+      "routes": [
+        {
+          "url": "defaulter-tracing-register",
+          "label": "Defaulter Tracing Register",
+          "icon": "fa fa-file-text-o"
+        }
+      ]
+    }
+  ]
+}

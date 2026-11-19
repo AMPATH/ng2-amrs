@@ -1,0 +1,87 @@
+<h4 class="component-title" style="color: green">
+  <span style="color: red"> <i class="fa fa-exclamation-triangle"></i></span>
+  Defaulter Tracing Register
+</h4>
+<div class="filters">
+  <location-filter
+    id="location"
+    [locationUuids]="locations"
+    [showLabel]="false"
+    [disable-county]="true"
+    (onLocationChange)="renderDefaulterTracingRegister($event)"
+    [multiple]="false"
+  ></location-filter>
+  <div class="date-filter">
+    <div class="col-md-12 form-group">
+      <label for="month">Month: </label>
+      <input
+        id="endDate"
+        type="month"
+        class="form-control"
+        [(ngModel)]="monthString"
+        name="endDate"
+      />
+    </div>
+
+    <div class="col-md-12 col-xs-12">
+      <div class="row">
+        <div class="col-md-4 col-xs-4">
+          <button
+            class="btn btn-info previous"
+            style="margin: 0px; float: left"
+            (click)="navigateDay(-1)"
+          >
+            <span class="glyphicon glyphicon-chevron-left"></span>Previous Month
+          </button>
+        </div>
+        <div
+          class="col-md-4 col-xs-4"
+          style="text-align: center; padding: 1px; margin: 2px 0px 2px 0px"
+        >
+          <span style="font-weight: bold"> {{ monthString }} </span>
+        </div>
+        <div class="col-md-4 col-xs-4">
+          <button
+            class="btn btn-info next"
+            style="margin: 0px; float: right"
+            (click)="navigateDay(1)"
+          >
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;Next Month</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12 col-xs-12">
+  <hr />
+  <p
+    class="text-info"
+    *ngIf="!locations || (locations && locations.length == 0)"
+  >
+    Please select location(s) to view report
+  </p>
+  <!-- <clinic-flow
+    *ngIf="locations && locations.length > 0 "
+    [date]="selectedDate"
+    [locations]="locations"
+  ></clinic-flow> -->
+  <div>
+    <app-defaulter-record
+      [date]="selectedDate"
+      [locations]="locations"
+    ></app-defaulter-record>
+    <div style="margin: 0px; float: right">
+      <button
+        class="btn btn-info"
+        (click)="exportAllData()"
+        style="margin-top: 1em; margin-right: 1em; color: #fff"
+      >
+        <i class="inline fa fa-file-excel-o"></i>
+        <span>Export as CSV</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
