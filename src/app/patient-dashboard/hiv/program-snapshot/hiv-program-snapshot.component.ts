@@ -1,4 +1,11 @@
-import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  OnInit,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { take, finalize } from 'rxjs/operators';
@@ -15,6 +22,7 @@ import { CervicalCancerScreeningSummaResourceService } from './../../../etl-api/
 import { Covid19ResourceService } from './../../../etl-api/covid-19-resource-service';
 import { PatientReminderService } from '../../common/patient-reminders/patient-reminders.service';
 import { PredictionResourceService } from 'src/app/etl-api/prediction-resource.service';
+import { ObsResourceService } from 'src/app/openmrs-api/obs-resource.service';
 
 const mdtProgramUuid = 'c4246ff0-b081-460c-bcc5-b0678012659e';
 const stdProgramUuid = '781d85b0-1359-11df-a1f1-0026b9348838';
@@ -45,7 +53,7 @@ interface Alert {
   styleUrls: ['./hiv-program-snapshot.component.css'],
   templateUrl: './hiv-program-snapshot.component.html'
 })
-export class HivProgramSnapshotComponent implements OnInit {
+export class HivProgramSnapshotComponent implements OnInit, OnDestroy {
   @Input() public set enrolledProgrames(enrolledProgrames) {
     this.patientPrograms = enrolledProgrames;
   }
@@ -130,6 +138,11 @@ export class HivProgramSnapshotComponent implements OnInit {
   public infant_feeding_method: string;
   public reason_cacx_not_done: string = null;
 
+  // Project Beyond
+  public pbConceptUuid = '907c74df-b0a1-416b-848d-87dac8bf20b9';
+  public subscription: Subscription;
+  public isProjectBeyondElligible = false;
+
   constructor(
     private hivSummaryResourceService: HivSummaryResourceService,
     private encounterResourceService: EncounterResourceService,
@@ -138,7 +151,8 @@ export class HivProgramSnapshotComponent implements OnInit {
     private cervicalCancerScreeningSummaryService: CervicalCancerScreeningSummaResourceService,
     private covid19Service: Covid19ResourceService,
     private predictionResourceService: PredictionResourceService,
-    private patientReminderService: PatientReminderService
+    private patientReminderService: PatientReminderService,
+    private obsService: ObsResourceService
   ) {}
 
   public ngOnInit() {
@@ -161,6 +175,7 @@ export class HivProgramSnapshotComponent implements OnInit {
           this.patient.person.age > 19
             ? (this.gbvScreeningLabel = 'GBV Screening')
             : (this.gbvScreeningLabel = 'VAC Screening');
+          this.getPBpbClientConsent(patientUuid);
         }
       },
       0,
@@ -168,6 +183,12 @@ export class HivProgramSnapshotComponent implements OnInit {
     );
 
     this.getMoriskyScore();
+  }
+
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public getHivSummary(patientUuid: string) {
@@ -835,5 +856,16 @@ export class HivProgramSnapshotComponent implements OnInit {
       return 'Not Done: Patient Refusal';
     }
     return null;
+  }
+
+  public getPBpbClientConsent(pbPatientUuid) {
+    this.subscription = this.obsService
+      .getObsPatientObsByConcepts(pbPatientUuid, this.pbConceptUuid)
+      .subscribe((data) => {
+        const results = data['results'];
+        this.isProjectBeyondElligible =
+          results[0].value.display === 'YES' ? true : false;
+        console.log('xxxxxxx', results[0].value.display);
+      });
   }
 }
