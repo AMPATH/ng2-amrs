@@ -1,16 +1,6 @@
-/**
- * Columns of each MOH 731 linelist, taken from the O3 (3.x) report's linelist
- * sections so both show the same details for a figure. Name, identifiers, sex
- * and age come from the patient list grid itself.
- *
- * Generated from ampath-esm-reports: reports/moh-731/linelist/
- * moh-731-linelist-sections.ts (visible columns) and moh-731-indicators.ts
- * (which section each indicator opens).
- */
 export interface Moh731LinelistColumn {
   headerName: string;
   field: string;
-  /** Shown as a date (DD-MM-YYYY). */
   date: boolean;
 }
 
