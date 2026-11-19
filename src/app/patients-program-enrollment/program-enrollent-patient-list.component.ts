@@ -39,6 +39,18 @@ export class ProgramEnrollmentPatientListComponent
       field: 'ccc_number',
       pinned: true
     },
+    {
+      headerName: 'CR',
+      width: 200,
+      field: 'cr_id',
+      pinned: true
+    },
+    {
+      headerName: 'SHA',
+      width: 200,
+      field: 'sha_id',
+      pinned: true
+    },
     { headerName: 'Name', field: 'name', width: 250, pinned: true },
     {
       headerName: 'NUPI Identifier',
