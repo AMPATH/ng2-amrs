@@ -399,14 +399,12 @@ export class LabOrderSearchPostComponent implements OnInit, OnChanges {
         },
         (err) => {
           this.isBusy = false;
-          this.error = err.error.message;
-
-          if (err._body) {
-            const json = JSON.parse(err._body);
-            if (json && json.message) {
-              this.error = json.message;
-            }
-          }
+          const body = err && err.error;
+          this.error =
+            (body && body.message) ||
+            (body && body.error && body.error.message) ||
+            (typeof body === 'string' && body) ||
+            'The order could not be posted to the lab. Please try again.';
         }
       );
   }
