@@ -133,9 +133,8 @@ button.btn-primary {
   --gm-surface: #ffffff;
   --gm-otz: #c77700;
   --gm-otz-soft: #fff4e0;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px 16px 40px;
+  width: 100%;
+  padding: 12px 0 40px;
   color: var(--gm-ink);
 }
 
