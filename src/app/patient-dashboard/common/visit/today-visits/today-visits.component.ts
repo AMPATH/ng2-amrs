@@ -19,6 +19,7 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
   public groupedVisits = [];
   public index = 0;
   public patient: any;
+  public today = new Date();
   private subs: Subscription[] = [];
 
   constructor(

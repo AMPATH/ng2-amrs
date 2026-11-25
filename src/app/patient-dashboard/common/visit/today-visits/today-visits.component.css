@@ -115,3 +115,260 @@
     font-size: 13px;
   }
 }
+
+/* ---------- Page organisation ---------- */
+.tv-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-bottom: 6px;
+}
+.tv-title {
+  margin: 0;
+}
+.tv-today {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #eaf2fa;
+  color: #3276b1;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.tv-content {
+  padding: 12px 2px 4px;
+}
+.tv-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #6b8597;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.tv-programs {
+  margin-bottom: 14px;
+}
+.tv-program-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tv-program-chips .program-list {
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.tv-program-chips .btn-default {
+  border-color: #dde8f0;
+  background: #fff;
+  color: #3d5a6c;
+}
+.tv-program-chips .btn-default:hover {
+  border-color: #428bca;
+  background: #eaf2fa;
+}
+.tv-program-chips .btn-info {
+  border-color: #428bca;
+  background: #428bca;
+  color: #fff;
+}
+.tv-section {
+  margin-top: 22px;
+}
+.tv-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  color: #1d3b4f;
+  font-size: 18px;
+  font-weight: 700;
+}
+.tv-section-title .fa {
+  color: #6b8597;
+}
+.tv-count {
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: #eef3f7;
+  color: #3d5a6c;
+  font-size: 12.5px;
+}
+.tv-section-card {
+  padding: 8px 10px;
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  background: #fff;
+  overflow-x: auto;
+}
+.tv-tools-label {
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px dashed #dde8f0;
+}
+
+/* ---------- Calmer type sizes ---------- */
+.tv-section-title {
+  font-size: 15px;
+}
+.tv-count {
+  font-size: 12px;
+}
+.tv-today {
+  font-size: 12px;
+}
+.tv-status {
+  font-size: 13px;
+}
+
+.tv-tools-divider {
+  margin-top: 24px;
+  border-top: 1px dashed #dde8f0;
+}
+
+/* ---------- One type scale for the visit section ---------- */
+.tv-content,
+.tv-section-title,
+.tv-program-chips .program-list {
+  font-family: inherit;
+}
+.tv-section-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.tv-label {
+  font-size: 11.5px;
+}
+.tv-program-chips .program-list {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.tv-today {
+  font-size: 12.5px;
+}
+
+/* "Programme" label in the same font as the "Start a Visit" heading */
+.tv-label {
+  color: #1d3b4f;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.tv-tools-label {
+  color: #6b8597;
+}
+/* Slimmer button corners */
+.tv-program-chips .program-list {
+  border-radius: 4px;
+}
+
+/* ================= Uniform page system ================= */
+.tv-label,
+.tv-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 8px;
+  color: #1d3b4f;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.tv-label .fa,
+.tv-section-title .fa {
+  color: #8aa1b1;
+  font-size: 13px;
+}
+.tv-programs {
+  margin-bottom: 4px;
+}
+.tv-programs .tv-label {
+  margin-top: 0;
+}
+.tv-section {
+  margin-top: 0;
+}
+.tv-section-card {
+  padding: 10px 12px;
+  border: 1px solid #dde8f0;
+  border-radius: 8px;
+}
+.tv-count {
+  font-size: 12px;
+  font-weight: 600;
+}
+.tv-program-chips .program-list {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.tv-tools-divider {
+  margin-top: 18px;
+}
+
+/* Keep the sentence close under the programme button */
+.tv-programs {
+  margin-bottom: 2px;
+}
+
+/* Programme button as on production: the standard Bootstrap button */
+.tv-program-chips .program-list {
+  height: auto;
+  margin: 0 4px 4px 0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: normal;
+}
+.tv-program-chips .btn-default {
+  border-color: #ccc;
+  background: #fff;
+  color: #333;
+}
+.tv-program-chips .btn-info {
+  border-color: #46b8da;
+  background: #5bc0de;
+  color: #fff;
+}
+.tv-programs {
+  margin-bottom: 0;
+}
+
+/* ---------- Skeleton while switching programme ---------- */
+.tv-switching {
+  margin-top: 8px;
+}
+.tv-switching-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  color: #3d5a6c;
+  font-size: 12px;
+  font-weight: 500;
+}
+.tv-switching-status .fa {
+  color: #428bca;
+}
+.tv-switching-card {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid #dde8f0;
+  border-radius: 8px;
+}

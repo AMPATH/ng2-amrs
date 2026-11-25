@@ -331,3 +331,69 @@
 .evc-info:focus {
   color: #428bca;
 }
+
+/* ---------- Calmer type sizes ---------- */
+.evc-toggle-text strong {
+  font-size: 14px;
+}
+.evc-toggle-text small {
+  font-size: 12px;
+}
+
+/* ---------- One type scale for the visit section ---------- */
+.evc,
+.evc-btn {
+  font-family: inherit;
+}
+.evc-toggle-text strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+.evc-toggle-text small,
+.evc-muted,
+.evc-chip {
+  font-size: 12.5px;
+}
+.evc-intro,
+.evc-list li,
+.evc-state {
+  font-size: 13px;
+}
+.evc-btn {
+  font-size: 13px;
+}
+
+/* ================= Uniform page system ================= */
+.evc {
+  margin-top: 14px;
+  border-radius: 8px;
+}
+.evc-toggle {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.evc-toggle-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.evc-toggle-text strong {
+  color: #1d3b4f;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.evc-toggle-text small {
+  color: #6b8597;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 400;
+}
+.evc-btn {
+  height: 30px;
+  border-radius: 4px;
+  font-size: 12.5px;
+}

@@ -20,14 +20,66 @@ const GROUP_DETAIL_V =
   'custom:(attributes,auditInfo,cohortLeaders,cohortType,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason,' +
   'cohortVisits:(uuid,startDate,endDate,visitType:(uuid),' +
   'cohortMemberVisits:(visit:(startDatetime,patient:(uuid),' +
+  'encounters:(encounterDatetime,encounterType:(uuid))))))';
+
+/**
+ * The same with each encounter's observations, needed only for the OTZ
+ * module columns. Observations are by far the largest part (tens of thousands
+ * for one group), so they are fetched only for OTZ clubs, after the table.
+ */
+const GROUP_DETAIL_WITH_OBS_V =
+  'custom:(uuid,' +
+  'cohortVisits:(uuid,startDate,endDate,visitType:(uuid),' +
+  'cohortMemberVisits:(visit:(startDatetime,patient:(uuid),' +
   'encounters:(encounterDatetime,encounterType:(uuid),obs:(uuid,display))))))';
+
+/** The group and its meetings only - the member visits come from the ETL. */
+const GROUP_MEETINGS_V =
+  'custom:(attributes,auditInfo,cohortLeaders,cohortType,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason,' +
+  'cohortVisits:(uuid,startDate,endDate,visitType:(uuid)))';
+
+/**
+ * Puts the ETL attendance rows on the meetings in the shape the group page
+ * reads: meeting.cohortMemberVisits[].visit.{uuid, startDatetime, patient,
+ * encounters[].{encounterDatetime, encounterType}}.
+ */
+function attachMemberVisits(group: any, rows: any[]): any {
+  const byMeeting = new Map<string, Map<string, any>>();
+  (rows || []).forEach((row: any) => {
+    if (!byMeeting.has(row.cohort_visit_uuid)) {
+      byMeeting.set(row.cohort_visit_uuid, new Map<string, any>());
+    }
+    const visits = byMeeting.get(row.cohort_visit_uuid);
+    if (!visits.has(row.visit_uuid)) {
+      visits.set(row.visit_uuid, {
+        visit: {
+          uuid: row.visit_uuid,
+          startDatetime: row.visit_start,
+          patient: { uuid: row.patient_uuid },
+          encounters: []
+        }
+      });
+    }
+    if (row.encounter_type_uuid) {
+      visits.get(row.visit_uuid).visit.encounters.push({
+        encounterDatetime: row.encounter_datetime,
+        encounterType: { uuid: row.encounter_type_uuid }
+      });
+    }
+  });
+  (group.cohortVisits || []).forEach((meeting: any) => {
+    const visits = byMeeting.get(meeting.uuid);
+    meeting.cohortMemberVisits = visits ? Array.from(visits.values()) : [];
+  });
+  return group;
+}
 
 /**
  * Whether every meeting came back with its member visits in the shape the
  * group page reads: each with its visit, the visit's patient and encounters,
- * and each encounter's type and observations.
+ * and each encounter's type (and observations, when asked for).
  */
-function hasMemberVisits(group: any): boolean {
+function hasMemberVisits(group: any, withObs = false): boolean {
   if (!group || !Array.isArray(group.cohortVisits)) {
     return false;
   }
@@ -45,7 +97,7 @@ function hasMemberVisits(group: any): boolean {
             (encounter: any) =>
               !!encounter &&
               !!encounter.encounterType &&
-              Array.isArray(encounter.obs)
+              (!withObs || Array.isArray(encounter.obs))
           )
       )
   );
@@ -146,16 +198,61 @@ export class CommunityGroupService {
     const members$ = this.cohortMemberResourceService
       .getCohortMembersByCohort(groupUuid)
       .pipe(shareReplay(1));
-    const group$ = forkJoin([
-      members$,
-      this._getGroupByUuid(groupUuid, null)
+    // Fast path: the group and its meeting list from OpenMRS (small), and the
+    // member visits and encounters from the ETL server (one SQL query), side
+    // by side. If either fails, the OpenMRS request with member visits is used.
+    const groupWithVisits$ = forkJoin([
+      this.getGroupMeetingsOnly(groupUuid),
+      this.getGroupMeetingAttendance(groupUuid)
     ]).pipe(
+      map(([group, rows]) => attachMemberVisits(group, rows)),
+      catchError((err) => {
+        console.warn(
+          'Group detail: attendance from ETL unavailable; using OpenMRS.',
+          err
+        );
+        return this._getGroupByUuid(groupUuid, null);
+      })
+    );
+    const group$ = forkJoin([members$, groupWithVisits$]).pipe(
       map(([cohortMembers, group]) => {
         group.cohortMembers = cohortMembers;
         return group;
       })
     );
     return { members$, group$ };
+  }
+
+  /** The group with its meetings, without the meetings' member visits. */
+  private getGroupMeetingsOnly(groupUuid: string): Observable<any> {
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
+    return this.http
+      .get<any>(url, { params: new HttpParams().set('v', GROUP_MEETINGS_V) })
+      .pipe(
+        map((group: any) => {
+          if (!group || !Array.isArray(group.cohortVisits)) {
+            throw new Error('Group meetings missing');
+          }
+          return group;
+        })
+      );
+  }
+
+  /** Member visits and encounters of the group's meetings, from the ETL. */
+  private getGroupMeetingAttendance(groupUuid: string): Observable<any[]> {
+    const url =
+      this._appSettingsService.getEtlRestbaseurl().trim() +
+      'group-meeting-attendance';
+    return this.http
+      .get<any>(url, { params: new HttpParams().set('cohortUuid', groupUuid) })
+      .pipe(
+        map((response: any) => {
+          if (!response || !Array.isArray(response.result)) {
+            throw new Error('Unexpected attendance response');
+          }
+          return response.result;
+        })
+      );
   }
 
   //       'custom:(attributes,auditInfo,cohortLeaders,cohortType,cohortVisits,description,display,endDate,groupCohort,location,name,startDate,uuid,voided,voidReason)'
@@ -184,6 +281,29 @@ export class CommunityGroupService {
         return fetch(GROUP_DETAIL_FULL_V);
       }),
       map(withMembers)
+    );
+  }
+
+  /**
+   * The group's meetings with each encounter's observations - for the OTZ
+   * module columns, loaded after the members table is shown. Falls back to
+   * the full group request if the slim one is refused.
+   */
+  public getGroupMeetingsWithObs(groupUuid: string): Observable<any[]> {
+    const url = this.getOpenMrsBaseUrl() + '/cohort' + `/${groupUuid}`;
+    const fetch = (v: string) =>
+      this.http.get<any>(url, { params: new HttpParams().set('v', v) });
+    return fetch(GROUP_DETAIL_WITH_OBS_V).pipe(
+      switchMap((group: any) =>
+        hasMemberVisits(group, true)
+          ? of(group)
+          : throwError('Slim meetings request lacked observations')
+      ),
+      catchError((err) => {
+        console.warn('Group detail: using the full request for modules.', err);
+        return fetch(GROUP_DETAIL_FULL_V);
+      }),
+      map((group: any) => (group && group.cohortVisits) || [])
     );
   }
 

@@ -15,6 +15,7 @@
 </div>
 
 <div *ngIf="patient && (!visitsLoading || errors?.length)">
+  <!-- Enrollment, as on production (original markup, made null-safe) -->
   <div style="margin-top: 4px; margin-bottom: 4px">
     <strong *ngIf="currentEnrollment" style="color: gray">
       <span>
@@ -91,13 +92,13 @@
 
     <h3
       *ngIf="visit && patient && visit.stopDatetime === null"
-      style="margin-left: -8px; margin-bottom: -4px; margin-top: -8px"
+      class="vis-section-title"
     >
-      Current Visit
+      <i class="fa fa-stethoscope vis-icon-current"></i> Current Visit
     </h3>
     <div
       *ngIf="visit && patient && visit.stopDatetime === null"
-      style="border: solid #80d651; border-width: 1px 1px 1px 4px; padding: 4px"
+      class="vis-card vis-card-current"
     >
       <app-visit-details
         [visit]="visit"
@@ -115,18 +116,13 @@
 
     <h3
       *ngIf="patient && (!visit || visit.stopDatetime !== null)"
-      style="margin-left: -8px; margin-bottom: -16px; margin-top: -8px"
+      class="vis-section-title"
     >
-      Start a Visit
+      <i class="fa fa-play-circle vis-icon-start"></i> Start a Visit
     </h3>
     <div
       *ngIf="patient && (!visit || visit.stopDatetime !== null)"
-      style="
-        border: solid lightgray;
-        border-width: 1px 1px 1px 1px;
-        padding: 4px;
-        margin-top: 10px;
-      "
+      class="vis-card"
     >
       <h4>
         <!-- <span class="fa  fa-info"></span>  -->

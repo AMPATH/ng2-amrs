@@ -27,7 +27,14 @@ import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/se
 import { CohortOtzModuleResourceService } from 'src/app/etl-api/cohort-otz-module-resource.service';
 import { RisonService } from '../../shared/services/rison-service';
 import { HttpClient } from '@angular/common/http';
-import { finalize, flatMap, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  finalize,
+  flatMap,
+  map,
+  shareReplay,
+  switchMap,
+  take
+} from 'rxjs/operators';
 
 @Component({
   selector: 'group-detail',
@@ -120,6 +127,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public cohortVisits = [];
   /** True while the members table is being filled in. */
   public membersLoading = false;
+  /** True while the OTZ module columns are being filled in. */
+  public modulesLoading = false;
   public numberOfMembers: number;
   public patientVisitPayload: any;
   public visitTypes = [];
@@ -247,6 +256,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           res.cohortVisits,
           summaries$
         );
+        if (this.isOtzProgram) {
+          // The OTZ module columns need the encounters' observations, which
+          // are large - fetched after the table is already shown.
+          this.loadModuleColumns(uuid, res.cohortMembers, summaries$);
+        }
       },
       (err) => {
         console.error('Group detail: could not load the group', err);
@@ -323,6 +337,47 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('Group detail: could not load HIV summaries', err);
       }
     );
+  }
+
+  /**
+   * Fills in the OTZ module columns (Mod 1-8) once the meetings' observations
+   * arrive, rebuilding the rows without showing the skeleton again.
+   */
+  private loadModuleColumns(
+    groupUuid: string,
+    cohortMembers: any[],
+    summaries$: Observable<any>
+  ) {
+    this.modulesLoading = true;
+    this.communityGroupService
+      .getGroupMeetingsWithObs(groupUuid)
+      .pipe(take(1))
+      .subscribe(
+        (meetings: any[]) => {
+          summaries$.pipe(take(1)).subscribe(
+            (result) => {
+              try {
+                const summaryMap = this.generateSummaryObject(result || []);
+                const members = this.generateMemberObject(cohortMembers);
+                this.modulesLoading = false;
+                this.membersData = this.generateRowData(
+                  members,
+                  meetings,
+                  summaryMap
+                );
+              } catch (err) {
+                this.modulesLoading = false;
+                console.error('Group detail: could not fill the modules', err);
+              }
+            },
+            () => (this.modulesLoading = false)
+          );
+        },
+        (err) => {
+          this.modulesLoading = false;
+          console.error('Group detail: could not load the OTZ modules', err);
+        }
+      );
   }
 
   public generatePatientUuids(cohortMembers) {
@@ -920,7 +975,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           width: 80,
           minWidth: 75,
           cellClass: 'gd-cell-center',
-          cellRenderer: tick
+          cellRenderer: (column) =>
+            this.modulesLoading
+              ? '<span class="text-muted" title="Loading modules">…</span>'
+              : tick(column)
         });
       }
     }
