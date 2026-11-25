@@ -92,6 +92,59 @@ export class GroupDetailSummaryComponent implements OnInit, OnDestroy {
     appendSelectorToBody: true
   };
 
+  /** Meeting facts, worked out once per group object. */
+  private meetingFactsFor: any = null;
+  private meetingFacts = { count: 0, last: null as Date };
+
+  private getMeetingFacts() {
+    if (this.meetingFactsFor !== this.group) {
+      const meetings = (this.group && this.group.cohortVisits) || [];
+      let last: Date = null;
+      meetings.forEach((meeting: any) => {
+        const date =
+          meeting && meeting.startDate && new Date(meeting.startDate);
+        if (date && !isNaN(date.getTime()) && (!last || date > last)) {
+          last = date;
+        }
+      });
+      this.meetingFacts = { count: meetings.length, last };
+      this.meetingFactsFor = this.group;
+    }
+    return this.meetingFacts;
+  }
+
+  /** Number of meetings held. */
+  public get meetingCount(): number {
+    return this.getMeetingFacts().count;
+  }
+
+  /** The most recent meeting (the meetings are not in date order). */
+  public get lastMeetingDate(): Date {
+    return this.getMeetingFacts().last;
+  }
+
+  /**
+   * Ended, Inactive (no meeting in 6 months, as on the group list) or Active.
+   */
+  public get groupStatus(): string {
+    if (!this.group) {
+      return '';
+    }
+    if (this.group.endDate) {
+      return 'Ended';
+    }
+    const since =
+      this.lastMeetingDate ||
+      (this.group.startDate ? new Date(this.group.startDate) : null);
+    const sixMonthsAgo = Moment().subtract(6, 'months').toDate();
+    return since && since <= sixMonthsAgo ? 'Inactive' : 'Active';
+  }
+
+  /** "3 months ago" style age of the last meeting. */
+  public get lastMeetingAgo(): string {
+    return this.lastMeetingDate ? Moment(this.lastMeetingDate).fromNow() : '';
+  }
+
   @Input() set _group(group: Group) {
     this.group = group;
     this.groupNumber = this.communityGroupService.getGroupAttribute(

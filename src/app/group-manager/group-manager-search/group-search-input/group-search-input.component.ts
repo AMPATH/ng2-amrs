@@ -24,6 +24,8 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
   public totalGroups;
   public errorMessage = '';
   public placeholder = 'Enter the Group Name or Number';
+  /** Characters needed before the page's Search and Reset can be used. */
+  public readonly minSearchLength = 3;
   @Input() isModal: boolean;
   @Output() hideResults: EventEmitter<boolean> = new EventEmitter();
   @Output() searchResults: EventEmitter<Group[]> = new EventEmitter();
@@ -32,7 +34,15 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
+  /** Whether enough has been typed (ignoring spaces) to search. */
+  public get hasMinimumSearch(): boolean {
+    return (this.searchString || '').trim().length >= this.minSearchLength;
+  }
+
   public searchGroup() {
+    if (!this.isModal && !this.hasMinimumSearch) {
+      return;
+    }
     this.hideResults.emit(false);
     this.isLoading = true;
     this.errorMessage = '';
@@ -58,6 +68,19 @@ export class GroupSearchInputComponent implements OnInit, OnDestroy {
           )
       );
     }
+  }
+
+  /**
+   * Clears the search's results and messages and stops a search still
+   * running, keeping what was typed - for when a facility list is opened.
+   */
+  public clearSearchState() {
+    this.subscription.unsubscribe();
+    this.subscription = new Subscription();
+    this.isLoading = false;
+    this.totalGroups = undefined;
+    this.lastSearchString = '';
+    this.errorMessage = '';
   }
 
   public resetSearchList($event) {

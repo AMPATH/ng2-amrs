@@ -112,6 +112,7 @@ import { FormentryReferralsHandlerService } from './formentry/formentry-referral
 import { PatientReferralsModule } from './patient-referrals/patient-referrals.module';
 import { VisitDetailsComponent } from './visit/visit-details/visit-details.component';
 import { VisitStarterComponent } from './visit/visit-starter/visit-starter.component';
+import { EmptyVisitsCleanupComponent } from './visit/empty-visits-cleanup/empty-visits-cleanup.component';
 import { TodayVisitService } from './visit/today-visit.service';
 import { TodayVisitsComponent } from './visit/today-visits/today-visits.component';
 import { VisitSummaryComponent } from './visit/visit-summary/visit-summary.component';
@@ -225,6 +226,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
+    EmptyVisitsCleanupComponent,
     VisitEncountersPipe,
     PatientEncounterProviderPipe,
     ZeroVlPipe,
@@ -285,6 +287,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     VisitEncountersComponent,
     VisitDetailsComponent,
     VisitStarterComponent,
+    EmptyVisitsCleanupComponent,
     VisitEncountersPipe,
     PatientEncounterProviderPipe,
     OrderByAlphabetPipe,

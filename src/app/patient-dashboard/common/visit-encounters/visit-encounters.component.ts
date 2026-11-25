@@ -19,6 +19,9 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
   public specEncounter: any = [];
   public selectedEncounter: any = [];
   public showVisitsObservations = true;
+  /** True until the patient's encounters have arrived. */
+  public encountersLoading = true;
+  public encountersLoadError = false;
   public busyIndicator: any = {
     busy: false,
     message: '' // default message
@@ -57,12 +60,21 @@ export class VisitEncountersComponent implements OnInit, OnDestroy {
   }
 
   public getPatientEncounters(patientUuid) {
+    this.encountersLoading = true;
+    this.encountersLoadError = false;
     this._encounterResourceService
       .getEncountersByPatientUuid(patientUuid, false, null)
       .pipe(take(1))
-      .subscribe((resp) => {
-        this.patientEncounters = resp.reverse();
-      });
+      .subscribe(
+        (resp) => {
+          this.patientEncounters = (resp || []).reverse();
+          this.encountersLoading = false;
+        },
+        () => {
+          this.encountersLoading = false;
+          this.encountersLoadError = true;
+        }
+      );
   }
 
   public showVisits() {

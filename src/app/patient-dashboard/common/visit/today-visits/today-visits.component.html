@@ -1,7 +1,71 @@
 <h4 class="component-title">
   <span class="icon-i-outpatient"></span>Today's Visit
 </h4>
-<!-- <div [ngBusy]="{busy:[isBusy],message:'Loading...'}"></div> -->
+<!-- Skeleton while today's visits load: the page's own layout, in grey -->
+<div
+  *ngIf="(!patient || isBusy) && groupedVisits.length === 0 && !errors?.length"
+  class="tv-skeleton"
+  role="status"
+  aria-live="polite"
+  aria-label="Loading today's visits"
+>
+  <p class="tv-status">
+    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    Loading today's visits…
+  </p>
+  <div class="tv-tabs">
+    <div class="tv-sk" style="width: 110px; height: 30px"></div>
+    <div class="tv-sk" style="width: 90px; height: 30px"></div>
+    <div class="tv-sk" style="width: 120px; height: 30px"></div>
+  </div>
+  <div class="tv-panel">
+    <div
+      class="tv-sk"
+      style="width: 160px; height: 32px; margin-bottom: 14px"
+    ></div>
+    <div
+      class="tv-sk"
+      style="width: 40%; height: 12px; margin-bottom: 8px"
+    ></div>
+    <div class="tv-card">
+      <div
+        class="tv-sk"
+        style="width: 140px; height: 16px; margin-bottom: 12px"
+      ></div>
+      <div
+        class="tv-sk"
+        style="width: 70%; height: 12px; margin-bottom: 8px"
+      ></div>
+      <div
+        class="tv-sk"
+        style="width: 55%; height: 12px; margin-bottom: 14px"
+      ></div>
+      <div class="tv-forms">
+        <div class="tv-sk" *ngFor="let f of [1, 2, 3, 4]"></div>
+      </div>
+    </div>
+    <div
+      class="tv-sk"
+      style="width: 230px; height: 18px; margin: 18px 0 10px"
+    ></div>
+    <div class="tv-list">
+      <div class="tv-row" *ngFor="let r of [1, 2, 3]">
+        <div class="tv-sk" style="width: 22%; height: 12px"></div>
+        <div class="tv-sk" style="width: 30%; height: 12px"></div>
+        <div class="tv-sk" style="width: 18%; height: 12px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading failed -->
+<div *ngIf="errors?.length && !isBusy" class="tv-error" role="alert">
+  <i class="fa fa-exclamation-circle"></i>
+  <span
+    >Could not load today's visits. Please refresh the page to try again.</span
+  >
+</div>
+
 <div>
   <p-tabView (onChange)="handleProgramClassChange($event)">
     <p-tabPanel
@@ -44,6 +108,11 @@
             ></app-visit-summary>
           </div>
         </div>
+        <app-empty-visits-cleanup
+          *ngIf="patient && programClass.class === programClassUuid"
+          [patientUuid]="patient.uuid"
+          (visitsRemoved)="onEmptyVisitsRemoved()"
+        ></app-empty-visits-cleanup>
       </div>
     </p-tabPanel>
   </p-tabView>

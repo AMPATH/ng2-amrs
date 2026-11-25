@@ -55,6 +55,8 @@ export class VisitComponent implements OnInit, OnDestroy {
   public patient: any;
   public errors: Array<any> = [];
   public isBusy = false;
+  /** True while today's visits load; drives the page's loading card. */
+  public visitsLoading = true;
   private todayVisitsEventSub: Subscription;
 
   @ViewChild('enrollModal') public enrollModal;
@@ -216,6 +218,7 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public onProgramVisitsLoadingStarted() {
     this.isBusy = true;
+    this.visitsLoading = true;
     this.errors = [];
     this.visit = undefined;
     this.visits = [];
@@ -227,6 +230,7 @@ export class VisitComponent implements OnInit, OnDestroy {
 
   public onProgramVisitsLoadingError() {
     this.isBusy = false;
+    this.visitsLoading = false;
     this.errors = this.todayVisitService.errors;
     this.visit = undefined;
   }
@@ -236,6 +240,7 @@ export class VisitComponent implements OnInit, OnDestroy {
     this.programVisitsObj = null;
     this.programVisitsObj = this.todayVisitService.programVisits;
     this.isBusy = false;
+    this.visitsLoading = false;
     this.patient = this.patient === null ? undefined : this.patient;
     this.processProgramVisits();
   }

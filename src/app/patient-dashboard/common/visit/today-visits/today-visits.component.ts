@@ -159,6 +159,11 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
     this.groupedVisits = this.todayVisitService.visitsByProgramClass;
   }
 
+  /** Visits were removed by the empty-visits panel: reload the visit lists. */
+  public onEmptyVisitsRemoved() {
+    this.todayVisitService.makeVisitsStale();
+  }
+
   public onFormSelected(selected) {
     if (selected) {
       this.router.navigate(['../formentry', selected.form.uuid], {

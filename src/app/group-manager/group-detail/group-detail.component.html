@@ -1,4 +1,82 @@
-<busy *ngIf="!group && !error" [message]="'Loading Group...'"></busy>
+<!-- Skeleton while the group loads: the page's own layout, in grey -->
+<div
+  *ngIf="!group && !error"
+  class="gd-page gd-skeleton"
+  role="status"
+  aria-live="polite"
+  aria-label="Loading group"
+>
+  <p class="sk-status">
+    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    Loading group details…
+  </p>
+  <section class="gd-card">
+    <div class="sk sk-line" style="width: 260px; height: 12px"></div>
+    <div class="sk-divider"></div>
+    <div class="sk-head">
+      <div class="sk sk-box" style="width: 42px; height: 42px"></div>
+      <div class="sk-head-text">
+        <div class="sk sk-line" style="width: 240px; height: 18px"></div>
+        <div class="sk sk-line" style="width: 150px; height: 12px"></div>
+      </div>
+      <div class="sk-head-actions">
+        <div class="sk sk-btn"></div>
+        <div class="sk sk-btn"></div>
+        <div class="sk sk-btn"></div>
+      </div>
+    </div>
+    <div class="sk-body">
+      <div class="sk-tiles">
+        <div class="sk-tile" *ngFor="let t of [1, 2, 3, 4]">
+          <div class="sk sk-box" style="width: 36px; height: 36px"></div>
+          <div class="sk-tile-text">
+            <div class="sk sk-line" style="width: 70px; height: 10px"></div>
+            <div class="sk sk-line" style="width: 90px; height: 16px"></div>
+            <div class="sk sk-line" style="width: 120px; height: 10px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sk-facts">
+        <div *ngFor="let f of [1, 2, 3]">
+          <div class="sk sk-line" style="width: 70px; height: 10px"></div>
+          <div class="sk sk-line" style="width: 150px; height: 14px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="gd-card">
+    <div class="sk sk-line" style="width: 230px; height: 16px"></div>
+    <div class="sk-toolbar">
+      <div class="sk sk-btn"></div>
+      <div class="sk sk-line" style="width: 180px; height: 14px"></div>
+      <span class="sk-spacer"></span>
+      <div class="sk sk-btn"></div>
+      <div class="sk sk-btn"></div>
+    </div>
+    <ng-container *ngTemplateOutlet="tableSkeleton"></ng-container>
+  </section>
+</div>
+
+<ng-template #tableSkeleton>
+  <div class="sk-table" aria-hidden="true">
+    <div class="sk-row sk-row-head">
+      <div class="sk sk-line" style="width: 18%"></div>
+      <div class="sk sk-line" style="width: 14%"></div>
+      <div class="sk sk-line" style="width: 12%"></div>
+      <div class="sk sk-line" style="width: 10%"></div>
+      <div class="sk sk-line" style="width: 10%"></div>
+      <div class="sk sk-line" style="width: 10%"></div>
+    </div>
+    <div class="sk-row" *ngFor="let r of [1, 2, 3, 4, 5, 6]">
+      <div class="sk sk-line" style="width: 18%"></div>
+      <div class="sk sk-line" style="width: 14%"></div>
+      <div class="sk sk-line" style="width: 12%"></div>
+      <div class="sk sk-dot"></div>
+      <div class="sk sk-dot"></div>
+      <div class="sk sk-dot"></div>
+    </div>
+  </div>
+</ng-template>
 <div class="alert alert-danger" *ngIf="error && errorMessage && !group">
   <b>{{ errorMessage }}</b>
 </div>
@@ -9,119 +87,125 @@
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   <b>{{ successMessage }}</b>
 </div>
-<div *ngIf="group">
-  <h3 style="margin-bottom: 25px">
-    <i class="fa fa-users"></i>
-    <span class="text-bold"> Manage Groups \ {{ group.name }}</span>
-  </h3>
-
+<div *ngIf="group" class="gd-page">
   <group-detail-summary
     [_group]="group"
     (updatedGroup)="onGroupDetailsChanged($event)"
   ></group-detail-summary>
-  <mat-card>
-    <div class="row" style="margin-bottom: 15px">
-      <h4 class="col-md-5 col-sm-5">Group Members and Meetings</h4>
+
+  <section class="gd-card gd-members-card">
+    <header class="gd-section-head">
+      <h4><i class="fa fa-calendar-check-o"></i> Group members and meetings</h4>
+      <span class="gd-pill" *ngIf="cohortVisits">
+        {{ cohortVisits.length }}
+        {{ cohortVisits.length === 1 ? 'meeting' : 'meetings' }}
+      </span>
+    </header>
+
+    <div class="gd-notice" *ngIf="!activeMembers.length && group.endDate">
+      <i class="fa fa-info-circle"></i> The group has no active members, please
+      activate group to enroll.
     </div>
-    <div
-      class="alert alert-warning"
-      *ngIf="!activeMembers.length && group.endDate"
-    >
-      The group has no active members, please activate group to enroll.
+    <div class="gd-notice" *ngIf="!activeMembers.length && !group.endDate">
+      <i class="fa fa-info-circle"></i> The group has no active members. Enroll
+      members first.
     </div>
-    <div
-      class="alert alert-warning"
-      *ngIf="!activeMembers.length && !group.endDate"
-    >
-      The group has no active members. Enroll members first.
-    </div>
-    <div>
-      <div class="row" style="margin: 7px">
+
+    <div class="gd-toolbar">
+      <div class="gd-toolbar-left">
         <button
           type="button"
-          style="color: green"
+          class="gd-btn gd-btn-success"
           (click)="showModal(enrollMembers)"
           *ngIf="!group.endDate"
-          mat-raised-button
         >
-          <i class="fa fa-plus"></i> Enroll Members
+          <i class="fa fa-plus"></i> Enroll members
         </button>
-        <div class="pull-right">
-          <div class="btn-group" role="group">
-            <button
-              type="button"
-              (click)="showModal(editMembership)"
-              mat-raised-button
-            >
-              <span *ngIf="!group.endDate && activeMembers.length"
-                >End Memberships
-              </span>
-              <span *ngIf="group.endDate && group.cohortMembers"
-                >View Memberships
-              </span>
-            </button>
-
-            <button
-              type="button"
-              (click)="showModal(startGroupVisitModal)"
-              mat-raised-button
-              [class.ongoing]="visitStartedToday"
-              *ngIf="activeMembers.length && !group.endDate"
-            >
-              <i class="fa fa-group"></i>
-              <span *ngIf="!visitStartedToday"> Start Group Meeting</span>
-              <span *ngIf="visitStartedToday">
-                Started Group Meeting Today</span
-              >
-            </button>
-          </div>
-        </div>
-      </div>
-      <ag-grid-angular
-        style="width: 100%; height: 450px"
-        class="ag-blue"
-        [gridOptions]="gridOptions"
-        #dataGrid
-        [rowData]="membersData"
-        [columnDefs]="columns"
-        (cellClicked)="gridOnCellClick($event)"
-        [enableSorting]="true"
-        [enableFilter]="true"
-      >
-      </ag-grid-angular>
-      <div class="row" style="margin-top: 15px">
-        <div
-          class="pull-right"
-          style="margin-right: 30px; margin-bottom: -30px"
+        <mat-radio-group
+          class="gd-show"
+          [ngModel]="filter"
+          (ngModelChange)="externalFilterChanged($event)"
+          aria-label="Members to show"
         >
-          <button
-            mat-raised-button
-            class="btn btn-info"
-            (click)="exportAllData()"
-            style="color: #fff"
+          <span class="gd-show-label">Show</span>
+          <mat-radio-button value="current" color="primary" [checked]="true"
+            >Active members</mat-radio-button
           >
-            <i class="inline fa fa-file-excel-o"></i>
-            <span>Export as CSV</span>
-          </button>
-        </div>
-        <div class="pull-right">
-          <div class="card">
-            <mat-radio-group
-              [ngModel]="filter"
-              (ngModelChange)="externalFilterChanged($event)"
-            >
-              <mat-radio-button value="all" color="primary"
-                >All Members</mat-radio-button
-              >
-              <mat-radio-button value="current" color="primary" [checked]="true"
-                >Active Members</mat-radio-button
-              >
-            </mat-radio-group>
-          </div>
-        </div>
+          <mat-radio-button value="all" color="primary"
+            >All members</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+      <div class="gd-toolbar-right">
+        <button
+          type="button"
+          class="gd-btn"
+          (click)="showModal(editMembership)"
+          *ngIf="
+            (!group.endDate && activeMembers.length) ||
+            (group.endDate && group.cohortMembers)
+          "
+        >
+          <i class="fa fa-id-card-o"></i>
+          <span *ngIf="!group.endDate && activeMembers.length"
+            >End memberships</span
+          >
+          <span *ngIf="group.endDate && group.cohortMembers"
+            >View memberships</span
+          >
+        </button>
+        <button
+          type="button"
+          class="gd-btn gd-btn-primary"
+          (click)="showModal(startGroupVisitModal)"
+          [class.gd-btn-ongoing]="visitStartedToday"
+          *ngIf="activeMembers.length && !group.endDate"
+        >
+          <i class="fa fa-group"></i>
+          <span *ngIf="!visitStartedToday">Start group meeting</span>
+          <span *ngIf="visitStartedToday">Meeting started today</span>
+        </button>
+        <button
+          type="button"
+          class="gd-btn"
+          (click)="exportAllData()"
+          [disabled]="shownMembersCount === 0"
+          [title]="
+            shownMembersCount === 0
+              ? 'Nothing to export - the table has no members'
+              : 'Export the members shown to CSV'
+          "
+        >
+          <i class="fa fa-file-excel-o"></i> Export CSV
+        </button>
       </div>
     </div>
-  </mat-card>
+
+    <div
+      *ngIf="membersLoading"
+      class="sk-wrap"
+      role="status"
+      aria-live="polite"
+    >
+      <p class="sk-status">
+        <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        Loading members and meetings…
+      </p>
+      <ng-container *ngTemplateOutlet="tableSkeleton"></ng-container>
+    </div>
+    <ag-grid-angular
+      [hidden]="membersLoading"
+      class="ag-blue gd-grid"
+      [gridOptions]="gridOptions"
+      #dataGrid
+      [rowData]="membersData"
+      [columnDefs]="columns"
+      (cellClicked)="gridOnCellClick($event)"
+      [enableSorting]="true"
+      [enableFilter]="true"
+    >
+    </ag-grid-angular>
+  </section>
 </div>
 
 <ng-template #editMembership>

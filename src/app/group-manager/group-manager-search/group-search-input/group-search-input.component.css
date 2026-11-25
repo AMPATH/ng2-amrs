@@ -75,3 +75,10 @@ button.btn-primary.btn-lg {
 .mat-raised-button:disabled {
   background-color: lightskyblue;
 }
+
+.search-hint {
+  display: block;
+  margin-top: 6px;
+  color: #8a6d3b;
+  font-size: 12.5px;
+}

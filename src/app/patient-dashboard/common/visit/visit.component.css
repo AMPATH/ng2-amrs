@@ -1,0 +1,49 @@
+/* Loading card while the visits load */
+.vis-loading {
+  margin: 8px 0 14px;
+  padding: 16px 18px;
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+.vis-loading-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: #5f7a8c;
+  font-size: 14px;
+  font-weight: 600;
+}
+.vis-loading-head .fa {
+  color: #428bca;
+  font-size: 16px;
+}
+.vis-sk {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e1e8ef 25%, #f1f5f9 37%, #e1e8ef 63%);
+  background-size: 400% 100%;
+  animation: vis-shimmer 1.4s ease infinite;
+}
+.vis-sk-line {
+  height: 12px;
+  margin-bottom: 10px;
+}
+.vis-sk-block {
+  height: 90px;
+  margin-top: 6px;
+  border-radius: 8px;
+}
+@keyframes vis-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vis-sk {
+    animation: none;
+  }
+}

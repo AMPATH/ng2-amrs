@@ -125,9 +125,10 @@
     <button
       type="button"
       class="btn btn-primary"
-      [disabled]="isGroupRetrospective"
+      [disabled]="isGroupRetrospective || isBusy || !selectedCohortVisit"
       (click)="saveVisit(selectedVisitType)"
     >
+      <i *ngIf="isBusy" class="fa fa-spinner fa-spin"></i>
       Start Visit
     </button>
     <button type="button" class="btn btn-danger" (click)="modalRef.hide()">

@@ -1,10 +1,13 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   Input,
   OnChanges,
-  EventEmitter
+  EventEmitter,
+  ElementRef
 } from '@angular/core';
+import { whenPainted } from '../../../shared/utils/when-painted';
 import { Encounter } from '../../../models/encounter.model';
 import * as _ from 'lodash';
 import * as Moment from 'moment';
@@ -15,7 +18,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './visit-encounters-list.component.html',
   styleUrls: ['./visit-encounters-list.component.css']
 })
-export class VisitEncountersListComponent implements OnInit, OnChanges {
+export class VisitEncountersListComponent
+  implements OnInit, OnChanges, OnDestroy {
   public title = 'Patient Visits';
   public pretty: boolean;
   public mainArray: any = [];
@@ -53,20 +57,64 @@ export class VisitEncountersListComponent implements OnInit, OnChanges {
 
   @Input() public encounters: Encounter[];
   @Input() public showVisitsObservations: boolean;
+  /** The page is still fetching the encounters. */
+  @Input() public loading = false;
+  /** The encounters could not be fetched. */
+  @Input() public loadError = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  /** The visits are built; the skeleton stays until they are on screen. */
+  public awaitingPaint = false;
+  private cancelPaintWait: () => void;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private host: ElementRef
+  ) {}
+
+  /** The skeleton shows while loading, arranging, or not yet painted. */
+  public get showSkeleton(): boolean {
+    return (
+      (this.loading || this.busyIndicator.busy || this.awaitingPaint) &&
+      !this.loadError
+    );
+  }
+
+  public ngOnDestroy() {
+    if (this.cancelPaintWait) {
+      this.cancelPaintWait();
+    }
+  }
+
+  /** Keeps the skeleton until the first visits are drawn. */
+  private waitForPaint() {
+    if (this.cancelPaintWait) {
+      this.cancelPaintWait();
+    }
+    if (!this.displayArray || this.displayArray.length === 0) {
+      this.awaitingPaint = false;
+      return;
+    }
+    this.awaitingPaint = true;
+    this.cancelPaintWait = whenPainted(
+      this.host.nativeElement,
+      '#visits_row .visit_list',
+      () => (this.awaitingPaint = false)
+    );
+  }
 
   public ngOnInit() {
     this.displayArray = this.mainArray;
   }
 
   public ngOnChanges() {
-    if (this.encounters.length > 0) {
+    if (this.encounters && this.encounters.length > 0) {
       this.busyIndicator = {
         busy: true,
         message: 'Loading Encounters..'
       };
       this.groupEncountersByVisits(this.encounters);
+      this.waitForPaint();
     }
   }
 

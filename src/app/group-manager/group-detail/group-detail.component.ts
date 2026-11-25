@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap';
 import { BsModalRef } from 'ngx-bootstrap';
-import { Observable, Subscription, forkJoin } from 'rxjs';
+import { Observable, Subscription, forkJoin, of } from 'rxjs';
 import * as Moment from 'moment';
 import * as _ from 'lodash';
 import { AgGridNg2 } from 'ag-grid-angular';
@@ -27,7 +27,7 @@ import { RetrospectiveDataEntryService } from '../../retrospective-data-entry/se
 import { CohortOtzModuleResourceService } from 'src/app/etl-api/cohort-otz-module-resource.service';
 import { RisonService } from '../../shared/services/rison-service';
 import { HttpClient } from '@angular/common/http';
-import { flatMap, map } from 'rxjs/operators';
+import { finalize, flatMap, map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'group-detail',
@@ -59,6 +59,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     showToolPanel: false,
     pagination: true,
     paginationPageSize: 300,
+    rowHeight: 40,
+    headerHeight: 48,
+    rowClassRules: {
+      // Members whose membership has ended
+      'gd-row-ended': (params: any) => !!(params.data && params.data.member_to)
+    },
     isExternalFilterPresent: this.isExternalFilterPresent.bind(this),
     doesExternalFilterPass: this.doesExternalFilterPass.bind(this),
     suppressHorizontalScroll: false,
@@ -76,8 +82,19 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.gridOptions.api) {
         this.gridOptions.api.sizeColumnsToFit();
       }
+    },
+    onModelUpdated: () => {
+      // Counted after the grid's change, so the button is not changed while
+      // Angular is still checking it.
+      Promise.resolve().then(() => {
+        this.shownMembersCount = this.gridOptions.api
+          ? this.gridOptions.api.getDisplayedRowCount()
+          : 0;
+      });
     }
   };
+  /** Members the table shows now (after Active/All); export needs one. */
+  public shownMembersCount = 0;
   public group: Group;
   public members = [];
   public modalRef: BsModalRef;
@@ -101,6 +118,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     formatted: Moment().format('YYYY-MM-DD')
   };
   public cohortVisits = [];
+  /** True while the members table is being filled in. */
+  public membersLoading = false;
   public numberOfMembers: number;
   public patientVisitPayload: any;
   public visitTypes = [];
@@ -167,47 +186,75 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   public loadGroup() {
     const uuid = this.activatedRoute.snapshot.paramMap.get('uuid');
-    const dcOtzSubs = forkJoin([
-      this.communityGroupService.getGroupByUuid(uuid)
-    ]);
-    dcOtzSubs.subscribe((results) => {
-      console.log('results here', results);
-      const res = results[0];
-      this.numberOfMembers = res.cohortMembers.length;
-      this.group = res;
-      _.forEach(this.group.cohortMembers, (member) => {
-        member['phoneNumber'] = _.filter(
-          member.patient.person.attributes,
-          (attribute) =>
-            attribute.attributeType.uuid ===
-            '72a759a8-1359-11df-a1f1-0026b9348838'
-        )[0];
-      });
-      this.activeMembers = _.filter(
-        res.cohortMembers,
-        (member) => !member.endDate
-      );
-      if (res.cohortVisits) {
-        this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
-          return Math.abs(
-            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-          );
+    const parts = this.communityGroupService.getGroupByUuidParts(uuid);
+    // The members' HIV summaries need only the members list, so they start as
+    // soon as it arrives, while the rest of the group is still loading.
+    const summaries$ = parts.members$.pipe(
+      switchMap((members: any[]) => {
+        const memberUuids = this.generatePatientUuids(members || []);
+        return memberUuids.length > 0
+          ? this.cohortOtzModuleResourceService.getPatientsLatestHivSummaries(
+              memberUuids
+            )
+          : of([]);
+      }),
+      shareReplay(1)
+    );
+    summaries$.subscribe(
+      () => undefined,
+      () => undefined // reported when the table is built
+    );
+    const dcOtzSubs = forkJoin([parts.group$]);
+    dcOtzSubs.subscribe(
+      (results) => {
+        console.log('results here', results);
+        const res = results[0];
+        this.numberOfMembers = res.cohortMembers.length;
+        this.group = res;
+        _.forEach(this.group.cohortMembers, (member) => {
+          member['phoneNumber'] = _.filter(
+            member.patient.person.attributes,
+            (attribute) =>
+              attribute.attributeType.uuid ===
+              '72a759a8-1359-11df-a1f1-0026b9348838'
+          )[0];
         });
-      }
-      this.groupVisitDate = {
-        date: this.today,
-        jsdate: new Date()
-      };
-      const isOtz =
-        this.group.attributes.find((a) => {
-          return a.cohortAttributeType.name === 'programUuid';
-        }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
-      this.isOtzProgram = isOtz;
-      this.selectedVisitType = this.determineNextVisitType();
+        this.activeMembers = _.filter(
+          res.cohortMembers,
+          (member) => !member.endDate
+        );
+        if (res.cohortVisits) {
+          this.cohortVisits = res.cohortVisits.sort((a: any, b: any) => {
+            return Math.abs(
+              new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+            );
+          });
+        }
+        this.groupVisitDate = {
+          date: this.today,
+          jsdate: new Date()
+        };
+        const isOtz =
+          this.group.attributes.find((a) => {
+            return a.cohortAttributeType.name === 'programUuid';
+          }).value === '203571d6-a4f2-4953-9e8b-e1105e2340f5';
+        this.isOtzProgram = isOtz;
+        this.selectedVisitType = this.determineNextVisitType();
 
-      this.checkIfTodayVisitStarted(this.cohortVisits);
-      this.generateMembersData(res.cohortMembers, res.cohortVisits);
-    });
+        this.checkIfTodayVisitStarted(this.cohortVisits);
+        this.generateMembersData(
+          res.cohortMembers,
+          res.cohortVisits,
+          summaries$
+        );
+      },
+      (err) => {
+        console.error('Group detail: could not load the group', err);
+        this.error = true;
+        this.errorMessage =
+          'Could not load this group. Please check your connection and try again.';
+      }
+    );
   }
 
   public checkIfTodayVisitStarted(cohortVisits: any[]) {
@@ -236,23 +283,46 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     return '';
   }
 
-  public generateMembersData(cohortMembers, cohortVisits) {
-    console.log('cohortMembers', cohortMembers);
+  /**
+   * Builds the members table. The summaries may already be on their way
+   * (started when the members list arrived); otherwise they are fetched here.
+   */
+  public generateMembersData(
+    cohortMembers,
+    cohortVisits,
+    earlySummaries$?: Observable<any>
+  ) {
     this.membersData = [];
     this.columns = [];
-    const memberUuids = this.generatePatientUuids(cohortMembers);
-    this.cohortOtzModuleResourceService
-      .getPatientsLatestHivSummaries(memberUuids)
-      .subscribe((result) => {
-        const summaryMap = this.generateSummaryObject(result);
-        const members = this.generateMemberObject(cohortMembers);
-        this.membersData = this.generateRowData(
-          members,
-          cohortVisits,
-          summaryMap
-        );
-        this.columns = this.generateColumns(cohortVisits);
-      });
+    this.membersLoading = true;
+    const memberUuids = this.generatePatientUuids(cohortMembers || []);
+    // With no members there is nothing to ask the summaries for.
+    const summaries$ =
+      earlySummaries$ ||
+      (memberUuids.length > 0
+        ? this.cohortOtzModuleResourceService.getPatientsLatestHivSummaries(
+            memberUuids
+          )
+        : of([]));
+    summaries$.pipe(finalize(() => (this.membersLoading = false))).subscribe(
+      (result) => {
+        try {
+          const summaryMap = this.generateSummaryObject(result || []);
+          const members = this.generateMemberObject(cohortMembers);
+          this.membersData = this.generateRowData(
+            members,
+            cohortVisits,
+            summaryMap
+          );
+          this.columns = this.generateColumns(cohortVisits);
+        } catch (err) {
+          console.error('Group detail: could not build the members table', err);
+        }
+      },
+      (err) => {
+        console.error('Group detail: could not load HIV summaries', err);
+      }
+    );
   }
 
   public generatePatientUuids(cohortMembers) {
@@ -524,18 +594,24 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     let xx = false;
     const drugPickupUuid = '987009c6-6f24-43f7-9640-c285d6553c63';
 
-    cohortVisit.cohortMemberVisits.filter((cohortMemberVisit) => {
-      if (cohortMemberVisit.visit.patient.uuid === personuuid) {
-        const drugPickupEncounter = cohortMemberVisit.visit.encounters.find(
-          (encounter) => {
-            const isDrugPickupEncounter =
-              encounter.encounterType.uuid === drugPickupUuid;
-            const isSameDay = Moment(
-              cohortMemberVisit.visit.startDatetime
-            ).isSame(encounter.encounterDatetime, 'day');
-            return isDrugPickupEncounter && isSameDay;
-          }
-        );
+    (cohortVisit.cohortMemberVisits || []).filter((cohortMemberVisit) => {
+      if (
+        cohortMemberVisit &&
+        cohortMemberVisit.visit &&
+        cohortMemberVisit.visit.patient &&
+        cohortMemberVisit.visit.patient.uuid === personuuid
+      ) {
+        const drugPickupEncounter = (
+          cohortMemberVisit.visit.encounters || []
+        ).find((encounter) => {
+          const isDrugPickupEncounter =
+            !!encounter.encounterType &&
+            encounter.encounterType.uuid === drugPickupUuid;
+          const isSameDay = Moment(
+            cohortMemberVisit.visit.startDatetime
+          ).isSame(encounter.encounterDatetime, 'day');
+          return isDrugPickupEncounter && isSameDay;
+        });
         if (drugPickupEncounter) {
           xx = true;
         }
@@ -548,8 +624,10 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   private patientPresent(patient, cohortVisit) {
     let present = false;
     const personuuid = patient.person.uuid;
-    const patientVisit = cohortVisit.cohortMemberVisits.find((v) => {
-      return v.visit.patient.uuid === personuuid;
+    const patientVisit = (cohortVisit.cohortMemberVisits || []).find((v) => {
+      return (
+        v && v.visit && v.visit.patient && v.visit.patient.uuid === personuuid
+      );
     });
     if (patientVisit) {
       if (this.checkIfDrugPickupFilled(personuuid, cohortVisit)) {
@@ -562,7 +640,20 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private generateRowData(cohortMembers, cohortVisits, summaryMap) {
     const membersData = [];
-    const cohortMemberVisit = [];
+    // The OTZ module answers of every member, worked out once for the group.
+    // (It used to be rebuilt for each member from a list that grew with every
+    // member, which froze the page on groups with many meetings.)
+    const cohortMemberVisit = (cohortVisits || [])
+      .filter(
+        (cohortVisit) =>
+          cohortVisit.cohortMemberVisits &&
+          cohortVisit.cohortMemberVisits.length > 0
+      )
+      .map((cohortVisit) => cohortVisit.cohortMemberVisits);
+    const obsByPatient = new Map<string, any[]>();
+    this.getVisitsArray(cohortMemberVisit).forEach((item) =>
+      obsByPatient.set(item.patient_uuid, item.obs)
+    );
     const conceptStrings = [
       'OTZ ORIENTATION: YES',
       'OTZ TREATMENT LITERACY: YES',
@@ -610,22 +701,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           cohortVisit
         );
         memberRow[`group_visit_${i}_uuid`] = cohortVisit.uuid;
-        if (cohortVisit.cohortMemberVisits.length > 0) {
-          cohortMemberVisit.push(cohortVisit.cohortMemberVisits);
-        }
         i++;
       }
-      const newArray = this.getVisitsArray(cohortMemberVisit);
-      for (let j = 0; j < conceptStrings.length; j++) {
-        const concept = conceptStrings[j];
-        newArray.forEach((item) => {
-          if (item.patient_uuid === member.person.uuid) {
-            const value = item.obs.some(
-              (obs: { display: string }) => obs.display === concept
-            );
-            memberRow[`mod${j + 1}`] = value;
-          }
-        });
+      const memberObs = obsByPatient.get(member.person.uuid);
+      if (memberObs) {
+        for (let j = 0; j < conceptStrings.length; j++) {
+          const concept = conceptStrings[j];
+          memberRow[`mod${j + 1}`] = memberObs.some(
+            (obs: { display: string }) => obs.display === concept
+          );
+        }
       }
 
       membersData.push(memberRow);
@@ -648,52 +733,48 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Each patient's observations across the group's member visits, each
+   * observation once (first occurrence kept), in the order first seen.
+   */
   private getVisitsArray(cohortVisitArray) {
-    const filteredArray = [];
+    const obsByPatient = new Map<string, any[]>();
+    const seenByPatient = new Map<string, Set<string>>();
 
     cohortVisitArray.forEach((items) => {
       items.forEach((item) => {
-        if (item.visit.encounters.length > 0) {
-          const newObject = {
-            patient_uuid: item.visit.patient.uuid,
-            obs: item.visit.encounters.map((enc) => enc.obs)
-          };
-
-          filteredArray.push(newObject);
+        if (
+          !item ||
+          !item.visit ||
+          !item.visit.patient ||
+          !item.visit.encounters ||
+          !(item.visit.encounters.length > 0)
+        ) {
+          return;
         }
+        const patientUuid = item.visit.patient.uuid;
+        if (!obsByPatient.has(patientUuid)) {
+          obsByPatient.set(patientUuid, []);
+          seenByPatient.set(patientUuid, new Set<string>());
+        }
+        const patientObs = obsByPatient.get(patientUuid);
+        const seen = seenByPatient.get(patientUuid);
+        item.visit.encounters.forEach((enc) => {
+          (enc.obs || []).forEach((obsItem) => {
+            const key = obsItem && obsItem.uuid;
+            if (!seen.has(key)) {
+              seen.add(key);
+              patientObs.push(obsItem);
+            }
+          });
+        });
       });
     });
 
-    const uniqueObsMap = new Map();
-
-    filteredArray.forEach((patient) => {
-      const { patient_uuid, obs } = patient;
-
-      let uniqueObsArray = uniqueObsMap.get(patient_uuid) || [];
-
-      const flattenedObs = [].concat(...obs);
-      const uniqueObs = flattenedObs.filter(
-        (obsItem, index, self) =>
-          index === self.findIndex((t) => t.uuid === obsItem.uuid)
-      );
-
-      uniqueObsArray = uniqueObsArray.concat(uniqueObs);
-      uniqueObsMap.set(patient_uuid, uniqueObsArray);
-    });
-
-    uniqueObsMap.forEach((obsArray, patient_uuid) => {
-      const uniqueNestedObs = obsArray.filter((obsItem, index, self) => {
-        return index === self.findIndex((t) => t.uuid === obsItem.uuid);
-      });
-
-      uniqueObsMap.set(patient_uuid, uniqueNestedObs);
-    });
-
-    const resultArray = Array.from(uniqueObsMap, ([patient_uuid, obs]) => ({
+    return Array.from(obsByPatient, ([patient_uuid, obs]) => ({
       patient_uuid,
       obs
     }));
-    return resultArray;
   }
 
   onGroupDetailsChanged(updatedGroup) {
@@ -703,16 +784,41 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private generateColumns(cohortVisits) {
-    const columns = [];
+    const columns: any[] = [];
+    const tick = (column) =>
+      column.value
+        ? '<i class="fa fa-check text-success" title="Yes"></i>'
+        : '<i class="fa fa-times text-danger" title="No"></i>';
+    const dateText = (params) =>
+      params.value ? this.datePipe.transform(params.value, 'dd MMM yyyy') : '';
+    // Names and identifiers keep their width; the grid scrolls sideways
+    // rather than squeezing them to fit.
     columns.push(
+      {
+        headerName: 'Name',
+        field: 'name',
+        pinned: 'left',
+        width: 230,
+        minWidth: 180,
+        suppressSizeToFit: true,
+        tooltipField: 'name',
+        cellClass: 'gd-cell-name'
+      },
       {
         headerName: 'Identifiers',
         field: 'identifiers',
-        pinned: 'left',
-        width: 100
+        width: 170,
+        minWidth: 140,
+        suppressSizeToFit: true,
+        tooltipField: 'identifiers'
       },
-      { headerName: 'Name', field: 'name', pinned: 'left', width: 100 },
-      { headerName: 'Contacts', field: 'contacts', pinned: 'left', width: 100 }
+      {
+        headerName: 'Contacts',
+        field: 'contacts',
+        width: 130,
+        minWidth: 120,
+        suppressSizeToFit: true
+      }
     );
     let index = 0;
     if (!this.isOtzProgram) {
@@ -720,14 +826,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           headerName: 'Member From',
           field: 'member_since',
-          pinned: 'left',
-          width: 100
+          width: 120,
+          minWidth: 115,
+          suppressSizeToFit: true
         },
         {
           headerName: 'Member To',
           field: 'member_to',
-          pinned: 'left',
-          width: 100
+          width: 120,
+          minWidth: 115,
+          suppressSizeToFit: true
         }
       );
       for (const cohortVisit of cohortVisits) {
@@ -735,14 +843,15 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           headerName: `${this.datePipe.transform(
             cohortVisit.startDate
           )} Meeting`,
+          headerTooltip: `Meeting on ${this.datePipe.transform(
+            cohortVisit.startDate,
+            'fullDate'
+          )}`,
           field: `group_visit_${index}`,
-          cellRenderer: (column) => {
-            if (column.value) {
-              return `<i class="fa fa-check text-success"></i>`;
-            } else {
-              return `<i class="fa fa-times text-danger"></i>`;
-            }
-          }
+          width: 120,
+          minWidth: 110,
+          cellClass: 'gd-cell-center',
+          cellRenderer: tick
         });
         index = index + 1;
       }
@@ -750,67 +859,68 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.isOtzProgram) {
       columns.push(
-        {
-          headerName: 'Gender',
-          field: 'gender',
-          pinned: 'left',
-          width: 80
-        },
-        {
-          headerName: 'Age',
-          field: 'age',
-          pinned: 'left',
-          width: 80
-        },
+        { headerName: 'Gender', field: 'gender', width: 90, minWidth: 80 },
+        { headerName: 'Age', field: 'age', width: 80, minWidth: 70 },
         {
           headerName: 'Latest VL',
           field: 'latest_vl',
-          pinned: 'left',
-          width: 80
+          width: 100,
+          minWidth: 90
         },
         {
           headerName: 'Latest VL Date',
           field: 'latest_vl_date',
-          pinned: 'left',
-          width: 80
+          width: 130,
+          minWidth: 120,
+          valueFormatter: dateText
         },
         {
           headerName: 'VL Category',
           field: 'vl_category',
-          pinned: 'left',
-          width: 80
+          width: 190,
+          minWidth: 150,
+          tooltipField: 'vl_category'
         },
         {
           headerName: 'Latest RTC',
           field: 'latest_rtc',
-          pinned: 'left',
-          width: 80
+          width: 125,
+          minWidth: 115,
+          valueFormatter: dateText
         },
         {
           headerName: 'Latest Appointment Date',
           field: 'latest_appointment_date',
-          pinned: 'left',
-          width: 80
+          width: 150,
+          minWidth: 130,
+          valueFormatter: dateText
         },
         {
           headerName: 'Adherence Type',
           field: 'adherence_type',
-          pinned: 'left',
-          width: 80
+          width: 130,
+          minWidth: 110
         }
       );
+      const modules = [
+        'Orientation',
+        'Treatment literacy',
+        'Participation',
+        'Peer mentorship',
+        'Leadership',
+        'Prevention education',
+        'Future decision making',
+        'Transition to adult clinic'
+      ];
       for (let i = 1; i <= 8; i++) {
         columns.push({
           headerName: `Mod ${i}`,
+          headerTooltip: `Module ${i}: ${modules[i - 1]}`,
           field: `mod${i}`,
-          width: 70,
-          cellRenderer: (column) => {
-            if (column.value) {
-              return `<i class="fa fa-check text-success"></i>`;
-            } else {
-              return `<i class="fa fa-times text-danger"></i>`;
-            }
-          }
+          width: 80,
+          minWidth: 75,
+          cellClass: 'gd-cell-center',
+          cellRenderer: tick
         });
       }
     }
@@ -1003,13 +1113,15 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public retrospectiveEnabled() {
     this.retrospectiveService.updateRetroSettings();
-    this.retrospectiveService.retroSettings.subscribe((settings) => {
-      if (settings) {
-        this.retrospectiveOn = settings.enabled;
-        this.retroVisitDate = settings.visitDate;
-        this.getVisitTypes();
-      }
-    });
+    this.subscriptions.add(
+      this.retrospectiveService.retroSettings.subscribe((settings) => {
+        if (settings) {
+          this.retrospectiveOn = settings.enabled;
+          this.retroVisitDate = settings.visitDate;
+          this.getVisitTypes();
+        }
+      })
+    );
   }
 
   public isSameDay(date1, date2) {
@@ -1017,6 +1129,9 @@ export class GroupDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public exportAllData() {
+    if (!this.gridOptions.api || this.shownMembersCount === 0) {
+      return;
+    }
     this.gridOptions.api.exportDataAsCsv();
   }
 

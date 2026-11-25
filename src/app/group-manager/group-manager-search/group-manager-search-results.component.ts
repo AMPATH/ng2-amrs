@@ -49,6 +49,42 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
+  /** Short program name for the badge (the full name shows on hover). */
+  public programLabel(program: string): string {
+    const name = (program || '').toUpperCase();
+    if (name.indexOf('OTZ') !== -1) {
+      return 'OTZ';
+    }
+    if (name.indexOf('DIFFERENTIATED SERVICE DELIVERY') !== -1) {
+      return 'DC';
+    }
+    return program;
+  }
+
+  /** Active groups are opened; inactive or disbanded ones can be activated. */
+  public isActive(group: Group): boolean {
+    return this.statusKey(group) === 'active';
+  }
+
+  /** active, inactive or disbanded - for the status colour. */
+  public statusKey(group: Group): string {
+    return String(group.status || '').toLowerCase();
+  }
+
+  /**
+   * The row after an activate or disband: its own details with the new end
+   * date and void state from the server.
+   */
+  private updatedRow(group: Group, updatedGroup: any): Group {
+    const reply = updatedGroup || {};
+    return new Group(
+      Object.assign({}, group.openmrsModel, {
+        endDate: reply.endDate !== undefined ? reply.endDate : null,
+        voided: reply.voided !== undefined ? reply.voided : false
+      })
+    );
+  }
+
   public selectGroup(groupUuid: string) {
     this.groupSelected.emit(groupUuid);
   }
@@ -99,7 +135,7 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
         .disbandGroup(group.uuid, endDate, '')
         .subscribe(
           (updatedGroup) => {
-            this._groups[index] = updatedGroup;
+            this._groups[index] = this.updatedRow(group, updatedGroup);
           },
           (error) => {
             console.log(error);
@@ -121,7 +157,7 @@ export class GroupManagerSearchResultsComponent implements OnInit, OnDestroy {
     const index = _.indexOf(this._groups, group);
     this.communityGroupService.activateGroup(group.uuid).subscribe(
       (updatedGroup) => {
-        this._groups[index] = updatedGroup;
+        this._groups[index] = this.updatedRow(group, updatedGroup);
       },
       (error) => {
         console.log(error);

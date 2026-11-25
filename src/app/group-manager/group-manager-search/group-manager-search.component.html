@@ -1,125 +1,355 @@
-<div class="box-body">
-  <div class="search-wrapper">
-    <div class="group-search">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            <h2>Group Search</h2>
-          </div>
-        </div>
-        <group-search-input
-          (searchResults)="onResults($event)"
-          (hideResults)="onReset($event)"
-        ></group-search-input>
+<div class="gm-page">
+  <!-- Header and search -->
+  <section class="gm-hero">
+    <div class="gm-hero-head">
+      <span class="gm-hero-badge"><i class="fa fa-users"></i></span>
+      <div class="gm-hero-text">
+        <span class="gm-eyebrow">Group Manager</span>
+        <h2>Community groups</h2>
+        <p>
+          Find a group by name or number, or browse the DC groups and OTZ clubs
+          in this facility.
+        </p>
       </div>
     </div>
-    <div *ngIf="searchResults && !hideResults">
-      <div *ngIf="searchResults.length">
-        <div class="alert">
-          <span class="total text-bold">{{ searchResults.length }}</span>
-          <span *ngIf="searchResults.length === 1"> group found</span>
-          <span *ngIf="searchResults.length !== 1"> groups found</span>
-        </div>
-        <group-manager-search-results
-          *ngIf="searchResults.length"
-          [groups]="searchResults"
-          (groupSelected)="onGroupSelected($event)"
-        ></group-manager-search-results>
-      </div>
+    <div class="gm-search">
+      <label class="gm-search-label" for="search-textbox">
+        <i class="fa fa-search"></i> Search groups
+      </label>
+      <group-search-input
+        (searchResults)="onResults($event)"
+        (hideResults)="onReset($event)"
+      ></group-search-input>
     </div>
-    <div class="row" style="margin-top: 15px">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <button
-          mat-raised-button
-          (click)="showModal(createGroupModal)"
-          style="
-            background: rgb(245, 245, 245);
-            border-radius: 10px;
-            color: #31708f;
-            font-weight: 700;
-            margin-bottom: 1rem;
-          "
-        >
-          <span class="fa fa-users"></span> Create New Group
-        </button>
+  </section>
 
-        <button
-          mat-raised-button
-          (click)="showGroupsInFacilty()"
-          style="
-            background: rgb(245, 245, 245);
-            border-radius: 10px;
-            color: #31708f;
-            font-weight: 700;
-            margin-left: 15px;
-            margin-bottom: 1rem;
-          "
-        >
-          <span class="fa fa-eye"></span> View All DC Groups In This Facility
-          <i
-            *ngIf="fetchingGroups && !isOTZprogram"
-            class="fa fa-spinner fa-spin"
-          ></i>
-        </button>
-
-        <button
-          mat-raised-button
-          (click)="showOTZGroupsInFacilty()"
-          style="
-            background: rgb(245, 245, 245);
-            border-radius: 10px;
-            color: #31708f;
-            font-weight: 700;
-            margin-left: 15px;
-            margin-bottom: 1rem;
-          "
-        >
-          <span class="fa fa-eye"></span> View All OTZ Clubs In This Facility
-          <i
-            *ngIf="fetchingGroups && isOTZprogram"
-            class="fa fa-spinner fa-spin"
-          ></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div
-  *ngIf="groupsInCurrentFacility && !hideGroupsInCurrentFacility"
-  class="container-fluid"
-  style="margin-top: 25px"
->
-  <p *ngIf="groupsInCurrentFacility.length === 0" class="text-primary">
-    No groups in this facility.
-  </p>
-  <div
-    class="margin-top: 30px"
-    *ngIf="rowData && groupsInCurrentFacility.length"
+  <!-- Search results -->
+  <section
+    *ngIf="searchResults && !hideResults && searchResults.length"
+    class="gm-card"
   >
-    <p></p>
-    <div *ngIf="!fetchingGroups" class="margin: 30px">
-      <p class="text-primary">Groups In Current Location</p>
-      <div class="input-group" style="width: 50%">
-        <span class="input-group-addon"><i class="fa fa-filter"></i></span>
-        <input
-          class="form-control"
-          [ngModel]="filterText"
-          (ngModelChange)="externalFilterChanged($event)"
-          placeholder="Filter by name, location or status"
-        />
-      </div>
-      <ag-grid-angular
-        style="width: 100%; height: 500px"
-        class="ag-blue"
-        [rowData]="rowData"
-        [columnDefs]="columnDefs"
-        [gridOptions]="gridOptions"
-        #dataGrid
-        (cellClicked)="gridOnCellClick($event)"
+    <header class="gm-card-header">
+      <h3><i class="fa fa-search"></i> Search results</h3>
+      <span class="gm-pill">
+        {{ searchResults.length }}
+        {{ searchResults.length === 1 ? 'group' : 'groups' }} found
+      </span>
+    </header>
+    <group-manager-search-results
+      [groups]="searchResults"
+      (groupSelected)="onGroupSelected($event)"
+    ></group-manager-search-results>
+  </section>
+
+  <!-- Actions -->
+  <section class="gm-actions">
+    <button
+      type="button"
+      class="gm-tile gm-tile-create"
+      (click)="showModal(createGroupModal)"
+    >
+      <span class="gm-tile-icon"><i class="fa fa-plus"></i></span>
+      <span class="gm-tile-text">
+        <strong>Create new group</strong>
+        <small>Start a DC group or OTZ club</small>
+      </span>
+    </button>
+
+    <button
+      type="button"
+      class="gm-tile"
+      [class.gm-tile-active]="isViewShown && !isOTZprogram"
+      [disabled]="fetchingGroups"
+      (click)="showGroupsInFacilty()"
+    >
+      <span class="gm-tile-icon gm-icon-dc"><i class="fa fa-sitemap"></i></span>
+      <span class="gm-tile-text">
+        <strong>DC groups</strong>
+        <small>Differentiated care groups in this facility</small>
+      </span>
+      <i
+        *ngIf="fetchingGroups && !isOTZprogram"
+        class="fa fa-spinner fa-spin gm-tile-spinner"
+      ></i>
+      <i
+        *ngIf="!(fetchingGroups && !isOTZprogram)"
+        class="fa fa-chevron-right gm-tile-chevron"
+      ></i>
+    </button>
+
+    <button
+      type="button"
+      class="gm-tile"
+      [class.gm-tile-active]="isViewShown && isOTZprogram"
+      [disabled]="fetchingGroups"
+      (click)="showOTZGroupsInFacilty()"
+    >
+      <span class="gm-tile-icon gm-icon-otz"><i class="fa fa-star"></i></span>
+      <span class="gm-tile-text">
+        <strong>OTZ clubs</strong>
+        <small>Operation Triple Zero clubs with viral suppression</small>
+      </span>
+      <i
+        *ngIf="fetchingGroups && isOTZprogram"
+        class="fa fa-spinner fa-spin gm-tile-spinner"
+      ></i>
+      <i
+        *ngIf="!(fetchingGroups && isOTZprogram)"
+        class="fa fa-chevron-right gm-tile-chevron"
+      ></i>
+    </button>
+  </section>
+
+  <!-- Starting hint: nothing loaded or searched yet -->
+  <section *ngIf="showStartHint" class="gm-start">
+    <span class="gm-start-icon"><i class="fa fa-hand-pointer-o"></i></span>
+    <h4>Load or search for a group</h4>
+    <p>
+      Search above by group name, number or landmark, or open the
+      <button
+        type="button"
+        class="gm-start-link"
+        (click)="showGroupsInFacilty()"
       >
-      </ag-grid-angular>
+        DC groups
+      </button>
+      or
+      <button
+        type="button"
+        class="gm-start-link gm-start-link-otz"
+        (click)="showOTZGroupsInFacilty()"
+      >
+        OTZ clubs
+      </button>
+      in this facility.
+    </p>
+  </section>
+
+  <!-- Loading -->
+  <section
+    *ngIf="fetchingGroups"
+    class="groups-loading"
+    role="status"
+    aria-live="polite"
+  >
+    <i class="fa fa-spinner fa-spin fa-2x"></i>
+    <div class="groups-loading-text">
+      <strong>{{ loadingLabel }}</strong>
+      <span>Fetching the groups in this facility. This takes a moment.</span>
     </div>
-  </div>
+    <div class="groups-loading-bar"><span></span></div>
+  </section>
+
+  <!-- Load error -->
+  <section *ngIf="loadError && !fetchingGroups" class="gm-error" role="alert">
+    <i class="fa fa-exclamation-circle"></i>
+    <span>{{ loadError }}</span>
+    <button
+      type="button"
+      class="btn btn-sm btn-default"
+      (click)="isOTZprogram ? showOTZGroupsInFacilty() : showGroupsInFacilty()"
+    >
+      <i class="fa fa-refresh"></i> Try again
+    </button>
+  </section>
+
+  <!-- Facility groups -->
+  <section *ngIf="isViewShown && !fetchingGroups" class="gm-card">
+    <header class="gm-card-header">
+      <h3>
+        <i [class]="isOTZprogram ? 'fa fa-star' : 'fa fa-sitemap'"></i>
+        {{ isOTZprogram ? 'OTZ clubs' : 'DC groups' }} in this facility
+      </h3>
+      <span *ngIf="groupsInCurrentFacility.length" class="gm-pill">
+        {{ listTotal }} {{ listTotal === 1 ? 'group' : 'groups' }}
+      </span>
+    </header>
+
+    <div *ngIf="groupsInCurrentFacility.length === 0" class="gm-empty">
+      <i class="fa fa-folder-open-o"></i>
+      <strong>No groups in this facility</strong>
+      <span>Use "Create new group" to start one.</span>
+    </div>
+
+    <div *ngIf="rowData && groupsInCurrentFacility.length">
+      <div class="gm-toolbar">
+        <div class="gm-filter">
+          <i class="fa fa-search"></i>
+          <input
+            class="form-control"
+            type="search"
+            [ngModel]="tableSearch"
+            (ngModelChange)="onTableSearch($event)"
+            [placeholder]="
+              isOTZprogram
+                ? 'Search these OTZ clubs: name, number, landmark, champion…'
+                : 'Search these DC groups: name, number, landmark, status…'
+            "
+            aria-label="Search this list"
+          />
+          <button
+            *ngIf="tableSearch"
+            type="button"
+            class="gm-filter-clear"
+            title="Clear search"
+            aria-label="Clear search"
+            (click)="clearTableSearch()"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="gm-toolbar-right">
+          <span *ngIf="tableSearch" class="gm-toolbar-count" aria-live="polite">
+            Showing <strong>{{ visibleCount }}</strong> of {{ listTotal }}
+          </span>
+          <span
+            class="gm-toolbar-program"
+            [class.gm-toolbar-program-otz]="isOTZprogram"
+          >
+            <i
+              [class]="isOTZprogram ? 'fa fa-star' : 'fa fa-sitemap'"
+              aria-hidden="true"
+            ></i>
+            {{
+              isOTZprogram
+                ? 'OTZ PROGRAM'
+                : 'DIFFERENTIATED SERVICE DELIVERY PROGRAM'
+            }}
+          </span>
+        </div>
+      </div>
+      <p *ngIf="tableSearch && visibleCount === 0" class="gm-filter-none">
+        No {{ isOTZprogram ? 'clubs' : 'groups' }} match "{{ tableSearch }}".
+      </p>
+      <p
+        *ngIf="canScrollSideways"
+        class="gm-scroll-hint"
+        [class.gm-scroll-hint-end]="atScrollEnd"
+        aria-live="polite"
+      >
+        <ng-container *ngIf="!atScrollEnd">
+          <i class="fa fa-arrows-h" aria-hidden="true"></i>
+          Scroll sideways to see more details
+          <i
+            class="fa fa-long-arrow-right gm-scroll-nudge"
+            aria-hidden="true"
+          ></i>
+        </ng-container>
+        <ng-container *ngIf="atScrollEnd">
+          <i class="fa fa-check" aria-hidden="true"></i> You are viewing the
+          last columns - scroll back to see the first ones
+        </ng-container>
+      </p>
+      <div
+        class="gm-grid-wrap"
+        [class.gm-has-more]="canScrollSideways && !atScrollEnd"
+      >
+        <ag-grid-angular
+          class="ag-blue gm-grid"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          #dataGrid
+          (cellClicked)="gridOnCellClick($event)"
+        >
+        </ag-grid-angular>
+      </div>
+
+      <!-- Phones: the same groups as readable cards -->
+      <ul class="gm-cards" aria-label="Groups">
+        <li
+          *ngFor="let row of visibleRows"
+          class="gm-cardrow"
+          tabindex="0"
+          (click)="openCard(row)"
+          (keydown.enter)="openCard(row)"
+        >
+          <div class="gm-cardrow-head">
+            <div class="gm-cardrow-title">
+              <strong>{{ row.data.display }}</strong>
+              <div class="gm-cardrow-meta">
+                <span *ngIf="row.data.groupNumber" class="gm-cardrow-number">{{
+                  row.data.groupNumber
+                }}</span>
+                <span *ngIf="row.data.landmark"
+                  ><i class="fa fa-map-marker"></i>
+                  {{ row.data.landmark }}</span
+                >
+              </div>
+            </div>
+            <span
+              class="gr-status"
+              [ngClass]="'gr-status-' + (row.data.status || '').toLowerCase()"
+              ><i class="fa fa-circle"></i> {{ row.data.status }}</span
+            >
+          </div>
+          <dl class="gm-cardrow-facts">
+            <div>
+              <dt>Program</dt>
+              <dd>
+                <span
+                  *ngIf="row.data.program"
+                  class="gr-program"
+                  [class.gr-program-otz]="
+                    programShort(row.data.program) === 'OTZ'
+                  "
+                  >{{ programShort(row.data.program) }}</span
+                >
+              </dd>
+            </div>
+            <div>
+              <dt>Members</dt>
+              <dd>{{ row.data.groupCount }}</dd>
+            </div>
+            <div>
+              <dt>Facility</dt>
+              <dd>{{ row.data.facility }}</dd>
+            </div>
+            <ng-container *ngIf="isOTZprogram">
+              <div>
+                <dt>Viral suppression</dt>
+                <dd>{{ row.data.viralSuppression }}</dd>
+              </div>
+              <div>
+                <dt>Last meeting</dt>
+                <dd>
+                  {{
+                    row.data.lastMeetingDate
+                      ? (row.data.lastMeetingDate | date: 'dd MMM yyyy')
+                      : '—'
+                  }}
+                </dd>
+              </div>
+              <div>
+                <dt>OTZ champion</dt>
+                <dd>{{ row.data.otzChampion || '—' }}</dd>
+              </div>
+              <div>
+                <dt>Group activity</dt>
+                <dd>{{ row.data.groupActivity || '—' }}</dd>
+              </div>
+            </ng-container>
+          </dl>
+          <button
+            *ngIf="isActiveStatus(row.data.status)"
+            type="button"
+            class="gr-btn gr-btn-open"
+            (click)="$event.stopPropagation(); openCard(row)"
+          >
+            <i class="fa fa-folder-open-o"></i> Open group
+          </button>
+          <button
+            *ngIf="!isActiveStatus(row.data.status)"
+            type="button"
+            class="gr-btn gr-btn-activate"
+            (click)="$event.stopPropagation(); activateCard(row)"
+          >
+            <i class="fa fa-check"></i> Activate group
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
 </div>
 
 <ng-template #createGroupModal>
