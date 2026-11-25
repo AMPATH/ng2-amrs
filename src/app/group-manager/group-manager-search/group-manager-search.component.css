@@ -1229,3 +1229,90 @@ button.btn-primary {
     display: none;
   }
 }
+
+/* ---------- Plain header: white card with a border, no blue ---------- */
+.gm-hero {
+  border: 1px solid var(--gm-line);
+  background: #fff;
+  box-shadow: none;
+  color: var(--gm-ink);
+}
+.gm-hero h2 {
+  color: var(--gm-ink);
+}
+.gm-hero p {
+  color: var(--gm-muted);
+}
+.gm-hero-badge {
+  background: var(--gm-brand-soft);
+  color: var(--gm-brand);
+}
+.gm-hero-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef2f6;
+}
+/* The search sits directly in the card: no inner box or shadow. */
+.gm-search {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.gm-search ::ng-deep .search-options {
+  top: 0;
+  right: 0;
+}
+
+/* ---------- Title row: title above a short description ---------- */
+.gm-hero-head {
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+}
+.gm-hero-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 17px;
+}
+.gm-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.gm-hero h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.gm-hero p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+@media (max-width: 600px) {
+  .gm-hero p {
+    display: block;
+    font-size: 12.5px;
+  }
+}
+
+/* ---------- Space between the label row and the search field ---------- */
+.gm-search-label {
+  min-height: 24px;
+  margin-bottom: 14px;
+}
+.gm-search ::ng-deep .search-options {
+  top: 0;
+  min-height: 24px;
+}
+@media (max-width: 600px) {
+  .gm-search-label {
+    margin-bottom: 10px;
+  }
+  .gm-search ::ng-deep .search-options {
+    margin-top: 16px;
+  }
+}
