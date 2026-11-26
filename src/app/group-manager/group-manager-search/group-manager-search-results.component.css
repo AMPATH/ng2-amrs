@@ -5,3 +5,219 @@
 .filter-control {
   margin-bottom: 30px;
 }
+
+/* ---------- Search results ---------- */
+/* Blue border, as the original panel-primary had. */
+.gr-wrap {
+  border: 1px solid #428bca;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.gr-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #1d3b4f;
+  font-size: 14px;
+}
+.gr-table {
+  margin-bottom: 0;
+}
+.gr-table thead th {
+  padding: 10px 16px;
+  text-align: left;
+}
+.gr-table > tbody > tr > td {
+  padding: 12px 16px;
+  vertical-align: middle;
+}
+.gr-row {
+  cursor: pointer;
+}
+.gr-row:focus {
+  outline: 2px solid rgba(66, 139, 202, 0.35);
+  outline-offset: -2px;
+}
+.gr-col-action,
+.gr-table thead th.gr-col-action {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.gr-name {
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.gr-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 4px;
+  color: #6b8597;
+  font-size: 12.5px;
+}
+.gr-number {
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: #eef3f7;
+  color: #3d5a6c;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+.gr-landmark .fa {
+  color: #9fb3c2;
+}
+
+.gr-program {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #e8f2f9;
+  color: #3276b1;
+  font-size: 12px;
+  font-weight: 700;
+}
+.gr-program-otz {
+  background: #fff4e0;
+  color: #b06a00;
+}
+.gr-empty {
+  color: #a9bac6;
+}
+
+.gr-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.gr-status .fa {
+  font-size: 8px;
+}
+.gr-status-active {
+  color: #2e7d32;
+}
+.gr-status-inactive {
+  color: #b06a00;
+}
+.gr-status-disbanded {
+  color: #c62828;
+}
+
+.gr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.12s, color 0.12s;
+}
+.gr-btn-open {
+  border: 1px solid #e0b252;
+  color: #9a6400;
+}
+.gr-btn-open:hover {
+  background: #fff4e0;
+}
+.gr-btn-activate {
+  border: 1px solid #4caf50;
+  color: #2e7d32;
+}
+.gr-btn-activate:hover {
+  background: #4caf50;
+  color: #fff;
+}
+
+.gr-pages {
+  display: block;
+  padding: 10px 16px;
+  border-top: 1px solid #edf2f6;
+  cursor: pointer;
+}
+
+/* Phones: each group becomes a small card. */
+@media (max-width: 700px) {
+  .gr-wrap {
+    border: 0;
+  }
+  .gr-table thead {
+    display: none;
+  }
+  .gr-table,
+  .gr-table tbody,
+  .gr-table tr,
+  .gr-table td {
+    display: block;
+    width: 100%;
+  }
+  .gr-row {
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid #dde8f0;
+    border-radius: 10px;
+    background: #fff;
+  }
+  .gr-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+    border: 0;
+  }
+  .gr-table td::before {
+    content: attr(data-label);
+    color: #6b8597;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .gr-table td[data-label='Group'] {
+    display: block;
+    padding-bottom: 8px;
+  }
+  .gr-table td[data-label='Group']::before {
+    content: none;
+  }
+  /* The button needs no label: full width at the foot of the card. */
+  .gr-table td.gr-col-action {
+    display: block;
+    padding-top: 10px;
+  }
+  .gr-table td.gr-col-action::before {
+    content: none;
+  }
+  .gr-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 8px 12px;
+  }
+}
+
+/*
+ * Hovered row: the system's table-hover turns the row dark blue with white
+ * text (main-dashboard.component.css). Lighten what sits on it so it stays
+ * readable; chips and buttons keep their own light backgrounds.
+ */
+.gr-row:hover .gr-name {
+  color: #fff;
+}
+.gr-row:hover .gr-meta,
+.gr-row:hover .gr-landmark .fa,
+.gr-row:hover .gr-empty {
+  color: rgba(255, 255, 255, 0.9);
+}
+.gr-row:hover .gr-status-active {
+  color: #b9f6ca;
+}
+.gr-row:hover .gr-status-inactive {
+  color: #ffe0a3;
+}
+.gr-row:hover .gr-status-disbanded {
+  color: #ffcdd2;
+}

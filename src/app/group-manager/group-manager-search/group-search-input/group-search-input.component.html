@@ -15,7 +15,8 @@
           />
           <span class="input-group-btn large-search">
             <button
-              [disabled]="isLoading || !searchString"
+              type="submit"
+              [disabled]="isLoading || !hasMinimumSearch"
               class="btn btn-primary btn-lg search_btn"
               (click)="searchGroup()"
             >
@@ -26,6 +27,8 @@
               ></i>
             </button>
             <button
+              type="button"
+              [disabled]="!hasMinimumSearch"
               class="btn btn-danger btn-lg reset_btn"
               (click)="resetSearchList()"
             >
@@ -36,6 +39,14 @@
       </div>
     </form>
   </div>
+
+  <small
+    *ngIf="!isModal && searchString && !hasMinimumSearch"
+    class="search-hint"
+    aria-live="polite"
+  >
+    Type at least {{ minSearchLength }} characters to search.
+  </small>
 
   <div class="row" *ngIf="isModal">
     <form

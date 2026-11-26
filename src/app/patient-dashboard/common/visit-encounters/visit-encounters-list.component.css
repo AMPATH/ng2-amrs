@@ -120,3 +120,120 @@ th a:hover {
   padding: 3px;
   font-size: 14px;
 }
+
+/* ---------- Skeleton while the visits load ---------- */
+/* While loading, show only the title and the skeleton. */
+.ve-is-loading > :not(.ve-skeleton):not(.component-title) {
+  display: none;
+}
+.ve-skeleton {
+  position: relative;
+  margin-top: 10px;
+}
+.ve-status {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 18px;
+  border: 1px solid #dde8f0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 20px rgba(29, 59, 79, 0.12);
+  color: #5f7a8c;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+.ve-status .fa {
+  color: #428bca;
+  font-size: 15px;
+}
+.ve-sk {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e1e8ef 25%, #f1f5f9 37%, #e1e8ef 63%);
+  background-size: 400% 100%;
+  animation: ve-shimmer 1.4s ease infinite;
+}
+@keyframes ve-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ve-sk {
+    animation: none;
+  }
+}
+.ve-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ve-visit {
+  margin-bottom: 12px;
+  border: 1px solid #dde8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ve-visit-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #f3f7fb;
+}
+.ve-visit-row {
+  display: flex;
+  align-items: center;
+  gap: 5%;
+  height: 38px;
+  padding: 0 14px;
+  border-top: 1px solid #eef2f6;
+}
+.ve-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid #f0c9c8;
+  border-radius: 8px;
+  background: #fdf1f0;
+  color: #a94442;
+}
+.ve-empty {
+  margin-top: 24px;
+  color: #6b8597;
+}
+@media (max-width: 600px) {
+  .ve-filters {
+    flex-direction: column;
+  }
+  .ve-filters .ve-sk {
+    width: 100% !important;
+  }
+  .ve-status {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+/* Built but not yet painted: draw the list off screen behind the skeleton,
+   so it has its real size and can be measured, then swap. */
+.ve-is-painting > :not(.ve-skeleton):not(.component-title) {
+  position: absolute;
+  left: -99999px;
+  top: 0;
+  width: 100%;
+}

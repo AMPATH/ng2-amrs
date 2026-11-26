@@ -1,6 +1,6 @@
 import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { EncounterResourceService } from '../../../openmrs-api/encounter-resource.service';
 import { Encounter } from '../../../models/encounter.model';
@@ -16,9 +16,9 @@ export class PatientEncounterService {
     cached: boolean = false,
     v: string = null
   ): Observable<Encounter[]> {
-    const encounterResults: BehaviorSubject<Encounter[]> = new BehaviorSubject<
-      Encounter[]
-    >([]);
+    // Emits only the real result. (It used to start with an empty list, which
+    // the page took as "no encounters" until the real list arrived.)
+    const encounterResults = new ReplaySubject<Encounter[]>(1);
     const encounterObservable = this.encounterService.getEncountersByPatientUuid(
       patientUuid
     );

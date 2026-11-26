@@ -1,120 +1,142 @@
-<div style="margin-top: 4px; margin-bottom: 4px">
-  <strong *ngIf="currentEnrollment" style="color: gray">
-    <span>
-      Patient enrolled in
-      {{ toTitleCase(currentEnrollment?.openmrsModel?.display) }}
-    </span>
-    <span
-      *ngIf="
-        currentEnrollment.openmrsModel &&
-        currentEnrollment.openmrsModel.location
-      "
-      >{{ ' at ' + currentEnrollment.openmrsModel.location.display }}
-    </span>
-    <span>{{ ' since ' + currentEnrollment?.dateEnrolled }}.</span>
-    <div *ngIf="!patientEnrolledInGroup && !isBusy" class="alert alert-info">
-      <i class="fa fa-users"></i> Patient not enrolled in a Community Group.
-      <button
-        class="btn btn-sm btn-primary pull-right"
-        (click)="enrollInGroup()"
+<!-- Loading: shown until the patient and today's visits are ready -->
+<div
+  *ngIf="(!patient || visitsLoading) && !errors?.length"
+  class="vis-loading"
+  role="status"
+  aria-live="polite"
+>
+  <div class="vis-loading-head">
+    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    <span>Loading the patient's visits…</span>
+  </div>
+  <div class="vis-sk vis-sk-line" style="width: 45%"></div>
+  <div class="vis-sk vis-sk-line" style="width: 70%"></div>
+  <div class="vis-sk vis-sk-block"></div>
+</div>
+
+<div *ngIf="patient && (!visitsLoading || errors?.length)">
+  <!-- Enrollment, as on production (original markup, made null-safe) -->
+  <div style="margin-top: 4px; margin-bottom: 4px">
+    <strong *ngIf="currentEnrollment" style="color: gray">
+      <span>
+        Patient enrolled in
+        {{ toTitleCase(currentEnrollment?.openmrsModel?.display) }}
+      </span>
+      <span
+        *ngIf="
+          currentEnrollment.openmrsModel &&
+          currentEnrollment.openmrsModel.location
+        "
+        >{{ ' at ' + currentEnrollment.openmrsModel.location.display }}
+      </span>
+      <span>{{ ' since ' + currentEnrollment?.dateEnrolled }}.</span>
+      <div *ngIf="!patientEnrolledInGroup && !isBusy" class="alert alert-info">
+        <i class="fa fa-users"></i> Patient not enrolled in a Community Group.
+        <button
+          class="btn btn-sm btn-primary pull-right"
+          (click)="enrollInGroup()"
+        >
+          Enroll in a Group
+        </button>
+      </div>
+      <div
+        *ngIf="communityEnrollmentSuccessMessage"
+        class="alert alert-success"
       >
-        Enroll in a Group
+        {{ communityEnrollmentSuccessMessage }}
+      </div>
+      <span
+        *ngIf="!currentEnrollment?.openmrsModel?.location"
+        style="text-transform: none"
+      >
+        Please associate this program with a clinic.</span
+      >
+    </strong>
+    <strong *ngIf="!currentEnrollment?.openmrsModel" style="color: gray"
+      >Patient not enrolled in the program you loaded please check the
+      patient</strong
+    >
+  </div>
+  <div>
+    <div
+      *ngFor="let error of errors"
+      class="alert alert-danger alert-dismissible"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-hidden="true"
+      >
+        ×
+      </button>
+      {{ error?.message }}
+    </div>
+    <div
+      class="alert alert-success alert-dismissible"
+      *ngIf="
+        showVisitStartedMsg && visit && patient && visit.stopDatetime === null
+      "
+    >
+      Visit has been successfully started
+      <button
+        type="button"
+        (click)="removeVisitStartedMsg()"
+        class="close"
+        data-dismiss="alert"
+        aria-hidden="true"
+      >
+        ×
       </button>
     </div>
-    <div *ngIf="communityEnrollmentSuccessMessage" class="alert alert-success">
-      {{ communityEnrollmentSuccessMessage }}
-    </div>
-    <span
-      *ngIf="!currentEnrollment?.openmrsModel?.location"
-      style="text-transform: none"
-    >
-      Please associate this program with a clinic.</span
-    >
-  </strong>
-  <strong *ngIf="!currentEnrollment.openmrsModel" style="color: gray"
-    >Patient not enrolled in the program you loaded please check the
-    patient</strong
-  >
-</div>
-<div>
-  <div
-    *ngFor="let error of errors"
-    class="alert alert-danger alert-dismissible"
-  >
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-      ×
-    </button>
-    {{ error?.message }}
-  </div>
-  <div
-    class="alert alert-success alert-dismissible"
-    *ngIf="
-      showVisitStartedMsg && visit && patient && visit.stopDatetime === null
-    "
-  >
-    Visit has been successfully started
-    <button
-      type="button"
-      (click)="removeVisitStartedMsg()"
-      class="close"
-      data-dismiss="alert"
-      aria-hidden="true"
-    >
-      ×
-    </button>
-  </div>
 
-  <h3
-    *ngIf="visit && patient && visit.stopDatetime === null"
-    style="margin-left: -8px; margin-bottom: -4px; margin-top: -8px"
-  >
-    Current Visit
-  </h3>
-  <div
-    *ngIf="visit && patient && visit.stopDatetime === null"
-    style="border: solid #80d651; border-width: 1px 1px 1px 4px; padding: 4px"
-  >
-    <app-visit-details
-      [visit]="visit"
-      (encounterSelected)="onEncounterSelected($event)"
-      [programVisitTypesConfig]="currentProgramConfig"
-      [programEnrollmentUuid]="currentProgramEnrollmentUuid"
-      [programUuid]="programUuid"
-      (formSelected)="onFormSelected($event)"
-      (visitCancelled)="onVisitStartedOrChanged($event)"
-      (visitChanged)="onVisitStartedOrChanged($event)"
-      [patient]="patient"
+    <h3
+      *ngIf="visit && patient && visit.stopDatetime === null"
+      class="vis-section-title"
     >
-    </app-visit-details>
-  </div>
-
-  <h3
-    *ngIf="patient && (!visit || visit.stopDatetime !== null)"
-    style="margin-left: -8px; margin-bottom: -16px; margin-top: -8px"
-  >
-    Start a Visit
-  </h3>
-  <div
-    *ngIf="patient && (!visit || visit.stopDatetime !== null)"
-    style="
-      border: solid lightgray;
-      border-width: 1px 1px 1px 1px;
-      padding: 4px;
-      margin-top: 10px;
-    "
-  >
-    <h4>
-      <!-- <span class="fa  fa-info"></span>  -->
-      Select location, then select visit type to start:
-    </h4>
-    <div class="box-body forms-list">
-      <app-visit-starter
-        [patientUuid]="patient.uuid"
+      <i class="fa fa-stethoscope vis-icon-current"></i> Current Visit
+    </h3>
+    <div
+      *ngIf="visit && patient && visit.stopDatetime === null"
+      class="vis-card vis-card-current"
+    >
+      <app-visit-details
+        [visit]="visit"
+        (encounterSelected)="onEncounterSelected($event)"
+        [programVisitTypesConfig]="currentProgramConfig"
         [programEnrollmentUuid]="currentProgramEnrollmentUuid"
         [programUuid]="programUuid"
-        (visitStarted)="onVisitStartedOrChanged($event)"
-        [patientEnrolledInGroup]="patientEnrolledInGroup"
-      ></app-visit-starter>
+        (formSelected)="onFormSelected($event)"
+        (visitCancelled)="onVisitStartedOrChanged($event)"
+        (visitChanged)="onVisitStartedOrChanged($event)"
+        [patient]="patient"
+      >
+      </app-visit-details>
+    </div>
+
+    <h3
+      *ngIf="patient && (!visit || visit.stopDatetime !== null)"
+      class="vis-section-title"
+    >
+      <i class="fa fa-play-circle vis-icon-start"></i> Start a Visit
+    </h3>
+    <div
+      *ngIf="patient && (!visit || visit.stopDatetime !== null)"
+      class="vis-card"
+    >
+      <h4>
+        <!-- <span class="fa  fa-info"></span>  -->
+        Select location, then select visit type to start:
+      </h4>
+      <div class="box-body forms-list">
+        <app-visit-starter
+          [patientUuid]="patient.uuid"
+          [programEnrollmentUuid]="currentProgramEnrollmentUuid"
+          [programUuid]="programUuid"
+          (visitStarted)="onVisitStartedOrChanged($event)"
+          [patientEnrolledInGroup]="patientEnrolledInGroup"
+        ></app-visit-starter>
+      </div>
     </div>
   </div>
 </div>

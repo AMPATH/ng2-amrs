@@ -3,6 +3,8 @@
     <visit-encounters-list
       [encounters]="patientEncounters"
       [showVisitsObservations]="showVisitsObservations"
+      [loading]="encountersLoading"
+      [loadError]="encountersLoadError"
     ></visit-encounters-list>
   </p-tabPanel>
   <p-tabPanel header="Encounters">

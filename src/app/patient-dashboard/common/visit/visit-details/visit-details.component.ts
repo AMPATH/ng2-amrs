@@ -1,5 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import { Observable, forkJoin, Subscription } from 'rxjs';
 import * as moment from 'moment';
 
 import { VisitResourceService } from '../../../../openmrs-api/visit-resource.service';
@@ -14,7 +21,9 @@ import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.s
   templateUrl: './visit-details.component.html',
   styleUrls: ['./visit-details.component.css']
 })
-export class VisitDetailsComponent implements OnInit {
+export class VisitDetailsComponent implements OnInit, OnDestroy {
+  /** Listens to the retrospective settings only while this panel is shown. */
+  private retroSettingsSubscription: Subscription;
   public completedEncounterTypesUuids = [];
   public allowedEncounterTypesUuids = [];
   public isBusy = false;
@@ -129,7 +138,10 @@ export class VisitDetailsComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
+    // Kept only while this panel is open. It used to stay subscribed after the
+    // panel closed, so a later change to the retrospective date or location
+    // moved earlier patients' visits and voided their encounters.
+    this.retroSettingsSubscription = this.retrospectiveDataEntryService.retroSettings.subscribe(
       (retroSettings) => {
         if (retroSettings && retroSettings.enabled) {
           this.hideButtonNav = true;
@@ -148,6 +160,12 @@ export class VisitDetailsComponent implements OnInit {
         }
       }
     );
+  }
+
+  public ngOnDestroy() {
+    if (this.retroSettingsSubscription) {
+      this.retroSettingsSubscription.unsubscribe();
+    }
   }
 
   public extractCompletedEncounterTypes() {

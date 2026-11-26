@@ -1,8 +1,22 @@
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AppSettingsService } from '../app-settings/app-settings.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+/** The members as the group pages have always asked for them. */
+const COHORT_MEMBERS_FULL_V =
+  'custom:(startDate,endDate,patient:(identifiers,person:(uuid,display,gender,age,birthdate,preferredName,attributes)))';
+
+/**
+ * The same members with each identifier and person attribute cut down to the
+ * fields the group pages and the Patient / Person models read.
+ */
+const COHORT_MEMBERS_SLIM_V =
+  'custom:(startDate,endDate,patient:(uuid,' +
+  'identifiers:(uuid,identifier,preferred,identifierType:(uuid,name,display)),' +
+  'person:(uuid,display,gender,age,birthdate,preferredName,' +
+  'attributes:(uuid,display,value,attributeType:(uuid,display)))))';
 
 @Injectable()
 export class CohortMemberResourceService {
@@ -80,16 +94,21 @@ export class CohortMemberResourceService {
     if (!cohortUuid) {
       return null;
     }
-    const v = `custom:(startDate,endDate,patient:(identifiers,person:(uuid,display,gender,age,birthdate,preferredName,attributes)))`;
-    const requestUrl =
-      this.baseOpenMrsUrl + `cohortm/cohortmember?cohort=${cohortUuid}&v=${v}`;
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this._http
-      .get<any>(requestUrl, { headers })
-      .pipe(
-        map((response) => {
-          return response.results;
-        })
-      );
+    const fetch = (v: string) =>
+      this._http
+        .get<any>(
+          this.baseOpenMrsUrl +
+            `cohortm/cohortmember?cohort=${cohortUuid}&v=${v}`,
+          { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+        )
+        .pipe(map((response) => response.results));
+    // Only the identifier and attribute fields the group pages read; the full
+    // records are used if the slim request is refused.
+    return fetch(COHORT_MEMBERS_SLIM_V).pipe(
+      catchError((err) => {
+        console.warn('Group members: using the full members request.', err);
+        return fetch(COHORT_MEMBERS_FULL_V);
+      })
+    );
   }
 }

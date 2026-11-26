@@ -1,7 +1,76 @@
-<h4 class="component-title">
-  <span class="icon-i-outpatient"></span>Today's Visit
-</h4>
-<!-- <div [ngBusy]="{busy:[isBusy],message:'Loading...'}"></div> -->
+<header class="tv-header">
+  <h4 class="component-title tv-title">
+    <span class="icon-i-outpatient"></span>Today's Visit
+  </h4>
+  <span class="tv-today"
+    ><i class="fa fa-calendar"></i> {{ today | date: 'EEE, dd MMM yyyy' }}</span
+  >
+</header>
+<!-- Skeleton while today's visits load: the page's own layout, in grey -->
+<div
+  *ngIf="(!patient || isBusy) && groupedVisits.length === 0 && !errors?.length"
+  class="tv-skeleton"
+  role="status"
+  aria-live="polite"
+  aria-label="Loading today's visits"
+>
+  <p class="tv-status">
+    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    Loading today's visits…
+  </p>
+  <div class="tv-tabs">
+    <div class="tv-sk" style="width: 110px; height: 30px"></div>
+    <div class="tv-sk" style="width: 90px; height: 30px"></div>
+    <div class="tv-sk" style="width: 120px; height: 30px"></div>
+  </div>
+  <div class="tv-panel">
+    <div
+      class="tv-sk"
+      style="width: 160px; height: 32px; margin-bottom: 14px"
+    ></div>
+    <div
+      class="tv-sk"
+      style="width: 40%; height: 12px; margin-bottom: 8px"
+    ></div>
+    <div class="tv-card">
+      <div
+        class="tv-sk"
+        style="width: 140px; height: 16px; margin-bottom: 12px"
+      ></div>
+      <div
+        class="tv-sk"
+        style="width: 70%; height: 12px; margin-bottom: 8px"
+      ></div>
+      <div
+        class="tv-sk"
+        style="width: 55%; height: 12px; margin-bottom: 14px"
+      ></div>
+      <div class="tv-forms">
+        <div class="tv-sk" *ngFor="let f of [1, 2, 3, 4]"></div>
+      </div>
+    </div>
+    <div
+      class="tv-sk"
+      style="width: 230px; height: 18px; margin: 18px 0 10px"
+    ></div>
+    <div class="tv-list">
+      <div class="tv-row" *ngFor="let r of [1, 2, 3]">
+        <div class="tv-sk" style="width: 22%; height: 12px"></div>
+        <div class="tv-sk" style="width: 30%; height: 12px"></div>
+        <div class="tv-sk" style="width: 18%; height: 12px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading failed -->
+<div *ngIf="errors?.length && !isBusy" class="tv-error" role="alert">
+  <i class="fa fa-exclamation-circle"></i>
+  <span
+    >Could not load today's visits. Please refresh the page to try again.</span
+  >
+</div>
+
 <div>
   <p-tabView (onChange)="handleProgramClassChange($event)">
     <p-tabPanel
@@ -11,18 +80,49 @@
         programClass.display + ' (' + programClass.allVisits.length + ')'
       }}"
     >
-      <div style="padding-left: 1px">
-        <button
-          (click)="handleProgramChange(program)"
-          *ngFor="let program of programClass.programs"
-          type="button"
-          [ngClass]="[
-            programUuid === program.uuid ? 'btn-info' : 'btn-default'
-          ]"
-          class="btn program-list"
+      <div class="tv-content">
+        <!-- 1. Programme -->
+        <div class="tv-programs" *ngIf="programClass.programs?.length">
+          <div class="tv-program-chips" role="group" aria-label="Programme">
+            <button
+              (click)="handleProgramChange(program)"
+              *ngFor="let program of programClass.programs"
+              type="button"
+              [ngClass]="[
+                programUuid === program.uuid ? 'btn-info' : 'btn-default'
+              ]"
+              [attr.aria-pressed]="programUuid === program.uuid"
+              class="btn program-list"
+            >
+              {{ program.display | uppercase }}
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. The visit: enrollment, current visit or start a visit -->
+        <!-- Programme switching: skeleton until its visit card appears -->
+        <div
+          *ngIf="!programUuid && programClass.class === programClassUuid"
+          class="tv-switching"
+          role="status"
+          aria-live="polite"
         >
-          {{ program.display | uppercase }}
-        </button>
+          <p class="tv-switching-status">
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+            Loading programme…
+          </p>
+          <div class="tv-sk" style="width: 55%; height: 11px"></div>
+          <div
+            class="tv-sk"
+            style="width: 140px; height: 15px; margin-top: 16px"
+          ></div>
+          <div class="tv-switching-card">
+            <div class="tv-sk" style="width: 45%; height: 11px"></div>
+            <div class="tv-sk" style="height: 34px; margin-top: 10px"></div>
+            <div class="tv-sk" style="height: 40px; margin-top: 10px"></div>
+            <div class="tv-sk" style="height: 40px; margin-top: 6px"></div>
+          </div>
+        </div>
         <visit
           *ngIf="
             programUuid &&
@@ -33,17 +133,26 @@
           (formSelected)="onFormSelected($event)"
           (encounterSelected)="onEncounterSelected($event)"
         ></visit>
-        <div
-          *ngIf="programClass.allVisits.length !== 0"
-          style="margin-top: 10px"
-        >
-          <h3>Active/Completed {{ programClass.display }} Visits</h3>
-          <div class="list-group-item">
+        <!-- 3. Visit history -->
+        <section *ngIf="programClass.allVisits.length !== 0" class="tv-section">
+          <h3 class="tv-section-title">
+            <i class="fa fa-history"></i>
+            Active/Completed {{ programClass.display }} Visits
+            <span class="tv-count">{{ programClass.allVisits.length }}</span>
+          </h3>
+          <div class="tv-section-card">
             <app-visit-summary
               [visitSummary]="programClass.allVisits"
             ></app-visit-summary>
           </div>
-        </div>
+        </section>
+
+        <!-- 4. Tools -->
+        <app-empty-visits-cleanup
+          *ngIf="patient && programClass.class === programClassUuid"
+          [patientUuid]="patient.uuid"
+          (visitsRemoved)="onEmptyVisitsRemoved()"
+        ></app-empty-visits-cleanup>
       </div>
     </p-tabPanel>
   </p-tabView>

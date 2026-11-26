@@ -2,6 +2,45 @@
   <h4 class="component-title">
     <span class="icon-i-immunizations"></span> Patient Encounters
   </h4>
+  <!-- Skeleton while the encounters load -->
+  <div
+    *ngIf="(dataLoading || awaitingPaint) && !errors?.length"
+    class="pe-skeleton"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading encounters"
+  >
+    <p class="pe-status">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      Loading encounters…
+    </p>
+    <div class="pe-filters">
+      <div class="pe-sk" style="width: 220px; height: 34px"></div>
+      <div class="pe-sk" style="flex: 1 1 auto; height: 34px"></div>
+    </div>
+    <div class="pe-table">
+      <div class="pe-row pe-row-head">
+        <div class="pe-sk" style="width: 14%"></div>
+        <div class="pe-sk" style="width: 22%"></div>
+        <div class="pe-sk" style="width: 16%"></div>
+        <div class="pe-sk" style="width: 18%"></div>
+        <div class="pe-sk" style="width: 12%"></div>
+      </div>
+      <div class="pe-row" *ngFor="let r of [1, 2, 3, 4, 5, 6, 7, 8]">
+        <div class="pe-sk" style="width: 14%"></div>
+        <div class="pe-sk" style="width: 22%"></div>
+        <div class="pe-sk" style="width: 16%"></div>
+        <div class="pe-sk" style="width: 18%"></div>
+        <div class="pe-sk pe-sk-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errors?.length" class="pe-error" role="alert">
+    <i class="fa fa-exclamation-circle"></i>
+    Could not load the encounters. Please refresh the page to try again.
+  </div>
+
   <patient-encounter-observations
     [onEncounterDetail]="onEncounterDetail"
     (isDone)="loadingIndicator($event)"
@@ -9,6 +48,8 @@
     [prettyView]="pretty"
   ></patient-encounter-observations>
   <encounter-list
+    [hidden]="dataLoading"
+    [class.pe-offscreen]="awaitingPaint"
     [encounters]="encounters"
     [isVisible]="isVisible"
     [messageType]="messageType"

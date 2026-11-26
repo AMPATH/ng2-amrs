@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewChecked,
+  ElementRef
+} from '@angular/core';
+import { whenPainted } from '../../../shared/utils/when-painted';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PatientEncounterService } from './patient-encounters.service';
@@ -37,8 +44,13 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     private patientService: PatientService,
     private appFeatureAnalytics: AppFeatureAnalytics,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private host: ElementRef
   ) {}
+
+  /** The encounters arrived; the skeleton stays until they are on screen. */
+  public awaitingPaint = false;
+  private cancelPaintWait: () => void;
   public ngOnInit() {
     this.getPatient();
     // load cached result
@@ -54,6 +66,9 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.cancelPaintWait) {
+      this.cancelPaintWait();
+    }
   }
 
   public loadPatientEncounters(patientUuid) {
@@ -66,10 +81,20 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           this.encounters = data;
           this.isVisible = false;
           this.loadEncounterTypes(data);
-          // a trick to wait for the encounter list to render
-          setTimeout(() => {
-            this.dataLoading = false;
-          }, 2000);
+          // The skeleton stays until the first rows are drawn (no fixed
+          // 2 second delay, and no blank moment before the list shows).
+          this.dataLoading = false;
+          if (this.cancelPaintWait) {
+            this.cancelPaintWait();
+          }
+          if (data && data.length > 0) {
+            this.awaitingPaint = true;
+            this.cancelPaintWait = whenPainted(
+              this.host.nativeElement,
+              'encounter-list table tbody tr',
+              () => (this.awaitingPaint = false)
+            );
+          }
         },
         (err) => {
           this.dataLoading = false;

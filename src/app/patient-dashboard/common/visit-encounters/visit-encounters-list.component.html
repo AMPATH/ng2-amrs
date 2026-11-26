@@ -1,15 +1,51 @@
-<div class="container-fluid" id="encounter-visit-row">
+<div
+  class="container-fluid"
+  id="encounter-visit-row"
+  [class.ve-is-loading]="(loading || busyIndicator.busy) && !loadError"
+  [class.ve-is-painting]="awaitingPaint && !loading && !loadError"
+>
   <h4 class="component-title">
     <i class="fa fa-clipboard fa-fw"></i>{{ title }}
   </h4>
-  <div class="loader" *ngIf="busyIndicator.busy">
-    <span
-      ><i class="fa fa-spinner fa-spin"> </i>{{ busyIndicator.message }}</span
-    >
+  <!-- Skeleton while the visits load -->
+  <div
+    *ngIf="showSkeleton"
+    class="ve-skeleton"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading visits"
+  >
+    <p class="ve-status">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      {{ loading ? 'Loading visits…' : 'Arranging visits…' }}
+    </p>
+    <div class="ve-filters">
+      <div class="ve-sk" style="width: 200px; height: 34px"></div>
+      <div class="ve-sk" style="flex: 1 1 auto; height: 34px"></div>
+    </div>
+    <div class="ve-visit" *ngFor="let v of [1, 2, 3]">
+      <div class="ve-visit-head">
+        <div class="ve-sk" style="width: 150px; height: 14px"></div>
+        <div class="ve-sk" style="width: 90px; height: 12px"></div>
+      </div>
+      <div class="ve-visit-row" *ngFor="let r of [1, 2, 3]">
+        <div class="ve-sk" style="width: 26%"></div>
+        <div class="ve-sk" style="width: 20%"></div>
+        <div class="ve-sk" style="width: 24%"></div>
+      </div>
+    </div>
   </div>
+
+  <div *ngIf="loadError" class="ve-error" role="alert">
+    <i class="fa fa-exclamation-circle"></i>
+    Could not load the visits. Please refresh the page to try again.
+  </div>
+
   <p
-    *ngIf="!busyIndicator.busy && displayArray.length === 0"
-    style="margin-top: 40px"
+    *ngIf="
+      !loading && !loadError && !busyIndicator.busy && displayArray.length === 0
+    "
+    class="ve-empty"
   >
     The Patient has no Visits
   </p>

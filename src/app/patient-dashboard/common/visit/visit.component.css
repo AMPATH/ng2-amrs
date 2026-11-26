@@ -1,0 +1,467 @@
+/* Loading card while the visits load */
+.vis-loading {
+  margin: 8px 0 14px;
+  padding: 16px 18px;
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+.vis-loading-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: #5f7a8c;
+  font-size: 14px;
+  font-weight: 600;
+}
+.vis-loading-head .fa {
+  color: #428bca;
+  font-size: 16px;
+}
+.vis-sk {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e1e8ef 25%, #f1f5f9 37%, #e1e8ef 63%);
+  background-size: 400% 100%;
+  animation: vis-shimmer 1.4s ease infinite;
+}
+.vis-sk-line {
+  height: 12px;
+  margin-bottom: 10px;
+}
+.vis-sk-block {
+  height: 90px;
+  margin-top: 6px;
+  border-radius: 8px;
+}
+@keyframes vis-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vis-sk {
+    animation: none;
+  }
+}
+
+/* ---------- Visit page layout ---------- */
+.vis-enrollment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 6px 0 16px;
+}
+.vis-enrolled {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+.vis-enrolled-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #eaf2fa;
+  color: #428bca;
+  font-size: 16px;
+}
+.vis-enrolled-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.vis-enrolled-text strong {
+  color: #1d3b4f;
+  font-size: 15px;
+}
+.vis-enrolled-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 2px;
+  color: #6b8597;
+  font-size: 12.5px;
+}
+.vis-enrolled-meta .fa {
+  margin-right: 3px;
+  color: #9fb3c2;
+}
+.vis-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+.vis-note > span {
+  flex: 1 1 auto;
+}
+.vis-note-info {
+  border: 1px solid #d6e6f2;
+  background: #f5f9fc;
+  color: #31708f;
+}
+.vis-note-warn {
+  border: 1px solid #f3dfb1;
+  background: #fff8e6;
+  color: #8a6d3b;
+}
+.vis-note-ok {
+  border: 1px solid #cfe8cf;
+  background: #f1f9f1;
+  color: #2e7d32;
+}
+.vis-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #428bca;
+  border-radius: 8px;
+  background: #fff;
+  color: #3276b1;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.vis-btn:hover {
+  background: #428bca;
+  color: #fff;
+}
+.vis-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 8px;
+  color: #1d3b4f;
+  font-size: 18px;
+  font-weight: 700;
+}
+.vis-icon-current {
+  color: #2e7d32;
+}
+.vis-icon-start {
+  color: #428bca;
+}
+.vis-card {
+  padding: 12px 14px;
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+.vis-card-current {
+  border-left: 4px solid #80d651;
+}
+.vis-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  color: #5f7a8c;
+  font-size: 13px;
+}
+.vis-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.vis-steps span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #eaf2fa;
+  color: #3276b1;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+/* ---------- Calmer type sizes ---------- */
+.vis-section-title {
+  margin: 16px 0 8px;
+  font-size: 15px;
+}
+.vis-enrolled-text strong {
+  font-size: 14px;
+}
+.vis-enrolled-meta,
+.vis-note {
+  font-size: 12.5px;
+}
+.vis-steps {
+  font-size: 12.5px;
+}
+.vis-loading-head {
+  font-size: 13px;
+}
+
+/* Enrollment, as originally: one sentence for the selected programme */
+.vis-enrolled-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  color: #5f7a8c;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.vis-enrolled-line .fa {
+  color: #9fb3c2;
+}
+.vis-enrolled-line strong {
+  color: #1d3b4f;
+  font-weight: 600;
+}
+
+/* Slim enrollment line */
+.vis-enrolled-line {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 4px 10px;
+  border: 1px solid #eef2f6;
+  border-radius: 6px;
+  background: #f9fbfd;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.vis-enrolled-line .fa {
+  font-size: 12px;
+}
+.vis-enrolled-line strong {
+  font-weight: 500;
+}
+.vis-enrollment {
+  gap: 6px;
+  margin: 2px 0 12px;
+}
+
+/* ---------- One type scale for the visit section ---------- */
+.vis-section-title {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+}
+.vis-enrolled-line,
+.vis-note,
+.vis-loading-head {
+  font-family: inherit;
+  font-size: 13px;
+}
+.vis-enrolled-line strong {
+  font-weight: 600;
+}
+.vis-btn {
+  font-family: inherit;
+  font-size: 13px;
+}
+
+/* ---------- Enrollment strip ---------- */
+.vis-enrolled-strip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 5px 12px;
+  border: 1px solid #e6eef4;
+  border-radius: 999px;
+  background: #f9fbfd;
+  color: #5f7a8c;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.vis-strip-label {
+  margin-right: 10px;
+  color: #8aa1b1;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.vis-strip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.vis-strip-item + .vis-strip-item::before {
+  content: '';
+  width: 1px;
+  height: 12px;
+  margin: 0 10px;
+  background: #d6e1ea;
+}
+.vis-strip-item .fa {
+  color: #9fb3c2;
+}
+.vis-strip-program {
+  color: #1d3b4f;
+  font-weight: 600;
+}
+.vis-strip-muted {
+  color: #8aa1b1;
+}
+@media (max-width: 600px) {
+  .vis-enrolled-strip {
+    border-radius: 10px;
+    gap: 4px 12px;
+  }
+  .vis-strip-item + .vis-strip-item::before {
+    display: none;
+  }
+}
+
+/* ---------- Enrollment statement: plain, no border ---------- */
+.vis-enrolled-statement {
+  margin: 0;
+  color: #5f7a8c;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.vis-enrolled-statement strong {
+  color: #1d3b4f;
+  font-weight: 600;
+}
+.vis-statement-muted {
+  color: #9fb3c2;
+}
+
+/* Slim statement */
+.vis-enrolled-statement {
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+/* Enrollment statement in the same font as the "Start a Visit" heading */
+.vis-enrolled-statement {
+  color: #1d3b4f;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+/* Slimmer button corners */
+.vis-btn {
+  border-radius: 4px;
+}
+
+/* ---------- Small enrollment statement, tighter spacing ---------- */
+.vis-enrolled-statement {
+  color: #6b8597;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.vis-enrollment {
+  gap: 4px;
+  margin: 0 0 6px;
+}
+.vis-note {
+  padding: 6px 10px;
+}
+.vis-btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12.5px;
+}
+.vis-section-title {
+  margin: 10px 0 6px;
+}
+/* Instruction above the location box */
+.vis-instruction {
+  margin: 0 0 8px;
+  color: #6b8597;
+  font-size: 12.5px;
+}
+
+/* ================= Uniform page system ================= */
+.vis-section-title {
+  gap: 8px;
+  margin: 14px 0 8px;
+  color: #1d3b4f;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.vis-section-title .fa {
+  color: #8aa1b1;
+  font-size: 13px;
+}
+.vis-enrolled-statement,
+.vis-instruction {
+  margin: 0;
+  line-height: 1.45;
+  color: #6b8597;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 400;
+}
+.vis-instruction {
+  margin-bottom: 8px;
+}
+.vis-enrollment {
+  gap: 6px;
+  margin: 0 0 4px;
+}
+.vis-card {
+  padding: 12px 14px;
+  border: 1px solid #dde8f0;
+  border-radius: 8px;
+}
+.vis-card-current {
+  border-left: 3px solid #80d651;
+}
+.vis-note {
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+.vis-btn {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 12.5px;
+}
+
+/* Enrollment sentence in italics */
+.vis-enrolled-statement {
+  font-style: italic;
+}
+
+/* Instruction: small but clearly visible */
+.vis-instruction {
+  color: #3d5a6c;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Enrollment sentence under the programme button: small and neat */
+.vis-enrolled-statement {
+  margin-top: 2px;
+  color: #6b8597;
+  font-size: 11.5px;
+  font-style: italic;
+  line-height: 1.4;
+}

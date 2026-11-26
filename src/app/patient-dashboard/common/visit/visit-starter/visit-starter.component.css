@@ -40,3 +40,319 @@
   color: #fff;
   opacity: 0.8;
 }
+
+/* ---------- Status lines and loading placeholders ---------- */
+.vs-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  color: #5f7a8c;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.vs-status .fa {
+  color: #428bca;
+}
+.vs-status-busy {
+  padding: 9px 12px;
+  border: 1px solid #d6e6f2;
+  border-radius: 8px;
+  background: #f5f9fc;
+}
+.vs-loading {
+  margin-top: 8px;
+}
+.vs-sk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  margin-bottom: 8px;
+  padding: 0 14px;
+  border: 1px solid #e3ecf3;
+  border-radius: 10px;
+}
+.vs-sk-icon,
+.vs-sk-line {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e1e8ef 25%, #f1f5f9 37%, #e1e8ef 63%);
+  background-size: 400% 100%;
+  animation: vs-shimmer 1.4s ease infinite;
+}
+.vs-sk-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+.vs-sk-line {
+  width: 45%;
+  height: 13px;
+}
+.vs-sk:nth-child(3) .vs-sk-line {
+  width: 35%;
+}
+.vs-sk:nth-child(4) .vs-sk-line {
+  width: 55%;
+}
+@keyframes vs-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-sk-icon,
+  .vs-sk-line {
+    animation: none;
+  }
+}
+
+/* ---------- Visit types as cards ---------- */
+#allowedVisitList .visit-area.list-group-item {
+  margin-bottom: 8px;
+  padding: 0 !important;
+  border: 1px solid #dde8f0;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+#allowedVisitList .visit-area #startVisitButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  color: #1d3b4f;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: normal;
+  transition: background-color 0.12s;
+}
+#allowedVisitList .visit-area #startVisitButton:hover,
+#allowedVisitList .visit-area #startVisitButton:focus {
+  background: #eaf2fa;
+  color: #3276b1;
+}
+#allowedVisitList .visit-area #startVisitButton .glyphicon-circle-arrow-right {
+  margin-left: auto;
+  color: #428bca;
+  font-size: 18px;
+}
+#allowedVisitList .visit-area #startVisitButton .fa-users {
+  color: #428bca;
+}
+
+/* ---------- Calmer type sizes ---------- */
+#allowedVisitList .visit-area #startVisitButton {
+  min-height: 46px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+#allowedVisitList .visit-area #startVisitButton .glyphicon-circle-arrow-right {
+  font-size: 16px;
+}
+.vs-status {
+  font-size: 13px;
+}
+.vs-sk {
+  height: 46px;
+}
+
+/* ---------- "?" hints on visit types ---------- */
+#allowedVisitList .visit-area {
+  position: relative;
+}
+#allowedVisitList .visit-area .question-tooltip {
+  position: absolute;
+  top: 12px;
+  right: 38px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #9fb3c2;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: help;
+  transition: color 0.12s, background-color 0.12s;
+}
+#allowedVisitList .visit-area .question-tooltip:hover,
+#allowedVisitList .visit-area .question-tooltip:focus {
+  background: #eaf2fa;
+  color: #428bca;
+  text-decoration: none;
+  outline: none;
+}
+/* A gap before the arrow for the "?", so it sits between name and arrow
+   and never covers either. */
+#allowedVisitList
+  .visit-area
+  .question-tooltip
+  ~ #startVisitButton
+  .glyphicon-circle-arrow-right {
+  padding-left: 32px;
+}
+#allowedVisitList .visit-area .visit-info {
+  float: none;
+  width: auto;
+  max-height: 0;
+  margin: 0 12px;
+  padding: 0 12px;
+  overflow: hidden;
+  border: 0;
+  border-left: 3px solid #428bca;
+  border-radius: 6px;
+  background: #f5f9fc;
+  color: #31708f;
+  font-size: 12.5px;
+  line-height: 1.5;
+  opacity: 0;
+  transition: max-height 0.25s ease, opacity 0.2s ease, padding 0.2s ease,
+    margin 0.2s ease;
+}
+#allowedVisitList .visit-area .question-tooltip:hover ~ .visit-info,
+#allowedVisitList .visit-area .question-tooltip:focus ~ .visit-info {
+  max-height: 200px;
+  margin: 0 12px 12px;
+  padding: 9px 12px;
+  opacity: 1;
+}
+#allowedVisitList .visit-area .info-spacing {
+  display: none;
+}
+
+/* ---------- Slimmer "checking visits" loading ---------- */
+.vs-loading {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid #eef2f6;
+  border-radius: 8px;
+  background: #fbfdfe;
+}
+.vs-loading .vs-status {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.vs-loading .vs-status .fa {
+  font-size: 12px;
+}
+.vs-sk {
+  height: 30px;
+  margin-bottom: 6px;
+  padding: 0 10px;
+  gap: 10px;
+  border-color: #eef2f6;
+  border-radius: 6px;
+  background: #fff;
+}
+.vs-sk:last-child {
+  margin-bottom: 0;
+}
+.vs-sk-icon {
+  width: 14px;
+  height: 14px;
+}
+.vs-sk-line {
+  height: 9px;
+}
+
+/* ---------- One type scale for the visit section ---------- */
+#allowedVisitList .visit-area #startVisitButton {
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+#allowedVisitList .visit-area .visit-info,
+.vs-loading .vs-status,
+.vs-status {
+  font-family: inherit;
+  font-size: 12.5px;
+}
+.vs-status-busy {
+  font-size: 13px;
+}
+
+/* ================= Uniform page system ================= */
+#allowedVisitList .visit-area.list-group-item {
+  margin-bottom: 6px;
+  border-radius: 6px !important;
+}
+#allowedVisitList .visit-area #startVisitButton {
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+#allowedVisitList .visit-area .question-tooltip {
+  top: 9px;
+}
+#allowedVisitList .visit-area .visit-info,
+.vs-status,
+.vs-loading .vs-status {
+  color: #6b8597;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 400;
+}
+#allowedVisitList .visit-area .visit-info {
+  color: #31708f;
+}
+.vs-loading {
+  border-radius: 8px;
+}
+.vs-sk {
+  border-radius: 4px;
+}
+
+/* "Checking which visits…" status: small but clearly visible */
+.vs-status,
+.vs-loading .vs-status {
+  color: #3d5a6c;
+  font-size: 12px;
+  font-weight: 500;
+}
+.vs-loading .vs-status .fa {
+  color: #428bca;
+  font-size: 12px;
+}
+
+/* ---------- Location, then the visit types in their own box ---------- */
+.vs-location {
+  max-width: 460px;
+  margin-bottom: 12px;
+}
+.vs-types {
+  padding: 10px 12px 4px;
+  border: 1px solid #dde8f0;
+  border-radius: 8px;
+  background: #fbfdfe;
+}
+.vs-types-title {
+  margin: 0 0 8px;
+  color: #3d5a6c;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.vs-types .list-group {
+  margin-bottom: 6px;
+}
+.vs-loading {
+  max-width: none;
+}
+
+/* Location as in production: full width */
+.vs-location {
+  max-width: none;
+  margin-bottom: 8px;
+}

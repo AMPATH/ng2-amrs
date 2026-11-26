@@ -1,53 +1,71 @@
-<div class="loader" *ngIf="startedVisit">
-  <span
-    ><i class="fa fa-spinner fa-spin"> </i>Starting Visit...please wait</span
-  >
+<div class="vs-status vs-status-busy" *ngIf="startedVisit" role="status">
+  <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+  Starting the visit… please wait
 </div>
-<location-filter
-  [locationUuids]="selectedLocation"
-  [showLabel]="false"
-  [disable-county]="true"
-  [multiple]="false"
-  (onLocationChange)="onLocationChanged($event)"
->
-</location-filter>
+<div class="vs-location">
+  <location-filter
+    [locationUuids]="selectedLocation"
+    [showLabel]="false"
+    [disable-county]="true"
+    [multiple]="false"
+    (onLocationChange)="onLocationChanged($event)"
+  >
+  </location-filter>
+</div>
 <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
     ×
   </button>
   {{ error }}
 </div>
-<div *ngIf="isBusy">Loading</div>
-<div *ngIf="!isBusy" class="list-group">
-  <div id="allowedVisitList" *ngFor="let visitType of visitTypes">
-    <div
-      class="visit-area list-group-item"
-      *ngIf="
-        (visitType.groupVisit && groupVisitStartedFromClinicDashboard) ||
-        (!visitType.groupVisit && !groupVisitStartedFromClinicDashboard)
-      "
-    >
-      <a class="question-tooltip pull-right" *ngIf="visitType.message"
-        ><i class="glyphicon glyphicon-question-sign"></i
-      ></a>
-      <a
-        id="startVisitButton"
-        style="width: 100%; text-align: left"
-        (click)="startVisit(visitType)"
-        class="btn btn-default btn-lg"
-      >
-        <i *ngIf="visitType.groupVisit" class="fa fa-users"></i> Start
-        {{ visitType.name }}
-        <i class="glyphicon glyphicon-circle-arrow-right pull-right"></i>
-      </a>
-
+<!-- Visit types loading: placeholders where the buttons will appear -->
+<div *ngIf="isBusy" class="vs-loading" role="status" aria-live="polite">
+  <p class="vs-status">
+    <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    Checking which visits this patient can start…
+  </p>
+  <div class="vs-sk" *ngFor="let i of [1, 2, 3]">
+    <span class="vs-sk-icon"></span>
+    <span class="vs-sk-line"></span>
+  </div>
+</div>
+<div *ngIf="!isBusy" class="vs-types">
+  <div *ngIf="!isBusy" class="list-group">
+    <div id="allowedVisitList" *ngFor="let visitType of visitTypes">
       <div
-        class="visit-info col-md-12 col-lg-12 col-sm-12"
-        *ngIf="visitType.message"
+        class="visit-area list-group-item"
+        *ngIf="
+          (visitType.groupVisit && groupVisitStartedFromClinicDashboard) ||
+          (!visitType.groupVisit && !groupVisitStartedFromClinicDashboard)
+        "
       >
-        {{ visitType.message }}
+        <a
+          class="question-tooltip"
+          *ngIf="visitType.message"
+          tabindex="0"
+          role="button"
+          aria-label="About this visit type"
+          ><i class="glyphicon glyphicon-question-sign" aria-hidden="true"></i
+        ></a>
+        <a
+          id="startVisitButton"
+          style="width: 100%; text-align: left"
+          (click)="startVisit(visitType)"
+          class="btn btn-default btn-lg"
+        >
+          <i *ngIf="visitType.groupVisit" class="fa fa-users"></i> Start
+          {{ visitType.name }}
+          <i class="glyphicon glyphicon-circle-arrow-right pull-right"></i>
+        </a>
+
+        <div
+          class="visit-info col-md-12 col-lg-12 col-sm-12"
+          *ngIf="visitType.message"
+        >
+          {{ visitType.message }}
+        </div>
+        <div class="info-spacing" *ngIf="visitType.message"></div>
       </div>
-      <div class="info-spacing" *ngIf="visitType.message"></div>
     </div>
   </div>
 </div>
@@ -125,9 +143,10 @@
     <button
       type="button"
       class="btn btn-primary"
-      [disabled]="isGroupRetrospective"
+      [disabled]="isGroupRetrospective || isBusy || !selectedCohortVisit"
       (click)="saveVisit(selectedVisitType)"
     >
+      <i *ngIf="isBusy" class="fa fa-spinner fa-spin"></i>
       Start Visit
     </button>
     <button type="button" class="btn btn-danger" (click)="modalRef.hide()">

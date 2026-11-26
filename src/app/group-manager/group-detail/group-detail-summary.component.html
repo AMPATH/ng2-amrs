@@ -1,181 +1,238 @@
-<div class="alert alert-danger" *ngIf="group.endDate">
-  <h4 class="text-danger">Ended on {{ group.endDate | date: 'medium' }}</h4>
-  <h4 class="text-danger">
-    Reason: <span *ngIf="group.voidReason"> {{ group.voidReason }} </span>
-    <span *ngIf="!group.voidReason"> not provided </span>
-  </h4>
-</div>
-<mat-card>
-  <mat-card-title>
-    <h4 class="text">Group Summary</h4>
-  </mat-card-title>
+<div class="gd-ended" *ngIf="group.endDate" role="alert">
+  <i class="fa fa-ban"></i>
   <div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <strong>Group Number: </strong>
-            <span *ngIf="groupNumber">{{ groupNumber.value }}</span>
-          </td>
-          <td>
-            <strong>Group Name: </strong>
-            <span *ngIf="group.name">{{ group.name }}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Provider: </strong>
-            <span *ngIf="provider">{{ provider.person.display }}</span>
-          </td>
-          <td>
-            <strong>Facility: </strong>
-            <span *ngIf="group.location">{{ group.location.display }}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Members: </strong>
-            <span *ngIf="activeMembers" style="color: green"
-              >(active) {{ activeMembers.length }}</span
-            >
-            <span *ngIf="group.cohortMembers" style="color: red">
-              (inactive)
-              {{ group.cohortMembers.length - activeMembers.length }}</span
-            >
-          </td>
-          <td>
-            <strong>Landmark: </strong>
-            <span *ngIf="landmark">{{ landmark.value }}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Active Since: </strong>
-            {{ group.startDate | date: 'mediumDate' }}
-          </td>
-          <td>
-            <strong>Last Meeting: </strong>
-            <span *ngIf="group.cohortVisits && group.cohortVisits[0]">{{
-              group.cohortVisits[0]['startDate'] | date: 'medium'
-            }}</span>
-            <span *ngIf="!group.cohortVisits">None</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Leader: </strong>
-            <ng-container *ngIf="currentLeader">
-              <span *ngIf="currentLeader.person">
-                {{ currentLeader.person.display }},
-              </span>
-              <span>since {{ currentLeader.startDate | date: 'medium' }}</span>
-            </ng-container>
-            <ng-container *ngIf="!currentLeader">
-              No active leader.
-            </ng-container>
-          </td>
-          <td>
-            <strong>Leader Contacts: </strong>
-            <ng-container *ngIf="currentLeader">
-              <span *ngIf="currentLeader.person.patientPhoneNumber"
-                >{{ currentLeader.person.patientPhoneNumber }}
-                <span
-                  class="text-danger"
-                  *ngIf="
-                    !r1.test(currentLeader.person.patientPhoneNumber) ||
-                    !r2.test(currentLeader.person.patientPhoneNumber)
-                  "
-                >
-                  (invalid phone number)
-                </span>
-              </span>
-              <span
-                *ngIf="
-                  !currentLeader.person.patientPhoneNumber ||
-                  currentLeader.person.patientPhoneNumber === ''
-                "
-                >Please set leader phone number.</span
-              >
-            </ng-container>
-            <ng-container *ngIf="!currentLeader">
-              <span>N/A</span>
-            </ng-container>
-          </td>
-        </tr>
-        <tr *ngIf="validOTZProgram">
-          <td>
-            <strong>Group Activity: </strong>
-            <span *ngIf="groupActivity">{{ groupActivity?.value }}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <strong>Group ended on {{ group.endDate | date: 'medium' }}</strong>
+    <span>
+      Reason:
+      <ng-container *ngIf="group.voidReason">{{
+        group.voidReason
+      }}</ng-container>
+      <ng-container *ngIf="!group.voidReason">not provided</ng-container>
+    </span>
   </div>
+</div>
 
-  <div class="row">
-    <div class="pull-left" style="margin-right: 30px; margin-bottom: -30px">
-      <button
-        mat-raised-button
-        class="btn btn-info"
-        (click)="navigateBack()"
-        style="color: #fff"
-      >
-        <i class="inline fa fa-arrow-left"></i>
-        <span>Group Search</span>
-      </button>
+<section class="gd-card gd-summary">
+  <nav class="gd-crumbs" aria-label="Breadcrumb">
+    <ol>
+      <li>
+        <i class="fa fa-hospital-o" aria-hidden="true"></i>
+        <span>{{ group.location ? group.location.display : 'Clinic' }}</span>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="navigateBack()"
+          title="Back to the group search"
+          >Group manager</a
+        >
+      </li>
+      <li aria-current="page">{{ group.name }}</li>
+    </ol>
+  </nav>
+  <header class="gd-summary-head">
+    <div class="gd-title">
+      <span class="gd-title-badge"><i class="fa fa-users"></i></span>
+      <div>
+        <h3>{{ group.name }}</h3>
+        <div class="gd-title-meta">
+          <span *ngIf="groupNumber" class="gd-number">{{
+            groupNumber.value
+          }}</span>
+          <span
+            class="gd-state"
+            [ngClass]="'gd-state-' + groupStatus.toLowerCase()"
+            [title]="
+              groupStatus === 'Inactive'
+                ? 'No meeting in the last 6 months'
+                : ''
+            "
+          >
+            <i class="fa fa-circle"></i> {{ groupStatus }}
+          </span>
+        </div>
+      </div>
     </div>
-    <div class="btn-group pull-right" role="group">
+    <div class="gd-actions">
       <button
         type="button"
-        mat-raised-button
+        class="gd-btn"
         *ngIf="!group.endDate"
         (click)="showUpdateGroupModal(updateGroupModal)"
       >
-        Edit Details
+        <i class="fa fa-pencil"></i> Edit details
       </button>
       <button
         type="button"
-        mat-raised-button
+        class="gd-btn"
         *ngIf="currentLeader && !group.endDate"
         (click)="showModal(editLeadership)"
       >
-        Edit Leader
+        <i class="fa fa-user"></i> Edit leader
       </button>
       <button
         type="button"
-        mat-raised-button
+        class="gd-btn"
         *ngIf="!currentLeader && !group.endDate"
         (click)="showModal(addLeadership)"
       >
-        Add Leader
+        <i class="fa fa-user-plus"></i> Add leader
       </button>
       <button
         type="button"
-        mat-raised-button
-        style="color: red"
+        class="gd-btn gd-btn-danger"
         *ngIf="!group.endDate"
         (click)="showModal(endGroupModal)"
       >
-        End Group
+        <i class="fa fa-ban"></i> End group
       </button>
       <button
         type="button"
-        mat-raised-button
-        style="color: green"
+        class="gd-btn gd-btn-success"
         *ngIf="group.endDate"
         (click)="activateGroup(group)"
       >
-        Activate Group
+        <i class="fa fa-check"></i> Activate group
       </button>
     </div>
+  </header>
+
+  <div class="gd-body">
+    <div class="gd-stats">
+      <div class="gd-stat">
+        <span class="gd-stat-icon gd-stat-green"
+          ><i class="fa fa-user"></i
+        ></span>
+        <div>
+          <span class="gd-stat-label">Members</span>
+          <strong class="gd-stat-value"
+            >{{ activeMembers ? activeMembers.length : 0 }} active</strong
+          >
+          <span class="gd-stat-sub" *ngIf="group.cohortMembers"
+            >{{ group.cohortMembers.length - activeMembers.length }} inactive ·
+            {{ group.cohortMembers.length }} in total</span
+          >
+        </div>
+      </div>
+      <div class="gd-stat">
+        <span class="gd-stat-icon"><i class="fa fa-calendar"></i></span>
+        <div>
+          <span class="gd-stat-label">Meetings held</span>
+          <strong class="gd-stat-value">{{ meetingCount }}</strong>
+          <span class="gd-stat-sub"
+            >since {{ group.startDate | date: 'mediumDate' }}</span
+          >
+        </div>
+      </div>
+      <div class="gd-stat" [class.gd-stat-alert]="groupStatus === 'Inactive'">
+        <span class="gd-stat-icon gd-stat-amber"
+          ><i class="fa fa-clock-o"></i
+        ></span>
+        <div>
+          <span class="gd-stat-label">Last meeting</span>
+          <ng-container *ngIf="lastMeetingDate">
+            <strong class="gd-stat-value">{{
+              lastMeetingDate | date: 'mediumDate'
+            }}</strong>
+            <span class="gd-stat-sub">{{ lastMeetingAgo }}</span>
+          </ng-container>
+          <ng-container *ngIf="!lastMeetingDate">
+            <strong class="gd-stat-value gd-none">None yet</strong>
+            <span class="gd-stat-sub">No meeting recorded</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="gd-stat" [class.gd-stat-alert]="!currentLeader">
+        <span class="gd-stat-icon gd-stat-purple"
+          ><i class="fa fa-star"></i
+        ></span>
+        <div>
+          <span class="gd-stat-label">Leader</span>
+          <ng-container *ngIf="currentLeader">
+            <strong class="gd-stat-value gd-stat-name">{{
+              currentLeader.person ? currentLeader.person.display : '—'
+            }}</strong>
+            <span class="gd-stat-sub"
+              >since {{ currentLeader.startDate | date: 'mediumDate' }}</span
+            >
+          </ng-container>
+          <ng-container *ngIf="!currentLeader">
+            <strong class="gd-stat-value gd-none">No active leader</strong>
+            <button
+              type="button"
+              class="gd-link"
+              *ngIf="!group.endDate"
+              (click)="showModal(addLeadership)"
+            >
+              <i class="fa fa-user-plus"></i> Add a leader
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <dl class="gd-facts">
+      <div class="gd-fact">
+        <dt><i class="fa fa-hospital-o"></i> Facility</dt>
+        <dd>
+          <ng-container *ngIf="group.location">{{
+            group.location.display
+          }}</ng-container>
+          <span *ngIf="!group.location" class="gd-none">—</span>
+        </dd>
+      </div>
+      <div class="gd-fact">
+        <dt><i class="fa fa-map-marker"></i> Landmark</dt>
+        <dd>
+          <ng-container *ngIf="landmark">{{ landmark.value }}</ng-container>
+          <span *ngIf="!landmark" class="gd-none">—</span>
+        </dd>
+      </div>
+      <div class="gd-fact">
+        <dt><i class="fa fa-user-md"></i> Provider</dt>
+        <dd>
+          <ng-container *ngIf="provider">{{
+            provider.person.display
+          }}</ng-container>
+          <span *ngIf="!provider" class="gd-none">—</span>
+        </dd>
+      </div>
+      <div class="gd-fact" *ngIf="currentLeader">
+        <dt><i class="fa fa-phone"></i> Leader contacts</dt>
+        <dd>
+          <ng-container *ngIf="currentLeader.person.patientPhoneNumber">
+            {{ currentLeader.person.patientPhoneNumber }}
+            <small
+              class="gd-warn"
+              *ngIf="
+                !r1.test(currentLeader.person.patientPhoneNumber) ||
+                !r2.test(currentLeader.person.patientPhoneNumber)
+              "
+              >(invalid phone number)</small
+            >
+          </ng-container>
+          <span
+            *ngIf="
+              !currentLeader.person.patientPhoneNumber ||
+              currentLeader.person.patientPhoneNumber === ''
+            "
+            class="gd-warn"
+            >Please set leader phone number.</span
+          >
+        </dd>
+      </div>
+      <div class="gd-fact" *ngIf="validOTZProgram">
+        <dt><i class="fa fa-flag"></i> Group activity</dt>
+        <dd>
+          <ng-container *ngIf="groupActivity">{{
+            groupActivity?.value
+          }}</ng-container>
+          <span *ngIf="!groupActivity" class="gd-none">—</span>
+        </dd>
+      </div>
+    </dl>
   </div>
-</mat-card>
+</section>
 
 <!-- modals -->
 <ng-template #editLeadership>

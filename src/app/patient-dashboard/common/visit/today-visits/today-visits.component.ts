@@ -19,6 +19,7 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
   public groupedVisits = [];
   public index = 0;
   public patient: any;
+  public today = new Date();
   private subs: Subscription[] = [];
 
   constructor(
@@ -157,6 +158,11 @@ export class TodayVisitsComponent implements OnInit, OnDestroy {
     this.isBusy = false;
     this.groupedVisits = [];
     this.groupedVisits = this.todayVisitService.visitsByProgramClass;
+  }
+
+  /** Visits were removed by the empty-visits panel: reload the visit lists. */
+  public onEmptyVisitsRemoved() {
+    this.todayVisitService.makeVisitsStale();
   }
 
   public onFormSelected(selected) {

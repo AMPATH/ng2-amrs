@@ -1,62 +1,82 @@
-<div *ngIf="_groups" class="panel panel-primary">
-  <div class="panel panel-default">
-    <div class="container-fluid">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Group Number</th>
-            <th>Group Name</th>
-            <th>Program</th>
-            <th>Facility</th>
-            <th>Landmark</th>
-            <th>Status</th>
-            <th>Actions</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            style="cursor: pointer"
-            *ngFor="
-              let group of _groups
-                | paginate: { itemsPerPage: 10, currentPage: page };
-              let i = index
-            "
-            (click)="selectGroup(group.uuid)"
+<div *ngIf="_groups" class="gr-wrap">
+  <table class="table table-striped table-hover gr-table">
+    <thead>
+      <tr>
+        <th>Group</th>
+        <th>Program</th>
+        <th>Facility</th>
+        <th>Status</th>
+        <th class="gr-col-action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let group of _groups
+            | paginate: { itemsPerPage: 10, currentPage: page }
+        "
+        class="gr-row"
+        tabindex="0"
+        [attr.aria-label]="'Open group ' + group.display"
+        (click)="selectGroup(group.uuid)"
+        (keydown.enter)="selectGroup(group.uuid)"
+      >
+        <td data-label="Group">
+          <div class="gr-name">{{ group.display }}</div>
+          <div class="gr-meta">
+            <span *ngIf="group.groupNumber" class="gr-number">{{
+              group.groupNumber
+            }}</span>
+            <span *ngIf="group.landmark" class="gr-landmark">
+              <i class="fa fa-map-marker"></i> {{ group.landmark }}
+            </span>
+          </div>
+        </td>
+        <td data-label="Program">
+          <span
+            *ngIf="group.program"
+            class="gr-program"
+            [class.gr-program-otz]="programLabel(group.program) === 'OTZ'"
+            [title]="group.program"
+            >{{ programLabel(group.program) }}</span
           >
-            <td>{{ group.groupNumber }}</td>
-            <td>{{ group.display }}</td>
-            <td>{{ group.program }}</td>
-            <td>{{ group.facility.display }}</td>
-            <td>{{ group.landmark }}</td>
-            <td
-              [ngStyle]="{ color: group.status === 'Active' ? 'green' : 'red' }"
-            >
-              {{ group.status }}
-            </td>
-            <td *ngIf="group.endDate == null">
-              <button class="btn btn-sm btn-warning">
-                <i class="fa fa-times-circle" aria-hidden="true"></i> Open Group
-                to Disband
-              </button>
-            </td>
-            <td *ngIf="group.endDate">
-              <button
-                class="btn btn-sm btn-success"
-                (click)="$event.stopPropagation(); confirmActivate(group)"
-              >
-                <i class="fa fa-check-square" aria-hidden="true"></i> Activate
-                Group
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls
-        *ngIf="_groups.length > 10"
-        (pageChange)="page = $event"
-        style="cursor: pointer"
-      ></pagination-controls>
-    </div>
-  </div>
+          <span *ngIf="!group.program" class="gr-empty">—</span>
+        </td>
+        <td data-label="Facility">
+          <span *ngIf="group.facility">{{ group.facility }}</span>
+          <span *ngIf="!group.facility" class="gr-empty">—</span>
+        </td>
+        <td data-label="Status">
+          <span class="gr-status" [ngClass]="'gr-status-' + statusKey(group)">
+            <i class="fa fa-circle"></i> {{ group.status }}
+          </span>
+        </td>
+        <td data-label="Action" class="gr-col-action">
+          <button
+            *ngIf="isActive(group)"
+            type="button"
+            class="gr-btn gr-btn-open"
+            title="Open this group"
+            (click)="$event.stopPropagation(); selectGroup(group.uuid)"
+          >
+            <i class="fa fa-folder-open-o" aria-hidden="true"></i> Open group
+          </button>
+          <button
+            *ngIf="!isActive(group)"
+            type="button"
+            class="gr-btn gr-btn-activate"
+            title="Activate this group"
+            (click)="$event.stopPropagation(); confirmActivate(group)"
+          >
+            <i class="fa fa-check" aria-hidden="true"></i> Activate group
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls
+    *ngIf="_groups.length > 10"
+    class="gr-pages"
+    (pageChange)="page = $event"
+  ></pagination-controls>
 </div>

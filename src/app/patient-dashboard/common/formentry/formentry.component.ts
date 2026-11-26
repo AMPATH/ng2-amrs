@@ -131,6 +131,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
   private previousEncounters = [];
   private submitDuplicate = false;
   private subscription: Subscription;
+  /** The form's single listener to the retrospective settings. */
+  private retroSettingsSubscription: Subscription;
+  /** Keeps the encounter provider in step with the retrospective settings. */
+  private providerRetroSubscription: Subscription;
   private visitUuid: string = null;
   private hasCallConsent = false;
   private familyTestingEncounterUuid: any;
@@ -267,6 +271,12 @@ export class FormentryComponent implements OnInit, OnDestroy {
     this.showReferralDialog = false;
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.retroSettingsSubscription) {
+      this.retroSettingsSubscription.unsubscribe();
+    }
+    if (this.providerRetroSubscription) {
+      this.providerRetroSubscription.unsubscribe();
     }
   }
 
@@ -506,7 +516,10 @@ export class FormentryComponent implements OnInit, OnDestroy {
     let location = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
     const currentUser = this.userService.getLoggedInUser();
     let currentDate = moment().format();
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
+    if (this.retroSettingsSubscription) {
+      this.retroSettingsSubscription.unsubscribe();
+    }
+    this.retroSettingsSubscription = this.retrospectiveDataEntryService.retroSettings.subscribe(
       (retroSettings) => {
         if (retroSettings && retroSettings.enabled) {
           location = {
@@ -1344,9 +1357,13 @@ export class FormentryComponent implements OnInit, OnDestroy {
       this.submittedOrders.encounterUuid = null;
       this.submittedOrders.orders = [];
       this.warnMCHTransfer = false;
-      // submit form
-      this.retrospectiveDataEntryService.retroSettings.subscribe(
-        (retroSettings) => {
+      // submit form - reading the retrospective settings ONCE. This used to
+      // stay subscribed, so every later change to the settings (for example
+      // picking a group meeting for the next member) saved this form again:
+      // the duplicate encounters, hours apart, in the same visit.
+      this.retrospectiveDataEntryService.retroSettings
+        .pipe(take(1))
+        .subscribe((retroSettings) => {
           if (retroSettings && retroSettings.enabled) {
             if (this.formSubmissionService.getSubmitStatus() === true) {
               this.confirmRetrospectiveSubmission(payloadTypes);
@@ -1354,8 +1371,7 @@ export class FormentryComponent implements OnInit, OnDestroy {
           } else {
             this.saveEncounterOrUpdateOnCheckDuplicate(payloadTypes);
           }
-        }
-      );
+        });
     } else {
       this.form.markInvalidControls(this.form.rootNode);
       this.enableSubmitBtn();
@@ -1890,7 +1906,11 @@ export class FormentryComponent implements OnInit, OnDestroy {
     const request = this.getProviderUuid();
     request.subscribe(
       (data) => {
-        this.retrospectiveDataEntryService.retroSettings.subscribe(
+        // One listener at a time, removed with the form.
+        if (this.providerRetroSubscription) {
+          this.providerRetroSubscription.unsubscribe();
+        }
+        this.providerRetroSubscription = this.retrospectiveDataEntryService.retroSettings.subscribe(
           (retroSettings) => {
             let provider = data.providerUuid;
             if (retroSettings && retroSettings.enabled) {

@@ -1,0 +1,254 @@
+<section class="evc">
+  <button
+    type="button"
+    class="evc-toggle"
+    (click)="toggleOpen()"
+    [attr.aria-expanded]="open"
+  >
+    <span class="evc-toggle-icon"><i class="fa fa-eraser"></i></span>
+    <span class="evc-toggle-text">
+      <strong>Visits without encounters</strong>
+      <small
+        >Find and remove empty visits that were created and do not have any
+        associated encounters</small
+      >
+    </span>
+    <i
+      class="fa"
+      [class.fa-chevron-down]="!open"
+      [class.fa-chevron-up]="open"
+    ></i>
+  </button>
+
+  <div *ngIf="open" class="evc-body">
+    <!-- Loading -->
+    <div *ngIf="loading" class="evc-state" role="status" aria-live="polite">
+      <i class="fa fa-circle-o-notch fa-spin"></i>
+      Checking this patient's visits…
+    </div>
+
+    <div *ngIf="loadError && !loading" class="evc-error" role="alert">
+      <i class="fa fa-exclamation-circle"></i> {{ loadError }}
+      <button type="button" class="evc-btn" (click)="findEmptyVisits()">
+        <i class="fa fa-refresh"></i> Try again
+      </button>
+    </div>
+
+    <ng-container *ngIf="!loading && !loadError">
+      <!-- Nothing to clean -->
+      <div *ngIf="visits.length === 0" class="evc-state evc-good">
+        <i class="fa fa-check-circle"></i>
+        No visits without encounters to remove.
+      </div>
+
+      <ng-container *ngIf="visits.length > 0">
+        <div class="evc-summary">
+          <span class="evc-chip"
+            ><strong>{{ visits.length }}</strong> empty
+            {{ visits.length === 1 ? 'visit' : 'visits' }}</span
+          >
+          <span *ngIf="todayCount > 0" class="evc-chip evc-chip-today"
+            ><strong>{{ todayCount }}</strong> today</span
+          >
+          <span *ngIf="todayDuplicateCount > 0" class="evc-chip evc-chip-dup"
+            ><strong>{{ todayDuplicateCount }}</strong> possible
+            {{ todayDuplicateCount === 1 ? 'duplicate' : 'duplicates' }}</span
+          >
+          <i
+            class="fa fa-info-circle evc-info"
+            tabindex="0"
+            title="Each visit is checked again just before it is removed; any that has gained an encounter is kept. Possible duplicates are ticked; one visit of each type today is kept unticked in case it is in use."
+            aria-label="Each visit is checked again just before it is removed; any that has gained an encounter is kept. Possible duplicates are ticked; one visit of each type today is kept unticked in case it is in use."
+          ></i>
+        </div>
+
+        <!-- Progress -->
+        <div
+          *ngIf="running || finished"
+          class="evc-progress"
+          aria-live="polite"
+        >
+          <div class="evc-progress-head">
+            <strong *ngIf="running"
+              ><i class="fa fa-circle-o-notch fa-spin"></i> Removing visits…
+              {{ doneCount }} of {{ runTotal }}</strong
+            >
+            <strong *ngIf="finished && !running">
+              <i class="fa fa-check-circle"></i>
+              {{ stopRequested ? 'Stopped' : 'Done' }}:
+              {{ removedCount }} removed<ng-container *ngIf="skippedCount"
+                >, {{ skippedCount }} kept</ng-container
+              ><ng-container *ngIf="failedCount"
+                >, {{ failedCount }} failed</ng-container
+              >
+            </strong>
+            <span>{{ progressPercent }}%</span>
+          </div>
+          <div
+            class="evc-bar"
+            role="progressbar"
+            [attr.aria-valuenow]="progressPercent"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <span
+              [style.width.%]="progressPercent"
+              [class.evc-bar-warn]="failedCount > 0"
+            ></span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="evc-toolbar">
+          <label class="evc-check">
+            <input
+              type="checkbox"
+              [checked]="allSelected"
+              [disabled]="running"
+              (change)="toggleAll(!allSelected)"
+            />
+            Select all
+          </label>
+          <span class="evc-muted">{{ selectedCount }} selected</span>
+          <span class="evc-spacer"></span>
+          <button
+            type="button"
+            class="evc-btn"
+            (click)="findEmptyVisits()"
+            [disabled]="running"
+          >
+            <i class="fa fa-refresh"></i> Refresh
+          </button>
+          <button
+            *ngIf="!running"
+            type="button"
+            class="evc-btn evc-btn-danger"
+            (click)="askToConfirm()"
+            [disabled]="selectedCount === 0 || confirming"
+          >
+            <i class="fa fa-trash"></i> Remove selected ({{ selectedCount }})
+          </button>
+          <button
+            *ngIf="running"
+            type="button"
+            class="evc-btn"
+            (click)="stop()"
+            [disabled]="stopRequested"
+          >
+            <i class="fa fa-stop"></i>
+            {{ stopRequested ? 'Stopping…' : 'Stop' }}
+          </button>
+        </div>
+
+        <!-- Confirm -->
+        <div *ngIf="confirming" class="evc-confirm" role="alertdialog">
+          <i class="fa fa-exclamation-triangle"></i>
+          <div>
+            <strong
+              >Remove {{ selectedCount }}
+              {{ selectedCount === 1 ? 'visit' : 'visits' }}?</strong
+            >
+            <span
+              >They are voided (hidden), not deleted, and can be restored by a
+              system administrator.</span
+            >
+          </div>
+          <button type="button" class="evc-btn" (click)="cancelConfirm()">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="evc-btn evc-btn-danger"
+            (click)="removeSelected()"
+          >
+            Yes, remove
+          </button>
+        </div>
+
+        <!-- List -->
+        <ul class="evc-list">
+          <li
+            *ngFor="let visit of visits; trackBy: trackByUuid"
+            [ngClass]="'evc-' + visit.status"
+          >
+            <label class="evc-check">
+              <input
+                type="checkbox"
+                [(ngModel)]="visit.selected"
+                [disabled]="running || visit.status !== 'waiting'"
+              />
+            </label>
+            <div class="evc-item">
+              <strong
+                >{{ formatDate(visit.startDatetime) }}
+                <span *ngIf="visit.isToday" class="evc-tag evc-tag-today"
+                  >Today</span
+                >
+                <span
+                  *ngIf="visit.isToday && visit.isOpen"
+                  class="evc-tag evc-tag-open"
+                  >Open</span
+                ></strong
+              >
+              <span *ngIf="visit.isToday && visit.duplicateOf" class="evc-dup">
+                <i class="fa fa-clone" aria-hidden="true"></i>
+                Possible duplicate -
+                <ng-container *ngIf="visit.duplicateOf === 'real'"
+                  >another {{ visit.visitType }} visit today has
+                  encounters</ng-container
+                >
+                <ng-container *ngIf="visit.duplicateOf === 'earlier'"
+                  >an earlier empty {{ visit.visitType }} visit was started
+                  today</ng-container
+                >
+              </span>
+              <span
+                *ngIf="
+                  visit.isToday && !visit.duplicateOf && visit.hasLaterCopies
+                "
+                class="evc-keep"
+                ><i class="fa fa-shield" aria-hidden="true"></i> Kept - first
+                {{ visit.visitType }} visit today (the later empty ones are the
+                duplicates)</span
+              >
+              <span
+                *ngIf="
+                  visit.isToday && !visit.duplicateOf && !visit.hasLaterCopies
+                "
+                class="evc-muted"
+                ><i class="fa fa-info-circle" aria-hidden="true"></i> Only
+                {{ visit.visitType }} visit today - likely in use</span
+              >
+              <span class="evc-muted"
+                >{{ visit.visitType }}
+                <ng-container *ngIf="visit.location"
+                  >· {{ visit.location }}</ng-container
+                ></span
+              >
+            </div>
+            <span class="evc-status">
+              <ng-container [ngSwitch]="visit.status">
+                <span *ngSwitchCase="'removing'"
+                  ><i class="fa fa-circle-o-notch fa-spin"></i> Removing</span
+                >
+                <span *ngSwitchCase="'removed'" class="evc-ok"
+                  ><i class="fa fa-check"></i> Removed</span
+                >
+                <span *ngSwitchCase="'skipped'" class="evc-muted"
+                  ><i class="fa fa-minus-circle"></i> {{ visit.note }}</span
+                >
+                <span
+                  *ngSwitchCase="'failed'"
+                  class="evc-bad"
+                  [title]="visit.note"
+                  ><i class="fa fa-times"></i> Failed</span
+                >
+                <span *ngSwitchDefault class="evc-muted">No encounters</span>
+              </ng-container>
+            </span>
+          </li>
+        </ul>
+      </ng-container>
+    </ng-container>
+  </div>
+</section>

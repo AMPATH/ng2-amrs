@@ -23,6 +23,7 @@ import { CommunityGroupMemberService } from '../../../../openmrs-api/community-g
 import { CommunityGroupService } from '../../../../openmrs-api/community-group-resource.service';
 import { ProviderResourceService } from '../../../../openmrs-api/provider-resource.service';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrFunctionService } from 'src/app/shared/services/toastr-function.service';
 
@@ -144,20 +145,22 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   }
   public setUserDefaultLocation() {
     const location: any = this.userDefaultPropertiesService.getCurrentUserDefaultLocationObject();
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
-      (retroSettings) => {
-        if (location && location.uuid) {
-          if (retroSettings && retroSettings.enabled) {
-            this.selectedLocation = retroSettings.location;
-            this.retroSettings = retroSettings;
-          } else {
-            this.selectedLocation = {
-              value: location.uuid,
-              label: location.display
-            };
+    this._subscription.add(
+      this.retrospectiveDataEntryService.retroSettings.subscribe(
+        (retroSettings) => {
+          if (location && location.uuid) {
+            if (retroSettings && retroSettings.enabled) {
+              this.selectedLocation = retroSettings.location;
+              this.retroSettings = retroSettings;
+            } else {
+              this.selectedLocation = {
+                value: location.uuid,
+                label: location.display
+              };
+            }
           }
         }
-      }
+      )
     );
   }
 
@@ -252,8 +255,16 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   }
 
   public saveVisit(visitType) {
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
-      (retroSettings) => {
+    // Read the retrospective settings once. This used to stay subscribed, so
+    // every later change to the settings (for example picking a meeting for
+    // the next group member) started this patient's visit again - the cause of
+    // the duplicate, empty group visits.
+    if (this.isBusy) {
+      return;
+    }
+    this.retrospectiveDataEntryService.retroSettings
+      .pipe(take(1))
+      .subscribe((retroSettings) => {
         console.log('retroSettings', retroSettings);
         const visitTypeUuid = visitType.uuid;
         this.startedVisit = true;
@@ -281,8 +292,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
         } else {
           this.saveIndividualVisit(payload);
         }
-      }
-    );
+      });
   }
 
   public getCohort() {
@@ -292,6 +302,17 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
   }
   public saveGroupVisit() {
     const cohortVisit = this.getCohort();
+    const existing = this.existingMemberVisit(cohortVisit);
+    if (existing) {
+      // Already has a visit for this meeting: continue with it.
+      this.isBusy = false;
+      this.startedVisit = false;
+      this.visitStarted.emit(existing);
+      if (this.modalRef) {
+        this.modalRef.hide();
+      }
+      return;
+    }
     if (cohortVisit) {
       const groupPayload = {
         visit: {
@@ -310,13 +331,35 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
             this.modalRef.hide();
           },
           (error) => {
+            this.isBusy = false;
+            this.startedVisit = false;
+            this.error = 'Error starting the group visit. Please try again.';
             console.log('Error', error);
           }
         )
       );
     } else {
+      this.isBusy = false;
+      this.startedVisit = false;
       console.log('Cohort Visit Not found ');
     }
+  }
+
+  /**
+   * This patient's visit for the meeting, if one was already started (when
+   * the meeting's member visits are known).
+   */
+  private existingMemberVisit(cohortVisit: any): any {
+    const memberVisits = (cohortVisit && cohortVisit.cohortMemberVisits) || [];
+    const found = memberVisits.find(
+      (memberVisit: any) =>
+        memberVisit &&
+        memberVisit.visit &&
+        !memberVisit.visit.voided &&
+        memberVisit.visit.patient &&
+        memberVisit.visit.patient.uuid === this.patientUuid
+    );
+    return found ? found.visit : null;
   }
 
   public saveIndividualVisit(payload) {
@@ -344,8 +387,9 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
 
   public onCohortChange($event) {
     this.retrospectiveDataEntryService.updateRetroSettings();
-    this.retrospectiveDataEntryService.retroSettings.subscribe(
-      (retroSettings) => {
+    this.retrospectiveDataEntryService.retroSettings
+      .pipe(take(1))
+      .subscribe((retroSettings) => {
         const cohortVisit = this.getCohort();
         const selectedDatePast = moment(cohortVisit.startDate).isBefore(
           moment(),
@@ -364,8 +408,7 @@ export class VisitStarterComponent implements OnInit, OnDestroy {
         } else {
           this.isGroupRetrospective = selectedDatePast;
         }
-      }
-    );
+      });
   }
 
   public activateRetrospectiveDataEntry(cohortVisit) {
